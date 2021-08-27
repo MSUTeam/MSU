@@ -6,7 +6,7 @@ gt.Const.MSU.setupDamageTypeSystem <- function ()
 	this.Const.Tactical.HitInfo.DamageWeight <- 100;
 
 	this.Const.Damage <- {
-		function registerNewDamageType(_damageType, _injuriesOnHead, _injuriesOnBody)
+		function addNewDamageType(_damageType, _injuriesOnHead, _injuriesOnBody)
 		{
 			local n = 0;
 			foreach (d in this.DamageType)
