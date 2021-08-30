@@ -1,0 +1,3 @@
+[*.{js,nut,css,xml}]
+indent_style = tab
+indent_size = 4
