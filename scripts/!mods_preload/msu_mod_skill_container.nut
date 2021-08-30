@@ -1,7 +1,7 @@
 local gt = this.getroottable();
 
 gt.Const.MSU.modSkillContainer <- function ()
-{	
+{
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		local update = o.update;
 		o.update = function()
@@ -10,21 +10,21 @@ gt.Const.MSU.modSkillContainer <- function ()
 			{
 				return;
 			}
-			
+
 			foreach( skill in this.m.Skills )
 			{
 				skill.saveBaseValues();
-				skill.m.softReset();
+				skill.softReset();
 			}
-			
+
 			update();
-			
+
 			foreach( skill in this.m.Skills )
 			{
-				skill.m.executeScheduledChanges();				
+				skill.m.executeScheduledChanges();
 			}
 		}
-		
+
 		local onAfterDamageReceived = o.onAfterDamageReceived;
 		o.onAfterDamageReceived = function()
 		{
@@ -32,7 +32,7 @@ gt.Const.MSU.modSkillContainer <- function ()
 
 			onAfterDamageReceived();
 		}
-		
+
 		o.onMovementStarted <- function( _tile, _numTiles )
 		{
 			this.doOnFunction("onMovementStarted", [
@@ -40,14 +40,14 @@ gt.Const.MSU.modSkillContainer <- function ()
 				_numTiles
 			]);
 		}
-		
+
 		o.onMovementFinished <- function( _tile )
 		{
-			this.doOnFunction("onMovementStarted", [
+			this.doOnFunction("onMovementFinished", [
 				_tile
 			]);
 		}
-		
+
 		o.onAnySkillExecuted <- function(_skill, _targetTile)
 		{
 			this.doOnFunction("onAnySkillExecuted", [
@@ -55,7 +55,7 @@ gt.Const.MSU.modSkillContainer <- function ()
 				_targetTile
 			]);
 		}
-		
+
 		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
 		{
 			this.doOnFunction("onBeforeAnySkillExecuted", [
