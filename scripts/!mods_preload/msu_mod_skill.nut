@@ -15,42 +15,6 @@ gt.Const.MSU.modSkill <- function ()
 				}
 			}
 		}
-
-		local getDescription = ::mods_getMember(o, "getDescription");
-		::mods_override(o, "getDescription", function() {
-			if (this.m.DamageType.len() == 0)
-			{
-				return getDescription();
-			}
-
-			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";
-
-			local totalWeight = 0;
-			foreach (d in this.m.DamageType)
-			{
-				totalWeight += d.Weight;
-			}
-
-			foreach (d in this.m.DamageType)
-			{
-				foreach (damageTypeName, v in this.Const.Damage.DamageType)
-				{
-					if (d.Type == v)
-					{
-						local probability = this.Math.round(100.0 * d.Weight) / totalWeight;
-						ret += probability < 100 ? probability + "% " : "";
-						ret += damageTypeName + ", ";
-						break;
-					}
-				}
-			}
-
-			ret = ret.slice(0, -2);
-
-			ret += " Damage [/color]\n\n" + getDescription();
-
-			return ret;
-		});
 	});
 
 	::mods_hookBaseClass("skills/skill", function(o) {
@@ -334,6 +298,43 @@ gt.Const.MSU.modSkill <- function ()
 					this.addDamageType(this.Const.Damage.DamageType.Piercing);
 					break;
 			}
+		}
+
+		local getDescription = o.getDescription;
+		o.getDescription = function()
+		{
+			if (this.m.DamageType.len() == 0)
+			{
+				return getDescription();
+			}
+
+			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";
+
+			local totalWeight = 0;
+			foreach (d in this.m.DamageType)
+			{
+				totalWeight += d.Weight;
+			}
+
+			foreach (d in this.m.DamageType)
+			{
+				foreach (damageTypeName, v in this.Const.Damage.DamageType)
+				{
+					if (d.Type == v)
+					{
+						local probability = this.Math.round(100.0 * d.Weight) / totalWeight;
+						ret += probability < 100 ? probability + "% " : "";
+						ret += damageTypeName + ", ";
+						break;
+					}
+				}
+			}
+
+			ret = ret.slice(0, -2);
+
+			ret += " Damage [/color]\n\n" + getDescription();
+
+			return ret;
 		}
 	});
 }
