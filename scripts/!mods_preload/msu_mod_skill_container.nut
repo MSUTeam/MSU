@@ -21,7 +21,7 @@ gt.Const.MSU.modSkillContainer <- function ()
 
 			foreach( skill in this.m.Skills )
 			{
-				skill.m.executeScheduledChanges();
+				skill.executeScheduledChanges();
 			}
 		}
 
