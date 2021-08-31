@@ -1,7 +1,7 @@
 local gt = this.getroottable();
 
 local modID = "mod_MSU";
-::mods_registerMod(modID, 1.0, "Modding Standards and Utils 0.6.1");
+::mods_registerMod(modID, 1.0, "Modding Standards and Utils 0.6.2");
 
 gt.Const.MSU <- {};
 
