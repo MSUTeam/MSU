@@ -25,30 +25,30 @@ gt.Const.MSU.modSkill <- function ()
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
 
-		o.m.scheduleChange <- function( _field, _change, _set = true )
+		o.scheduleChange <- function( _field, _change, _set = true )
 		{
-			this.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
+			this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
 		}
 
-		o.m.executeScheduledChanges <- function()
+		o.executeScheduledChanges <- function()
 		{
-			if (this.ScheduledChanges.len() == 0)
+			if (this.m.ScheduledChanges.len() == 0)
 			{
 				return;
 			}
 
-			foreach (c in this.ScheduledChanges)
+			foreach (c in this.m.ScheduledChanges)
 			{
 				switch (typeof c.Change)
 				{
 					case "integer":
 						if (c.Set)
 						{
-							this[c.Field] = c.Change;
+							this.m[c.Field] = c.Change;
 						}
 						else
 						{
-							this[c.Field] += c.Change;
+							this.m[c.Field] += c.Change;
 						}
 
 						break;
@@ -56,21 +56,21 @@ gt.Const.MSU.modSkill <- function ()
 					case "string":
 						if (c.Set)
 						{
-							this[c.Field] = c.Change;
+							this.m[c.Field] = c.Change;
 						}
 						else
 						{
-							this[c.Field] += c.Change;
+							this.m[c.Field] += c.Change;
 						}
 						break;
 
 					default:
-						this[c.Field] = c.Change;
+						this.m[c.Field] = c.Change;
 						break;
 				}
 			}
 
-			this.ScheduledChanges.clear();
+			this.m.ScheduledChanges.clear();
 		}
 
 		o.saveBaseValues <- function()
@@ -80,7 +80,7 @@ gt.Const.MSU.modSkill <- function ()
 				return;
 			}
 
-			this.m.b <- clone this.skill.m;
+			this.b <- clone this.skill.m;
 			this.m.IsBaseValuesSaved = true;
 		}
 
@@ -88,44 +88,44 @@ gt.Const.MSU.modSkill <- function ()
 		{
 			if (!this.m.IsBaseValuesSaved)
 			{
-				this.logWarning("MSU Mod softReset() skill \"" + this.ID + "\" does not have base values saved.");
+				this.logWarning("MSU Mod softReset() skill \"" + this.getID() + "\" does not have base values saved.");
 				return false;
 			}
 
-			this.m.ActionPointCost = this.m.b.ActionPointCost;
-			this.m.FatigueCost = this.m.b.FatigueCost;
-			this.m.FatigueCostMult = this.m.b.FatigueCostMult;
-			this.m.MinRange = this.m.b.MinRange;
-			this.m.MaxRange = this.m.b.MaxRange;
+			this.m.ActionPointCost = this.b.ActionPointCost;
+			this.m.FatigueCost = this.b.FatigueCost;
+			this.m.FatigueCostMult = this.b.FatigueCostMult;
+			this.m.MinRange = this.b.MinRange;
+			this.m.MaxRange = this.b.MaxRange;
 
 			return true;
 		}
 
-		o.m.hardReset <- function()
+		o.hardReset <- function()
 		{
-			if (!this.IsBaseValuesSaved)
+			if (!this.m.IsBaseValuesSaved)
 			{
-				this.logWarning("MSU Mod hardReset() skill \"" + this.ID + "\" does not have base values saved.");
+				this.logWarning("MSU Mod hardReset() skill \"" + this.getID() + "\" does not have base values saved.");
 				return false;
 			}
 
 			foreach (k, v in this.b)
 			{
-				this[k] = v;
+				this.m[k] = v;
 			}
 
 			return true;
 		}
 
-		o.m.resetField <- function( _field )
+		o.resetField <- function( _field )
 		{
-			if (!this.IsBaseValuesSaved)
+			if (!this.m.IsBaseValuesSaved)
 			{
-				this.logWarning("MSU Mod resetField() skill \"" + this.ID + "\" does not have base values saved.");
+				this.logWarning("MSU Mod resetField() skill \"" + this.getID() + "\" does not have base values saved.");
 				return false;
 			}
 
-			this[_field] = this.b[_field];
+			this.m[_field] = this.b[_field];
 
 			return true;
 		}
