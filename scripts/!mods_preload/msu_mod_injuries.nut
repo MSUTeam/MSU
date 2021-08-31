@@ -69,7 +69,9 @@ gt.Const.MSU.modInjuries <- function ()
 			"injury.injured_shoulder",
 			"injury.pierced_arm_muscles"
 		],
-		this.Const.Injury.ExcludedInjuries.Hand
+		[
+			this.Const.Injury.ExcludedInjuries.Hand
+		]
 	);
 
 	this.Const.Injury.ExcludedInjuries.add(
@@ -90,7 +92,9 @@ gt.Const.MSU.modInjuries <- function ()
 			"injury.injured_knee_cap",
 			"injury.burnt_legs"
 		],
-		this.Const.Injury.ExcludedInjuries.Foot
+		[
+			this.Const.Injury.ExcludedInjuries.Foot
+		]
 	);
 
 	this.Const.Injury.ExcludedInjuries.add(
@@ -114,6 +118,8 @@ gt.Const.MSU.modInjuries <- function ()
 			"injury.grazed_neck",
 			"injury.cut_throat"
 		],
-		this.Const.Injury.ExcludedInjuries.Face
+		[
+			this.Const.Injury.ExcludedInjuries.Face
+		]
 	);
 }
