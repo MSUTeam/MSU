@@ -17,6 +17,8 @@ gt.Const.MSU <- {};
 	gt.Const.MSU.modInjuries();
 	gt.Const.MSU.setupDamageTypeSystem();
 
+	gt.Const.MSU.modAssetManager();
+
 	gt.Const.MSU.modActor();
 	gt.Const.MSU.modSkillContainer();
 	gt.Const.MSU.modSkill();

@@ -150,6 +150,10 @@ gt.Const.MSU.modSkill <- function ()
 		{
 		}
 
+		o.onNewMorning <- function()
+		{
+		}
+
 		local use = o.use;
 		o.use = function( _targetTile, _forFree = false )
 		{

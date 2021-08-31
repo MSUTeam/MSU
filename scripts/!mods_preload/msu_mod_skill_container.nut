@@ -63,5 +63,10 @@ gt.Const.MSU.modSkillContainer <- function ()
 				_targetTile
 			]);
 		}
+
+		o.onNewMorning <- function()
+		{
+			this.doOnFunctionWhenAlive("onNewMorning");
+		}
 	});
 }
