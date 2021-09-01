@@ -15,10 +15,18 @@ gt.Const.MSU <- {};
 	}
 
 	gt.Const.MSU.modInjuries();
+	delete gt.Const.MSU.modInjuries;
 	gt.Const.MSU.setupDamageTypeSystem();
+	delete gt.Const.MSU.setupDamageTypeSystem;
+	gt.Const.MSU.setupTileUtils();
 
 	gt.Const.MSU.modActor();
+	delete gt.Const.MSU.modActor;
 	gt.Const.MSU.modSkillContainer();
+	delete gt.Const.MSU.modSkillContainer;
 	gt.Const.MSU.modSkill();
+	delete gt.Const.MSU.modSkill;
 	gt.Const.MSU.modWeapon();
+	delete gt.Const.MSU.modWeapon;
+	
 });
