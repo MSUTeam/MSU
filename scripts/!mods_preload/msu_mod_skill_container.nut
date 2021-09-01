@@ -63,7 +63,7 @@ gt.Const.MSU.modSkillContainer <- function ()
 		local onAfterDamageReceived = o.onAfterDamageReceived;
 		o.onAfterDamageReceived = function()
 		{
-			this.doOnFunction("onAfterDamageReceived");
+			this.doOnFunctionWhenAlive("onAfterDamageReceived");
 
 			onAfterDamageReceived();
 		}
