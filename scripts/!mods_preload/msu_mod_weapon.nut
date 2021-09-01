@@ -3,7 +3,6 @@ local gt = this.getroottable();
 gt.Const.MSU.modWeapon <- function ()
 {
 	gt.Const.Items.WeaponType <- {
-		None = 0,
 		Axe = 1,
 		Bow = 2,
 		Cleaver = 4,
@@ -21,7 +20,38 @@ gt.Const.MSU.modWeapon <- function ()
 		Throwing = 16384
 	}
 
-	gt.Const.Items.addNewWeaponType <- function(_weaponTypeName)
+	gt.Const.Items.WeaponTypeName <- [
+		"Axe",
+		"Bow",
+		"Cleaver",
+		"Crossbow",
+		"Dagger",
+		"Firearm",
+		"Flail",
+		"Hammer",
+		"Mace",
+		"Polearm",
+		"Sling",
+		"Spear",
+		"Sword",
+		"Staff",
+		"Throwing"
+	]
+
+	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
+	{
+		foreach (w in this.Const.Items.WeaponType)
+		{
+			if (w == _weaponType)
+			{
+				return this.Const.Items.WeaponTypeName[log(w)/log(2)];
+			}
+		}
+
+		return null;
+	}
+
+	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
 	{
 		local n = 0;
 		foreach (w in this.Const.Items.WeaponType)
@@ -29,7 +59,14 @@ gt.Const.MSU.modWeapon <- function ()
 			n = this.Math.max(n, w);
 		}
 
-		gt.Const.Items.WeaponType[_weaponTypeName] <- n * 2;
+		gt.Const.Items.WeaponType[_weaponType] <- n * 2;
+
+		if (_weaponTypeName == "")
+		{
+			_weaponTypeName = _weaponType;
+		}
+
+		gt.Const.Items.WeaponTypeName.push(_weaponTypeName);
 	}
 
 	::mods_hookDescendants("items/weapons/weapon", function(o) {
