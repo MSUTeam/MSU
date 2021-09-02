@@ -26,6 +26,12 @@ gt.MSU <- {};
 	gt.MSU.setupStringUtils();
 	delete gt.MSU.setupStringUtils;
 
+	gt.Const.MSU.modItemContainer();
+	delete gt.Const.MSU.modItemContainer;
+
+	gt.Const.MSU.modSkills();
+	delete gt.Const.MSU.modSkills;
+
 	gt.Const.MSU.modActor();
 	delete gt.Const.MSU.modActor;
 	gt.Const.MSU.modSkillContainer();
@@ -34,5 +40,5 @@ gt.MSU <- {};
 	delete gt.Const.MSU.modSkill;
 	gt.Const.MSU.modWeapon();
 	delete gt.Const.MSU.modWeapon;
-	
+
 });
