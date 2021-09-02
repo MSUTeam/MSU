@@ -25,10 +25,45 @@ gt.Const.MSU.modSkillContainer <- function ()
 			}
 		}
 
+		o.doOnFunction <- function( _function, _argsArray = null, aliveOnly = false )
+		{
+			if (_argsArray == null)
+			{
+				_argsArray = [];
+			}
+
+			_argsArray.insert(0, null);
+			this.m.IsUpdating = true;
+			this.m.IsBusy = false;
+			this.m.BusyStack = 0;
+
+			foreach( skill in this.m.Skills )
+			{
+				if (aliveOnly && !this.m.Actor.isAlive())
+				{
+					break;
+				}
+
+				if (!skill.isGarbage())
+				{
+					_argsArray[0] = skill;
+					skill[_function].acall(_argsArray);
+				}
+			}
+
+			this.m.IsUpdating = false;
+			this.update();
+		}
+
+		o.doOnFunctionWhenAlive <- function( _function, _argsArray = null )
+		{
+			this.doOnFunction(_function, _argsArray, true);
+		}
+
 		local onAfterDamageReceived = o.onAfterDamageReceived;
 		o.onAfterDamageReceived = function()
 		{
-			this.doOnFunction("onAfterDamageReceived");
+			this.doOnFunctionWhenAlive("onAfterDamageReceived");
 
 			onAfterDamageReceived();
 		}
