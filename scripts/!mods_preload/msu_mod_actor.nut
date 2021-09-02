@@ -25,6 +25,16 @@ gt.Const.MSU.modActor <- function() {
 			this.m.IsMoving = false;
 		}
 
+		local setDirty = o.setDirty;
+		o.setDirty = function( _value )
+		{
+			if (_value)
+			{
+				this.getSkills().update();
+			}
+			setDirty(_value);
+		}
+
 		o.getActorsAtDistanceAsArray <- function( _distance, _relation = this.Const.FactionRelation.Any )
 		{
 			if (!this.isPlacedOnMap())
@@ -124,6 +134,11 @@ gt.Const.MSU.modActor <- function() {
 		{
 			local item = this.getMainhandItem();
 			return item != null && item.isItemType(this.Const.Items.ItemType.OneHanded);
+		}
+
+		o.isArmedWithMeleeOrUnarmed <- function()
+		{
+			return this.isArmedWithMeleeWeapon() || this.getSkills().hasSkill("actives.hand_to_hand");
 		}
 
 		o.isArmedWithTwoHandedWeapon <- function()
