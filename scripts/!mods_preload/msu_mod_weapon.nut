@@ -76,7 +76,14 @@ gt.Const.MSU.modWeapon <- function ()
 			o.create = function()
 			{
 				create();
-				if (this.getCategories() != "")
+				if (this.getCategories() == "")
+				{
+					if (this.m.WeaponType != null)
+					{
+						this.setupCategories();
+					}
+				}
+				else
 				{
 					this.setupWeaponTypes();
 				}
@@ -85,7 +92,7 @@ gt.Const.MSU.modWeapon <- function ()
 	});
 
 	::mods_hookExactClass("items/weapons/weapon", function(o) {
-		o.m.WeaponType <- this.Const.Items.WeaponType.None;
+		o.m.WeaponType <- null;
 
 		local addSkill = o.addSkill;
 		o.addSkill = function(_skill)
@@ -100,7 +107,7 @@ gt.Const.MSU.modWeapon <- function ()
 
 		o.setupWeaponTypes <- function()
 		{
-			this.m.WeaponType = this.Const.Items.WeaponType.None;
+			this.m.WeaponType = null;
 
 			local categories = this.getCategories();
 			if (categories.len() == 0)
@@ -112,7 +119,7 @@ gt.Const.MSU.modWeapon <- function ()
 			{
 				if (categories.find(k) != null)
 				{
-					if (this.m.WeaponType == this.Const.Items.WeaponType.None)
+					if (this.m.WeaponType == null)
 					{
 						this.m.WeaponType = w;
 					}
@@ -127,6 +134,48 @@ gt.Const.MSU.modWeapon <- function ()
 		o.isWeaponType <- function( _t )
 		{
 			return (this.m.WeaponType & _t) != 0;
+		}
+
+		o.addWeaponType <- function(_weaponType)
+		{
+			this.m.WeaponType = this.m.WeaponType == null ? _weaponType : this.m.WeaponType | _weaponType;
+			this.setupCategories();
+		}
+
+		o.removeWeaponType <- function(_weaponType)
+		{
+			if (this.isWeaponType(_weaponType))
+			{
+				this.m.WeaponType -= _weaponType;
+				if (this.m.WeaponType == 0)
+				{
+					this.m.WeaponType = null;
+				}
+			}
+		}
+
+		o.setupCategories <- function()
+		{
+			this.m.Categories = "";
+
+			foreach (w in this.Const.Items.WeaponType)
+			{
+				if (this.isWeaponType(w))
+				{
+					this.m.Categories += this.Const.Items.getWeaponTypeName(w) + "/";
+				}
+			}
+
+			this.m.Categories = this.m.Categories.slice(0, -1) + ", ";
+
+			if (this.isItemType(this.Const.Items.ItemType.OneHanded))
+			{
+				this.m.Categories += "One-Handed";
+			}
+			else if (this.isItemType(this.Const.Items.ItemType.TwoHanded))
+			{
+				this.m.Categories += "Two-Handed";
+			}
 		}
 	});
 }
