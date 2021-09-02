@@ -1,11 +1,12 @@
 local gt = this.getroottable();
 
-local modID = "mod_MSU";
-::mods_registerMod(modID, 1.0, "Modding Standards and Utils 0.6.3");
+::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.3");
 
 gt.Const.MSU <- {};
 
-::mods_queue(modID, null, function()
+gt.MSU <- {};
+
+::mods_queue(null, null, function()
 {
 	gt.Const.FactionRelation <- {
 		Any = 0,
@@ -19,6 +20,11 @@ gt.Const.MSU <- {};
 	gt.Const.MSU.setupDamageTypeSystem();
 	delete gt.Const.MSU.setupDamageTypeSystem;
 	gt.Const.MSU.setupTileUtils();
+	delete gt.Const.MSU.setupTileUtils;
+	gt.MSU.setupLoggingUtils();
+	delete gt.MSU.setupLoggingUtils;
+	gt.MSU.setupStringUtils();
+	delete gt.MSU.setupStringUtils;
 
 	gt.Const.MSU.modActor();
 	delete gt.Const.MSU.modActor;
