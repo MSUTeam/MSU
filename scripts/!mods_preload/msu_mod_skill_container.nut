@@ -63,5 +63,28 @@ gt.Const.MSU.modSkillContainer <- function ()
 				_targetTile
 			]);
 		}
+
+		o.getItemActionCost <- function(_items)
+		{
+			local info = [];
+			foreach (skill in this.m.Skills)
+			{
+				local cost = skill.getItemActionCost(_items);
+				if (cost != null)
+				{
+					info.push({Skill = skill, Cost = cost});
+				}
+			}
+
+			return info;
+		}
+
+		o.onPayForItemAction <- function(_skill, _items)
+		{
+			this.doOnFunction("onPayForItemAction", [
+				_skill,
+				_items
+			]);
+		}
 	});
 }

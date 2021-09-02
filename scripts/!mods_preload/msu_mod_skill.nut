@@ -2,6 +2,15 @@ local gt = this.getroottable();
 
 gt.Const.MSU.modSkill <- function ()
 {
+	this.Const.ItemActionOrder <- {
+		First = 0,
+		Early = 1000,
+		Any = 50000,
+		BeforeLast = 60000
+		Last = 70000,
+		VeryLast = 80000
+	};
+
 	::mods_hookDescendants("skills/skill", function(o) {
 		if ("create" in o)
 		{
@@ -21,6 +30,7 @@ gt.Const.MSU.modSkill <- function ()
 		o = o[o.SuperName];
 
 		o.m.DamageType <- [];
+		o.m.ItemActionOrder <- this.Const.ItemActionOrder.Any;
 
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
@@ -147,6 +157,20 @@ gt.Const.MSU.modSkill <- function ()
 		}
 
 		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
+		{
+		}
+
+		o.getItemActionCost <- function(_items)
+		{
+			return null;
+		}
+
+		o.getItemActionOrder <- function()
+		{
+			return this.m.ItemActionOrder;
+		}
+
+		o.onPayForItemAction <- function(_skill, _items)
 		{
 		}
 

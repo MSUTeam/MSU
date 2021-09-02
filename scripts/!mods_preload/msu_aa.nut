@@ -20,6 +20,12 @@ gt.Const.MSU <- {};
 	delete gt.Const.MSU.setupDamageTypeSystem;
 	gt.Const.MSU.setupTileUtils();
 
+	gt.Const.MSU.modItemContainer();
+	delete gt.Const.MSU.modItemContainer;
+
+	gt.Const.MSU.modSkills();
+	delete gt.Const.MSU.modSkills;
+
 	gt.Const.MSU.modActor();
 	delete gt.Const.MSU.modActor;
 	gt.Const.MSU.modSkillContainer();
@@ -28,5 +34,5 @@ gt.Const.MSU <- {};
 	delete gt.Const.MSU.modSkill;
 	gt.Const.MSU.modWeapon();
 	delete gt.Const.MSU.modWeapon;
-	
+
 });
