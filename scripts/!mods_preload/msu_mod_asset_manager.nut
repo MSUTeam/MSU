@@ -25,7 +25,7 @@ gt.MSU.modAssetManager <- function ()
 			return this.m.LastDayMorningEventCalled;
 		}
 
-		o.setLastDayMorningEventCalled = function( _day )
+		o.setLastDayMorningEventCalled <- function( _day )
 		{
 			this.m.LastDayMorningEventCalled = _day;
 		}
