@@ -85,7 +85,7 @@ gt.MSU.modWeapon <- function ()
 				}
 				else
 				{
-					this.setupWeaponTypes();
+					this.setupWeaponType();
 				}
 			}
 		}
@@ -108,10 +108,10 @@ gt.MSU.modWeapon <- function ()
 		o.setCategories <- function(_s)
 		{
 			this.m.Categories = _s;
-			this.setupWeaponTypes();
+			this.setupWeaponType();
 		}
 
-		o.setupWeaponTypes <- function()
+		o.setupWeaponType <- function()
 		{
 			this.m.WeaponType = null;
 
@@ -133,6 +133,24 @@ gt.MSU.modWeapon <- function ()
 					{
 						this.m.WeaponType = this.m.WeaponType | w;
 					}
+				}
+			}
+
+			if (categories.find("One-Handed") != null && !this.isItemType(this.Const.Items.ItemType.OneHanded))
+			{
+				this.m.ItemType = this.m.ItemType == null ? this.Const.Items.ItemType.OneHanded : this.m.ItemType | this.Const.Items.ItemType.OneHanded;
+				if (this.isItemType(this.Const.Items.ItemType.TwoHanded))
+				{
+					this.m.ItemType -= this.Const.Items.ItemType.TwoHanded;
+				}
+			}
+
+			if (categories.find("Two-Handed") != null && !this.isItemType(this.Const.Items.ItemType.TwoHanded))
+			{
+				this.m.ItemType = this.m.ItemType == null ? this.Const.Items.ItemType.TwoHanded : this.m.ItemType | this.Const.Items.ItemType.TwoHanded;
+				if (this.isItemType(this.Const.Items.ItemType.OneHanded))
+				{
+					this.m.ItemType -= this.Const.Items.ItemType.OneHanded;
 				}
 			}
 		}
