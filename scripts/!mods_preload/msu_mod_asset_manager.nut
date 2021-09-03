@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modAssetManager <- function ()
+gt.MSU.modAssetManager <- function ()
 {
 	::mods_hookNewObjectOnce("states/world/asset_manager", function(o) {
 		o.m.LastDayMorningEventCalled <- 0;

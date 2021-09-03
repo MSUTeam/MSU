@@ -30,7 +30,7 @@ gt.MSU <- {};
 	gt.MSU.modSkills();
 	delete gt.MSU.modSkills;
 
-	gt.Const.MSU.modAssetManager();
+	gt.MSU.modAssetManager();
 	delete gt.MSU.modAssetManager;
 
 	gt.MSU.modActor();
