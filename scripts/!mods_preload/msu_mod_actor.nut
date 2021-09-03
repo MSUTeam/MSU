@@ -166,6 +166,25 @@ gt.MSU.modActor <- function() {
 			return fraction;
 		}
 
+		o.getTotalArmorStaminaModifier <- function()
+		{
+			local ret = 0;
+			local bodyArmor = this.getItems().getItemAtSlot(this.Const.ItemSlot.Body);
+			local headArmor = this.getItems().getItemAtSlot(this.Const.ItemSlot.Head);
+
+			if (bodyArmor != null)
+			{
+				ret += bodyArmor.getStaminaModifier();
+			}
+
+			if (headArmor != null)
+			{
+				ret += headArmor.getStaminaModifier();
+			}
+
+			return ret;
+		}
+
 		o.isEngagedInMelee <- function()
 		{
 			return this.isPlacedOnMap() && this.getTile().hasZoneOfControlOtherThan(this.getAlliedFactions());
