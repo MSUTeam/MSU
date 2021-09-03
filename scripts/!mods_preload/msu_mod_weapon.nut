@@ -105,6 +105,12 @@ gt.MSU.modWeapon <- function ()
 			addSkill(_skill);
 		}
 
+		o.setCategories <- function(_s)
+		{
+			this.m.Categories = _s;
+			this.setupWeaponTypes();
+		}
+
 		o.setupWeaponTypes <- function()
 		{
 			this.m.WeaponType = null;
