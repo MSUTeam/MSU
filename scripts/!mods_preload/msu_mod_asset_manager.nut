@@ -20,18 +20,37 @@ gt.Const.MSU.modAssetManager <- function ()
 			update( _worldState );
 		}
 
-		local onSerialize = o.onSerialize;
-		o.onSerialize = function(_out)
+		o.getLastDayMorningEventCalled <- function()
 		{
+			return this.m.LastDayMorningEventCalled;
+		}
+
+		o.setLastDayMorningEventCalled = function( _hour )
+		{
+			this.m.LastDayMorningEventCalled = _hour;
+		}
+	});
+
+	::mods_hookNewObjectOnce("states/world_state", function(o) {
+		local onSerialize = o.onSerialize;
+		o.onSerialize = function( _out )
+		{
+			this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled())
 			onSerialize(_out);
-			_out.writeBool(this.m.LastDayMorningEventCalled);
 		}
 
 		local onDeserialize = o.onDeserialize;
-		o.onDeserialize = function(_in)
+		o.onDeserialize = function( _in )
 		{
-			onDeserialize(_in);
-			this.m.LastDayMorningEventCalled = _in.readBool();
+			onDeserialize(_in)
+			if (this.World.Flags.has("MSU.LastDayMorningEventCalled"))
+			{
+				this.World.Assets.setLastDayMorningEventCalled(this.World.Flags.get("MSU.LastDayMorningEventCalled"));
+			}
+			else
+			{
+				this.World.Assets.setLastDayMorningEventCalled(0);
+			}
 		}
 	});
 }
