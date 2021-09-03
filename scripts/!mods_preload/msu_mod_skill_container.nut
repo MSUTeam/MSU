@@ -99,6 +99,11 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
+		o.onNewMorning <- function()
+		{
+			this.doOnFunctionWhenAlive("onNewMorning");
+		}
+		
 		o.getItemActionCost <- function(_items)
 		{
 			local info = [];
