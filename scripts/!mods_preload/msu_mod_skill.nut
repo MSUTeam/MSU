@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modSkill <- function ()
+gt.MSU.modSkill <- function ()
 {
 	this.Const.ItemActionOrder <- {
 		First = 0,

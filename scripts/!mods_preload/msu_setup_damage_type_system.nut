@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.setupDamageTypeSystem <- function ()
+gt.MSU.setupDamageTypeSystem <- function ()
 {
 	this.Const.Tactical.HitInfo.DamageType <- null;
 	this.Const.Tactical.HitInfo.DamageWeight <- 100;

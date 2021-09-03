@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modWeapon <- function ()
+gt.MSU.modWeapon <- function ()
 {
 	gt.Const.Items.WeaponType <- {
 		Axe = 1,

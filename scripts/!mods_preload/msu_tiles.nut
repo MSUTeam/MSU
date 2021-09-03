@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.setupTileUtils <- function()
+gt.MSU.setupTileUtils <- function()
 {
 	this.MSU.Tile <- {
 		function canResurrectOnTile( _tile, _force = false )

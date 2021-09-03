@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modItemContainer <- function ()
+gt.MSU.modItemContainer <- function ()
 {
 	::mods_hookNewObject("items/item_container", function(o) {
 		o.m.ActionSkill <- null;

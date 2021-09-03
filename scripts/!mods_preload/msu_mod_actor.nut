@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modActor <- function() {
+gt.MSU.modActor <- function() {
 	::mods_hookExactClass("entity/tactical/actor", function(o) {
 		local onInit =  o.onInit;
 		o.onInit = function()

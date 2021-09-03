@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modSkillContainer <- function ()
+gt.MSU.modSkillContainer <- function ()
 {
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		local update = o.update;

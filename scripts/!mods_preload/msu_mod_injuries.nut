@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.Const.MSU.modInjuries <- function ()
+gt.MSU.modInjuries <- function ()
 {
 	this.Const.Injury.ExcludedInjuries <- {
 		function get(_injuries)
