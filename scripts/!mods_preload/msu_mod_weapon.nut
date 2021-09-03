@@ -135,6 +135,24 @@ gt.MSU.modWeapon <- function ()
 					}
 				}
 			}
+
+			if (categories.find("One-Handed") != null && !this.isItemType(this.Const.Items.ItemType.OneHanded))
+			{
+				this.m.ItemType = this.m.ItemType == null ? this.Const.Items.ItemType.OneHanded : this.m.ItemType | this.Const.Items.ItemType.OneHanded;
+				if (this.isItemType(this.Const.Items.ItemType.TwoHanded))
+				{
+					this.m.ItemType -= this.Const.Items.ItemType.TwoHanded;
+				}
+			}
+
+			if (categories.find("Two-Handed") != null && !this.isItemType(this.Const.Items.ItemType.TwoHanded))
+			{
+				this.m.ItemType = this.m.ItemType == null ? this.Const.Items.ItemType.TwoHanded : this.m.ItemType | this.Const.Items.ItemType.TwoHanded;
+				if (this.isItemType(this.Const.Items.ItemType.OneHanded))
+				{
+					this.m.ItemType -= this.Const.Items.ItemType.OneHanded;
+				}
+			}
 		}
 
 		o.isWeaponType <- function( _t )
