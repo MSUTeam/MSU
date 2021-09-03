@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.setupLoggingUtils <- function()
 {
-	this.MSU.Logging <- {
+	this.MSU.Log <- {
 
 		// maxLen is the maximum length of an array/table whose elements will be displayed
 		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
@@ -38,7 +38,7 @@ gt.MSU.setupLoggingUtils <- function()
 		{
 			local string = "";
 
-			if (_key == "this")
+			if (_key == "this" || _key == "_release_hook_DO_NOT_delete_it_")
 			{
 				return string
 			}
@@ -65,6 +65,7 @@ gt.MSU.setupLoggingUtils <- function()
 					}
 				case "function":
 				case "instance":
+				case "null":
 					if (!_advanced)
 					{
 						string += this.MSU.String.getCapital(typeof _value) + ", ";
