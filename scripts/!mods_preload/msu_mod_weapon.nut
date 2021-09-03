@@ -85,7 +85,7 @@ gt.MSU.modWeapon <- function ()
 				}
 				else
 				{
-					this.setupWeaponTypes();
+					this.setupWeaponType();
 				}
 			}
 		}
@@ -108,10 +108,10 @@ gt.MSU.modWeapon <- function ()
 		o.setCategories <- function(_s)
 		{
 			this.m.Categories = _s;
-			this.setupWeaponTypes();
+			this.setupWeaponType();
 		}
 
-		o.setupWeaponTypes <- function()
+		o.setupWeaponType <- function()
 		{
 			this.m.WeaponType = null;
 
