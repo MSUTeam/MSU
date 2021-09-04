@@ -57,7 +57,15 @@ gt.MSU.modWeapon <- function ()
 
 	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
 	{
-		gt.Const.Items.WeaponType[_weaponType] <- this.Math.pow(2, this.Const.Items.WeaponType.len());
+		local max = 0;
+		foreach (w, value in Const.Items.WeaponType)
+		{
+			if (value > max)
+			{
+				max = value;
+			}
+		}
+		gt.Const.Items.WeaponType[_weaponType] <- max << 1;
 
 		if (_weaponTypeName == "")
 		{
