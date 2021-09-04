@@ -18,7 +18,8 @@ gt.MSU.modWeapon <- function ()
 		Spear = 2048,
 		Sword = 4096,
 		Staff = 8192,
-		Throwing = 16384
+		Throwing = 16384,
+		Musical = 32768
 	}
 
 	gt.Const.Items.WeaponTypeName <- [
@@ -37,7 +38,8 @@ gt.MSU.modWeapon <- function ()
 		"Spear",
 		"Sword",
 		"Staff",
-		"Throwing Weapon"
+		"Throwing Weapon",
+		"Musical Instrument"
 	]
 
 	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
