@@ -11,5 +11,11 @@ gt.MSU.setupStringUtils <- function()
 			local second = (_string).slice(1);
 			return first + second;
 		}
+
+		function replace( _string, _find, _replace )
+		{
+			local idx = _string.find(_find);
+			return _string.split(0, idx) + _replace + _string.split(idx + _find.len());
+		}
 	}
 }

@@ -126,5 +126,19 @@ gt.MSU.modSkillContainer <- function ()
 				_items
 			]);
 		}
+
+		o.getSkillsByFunction <- function( _self, _function )
+		{
+			local ret = [];
+			foreach (skill in this.m.Skills)
+			{
+				if (!skill.isGarbage() && _function.call(_self, skill))
+				{
+					ret.push(skill);
+				}
+			}
+
+			return ret;
+		}
 	});
 }
