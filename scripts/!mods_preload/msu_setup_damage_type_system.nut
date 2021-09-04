@@ -17,7 +17,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 				}
 			}
 
-			this.DamageType[_damageType] <- n * 2;
+			this.DamageType[_damageType] <- n << 1;
 
 			this.InjuriesForDamageType.push(
 				{
