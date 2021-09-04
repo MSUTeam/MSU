@@ -4,7 +4,7 @@ gt.MSU.modSkills <- function ()
 {
 	::mods_hookExactClass("skills/perks/perk_quick_hands", function(o) {
 		o.m.IsSpent <- false;
-		o.m.ItemActionOrder <- this.Const.ItemActionOrder.VeryLast;
+		o.m.ItemActionOrder <- this.Const.ItemActionOrder.Any;
 
 		o.onUpdate = function(_properties)
 		{
@@ -33,7 +33,10 @@ gt.MSU.modSkills <- function ()
 
 		o.onPayForItemAction <- function(_skill, _items)
 		{
-			this.m.IsSpent = true;
+			if (_skill == this)
+			{
+				this.m.IsSpent = true;
+			}
 		}
 
 		o.onTurnStart <- function()
