@@ -41,5 +41,6 @@ gt.MSU <- {};
 	delete gt.MSU.modSkill;
 	gt.MSU.modWeapon();
 	delete gt.MSU.modWeapon;
-
+	gt.MSU.modWeapons();
+	delete gt.MSU.modWeapons;
 });
