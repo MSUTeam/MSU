@@ -52,7 +52,7 @@ gt.MSU.modWeapon <- function ()
 			}
 		}
 
-		return null;
+		return "";
 	}
 
 	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
