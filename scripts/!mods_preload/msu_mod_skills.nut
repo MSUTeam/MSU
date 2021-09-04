@@ -12,7 +12,6 @@ gt.MSU.modSkills <- function ()
 
 		o.onCombatStarted = function()
 		{
-
 		}
 
 		o.onCombatFinished = function()

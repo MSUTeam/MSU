@@ -5,11 +5,11 @@ gt.MSU.setupTileUtils <- function()
 	this.MSU.Tile <- {
 		function canResurrectOnTile( _tile, _force = false )
 		{
-			if (!_targetTile.IsCorpseSpawned) 
+			if (!_tile.IsCorpseSpawned) 
 			{
 				return false;
 			}
-			if (!_targetTile.Properties.get("Corpse").IsResurrectable && !_force)
+			if (!_tile.Properties.get("Corpse").IsResurrectable && !_force)
 			{
 				return false;
 			}
