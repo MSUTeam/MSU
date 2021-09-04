@@ -35,7 +35,7 @@ gt.MSU.modWeapon <- function ()
 		"Spear",
 		"Sword",
 		"Staff",
-		"Throwing"
+		"Throwing Weapon"
 	]
 
 	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
