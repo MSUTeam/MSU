@@ -35,7 +35,7 @@ gt.MSU.modSkill <- function ()
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
 
-		o.scheduleChange <- function( _field, _change, _set = true )
+		o.scheduleChange <- function( _field, _change, _set = false )
 		{
 			this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
 		}
