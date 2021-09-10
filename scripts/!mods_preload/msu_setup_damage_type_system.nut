@@ -6,8 +6,14 @@ gt.MSU.setupDamageTypeSystem <- function ()
 	this.Const.Tactical.HitInfo.DamageWeight <- 100;
 
 	this.Const.Damage <- {
-		function addNewDamageType(_damageType, _injuriesOnHead, _injuriesOnBody)
+		function addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody )
 		{
+			if (_damageType in this.DamageType)
+			{
+				this.logError("addNewDamageType: \'" + _damageType + "\' already exists.");
+				return;
+			}
+
 			local n = 0;
 			foreach (d in this.DamageType)
 			{
