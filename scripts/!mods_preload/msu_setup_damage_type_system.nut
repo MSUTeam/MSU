@@ -36,7 +36,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			);
 		}
 
-		function getInjuriesForDamageType(_damageType)
+		function getInjuriesForDamageType( _damageType )
 		{
 			foreach (i in this.InjuriesForDamageType)
 			{
@@ -49,7 +49,14 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			return null;
 		}
 
-		function getApplicableInjuries(_damageType, _bodyPart, _targetEntity = null)
+		function setInjuriesForDamageType( _damageType, _injuriesOnHead, _injuriesOnBody )
+		{
+			local injuries = this.getInjuriesForDamageType(_damageType);
+			injuries.Injuries.Head = _injuriesOnHead;
+			injuries.Injuries.Body = _injuriesOnBody;			
+		}
+
+		function getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )
 		{
 			local injuries = [];
 
