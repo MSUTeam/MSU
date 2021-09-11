@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.7
+- Fixed wrong function name causing a crash when hitting a target.
+- Removed the .docx version of the documentation.
+
 ## 0.6.6
 - Added MSU-Documentation.md.
 - The `<skill>.onAnySkillExecuted` and `<skill>.onBeforeAnySkillExecuted` functions now have a third argument: `_targetEntity`.
