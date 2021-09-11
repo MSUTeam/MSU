@@ -160,7 +160,7 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
-		o.getItemActionCost <- function(_items)
+		o.getItemActionCost <- function( _items )
 		{
 			return null;
 		}
@@ -170,7 +170,7 @@ gt.MSU.modSkill <- function ()
 			return this.m.ItemActionOrder;
 		}
 
-		o.onPayForItemAction <- function(_skill, _items)
+		o.onPayForItemAction <- function( _skill, _items )
 		{
 		}
 
@@ -196,7 +196,7 @@ gt.MSU.modSkill <- function ()
 			return ret;
 		}
 
-		o.removeDamageType <- function(_damageType)
+		o.removeDamageType <- function( _damageType )
 		{
 			for (local i = 0; i < this.m.DamageType.len(); i++)
 			{
@@ -207,7 +207,7 @@ gt.MSU.modSkill <- function ()
 			}
 		}
 
-		o.setDamageTypeWeight <- function(_damageType, _weight)
+		o.setDamageTypeWeight <- function( _damageType, _weight )
 		{
 			foreach (d in this.m.DamageType)
 			{
@@ -218,7 +218,7 @@ gt.MSU.modSkill <- function ()
 			}
 		}
 
-		o.addDamageType <- function(_damageType, _weight = null)
+		o.addDamageType <- function( _damageType, _weight = null )
 		{
 			if (this.hasDamageType(_damageType))
 			{
@@ -246,7 +246,7 @@ gt.MSU.modSkill <- function ()
 			this.m.DamageType.push({Type = _damageType, Weight = _weight});
 		}
 
-		o.hasDamageType <- function(_damageType, _only = false)
+		o.hasDamageType <- function( _damageType, _only = false )
 		{
 			foreach (d in this.m.DamageType)
 			{
@@ -259,7 +259,7 @@ gt.MSU.modSkill <- function ()
 			return false;
 		}
 
-		o.getDamageTypeWeight <- function(_damageType)
+		o.getDamageTypeWeight <- function( _damageType )
 		{
 			foreach (d in this.m.DamageType)
 			{

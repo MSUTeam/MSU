@@ -106,7 +106,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunctionWhenAlive("onNewMorning");
 		}
 		
-		o.getItemActionCost <- function(_items)
+		o.getItemActionCost <- function( _items )
 		{
 			local info = [];
 			foreach (skill in this.m.Skills)
@@ -121,7 +121,7 @@ gt.MSU.modSkillContainer <- function ()
 			return info;
 		}
 
-		o.onPayForItemAction <- function(_skill, _items)
+		o.onPayForItemAction <- function( _skill, _items )
 		{
 			this.doOnFunction("onPayForItemAction", [
 				_skill,
