@@ -68,7 +68,7 @@ gt.MSU.setupLoggingUtils <- function()
 				case "null":
 					if (!_advanced)
 					{
-						string += this.MSU.String.getCapital(typeof _value) + ", ";
+						string += this.MSU.String.capitalizeFirst(typeof _value) + ", ";
 						break;
 					}
 				default:
