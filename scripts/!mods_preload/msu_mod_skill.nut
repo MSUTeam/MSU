@@ -272,6 +272,24 @@ gt.MSU.modSkill <- function ()
 			return null;
 		}
 
+		o.getDamageTypeProbability <- function ( _damageType )
+		{
+			local totalWeight = 0;
+			local weight = null;
+
+			foreach (d in this.m.DamageType)
+			{
+				totalWeight += d.Weight;
+
+				if (d.Type == _damageType)
+				{
+					weight = d.Weight;
+				}
+			}
+
+			return weight == null ? null : weight.tofloat() / totalWeight;
+		}
+
 		o.getDamageType <- function()
 		{
 			return this.m.DamageType;
@@ -337,26 +355,18 @@ gt.MSU.modSkill <- function ()
 				return getDescription();
 			}
 
-			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";
-
-			local totalWeight = 0;
-			foreach (d in this.m.DamageType)
-			{
-				totalWeight += d.Weight;
-			}
+			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";			
 
 			foreach (d in this.m.DamageType)
 			{
-				foreach (damageTypeName, v in this.Const.Damage.DamageType)
+				local probability = this.Math.round(this.getDamageTypeProbability(d.Type) * 100);
+
+				if (probability < 100)
 				{
-					if (d.Type == v)
-					{
-						local probability = this.Math.round(100.0 * d.Weight) / totalWeight;
-						ret += probability < 100 ? probability + "% " : "";
-						ret += damageTypeName + ", ";
-						break;
-					}
+					ret += probability + "% ";
 				}
+				
+				ret += this.Const.Damage.getDamageTypeName(d.Type) + ", ";
 			}
 
 			ret = ret.slice(0, -2);

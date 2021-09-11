@@ -3,7 +3,7 @@ local gt = this.getroottable();
 gt.MSU.setupDamageTypeSystem <- function ()
 {
 	this.Const.Tactical.HitInfo.DamageType <- null;
-	this.Const.Tactical.HitInfo.DamageWeight <- 100;
+	this.Const.Tactical.HitInfo.DamageTypeProbability <- 1.0;
 
 	this.Const.Damage <- {
 		function addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody )

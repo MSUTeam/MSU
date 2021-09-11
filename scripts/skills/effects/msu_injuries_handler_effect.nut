@@ -24,7 +24,7 @@ this.msu_injuries_handler_effect <- this.inherit("scripts/skills/skill", {
 		// that e.g. make some perks which only work if the used skill has 60% or more Blunt damage
 		// and here we can pull the Damage Weight of the Damage Type that was rolled and use it!
 		
-		_hitInfo.DamageWeight = _skill.getDamageTypeWeight(_hitInfo.DamageType);
+		_hitInfo.DamageTypeProbability = _skill.getDamageTypeProbability(_hitInfo.DamageType);
 
 		local injuries = this.Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
 
