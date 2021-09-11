@@ -54,6 +54,12 @@ gt.MSU.modWeapon <- function ()
 
 	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
 	{
+		if (_weaponType in this.Const.Items.WeaponType)
+		{
+			this.logError("addNewWeaponType: \'" + _weaponType + "\' already exists.");
+			return;
+		}
+
 		local max = 0;
 		foreach (w, value in this.Const.Items.WeaponType)
 		{
@@ -145,7 +151,7 @@ gt.MSU.modWeapon <- function ()
 
 			if (categories.find("One-Handed") != null && !this.isItemType(this.Const.Items.ItemType.OneHanded))
 			{
-				this.m.ItemType = this.m.ItemType == this.Const.Items.ItemType.None ? this.Const.Items.ItemType.OneHanded : this.m.ItemType | this.Const.Items.ItemType.OneHanded;
+				this.m.ItemType = this.m.ItemType | this.Const.Items.ItemType.OneHanded;
 				if (this.isItemType(this.Const.Items.ItemType.TwoHanded))
 				{
 					this.m.ItemType -= this.Const.Items.ItemType.TwoHanded;
@@ -154,7 +160,7 @@ gt.MSU.modWeapon <- function ()
 
 			if (categories.find("Two-Handed") != null && !this.isItemType(this.Const.Items.ItemType.TwoHanded))
 			{
-				this.m.ItemType = this.m.ItemType == this.Const.Items.ItemType.None ? this.Const.Items.ItemType.TwoHanded : this.m.ItemType | this.Const.Items.ItemType.TwoHanded;
+				this.m.ItemType = this.m.ItemType | this.Const.Items.ItemType.TwoHanded;
 				if (this.isItemType(this.Const.Items.ItemType.OneHanded))
 				{
 					this.m.ItemType -= this.Const.Items.ItemType.OneHanded;
@@ -171,7 +177,7 @@ gt.MSU.modWeapon <- function ()
 		{
 			if (!this.isWeaponType(_weaponType))
 			{
-				this.m.WeaponType = this.m.WeaponType == this.Const.Items.WeaponType.None ? _weaponType : this.m.WeaponType | _weaponType;
+				this.m.WeaponType = this.m.WeaponType | _weaponType;
 
 				if (_setupCategories)
 				{

@@ -35,7 +35,7 @@ gt.MSU.modSkill <- function ()
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
 
-		o.scheduleChange <- function( _field, _change, _set = true )
+		o.scheduleChange <- function( _field, _change, _set = false )
 		{
 			this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
 		}
@@ -152,15 +152,15 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
-		o.onAnySkillExecuted <- function(_skill, _targetTile)
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 		}
 
-		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 		}
 
-		o.getItemActionCost <- function(_items)
+		o.getItemActionCost <- function( _items )
 		{
 			return null;
 		}
@@ -170,7 +170,7 @@ gt.MSU.modSkill <- function ()
 			return this.m.ItemActionOrder;
 		}
 
-		o.onPayForItemAction <- function(_skill, _items)
+		o.onPayForItemAction <- function( _skill, _items )
 		{
 		}
 
@@ -185,17 +185,18 @@ gt.MSU.modSkill <- function ()
 			# themselves during use (e.g. Reload Bolt) causing this.m.Container
 			# to point to null.
 			local container = this.m.Container;
+			local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
 
-			container.onBeforeAnySkillExecuted(this, _targetTile);
+			container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity);
 
 			local ret = use( _targetTile, _forFree );
 
-			container.onAnySkillExecuted(this, _targetTile);
+			container.onAnySkillExecuted(this, _targetTile, targetEntity);
 
 			return ret;
 		}
 
-		o.removeDamageType <- function(_damageType)
+		o.removeDamageType <- function( _damageType )
 		{
 			for (local i = 0; i < this.m.DamageType.len(); i++)
 			{
@@ -206,7 +207,7 @@ gt.MSU.modSkill <- function ()
 			}
 		}
 
-		o.setDamageTypeWeight <- function(_damageType, _weight)
+		o.setDamageTypeWeight <- function( _damageType, _weight )
 		{
 			foreach (d in this.m.DamageType)
 			{
@@ -217,7 +218,7 @@ gt.MSU.modSkill <- function ()
 			}
 		}
 
-		o.addDamageType <- function(_damageType, _weight = null)
+		o.addDamageType <- function( _damageType, _weight = null )
 		{
 			if (this.hasDamageType(_damageType))
 			{
@@ -245,7 +246,7 @@ gt.MSU.modSkill <- function ()
 			this.m.DamageType.push({Type = _damageType, Weight = _weight});
 		}
 
-		o.hasDamageType <- function(_damageType, _only = false)
+		o.hasDamageType <- function( _damageType, _only = false )
 		{
 			foreach (d in this.m.DamageType)
 			{
@@ -258,7 +259,7 @@ gt.MSU.modSkill <- function ()
 			return false;
 		}
 
-		o.getDamageTypeWeight <- function(_damageType)
+		o.getDamageTypeWeight <- function( _damageType )
 		{
 			foreach (d in this.m.DamageType)
 			{
@@ -269,6 +270,24 @@ gt.MSU.modSkill <- function ()
 			}
 
 			return null;
+		}
+
+		o.getDamageTypeProbability <- function ( _damageType )
+		{
+			local totalWeight = 0;
+			local weight = null;
+
+			foreach (d in this.m.DamageType)
+			{
+				totalWeight += d.Weight;
+
+				if (d.Type == _damageType)
+				{
+					weight = d.Weight;
+				}
+			}
+
+			return weight == null ? null : weight.tofloat() / totalWeight;
 		}
 
 		o.getDamageType <- function()
@@ -336,26 +355,18 @@ gt.MSU.modSkill <- function ()
 				return getDescription();
 			}
 
-			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";
-
-			local totalWeight = 0;
-			foreach (d in this.m.DamageType)
-			{
-				totalWeight += d.Weight;
-			}
+			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]Inflicts ";			
 
 			foreach (d in this.m.DamageType)
 			{
-				foreach (damageTypeName, v in this.Const.Damage.DamageType)
+				local probability = this.Math.round(this.getDamageTypeProbability(d.Type) * 100);
+
+				if (probability < 100)
 				{
-					if (d.Type == v)
-					{
-						local probability = this.Math.round(100.0 * d.Weight) / totalWeight;
-						ret += probability < 100 ? probability + "% " : "";
-						ret += damageTypeName + ", ";
-						break;
-					}
+					ret += probability + "% ";
 				}
+				
+				ret += this.Const.Damage.getDamageTypeName(d.Type) + ", ";
 			}
 
 			ret = ret.slice(0, -2);

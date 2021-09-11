@@ -3,11 +3,17 @@ local gt = this.getroottable();
 gt.MSU.setupDamageTypeSystem <- function ()
 {
 	this.Const.Tactical.HitInfo.DamageType <- null;
-	this.Const.Tactical.HitInfo.DamageWeight <- 100;
+	this.Const.Tactical.HitInfo.DamageTypeProbability <- 1.0;
 
 	this.Const.Damage <- {
-		function addNewDamageType(_damageType, _injuriesOnHead, _injuriesOnBody)
+		function addNewDamageType ( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
 		{
+			if (_damageType in this.DamageType)
+			{
+				this.logError("addNewDamageType: \'" + _damageType + "\' already exists.");
+				return;
+			}
+
 			local n = 0;
 			foreach (d in this.DamageType)
 			{
@@ -19,7 +25,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 
 			this.DamageType[_damageType] <- n << 1;
 
-			this.InjuriesForDamageType.push(
+			this.DamageTypeInjuries.push(
 				{
 					DamageType = this.DamageType[_damageType],
 					Injuries = {
@@ -28,22 +34,56 @@ gt.MSU.setupDamageTypeSystem <- function ()
 					}
 				}
 			);
-		}
 
-		function getInjuriesForDamageType(_damageType)
-		{
-			foreach (i in this.InjuriesForDamageType)
+			if (_damageTypeName = "")
 			{
-				if (i.DamageType == _damageType)
-				{
-					return i.Injuries;
-				}
+				_damageTypeName = _damageType;
 			}
 
-			return null;
+			this.Const.Damage.DamageTypeName.push(_damageTypeName);
 		}
 
-		function getApplicableInjuries(_damageType, _bodyPart, _targetEntity = null)
+		function getDamageTypeName( _damageType )
+		{
+			local idx = log(_damageType)/log(2) + 1;
+			if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
+			{
+				return this.DamageTypeName[idx];
+			}
+
+			this.logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
+
+			return "";
+		}
+
+		function getDamageTypeInjuries ( _damageType )
+		{	
+			local idx = log(_damageType)/log(2) + 1;
+			if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
+			{
+				return this.DamageTypeInjuries[idx].Injuries;
+			}
+
+			this.logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+
+			return null;			
+		}
+
+		function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )
+		{
+			local injuries = this.getInjuriesForDamageType(_damageType);
+
+			if (injuries == null)
+			{
+				this.logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+				return;
+			}
+
+			injuries.Injuries.Head = _injuriesOnHead;
+			injuries.Injuries.Body = _injuriesOnBody;
+		}
+
+		function getApplicableInjuries ( _damageType, _bodyPart, _targetEntity = null )
 		{
 			local injuries = [];
 
@@ -51,7 +91,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			{
 				if (_damageType == d)
 				{
-					local inj  = this.getInjuriesForDamageType(d);
+					local inj = this.getInjuriesForDamageType(d);
 					if (inj != null)
 					{
 						injuries = _bodyPart == this.Const.BodyPart.Head ? inj.Head : inj.Body;
@@ -74,6 +114,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			return injuries;
 		}
 	};
+
 	this.Const.Damage.DamageType <- {
 			None = 0,
 			Blunt = 1,
@@ -81,7 +122,23 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			Cutting = 4,
 			Burning = 8
 	};
-	this.Const.Damage.InjuriesForDamageType <- [
+
+	this.Const.Damage.DamageTypeName <- [
+		"No Damage Type",
+		"Blunt",
+		"Piercing",
+		"Cutting",
+		"Burning"
+	];
+
+	this.Const.Damage.DamageTypeInjuries <- [
+		{
+			DamageType = this.Const.Damage.DamageType.None,
+			Injuries = {
+				Head = [],
+				Body = []
+			}
+		},
 		{
 			DamageType = this.Const.Damage.DamageType.Blunt,
 			Injuries = {

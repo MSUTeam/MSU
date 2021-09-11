@@ -83,19 +83,21 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
-		o.onAnySkillExecuted <- function(_skill, _targetTile)
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onAnySkillExecuted", [
 				_skill,
-				_targetTile
+				_targetTile,
+				_targetEntity
 			]);
 		}
 
-		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onBeforeAnySkillExecuted", [
 				_skill,
-				_targetTile
+				_targetTile,
+				_targetEntity
 			]);
 		}
 
@@ -104,7 +106,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunctionWhenAlive("onNewMorning");
 		}
 		
-		o.getItemActionCost <- function(_items)
+		o.getItemActionCost <- function( _items )
 		{
 			local info = [];
 			foreach (skill in this.m.Skills)
@@ -119,7 +121,7 @@ gt.MSU.modSkillContainer <- function ()
 			return info;
 		}
 
-		o.onPayForItemAction <- function(_skill, _items)
+		o.onPayForItemAction <- function( _skill, _items )
 		{
 			this.doOnFunction("onPayForItemAction", [
 				_skill,
