@@ -71,7 +71,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 
 		function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )
 		{
-			local injuries = this.getInjuriesForDamageType(_damageType);
+			local injuries = this.getDamageTypeInjuries(_damageType);
 
 			if (injuries == null)
 			{
@@ -91,7 +91,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			{
 				if (_damageType == d)
 				{
-					local inj = this.getInjuriesForDamageType(d);
+					local inj = this.getDamageTypeInjuries(d);
 					if (inj != null)
 					{
 						injuries = _bodyPart == this.Const.BodyPart.Head ? inj.Head : inj.Body;
