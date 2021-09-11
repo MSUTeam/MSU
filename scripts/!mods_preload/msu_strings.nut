@@ -4,7 +4,7 @@ gt.MSU.setupStringUtils <- function()
 {
 	this.MSU.String <- {
 		
-		function getCapital( _string )
+		function capitalizeFirst( _string )
 		{
 			local first = (_string).slice(0, 1);
 			first = first.toupper();
