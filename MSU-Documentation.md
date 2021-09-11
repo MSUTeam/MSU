@@ -1,7 +1,14 @@
 # Modding Standards & Utilities (MSU)
 Documentation for v0.6.6
 
-# Skills
+This documentation follows a **Traffic Light** system:
+- Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
+- Yellow 🟡 signifies beta features which may undergo save-breaking changes.
+- Red 🔴 signifies experimental features which are under development and may undergo significant changes.
+
+The traffic light assigned to a main heading also applies to all of its sub-headings unless the sub-heading has its own traffic light.
+
+# Skills 🟢
 MSU provides groundbreaking functionality for clean, optimized, and highly inter-mod compatible skill modding. This solves two major problems in vanilla Battle Brothers skills.
 
 Firstly, in vanilla BB, skills are often tightly coupled, so if one skill wants to modify a parameter in another skill, the two are tightly coupled via a function. Secondly, in vanilla BB, many parameters of skills cannot be changed in increments e.g. `this.m.ActionPointCost`. If a skill changes its `this.m.ActionPointCost` via an increment e.g. `+= 1` during its `onUpdate` or `onAfterUpdate` function, then the value of the `ActionPointCost` will continue to increase indefinitely every time that function is called. 
@@ -89,7 +96,7 @@ function onUpdate( _properties )
 }
 ```
 
-## Damage Type
+## Damage Type 🟡
 MSU adds a robust and flexible `DamageType` system for skills. The purpose of this system is to allow skills to deal a variety of damage types and to streamline the injuries system. This system also eliminates the need to use `this.m.InjuriesOnBody` and `this.m.InjuriesOnHead` in skills. Only the `DamageType` needs to be defined.
 
 Each skill now has a parameter called `this.m.DamageType` which can be set during the skill’s `create()` function. This parameter is an array which contains tables as its entries. Each table contains two keys: `Type` and `Weight`. For example:
@@ -307,7 +314,7 @@ This function is called after the actor has received damage.
 
 This function is called when the time of day reaches Morning. This is different from `onNewDay()` which runs at noon.
 
-## Injuries
+## Injuries 🟡
 MSU adds a system to exclude certain sets of injuries from certain entities easily. MSU comes with the following sets of injuries built-in (only include vanilla injuries):
 - Hand
 - Arm
@@ -390,7 +397,7 @@ In order to prevent Serpents from gaining Arm related injuries, hook the `onInit
 this.addExcludedInjuries(this.Const.Injury.ExcludedInjuries.Arm);
 ```
 
-# Weapons
+# Weapons 🟢
 ## WeaponType and Categories
 In the vanilla game, each item contains a `this.m.Categories` parameter which is a string and determines what is shown in the weapon’s tooltip e.g. `“Sword, Two-Handed”`. However, the actual type of the item is defined separately in `this.m.ItemType`. So it is entirely possible for someone to make a mistake and write `“Two-Handed”` in categories but assign `this.m.ItemType` as `this.Const.Items.ItemType.Onehanded`.
 
@@ -453,7 +460,7 @@ This is generally discouraged, as modders are encouraged to use the WeaponType s
 
 `_categories` is a string which will become the new `this.m.Categories` of that weapon. If `_setupWeaponType` is true, then MSU will automatically rebuild the WeaponType of the system based on the new categories string.
 
-# Utilities
+# Utilities 🟢
 ## Logging
 `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
