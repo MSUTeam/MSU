@@ -152,11 +152,11 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
-		o.onAnySkillExecuted <- function(_skill, _targetTile)
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 		}
 
-		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 		}
 
@@ -185,12 +185,13 @@ gt.MSU.modSkill <- function ()
 			# themselves during use (e.g. Reload Bolt) causing this.m.Container
 			# to point to null.
 			local container = this.m.Container;
+			local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
 
-			container.onBeforeAnySkillExecuted(this, _targetTile);
+			container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity);
 
 			local ret = use( _targetTile, _forFree );
 
-			container.onAnySkillExecuted(this, _targetTile);
+			container.onAnySkillExecuted(this, _targetTile, targetEntity);
 
 			return ret;
 		}

@@ -83,19 +83,21 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
-		o.onAnySkillExecuted <- function(_skill, _targetTile)
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onAnySkillExecuted", [
 				_skill,
-				_targetTile
+				_targetTile,
+				_targetEntity
 			]);
 		}
 
-		o.onBeforeAnySkillExecuted <- function(_skill, _targetTile)
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onBeforeAnySkillExecuted", [
 				_skill,
-				_targetTile
+				_targetTile,
+				_targetEntity
 			]);
 		}
 
