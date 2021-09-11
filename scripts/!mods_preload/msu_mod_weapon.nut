@@ -44,35 +44,32 @@ gt.MSU.modWeapon <- function ()
 
 	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
 	{
-		foreach (w in this.Const.Items.WeaponType)
+		local idx = log(_weaponType) / log(2) + 1;
+		if (idx == idx.tointeger() && idx < this.Const.Items.WeaponTypeName.len())
 		{
-			if (w == _weaponType)
-			{
-				return this.Const.Items.WeaponTypeName[log(w)/log(2) + 1];
-			}
+			return this.Const.Items.WeaponTypeName[idx];
 		}
-
 		return "";
 	}
 
 	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
 	{
 		local max = 0;
-		foreach (w, value in Const.Items.WeaponType)
+		foreach (w, value in this.Const.Items.WeaponType)
 		{
 			if (value > max)
 			{
 				max = value;
 			}
 		}
-		gt.Const.Items.WeaponType[_weaponType] <- max << 1;
+		this.Const.Items.WeaponType[_weaponType] <- max << 1;
 
 		if (_weaponTypeName == "")
 		{
 			_weaponTypeName = _weaponType;
 		}
 
-		gt.Const.Items.WeaponTypeName.push(_weaponTypeName);
+		this.Const.Items.WeaponTypeName.push(_weaponTypeName);
 	}
 
 	::mods_hookDescendants("items/weapons/weapon", function(o) {
