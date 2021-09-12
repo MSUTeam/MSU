@@ -136,7 +136,7 @@ Returns a table `{ Head = [], Body = [] }` where Head and Body are arrays contai
 ### Setting the injuries an existing damage type can inflict
 `this.Const.Damage.setDamageTypeInjuries( _damageType, _injuriesOnHead, _injuriesOnBody )`
 
-`_damageType` is a string which will become a key in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of strings where each entry is an ID of an injury skill.
+`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of strings where each entry is an ID of an injury skill.
 
 ###	Getting a list of injuries applicable to a situation
 `this.Const.Damage.getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )`
@@ -233,7 +233,7 @@ By default all skills are assigned `this.m.ItemActionOrder = this.Const.ItemActi
 
 `_items` is an array containing the items involved in the item action.
 
-The function returns either `null` or an `integer`. If it retunrs null, this means that this skill does not change the Action Point cost of this item action. Returning an integer means that this skill will make this item action's Action Point cost equal to the returned value. By default it returns null for all skills.
+The function returns either `null` or an `integer`. If it returns null, this means that this skill does not change the Action Point cost of this item action. Returning an integer means that this skill will make this item action's Action Point cost equal to the returned value. By default it returns null for all skills.
 
 This function can be defined in a skill, and programmed to suit the needs and effects of that skill.
 
@@ -289,7 +289,7 @@ function getItemActionCost( _items )
 MSU adds the following onXYZ functions to all skills. These functions are called on all skills of an actor whenever they trigger.
 
 ### Using a skill
-- `onBeforeAnySkillExecuted( _skill, _targetTile )`
+- `onBeforeAnySkillExecuted( _skill, _targetTile, _targetEntity )`
 - `onAnySkillExecuted( _skill, _targetTile, _targetEntity )`
 
 `_skill` is the skill being used. `_targetTile` is the tile on which the skill is being used. `_targetEntity` is the entity occupying `_targetTile` and is null if the tile was empty.
