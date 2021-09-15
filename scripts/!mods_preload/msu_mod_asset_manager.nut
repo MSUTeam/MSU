@@ -7,7 +7,7 @@ gt.MSU.modAssetManager <- function ()
 		local update = o.update;
 		o.update = function( _worldState )
 		{
-			if (this.World.getTime().Hours == 1 && this.World.getTime().Hours != this.m.LastHourUpdated && this.World.getTime().Days > this.m.LastDayMorningEventCalled);
+			if (this.World.getTime().Hours == 1 && this.World.getTime().Hours != this.m.LastHourUpdated && this.World.getTime().Days > this.m.LastDayMorningEventCalled)
 			{
 				this.m.LastDayMorningEventCalled = this.World.getTime().Days;
 				local roster = this.World.getPlayerRoster().getAll();
