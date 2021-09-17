@@ -1,6 +1,11 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.8
+- Added automatic positive and negative hitchance tooltip for ranged skills
+- Disabled the hook on setDirty for now.
+- Fixed onNewMorning() being called on every asset manager update.
+
 ## 0.6.7
 - Fixed wrong function name causing a crash when hitting a target.
 - Removed the .docx version of the documentation.
