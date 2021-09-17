@@ -387,7 +387,7 @@ gt.MSU.modSkill <- function ()
 				text = "Has a range of [color=" + this.Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground, more if shooting downhill"
 			});
 
-			local accuText = ""
+			local accuText = "";
 			if (this.m.AdditionalAccuracy != 0)
 			{
 				accuText = "Has [color=" + (this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]+" + this.m.AdditionalAccuracy + "%[/color] chance to hit";
@@ -396,7 +396,7 @@ gt.MSU.modSkill <- function ()
 			if (this.m.AdditionalHitChance != 0)
 			{
 				accuText += accuText.len() == 0 ? "Has" : ", and";
-				accuText += "[color=" + (this.m.AdditionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + this.m.AdditionalHitChance + "%[/color] per tile of distance"
+				accuText += "[color=" + (this.m.AdditionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + this.m.AdditionalHitChance + "%[/color] per tile of distance";
 			}
 
 			if (accuText.len() != 0)
