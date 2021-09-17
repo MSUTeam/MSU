@@ -25,15 +25,15 @@ gt.MSU.modActor <- function() {
 			this.m.IsMoving = false;
 		}
 
-		local setDirty = o.setDirty;
-		o.setDirty = function( _value )
-		{
-			if (_value)
-			{
-				this.getSkills().update();
-			}
-			setDirty(_value);
-		}
+		// local setDirty = o.setDirty;
+		// o.setDirty = function( _value )
+		// {
+		// 	if (_value)
+		// 	{
+		// 		this.getSkills().update();
+		// 	}
+		// 	setDirty(_value);
+		// }
 
 		o.getActorsAtDistanceAsArray <- function( _distance, _relation = this.Const.FactionRelation.Any )
 		{
