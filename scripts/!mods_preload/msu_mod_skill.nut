@@ -375,5 +375,41 @@ gt.MSU.modSkill <- function ()
 
 			return ret;
 		}
+
+		o.getDefaultRangedTooltip <- function()
+		{
+			local ret = this.getDefaultTootip();
+
+			ret.push({
+				id = 6,
+				type = "text",
+				icon = "ui/icons/vision.png",
+				text = "Has a range of [color=" + this.Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground, more if shooting downhill"
+			});
+
+			local accuText = ""
+			if (this.m.AdditionalAccuracy != 0)
+			{
+				accuText = "Has [color=" + (this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]+" + this.m.AdditionalAccuracy + "%[/color] chance to hit";
+			}
+
+			if (this.m.AdditionalHitChance != 0)
+			{
+				accuText += accuText.len() == 0 ? "Has" : ", and";
+				accuText += "[color=" + (this.m.AdditionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + this.m.AdditionalHitChance + "%[/color] per tile of distance"
+			}
+
+			if (accuText.len() != 0)
+			{
+				ret.push({
+					id = 7,
+					type = "text",
+					icon = "ui/icons/hitchance.png",
+					text = accuText
+				});
+			}
+
+			return ret;
+		}
 	});
 }
