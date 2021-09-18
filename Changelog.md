@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.9
+- Temporarily switched from log-based to bitwise indexing system for getWeaponTypeName and getDamageTypeName
+
 ## 0.6.8
 - Added automatic positive and negative hitchance tooltip for ranged skills
 - Disabled the hook on setDirty for now.
