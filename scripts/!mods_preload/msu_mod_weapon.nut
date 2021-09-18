@@ -54,7 +54,6 @@ gt.MSU.modWeapon <- function ()
 		local w = 0;
 		for (local i = 0; i < this.Const.Items.WeaponType.len(); i++)
 		{
-			this.logInfo("w = " + w + ", i = " + i);
 			if (w == _weaponType)
 			{
 				return this.Const.Items.WeaponTypeName[i];
