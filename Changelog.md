@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.10
+- Fixed a wrong variable name causing getDamageTypeName to not working properly.
+
 ## 0.6.9
 - Temporarily switched from log-based to bitwise indexing system for getWeaponTypeName and getDamageTypeName
 
