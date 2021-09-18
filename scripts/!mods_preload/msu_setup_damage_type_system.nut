@@ -56,7 +56,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 			{
 				if (d == _damageType)
 				{
-					return this.Const.Items.DamageTypeName[i];
+					return this.Const.Damage.DamageTypeName[i];
 				}
 				d = d == 0 ? 1 : d << 1;
 			}
