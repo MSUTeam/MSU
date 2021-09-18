@@ -45,10 +45,20 @@ gt.MSU.setupDamageTypeSystem <- function ()
 
 		function getDamageTypeName( _damageType )
 		{
-			local idx = log(_damageType)/log(2) + 1;
-			if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
+			// local idx = log(_damageType)/log(2) + 1;
+			// if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
+			// {
+			// 	return this.DamageTypeName[idx];
+			// }
+
+			local d = 0;
+			for (local i = 0; i < this.Const.Damage.DamageType.len(); i++)
 			{
-				return this.DamageTypeName[idx];
+				if (d == _damageType)
+				{
+					return this.Const.Items.DamageTypeName[i];
+				}
+				d = d == 0 ? 1 : d << 1;
 			}
 
 			this.logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");

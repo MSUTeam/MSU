@@ -44,11 +44,26 @@ gt.MSU.modWeapon <- function ()
 
 	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
 	{
-		local idx = log(_weaponType) / log(2) + 1;
-		if (idx == idx.tointeger() && idx < this.Const.Items.WeaponTypeName.len())
+		// local idx = log(_weaponType) / log(2) + 1;
+		// if (idx == idx.tointeger() && idx < this.Const.Items.WeaponTypeName.len())
+		// {
+		// 	return this.Const.Items.WeaponTypeName[idx]; 
+		// }
+		// return "";
+
+		local w = 0;
+		for (local i = 0; i < this.Const.Items.WeaponType.len(); i++)
 		{
-			return this.Const.Items.WeaponTypeName[idx];
+			this.logInfo("w = " + w + ", i = " + i);
+			if (w == _weaponType)
+			{
+				return this.Const.Items.WeaponTypeName[i];
+			}
+			w = w == 0 ? 1 : w << 1;
 		}
+
+		this.logError("getWeaponTypeName: _weaponType \'" + _weaponType + "\' does not exist");
+
 		return "";
 	}
 
