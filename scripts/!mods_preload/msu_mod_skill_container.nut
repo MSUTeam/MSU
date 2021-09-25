@@ -31,8 +31,9 @@ gt.MSU.modSkillContainer <- function ()
 			{
 				_argsArray = [];
 			}
-
 			_argsArray.insert(0, null);
+
+			local wasUpdating = this.m.IsUpdating;
 			this.m.IsUpdating = true;
 			this.m.IsBusy = false;
 			this.m.BusyStack = 0;
@@ -51,7 +52,7 @@ gt.MSU.modSkillContainer <- function ()
 				}
 			}
 
-			this.m.IsUpdating = false;
+			this.m.IsUpdating = wasUpdating;
 			this.update();
 		}
 
@@ -60,12 +61,22 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction(_function, _argsArray, true);
 		}
 
-		local onAfterDamageReceived = o.onAfterDamageReceived;
-		o.onAfterDamageReceived = function()
+		o.buildProperties <- function( _function, _argsArray )
 		{
-			this.doOnFunctionWhenAlive("onAfterDamageReceived");
 
-			onAfterDamageReceived();
+			_argsArray.insert(0, null)
+			_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
+
+			local wasUpdating = this.m.IsUpdating;
+			this.m.IsUpdating = true;
+
+			foreach (skill in this.m.Skills)
+			{
+				_argsArray[0] = skill;
+				skill[_function].acall(_argsArray);
+			}
+			this.m.IsUpdating = wasUpdating;
+			return _argsArray[_argsArray.len() - 1];
 		}
 
 		o.onMovementStarted <- function( _tile, _numTiles )
@@ -92,7 +103,6 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
-		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onBeforeAnySkillExecuted", [
 				_skill,
@@ -101,10 +111,160 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
+		local onAfterDamageReceived = o.onAfterDamageReceived;
+		o.onAfterDamageReceived = function()
+		{
+			this.doOnFunctionWhenAlive("onAfterDamageReceived");
+
+			onAfterDamageReceived();
+		}
+
 		o.onNewMorning <- function()
 		{
 			this.doOnFunctionWhenAlive("onNewMorning");
 		}
+
+		//Vanilla Overwrites start
+
+		o.buildPropertiesForUse = function( _caller, _targetEntity )
+		{
+			return this.buildProperties("onAnySkillUsed", [
+				_caller,
+				_targetEntity
+			]);
+		}
+
+		o.buildPropertiesForDefense = function( _attacker, _skill )
+		{
+			return this.buildProperties("onBeingAttacked", [
+				_attacker,
+				_skill
+			]);
+		}
+
+		o.buildPropertiesForBeingHit = function( _attacker, _skill, _hitinfo )
+		{
+			return this.buildProperties("onBeforeDamageReceived", [
+				_attacker,
+				_skill,
+				_hitinfo
+			]);
+		}
+
+		o.onBeforeActivation = function()
+		{
+			this.doOnFunctionWhenAlive("onBeforeActivation");
+		}
+
+		o.onTurnStart = function()
+		{
+			this.doOnFunctionWhenAlive("onTurnStart");
+		}
+
+		o.onResumeTurn = function()
+		{
+			this.doOnFunctionWhenAlive("onResumeTurn");
+		}
+
+		o.onRoundEnd = function()
+		{
+			this.doOnFunctionWhenAlive("onRoundEnd");
+		}
+
+		o.onTurnEnd = function()
+		{
+			this.doOnFunctionWhenAlive("onTurnEnd");
+		}
+
+		o.onWaitTurn = function()
+		{
+			this.doOnFunctionWhenAlive("onWaitTurn");
+		}
+
+		o.onNewRound = function()
+		{
+			this.doOnFunction("onNewRound");
+		}
+
+		o.onNewDay = function()
+		{
+			this.doOnFunctionWhenAlive("onNewDay");
+		}
+
+		o.onDamageReceived = function( _attacker, _damageHitpoints, _damageArmor )
+		{
+			this.doOnFunction("onDamageReceived", [
+				_attacker,
+				_damageHitpoints,
+				_damageArmor
+			]);
+		}
+
+		o.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
+		{
+			this.doOnFunction("onBeforeTargetHit", [
+				_caller,
+				_targetEntity,
+				_hitInfo
+			]);
+		}
+
+		o.onTargetHit = function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
+		{
+			this.doOnFunction("onTargetHit", [
+				_caller,
+				_targetEntity,
+				_bodyPart,
+				_damageInflictedHitpoints,
+				_damageInflictedArmor
+			]);
+		}
+
+		o.onTargetMissed = function( _caller, _targetEntity )
+		{
+			this.doOnFunction("onTargetMissed", [
+				_caller,
+				_targetEntity
+			]);
+		}
+
+		o.onTargetKilled = function( _targetEntity, _skill )
+		{
+			this.doOnFunction("onTargetKilled", [
+				_targetEntity,
+				_skill
+			]);
+		}
+
+		o.onMissed = function( _attacker, _skill )
+		{
+			this.doOnFunction("onMissed", [
+				_attacker,
+				_skill
+			]);
+		}
+
+		o.onAfterDamageReceived = function()
+		{
+			this.update();
+		}
+
+		o.onCombatStarted = function()
+		{
+			this.doOnFunction("onCombatStarted");
+		}
+
+		o.onCombatFinished = function()
+		{
+			this.doOnFunction("onCombatFinished");
+		}
+
+		o.onDeath = function()
+		{
+			this.doOnFunction("onDeath");
+		}
+
+		//Vanilla Ovewrites End
 		
 		o.getItemActionCost <- function( _items )
 		{

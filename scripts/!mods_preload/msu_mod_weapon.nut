@@ -216,15 +216,11 @@ gt.MSU.modWeapon <- function ()
 		{
 			this.m.Categories = "";
 
-			for (local i = 0; i < this.Const.Items.WeaponType.len(); ++i)
+			foreach (w in this.Const.Items.WeaponType)
 			{
-				if ((this.m.WeaponType >> i) % 2 == 1)
+				if (this.isWeaponType(w))
 				{
-					this.m.Categories += this.Const.Items.WeaponTypeName[i + 1] + "/";
-				}
-				else if ((this.m.WeaponType >> i) <= 0)
-				{
-					break;
+					this.m.Categories += this.Const.Items.getWeaponTypeName(w) + "/";
 				}
 			}
 
