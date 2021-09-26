@@ -53,7 +53,10 @@ gt.MSU.modSkillContainer <- function ()
 			}
 
 			this.m.IsUpdating = wasUpdating;
-			this.update();
+			if (!this.Tactical.getNavigator().IsTravelling)
+			{
+				this.update();
+			}
 		}
 
 		o.doOnFunctionWhenAlive <- function( _function, _argsArray = null )
@@ -103,6 +106,7 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			this.doOnFunction("onBeforeAnySkillExecuted", [
 				_skill,
