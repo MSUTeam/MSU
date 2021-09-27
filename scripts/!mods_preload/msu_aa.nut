@@ -39,6 +39,8 @@ gt.MSU <- {};
 	delete gt.MSU.modSkillContainer;
 	gt.MSU.modSkill();
 	delete gt.MSU.modSkill;
+	gt.MSU.modItem();
+	delete gt.MSU.modItem;
 	gt.MSU.modWeapon();
 	delete gt.MSU.modWeapon;
 	gt.MSU.modWeapons();
