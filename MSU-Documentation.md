@@ -131,19 +131,19 @@ Returns the name of the damage type as string, or returns an empty string if `_d
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table.
 
-Returns a table `{ Head = [], Body = [] }` where Head and Body are arrays containing IDs of the injury skills this damage type can inflict on the respective body part.
+Returns a table `{ Head = [], Body = [] }` where Head and Body are arrays tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply on the respective body part. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ### Setting the injuries an existing damage type can inflict
 `this.Const.Damage.setDamageTypeInjuries( _damageType, _injuriesOnHead, _injuriesOnBody )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of strings where each entry is an ID of an injury skill.
+`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ###	Getting a list of injuries applicable to a situation
 `this.Const.Damage.getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )`
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_bodyPart` is the body part hit. `_targetEntity` is the entity being attacked which, if not null, removes the ExcludedInjuries of the `_targetEntity` from the returned array.
 
-Returns an array which contains IDs of the injury skills that this damage type can apply in the given situation.
+Returns an array which contains tables as its entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply in the given situation. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ### Checking if a skill has a damage type
 `<skill>.hasDamageType( _damageType, _only = false )`
