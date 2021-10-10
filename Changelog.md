@@ -1,6 +1,24 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.12
+- Added onAttacked and onHit functions to skill_container and skill. These are called from the attackEntity and onScheduledTargetHit functions.
+- Refactored the code of how the attackEntity function works: Broke apart the hitChance calculation into modular functions.
+- The above two changes are currently disabled, pending review from Enduriel.
+- Added addItemType, setItemType and removeItemType functions.
+- Fixed some mistakes in Documentation about injuries.
+- Removed the IsTraveling condition from skill_container update as it is unnecessary and doesn't fix what it was intended to fix.
+- Disabled setDirty hook because it still seems to cause a crash. Need to discuss with @Enduriel before reenabling.
+- Added functions to Math table for normal distribution.
+
+## 0.6.11
+- Fixed the String replace function not working.
+- Added Math table with log2int function.
+- Made it impossible for IsUpdating to be changed in an unexpected way.
+- Prevent updating skills when moving to resolve crashes due to tile calls
+- Re-enabled setDirty hook.
+- Switch to log2int where appropriate.
+
 ## 0.6.10
 - Fixed a wrong variable name causing getDamageTypeName to not working properly.
 
