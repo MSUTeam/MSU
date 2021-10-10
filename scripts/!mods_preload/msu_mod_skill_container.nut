@@ -115,24 +115,24 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
-		o.onAttacked <- function( _skill, _attacker )
-		{
-			this.doOnFunction("onAttacked", [
-				_skill,
-				_attacker
-			]);
-		}
+		// o.onAttacked <- function( _skill, _attacker )
+		// {
+		// 	this.doOnFunction("onAttacked", [
+		// 		_skill,
+		// 		_attacker
+		// 	]);
+		// }
 
-		o.onHit <- function( _skill, _attacker, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
-		{
-			this.doOnFunction("onHit", [
-				_skill,
-				_attacker,
-				_bodyPart,
-				_damageInflictedHitpoints,
-				_damageInflictedArmor
-			]);
-		}
+		// o.onHit <- function( _skill, _attacker, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
+		// {
+		// 	this.doOnFunction("onHit", [
+		// 		_skill,
+		// 		_attacker,
+		// 		_bodyPart,
+		// 		_damageInflictedHitpoints,
+		// 		_damageInflictedArmor
+		// 	]);
+		// }
 
 		o.onNewMorning <- function()
 		{
