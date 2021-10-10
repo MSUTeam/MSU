@@ -389,7 +389,7 @@ gt.MSU.modSkill <- function ()
 
 		o.getDefaultRangedTooltip <- function()
 		{
-			local ret = this.getDefaultTootip();
+			local ret = this.getDefaultTooltip();
 
 			ret.push({
 				id = 6,
