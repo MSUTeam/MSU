@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.13
+- Fixed a bug in getDefaultRangedTooltip() causing ranged skills tooltips to not show.
+- Improved the ranged tooltip for abilities without AdditionalAccuracy.
+
 ## 0.6.12
 - Added onAttacked and onHit functions to skill_container and skill. These are called from the attackEntity and onScheduledTargetHit functions.
 - Refactored the code of how the attackEntity function works: Broke apart the hitChance calculation into modular functions.
