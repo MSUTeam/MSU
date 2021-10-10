@@ -45,20 +45,10 @@ gt.MSU.setupDamageTypeSystem <- function ()
 
 		function getDamageTypeName( _damageType )
 		{
-			// local idx = log(_damageType)/log(2) + 1;
-			// if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
-			// {
-			// 	return this.DamageTypeName[idx];
-			// }
-
-			local d = 0;
-			for (local i = 0; i < this.Const.Damage.DamageType.len(); i++)
+			local idx = this.MSU.Math.log2int(_damageType) + 1;
+			if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
 			{
-				if (d == _damageType)
-				{
-					return this.Const.Damage.DamageTypeName[i];
-				}
-				d = d == 0 ? 1 : d << 1;
+				return this.DamageTypeName[idx];
 			}
 
 			this.logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
@@ -68,7 +58,7 @@ gt.MSU.setupDamageTypeSystem <- function ()
 
 		function getDamageTypeInjuries ( _damageType )
 		{	
-			local idx = log(_damageType)/log(2) + 1;
+			local idx = this.MSU.Math.log2int(_damageType) + 1;
 			if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
 			{
 				return this.DamageTypeInjuries[idx].Injuries;

@@ -42,31 +42,19 @@ gt.MSU.modWeapon <- function ()
 		"Musical Instrument"
 	]
 
-	gt.Const.Items.getWeaponTypeName <- function(_weaponType)
+	gt.Const.Items.getWeaponTypeName <- function( _weaponType )
 	{
-		// local idx = log(_weaponType) / log(2) + 1;
-		// if (idx == idx.tointeger() && idx < this.Const.Items.WeaponTypeName.len())
-		// {
-		// 	return this.Const.Items.WeaponTypeName[idx]; 
-		// }
-		// return "";
-
-		local w = 0;
-		for (local i = 0; i < this.Const.Items.WeaponType.len(); i++)
+		local idx = this.MSU.Math.log2int(_weaponType) + 1;
+		if (idx < this.Const.Items.WeaponTypeName.len())
 		{
-			if (w == _weaponType)
-			{
-				return this.Const.Items.WeaponTypeName[i];
-			}
-			w = w == 0 ? 1 : w << 1;
+			return this.Const.Items.WeaponTypeName[idx];
 		}
 
 		this.logError("getWeaponTypeName: _weaponType \'" + _weaponType + "\' does not exist");
-
 		return "";
 	}
 
-	gt.Const.Items.addNewWeaponType <- function(_weaponType, _weaponTypeName = "")
+	gt.Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
 	{
 		if (_weaponType in this.Const.Items.WeaponType)
 		{
@@ -118,7 +106,7 @@ gt.MSU.modWeapon <- function ()
 		o.m.WeaponType <- this.Const.Items.WeaponType.None;
 
 		local addSkill = o.addSkill;
-		o.addSkill = function(_skill)
+		o.addSkill = function( _skill )
 		{
 			if (_skill.isType(this.Const.SkillType.Active))
 			{
@@ -128,7 +116,7 @@ gt.MSU.modWeapon <- function ()
 			addSkill(_skill);
 		}
 
-		o.setCategories <- function(_s, _setupWeaponType = true)
+		o.setCategories <- function( _s, _setupWeaponType = true )
 		{
 			this.m.Categories = _s;
 
@@ -187,7 +175,7 @@ gt.MSU.modWeapon <- function ()
 			return _only ? this.m.WeaponType == _t : (this.m.WeaponType & _t) != 0;
 		}
 
-		o.addWeaponType <- function(_weaponType, _setupCategories = true)
+		o.addWeaponType <- function( _weaponType, _setupCategories = true )
 		{
 			if (!this.isWeaponType(_weaponType))
 			{
@@ -200,7 +188,7 @@ gt.MSU.modWeapon <- function ()
 			}
 		}
 
-		o.setWeaponType <- function(_t, _setupCategories = true)
+		o.setWeaponType <- function( _t, _setupCategories = true )
 		{
 			this.m.WeaponType = _t;
 
@@ -211,7 +199,7 @@ gt.MSU.modWeapon <- function ()
 			
 		}
 
-		o.removeWeaponType <- function(_weaponType, _setupCategories = true)
+		o.removeWeaponType <- function( _weaponType, _setupCategories = true )
 		{
 			if (this.isWeaponType(_weaponType))
 			{
