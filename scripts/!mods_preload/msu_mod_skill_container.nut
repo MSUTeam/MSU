@@ -264,11 +264,6 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
-		o.onAfterDamageReceived = function()
-		{
-			this.update();
-		}
-
 		o.onCombatStarted = function()
 		{
 			this.doOnFunction("onCombatStarted");
