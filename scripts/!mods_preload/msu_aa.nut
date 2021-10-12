@@ -47,4 +47,7 @@ gt.MSU <- {};
 	delete gt.MSU.modWeapon;
 	gt.MSU.modWeapons();
 	delete gt.MSU.modWeapons;
+
+	gt.MSU.modTooltipEvents();
+	delete gt.MSU.modTooltipEvents;
 });

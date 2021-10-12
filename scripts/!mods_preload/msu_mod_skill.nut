@@ -193,6 +193,10 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
+		o.onQueryTooltip <- function( _skill, _tooltip )
+		{			
+		}
+
 		local use = o.use;
 		o.use = function( _targetTile, _forFree = false )
 		{

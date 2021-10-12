@@ -145,6 +145,14 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
+		o.onQueryTooltip <- function( _skill, _tooltip )
+		{
+			this.doOnFunction("onQueryTooltip", [
+				_skill,
+				_tooltip
+			]);
+		}
+
 		//Vanilla Overwrites start
 
 		local onAfterDamageReceived = o.onAfterDamageReceived;
