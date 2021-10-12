@@ -25,7 +25,7 @@ gt.MSU.modSkillContainer <- function ()
 			}
 		}
 
-		o.doOnFunction <- function( _function, _argsArray = null, aliveOnly = false )
+		o.doOnFunction <- function( _function, _argsArray = null, _aliveOnly = false )
 		{
 			if (_argsArray == null)
 			{
@@ -40,7 +40,7 @@ gt.MSU.modSkillContainer <- function ()
 
 			foreach( skill in this.m.Skills )
 			{
-				if (aliveOnly && !this.m.Actor.isAlive())
+				if (_aliveOnly && !this.m.Actor.isAlive())
 				{
 					break;
 				}
