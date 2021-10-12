@@ -154,13 +154,10 @@ gt.MSU.modSkillContainer <- function ()
 		}
 
 		//Vanilla Overwrites start
-
-		local onAfterDamageReceived = o.onAfterDamageReceived;
+		
 		o.onAfterDamageReceived = function()
 		{
 			this.doOnFunctionWhenAlive("onAfterDamageReceived");
-
-			onAfterDamageReceived();
 		}
 
 		o.buildPropertiesForUse = function( _caller, _targetEntity )
