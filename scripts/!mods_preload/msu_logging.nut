@@ -4,6 +4,12 @@ gt.MSU.setupLoggingUtils <- function()
 {
 	this.MSU.Log <- {
 
+		LogType = {
+			Info = 1,
+			Warning = 2,
+			Error = 3
+		},
+
 		// maxLen is the maximum length of an array/table whose elements will be displayed
 		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
 		// advanced allows the ID of the object to be displayed to identify different/identical objects
@@ -76,5 +82,79 @@ gt.MSU.setupLoggingUtils <- function()
 			}
 			return string;
 		}
+
+		function setDebugLog( _enabled = false, _name = "default" )
+		{
+			//keep table of mod names so that you can turn it on and off for specific mods
+
+			if (!("DebugLog" in gt.MSU.Log))
+			{
+				gt.MSU.Log.DebugLog <- {};
+			}
+
+			if (!(_name in gt.MSU.Log.DebugLog))
+			{
+				gt.MSU.Log.DebugLog[_name] <- false;
+			}
+
+			gt.MSU.Log.DebugLog[_name] <- _enabled;
+
+			if (gt.MSU.Log.DebugLog[_name])
+			{
+				this.logInfo("DebugLog set to true for " + _name);
+			}
+		}
+
+		function isDebug( _str )
+		{
+			return (_str in gt.MSU.Log.DebugLog && gt.MSU.Log.DebugLog[_str]);
+		}
+
+		function print( _arg, _name, _logType )
+		{
+			if (!(_name in this.MSU.Log.DebugLog))
+			{
+				this.logWarning(_name " does not exist in DebugLog");
+				return;
+			}
+
+			if (this.MSU.Log.DebugLog[_name])
+			{
+				local src = getstackinfos(3).src.slice(0, -4);
+				src = split(src, "/")[split(src, "/").len()-1];
+				local string = _name +  ": -- " + src + " -- : " + _arg;
+				switch (_logType)
+				{
+					case this.MSU.Log.LogType.Info:
+						this.logInfo(string);
+						return;
+					case this.MSU.Log.LogType.Warning:
+						this.logWarning(string);
+						return;
+					case this.MSU.Log.LogType.Error:
+						this.logError(string);
+						return;
+					default:
+						this.logWarning("No log type defined for this log:");
+						this.logInfo(string);
+						return;
+				}
+			}
+		}
+	}
+
+	::printLog <- function( _arg = "No argument for debug log", _name = "default")
+	{
+		this.MSU.Log.print(_arg, _name, this.MSU.Log.LogType.Info);
+	}
+
+	::printWarning <- function( _arg = "No argument for debug log", _name = "default")
+	{
+		this.MSU.Log.print(_arg, _name, this.MSU.Log.LogType.Warning);
+	}
+
+	::printError <- function( _arg = "No argument for debug log", _name = "default")
+	{
+		this.MSU.Log.print(_arg, _name, this.MSU.Log.LogType.Error);
 	}
 }
