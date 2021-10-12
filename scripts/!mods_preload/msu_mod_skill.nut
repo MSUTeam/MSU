@@ -189,6 +189,10 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
+		o.onGetHitFactors <- function( _skill, _targetTile, _tooltip ) 
+		{
+		}
+
 		local use = o.use;
 		o.use = function( _targetTile, _forFree = false )
 		{
@@ -384,6 +388,14 @@ gt.MSU.modSkill <- function ()
 
 			ret += " Damage [/color]\n\n" + getDescription();
 
+			return ret;
+		}
+
+		local getHitFactors = o.getHitFactors;
+		o.getHitFactors = function( _targetTile )
+		{
+			local ret = getHitFactors(_targetTile);			
+			this.getContainer().onGetHitFactors(this, _targetTile, ret);
 			return ret;
 		}
 

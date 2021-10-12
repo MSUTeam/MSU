@@ -136,6 +136,15 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunctionWhenAlive("onNewMorning");
 		}
 
+		o.onGetHitFactors <- function( _skill, _targetTile, _tooltip )
+		{
+			this.doOnFunction("onGetHitFactors", [
+				_skill,
+				_targetTile,
+				_tooltip
+			]);
+		}
+
 		//Vanilla Overwrites start
 
 		local onAfterDamageReceived = o.onAfterDamageReceived;
