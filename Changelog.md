@@ -1,6 +1,15 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.14
+- Added two new functions to modify tooltips: `onGetHitFactors` and `onQueryTooltip`. See documentation.
+- Added `addNewItemType` function to add a new item type to the game. See documentation.
+- Added Debug Log functionality inspired from TaroEld's work. See documentation.
+- Temporarily disabled the hook on asset manager to check if this fixes crashes during saving a game.
+- As a consequence of the above change, the onNewMorning() function will not trigger for the time being.
+- Removed duplicate `onAfterDamageReceived` function.
+- Removed the call to the vanilla `onAfterDamageReceived` function in the MSU `onAfterDamageReceived` hook because the vanilla only does `this.update()`.
+
 ## 0.6.13
 - Fixed a bug in getDefaultRangedTooltip() causing ranged skills tooltips to not show.
 - Improved the ranged tooltip for abilities without AdditionalAccuracy.
