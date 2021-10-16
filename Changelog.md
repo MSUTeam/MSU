@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.15
+- Skill Container will no longer update after onAnySkillExecuted when executing a movement skill e.g. Rotation.
+
 ## 0.6.14
 - Added two new functions to modify tooltips: `onGetHitFactors` and `onQueryTooltip`. See documentation.
 - Added `addNewItemType` function to add a new item type to the game. See documentation.
