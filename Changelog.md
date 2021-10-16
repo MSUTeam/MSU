@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.16
+- Re-enabled the hook on asset manager. onNewMorning() should work again now.
+
 ## 0.6.15
 - Skill Container will no longer update after onAnySkillExecuted when executing a movement skill e.g. Rotation.
 

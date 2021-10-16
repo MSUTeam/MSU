@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.15");
+::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.16");
 
 gt.MSU <- {};
 
