@@ -1,6 +1,11 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.17
+- Removed the IsExecutingMoveSkill boolean from skill_container.
+- Now the doOnFunction instead takes a `_update` parameter which if false will disable the update at the end of the doOnFunction.
+- Added onUpdateLevel function which is called for all skills when the player character gains a level. This makes it possible for modders to add level-up effects without having to modify the player.nut `updateLevel` function.
+
 ## 0.6.16
 - Re-enabled the hook on asset manager. onNewMorning() should work again now.
 

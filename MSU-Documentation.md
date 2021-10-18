@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.14
+Documentation for v0.6.17
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -322,6 +322,11 @@ This function is called after the actor has received damage.
 - `onNewMorning()`
 
 This function is called when the time of day reaches Morning. This is different from `onNewDay()` which runs at noon.
+
+### Leveling up
+- `onUpdateLevel()`
+
+This function is called when the player character levels up.
 
 ### Tooltips
 `onQueryTooltip( _skill, _tooltip )`
