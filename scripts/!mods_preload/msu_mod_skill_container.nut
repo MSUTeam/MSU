@@ -4,7 +4,6 @@ gt.MSU.modSkillContainer <- function ()
 {
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		o.m.BeforeSkillExecutedTile <- null;
-		o.m.IsExecutingMoveSkill <- false;
 
 		local update = o.update;
 		o.update = function()
@@ -28,7 +27,7 @@ gt.MSU.modSkillContainer <- function ()
 			}
 		}
 
-		o.doOnFunction <- function( _function, _argsArray = null, _aliveOnly = false )
+		o.doOnFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 		{
 			if (_argsArray == null)
 			{
@@ -56,24 +55,20 @@ gt.MSU.modSkillContainer <- function ()
 			}
 
 			this.m.IsUpdating = wasUpdating;
-
-			// Don't update if using a movement skill e.g. Rotation because this leads
-			// to crashes if any skill tries to access the current tile in its onUpdate
-			// function as the tile at this point is not a valid tile.
-			if (!this.m.IsExecutingMoveSkill)
+			
+			if (_update)
 			{
 				this.update();
 			}
 		}
 
-		o.doOnFunctionWhenAlive <- function( _function, _argsArray = null )
+		o.doOnFunctionWhenAlive <- function( _function, _argsArray = null, _update = true )
 		{
-			this.doOnFunction(_function, _argsArray, true);
+			this.doOnFunction(_function, _argsArray, _update, true);
 		}
 
 		o.buildProperties <- function( _function, _argsArray )
 		{
-
 			_argsArray.insert(0, null)
 			_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
 
@@ -106,7 +101,10 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
-			this.m.IsExecutingMoveSkill = !this.getActor().getTile().isSameTileAs(this.m.BeforeSkillExecutedTile);			
+			// Don't update if using a movement skill e.g. Rotation because this leads
+			// to crashes if any skill tries to access the current tile in its onUpdate
+			// function as the tile at this point is not a valid tile.
+			local shouldUpdate = !this.getActor().getTile().isSameTileAs(this.m.BeforeSkillExecutedTile);			
 			this.m.BeforeSkillExecutedTile = null;
 
 			this.doOnFunction("onAnySkillExecuted", [
@@ -156,7 +154,7 @@ gt.MSU.modSkillContainer <- function ()
 				_skill,
 				_targetTile,
 				_tooltip
-			]);
+			], false);
 		}
 
 		o.onQueryTooltip <- function( _skill, _tooltip )
@@ -164,7 +162,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onQueryTooltip", [
 				_skill,
 				_tooltip
-			]);
+			], false);
 		}
 
 		//Vanilla Overwrites start
@@ -245,7 +243,7 @@ gt.MSU.modSkillContainer <- function ()
 				_attacker,
 				_damageHitpoints,
 				_damageArmor
-			]);
+			], false);
 		}
 
 		o.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
@@ -254,7 +252,7 @@ gt.MSU.modSkillContainer <- function ()
 				_caller,
 				_targetEntity,
 				_hitInfo
-			]);
+			], false);
 		}
 
 		o.onTargetHit = function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
@@ -265,7 +263,7 @@ gt.MSU.modSkillContainer <- function ()
 				_bodyPart,
 				_damageInflictedHitpoints,
 				_damageInflictedArmor
-			]);
+			], false);
 		}
 
 		o.onTargetMissed = function( _caller, _targetEntity )
@@ -273,7 +271,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onTargetMissed", [
 				_caller,
 				_targetEntity
-			]);
+			], false);
 		}
 
 		o.onTargetKilled = function( _targetEntity, _skill )
@@ -289,7 +287,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onMissed", [
 				_attacker,
 				_skill
-			]);
+			], false);
 		}
 
 		o.onCombatStarted = function()
@@ -304,7 +302,7 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.onDeath = function()
 		{
-			this.doOnFunction("onDeath");
+			this.doOnFunction("onDeath", null, false);
 		}
 
 		//Vanilla Ovewrites End
@@ -329,7 +327,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onPayForItemAction", [
 				_skill,
 				_items
-			]);
+			], false);
 		}
 
 		o.getSkillsByFunction <- function( _self, _function )
