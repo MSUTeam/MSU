@@ -37,6 +37,8 @@ gt.MSU <- {};
 
 	gt.MSU.modActor();
 	delete gt.MSU.modActor;
+	gt.MSU.modPlayer();
+	delete gt.MSU.modPlayer;
 	gt.MSU.modSkillContainer();
 	delete gt.MSU.modSkillContainer;
 	gt.MSU.modSkill();

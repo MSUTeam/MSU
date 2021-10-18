@@ -171,6 +171,10 @@ gt.MSU.modSkill <- function ()
 		// {			
 		// }
 
+		o.onUpdateLevel <- function()
+		{
+		}
+
 		o.getItemActionCost <- function( _items )
 		{
 			return null;
