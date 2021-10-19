@@ -4,6 +4,7 @@ gt.MSU.modSkillContainer <- function ()
 {
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		o.m.BeforeSkillExecutedTile <- null;
+		o.m.IsExecutingMoveSkill <- false;
 
 		local update = o.update;
 		o.update = function()
@@ -97,6 +98,8 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onMovementFinished", [
 				_tile
 			]);
+
+			this.m.IsExecutingMoveSkill = false;
 		}
 
 		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
@@ -104,14 +107,14 @@ gt.MSU.modSkillContainer <- function ()
 			// Don't update if using a movement skill e.g. Rotation because this leads
 			// to crashes if any skill tries to access the current tile in its onUpdate
 			// function as the tile at this point is not a valid tile.
-			local shouldUpdate = !this.getActor().getTile().isSameTileAs(this.m.BeforeSkillExecutedTile);			
+			this.m.IsExecutingMoveSkill = !this.getActor().getTile().isSameTileAs(this.m.BeforeSkillExecutedTile);
 			this.m.BeforeSkillExecutedTile = null;
 
 			this.doOnFunction("onAnySkillExecuted", [
 				_skill,
 				_targetTile,
 				_targetEntity
-			]);
+			], !this.m.IsExecutingMoveSkill);
 		}
 
 		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
