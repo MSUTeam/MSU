@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.17
+Documentation for v0.6.18
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -297,13 +297,20 @@ This function allows you to generate the tooltip of the ranged skill by using th
 ## New onXYZ functions
 MSU adds the following onXYZ functions to all skills. These functions are called on all skills of an actor whenever they trigger.
 
+### Checking for the execution of a movement skill
+`<skill_container>.m.IsExecutingMoveSkill`
+
+This boolean is true when the character executes a movement based skill e.g. Rotation. It is set to true during `onAnySkillExecuted` and then set to false at the end of the movement in the `onMovementFinished` function. The purpose of this boolean is to make sure that no corrupt tiles are fetched in functions as otherwise it led to crashes when `onAnySkillExecuted` had a call to a tile and the player used Rotation, because at this point somehow the tile is not a valid tile. The tile is valid at the start of the movement, and at the end, but not during it.
+
+Therefore, when fetching the actor's tile via the `<actor>.getTile()` function in a situation where you think that it may be possible that the character is using a movement skill e.g. in our own skill's `onAnySkillExecuted` function, make sure to always check that this boolean is false.
+
 ### Using a skill
 - `onBeforeAnySkillExecuted( _skill, _targetTile, _targetEntity )`
 - `onAnySkillExecuted( _skill, _targetTile, _targetEntity )`
 
 `_skill` is the skill being used. `_targetTile` is the tile on which the skill is being used. `_targetEntity` is the entity occupying `_targetTile` and is null if the tile was empty.
 
-The first function is called before the used skill's `use` function triggers, whereas the second function is called after the `use` function is complete.
+The first function is called before the used skill's `use` function triggers, whereas the second function is called after the `use` function is complete. When using a movement related skill e.g. Rotation, the `this.m.IsUsingMoveSkill` boolean of the skill_container will be `true` during the call to this function.
 
 ### Actor movement
 - `onMovementStarted( _tile, _numTiles )`

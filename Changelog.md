@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.18
+- Added back the IsExecutingMoveSkill boolean in skill_container.
+- Fixed onAnySkillExecuted always allowing update. Now properly doesn't when using a movement skill e.g. Rotation.
+
 ## 0.6.17
 - Removed the IsExecutingMoveSkill boolean from skill_container.
 - Now the doOnFunction instead takes a `_update` parameter which if false will disable the update at the end of the doOnFunction.
