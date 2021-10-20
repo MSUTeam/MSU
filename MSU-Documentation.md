@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.18
+Documentation for v0.6.19
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
