@@ -251,7 +251,7 @@ gt.MSU.modSkillContainer <- function ()
 				_attacker,
 				_damageHitpoints,
 				_damageArmor
-			], false);
+			]);
 		}
 
 		o.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
@@ -260,7 +260,7 @@ gt.MSU.modSkillContainer <- function ()
 				_caller,
 				_targetEntity,
 				_hitInfo
-			], false);
+			]);
 		}
 
 		o.onTargetHit = function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
@@ -271,7 +271,7 @@ gt.MSU.modSkillContainer <- function ()
 				_bodyPart,
 				_damageInflictedHitpoints,
 				_damageInflictedArmor
-			], false);
+			]);
 		}
 
 		o.onTargetMissed = function( _caller, _targetEntity )
@@ -279,7 +279,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onTargetMissed", [
 				_caller,
 				_targetEntity
-			], false);
+			]);
 		}
 
 		o.onTargetKilled = function( _targetEntity, _skill )
@@ -295,7 +295,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onMissed", [
 				_attacker,
 				_skill
-			], false);
+			]);
 		}
 
 		o.onCombatStarted = function()
