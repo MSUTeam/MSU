@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.19
+- Set several onXYZ functions which were set changed to not call update after doOnFunction in the 0.6.17 patch back to calling update after doOnFunction.
+
 ## 0.6.18
 - Added back the IsExecutingMoveSkill boolean in skill_container.
 - Fixed onAnySkillExecuted always allowing update. Now properly doesn't when using a movement skill e.g. Rotation.
