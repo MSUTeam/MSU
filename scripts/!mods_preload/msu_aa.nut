@@ -52,4 +52,7 @@ gt.MSU <- {};
 
 	gt.MSU.modTooltipEvents();
 	delete gt.MSU.modTooltipEvents;
+
+	gt.MSU.modMisc();
+	delete gt.MSU.modMisc;
 });
