@@ -25,6 +25,12 @@ gt.MSU.modActor <- function() {
 			this.m.IsMoving = false;
 		}
 
+		local getActionPointsMax = o.getActionPointsMax
+		o.getActionPointsMax = function()
+		{
+			return this.Math.floor(getActionPointsMax());
+		}
+
 		// local setDirty = o.setDirty;
 		// o.setDirty = function( _value )
 		// {
