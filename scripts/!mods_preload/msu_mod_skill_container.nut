@@ -310,7 +310,7 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.onDeath = function()
 		{
-			this.doOnFunction("onDeath", null, false);
+			this.doOnFunction("onDeath");
 		}
 
 		//Vanilla Ovewrites End
@@ -335,7 +335,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onPayForItemAction", [
 				_skill,
 				_items
-			], false);
+			]);
 		}
 
 		o.getSkillsByFunction <- function( _self, _function )
