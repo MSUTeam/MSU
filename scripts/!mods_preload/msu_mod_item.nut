@@ -41,5 +41,16 @@ gt.MSU.modItem <- function ()
 				this.m.ItemType -= _t;		
 			}
 		}
+
+		local addSkill = o.addSkill;
+		o.addSkill = function( _skill )
+		{
+			if (_skill.isType(this.Const.SkillType.Active) && ("FatigueOnSkillUse" in this.m))
+			{
+				_skill.setFatigueCost(this.Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
+			}
+
+			addSkill(_skill);
+		}
 	});
 }

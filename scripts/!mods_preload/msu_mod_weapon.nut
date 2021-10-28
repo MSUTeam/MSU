@@ -105,17 +105,6 @@ gt.MSU.modWeapon <- function ()
 	::mods_hookExactClass("items/weapons/weapon", function(o) {
 		o.m.WeaponType <- this.Const.Items.WeaponType.None;
 
-		local addSkill = o.addSkill;
-		o.addSkill = function( _skill )
-		{
-			if (_skill.isType(this.Const.SkillType.Active))
-			{
-				_skill.setFatigueCost(this.Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
-			}
-
-			addSkill(_skill);
-		}
-
 		o.setCategories <- function( _s, _setupWeaponType = true )
 		{
 			this.m.Categories = _s;
