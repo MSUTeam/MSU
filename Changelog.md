@@ -1,6 +1,13 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.20
+- Added function `isActiveEntity( _entity )` to turn_sequence_bar to conveniently check if the given entity is the current active entity.
+- The `getActionPointsMax()` function of actor now returns a floored value, is at always should have.
+- `onDeath` and `onPayForItemAction` functions of skill_container now call update at the end.
+- Moved the hook on `addSkill` from weapon.nut to item.nut, so that any item that adds a skill with modified fatigue on skill use (e.g. named shields) will now work properly with the MSU save base values system for skills.
+- Tile based hitchance modified by other skills/perks will now properly change a ranged skill's tooltip.
+
 ## 0.6.19
 - Set several onXYZ functions which were set changed to not call update after doOnFunction in the 0.6.17 patch back to calling update after doOnFunction.
 
