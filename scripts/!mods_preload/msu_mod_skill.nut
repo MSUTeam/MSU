@@ -427,7 +427,8 @@ gt.MSU.modSkill <- function ()
 			if (this.m.AdditionalHitChance != 0)
 			{
 				accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
-				accuText += " [color=" + (this.m.AdditionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + this.m.AdditionalHitChance + "%[/color]";
+				local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
+				accuText += " [color=" + (additionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + additionalHitChance + "%[/color]";
 				accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
 				accuText += " per tile of distance";
 			}
