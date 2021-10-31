@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.21
+- Added a hook on AI agent's `think` function, to block the evaluation when executing a move skill.
+- The IsExecutingSkillMove boolean of skill_container is now reset to false at the end of the AI agent's `onTurnStarted`, `onTurnResumed` and `onTurnEnd` functions.
+
 ## 0.6.20
 - Added function `isActiveEntity( _entity )` to turn_sequence_bar to conveniently check if the given entity is the current active entity.
 - The `getActionPointsMax()` function of actor now returns a floored value, is at always should have.
