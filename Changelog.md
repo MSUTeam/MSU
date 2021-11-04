@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.22
+- The `IsExecutingSkillMove` boolean of skill_container is now set to false at the end of the `onAnySkillExecuted` function after the `doOnFunction` has run. It is no longer set to false in `onMovementFinished`.
+- Fixed the fatigue cost of skills not being properly reduced by items which have `FatigueOnSkillUse`.
+
 ## 0.6.21
 - Added a hook on AI agent's `think` function, to block the evaluation when executing a move skill.
 - The IsExecutingSkillMove boolean of skill_container is now reset to false at the end of the AI agent's `onTurnStarted`, `onTurnResumed` and `onTurnEnd` functions.
