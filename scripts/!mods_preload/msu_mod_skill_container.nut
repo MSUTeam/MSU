@@ -98,8 +98,6 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onMovementFinished", [
 				_tile
 			]);
-
-			this.m.IsExecutingMoveSkill = false;
 		}
 
 		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
@@ -115,6 +113,8 @@ gt.MSU.modSkillContainer <- function ()
 				_targetTile,
 				_targetEntity
 			], !this.m.IsExecutingMoveSkill);
+
+			this.m.IsExecutingMoveSkill = false;
 		}
 
 		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
