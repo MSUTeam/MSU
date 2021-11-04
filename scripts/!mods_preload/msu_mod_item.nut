@@ -22,6 +22,7 @@ gt.MSU.modItem <- function ()
 	}
 
 	::mods_hookBaseClass("items/item", function(o) {
+		local child = o;
 		o = o[o.SuperName];
 
 		o.addItemType <- function ( _t )
@@ -45,7 +46,7 @@ gt.MSU.modItem <- function ()
 		local addSkill = o.addSkill;
 		o.addSkill = function( _skill )
 		{
-			if (_skill.isType(this.Const.SkillType.Active) && ("FatigueOnSkillUse" in this.m))
+			if (_skill.isType(this.Const.SkillType.Active) && ("FatigueOnSkillUse" in child.m))
 			{
 				_skill.setFatigueCost(this.Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
 			}
