@@ -13,6 +13,9 @@ gt.MSU <- {};
 		Enemy = 3
 	}
 
+	gt.MSU.registerUIFiles();
+	delete MSU.registerUIFiles;
+
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
 	gt.MSU.setupDamageTypeSystem();
@@ -25,6 +28,8 @@ gt.MSU <- {};
 	delete gt.MSU.setupStringUtils;
 	gt.MSU.setupMathUtils();
 	delete gt.MSU.setupMathUtils;
+	gt.MSU.setupSettingsSystem();
+	delete gt.MSU.setupSettingsSystem;
 
 	gt.MSU.modItemContainer();
 	delete gt.MSU.modItemContainer;
