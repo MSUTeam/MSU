@@ -25,7 +25,7 @@ gt.MSU.modPlayerParty <- function ()
 					mult *= bro.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		}
 
 		o.getStashMovementSpeedMult <- function()
@@ -37,7 +37,7 @@ gt.MSU.modPlayerParty <- function ()
 					mult *= item.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		}
 
 		o.getOriginMovementSpeedMult <- function()
@@ -47,7 +47,7 @@ gt.MSU.modPlayerParty <- function ()
 			if ("getMovementSpeedMult" in origin){
 				mult *= origin.getMovementSpeedMult();
 			};
-			return mult
+			return mult;
 		};
 
 		o.getRetinueMovementSpeedMult <- function(){
@@ -58,7 +58,7 @@ gt.MSU.modPlayerParty <- function ()
 					mult *= follower.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		};
 
 	});

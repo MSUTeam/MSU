@@ -46,7 +46,7 @@ gt.MSU.modParty <- function ()
 			foreach(func in this.m.MovementSpeedMultFunctions){
 				mult *= func();
 			};
-			return mult
+			return mult;
 		};
 
 		o.updateMovementSpeedMult <- function()
@@ -56,7 +56,7 @@ gt.MSU.modParty <- function ()
 
 		o.getMovementSpeed <- function()
 		{
-			return this.getBaseMovementSpeed() * this.getMovementSpeedMult()
+			return this.getBaseMovementSpeed() * this.getMovementSpeedMult();
 		};
 
 		local old_onUpdate = o.onUpdate;
@@ -91,7 +91,7 @@ gt.MSU.modParty <- function ()
 					mult *= bro.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		}
 
 		o.getStashMovementSpeedMult <- function()
@@ -103,7 +103,7 @@ gt.MSU.modParty <- function ()
 					mult *= item.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		}
 
 		o.getOriginMovementSpeedMult <- function()
@@ -113,7 +113,7 @@ gt.MSU.modParty <- function ()
 			if ("getMovementSpeedMult" in origin){
 				mult *= origin.getMovementSpeedMult();
 			};
-			return mult
+			return mult;
 		};
 
 		o.getRetinueMovementSpeedMult <- function(){
@@ -124,26 +124,8 @@ gt.MSU.modParty <- function ()
 					mult *= follower.getMovementSpeedMult();
 				};
 			};
-			return mult
+			return mult;
 		};
 
 	});
-
-	::mods_hookDescendants("scenarios/world/starting_scenario", function() {
-        local onInit = o.onInit
-        o.onInit = function()
-        {
-            local speed = this.World.State.getPlayer().getBaseMovementSpeed();
-            onInit();
-            local newSpeed = this.World.State.getPlayer().getBaseMovementSpeed();
-            if (speed != newSpeed)
-            {
-                this.World.State.getPlayer().setBaseMovementSpeed(100);
-                this.getMovementSpeedMult <- function()
-                {
-                    return newSpeed/speed;
-                };
-            };
-        };
-   });
 }

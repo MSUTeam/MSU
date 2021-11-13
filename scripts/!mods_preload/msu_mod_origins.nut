@@ -3,18 +3,18 @@ local gt = this.getroottable();
 gt.MSU.modOrigins <- function ()
 {
 	::mods_hookExactClass("scenarios/world/rangers_scenario", function() {
-        local onInit = o.onInit
+        local onInit = o.onInit;
         o.onInit = function()
         {
-            onInit()
+            onInit();
             if (this.World.State.getPlayer() != null)
             {
-                this.World.State.getPlayer().setBaseMovementSpeed(100)
-            }
-        }
+                this.World.State.getPlayer().setBaseMovementSpeed(100);
+            };
+        };
 
         o.getMovementSpeedMult <- function(){
-            return 1.057
-        }
+            return 1.057;
+        };
     });
 }
