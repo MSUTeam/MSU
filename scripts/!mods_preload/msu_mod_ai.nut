@@ -47,27 +47,6 @@ gt.MSU.modAI <- function()
 			{
 				this.setFinished(true);
 			}
-		}		
-
-		local onTurnStarted = o.onTurnStarted;
-		o.onTurnStarted = function ()
-		{
-			onTurnStarted();
-			this.getActor().getSkills().m.IsExecutingMoveSkill = false;
-		}
-
-		local onTurnResumed = o.onTurnResumed;
-		o.onTurnResumed = function () 
-		{
-			onTurnResumed();
-			this.getActor().getSkills().m.IsExecutingMoveSkill = false;
-		}
-
-		local onTurnEnd = o.onTurnEnd;
-		o.onTurnEnd = function () 
-		{
-			onTurnEnd();
-			this.getActor().getSkills().m.IsExecutingMoveSkill = false;
 		}
 	});
 }
