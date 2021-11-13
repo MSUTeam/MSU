@@ -1,5 +1,8 @@
 # Modding Standards & Utilities (MSU)
 Changelog
+## 0.6.23
+- Added hooks to party and player_party to improve movement speed handling
+- Added hook to starting_scenario to to improve movement speed handling
 
 ## 0.6.22
 - The `IsExecutingSkillMove` boolean of skill_container is now set to false at the end of the `onAnySkillExecuted` function after the `doOnFunction` has run. It is no longer set to false in `onMovementFinished`.
