@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.modParty <- function ()
 {
-	::mods_hookExactClass("entity/world/party", function(o){
+	::mods_hookExactClass("entity/world/party", function(o) {
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
 		o.m.MovementSpeedMult <- 1.0;
@@ -68,7 +68,7 @@ gt.MSU.modParty <- function ()
 		};
 	});
 
-	::mods_hookExactClass("entity/world/player_party", function(o){
+	::mods_hookExactClass("entity/world/player_party", function(o) {
 		o.resetBaseMovementSpeed();
 		o.setBaseMovementSpeedMult(1.05);
 
@@ -129,22 +129,21 @@ gt.MSU.modParty <- function ()
 
 	});
 
-	::mods_hookDescendants("scenarios/world/starting_scenario", function()
-	    {
-	        local onInit = o.onInit
-	        o.onInit = function()
-	        {
-	            local speed = this.World.State.getPlayer().getBaseMovementSpeed();
-	            onInit();
-	            local newSpeed = this.World.State.getPlayer().getBaseMovementSpeed();
-	            if (speed != newSpeed)
-	            {
-	                this.World.State.getPlayer().setBaseMovementSpeed(100);
-	                this.getMovementSpeedMult <- function()
-	                {
-	                    return newSpeed/speed;
-	                };
-	            };
-	        };
-	   });
+	::mods_hookDescendants("scenarios/world/starting_scenario", function() {
+        local onInit = o.onInit
+        o.onInit = function()
+        {
+            local speed = this.World.State.getPlayer().getBaseMovementSpeed();
+            onInit();
+            local newSpeed = this.World.State.getPlayer().getBaseMovementSpeed();
+            if (speed != newSpeed)
+            {
+                this.World.State.getPlayer().setBaseMovementSpeed(100);
+                this.getMovementSpeedMult <- function()
+                {
+                    return newSpeed/speed;
+                };
+            };
+        };
+   });
 }

@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.modPlayerParty <- function ()
 {
-	::mods_hookExactClass("entity/world/player_party", function(o){
+	::mods_hookExactClass("entity/world/player_party", function(o) {
 		o.resetBaseMovementSpeed();
 		o.setBaseMovementSpeedMult(1.05);
 

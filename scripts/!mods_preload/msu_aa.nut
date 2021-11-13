@@ -63,6 +63,6 @@ gt.MSU <- {};
 	delete gt.MSU.modParty;
 	gt.MSU.modPlayerParty();
 	delete gt.MSU.modPlayerParty;
-	gt.MSU.modOrigin();
+	gt.MSU.modOrigins();
 	delete gt.MSU.modOrigin;
 });
