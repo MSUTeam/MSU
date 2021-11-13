@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.23
+- Removed the hooks on the AI functions of `onTurnStarted`, `onTurnResumed` and `onTurnEnd` which were being used to reset `IsExecutingSkillMove` of `skill_container` as this is no longer neceessary as the boolean is now reset within `onAnySkillExecuted`.
+- Improved the formatting of the tooltip from the `getDefaultRangedTooltip` function.
+
 ## 0.6.22
 - The `IsExecutingSkillMove` boolean of skill_container is now set to false at the end of the `onAnySkillExecuted` function after the `doOnFunction` has run. It is no longer set to false in `onMovementFinished`.
 - Fixed the fatigue cost of skills not being properly reduced by items which have `FatigueOnSkillUse`.
