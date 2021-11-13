@@ -431,6 +431,78 @@ In order to prevent Serpents from gaining Arm related injuries, hook the `onInit
 this.addExcludedInjuries(this.Const.Injury.ExcludedInjuries.Arm);
 ```
 
+# Actor 🟢
+## `getActionPointsMax()`
+MSU modifies the vanilla `getActionPointsMax` function of `actor` to now return a floored value.
+
+## Convenience Functions
+MSU adds several convenience functions to actor which allow for cleaner code and a faster modding experience.
+
+### Getting actors at a certain distance
+- `<actor>.getActorsAtDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns an array of all actors at a distance of `_distance` from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
+
+- `<actor>.getRandomActorAtDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns a random actor at a distance of `_distance` from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
+
+### Getting actors within a certain distance
+- `<actor>.getActorsWithinDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns an array of all actors within a distance of `_distance` inclusive from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
+
+- `<actor>.getRandomActorWithinDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns a random actor within a distance of `_distance` inclusive from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
+
+### Getting items
+- `<actor>`.getMainhandItem()
+
+Returns the item currently equipped by `<actor>` in the Mainhand item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getOffhandItem()
+
+Returns the item currently equipped by `<actor>` in the Offhand item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getHeadItem()
+
+Returns the item currently equipped by `<actor>` in the Head item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getBodyItem()
+
+Returns the item currently equipped by `<actor>` in the Body item slot. Returns null if no item is found in that slot.
+
+### Checking equipment
+- `<actor>`.isArmedWithOneHandedWeapon()
+
+Returns true if `<actor>` is currently holding a One-Handed item in their Mainhand, otherwise returns false.
+
+- `<actor>`.isArmedWithMeleeOrUnarmed()
+
+Returns true if `<actor>` is currently holding a Melee Weapon in their Mainhand or have the Hand to Hand active skill. Returns false if neither is true.
+
+- `<actor>`.isArmedWithTwoHandedWeapon()
+
+Returns true if `<actor>` is currently holding a Two-Handed item in their Mainhand, otherwise returns false.
+
+- `<actor>`.getRemainingArmorFraction()
+
+Returns a float which is the current total head and body remaining armor durability as a fraction of the maximum total head and armmor armor durability.
+
+- `<actor>`.getTotalArmorStaminaModifier()
+
+Returns an integer which is the total stamina modifier of `<actor>`'s currently equippped head and body armor. Returns 0 if no armor is equipped.
+
+### Checking situation
+- `<actor>`.isEngagedInMelee()
+
+Returns true only if `<actor>` is placed on the tactical map **and** there is an enemy who is exerting zone of control on `<actor>`. Otherwise returns false.
+
+- `<actor>`.isDoubleGrippingWeapon()
+
+Returns true if `<actor>` has access to the `special.double_grip` skill and the skill is not hidden. Otherwise returns false.
+
 # Items 🟡
 MSU provides functions to safely add a new ItemType to the game, and to modify the ItemType of items.
 
@@ -523,25 +595,34 @@ This is generally discouraged, as modders are encouraged to use the WeaponType s
 
 `_categories` is a string which will become the new `this.m.Categories` of that weapon. If `_setupWeaponType` is true, then MSU will automatically rebuild the WeaponType of the system based on the new categories string.
 
+# Misc 🟢
+MSU adds useful functionality to various miscellaneous classes.
+
+## `turn_sequence_bar`
+### Getting the active entity
+`this.Tactical.TurnSequenceBar.isActiveEntity( _entity )`
+
+Returns true if the current active entity is not null and is `_entity`.
+
 # Utilities 🟢
 ## Logging
-`this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+- `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
 
-`this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
+- `this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
 
 Enables or Disables the debug logging system for the mod id `_name`.
 
-`::printLog( _arg = "No argument for debug log", _name = "default")`
+- `::printLog( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logInfo`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_name`.
 
-`::printWarning( _arg = "No argument for debug log", _name = "default")`
+- `::printWarning( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logWarning`. Prints the warning as `_arg` if DebugLog is enabled for the mod id `_name`.
 
-`::printError( _arg = "No argument for debug log", _name = "default")`
+- `::printError( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logError`. Prints the error as `_arg` if DebugLog is enabled for the mod id `_name`.
 
