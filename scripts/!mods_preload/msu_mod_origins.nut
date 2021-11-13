@@ -10,11 +10,12 @@ gt.MSU.modOrigins <- function ()
             if (this.World.State.getPlayer() != null)
             {
                 this.World.State.getPlayer().setBaseMovementSpeed(100);
-            };
-        };
+            }
+        }
 
-        o.getMovementSpeedMult <- function(){
+        o.getMovementSpeedMult <- function()
+        {
             return 1.057;
-        };
+        }
     });
 }

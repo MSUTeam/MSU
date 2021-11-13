@@ -20,11 +20,13 @@ gt.MSU.modPlayerParty <- function ()
 		{
 			local mult = 1.0;
 			local roster = this.World.getPlayerRoster().getAll();
-			foreach(bro in roster){
-				if ("getMovementSpeedMult" in bro){
+			foreach(bro in roster)
+			{
+				if ("getMovementSpeedMult" in bro)
+				{
 					mult *= bro.getMovementSpeedMult();
-				};
-			};
+				}
+			}
 			return mult;
 		}
 
@@ -32,11 +34,13 @@ gt.MSU.modPlayerParty <- function ()
 		{
 			local mult = 1.0;
 			local inventory = this.World.Assets.getStash();
-			foreach(item in inventory.getItems()){
-				if ("getMovementSpeedMult" in item){
+			foreach(item in inventory.getItems())
+			{
+				if ("getMovementSpeedMult" in item)
+				{
 					mult *= item.getMovementSpeedMult();
-				};
-			};
+				}
+			}
 			return mult;
 		}
 
@@ -44,22 +48,25 @@ gt.MSU.modPlayerParty <- function ()
 		{
 			local mult = 1.0;
 			local origin = this.World.Assets.getOrigin();
-			if ("getMovementSpeedMult" in origin){
+			if ("getMovementSpeedMult" in origin)
+			{
 				mult *= origin.getMovementSpeedMult();
-			};
+			}
 			return mult;
-		};
+		}
 
-		o.getRetinueMovementSpeedMult <- function(){
+		o.getRetinueMovementSpeedMult <- function()
+		{
 			local mult = 1.0;
 			local retinue = this.World.Retinue;
-			foreach(follower in retinue.m.Followers){
-				if ("getMovementSpeedMult" in follower){
+			foreach(follower in retinue.m.Followers)
+			{
+				if ("getMovementSpeedMult" in follower)
+				{
 					mult *= follower.getMovementSpeedMult();
-				};
-			};
+				}
+			}
 			return mult;
-		};
-
+		}
 	});
 }
