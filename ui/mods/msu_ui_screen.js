@@ -3,27 +3,6 @@
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf#polyfill
 // Allows for 'easy' inheritance:
 
-if (!Object.setPrototypeOf) { 
-    // Only works in Chrome and FireFox, does not work in IE:
-     Object.prototype.setPrototypeOf = function(obj, proto) {
-         if(obj.__proto__) {
-             obj.__proto__ = proto;
-             return obj;
-         } else {
-             // If you want to return prototype of Object.create(null):
-             var Fn = function() {
-                 for (var key in obj) {
-                     Object.defineProperty(this, key, {
-                         value: obj[key],
-                     });
-                 }
-             };
-             Fn.prototype = proto;
-             return new Fn();
-         }
-     }
-}
-
 var MSUUIScreen = function ()
 {
 	this.mSQHandle = null;
@@ -41,23 +20,11 @@ MSUUIScreen.prototype.isConnected = function ()
 MSUUIScreen.prototype.onConnection = function (_handle)
 {
 	this.mSQHandle = _handle;
-
-	// notify listener
-	if (this.mEventListener !== null && ('onModuleOnConnectionCalled' in this.mEventListener))
-    {
-		this.mEventListener.onModuleOnConnectionCalled(this);
-	}
 };
 
 MSUUIScreen.prototype.onDisconnection = function ()
 {
 	this.mSQHandle = null;
-
-	// notify listener
-	if (this.mEventListener !== null && ('onModuleOnDisconnectionCalled' in this.mEventListener))
-    {
-		this.mEventListener.onModuleOnDisconnectionCalled(this);
-	}
 };
 
 MSUUIScreen.prototype.registerEventListener = function (_listener)

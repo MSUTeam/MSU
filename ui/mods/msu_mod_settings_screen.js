@@ -24,10 +24,12 @@ var ModSettingsScreen = function ()
 	*/
 
 }
-Object.setPrototypeOf(ModSettingsScreen.prototype, MSUUIScreen);
+
+ModSettingsScreen.prototype.__proto__ = MSUUIScreen
+
 ModSettingsScreen.prototype.onConnection = function (_handle)
 {
-	MSUUIScreen.prototype.onConnection.call(this, _handle);
+	this.mSQHandle = _handle;
 	this.register($('.root-screen'));
 }
 
