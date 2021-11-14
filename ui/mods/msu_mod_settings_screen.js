@@ -40,12 +40,20 @@ ModSettingsScreen.prototype.onConnection = function (_handle)
 ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
-	this.unregister();
+    this.mBackgroundImage = this.mContainer.createImage(null, function (_image)
+	{
+        _image.removeClass('display-none').addClass('display-block');
+        _image.fitImageToParent();
+    }, function (_image)
+	{
+        _image.fitImageToParent();
+    }, 'display-none');
 }
 
 ModSettingsScreen.prototype.destroyDIV = function ()
 {
 	MSUUIScreen.prototype.destroyDIV.call(this);
+
 }
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());

@@ -35,6 +35,8 @@ MSUUIScreen.prototype.registerEventListener = function (_listener)
 MSUUIScreen.prototype.createDIV = function (_parentDiv)
 {
 	this.mContainer = $('<div class="msu-screen ui-control dialog-modal-background display-none opacity-none"/>');
+	console.error("createDIV ran in MSUUIScreen")
+	console.error(this.mContainer)
 	_parentDiv.append(this.mContainer);
 }
 
@@ -59,6 +61,8 @@ MSUUIScreen.prototype.show = function (_data)
 {
 	var self = this;
 	console.error("hi")
+	console.error("this.mContainer =")
+	console.error(this.mContainer)
     this.mContainer.velocity("finish", true).velocity({ opacity: 1 },
 	{
         duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
