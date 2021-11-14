@@ -3,13 +3,14 @@ local gt = this.getroottable();
 gt.MSU.modPlayerParty <- function ()
 {
 	::mods_hookExactClass("entity/world/player_party", function(o) {
-		o.resetBaseMovementSpeed();
-		o.setBaseMovementSpeedMult(1.05);
+		
 
 		local create = o.create;
 		o.create = function()
 		{
 			create();
+			this.resetBaseMovementSpeed();
+			this.setBaseMovementSpeedMult(1.05);
 			this.m.MovementSpeedMultFunctions.push(this.getRosterMovementSpeedMult);
 			this.m.MovementSpeedMultFunctions.push(this.getStashMovementSpeedMult);
 			this.m.MovementSpeedMultFunctions.push(this.getOriginMovementSpeedMult);

@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.modOrigins <- function ()
 {
-	::mods_hookExactClass("scenarios/world/rangers_scenario", function() {
+	::mods_hookExactClass("scenarios/world/rangers_scenario", function(o) {
         local onInit = o.onInit;
         o.onInit = function()
         {

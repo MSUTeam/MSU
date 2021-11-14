@@ -6,13 +6,18 @@ gt.MSU.modParty <- function ()
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
 		o.m.MovementSpeedMult <- 1.0;
-		o.m.MovementSpeedFunctions <- [];
+		o.m.MovementSpeedMultFunctions <- [];
 
 		local create = o.create;
 		o.create = function()
 		{
 			create();
 			this.m.MovementSpeedMultFunctions.push(this.getBaseMovementSpeedMult);
+		}
+
+		o.setBaseMovementSpeed <- function(_speed)
+		{
+			this.m.BaseMovementSpeed = _speed;
 		}
 
 		o.resetBaseMovementSpeed <- function()
@@ -63,8 +68,9 @@ gt.MSU.modParty <- function ()
 		local old_onUpdate = o.onUpdate;
 		o.onUpdate = function()
 		{
+			this.updateMovementSpeedMult();
 			this.setBaseMovementSpeed(this.getMovementSpeed());
-			onUpdate();
+			old_onUpdate();
 			this.resetBaseMovementSpeed();
 		}
 	});
