@@ -24,24 +24,22 @@ var ModSettingsScreen = function ()
 	*/
 
 }
-
-var ModSettingsModule = function (_screen)
+Object.setPrototypeOf(ModSettingsScreen.prototype, MSUUIScreen);
+ModSettingsScreen.prototype.onConnection = function (_handle)
 {
-	this.mParent = _screen;
+	MSUUIScreen.prototype.onConnection.call(this, _handle);
+	this.register($('.root-screen'));
 }
-
-
-
-Object.setPrototypeOf(ModSettingsScreen.prototype, MSUUIScreen.prototype);
 
 ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
-	var self = this;
-	this.mContainer = $('<div class="flexbox display-none opacity-full"');
-	for (modID in this.mModPanels)
-	{
-
-	}
+	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
+	this.unregister();
 }
 
-var 
+ModSettingsScreen.prototype.destroyDIV = function ()
+{
+	MSUUIScreen.prototype.destroyDIV.call(this);
+}
+
+registerScreen("ModSettingsScreen", new ModSettingsScreen());

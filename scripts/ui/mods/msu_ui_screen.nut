@@ -60,6 +60,11 @@ this.msu_ui_screen <- {
 
 	function create()
 	{
+		
+	}
+
+	function connect()
+	{
 		//Needs a UI Bind:
 		//this.m.JSHandle = this.UI.connect("path/to/ui_screen.", this);
 	}
@@ -70,12 +75,12 @@ this.msu_ui_screen <- {
 		this.m.JSHandle = this.UI.disconnect(this.m.JSHandle);
 	}
 
-	function show()
+	function show(_data)
 	{
 		if (this.m.JSHandle != null && !this.isVisible())
 		{
 			this.Tooltip.show();
-			this.m.JSHandle.asyncCall("show", null);
+			this.m.JSHandle.asyncCall("show", _data);
 		}
 	}
 

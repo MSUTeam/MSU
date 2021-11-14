@@ -4,7 +4,7 @@ gt.MSU.GenericSetting <- class
 	Name = null;
 	ID = null;
 	Value = null; // Serialized
-	static Type = "generic";
+	static Type = "Generic";
 	Description = null;
 	Locked = null; // Serialized
 	LockReason = null; // Serialized
@@ -133,7 +133,7 @@ gt.MSU.GenericSetting <- class
 
 gt.MSU.BooleanSetting <- class extends gt.MSU.GenericSetting
 {
-	static Type = "boolean";
+	static Type = "Boolean";
 
 	constructor( _name, _value )
 	{
@@ -166,7 +166,7 @@ gt.MSU.RangeSetting <- class extends gt.MSU.GenericSetting
 {
 	Min = null;
 	Max = null;
-	static Type = "range";
+	static Type = "Range";
 
 	constructor( _name, _value, _min, _max )
 	{
@@ -213,7 +213,7 @@ gt.MSU.RangeSetting <- class extends gt.MSU.GenericSetting
 gt.MSU.TableSetting <- class extends gt.MSU.GenericSetting
 {
 	Table = null;
-	static Type = "table";
+	static Type = "Table";
 
 	constructor( _name, _value, _table )
 	{

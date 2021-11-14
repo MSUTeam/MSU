@@ -14,7 +14,7 @@ gt.MSU <- {};
 	}
 
 	gt.MSU.registerUIFiles();
-	delete MSU.registerUIFiles;
+	delete gt.MSU.registerUIFiles;
 
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
