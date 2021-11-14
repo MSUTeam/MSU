@@ -30,7 +30,7 @@ this.mod_settings_manager <- {
 	function getUIData()
 	{
 		local ret = [];
-		foreach (page in Pages)
+		foreach (page in this.m.Pages)
 		{
 			ret[page.getModID()] <- page.getPageForUI();
 		}

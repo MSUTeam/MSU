@@ -25,7 +25,11 @@ var ModSettingsScreen = function ()
 
 }
 
-ModSettingsScreen.prototype.__proto__ = MSUUIScreen
+ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype)
+Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
+    value: ModSettingsScreen,
+    enumerable: false, // so that it does not appear in 'for in' loop
+    writable: true });
 
 ModSettingsScreen.prototype.onConnection = function (_handle)
 {

@@ -10,7 +10,7 @@ this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 	{
 		if (this.m.JSHandle != null && !this.isVisible())
 		{
-			this.Tooltip.show();
+			this.Tooltip.hide();
 			this.m.JSHandle.asyncCall("show", this.MSU.SettingsManager.getUIData());
 		}
 	}

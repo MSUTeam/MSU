@@ -34,7 +34,7 @@ MSUUIScreen.prototype.registerEventListener = function (_listener)
 
 MSUUIScreen.prototype.createDIV = function (_parentDiv)
 {
-	this.mContainer = $('<div class="msu-screen ui-control dialog-modal-background display-none opacity-none"');
+	this.mContainer = $('<div class="msu-screen ui-control dialog-modal-background display-none opacity-none"/>');
 	_parentDiv.append(this.mContainer);
 }
 
