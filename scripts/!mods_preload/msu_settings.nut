@@ -74,6 +74,7 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			return {
 				type = Type,
+				id = ID,
 				name = Name,
 				locked = Locked,
 				value = Value
@@ -299,7 +300,7 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			PageName = _name;
 			ModID = _modID;	
-			Settings = {};
+			Settings = [];
 		}
 
 		function add( _setting )
@@ -309,7 +310,7 @@ gt.MSU.setupSettingsSystem <- function()
 				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from GenericSetting");
 				return;
 			}
-			Settings[_setting.getName()] <- _setting;
+			Settings.push(_setting);
 		}
 
 		function getModID()
@@ -317,9 +318,9 @@ gt.MSU.setupSettingsSystem <- function()
 			return ModID;
 		}
 
-		function get( _settingName )
+		function get( _settingIdx )
 		{
-			return Settings[_settingName];
+			return Settings[_settingIdx];
 		}
 
 		function doSettingsFunction(_function, ...)
@@ -352,12 +353,12 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			local ret = {
 				name = PageName,
-				settings = {}
+				settings = []
 			}
 
 			foreach (setting in Settings)
 			{
-				ret.settings[setting.getID()] <- setting.getUIData();
+				ret.settings.push(setting.getUIData());
 			}
 			return ret;
 		}

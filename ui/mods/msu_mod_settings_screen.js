@@ -18,6 +18,23 @@ var ModSettingsScreen = function ()
 		modID : 
 		{
 			name = "",
+			settings = [
+				{
+					id = "",
+					type = "",
+					name = "",
+					value = 0,
+					locked = false,
+				}
+			]
+		}
+	}
+
+	this.mModPanels = 
+	{
+		modID : 
+		{
+			name = "",
 			settings = {
 				settingID : 
 				{
@@ -143,27 +160,28 @@ ModSettingsScreen.prototype.switchToMod = function (_modID)
 	this.mModPageScrollContainer.empty()
 	console.error("switchToMod " + _modID);
 	this.mContainer.findDialogSubTitle().html(this.mModPanels[_modID].name)
-	for (var settingID in this.mModPanels[_modID].settings)
+
+	for (var i = 0; i < this.mModPanels[_modID].settings.length; i++)
 	{
-		this["create" + this.mModPanels[_modID].settings[settingID].type + "Setting"](_modID, settingID, this.mModPageScrollContainer)
+		this["create" + this.mModPanels[_modID].settings[i].type + "Setting"](_modID, i, this.mModPageScrollContainer)
 	}
 }
 
-ModSettingsScreen.prototype.createBooleanSetting = function (_modID, _settingID, _parentDiv)
+ModSettingsScreen.prototype.createBooleanSetting = function (_modID, _settingIdx, _parentDiv)
 {
 	var layout = $('<div class="boolean-container out"/>');
 	_parentDiv.append(layout);
-	var checkbox = $('<input type="checkbox" id= "' + _settingID + '-id" name="' + _settingID +'-name" />');
+	var checkbox = $('<input type="checkbox" id= "' + _settingIdx + '-id" name="' + _settingIdx +'-name" />');
 	layout.append(checkbox);
-	var label = $('<label class="text-font-normal font-color-subtitle" for="cb-camera-adjust">' + this.mModPanels[_modID].settings[_settingID].name + '</label>');
+	var label = $('<label class="text-font-normal font-color-subtitle" for="cb-camera-adjust">' + this.mModPanels[_modID].settings[_settingIdx].name + '</label>');
 	layout.append(label);
 	checkbox.iCheck({
 		checkboxClass: 'icheckbox_flat-orange',
 		radioClass: 'iradio_flat-orange',
 		increaseArea: '30%'
     });
-    checkbox.iCheck(this.mModPanels[_modID].settings[_settingID].value === true ? 'check' : 'uncheck')
-    label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _modID + "." + _settingID });
+    checkbox.iCheck(this.mModPanels[_modID].settings[_settingIdx].value === true ? 'check' : 'uncheck')
+    label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _modID + "." + _settingIdx });
 }
 
 ModSettingsScreen.prototype.getChanges = function ()
