@@ -53,7 +53,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
 	var dialogLayout = $('<div class="l-dialog-container out"/>');
 	this.mContainer.append(dialogLayout);
-	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', null, null, false, 'dialog-1024-768');
+	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
 
 	//Background for main menu screen
 	this.mBackgroundImage = this.mContainer.createImage(null, function (_image)
@@ -91,8 +91,11 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	this.mListContainer = pagesListScrollContainer.createList(2);
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
 
-	this.mModPageScrollContainer = $('<div class="l-page-container out"/>');
-	content.append(this.mModPageScrollContainer);
+	var modPageContainerLayout = $('<div class="l-page-container out"/>')
+
+	content.append(modPageContainerLayout);
+    this.mModPageContainer = modPageContainerLayout.createList(4);
+    this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
 }
 
 ModSettingsScreen.prototype.destroyDIV = function ()
@@ -150,10 +153,9 @@ ModSettingsScreen.prototype.switchToMod = function (_modID)
 {
 	this.mModPageScrollContainer.empty()
 	console.error("switchToMod " + _modID);
+	this.mContainer.findDialogSubTitle().html(this.mModPanels[_modID].name)
 	for (var settingID in this.mModPanels[_modID].settings)
 	{
-		console.error("creating setting " + settingID);
-		console.error("calling: create" + this.mModPanels[_modID].settings[settingID].type + "Setting")
 		this["create" + this.mModPanels[_modID].settings[settingID].type + "Setting"](_modID, settingID, this.mModPageScrollContainer)
 	}
 }
