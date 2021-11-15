@@ -14,6 +14,7 @@ this.getroottable().MSU.registerUIFiles <- function()
 				this.MSU.SettingsScreen.connect();
 				this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			}
+			this.MSU.SettingsScreen.show(true);
 			this.m.MainMenuScreen.hide();
 			this.m.MenuStack.push(function ()
 			{
@@ -23,7 +24,6 @@ this.getroottable().MSU.registerUIFiles <- function()
 			{
 				return !this.MSU.SettingsScreen.isAnimating()
 			});
-			this.MSU.SettingsScreen.show(true);
 		}
 	});
 

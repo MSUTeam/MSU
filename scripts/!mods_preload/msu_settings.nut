@@ -375,7 +375,16 @@ gt.MSU.setupSettingsSystem <- function()
 
 
 	local test = this.MSU.BooleanSetting("TestBool", true);
+	local test1 = this.MSU.BooleanSetting("TestBool1", false);
 	local testPage = this.MSU.SettingsPage("TestPage", "MSU");
+	local testPage1 = this.MSU.SettingsPage("TestPage1", "MSU1");
+	local testPage2 = this.MSU.SettingsPage("TestPage2", "MSU2");
+	local testPage3 = this.MSU.SettingsPage("TestPage3", "MSU3");
 	testPage.add(test);
+	testPage.add(test1);
 	this.MSU.SettingsManager.add(testPage);
+	this.MSU.SettingsManager.add(testPage1);
+	this.MSU.SettingsManager.add(testPage2);
+	this.MSU.SettingsManager.add(testPage3);
+
 }

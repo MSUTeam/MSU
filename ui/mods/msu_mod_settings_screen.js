@@ -7,19 +7,27 @@ var ModSettingsScreen = function ()
 	this.mModPanels = {};
 	this.mChangedPanels = {};
 	this.mDialogContainer = null;
+	this.mListContainer = null;
+	this.mListScrollContainer = null;
+	this.mBackgroundImage = null;
+	this.mModPageScrollContainer = null;
 	/*
 
 	this.mModPanels = 
 	{
 		modID : 
 		{
-			settingID : 
-			{
-				type = "",
-				name = "",
-				value = 0,
-				locked = false,
+			name = "",
+			settings = {
+				settingID : 
+				{
+					type = "",
+					name = "",
+					value = 0,
+					locked = false,
+				}
 			}
+			
 		}
 	}
 	*/
@@ -29,9 +37,9 @@ var ModSettingsScreen = function ()
 // Inheritance in JS
 ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype)
 Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
-    value: ModSettingsScreen,
-    enumerable: false,
-    writable: true });
+	value: ModSettingsScreen,
+	enumerable: false,
+	writable: true });
 
 ModSettingsScreen.prototype.onConnection = function (_handle)
 {
@@ -43,33 +51,48 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
-	var dialogLayout = $('<div class="l-dialog-container"/>');
+	var dialogLayout = $('<div class="l-dialog-container out"/>');
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', null, null, false, 'dialog-1024-768');
 
+	//Background for main menu screen
+	this.mBackgroundImage = this.mContainer.createImage(null, function (_image)
+	{
+	    _image.removeClass('display-none').addClass('display-block');
+	    _image.fitImageToParent();
+	}, function (_image)
+	{
+	    _image.fitImageToParent();
+	}, 'display-none');
+
 	//Footer Bar
-	var footerButtonBar = $('<div class="l-button-bar"></div>');
+	var footerButtonBar = $('<div class="l-button-bar out"></div>');
 	this.mDialogContainer.findDialogFooterContainer().append(footerButtonBar);
 
-	var layout = $('<div class="l-cancel-button"/>');
+	var layout = $('<div class="l-cancel-button out"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Cancel", function ()
 	{
-	    self.notifyBackendCancelButtonPressed();
-	}, '', 4);
+		self.notifyBackendCancelButtonPressed();
+	}, '', 1);
 
-	var layout = $('<div class="l-ok-button"/>');
+	var layout = $('<div class="l-ok-button out"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
-	    self.notifyBackendSaveButtonPressed();
-	}, '', 4);
+		self.notifyBackendSaveButtonPressed();
+	}, '', 1);
 
+	//List Container
 	var content = this.mContainer.findDialogContentContainer();
-	var modPageListContainerLayout = $('<div class="l-list-container"></div>');
-	content.append(modPageListContainerLayout);
-	this.mListContainer = modPageListContainerLayout.createList(2);
+	content.addClass('out')
+	var pagesListScrollContainer = $('<div class="l-list-container out"/>');
+	content.append(pagesListScrollContainer);
+	this.mListContainer = pagesListScrollContainer.createList(2);
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
+
+	this.mModPageScrollContainer = $('<div class="l-page-container out"/>');
+	content.append(this.mModPageScrollContainer);
 }
 
 ModSettingsScreen.prototype.destroyDIV = function ()
@@ -83,15 +106,72 @@ ModSettingsScreen.prototype.destroyDIV = function ()
 
 ModSettingsScreen.prototype.show = function (_data)
 {
+	this.mBackgroundImage.attr('src', Screens["MainMenuScreen"].mBackgroundImage.attr('src'));
 	this.mModPanels = _data;
-	this.createModPanels();
+	this.mListScrollContainer.empty()
+	this.createModPageList();
 
 	MSUUIScreen.prototype.show.call(this,_data);
 }
 
-ModSettingsScreen.prototype.createModPanels = function ()
+ModSettingsScreen.prototype.createModPageList = function ()
 {
+	for (var modID in this.mModPanels)
+	{
+		this.addModPageButtonToList(modID);
+	}
 
+	this.mListContainer.aciScrollBar({
+		delta: 8,
+		lineDelay: 0,
+		lineTimer: 0,
+		pageDelay: 0,
+		pageTimer: 0,
+		bindKeyboard: false,
+		resizable: false,
+		smoothScroll: false
+	});
+}
+
+ModSettingsScreen.prototype.addModPageButtonToList = function (_modID)
+{
+	var self = this;
+	var result = $('<div class="l-row"/>');
+	var buttonLayout = $('<div class="l-button"/>');
+	result.append(buttonLayout);
+	var button = buttonLayout.createTextButton(this.mModPanels[_modID].name, function ()
+	{
+		self.switchToMod(_modID);
+	}, '', 4)
+	this.mListScrollContainer.append(result);
+}
+
+ModSettingsScreen.prototype.switchToMod = function (_modID)
+{
+	this.mModPageScrollContainer.empty()
+	console.error("switchToMod " + _modID);
+	for (var settingID in this.mModPanels[_modID].settings)
+	{
+		console.error("creating setting " + settingID);
+		console.error("calling: create" + this.mModPanels[_modID].settings[settingID].type + "Setting")
+		this["create" + this.mModPanels[_modID].settings[settingID].type + "Setting"](_modID, settingID, this.mModPageScrollContainer)
+	}
+}
+
+ModSettingsScreen.prototype.createBooleanSetting = function (_modID, _settingID, _parentDiv)
+{
+	var layout = $('<div class="boolean-container out"/>');
+	_parentDiv.append(layout);
+	var checkbox = $('<input type="checkbox" id= "' + _settingID + '-id" name="' + _settingID +'-name" />');
+	layout.append(checkbox);
+	var label = $('<label class="text-font-normal font-color-subtitle" for="cb-camera-adjust">' + this.mModPanels[_modID].settings[_settingID].name + '</label>');
+	layout.append(label);
+	checkbox.iCheck({
+		checkboxClass: 'icheckbox_flat-orange',
+		radioClass: 'iradio_flat-orange',
+		increaseArea: '30%'
+    });
+    checkbox.iCheck(this.mModPanels[_modID].settings[_settingID].value === true ? 'check' : 'uncheck')
 }
 
 ModSettingsScreen.prototype.getChanges = function ()
@@ -100,11 +180,9 @@ ModSettingsScreen.prototype.getChanges = function ()
 	for (var modID in this.mModPanels)
 	{
 		changes[modID] = {}
-		for (var settingID in this.mModPanels[modID]["settings"])
+		for (var settingID in this.mModPanels[modID].settings)
 		{
-			console.error(modID + " | " + settingID + " | ")
-			console.error(this.mModPanels[modID]["settings"][settingID]["value"])
-			changes[modID][settingID] = this.mModPanels[modID]["settings"][settingID]["value"];
+			changes[modID][settingID] = this.mModPanels[modID].settings[settingID].value;
 		}
 	}
 	return changes;
