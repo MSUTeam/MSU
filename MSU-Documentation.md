@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.23
+Documentation for v0.6.24
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -594,6 +594,90 @@ This is generally discouraged, as modders are encouraged to use the WeaponType s
 `<weapon>.setCategories( _categories, _setupWeaponType = true )`
 
 `_categories` is a string which will become the new `this.m.Categories` of that weapon. If `_setupWeaponType` is true, then MSU will automatically rebuild the WeaponType of the system based on the new categories string.
+
+# Party, Player Party, Scenarios 🟢
+MSU adds a robust movement speed system for parties on the world map. This is accomplished via new fields, new functions as well as some modified vanilla functions.
+
+## `party`
+### New fields
+MSU adds the following new fields to `party`:
+- `BaseMovementSpeedMult`
+- `MovementSpeedMult`
+- `RealBaseMovementSpeed` which is equal to `BaseMovementSpeed`
+- `MovementSpeedFunctions` which is an array to which functions can be added which change the `MovementSpeedMultiplier`
+
+### New functions
+MSU adds the following new functions to `party`:
+- `setBaseMovementSpeed ( _speed )`
+
+Sets the `this.m.BaseMovementSpeed` field to `_speed`.
+
+- `resetBaseMovementSpeed()`
+
+Sets the `this.m.BaseMovementSpeed` to `this.m.RealBaseMovementSpeed`.
+
+- `getBaseMovementSpeedMult()`
+
+Returns `this.m.BaseMovementSpeedMult`.
+
+- `setBaseMovementSpeedMult( _mult )`
+
+Sets `this.m.BaseMovementSpeedMult` to `_mult`.
+
+- `getMovementSpeedMult()`
+
+Returns `this.m.MovementSpeedMult`.
+
+- `setMovementSpeedMult( _mult )`
+
+Sets `this.m.MovementSpeedMult` to `_mult`.
+
+- `getFinalMovementSpeedMult()`
+
+Calls all the functions in the `this.m.MovementSpeedFunctions` array and multiplies the returned values together. Then returns this resulting multiplier.
+
+- `updateMovementSpeedMult()`
+
+Sets `this.m.MovementSpeedMult` to the return value of `getFinalMovementSpeedMult()`. Intended to be called after any movement speed factors might have changed.
+
+### Modified functions
+- `getMovementSpeed()`
+
+Now returns the produce of `this.m.BaseMovementSpeed` and `this.m.MovementSpeedMult`.
+
+- `onUpdate()`
+
+Hooked to set `this.m.BaseMovementSpeed` equal to `getMovementSpeed()`. Calls `resetBaseMovementSpeed()` after `onUpdate()`.
+
+## `player_party`
+Calls `resetBaseMovementSpeed()` and sets `this.m.BaseMovementSpeedMult` to 1.05 to result in the vanilla player party movement speed of 105.
+
+### New Functions
+- `getRosterMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the roster, checks for `getMovementSpeedMult` key in each brother. Returns mult float.
+
+- `getStashMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to items, checks for `getMovementSpeedMult` key in each item in the player stash. Returns mult float.
+
+- `getOriginMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the origin/scenario, checks for `getMovementSpeedMult` key in the origin. Returns mult float.
+
+- `getRetinueMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the retinue, checks for `getMovementSpeedMult` key in each follower. Returns mult float.
+
+### Modified Functions
+- `create()`
+
+Hooked to push the previous four functions to `this.m.MovementSpeedMultFunctions`.
+
+## Scenarios
+The following scenarios were hooked to conform to the new MSU standards while achieving the same results as vanilla:
+
+- Rangers scenario: `onInit()` was hooked to reset the `this.m.BaseMovementSpeed` to 100 and then added the `getMovementSpeedMult()` function to return the appropriate value to achieve the same speed as vanilla rangers scenario.
 
 # Misc 🟢
 MSU adds useful functionality to various miscellaneous classes.
