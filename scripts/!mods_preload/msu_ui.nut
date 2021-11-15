@@ -23,8 +23,6 @@ this.getroottable().MSU.registerUIFiles <- function()
 			{
 				return !this.MSU.SettingsScreen.isAnimating()
 			});
-			this.logInfo(this.MSU.SettingsScreen);
-			this.logInfo(this.MSU.SettingsScreen.isAnimating());
 			this.MSU.SettingsScreen.show(true);
 		}
 	});

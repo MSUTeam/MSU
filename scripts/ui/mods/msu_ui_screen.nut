@@ -113,7 +113,6 @@ this.msu_ui_screen <- {
 	{
 		this.m.Visible = true;
 		this.m.Animating = false;
-		this.logInfo("Screen Shown");
 	}
 
 	function onScreenHidden()

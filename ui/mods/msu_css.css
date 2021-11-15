@@ -23,3 +23,15 @@
     margin: auto;
     z-index: 2;
 }
+
+.msu-screen .dialog .content .l-list-container
+{
+	width: 30%;
+    position: absolute;
+}
+
+.msu-screen .dialog .content .l-list-container .scroll-container
+{
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}

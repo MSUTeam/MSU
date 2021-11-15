@@ -5,6 +5,7 @@ var ModSettingsScreen = function ()
 	MSUUIScreen.call(this);
 
 	this.mModPanels = {};
+	this.mChangedPanels = {};
 	this.mDialogContainer = null;
 	/*
 
@@ -18,7 +19,6 @@ var ModSettingsScreen = function ()
 				name = "",
 				value = 0,
 				locked = false,
-
 			}
 		}
 	}
@@ -53,12 +53,24 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 	var layout = $('<div class="l-cancel-button"/>');
 	footerButtonBar.append(layout);
-	this.mNoButton = layout.createTextButton("Cancel", function ()
+	layout.createTextButton("Cancel", function ()
 	{
 	    self.notifyBackendCancelButtonPressed();
 	}, '', 4);
-}
 
+	var layout = $('<div class="l-ok-button"/>');
+	footerButtonBar.append(layout);
+	layout.createTextButton("Save", function ()
+	{
+	    self.notifyBackendSaveButtonPressed();
+	}, '', 4);
+
+	var content = this.mContainer.findDialogContentContainer();
+	var modPageListContainerLayout = $('<div class="l-list-container"></div>');
+	content.append(modPageListContainerLayout);
+	this.mListContainer = modPageListContainerLayout.createList(2);
+	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
+}
 
 ModSettingsScreen.prototype.destroyDIV = function ()
 {
@@ -69,11 +81,48 @@ ModSettingsScreen.prototype.destroyDIV = function ()
 	MSUUIScreen.prototype.destroyDIV.call(this);
 }
 
+ModSettingsScreen.prototype.show = function (_data)
+{
+	this.mModPanels = _data;
+	this.createModPanels();
+
+	MSUUIScreen.prototype.show.call(this,_data);
+}
+
+ModSettingsScreen.prototype.createModPanels = function ()
+{
+
+}
+
+ModSettingsScreen.prototype.getChanges = function ()
+{
+	var changes = {}
+	for (var modID in this.mModPanels)
+	{
+		changes[modID] = {}
+		for (var settingID in this.mModPanels[modID]["settings"])
+		{
+			console.error(modID + " | " + settingID + " | ")
+			console.error(this.mModPanels[modID]["settings"][settingID]["value"])
+			changes[modID][settingID] = this.mModPanels[modID]["settings"][settingID]["value"];
+		}
+	}
+	return changes;
+}
+
 ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
 	if (this.mSQHandle !== null)
 	{
 		SQ.call(this.mSQHandle, 'onCancelButtonPressed');
+	}
+}
+
+ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
+{
+	if (this.mSQHandle !== null)
+	{
+		SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
 	}
 }
 

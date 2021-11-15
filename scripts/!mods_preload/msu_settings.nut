@@ -48,6 +48,11 @@ gt.MSU.setupSettingsSystem <- function()
 			return Name;
 		}
 
+		function getID()
+		{
+			return ID;
+		}
+
 		function lock( _lockReason = "" ) //uncertain if this won't fuck up
 		{
 			Locked = true;
@@ -65,6 +70,7 @@ gt.MSU.setupSettingsSystem <- function()
 			return {
 				type = Type,
 				name = Name,
+				locked = Locked,
 				value = Value
 			}
 		}
@@ -341,13 +347,12 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			local ret = {
 				name = PageName,
-				mod = ModID,
-				settings = []
+				settings = {}
 			}
 
 			foreach (setting in Settings)
 			{
-				ret.settings.push(setting.getUIData())
+				ret.settings[setting.getID()] <- setting.getUIData();
 			}
 			return ret;
 		}
@@ -372,5 +377,5 @@ gt.MSU.setupSettingsSystem <- function()
 	local test = this.MSU.BooleanSetting("TestBool", true);
 	local testPage = this.MSU.SettingsPage("TestPage", "MSU");
 	testPage.add(test);
-	this.MSU.SettingsManager.addPage(testPage);
+	this.MSU.SettingsManager.add(testPage);
 }
