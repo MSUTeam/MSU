@@ -21,10 +21,8 @@ gt.MSU <- {};
 	delete gt.MSU.setupTileUtils;
 	gt.MSU.setupLoggingUtils();
 	delete gt.MSU.setupLoggingUtils;
-	gt.MSU.setupStringUtils();
-	delete gt.MSU.setupStringUtils;
-	gt.MSU.setupMathUtils();
-	delete gt.MSU.setupMathUtils;
+	gt.MSU.setupUtils();
+	delete gt.MSU.setupUtils;
 
 	gt.MSU.modItemContainer();
 	delete gt.MSU.modItemContainer;
