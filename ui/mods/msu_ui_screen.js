@@ -34,9 +34,7 @@ MSUUIScreen.prototype.registerEventListener = function (_listener)
 
 MSUUIScreen.prototype.createDIV = function (_parentDiv)
 {
-	this.mContainer = $('<div class="msu-screen ui-control dialog-modal-background display-none opacity-none"/>');
-	console.error("createDIV ran in MSUUIScreen")
-	console.error(this.mContainer)
+	this.mContainer = $('<div class="msu-screen dialog-screen ui-control display-none opacity-none"/>');
 	_parentDiv.append(this.mContainer);
 }
 
@@ -59,27 +57,24 @@ MSUUIScreen.prototype.unbindtooltips = function ()
 
 MSUUIScreen.prototype.show = function (_data)
 {
-	var self = this;
-	console.error("hi")
-	console.error("this.mContainer =")
-	console.error(this.mContainer)
+    var self = this;
     this.mContainer.velocity("finish", true).velocity({ opacity: 1 },
-	{
-        duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
+    {
+        duration: 0,
         easing: 'swing',
-		begin: function()
-		{
+        begin: function ()
+        {
+            $(this).css({ opacity: 0 });
             $(this).removeClass('display-none').addClass('display-block');
             self.notifyBackendOnAnimating();
-            self.showBackgroundImage();
         },
-		complete: function()
-		{
-    		console.error("completed")
+        complete: function ()
+        {
+            self.mIsVisible = true;
             self.notifyBackendOnShown();
         }
     });
-}
+};
 
 MSUUIScreen.prototype.hide = function ()
 {
@@ -94,6 +89,7 @@ MSUUIScreen.prototype.hide = function ()
         },
 		complete: function()
 		{
+			$(this).css({ opacity: 0 });
             $(this).removeClass('display-block').addClass('display-none');
             self.notifyBackendOnHidden();
         }
@@ -153,12 +149,10 @@ MSUUIScreen.prototype.isRegistered = function ()
 
 MSUUIScreen.prototype.showBackgroundImage = function ()
 {
-	this.mBackgroundImage.attr('src', Path.GFX + Asset.BACKGROUND_INVENTORY);
+
 }
 
 //Notify backend Functions
-
-
 MSUUIScreen.prototype.notifyBackendOnShown = function ()
 {
 	if (this.mSQHandle !== null)

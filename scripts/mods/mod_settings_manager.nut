@@ -5,7 +5,7 @@ this.mod_settings_manager <- {
 	
 	function addPage( _page )
 	{
-		this.m.Pages[_page.ModID] = _page;
+		this.m.Pages[_page.ModID] <- _page;
 	}
 
 	function updateSettings( _data )
@@ -29,11 +29,14 @@ this.mod_settings_manager <- {
 
 	function getUIData()
 	{
-		local ret = [];
+		this.logInfo("getUIData");
+		local ret = {};
 		foreach (page in this.m.Pages)
 		{
-			ret[page.getModID()] <- page.getPageForUI();
+			ret[page.getModID()] <- page.getUIData();
 		}
+
+		this.MSU.Log.printStackTrace()
 		return ret;
 	}
 }

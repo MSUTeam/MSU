@@ -11,3 +11,15 @@
 	
 	overflow: hidden;
 }
+
+.msu-screen .l-dialog-container {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 102.4rem;
+    height: 76.8rem;
+    position: absolute;
+    margin: auto;
+    z-index: 2;
+}

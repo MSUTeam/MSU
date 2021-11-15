@@ -113,6 +113,7 @@ this.msu_ui_screen <- {
 	{
 		this.m.Visible = true;
 		this.m.Animating = false;
+		this.logInfo("Screen Shown");
 	}
 
 	function onScreenHidden()
@@ -125,6 +126,11 @@ this.msu_ui_screen <- {
 	function onScreenAnimating()
 	{
 		this.m.Animating = true;
+	}
+
+	function isConnected()
+	{
+		return this.m.JSHandle != null;
 	}
 
 }
