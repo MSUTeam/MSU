@@ -1,5 +1,8 @@
 # Modding Standards & Utilities (MSU)
 Changelog
+## 0.6.23
+- Added hooks to party and player_party to improve movement speed handling
+- Added hook to starting_scenario to to improve movement speed handling
 
 ## 0.6.23
 - Removed the hooks on the AI functions of `onTurnStarted`, `onTurnResumed` and `onTurnEnd` which were being used to reset `IsExecutingSkillMove` of `skill_container` as this is no longer neceessary as the boolean is now reset within `onAnySkillExecuted`.
