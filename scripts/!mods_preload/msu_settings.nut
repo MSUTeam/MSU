@@ -43,6 +43,11 @@ gt.MSU.setupSettingsSystem <- function()
 			Description = _description;
 		}
 
+		function getDescription()
+		{
+			return Description;
+		}
+
 		function getName()
 		{
 			return Name;

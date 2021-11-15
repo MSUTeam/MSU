@@ -123,17 +123,6 @@ ModSettingsScreen.prototype.createModPageList = function ()
 	{
 		this.addModPageButtonToList(modID);
 	}
-
-	this.mListContainer.aciScrollBar({
-		delta: 8,
-		lineDelay: 0,
-		lineTimer: 0,
-		pageDelay: 0,
-		pageTimer: 0,
-		bindKeyboard: false,
-		resizable: false,
-		smoothScroll: false
-	});
 }
 
 ModSettingsScreen.prototype.addModPageButtonToList = function (_modID)
@@ -174,6 +163,7 @@ ModSettingsScreen.prototype.createBooleanSetting = function (_modID, _settingID,
 		increaseArea: '30%'
     });
     checkbox.iCheck(this.mModPanels[_modID].settings[_settingID].value === true ? 'check' : 'uncheck')
+    label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _modID + "." + _settingID });
 }
 
 ModSettingsScreen.prototype.getChanges = function ()

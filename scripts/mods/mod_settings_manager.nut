@@ -8,6 +8,11 @@ this.mod_settings_manager <- {
 		this.m.Pages[_page.ModID] <- _page;
 	}
 
+	function get( _modID )
+	{
+		return this.m.Pages[_modID];
+	}
+
 	function updateSettings( _data )
 	{
 		/*
