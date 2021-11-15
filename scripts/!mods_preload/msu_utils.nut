@@ -59,7 +59,7 @@ gt.MSU.setupUtils <- function()
 		function getRandom( _array, _start = 0, _end = 0 )
 		{
 			_end = _end == 0 ? _array.len() - 1 : _end;
-			return _array[0 + _start, _end];
+			return _array[this.Math.rand(0 + _start, _end)];
 		}
 
 		function shuffle( _array )
