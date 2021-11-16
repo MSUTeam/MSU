@@ -15,6 +15,7 @@ gt.MSU.modPlayerParty <- function ()
 			this.m.MovementSpeedMultFunctions.push(this.getStashMovementSpeedMult);
 			this.m.MovementSpeedMultFunctions.push(this.getOriginMovementSpeedMult);
 			this.m.MovementSpeedMultFunctions.push(this.getRetinueMovementSpeedMult);
+			this.m.MovementSpeedMultFunctions.push(this.getTerrainTypeSpeedMult);
 		}
 
 		o.getRosterMovementSpeedMult <- function()
@@ -68,6 +69,11 @@ gt.MSU.modPlayerParty <- function ()
 				}
 			}
 			return mult;
+		}
+
+		o.getTerrainTypeSpeedMult <- function(){
+			local myTile = this.getTile();
+			return this.World.Assets.getTerrainTypeSpeedMult(myTile.Type);
 		}
 	});
 }
