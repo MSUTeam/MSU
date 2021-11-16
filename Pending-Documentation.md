@@ -1,6 +1,7 @@
 # Modding Standards & Utilities (MSU)
 Pending Documentation
 
+<<<<<<< HEAD
 - Added function `isActiveEntity( _entity )` to turn_sequence_bar to conveniently check if the given entity is the current active entity.
 - resetting of IsExecutingSkillMove via agent
 
@@ -59,3 +60,5 @@ onInit()
 	-hooked to check if origin changes BaseMovementSpeed. If true, calls resetBaseMovementSpeed() and adds getMovementSpeedMult() to the origin which returns the difference as a mult
 
 
+=======
+>>>>>>> main

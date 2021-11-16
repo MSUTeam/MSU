@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.19
+Documentation for v0.6.24
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -431,6 +431,78 @@ In order to prevent Serpents from gaining Arm related injuries, hook the `onInit
 this.addExcludedInjuries(this.Const.Injury.ExcludedInjuries.Arm);
 ```
 
+# Actor 🟢
+## `getActionPointsMax()`
+MSU modifies the vanilla `getActionPointsMax` function of `actor` to now return a floored value.
+
+## Convenience Functions
+MSU adds several convenience functions to actor which allow for cleaner code and a faster modding experience.
+
+### Getting actors at a certain distance
+- `<actor>.getActorsAtDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns an array of all actors at a distance of `_distance` from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
+
+- `<actor>.getRandomActorAtDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns a random actor at a distance of `_distance` from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
+
+### Getting actors within a certain distance
+- `<actor>.getActorsWithinDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns an array of all actors within a distance of `_distance` inclusive from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
+
+- `<actor>.getRandomActorWithinDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+
+Returns a random actor within a distance of `_distance` inclusive from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
+
+### Getting items
+- `<actor>`.getMainhandItem()
+
+Returns the item currently equipped by `<actor>` in the Mainhand item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getOffhandItem()
+
+Returns the item currently equipped by `<actor>` in the Offhand item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getHeadItem()
+
+Returns the item currently equipped by `<actor>` in the Head item slot. Returns null if no item is found in that slot.
+
+- `<actor>`.getBodyItem()
+
+Returns the item currently equipped by `<actor>` in the Body item slot. Returns null if no item is found in that slot.
+
+### Checking equipment
+- `<actor>`.isArmedWithOneHandedWeapon()
+
+Returns true if `<actor>` is currently holding a One-Handed item in their Mainhand, otherwise returns false.
+
+- `<actor>`.isArmedWithMeleeOrUnarmed()
+
+Returns true if `<actor>` is currently holding a Melee Weapon in their Mainhand or have the Hand to Hand active skill. Returns false if neither is true.
+
+- `<actor>`.isArmedWithTwoHandedWeapon()
+
+Returns true if `<actor>` is currently holding a Two-Handed item in their Mainhand, otherwise returns false.
+
+- `<actor>`.getRemainingArmorFraction()
+
+Returns a float which is the current total head and body remaining armor durability as a fraction of the maximum total head and armmor armor durability.
+
+- `<actor>`.getTotalArmorStaminaModifier()
+
+Returns an integer which is the total stamina modifier of `<actor>`'s currently equippped head and body armor. Returns 0 if no armor is equipped.
+
+### Checking situation
+- `<actor>`.isEngagedInMelee()
+
+Returns true only if `<actor>` is placed on the tactical map **and** there is an enemy who is exerting zone of control on `<actor>`. Otherwise returns false.
+
+- `<actor>`.isDoubleGrippingWeapon()
+
+Returns true if `<actor>` has access to the `special.double_grip` skill and the skill is not hidden. Otherwise returns false.
+
 # Items 🟡
 MSU provides functions to safely add a new ItemType to the game, and to modify the ItemType of items.
 
@@ -523,25 +595,118 @@ This is generally discouraged, as modders are encouraged to use the WeaponType s
 
 `_categories` is a string which will become the new `this.m.Categories` of that weapon. If `_setupWeaponType` is true, then MSU will automatically rebuild the WeaponType of the system based on the new categories string.
 
+# Party, Player Party, Scenarios 🟢
+MSU adds a robust movement speed system for parties on the world map. This is accomplished via new fields, new functions as well as some modified vanilla functions.
+
+## `party`
+### New fields
+MSU adds the following new fields to `party`:
+- `BaseMovementSpeedMult`
+- `MovementSpeedMult`
+- `RealBaseMovementSpeed` which is equal to `BaseMovementSpeed`
+- `MovementSpeedFunctions` which is an array to which functions can be added which change the `MovementSpeedMultiplier`
+
+### New functions
+MSU adds the following new functions to `party`:
+- `setBaseMovementSpeed ( _speed )`
+
+Sets the `this.m.BaseMovementSpeed` field to `_speed`.
+
+- `resetBaseMovementSpeed()`
+
+Sets the `this.m.BaseMovementSpeed` to `this.m.RealBaseMovementSpeed`.
+
+- `getBaseMovementSpeedMult()`
+
+Returns `this.m.BaseMovementSpeedMult`.
+
+- `setBaseMovementSpeedMult( _mult )`
+
+Sets `this.m.BaseMovementSpeedMult` to `_mult`.
+
+- `getMovementSpeedMult()`
+
+Returns `this.m.MovementSpeedMult`.
+
+- `setMovementSpeedMult( _mult )`
+
+Sets `this.m.MovementSpeedMult` to `_mult`.
+
+- `getFinalMovementSpeedMult()`
+
+Calls all the functions in the `this.m.MovementSpeedFunctions` array and multiplies the returned values together. Then returns this resulting multiplier.
+
+- `updateMovementSpeedMult()`
+
+Sets `this.m.MovementSpeedMult` to the return value of `getFinalMovementSpeedMult()`. Intended to be called after any movement speed factors might have changed.
+
+### Modified functions
+- `getMovementSpeed()`
+
+Now returns the produce of `this.m.BaseMovementSpeed` and `this.m.MovementSpeedMult`.
+
+- `onUpdate()`
+
+Hooked to set `this.m.BaseMovementSpeed` equal to `getMovementSpeed()`. Calls `resetBaseMovementSpeed()` after `onUpdate()`.
+
+## `player_party`
+Calls `resetBaseMovementSpeed()` and sets `this.m.BaseMovementSpeedMult` to 1.05 to result in the vanilla player party movement speed of 105.
+
+### New Functions
+- `getRosterMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the roster, checks for `getMovementSpeedMult` key in each brother. Returns mult float.
+
+- `getStashMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to items, checks for `getMovementSpeedMult` key in each item in the player stash. Returns mult float.
+
+- `getOriginMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the origin/scenario, checks for `getMovementSpeedMult` key in the origin. Returns mult float.
+
+- `getRetinueMovementSpeedMult()`
+
+Queries any `movementSpeedMult` changes due to the retinue, checks for `getMovementSpeedMult` key in each follower. Returns mult float.
+
+### Modified Functions
+- `create()`
+
+Hooked to push the previous four functions to `this.m.MovementSpeedMultFunctions`.
+
+## Scenarios
+The following scenarios were hooked to conform to the new MSU standards while achieving the same results as vanilla:
+
+- Rangers scenario: `onInit()` was hooked to reset the `this.m.BaseMovementSpeed` to 100 and then added the `getMovementSpeedMult()` function to return the appropriate value to achieve the same speed as vanilla rangers scenario.
+
+# Misc 🟢
+MSU adds useful functionality to various miscellaneous classes.
+
+## `turn_sequence_bar`
+### Getting the active entity
+`this.Tactical.TurnSequenceBar.isActiveEntity( _entity )`
+
+Returns true if the current active entity is not null and is `_entity`.
+
 # Utilities 🟢
 ## Logging
-`this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+- `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
 
-`this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
+- `this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
 
 Enables or Disables the debug logging system for the mod id `_name`.
 
-`::printLog( _arg = "No argument for debug log", _name = "default")`
+- `::printLog( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logInfo`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_name`.
 
-`::printWarning( _arg = "No argument for debug log", _name = "default")`
+- `::printWarning( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logWarning`. Prints the warning as `_arg` if DebugLog is enabled for the mod id `_name`.
 
-`::printError( _arg = "No argument for debug log", _name = "default")`
+- `::printError( _arg = "No argument for debug log", _name = "default")`
 
 Is a substitute for `this.logError`. Prints the error as `_arg` if DebugLog is enabled for the mod id `_name`.
 
