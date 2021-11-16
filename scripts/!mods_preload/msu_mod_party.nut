@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.modParty <- function ()
 {
-	this.MSU.Log.setDebugLog(true, "msu_movement");
+	this.MSU.Log.setDebugLog(false, "msu_movement");
 	::mods_hookExactClass("entity/world/party", function(o) {
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
@@ -58,7 +58,7 @@ gt.MSU.modParty <- function ()
 
 		o.setMovementSpeed <- function(_speed)
 		{
-			this.setBaseMovementSpeedMult(_speed / 100);
+			this.setBaseMovementSpeedMult(_speed / 100.0);
 		}
 
 		o.setMovementSpeedMult <- function(_mult)
