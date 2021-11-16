@@ -1,16 +1,35 @@
 this.mod_settings_manager <- {
 	m = {
-		Pages = {}
+		Pages = null,
+		Locked = false
 	},
+
+	function create()
+	{
+		this.m.Pages = this.MSU.OrderedMap();
+	}
 	
 	function add( _page )
 	{
-		this.m.Pages[_page.ModID] <- _page;
+		if (this.m.Locked)
+		{
+			throw "Settings Manager is Locked, no more settings can be added";
+		}
+		else
+		{
+			this.m.Pages[_page.getModID()] <- _page;
+		}
 	}
 
 	function get( _modID )
 	{
 		return this.m.Pages[_modID];
+	}
+
+	function finalize()
+	{
+		this.m.Locked = true;
+		this.m.Pages.sort(this.sortPagesByName);
 	}
 
 	function updateSettings( _data )
@@ -34,13 +53,17 @@ this.mod_settings_manager <- {
 
 	function getUIData()
 	{
-		local ret = {};
+		local ret = [];
 		foreach (page in this.m.Pages)
 		{
-			ret[page.getModID()] <- page.getUIData();
+			ret.push(page.getUIData());
 		}
-
-		this.MSU.Log.printStackTrace(10, 20)
+		ret.reverse() //No idea why conversion to JS reverses the array, but it does so I am pre-empting this.
 		return ret;
+	}
+	
+	function sortPagesByName( _page1, _page2 )
+	{
+		return _page1.getName() <=> _page2.getName();
 	}
 }

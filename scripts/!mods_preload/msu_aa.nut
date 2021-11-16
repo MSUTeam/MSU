@@ -12,7 +12,8 @@ gt.MSU <- {};
 		Allied = 2,
 		Enemy = 3
 	}
-
+	gt.MSU.defineClasses();
+	delete gt.MSU.defineClasses;
 	gt.MSU.registerUIFiles();
 	delete gt.MSU.registerUIFiles;
 
@@ -63,4 +64,6 @@ gt.MSU <- {};
 
 	gt.MSU.modMisc();
 	delete gt.MSU.modMisc;
+
+
 });
