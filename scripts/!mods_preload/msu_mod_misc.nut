@@ -9,4 +9,13 @@ gt.MSU.modMisc <- function ()
 			return activeEntity != null && activeEntity.getID() == _entity.getID();
 		}
 	});
+
+	local old_assignTroops = gt.Const.World.Common.assignTroops;
+	gt.Const.World.Common.assignTroops <- function( _party, _partyList, _resources, _weightMode = 1)
+	{
+		local p = old_assignTroops( _party, _partyList, _resources, _weightMode);
+		_party.setBaseMovementSpeedMult(p.MovementSpeedMult);
+		_party.resetBaseMovementSpeed();
+		return p;
+	}
 }

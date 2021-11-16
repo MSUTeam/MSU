@@ -2,6 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.modParty <- function ()
 {
+	this.MSU.Log.setDebugLog(true, "msu_movement");
 	::mods_hookExactClass("entity/world/party", function(o) {
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
@@ -20,6 +21,16 @@ gt.MSU.modParty <- function ()
 			this.m.MovementSpeedMultFunctions.push(this.getNotPlayerMovementSpeedMult);
 		}
 
+		o.setRealBaseMovementSpeed <- function(_speed)
+		{
+			this.m.RealBaseMovementSpeed = _speed;
+		}
+
+		o.getRealBaseMovementSpeed <- function()
+		{
+			return this.m.RealBaseMovementSpeed;
+		}
+
 		o.setBaseMovementSpeed <- function(_speed)
 		{
 			this.m.BaseMovementSpeed = _speed;
@@ -27,7 +38,7 @@ gt.MSU.modParty <- function ()
 
 		o.resetBaseMovementSpeed <- function()
 		{
-			this.setBaseMovementSpeed(this.m.RealBaseMovementSpeed);
+			this.setBaseMovementSpeed(this.getRealBaseMovementSpeed());
 		}
 
 		o.getBaseMovementSpeedMult <- function()
@@ -43,6 +54,11 @@ gt.MSU.modParty <- function ()
 		o.getMovementSpeedMult <- function()
 		{
 			return this.m.MovementSpeedMult;
+		}
+
+		o.setMovementSpeed <- function(_speed)
+		{
+			this.setBaseMovementSpeedMult(_speed / 100);
 		}
 
 		o.setMovementSpeedMult <- function(_mult)
@@ -70,7 +86,12 @@ gt.MSU.modParty <- function ()
 			if (_update){
 				this.updateMovementSpeedMult();
 			}
-			return this.getBaseMovementSpeed() * this.getMovementSpeedMult();
+			// ::printLog( this.getName() + " has getBaseMovementSpeed of " + this.getBaseMovementSpeed(), "msu_movement");
+			// ::printLog( this.getName() + " has getBaseMovementSpeedMult of " + this.getBaseMovementSpeedMult(), "msu_movement");
+			// ::printLog( this.getName() + " has getMovementSpeedMult of " + this.getMovementSpeedMult(), "msu_movement");
+			local speed = this.getBaseMovementSpeed() * this.getMovementSpeedMult()
+			// ::printLog( this.getName() + " has total speed of " + speed, "msu_movement");
+			return speed;
 		}
 
 		o.getDistanceDelta <- function() 
@@ -84,11 +105,13 @@ gt.MSU.modParty <- function ()
 			return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
 		}
 
-		o.getGlobalMovementSpeedMult <- function(){
+		o.getGlobalMovementSpeedMult <- function()
+		{
 			return this.Const.World.MovementSettings.GlobalMult;
 		}
 
-		o.getRoadMovementSpeedMult <- function(){
+		o.getRoadMovementSpeedMult <- function()
+		{
 			if(this.isIgnoringCollision()){
 				return 1.0;
 			}
@@ -103,10 +126,11 @@ gt.MSU.modParty <- function ()
 			}
 		}
 
-		o.getNightTimeMovementSpeedMult <- function(){
+		o.getNightTimeMovementSpeedMult <- function()
+		{
 			if (!this.m.IsSlowerAtNight || this.World.isDaytime())
 			{
-				return 1.0	
+				return 1.0;
 			}
 			return this.Const.World.MovementSettings.NighttimeMult;
 		}
@@ -256,6 +280,31 @@ gt.MSU.modParty <- function ()
 				this.m.LastIdleSound = this.Time.getRealTimeF();
 				this.Sound.play(this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], this.Const.Sound.Volume.Ambience, this.getPos());
 			}
+		}
+		local onSerialize = o.onSerialize;
+		o.onSerialize = function( _out )
+		{
+			this.getFlags().set("RealBaseMovementSpeed", this.getRealBaseMovementSpeed());
+			this.getFlags().set("BaseMovementSpeedMult", this.getBaseMovementSpeedMult());
+			onSerialize(_out);
+		}
+
+		local onDeserialize = o.onDeserialize;
+		o.onDeserialize = function( _in )
+		{
+			onDeserialize(_in);
+			if (this.getFlags().has("RealBaseMovementSpeed"))
+			{
+				::printLog("Found RealBaseMovementSpeed in deserialise" + this.getFlags().get("RealBaseMovementSpeed"), "msu_movement");
+				this.setRealBaseMovementSpeed(this.getFlags().get("RealBaseMovementSpeed"));
+			}
+			if (this.getFlags().has("BaseMovementSpeedMult"))
+			{
+				::printLog("Found BaseMovementSpeedMult in deserialise" + this.getFlags().get("BaseMovementSpeedMult"), "msu_movement");
+				this.setBaseMovementSpeedMult(this.getFlags().get("BaseMovementSpeedMult"));
+			}
+			this.resetBaseMovementSpeed();
+
 		}
 	});
 }
