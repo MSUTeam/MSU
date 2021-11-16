@@ -86,15 +86,11 @@ gt.MSU.modParty <- function ()
 			if (_update){
 				this.updateMovementSpeedMult();
 			}
-			// ::printLog( this.getName() + " has getBaseMovementSpeed of " + this.getBaseMovementSpeed(), "msu_movement");
-			// ::printLog( this.getName() + " has getBaseMovementSpeedMult of " + this.getBaseMovementSpeedMult(), "msu_movement");
-			// ::printLog( this.getName() + " has getMovementSpeedMult of " + this.getMovementSpeedMult(), "msu_movement");
 			local speed = this.getBaseMovementSpeed() * this.getMovementSpeedMult()
-			// ::printLog( this.getName() + " has total speed of " + speed, "msu_movement");
 			return speed;
 		}
 
-		o.getDistanceDelta <- function() 
+		o.getTimeDelta <- function() 
 		{
 			local delta = this.Math.maxf(0.0, this.Time.getVirtualTimeF() - this.m.LastUpdateTime);
 			return delta;
@@ -154,20 +150,10 @@ gt.MSU.modParty <- function ()
 			return this.Const.World.MovementSettings.NotPlayerMult;
 		}
 
-
-		/*local old_onUpdate = o.onUpdate;
-		o.onUpdate = function()
-		{
-			this.updateMovementSpeedMult();
-			this.setBaseMovementSpeed(this.getMovementSpeed());
-			old_onUpdate();
-			this.resetBaseMovementSpeed();
-		}*/
-
 		o.onUpdate = function()
 		{
 			this.world_entity.onUpdate();
-			local delta = this.getDistanceDelta();
+			local delta = this.getTimeDelta();
 			this.m.LastUpdateTime = this.Time.getVirtualTimeF();
 			
 			if (this.isInCombat())
@@ -295,12 +281,10 @@ gt.MSU.modParty <- function ()
 			onDeserialize(_in);
 			if (this.getFlags().has("RealBaseMovementSpeed"))
 			{
-				::printLog("Found RealBaseMovementSpeed in deserialise" + this.getFlags().get("RealBaseMovementSpeed"), "msu_movement");
 				this.setRealBaseMovementSpeed(this.getFlags().get("RealBaseMovementSpeed"));
 			}
 			if (this.getFlags().has("BaseMovementSpeedMult"))
 			{
-				::printLog("Found BaseMovementSpeedMult in deserialise" + this.getFlags().get("BaseMovementSpeedMult"), "msu_movement");
 				this.setBaseMovementSpeedMult(this.getFlags().get("BaseMovementSpeedMult"));
 			}
 			this.resetBaseMovementSpeed();
