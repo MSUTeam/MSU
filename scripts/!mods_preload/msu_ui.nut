@@ -28,31 +28,6 @@ this.getroottable().MSU.registerUIFiles <- function()
 	});
 
 	//Need 3 separate hooks, one for each of the 'main' states
-	::mods_hookNewObjectOnce("states/world_state", function(o)
-	{
-		local onInitUI = o.onInitUI;
-		o.onInitUI = function()
-		{
-			onInitUI();
-			local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
-			mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
-		}
-
-		o.main_menu_module_onModOptionsPressed <- function()
-		{
-			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
-			this.MSU.SettingsScreen.show(true);
-			this.m.WorldMenuScreen.hide();
-			this.m.MenuStack.push(function ()
-			{
-				this.m.WorldMenuScreen.show();
-				this.MSU.SettingsScreen.hide();
-			}, function ()
-			{
-				return !this.MSU.SettingsScreen.isAnimating()
-			});
-		}
-	});
 
 	::mods_hookNewObjectOnce("states/main_menu_state", function(o)
 	{
@@ -80,6 +55,34 @@ this.getroottable().MSU.registerUIFiles <- function()
 		}
 	});
 
+	::mods_hookNewObjectOnce("states/world_state", function(o)
+	{
+		local onInitUI = o.onInitUI;
+		o.onInitUI = function()
+		{
+			onInitUI();
+			local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
+			mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
+		}
+
+		o.main_menu_module_onModOptionsPressed <- function()
+		{
+			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
+			this.toggleMenuScreen();
+			this.m.WorldScreen.hide()
+			this.MSU.SettingsScreen.show(true);
+			this.m.MenuStack.push(function ()
+			{
+				this.MSU.SettingsScreen.hide();
+				this.m.WorldScreen.show()
+				this.toggleMenuScreen();
+			}, function ()
+			{
+				return !this.MSU.SettingsScreen.isAnimating()
+			});
+		}
+	});
+
 	::mods_hookNewObjectOnce("states/tactical_state", function(o)
 	{
 		local onInitUI = o.onInitUI;
@@ -93,18 +96,18 @@ this.getroottable().MSU.registerUIFiles <- function()
 		o.main_menu_module_onModOptionsPressed <- function()
 		{
 			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
-			this.MSU.SettingsScreen.show(true);
 			this.m.TacticalMenuScreen.hide();
+			this.MSU.SettingsScreen.show(true);
 			this.m.MenuStack.push(function ()
 			{
-				this.m.TacticalMenuScreen.show(false);
 				this.MSU.SettingsScreen.hide();
-
+				local allowRetreat = this.m.StrategicProperties == null || !this.m.StrategicProperties.IsFleeingProhibited;
+				local allowQuit = !this.isScenarioMode();
+				this.m.TacticalMenuScreen.show(allowRetreat, allowQuit, !this.isScenarioMode() && this.World.Assets.isIronman() ? "Quit & Retire" : "Quit");
 			}, function ()
 			{
-				return !this.MSU.SettingsScreen.isAnimating();
+				return !this.MSU.SettingsScreen.isAnimating()
 			});
 		}
 	});
-
 }

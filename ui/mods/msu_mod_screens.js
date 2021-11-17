@@ -29,9 +29,16 @@
 	}
 
 	var createWorldMapMenuButtons = MainMenuModule.prototype.createWorldMapMenuButtons;
-	MainMenuModule.prototype.createWorldMapMenuButtons = function ()
+	MainMenuModule.prototype.createWorldMapMenuButtons = function (_isSavingAllowed, _seed)
 	{
-		createWorldMapMenuButtons.call(this);
+		createWorldMapMenuButtons.call(this, _isSavingAllowed, _seed);
+		this.addModOptionsButton();
+	}
+
+	var createTacticalMapMenuButtons = MainMenuModule.prototype.createTacticalMapMenuButtons;
+	MainMenuModule.prototype.createTacticalMapMenuButtons = function (_isRetreatAllowed, _isQuitAllowed, _quitText)
+	{
+		createTacticalMapMenuButtons.call(this, _isRetreatAllowed, _isQuitAllowed, _quitText);
 		this.addModOptionsButton();
 	}
 }
