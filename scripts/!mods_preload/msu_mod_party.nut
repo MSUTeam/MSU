@@ -2,23 +2,24 @@ local gt = this.getroottable();
 
 gt.MSU.modParty <- function ()
 {
+
 	this.MSU.Log.setDebugLog(false, "msu_movement");
 	::mods_hookExactClass("entity/world/party", function(o) {
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
 		o.m.MovementSpeedMult <- 1.0;
-		o.m.MovementSpeedMultFunctions <- [];
+		o.m.MovementSpeedMultFunctions = {};
 
 		local create = o.create;
 		o.create = function()
 		{
 			create();
-			this.m.MovementSpeedMultFunctions.push(this.getBaseMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getSlowdownPerUnitMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getGlobalMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getNightTimeMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getRiverMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getNotPlayerMovementSpeedMult);
+			this.m.MovementSpeedMultFunctions["BaseMovementSpeedMult"] <- this.getBaseMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["SlowdownPerUnitMovementSpeedMult"] <- this.getSlowdownPerUnitMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["GlobalMovementSpeedMult"] <- this.getGlobalMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["NightTimeMovementSpeedMult"] <- this.getNightTimeMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["RiverMovementSpeedMult"] <- this.getRiverMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["NotPlayerMovementSpeedMult"] <- this.getNotPlayerMovementSpeedMult;
 		}
 
 		o.setRealBaseMovementSpeed <- function(_speed)
@@ -69,9 +70,11 @@ gt.MSU.modParty <- function ()
 		o.getFinalMovementSpeedMult <- function()
 		{
 			local mult = 1.0;
-			foreach(func in this.m.MovementSpeedMultFunctions)
+			foreach(key, func in this.m.MovementSpeedMultFunctions)
 			{
-				mult *= func();
+				local funcResult = func();
+				::printLog("Function " + key + " returned a mult of: " + funcResult, "msu_movement")
+				mult *= funcResult;
 			}
 			return mult;
 		}
@@ -97,6 +100,7 @@ gt.MSU.modParty <- function ()
 		}
 
 		//------------- All movementspeed factors, extracted out of party onUpdate() ---------------------
+
 		o.getSlowdownPerUnitMovementSpeedMult <- function(){
 			return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
 		}
