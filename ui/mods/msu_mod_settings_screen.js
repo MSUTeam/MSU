@@ -3,6 +3,7 @@
 var ModSettingsScreen = function ()
 {
 	MSUUIScreen.call(this);
+	this.mID = "ModSettingsScreen";
 
 	this.mModPanels = {};
 	this.mChangedPanels = {};
@@ -51,13 +52,11 @@ var BooleanSetting = function (_page, _setting, _parentDiv)
 
     // Tooltip
     this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
-    this.checkbox.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 }
 
 BooleanSetting.prototype.unbindTooltip = function ()
 {
 	this.label.unbindTooltip()
-	this.checkbox.unbindTooltip();
 }
 
 var RangeSetting = function (_page, _setting, _parentDiv)
@@ -68,10 +67,10 @@ var RangeSetting = function (_page, _setting, _parentDiv)
 	this.layout = $('<div class="range-container"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
-	this.control = $('<div class="scale-control line"/>');
+	this.control = $('<div class="scale-control"/>');
 	this.layout.append(this.control);
 
 	this.slider = $('<input class="scale-slider" type="range"/>');
@@ -120,7 +119,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
-	var dialogLayout = $('<div class="l-dialog-container line"/>');
+	var dialogLayout = $('<div class="l-dialog-container"/>');
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
 
@@ -135,17 +134,17 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	}, 'display-none');
 
 	//Footer Bar
-	var footerButtonBar = $('<div class="l-button-bar line"></div>');
+	var footerButtonBar = $('<div class="l-button-bar"></div>');
 	this.mDialogContainer.findDialogFooterContainer().append(footerButtonBar);
 
-	var layout = $('<div class="l-cancel-button line"/>');
+	var layout = $('<div class="l-cancel-button"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Cancel", function ()
 	{
 		self.notifyBackendCancelButtonPressed();
 	}, '', 1);
 
-	var layout = $('<div class="l-ok-button line"/>');
+	var layout = $('<div class="l-ok-button"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
@@ -153,21 +152,39 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	}, '', 1);
 
 	var content = this.mContainer.findDialogContentContainer();
-	content.addClass('line')
 
 	//Mod List Container
-	var pagesListScrollContainer = $('<div class="l-list-container line"/>');
+	var pagesListScrollContainer = $('<div class="l-list-container"/>');
 	content.append(pagesListScrollContainer);
 	this.mListContainer = pagesListScrollContainer.createList(2);
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
-	this.mListScrollContainer.addClass('line');
 
 	//Mod Page Container
-	var modPageContainerLayout = $('<div class="l-page-container line"/>')
+	var modPageContainerLayout = $('<div class="l-page-container"/>')
 	content.append(modPageContainerLayout);
     this.mModPageContainer = modPageContainerLayout.createList(2);
     this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
-	this.mModPageScrollContainer.addClass('');
+}
+
+ModSettingsScreen.prototype.destroy = function ()
+{
+	for (var i = 0; i < this.mActiveSettings.length; i++) {
+		this.mActiveSettings[i].remove();
+	}
+	this.mActiveSettings = [];
+	this.mModPanels = {};
+	this.mChangedPanels = {};
+
+	MSUUIScreen.prototype.destroy.call(this);
+}
+
+ModSettingsScreen.prototype.unbindTooltips = function ()
+{
+	for (var i = 0; i < this.mActiveSettings.length; i++) {
+		this.mActiveSettings[i].unbindTooltip();
+	}
+
+	MSUUIScreen.prototype.unbindTooltips.call(this);
 }
 
 ModSettingsScreen.prototype.destroyDIV = function ()
@@ -176,7 +193,21 @@ ModSettingsScreen.prototype.destroyDIV = function ()
 	this.mDialogContainer.remove();
 	this.mDialogContainer = null;
 
+	this.mBackgroundImage.remove();
+	this.mBackgroundImage = null;
+
 	MSUUIScreen.prototype.destroyDIV.call(this);
+}
+
+ModSettingsScreen.prototype.hide = function()
+{
+	this.mDialogContainer.findDialogSubTitle().html("Select a Mod From the List");
+
+	this.mModPageScrollContainer.empty();
+	this.mBackgroundImage.attr('src', '');
+	this.mListScrollContainer.empty()
+
+	MSUUIScreen.prototype.hide.call(this);
 }
 
 ModSettingsScreen.prototype.show = function (_data)
@@ -184,7 +215,6 @@ ModSettingsScreen.prototype.show = function (_data)
 	this.mBackgroundImage.attr('src', Screens["MainMenuScreen"].mBackgroundImage.attr('src'));
 
 	this.mModPanels = _data;
-	this.mListScrollContainer.empty()
 	this.createModPageList();
 
 	MSUUIScreen.prototype.show.call(this,_data);
@@ -211,14 +241,12 @@ ModSettingsScreen.prototype.switchToMod = function (_page)
 	for (var i = 0; i < this.mActiveSettings.length; i++) {
 		this.mActiveSettings[i].unbindTooltip();
 	}
-	this.mActiveSettings.length = 0; // Clears array because apparently this is how JS rolls
+	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty()
-	console.error("switchToMod " + _page.modID);
-	this.mContainer.findDialogSubTitle().html(_page.name)
 
+	this.mContainer.findDialogSubTitle().html(_page.name)
 	for (var i = 0; i < _page.settings.length; i++)
 	{
-		console.error(_page + " | " + _page.settings);
 		var setting = new window[_page.settings[i].type + "Setting"](_page, _page.settings[i], this.mModPageScrollContainer)
 		this.mActiveSettings.push(setting);
 	}
@@ -251,6 +279,18 @@ ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 	if (this.mSQHandle !== null)
 	{
 		SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
+	}
+}
+
+{
+	var show = MainMenuScreen.prototype.show;
+	MainMenuScreen.prototype.show = function ()
+	{
+		show.call(this)
+		if (Screens["ModSettingsScreen"].mBackgroundImage !== null)
+		{
+			this.mBackgroundImage.attr('src', Screens["ModSettingsScreen"].mBackgroundImage.attr('src'));
+		}
 	}
 }
 

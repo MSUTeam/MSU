@@ -18,8 +18,8 @@ this.getroottable().MSU.registerUIFiles <- function()
 			this.m.MainMenuScreen.hide();
 			this.m.MenuStack.push(function ()
 			{
-				this.MSU.SettingsScreen.hide();
 				this.m.MainMenuScreen.show(false);
+				this.MSU.SettingsScreen.hide();
 			}, function ()
 			{
 				return !this.MSU.SettingsScreen.isAnimating()

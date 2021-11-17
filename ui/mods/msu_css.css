@@ -80,10 +80,6 @@
 	height: 3.0rem;
 }
 
-.msu-screen .dialog .content .l-page-container .range-container .title
-{
-}
-
 .msu-screen .dialog .content .l-page-container .range-container .scale-label
 {
     top: 3.4rem;
@@ -101,17 +97,6 @@
 
 	margin-bottom: 0.0rem;
 }
-
-/*.msu-screen .dialog .content .l-page-container .boolean-container > label
-{
-	height: 2.0rem;
-	position: absolute;
-	margin: auto;
-	margin-left: 1.4rem;
-
-	white-space: nowrap;
-	line-height: 2.0rem;
-}*/
 
 .msu-screen .dialog .content .l-list-container
 {

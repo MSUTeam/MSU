@@ -100,10 +100,12 @@ MSUUIScreen.prototype.hide = function ()
 MSUUIScreen.prototype.create = function(_parentDiv)
 {
     this.createDIV(_parentDiv);
+    this.bindTooltips();
 };
 
 MSUUIScreen.prototype.destroy = function()
 {
+    this.unbindTooltips();
     this.destroyDIV();
 };
 
