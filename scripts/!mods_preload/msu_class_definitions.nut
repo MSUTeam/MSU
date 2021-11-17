@@ -87,76 +87,91 @@ gt.MSU.defineClasses <- function()
 		
 		constructor( _name, _value, _id = null)
 		{
-			Name = _name;
-			ID = _id == null ? _name : _id;
-			Value = _value; 
-			Description = "";
-			Locked = false;
-			LockReason = "";
+			this.Name = _name;
+			this.ID = _id == null ? _name : _id;
+			this.Value = _value; 
+			this.Description = "";
+			this.Locked = false;
+			this.LockReason = "";
 		}
 
 		function set( _value )
 		{
 			if (Locked)
 			{
-				this.logError("Setting " + Name + " is locked and its value can't be changed")
+				this.logError("Setting " + this.Name + " is locked and its value can't be changed")
 				return;
 			}
 
-			Value = _value
+			this.Value = _value
 		}
 
 		function getValue()
 		{
-			return Value;
+			return this.Value;
+		}
+
+		function getType()
+		{
+			return this.Type;
 		}
 
 		function setDescription( _description )
 		{
-			Description = _description;
+			this.Description = _description;
 		}
 
 		function getDescription()
 		{
-			return Description;
+			return this.Description;
 		}
 
 		function getName()
 		{
-			return Name;
+			return this.Name;
 		}
 
 		function getID()
 		{
-			return ID;
+			return this.ID;
+		}
+
+		function isLocked()
+		{
+			return this.Locked;
+		}
+
+		function getLockReason()
+		{
+			return this.LockReason;
 		}
 
 		function lock( _lockReason = "" ) //uncertain if this won't fuck up
 		{
-			Locked = true;
-			LockReason = _lockReason;
+			this.Locked = true;
+			this.LockReason = _lockReason;
 		}
 
 		function unlock()
 		{
-			Locked = false;
-			LockReason = "";
+			this.Locked = false;
+			this.LockReason = "";
 		}
 
 		function getUIData()
 		{
 			return {
-				type = Type,
-				id = ID,
-				name = Name,
-				locked = Locked,
-				value = Value
+				type = this.getType(),
+				id = this.getID(),
+				name = this.getName(),
+				locked = this.isLocked(),
+				value = this.getValue()
 			}
 		}
 
 		function getFlag( _modID )
 		{
-			return "ModSetting." + _modID + "." + Name;
+			return "ModSetting." + _modID + "." + this.getName();
 		}
 
 		function getPropertyFlag( _modID, _property )
@@ -210,7 +225,7 @@ gt.MSU.defineClasses <- function()
 
 		function tostring()
 		{
-			return "Type: " + Type + " | Name: " + Name + " | Value: " + Value;
+			return "Type: " + this.getType() + " | Name: " + this.getName() + " | Value: " + this.getValue();
 		}
 
 		function _tostring()
@@ -260,17 +275,32 @@ gt.MSU.defineClasses <- function()
 		constructor( _name, _value, _min, _max, _step )
 		{
 			base.constructor(_name, _value);
-			Min = _min;
-			Max = _max;
-			Step = _step;
+			this.Min = _min;
+			this.Max = _max;
+			this.Step = _step;
+		}
+
+		function getMin()
+		{
+			return this.Min;
+		}
+
+		function getMax()
+		{
+			return this.Max;
+		}
+
+		function getStep()
+		{
+			return this.Step;
 		}
 
 		function getUIData()
 		{
 			local ret = base.getUIData();
-			ret.min <- Min;
-			ret.max <- Max;
-			ret.step <- Step;
+			ret.min <- this.getMin();
+			ret.max <- this.getMax();
+			ret.step <- this.getStep();
 			return ret;
 		}
 
@@ -297,7 +327,7 @@ gt.MSU.defineClasses <- function()
 
 		function tostring()
 		{
-			return base.tostring() + " | Min: " + Min + " | Max: " + Max + " | Step: " + Step;
+			return base.tostring() + " | Min: " + this.getMin() + " | Max: " + this.getMax() + " | Step: " + this.getStep();
 		}
 	}
 
@@ -319,14 +349,14 @@ gt.MSU.defineClasses <- function()
 				throw "Key not Found";
 			}
 			base.constructor(_name, _value);
-			Table = _table
+			this.Table = _table
 		}
 
 		function getUIData()
 		{
 			local ret = base.getUIData();
 			ret.table = [];
-			foreach (key, value in Table)
+			foreach (key, value in this.Table)
 			{
 				ret.table.push([key, value.tostring()])
 			}
@@ -336,7 +366,7 @@ gt.MSU.defineClasses <- function()
 		function tostring()
 		{
 			local ret = base.tostring() + " | Table: \n";
-			foreach (key, value in Table)
+			foreach (key, value in this.Table)
 			{
 				ret += " " + key + ": " + value + "\n";
 			}
@@ -349,13 +379,13 @@ gt.MSU.defineClasses <- function()
 			if (this.World.Flags.has(flag))
 			{
 				local value = this.World.Flags.get(flag);
-				if (value in Table)
+				if (value in this.Table)
 				{
 					Value = value;
 				}
 				else
 				{
-					this.logError("Value \'" + value + "\' not contained in table for Setting " + Name + " in mod " + _modID);
+					this.logError("Value \'" + value + "\' not contained in table for Setting " + this.getName() + " in mod " + _modID);
 					throw "Key not Found"
 				}
 			}
@@ -374,9 +404,9 @@ gt.MSU.defineClasses <- function()
 
 		constructor( _name, _modID )
 		{
-			PageName = _name;
-			ModID = _modID;	
-			Settings = this.MSU.OrderedMap();
+			this.PageName = _name;
+			this.ModID = _modID;	
+			this.Settings = this.MSU.OrderedMap();
 		}
 
 		function add( _setting )
@@ -386,24 +416,24 @@ gt.MSU.defineClasses <- function()
 				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from GenericSetting");
 				return;
 			}
-			Settings[_setting.getID()] <- _setting;
+			this.Settings[_setting.getID()] <- _setting;
 		}
 
 		function getModID()
 		{
-			return ModID;
+			return this.ModID;
 		}
 
 		function get( _settingID )
 		{
-			return Settings[_settingID];
+			return this.Settings[_settingID];
 		}
 
 		function doSettingsFunction(_function, ...)
 		{
 			vargv.insert(0, null);
 
-			foreach (setting in Settings)
+			foreach (setting in this.Settings)
 			{
 				vargv[0] = setting;
 				setting[_function].acall(vargv);
@@ -412,42 +442,47 @@ gt.MSU.defineClasses <- function()
 
 		function flagSerialize()
 		{
-			this.doSettingsFunction("flagSerialize", ModID);
+			this.doSettingsFunction("flagSerialize", this.ModID);
 		}
 
 		function flagDeserialize()
 		{
-			this.doSettingsFunction("flagDeserialize", ModID);
+			this.doSettingsFunction("flagDeserialize", this.ModID);
 		}
 
 		function resetFlags()
 		{
-			this.doSettingsFunction("resetFlags", ModID);
+			this.doSettingsFunction("resetFlags", this.ModID);
 		}
 
 		function getUIData()
 		{
 			local ret = {
-				name = PageName,
-				modID = ModID,
+				name = this.PageName,
+				modID = this.getModID(),
 				settings = []
 			}
 
-			foreach (setting in Settings)
+			foreach (setting in this.Settings)
 			{
 				ret.settings.push(setting.getUIData());
 			}
 			return ret;
 		}
 
-		function _tostring()
+		function tostring()
 		{
-			local ret = "Name: " + PageName + " | ModID: " + ModID + " | Settings:\n";
+			local ret = "Name: " + this.PageName + " | ModID: " + this.getModID + " | Settings:\n";
 
-			foreach (setting in Settings)
+			foreach (setting in this.Settings)
 			{
 				ret += " " + setting
 			}
+		}
+
+		function _tostring()
+		{
+			return this.tostring();
 		}
 	}
 }
