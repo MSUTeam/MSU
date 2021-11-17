@@ -147,6 +147,7 @@ gt.MSU.defineClasses <- function()
 		{
 			return {
 				type = Type,
+				id = ID,
 				name = Name,
 				locked = Locked,
 				value = Value
@@ -253,13 +254,15 @@ gt.MSU.defineClasses <- function()
 	{
 		Min = null;
 		Max = null;
+		Step = null;
 		static Type = "Range";
 
-		constructor( _name, _value, _min, _max )
+		constructor( _name, _value, _min, _max, _step )
 		{
 			base.constructor(_name, _value);
 			Min = _min;
 			Max = _max;
+			Step = _step;
 		}
 
 		function getUIData()
@@ -267,6 +270,7 @@ gt.MSU.defineClasses <- function()
 			local ret = base.getUIData();
 			ret.min <- Min;
 			ret.max <- Max;
+			ret.step <- Step;
 			return ret;
 		}
 
@@ -293,7 +297,7 @@ gt.MSU.defineClasses <- function()
 
 		function tostring()
 		{
-			return base.tostring() + " | Min: " + Min + " | Max: " + Max;
+			return base.tostring() + " | Min: " + Min + " | Max: " + Max + " | Step: " + Step;
 		}
 	}
 

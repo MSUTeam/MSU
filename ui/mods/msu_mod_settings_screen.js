@@ -11,6 +11,7 @@ var ModSettingsScreen = function ()
 	this.mListScrollContainer = null;
 	this.mBackgroundImage = null;
 	this.mModPageScrollContainer = null;
+	this.mActiveSettings = [];
 	/*
 
 	this.mModPanels = 
@@ -29,44 +30,77 @@ var ModSettingsScreen = function ()
 			]
 		}
 	]
-		
-
-	this.mModPanels = 
-	{
-		modID : 
-		{
-			name = "",
-			settings = [
-				{
-					id = "",
-					type = "",
-					name = "",
-					value = 0,
-					locked = false,
-				}
-			]
-		}
-	}
-
-	this.mModPanels = 
-	{
-		modID : 
-		{
-			name = "",
-			settings = {
-				settingID : 
-				{
-					type = "",
-					name = "",
-					value = 0,
-					locked = false,
-				}
-			}
-			
-		}
-	}
 	*/
 
+}
+
+var BooleanSetting = function (_page, _setting, _parentDiv)
+{
+	this.layout = $('<div class="boolean-container"/>');
+	_parentDiv.append(this.layout);
+	this.checkbox = $('<input type="checkbox" id= "' + _setting.id + '-id" name="' + _setting.id +'-name" />');
+	this.layout.append(this.checkbox);
+	this.label = $('<label class="text-font-normal font-color-subtitle" for="cb-camera-adjust">' + _setting.name + '</label>');
+	this.layout.append(this.label);
+	this.checkbox.iCheck({
+		checkboxClass: 'icheckbox_flat-orange',
+		radioClass: 'iradio_flat-orange',
+		increaseArea: '30%'
+    });
+    this.checkbox.iCheck(_setting.value === true ? 'check' : 'uncheck')
+
+    // Tooltip
+    this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+    this.checkbox.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+}
+
+BooleanSetting.prototype.unbindTooltip = function ()
+{
+	this.label.unbindTooltip()
+	this.checkbox.unbindTooltip();
+}
+
+var RangeSetting = function (_page, _setting, _parentDiv)
+{
+	var self = this;
+	this.page = _page;
+	this.setting = _setting;
+	this.layout = $('<div class="range-container"/>');
+	_parentDiv.append(this.layout);
+
+	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.layout.append(this.title);
+
+	this.control = $('<div class="scale-control line"/>');
+	this.layout.append(this.control);
+
+	this.slider = $('<input class="scale-slider" type="range"/>');
+	this.slider.attr({
+		min : _setting.min,
+		max : _setting.max,
+		step : _setting.step
+	})
+	this.slider.val(_setting.value);
+	this.control.append(this.slider);
+
+	this.label = $('<div class="scale-label text-font-normal font-color-subtitle">' + _setting.value + '</div>');
+	this.control.append(this.label);
+
+	this.layout.on("change", function () 
+	{
+		_setting.value = parseFloat(self.slider.val());
+		self.label.text('' + _setting.value);
+	});
+
+	// Tooltip
+	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+}
+
+RangeSetting.prototype.unbindTooltip = function ()
+{
+	this.control.unbindTooltip();
+	this.title.unbindTooltip();
 }
 
 // Inheritance in JS
@@ -86,7 +120,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
-	var dialogLayout = $('<div class="l-dialog-container out"/>');
+	var dialogLayout = $('<div class="l-dialog-container line"/>');
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
 
@@ -101,36 +135,39 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	}, 'display-none');
 
 	//Footer Bar
-	var footerButtonBar = $('<div class="l-button-bar out"></div>');
+	var footerButtonBar = $('<div class="l-button-bar line"></div>');
 	this.mDialogContainer.findDialogFooterContainer().append(footerButtonBar);
 
-	var layout = $('<div class="l-cancel-button out"/>');
+	var layout = $('<div class="l-cancel-button line"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Cancel", function ()
 	{
 		self.notifyBackendCancelButtonPressed();
 	}, '', 1);
 
-	var layout = $('<div class="l-ok-button out"/>');
+	var layout = $('<div class="l-ok-button line"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
 		self.notifyBackendSaveButtonPressed();
 	}, '', 1);
 
-	//List Container
 	var content = this.mContainer.findDialogContentContainer();
-	content.addClass('out')
-	var pagesListScrollContainer = $('<div class="l-list-container out"/>');
+	content.addClass('line')
+
+	//Mod List Container
+	var pagesListScrollContainer = $('<div class="l-list-container line"/>');
 	content.append(pagesListScrollContainer);
 	this.mListContainer = pagesListScrollContainer.createList(2);
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
+	this.mListScrollContainer.addClass('line');
 
-	var modPageContainerLayout = $('<div class="l-page-container out"/>')
-
+	//Mod Page Container
+	var modPageContainerLayout = $('<div class="l-page-container line"/>')
 	content.append(modPageContainerLayout);
-    this.mModPageContainer = modPageContainerLayout.createList(4);
+    this.mModPageContainer = modPageContainerLayout.createList(2);
     this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
+	this.mModPageScrollContainer.addClass('');
 }
 
 ModSettingsScreen.prototype.destroyDIV = function ()
@@ -163,54 +200,39 @@ ModSettingsScreen.prototype.createModPageList = function ()
 ModSettingsScreen.prototype.addModPageButtonToList = function (_page)
 {
 	var self = this;
-	var result = $('<div class="l-row"/>');
-	var buttonLayout = $('<div class="l-button"/>');
-	result.append(buttonLayout);
-	var button = buttonLayout.createTextButton(_page.name, function ()
+	this.mListScrollContainer.createTextButton(_page.name, function ()
 	{
 		self.switchToMod(_page);
-	}, '', 4)
-	this.mListScrollContainer.append(result);
+	}, 'l-button', 4);
 }
 
 ModSettingsScreen.prototype.switchToMod = function (_page)
 {
+	for (var i = 0; i < this.mActiveSettings.length; i++) {
+		this.mActiveSettings[i].unbindTooltip();
+	}
+	this.mActiveSettings.length = 0; // Clears array because apparently this is how JS rolls
 	this.mModPageScrollContainer.empty()
 	console.error("switchToMod " + _page.modID);
 	this.mContainer.findDialogSubTitle().html(_page.name)
 
 	for (var i = 0; i < _page.settings.length; i++)
 	{
-		this["create" + _page.settings[i].type + "Setting"](_page, i, this.mModPageScrollContainer)
+		console.error(_page + " | " + _page.settings);
+		var setting = new window[_page.settings[i].type + "Setting"](_page, _page.settings[i], this.mModPageScrollContainer)
+		this.mActiveSettings.push(setting);
 	}
-}
-
-ModSettingsScreen.prototype.createBooleanSetting = function (_page, _settingIdx, _parentDiv)
-{
-	var layout = $('<div class="boolean-container out"/>');
-	_parentDiv.append(layout);
-	var checkbox = $('<input type="checkbox" id= "' + _settingIdx + '-id" name="' + _settingIdx +'-name" />');
-	layout.append(checkbox);
-	var label = $('<label class="text-font-normal font-color-subtitle" for="cb-camera-adjust">' + _page.settings[_settingIdx].name + '</label>');
-	layout.append(label);
-	checkbox.iCheck({
-		checkboxClass: 'icheckbox_flat-orange',
-		radioClass: 'iradio_flat-orange',
-		increaseArea: '30%'
-    });
-    checkbox.iCheck(_page.settings[_settingIdx].value === true ? 'check' : 'uncheck')
-    label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _settingIdx });
 }
 
 ModSettingsScreen.prototype.getChanges = function ()
 {
 	var changes = {}
-	for (var modID in this.mModPanels)
-	{
-		changes[modID] = {}
-		for (var settingID in this.mModPanels[modID].settings)
-		{
-			changes[modID][settingID] = this.mModPanels[modID].settings[settingID].value;
+	for (var i = this.mModPanels.length - 1; i >= 0; i--) {
+		var modID = this.mModPanels[i].modID;
+		changes[modID] = {};
+		for (var j = this.mModPanels[i].settings.length - 1; j >= 0; j--) {
+			var settingID = this.mModPanels[i].settings[j].id;
+			changes[modID][settingID] = this.mModPanels[i].settings[j].value;
 		}
 	}
 	return changes;
@@ -231,12 +253,5 @@ ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 		SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
 	}
 }
-
-// ModSettingsScreen.prototype.showBackgroundImage = function ()
-// {
-// }
-
-
-
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());

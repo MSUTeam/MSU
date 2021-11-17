@@ -45,12 +45,12 @@ MSUUIScreen.prototype.destroyDIV = function ()
 	this.mContainer = null;
 }
 
-MSUUIScreen.prototype.bindtooltips = function ()
+MSUUIScreen.prototype.bindTooltips = function ()
 {
 
 }
 
-MSUUIScreen.prototype.unbindtooltips = function ()
+MSUUIScreen.prototype.unbindTooltips = function ()
 {
 
 }
