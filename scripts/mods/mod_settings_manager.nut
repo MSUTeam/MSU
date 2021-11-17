@@ -51,6 +51,32 @@ this.mod_settings_manager <- {
 		}
 	}
 
+	function doPagesFunction(_function, ...)
+	{
+		vargv.insert(0, null);
+
+		foreach (page in this.m.Pages)
+		{
+			vargv[0] = page;
+			page[_function].acall(vargv);
+		}
+	}
+
+	function flagSerialize()
+	{
+		this.doPagesFunction("flagSerialize");
+	}
+
+	function resetFlags()
+	{
+		this.doPagesFunction("resetFlags");
+	}
+
+	function flagDeserialize()
+	{
+		this.doPagesFunction("flagDeserialize");	
+	}
+
 	function getUIData()
 	{
 		local ret = [];

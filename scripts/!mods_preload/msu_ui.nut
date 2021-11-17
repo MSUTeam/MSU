@@ -81,6 +81,22 @@ this.getroottable().MSU.registerUIFiles <- function()
 				return !this.MSU.SettingsScreen.isAnimating()
 			});
 		}
+
+		local onSerialize = o.onSerialize;
+		o.onSerialize = function( _out )
+		{
+			this.MSU.SettingsManager.flagSerialize();
+			onSerialize(_out);
+			this.MSU.SettingsManager.resetFlags();
+		}
+
+		local onDeserialize = o.onDeserialize;
+		o.onDeserialize = function( _in )
+		{
+			onDeserialize(_in);
+			this.MSU.SettingsManager.flagDeserialize();
+			this.MSU.SettingsManager.resetFlags();
+		}
 	});
 
 	::mods_hookNewObjectOnce("states/tactical_state", function(o)

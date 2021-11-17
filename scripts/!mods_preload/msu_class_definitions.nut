@@ -7,8 +7,8 @@ gt.MSU.defineClasses <- function()
 		Table = null;
 		constructor()
 		{
-			Array = [];
-			Table = {};
+			this.Array = [];
+			this.Table = {};
 		}
 
 		function _newslot( _key, _value )

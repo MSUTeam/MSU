@@ -50,6 +50,10 @@ var BooleanSetting = function (_page, _setting, _parentDiv)
     });
     this.checkbox.iCheck(_setting.value === true ? 'check' : 'uncheck')
 
+    this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
+    	_setting.value = !_setting.value;
+    });
+
     // Tooltip
     this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 }
