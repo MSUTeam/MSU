@@ -2,10 +2,6 @@ local gt = this.getroottable();
 
 gt.MSU.setupSettingsSystem <- function()
 {
-	
-
-	this.logInfo("test");
-
 	this.MSU.SettingsManager <- this.new("scripts/mods/mod_settings_manager");
 	this.MSU.SettingsScreen <- this.new("scripts/ui/mods/mod_settings_screen");
 
@@ -35,10 +31,4 @@ gt.MSU.setupSettingsSystem <- function()
 	this.MSU.SettingsManager.add(testPage1);
 	this.MSU.SettingsManager.add(testPage2);
 	this.MSU.SettingsManager.add(testPage3);
-
-	foreach (page in this.MSU.SettingsManager.m.Pages)
-	{
-		this.logInfo(page.getModID());
-	}
-
 }

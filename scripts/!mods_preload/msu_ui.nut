@@ -4,55 +4,26 @@ this.getroottable().MSU.registerUIFiles <- function()
 	::mods_registerJS("msu_ui_screen.js");
 	::mods_registerJS("msu_mod_settings_screen.js");
 	::mods_registerJS("msu_mod_screens.js");
-
-	::mods_hookNewObjectOnce("states/main_menu_state", function(o)
-	{
-
-		local main_menu_screen_onScreenShown = o.main_menu_screen_onScreenShown;
-		o.main_menu_module_onCreditsPressed = function()
-		{
-			if (!this.MSU.SettingsScreen.isConnected())
-			{
-				this.MSU.SettingsScreen.connect();
-				this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
-			}
-			this.MSU.SettingsScreen.show(true);
-			this.m.MainMenuScreen.hide();
-			this.m.MenuStack.push(function ()
-			{
-				this.m.MainMenuScreen.show(false);
-				this.MSU.SettingsScreen.hide();
-			}, function ()
-			{
-				return !this.MSU.SettingsScreen.isAnimating()
-			});
-		}
-	});
-
-	::mods_hookNewObject("ui/screens/world/modules/topbar/world_screen_topbar_options_module", function(o)
-	{
-		local onBrothersButtonPressed = o.onBrothersButtonPressed;
-		o.onBrothersButtonPressed = function()
-		{
-			this.World.State.m.WorldScreen.hide();
-			this.MSU.SettingsScreen.connect();
-			this.MSU.SettingsScreen.show(true);
-			this.Cursor.setCursor(this.Const.UI.Cursor.Hand);
-		}
-	});
+	::mods_registerJS("z_temp.js")
 
 	::mods_hookExactClass("ui/screens/menu/modules/main_menu_module", function(o)
 	{
 		o.m.OnModOptionsPressedListener <- null;
 
-		function setOnModOptionsPressedListener( _listener )
+		o.setOnModOptionsPressedListener <- function( _listener )
 		{
 			this.m.OnModOptionsPressedListener = _listener;
 		}
 
-		function onModOptionsPressed()
+		o.onModOptionsButtonPressed <- function()
 		{
 			this.m.OnModOptionsPressedListener();
+		}
+
+		o.connectModUIs <- function()
+		{
+			//This system should be expanded into a proper MSU thing (allow modded UIs to connect as main menu loads)
+			this.MSU.SettingsScreen.connect();
 		}
 	});
 
@@ -63,17 +34,18 @@ this.getroottable().MSU.registerUIFiles <- function()
 		o.onInitUI = function()
 		{
 			onInitUI();
-			local mainMenuModule this.m.WorldMenuScreen.getMainMenuModule();
+			local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
 			mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
 		}
 
 		o.main_menu_module_onModOptionsPressed <- function()
 		{
+			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			this.MSU.SettingsScreen.show(true);
-			this.m.WorldScreen.hide();
+			this.m.WorldMenuScreen.hide();
 			this.m.MenuStack.push(function ()
 			{
-				this.m.WorldScreen.show();
+				this.m.WorldMenuScreen.show();
 				this.MSU.SettingsScreen.hide();
 			}, function ()
 			{
@@ -84,16 +56,17 @@ this.getroottable().MSU.registerUIFiles <- function()
 
 	::mods_hookNewObjectOnce("states/main_menu_state", function(o)
 	{
-		local onShow = o.onShow; //Not the best hook but can't hook onInit directly
-		o.onShow = function()
+		local show = o.show; //Not the best hook but can't hook onInit directly
+		o.show = function()
 		{
-			local mainMenuModule this.m.MainMenuScreen.getMainMenuModule();
+			local mainMenuModule = this.m.MainMenuScreen.getMainMenuModule();
 			mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
-			onShow();
+			show();
 		}
 
 		o.main_menu_module_onModOptionsPressed <- function()
 		{
+			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			this.MSU.SettingsScreen.show(true);
 			this.m.MainMenuScreen.hide();
 			this.m.MenuStack.push(function ()
@@ -102,14 +75,36 @@ this.getroottable().MSU.registerUIFiles <- function()
 				this.MSU.SettingsScreen.hide();
 			}, function ()
 			{
-				return !this.MSU.SettingsScreen.isAnimating()
+				return !this.MSU.SettingsScreen.isAnimating();
 			});
 		}
 	});
 
 	::mods_hookNewObjectOnce("states/tactical_state", function(o)
 	{
-		
+		local onInitUI = o.onInitUI;
+		o.onInitUI = function()
+		{
+			onInitUI();
+			local mainMenuModule = this.m.TacticalMenuScreen.getMainMenuModule();
+			mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
+		}
+
+		o.main_menu_module_onModOptionsPressed <- function()
+		{
+			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
+			this.MSU.SettingsScreen.show(true);
+			this.m.TacticalMenuScreen.hide();
+			this.m.MenuStack.push(function ()
+			{
+				this.m.TacticalMenuScreen.show(false);
+				this.MSU.SettingsScreen.hide();
+
+			}, function ()
+			{
+				return !this.MSU.SettingsScreen.isAnimating();
+			});
+		}
 	});
 
 }
