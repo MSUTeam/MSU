@@ -134,6 +134,34 @@
 	height: 4rem;
 }
 
+.msu-screen .dialog .content .l-page-container .divider
+{
+	float: left;
+	position: relative;
+	width: 73.6rem;
+	height: 0.3rem;
+	margin-top: 0.0rem;
+	margin-bottom: 1.0rem;
+}
+
+.msu-screen .dialog .content .l-page-container .divider .title
+{
+	position: absolute;
+	left: 2.0rem;
+	height: 4rem;
+}
+
+.msu-screen .dialog .content .l-page-container .divider .gold-line
+{
+	position: absolute;
+	top: 0rem;
+	height: 0.3rem;
+	width: 73.6rem;
+	background-image: url("coui://gfx/ui/skin/line_gold.png");
+	background-size: 73.6rem 0.3rem;
+}
+
+
 .msu-screen .dialog .content .l-list-container
 {
 	width: 25.2rem;

@@ -54,6 +54,11 @@ var BooleanSetting = function (_page, _setting, _parentDiv)
     	_setting.value = !_setting.value;
     });
 
+    if (_setting.locked)
+    {
+    	this.checkbox.attr('disabled', true);
+    }
+
     // Tooltip
     this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 }
@@ -66,7 +71,7 @@ BooleanSetting.prototype.unbindTooltip = function ()
 var RangeSetting = function (_page, _setting, _parentDiv)
 {
 	var self = this;
-	this.layout = $('<div class="range-container line"/>');
+	this.layout = $('<div class="range-container"/>');
 	_parentDiv.append(this.layout);
 
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
@@ -93,6 +98,11 @@ var RangeSetting = function (_page, _setting, _parentDiv)
 		self.label.text('' + _setting.value);
 	});
 
+	if (_setting.locked)
+	{
+		this.slider.attr('disabled', true);
+	}
+
 	// Tooltip
 	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
@@ -114,16 +124,16 @@ var EnumSetting = function (_page, _setting, _parentDiv)
 		console.error("EnumSetting Error");
 	}
 
-	this.layout = $('<div class="enum-container line"/>');
+	this.layout = $('<div class="enum-container"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
 	this.button = this.layout.createTextButton(_setting.value, function ()
 	{
 		self.cycle(true);
-	}, 'enum-button line', 4);
+	}, 'enum-button', 4);
 
 	this.button.mousedown(function (event)
 	{
@@ -132,6 +142,11 @@ var EnumSetting = function (_page, _setting, _parentDiv)
 			self.cycle(false);
 		}
 	});
+
+	if (_setting.locked)
+	{
+		this.button.attr('disabled', true);
+	}
 
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id })
@@ -159,6 +174,32 @@ EnumSetting.prototype.unbindTooltip = function ()
 {
 	this.title.unbindTooltip();
 	this.button.unbindTooltip();
+}
+
+var DividerSetting = function (_page, _setting, _parentDiv)
+{
+	this.layout = $('<div class="divider"/>')
+	_parentDiv.append(this.layout);
+
+	var line = $('<div class="gold-line"/>');
+	this.layout.append(line)
+
+	if (_setting.name != "")
+	{
+		this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
+		this.layout.append(this.title);
+		this.layout.css("height", "3.0rem")
+		line.css("top", "3.0rem")
+		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id })
+	}
+}
+
+DividerSetting.prototype.unbindTooltip = function ()
+{
+	if ('title' in this)
+	{
+		this.title.unbindTooltip();
+	}
 }
 
 // Inheritance in JS

@@ -123,7 +123,17 @@ gt.MSU.defineClasses <- function()
 
 		function getDescription()
 		{
-			return this.Description;
+			local ret = "";
+			if (this.isLocked())
+			{
+				ret += "[u][i]Locked[/i][/u]\n"
+				if (this.LockReason != "")
+				{
+					ret += this.LockReason + "\n";
+				}
+			}
+			ret += this.Description;
+			return ret;
 		}
 
 		function getName()
@@ -387,6 +397,57 @@ gt.MSU.defineClasses <- function()
 		//Note the Table ISN'T serialized
 	}
 
+	gt.MSU.Divider <- class
+	{
+		Name = null;
+		Description = null;
+		ID = null;
+		Value = null;
+		static Type = "Divider"
+
+		constructor(_id, _name = "", _description = "")
+		{
+			this.ID = _id;
+			this.Name = _name;
+			this.Description = _description;
+		}
+
+		function getID()
+		{
+			return this.ID;
+		}
+
+		function getValue()
+		{
+			return this.Value;
+		}
+
+		function getName()
+		{
+			return this.Name;
+		}
+
+		function getDescription()
+		{
+			return this.Description;
+		}
+
+		function getType()
+		{
+			return this.Type;
+		}
+
+		function getUIData()
+		{
+			return {
+				id = this.getID(),
+				name = this.getName(),
+				type = this.getType(),
+				value = this.getValue()
+			}
+		}
+	}
+
 	gt.MSU.SettingsPage <- class
 	{
 		PageName = null;
@@ -402,7 +463,7 @@ gt.MSU.defineClasses <- function()
 
 		function add( _setting )
 		{
-			if (!(_setting instanceof this.MSU.GenericSetting))
+			if (!(_setting instanceof this.MSU.GenericSetting) && !(_setting instanceof this.MSU.Divider))
 			{
 				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from GenericSetting");
 				return;
