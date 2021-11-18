@@ -12,6 +12,8 @@ gt.MSU <- {};
 		Allied = 2,
 		Enemy = 3
 	}
+	gt.MSU.defineThrowables();
+	delete gt.MSU.defineThrowables;
 	gt.MSU.defineClasses();
 	delete gt.MSU.defineClasses;
 	gt.MSU.setupUI();

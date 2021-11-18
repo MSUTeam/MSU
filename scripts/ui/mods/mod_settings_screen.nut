@@ -10,9 +10,13 @@ this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 
 	function show(_data)
 	{
-		if (this.m.JSHandle == null || this.isVisible())
+		if (this.m.JSHandle == null)
 		{
-			throw "Error";
+			throw this.Exception.NotConnected;
+		}
+		else if (this.isVisible())
+		{
+			throw this.Exception.AlreadyVisible;
 		}
 		this.m.JSHandle.asyncCall("show", this.MSU.SettingsManager.getUIData());
 	}

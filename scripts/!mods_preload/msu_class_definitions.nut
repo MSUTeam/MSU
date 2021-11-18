@@ -28,7 +28,7 @@ gt.MSU.defineClasses <- function()
 					return;
 				}
 			}
-			throw "The index \'" + _key + "\' does not exist and couldn't be removed";
+			throw this.Exception.KeyNotFound;
 		}
 
 		function _set( _key, _value )
@@ -253,7 +253,7 @@ gt.MSU.defineClasses <- function()
 			if (typeof _value != "bool")
 			{
 				this.logError("Boolean value must be a boolean");
-				throw "Wrong Type";
+				throw this.Exception.InvalidTypeException;
 			}
 			base.constructor(_name, _value);
 		}
@@ -263,7 +263,7 @@ gt.MSU.defineClasses <- function()
 			if (typeof _value != "bool")
 			{
 				this.logError("Boolean value must be a boolean");
-				throw "Wrong Type";
+				throw this.Exception.InvalidTypeException;
 			}
 			base.set(_value);
 		}
@@ -351,7 +351,7 @@ gt.MSU.defineClasses <- function()
 			if (_array.find(_value) == null)
 			{
 				this.logError("Value must be an element in the Array");
-				throw "Key not Found";
+				throw this.Exception.KeyNotFound;
 			}
 			base.constructor(_name, _value);
 			this.Array = _array
@@ -380,14 +380,14 @@ gt.MSU.defineClasses <- function()
 			if (this.World.Flags.has(flag))
 			{
 				local value = this.World.Flags.get(flag);
-				if (value in this.Array)
+				if (this.Array.find(value) != null)
 				{
 					this.Value = value;
 				}
 				else
 				{
-					this.logError("Value \'" + value + "\' not contained in table for Setting " + this.getName() + " in mod " + _modID);
-					throw "Key not Found"
+					this.logError("Value \'" + value + "\' not contained in array for Setting " + this.getName() + " in mod " + _modID);
+					throw this.Exception.KeyNotFound;
 				}
 			}
 			this.setPropertyIfFlagExists(_modID, "Locked")
@@ -466,7 +466,7 @@ gt.MSU.defineClasses <- function()
 			if (!(_setting instanceof this.MSU.GenericSetting) && !(_setting instanceof this.MSU.Divider))
 			{
 				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from GenericSetting");
-				return;
+				throw this.Exception.InvalidTypeException;
 			}
 			this.Settings[_setting.getID()] <- _setting;
 		}

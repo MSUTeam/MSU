@@ -13,7 +13,7 @@ this.mod_settings_manager <- {
 	{
 		if (this.m.Locked)
 		{
-			throw "Settings Manager is Locked, no more settings can be added";
+			this.logError("Settings Manager is Locked, no more settings can be added");
 		}
 		else
 		{
