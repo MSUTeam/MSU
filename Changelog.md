@@ -1,5 +1,14 @@
 # Modding Standards & Utilities (MSU)
 Changelog
+## 0.6.24
+- Added a robust party movement speed system.
+- Added hooks to party and player_party to improve movement speed handling
+- Added hook to starting_scenario to to improve movement speed handling
+- Added Array Utils. Currently with functions `getRandom( _array, _start = 0, _end = 0 )` and `shuffle()`.
+
+## 0.6.23
+- Removed the hooks on the AI functions of `onTurnStarted`, `onTurnResumed` and `onTurnEnd` which were being used to reset `IsExecutingSkillMove` of `skill_container` as this is no longer neceessary as the boolean is now reset within `onAnySkillExecuted`.
+- Improved the formatting of the tooltip from the `getDefaultRangedTooltip` function.
 
 ## 0.6.22
 - The `IsExecutingSkillMove` boolean of skill_container is now set to false at the end of the `onAnySkillExecuted` function after the `doOnFunction` has run. It is no longer set to false in `onMovementFinished`.

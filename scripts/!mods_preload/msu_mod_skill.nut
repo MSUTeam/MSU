@@ -421,14 +421,17 @@ gt.MSU.modSkill <- function ()
 			local accuText = "";
 			if (this.m.AdditionalAccuracy != 0)
 			{
-				accuText = "Has [color=" + (this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]+" + this.m.AdditionalAccuracy + "%[/color] chance to hit";
+				local color = this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue;
+				local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
+				accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
 			}
 
 			if (this.m.AdditionalHitChance != 0)
 			{
 				accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
 				local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
-				accuText += " [color=" + (additionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + additionalHitChance + "%[/color]";
+				local sign = additionalHitChance > 0 ? "+" : "";
+				accuText += " [color=" + (additionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
 				accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
 				accuText += " per tile of distance";
 			}

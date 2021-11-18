@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.22");
+::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.24");
 
 gt.MSU <- {};
 
@@ -27,10 +27,8 @@ gt.MSU <- {};
 	delete gt.MSU.setupTileUtils;
 	gt.MSU.setupLoggingUtils();
 	delete gt.MSU.setupLoggingUtils;
-	gt.MSU.setupStringUtils();
-	delete gt.MSU.setupStringUtils;
-	gt.MSU.setupMathUtils();
-	delete gt.MSU.setupMathUtils;
+	gt.MSU.setupUtils();
+	delete gt.MSU.setupUtils;
 	gt.MSU.setupSettingsSystem();
 	delete gt.MSU.setupSettingsSystem;
 
@@ -68,4 +66,10 @@ gt.MSU <- {};
 	delete gt.MSU.modMisc;
 
 
+	gt.MSU.modParty();
+	delete gt.MSU.modParty;
+	gt.MSU.modPlayerParty();
+	delete gt.MSU.modPlayerParty;
+	gt.MSU.modOrigins();
+	delete gt.MSU.modOrigins;
 });
