@@ -10,10 +10,16 @@ gt.MSU.setupSettingsSystem <- function()
 		local test = this.MSU.RangeSetting("TestRange" + i, 100, 10, 300, 10);
 		local test1 = this.MSU.BooleanSetting("TestBool" + i, rand() % 2 == 0);
 		local test2 = this.MSU.BooleanSetting("TestBool" + i + 1, rand() % 2 == 0);
+		local test3 = this.MSU.EnumSetting("TestEnum" + i, "hi", ["hi", "hello", "goodbye"]);
+		local test4 = this.MSU.EnumSetting("TestEnum" + i + 1, "hi", ["hi", "hello", "goodbye"]);
+		local test5 = this.MSU.EnumSetting("TestEnum" + i + 2, "hi", ["hi", "hello", "goodbye"]);
 		local testPage = this.MSU.SettingsPage("Page" + i, "Page" + i);
 		testPage.add(test);
 		testPage.add(test1);
 		testPage.add(test2);
+		testPage.add(test3);
+		testPage.add(test4);
+		testPage.add(test5);
 		this.MSU.SettingsManager.add(testPage);
 	}
 

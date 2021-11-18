@@ -51,7 +51,10 @@
 	float: left;
 	width: 35.9rem;
 	position: relative;
-	margin: 0.9rem;
+	margin-left: 0.9rem;
+	margin-right: 0.9rem;
+	margin-top: 1.3rem;
+	margin-bottom: 1.4rem;
 }
 
 .msu-screen .dialog .content .l-page-container .boolean-container > label
@@ -67,11 +70,18 @@
 
 .msu-screen .dialog .content .l-page-container .range-container
 {
-	height:  7.0rem;
+	height:  8.0rem;
 	width: 35.9rem;
 	float: left;
 	position: relative;
 	margin: 0.9rem;
+}
+
+.msu-screen .dialog .content .l-page-container .range-container .title
+{
+	left: 0.5rem;
+	position: absolute;
+	height: 4rem;
 }
 
 .msu-screen .dialog .content .l-page-container .range-container .scale-control
@@ -82,20 +92,46 @@
 
 .msu-screen .dialog .content .l-page-container .range-container .scale-label
 {
-    top: 3.4rem;
+    top: 3.9rem;
     left: 30.5rem;
     position: absolute;
 }
 
 .msu-screen .dialog .content .l-page-container .range-container .scale-slider
 {
-    top: 2.0rem;
+    top: 2.5rem;
     height: 2.0rem;
 	width: 30.0rem;
     position: absolute;
 	float: left;
 
 	margin-bottom: 0.0rem;
+}
+
+.msu-screen .dialog .content .l-page-container .enum-container
+{
+	float: left;
+	margin: 0.9rem;
+	position: relative;
+	width: 35.9rem;
+	height: 8.0rem;
+	left: 0rem;
+}
+
+.msu-screen .dialog .content .l-page-container .enum-container .enum-button
+{
+	left: 0.5rem;
+	top: 2.8rem;
+	width: 23rem;
+	height: 4rem;
+	line-height: 3.0rem;
+}
+
+.msu-screen .dialog .content .l-page-container .enum-container .title
+{
+	left: 0.5rem;
+	position: absolute;
+	height: 4rem;
 }
 
 .msu-screen .dialog .content .l-list-container

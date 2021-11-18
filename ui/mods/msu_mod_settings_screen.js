@@ -66,9 +66,7 @@ BooleanSetting.prototype.unbindTooltip = function ()
 var RangeSetting = function (_page, _setting, _parentDiv)
 {
 	var self = this;
-	this.page = _page;
-	this.setting = _setting;
-	this.layout = $('<div class="range-container"/>');
+	this.layout = $('<div class="range-container line"/>');
 	_parentDiv.append(this.layout);
 
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
@@ -104,6 +102,63 @@ RangeSetting.prototype.unbindTooltip = function ()
 {
 	this.control.unbindTooltip();
 	this.title.unbindTooltip();
+}
+
+var EnumSetting = function (_page, _setting, _parentDiv)
+{
+	var self = this;
+	this.setting = _setting;
+	this.idx = _setting.array.indexOf(_setting.value);
+	if (this.idx == -1) 
+	{
+		console.error("EnumSetting Error");
+	}
+
+	this.layout = $('<div class="enum-container line"/>');
+	_parentDiv.append(this.layout);
+
+	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.layout.append(this.title);
+
+	this.button = this.layout.createTextButton(_setting.value, function ()
+	{
+		self.cycle(true);
+	}, 'enum-button line', 4);
+
+	this.button.mousedown(function (event)
+	{
+		if (event.which === 3)
+		{
+			self.cycle(false);
+		}
+	});
+
+	// Tooltip
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id })
+	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+}
+
+EnumSetting.prototype.cycle = function (_forward)
+{
+	console.error("pre: " + this.idx)
+	this.idx += _forward ? 1 : -1;
+	if (this.idx == -1)
+	{
+		this.idx = this.setting.array.length - 1;
+	}
+	else if (this.idx == this.setting.array.length)
+	{
+		this.idx = 0;
+	}
+	console.error("post: " + this.idx)
+	this.setting.value = this.setting.array[this.idx];
+	this.button.changeButtonText(this.setting.value);
+}
+
+EnumSetting.prototype.unbindTooltip = function ()
+{
+	this.title.unbindTooltip();
+	this.button.unbindTooltip();
 }
 
 // Inheritance in JS
@@ -272,21 +327,15 @@ ModSettingsScreen.prototype.getChanges = function ()
 
 ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
-	if (this.mSQHandle !== null)
-	{
-		SQ.call(this.mSQHandle, 'onCancelButtonPressed');
-	}
+	SQ.call(this.mSQHandle, 'onCancelButtonPressed');
 }
 
 ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 {
-	if (this.mSQHandle !== null)
-	{
-		SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
-	}
+	SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
 }
 
-{
+{ // Don't like this, should be improved
 	var show = MainMenuScreen.prototype.show;
 	MainMenuScreen.prototype.show = function ()
 	{

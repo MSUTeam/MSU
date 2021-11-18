@@ -331,44 +331,35 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.TableSetting <- class extends gt.MSU.GenericSetting
+	gt.MSU.EnumSetting <- class extends gt.MSU.GenericSetting
 	{
-		Table = null;
-		static Type = "Table";
+		Array = null;
+		static Type = "Enum";
 
-		constructor( _name, _value, _table )
+		constructor( _name, _value, _array )
 		{
-			if (typeof _value != "string")
+			if (_array.find(_value) == null)
 			{
-				this.logError("Table value must be a string");
-				throw "Wrong Type";
-			}
-			else if (!(_value in _table))
-			{
-				this.logError("Value must be a key in the Table");
+				this.logError("Value must be an element in the Array");
 				throw "Key not Found";
 			}
 			base.constructor(_name, _value);
-			this.Table = _table
+			this.Array = _array
 		}
 
 		function getUIData()
 		{
 			local ret = base.getUIData();
-			ret.table = [];
-			foreach (key, value in this.Table)
-			{
-				ret.table.push([key, value.tostring()])
-			}
+			ret.array <- this.Array;
 			return ret;
 		}
 
 		function tostring()
 		{
-			local ret = base.tostring() + " | Table: \n";
-			foreach (key, value in this.Table)
+			local ret = base.tostring() + " | Array: \n";
+			foreach (value in this.Array)
 			{
-				ret += " " + key + ": " + value + "\n";
+				ret += value + "\n";
 			}
 			return ret;
 		}
@@ -379,9 +370,9 @@ gt.MSU.defineClasses <- function()
 			if (this.World.Flags.has(flag))
 			{
 				local value = this.World.Flags.get(flag);
-				if (value in this.Table)
+				if (value in this.Array)
 				{
-					Value = value;
+					this.Value = value;
 				}
 				else
 				{
