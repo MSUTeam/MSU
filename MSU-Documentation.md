@@ -861,7 +861,7 @@ of the array `_array`.
 Creates a Button 
 which allows the user to switch between all the values in `_array`.
 
-#### Custome Settings
+#### Custom Settings
 
 Additional Setting Types can be created by:
 
