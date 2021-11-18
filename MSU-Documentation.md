@@ -715,7 +715,7 @@ Is a substitute for `this.logError`. Prints the error as `_arg` if DebugLog is e
 
 `_tile` is a Battle Brothers tile instance.
 
-Returns false if there is no corpse on the tile. If there is a corpse on the tile, then it returns true if that corpse can resurrect or if `_false` is set to true. This function can be hooked by mods to add additional functionality.
+Returns false if there is no corpse on the tile. If there is a corpse on the tile, then it returns true if that corpse can resurrect or if `_force` is set to true. This function can be hooked by mods to add additional functionality.
 
 ## String
 `this.MSU.String.capitalizeFirst( _string )`

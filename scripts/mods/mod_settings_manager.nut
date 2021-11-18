@@ -17,6 +17,10 @@ this.mod_settings_manager <- {
 		}
 		else
 		{
+			if (!(_page instanceof this.MSU.SettingsPage))
+			{
+				throw this.Exception.InvalidTypeException;
+			}
 			this.m.Pages[_page.getModID()] <- _page;
 		}
 	}

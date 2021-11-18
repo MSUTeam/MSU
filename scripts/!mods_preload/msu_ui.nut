@@ -24,6 +24,7 @@ this.getroottable().MSU.setupUI <- function()
 			{
 				screen.connect();
 			}
+			delete this.MSU.UI.Screens;
 		}
 	}
 

@@ -248,14 +248,14 @@ gt.MSU.defineClasses <- function()
 	{
 		static Type = "Boolean";
 
-		constructor( _name, _value )
+		constructor( _name, _value, _id = null)
 		{
 			if (typeof _value != "bool")
 			{
 				this.logError("Boolean value must be a boolean");
 				throw this.Exception.InvalidTypeException;
 			}
-			base.constructor(_name, _value);
+			base.constructor(_name, _value, _id);
 		}
 
 		function set( _value )
@@ -282,9 +282,9 @@ gt.MSU.defineClasses <- function()
 		Step = null;
 		static Type = "Range";
 
-		constructor( _name, _value, _min, _max, _step )
+		constructor( _name, _value, _min, _max, _step, _id = null )
 		{
-			base.constructor(_name, _value);
+			base.constructor(_name, _value, _id);
 			this.Min = _min;
 			this.Max = _max;
 			this.Step = _step;
@@ -346,14 +346,14 @@ gt.MSU.defineClasses <- function()
 		Array = null;
 		static Type = "Enum";
 
-		constructor( _name, _value, _array )
+		constructor( _name, _value, _array, _id = null )
 		{
 			if (_array.find(_value) == null)
 			{
 				this.logError("Value must be an element in the Array");
 				throw this.Exception.KeyNotFound;
 			}
-			base.constructor(_name, _value);
+			base.constructor(_name, _value, _id = null);
 			this.Array = _array
 		}
 
