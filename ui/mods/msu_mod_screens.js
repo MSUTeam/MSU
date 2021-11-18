@@ -21,6 +21,16 @@
 		}, '', 4);
 	}
 
+	MainMenuScreen.prototype.showMainMenuModule = function ()
+	{
+		this.mMainMenuModule.show();
+	}
+
+	MainMenuScreen.prototype.hideMainMenuModule = function ()
+	{
+		this.mMainMenuModule.hide();
+	}
+
 	Screens["MainMenuScreen"].getModule("MainMenuModule").addModOptionsButton();
 
 	MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()

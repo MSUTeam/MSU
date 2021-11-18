@@ -487,8 +487,11 @@ gt.MSU.defineClasses <- function()
 
 			foreach (setting in this.Settings)
 			{
-				vargv[0] = setting;
-				setting[_function].acall(vargv);
+				if (setting instanceof this.MSU.GenericSetting)
+				{
+					vargv[0] = setting;
+					setting[_function].acall(vargv);
+				}
 			}
 		}
 

@@ -10,7 +10,6 @@ var ModSettingsScreen = function ()
 	this.mDialogContainer = null;
 	this.mListContainer = null;
 	this.mListScrollContainer = null;
-	this.mBackgroundImage = null;
 	this.mModPageScrollContainer = null;
 	this.mActiveSettings = [];
 	/*
@@ -155,7 +154,6 @@ var EnumSetting = function (_page, _setting, _parentDiv)
 
 EnumSetting.prototype.cycle = function (_forward)
 {
-	console.error("pre: " + this.idx)
 	this.idx += _forward ? 1 : -1;
 	if (this.idx == -1)
 	{
@@ -165,7 +163,6 @@ EnumSetting.prototype.cycle = function (_forward)
 	{
 		this.idx = 0;
 	}
-	console.error("post: " + this.idx)
 	this.setting.value = this.setting.array[this.idx];
 	this.button.changeButtonText(this.setting.value);
 }
@@ -222,16 +219,6 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	var dialogLayout = $('<div class="l-dialog-container"/>');
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
-
-	//Background for main menu screen
-	this.mBackgroundImage = this.mContainer.createImage(null, function (_image)
-	{
-	    _image.removeClass('display-none').addClass('display-block');
-	    _image.fitImageToParent();
-	}, function (_image)
-	{
-	    _image.fitImageToParent();
-	}, 'display-none');
 
 	//Footer Bar
 	var footerButtonBar = $('<div class="l-button-bar"></div>');
@@ -293,9 +280,6 @@ ModSettingsScreen.prototype.destroyDIV = function ()
 	this.mDialogContainer.remove();
 	this.mDialogContainer = null;
 
-	this.mBackgroundImage.remove();
-	this.mBackgroundImage = null;
-
 	MSUUIScreen.prototype.destroyDIV.call(this);
 }
 
@@ -304,7 +288,6 @@ ModSettingsScreen.prototype.hide = function()
 	this.mDialogContainer.findDialogSubTitle().html("Select a Mod From the List");
 
 	this.mModPageScrollContainer.empty();
-	this.mBackgroundImage.attr('src', '');
 	this.mListScrollContainer.empty()
 
 	MSUUIScreen.prototype.hide.call(this);
@@ -312,8 +295,6 @@ ModSettingsScreen.prototype.hide = function()
 
 ModSettingsScreen.prototype.show = function (_data)
 {
-	this.mBackgroundImage.attr('src', Screens["MainMenuScreen"].mBackgroundImage.attr('src'));
-
 	this.mModPanels = _data;
 	this.createModPageList();
 
@@ -352,15 +333,19 @@ ModSettingsScreen.prototype.switchToMod = function (_page)
 	}
 }
 
-ModSettingsScreen.prototype.getChanges = function ()
+ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {
 	var changes = {}
 	for (var i = this.mModPanels.length - 1; i >= 0; i--) {
 		var modID = this.mModPanels[i].modID;
 		changes[modID] = {};
 		for (var j = this.mModPanels[i].settings.length - 1; j >= 0; j--) {
-			var settingID = this.mModPanels[i].settings[j].id;
-			changes[modID][settingID] = this.mModPanels[i].settings[j].value;
+			var setting = this.mModPanels[i].settings[j];
+			if (setting.type == "Divider" || setting.locked)
+			{
+				continue;
+			}
+			changes[modID][setting.id] = setting.value;
 		}
 	}
 	return changes;
@@ -374,18 +359,6 @@ ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 {
 	SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
-}
-
-{ // Don't like this, should be improved
-	var show = MainMenuScreen.prototype.show;
-	MainMenuScreen.prototype.show = function ()
-	{
-		show.call(this)
-		if (Screens["ModSettingsScreen"].mBackgroundImage !== null)
-		{
-			this.mBackgroundImage.attr('src', Screens["ModSettingsScreen"].mBackgroundImage.attr('src'));
-		}
-	}
 }
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());

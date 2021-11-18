@@ -3,14 +3,9 @@
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	
+	background-color: rgba(0, 0, 0, 0.3);
 	overflow: hidden;
-}
-
-.msu-screen > img
-{
-    position: absolute;
-    z-index: 1;
+	z-index: 101 !important;
 }
 
 .line
@@ -26,7 +21,6 @@
     height: 76.8rem;
     position: absolute;
     margin: auto;
-    z-index: 2;
 }
 
 .msu-screen .ui-control.dialog > .content

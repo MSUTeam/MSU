@@ -14,8 +14,8 @@ gt.MSU <- {};
 	}
 	gt.MSU.defineClasses();
 	delete gt.MSU.defineClasses;
-	gt.MSU.registerUIFiles();
-	delete gt.MSU.registerUIFiles;
+	gt.MSU.setupUI();
+	delete gt.MSU.setupUI;
 
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
