@@ -744,3 +744,148 @@ Returns the value of the Normal Distribution for `_x` for the provided mean valu
 All three arguments can be any numbers, integer or float.
 
 Returns the probability density of `_x` using the Normal Distribution for the provided mean value of `_mean` and standard deviation `_stdev`.
+
+## Classes
+`this.MSU.OrderedMap`
+
+This is a class indexed by keys like a table,
+but ordered like an array.
+The only significant different is that
+instead of an `in` check,
+a call to the `contains` function must be used.
+
+## UI
+
+`this.MSU.UI.registerScreenToConnect( _screen )`
+
+`_screen` is a UI screen with a `connect` function
+ which will connect the SQ object to its JS counterpart.
+
+This function will push the screen to an array of screens, 
+which will then all be connected 
+as soon as all JS & CSS files added by `::mods_register[CSS/JSS]` are loaded.
+
+## Settings Manager & Screen
+
+The settings manager is an automated system of managing mod settings
+which allows modders to easily setup configuration for their mods.
+
+The system allows you to create a 'mod page' for your mod,
+add it to the SettingsManager,
+and then create the settings you want to have.
+All within Squirrel.
+
+The settings are ordered by when they're added,
+but this can be adjusted with a `sort()` on the Settings property
+of the page.
+
+These settings are automatically (de)serialized when loading/saving a game.
+
+### Settings Page
+
+`local myModPage = this.MSU.SettingsPage( _name, _modID)`
+
+`_name` and `_modID` are Strings, 
+`_modID` has to be *unique* for all mods with Settings Pages.
+
+`myModPage` then becomes the mod page that can have settings appended to it.
+
+`this.MSU.SettingsManager.add( _page )`
+
+`_page` is a `this.MSU.SettingsPage`
+
+Adds the mod page to be managed by the `SettingsManager`.
+This is required for the settings system to do anything
+with a created page.
+
+### Setting Types
+
+All setting types are classes
+which inherit from `this.MSU.GenericSetting`.
+Custom SettingTypes *must* also inherit from `GenericSetting`
+
+#### GenericSetting (True for all Settings)
+
+Should not be initialized directly,
+used as a parents for other settings.
+Any statements made here apply to all other settings.
+
+The constructor has the parameters `( _name, _value, _id = null)`,
+where `_name` and `_id` are strings
+and `_id` defaults to `_name`.
+The setting defaults to `_value`
+
+`_id` *must* be unique for all settings within a mod page.
+
+`function setDescription( _description )`
+
+`_description` is a string
+
+Sets the description for tooltips.
+
+`function lock( _lockReason = "" )`
+
+Prevents the setting from being changed by the user or by other code.
+A `_lockReason` can be given which will show up in the tooltip.
+
+`function unlock()`
+
+Allows the setting to be changed.
+
+#### BooleanSetting
+
+`local myBooleanSetting = this.MSU.BooleanSetting( _name, _value, _id = null )`
+
+`_value` is a boolean.
+
+Creates a simple checkbox.
+
+#### RangeSetting
+
+`local myRangeSetting = this.MSU.RangeSetting( _name, _value, _min, _max, _step, _id = null )`
+
+`_name` and `_id` are strings,
+`_value`, `_min`, `_max`, and `_step` are ints.
+
+Creates a slider 
+which allows the user to select values between `_min` and `_max` 
+with `_step` sized increments.
+
+#### EnumSetting
+
+`local myEnumSetting = this.MSU.EnumSetting( _name, _value, _array, _id = null )`
+
+`_value` is a string element 
+of the array `_array`.
+
+Creates a Button 
+which allows the user to switch between all the values in `_array`.
+
+#### Custome Settings
+
+Additional Setting Types can be created by:
+
+ - Creating a new setting class, 
+ with a unique `Type`, 
+ which inherits from GenericSetting.
+ - Defining a new JS var constructor for the Setting called 
+ 'TypeSetting' where 'Type' is replaced
+ with the type of the setting class.
+ - Adding an unbindTooltip function to that 'TypeSetting' var.
+ - Defining the layout of the setting in a CSS
+
+It is recommended to look at the already present implementations
+as a guide.
+
+### Divider
+
+The settings system also allows adding a `this.MSU.Divider`
+to improve the layout of your mod page.
+This is a horizontal line with an optional title.
+
+`local myDivider = this.MSU.Divider(_id, _name = "", _description = "")`
+
+`_id` is a string and *must* be unique for the mod page.
+
+If no name is provided,
+the divider will be a thin horizontal line across the entire page.
