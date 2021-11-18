@@ -2,8 +2,12 @@ this.getroottable().MSU.setupUI <- function()
 {
 	::mods_registerCSS("msu_css.css");
 	::mods_registerJS("msu_ui_screen.js");
-	::mods_registerJS("msu_mod_settings_screen.js");
+
+	::mods_registerJS("msu_settings_screen.js");
+	::mods_registerCSS("msu_settings_screen.css");
+
 	::mods_registerJS("msu_mod_screens.js");
+
 	::mods_registerJS("~~msu_connect_screens.js")
 
 	this.MSU.UI <- {
@@ -22,6 +26,8 @@ this.getroottable().MSU.setupUI <- function()
 			}
 		}
 	}
+
+	//Uncertain if we want all hooks in their own file with mod_ prefixes
 
 	::mods_hookNewObjectOnce("ui/screens/menu/main_menu_screen", function(o)
 	{

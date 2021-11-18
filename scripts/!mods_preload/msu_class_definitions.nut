@@ -99,7 +99,7 @@ gt.MSU.defineClasses <- function()
 		{
 			if (Locked)
 			{
-				this.logError("Setting " + this.Name + " is locked and its value can't be changed")
+				this.logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed")
 				return;
 			}
 
@@ -156,7 +156,7 @@ gt.MSU.defineClasses <- function()
 			return this.LockReason;
 		}
 
-		function lock( _lockReason = "" ) //uncertain if this won't fuck up
+		function lock( _lockReason = "" )
 		{
 			this.Locked = true;
 			this.LockReason = _lockReason;

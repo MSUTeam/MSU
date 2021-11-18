@@ -34,6 +34,13 @@ var ModSettingsScreen = function ()
 
 }
 
+// Inheritance in JS
+ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype)
+Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
+	value: ModSettingsScreen,
+	enumerable: false,
+	writable: true });
+
 var BooleanSetting = function (_page, _setting, _parentDiv)
 {
 	this.layout = $('<div class="boolean-container"/>');
@@ -46,25 +53,25 @@ var BooleanSetting = function (_page, _setting, _parentDiv)
 		checkboxClass: 'icheckbox_flat-orange',
 		radioClass: 'iradio_flat-orange',
 		increaseArea: '30%'
-    });
-    this.checkbox.iCheck(_setting.value === true ? 'check' : 'uncheck')
+	});
+	this.checkbox.iCheck(_setting.value === true ? 'check' : 'uncheck');
 
-    this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
-    	_setting.value = !_setting.value;
-    });
+	this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
+		_setting.value = !_setting.value;
+	});
 
-    if (_setting.locked)
-    {
-    	this.checkbox.attr('disabled', true);
-    }
+	if (_setting.locked)
+	{
+		this.checkbox.attr('disabled', true);
+	}
 
-    // Tooltip
-    this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+	// Tooltip
+	this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 }
 
 BooleanSetting.prototype.unbindTooltip = function ()
 {
-	this.label.unbindTooltip()
+	this.label.unbindTooltip();
 }
 
 var RangeSetting = function (_page, _setting, _parentDiv)
@@ -84,7 +91,7 @@ var RangeSetting = function (_page, _setting, _parentDiv)
 		min : _setting.min,
 		max : _setting.max,
 		step : _setting.step
-	})
+	});
 	this.slider.val(_setting.value);
 	this.control.append(this.slider);
 
@@ -148,7 +155,7 @@ var EnumSetting = function (_page, _setting, _parentDiv)
 	}
 
 	// Tooltip
-	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id })
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 }
 
@@ -175,19 +182,19 @@ EnumSetting.prototype.unbindTooltip = function ()
 
 var DividerSetting = function (_page, _setting, _parentDiv)
 {
-	this.layout = $('<div class="divider"/>')
+	this.layout = $('<div class="divider"/>');
 	_parentDiv.append(this.layout);
 
 	var line = $('<div class="gold-line"/>');
-	this.layout.append(line)
+	this.layout.append(line);
 
 	if (_setting.name != "")
 	{
 		this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 		this.layout.append(this.title);
-		this.layout.css("height", "3.0rem")
-		line.css("top", "3.0rem")
-		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id })
+		this.layout.css("height", "3.0rem");
+		line.css("top", "3.0rem");
+		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
 	}
 }
 
@@ -199,13 +206,6 @@ DividerSetting.prototype.unbindTooltip = function ()
 	}
 }
 
-// Inheritance in JS
-ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype)
-Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
-	value: ModSettingsScreen,
-	enumerable: false,
-	writable: true });
-
 ModSettingsScreen.prototype.onConnection = function (_handle)
 {
 	MSUUIScreen.prototype.onConnection.call(this, _handle);
@@ -216,6 +216,9 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
 	MSUUIScreen.prototype.createDIV.call(this, _parentDiv);
+	this.mContainer = $('<div class="msu-settings-screen dialog-screen ui-control display-none opacity-none"/>');
+	_parentDiv.append(this.mContainer);
+
 	var dialogLayout = $('<div class="l-dialog-container"/>');
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
@@ -247,10 +250,10 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
 
 	//Mod Page Container
-	var modPageContainerLayout = $('<div class="l-page-container"/>')
+	var modPageContainerLayout = $('<div class="l-page-container"/>');
 	content.append(modPageContainerLayout);
-    this.mModPageContainer = modPageContainerLayout.createList(2);
-    this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
+	this.mModPageContainer = modPageContainerLayout.createList(2);
+	this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
 }
 
 ModSettingsScreen.prototype.destroy = function ()
@@ -288,7 +291,7 @@ ModSettingsScreen.prototype.hide = function()
 	this.mDialogContainer.findDialogSubTitle().html("Select a Mod From the List");
 
 	this.mModPageScrollContainer.empty();
-	this.mListScrollContainer.empty()
+	this.mListScrollContainer.empty();
 
 	MSUUIScreen.prototype.hide.call(this);
 }
@@ -323,12 +326,12 @@ ModSettingsScreen.prototype.switchToMod = function (_page)
 		this.mActiveSettings[i].unbindTooltip();
 	}
 	this.mActiveSettings = [];
-	this.mModPageScrollContainer.empty()
+	this.mModPageScrollContainer.empty();
 
-	this.mContainer.findDialogSubTitle().html(_page.name)
+	this.mContainer.findDialogSubTitle().html(_page.name);
 	for (var i = 0; i < _page.settings.length; i++)
 	{
-		var setting = new window[_page.settings[i].type + "Setting"](_page, _page.settings[i], this.mModPageScrollContainer)
+		var setting = new window[_page.settings[i].type + "Setting"](_page, _page.settings[i], this.mModPageScrollContainer);
 		this.mActiveSettings.push(setting);
 	}
 }

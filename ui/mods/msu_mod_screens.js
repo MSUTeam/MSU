@@ -11,7 +11,7 @@
 		var self = this;
 
 		row = $('<div class="row"></div>');
-		var temp = this.mButtonContainer.find('.divider')
+		var temp = this.mButtonContainer.find('.divider');
 		temp.before(row);
 		buttonLayout = $('<div class="l-center"></div>');
 		row.append(buttonLayout);
