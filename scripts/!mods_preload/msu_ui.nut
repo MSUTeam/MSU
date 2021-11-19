@@ -18,7 +18,7 @@ this.getroottable().MSU.setupUI <- function()
 			this.Screens.push(_screen);
 		}
 
-		function connectScreens()
+		function connectScreens() // Want to make this call another function which acts as a very late time to run code, eg I want to lock the settingsmanager at this point (this runs after main menu load)
 		{
 			foreach (screen in this.Screens)
 			{
@@ -27,8 +27,6 @@ this.getroottable().MSU.setupUI <- function()
 			delete this.MSU.UI.Screens;
 		}
 	}
-
-	//Uncertain if we want all hooks in their own file with mod_ prefixes
 
 	::mods_hookNewObjectOnce("ui/screens/menu/main_menu_screen", function(o)
 	{
@@ -79,7 +77,7 @@ this.getroottable().MSU.setupUI <- function()
 		{
 			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			this.m.MainMenuScreen.hideMainMenuModule();
-			this.MSU.SettingsScreen.show(true);
+			this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.Main);
 			this.m.MenuStack.push(function ()
 			{
 				this.MSU.SettingsScreen.hide();
@@ -106,7 +104,7 @@ this.getroottable().MSU.setupUI <- function()
 			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			this.toggleMenuScreen();
 			this.m.WorldScreen.hide();
-			this.MSU.SettingsScreen.show(true);
+			this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.World);
 			this.m.MenuStack.push(function ()
 			{
 				this.MSU.SettingsScreen.hide();
@@ -149,7 +147,7 @@ this.getroottable().MSU.setupUI <- function()
 		{
 			this.MSU.SettingsScreen.linkMenuStack(this.m.MenuStack);
 			this.m.TacticalMenuScreen.hide();
-			this.MSU.SettingsScreen.show(true);
+			this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.Tactical);
 			this.m.MenuStack.push(function ()
 			{
 				this.MSU.SettingsScreen.hide();

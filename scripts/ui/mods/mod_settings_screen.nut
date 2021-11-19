@@ -8,7 +8,7 @@ this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 		
 	}
 
-	function show(_data)
+	function show(_flags = null)
 	{
 		if (this.m.JSHandle == null)
 		{
@@ -18,7 +18,7 @@ this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 		{
 			throw this.Exception.AlreadyVisible;
 		}
-		this.m.JSHandle.asyncCall("show", this.MSU.SettingsManager.getUIData());
+		this.m.JSHandle.asyncCall("show", this.MSU.SettingsManager.getUIData(_flags));
 	}
 
 	function connect()

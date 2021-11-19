@@ -3,7 +3,7 @@ local gt = this.getroottable();
 local testSettingsSystem = function()
 {
 
-	for (local i = 0; i < 20; ++i)
+	for (local i = 0; i < 5; ++i)
 	{
 		local modPanel = this.MSU.SettingsModPanel("MSU" + i, "M" + i)
 		local numPages = rand() % 5 + 1;
@@ -15,6 +15,7 @@ local testSettingsSystem = function()
 			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0);
 			test1.lock()
 			local test2 = this.MSU.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
+			test2.addFlag("NotMain")
 			local test3 = this.MSU.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
 			test3.lock()
 			local test4 = this.MSU.EnumSetting("TestEnum" + j + 1, ["hi", "hello", "goodbye"]);
@@ -46,6 +47,29 @@ gt.MSU.setupSettingsSystem <- function()
 	::getModSetting <- function( _modID, _settingID )
 	{
 		return this.MSU.SettingsManager.get(_modID).get(_settingID);
+	}
+
+	this.MSU.SettingsFlags <- {
+		CampaignStart = {
+			required = [
+				"CampaignStart"
+			]
+		}
+		World = {
+			excluded = [
+				"NotWorld"
+			]
+		}
+		Tactical = {
+			excluded = [
+				"NotTactical"
+			]
+		}
+		Main = {
+			excluded = [
+				"NotMain"
+			]
+		}
 	}
 
 	// Testing Code
