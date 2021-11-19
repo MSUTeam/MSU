@@ -304,6 +304,7 @@ ModSettingsScreen.prototype.hide = function()
 {
 	this.mDialogContainer.findDialogSubTitle().html("Select a Mod From the List");
 
+	this.mPageTabContainer.empty();
 	this.mModPageScrollContainer.empty();
 	this.mListScrollContainer.empty();
 
@@ -361,10 +362,10 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 	});
 	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty();
-
+	var self = this;
 	_page.settings.forEach(function(setting)
 	{
-		self.mActiveSettings.push(new window[setting.type + "Setting"](_mod, _page, setting, this.mModPageScrollContainer));
+		self.mActiveSettings.push(new window[setting.type + "Setting"](_mod, _page, setting, self.mModPageScrollContainer));
 	});
 }
 
