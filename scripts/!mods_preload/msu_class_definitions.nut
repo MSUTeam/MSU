@@ -50,7 +50,18 @@ gt.MSU.defineClasses <- function()
 
 		function sort( _function )
 		{
-			this.Array.sort(_function)
+			for (local i = 1; i < this.Array.len(); ++i)
+			{
+				local key = this.Array[i];
+				local j = i - 1;
+				while (j >= 0 && _function(key, this.Table[key], this.Array[j], this.Table[this.Array[j]]) <= 0)
+				{
+					this.Array[j+1] = this.Array[j];
+					--j;
+				}
+
+				this.Array[j+1] = key;
+			}
 		}
 
 		function reverse()
@@ -64,6 +75,11 @@ gt.MSU.defineClasses <- function()
 			this.Table.clear();
 		}
 
+		function shuffle()
+		{
+			this.MSU.Array.shuffle(this.Array);
+		}
+
 		function len()
 		{
 			return this.Array.len();
@@ -75,20 +91,26 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.GenericSetting <- class
+	gt.MSU.AbstractSetting <- class
 	{
 		Name = null;
 		ID = null;
 		Value = null; // Serialized
-		static Type = "Generic";
+		static Type = "Abstract";
 		Description = null;
 		Locked = null; // Serialized
 		LockReason = null; // Serialized
 		
-		constructor( _name, _value, _id = null)
+		constructor( _id, _value, _name = null)
 		{
-			this.Name = _name;
-			this.ID = _id == null ? _name : _id;
+			if (_id.find(" ") != null)
+			{
+				this.logError("The ID of a setting should not have spaces");
+				throw this.Exception.InvalidTypeException;
+			}
+
+			this.Name = _name == null ? _id : _name;
+			this.ID = _id;
 			this.Value = _value; 
 			this.Description = "";
 			this.Locked = false;
@@ -126,7 +148,7 @@ gt.MSU.defineClasses <- function()
 			local ret = "";
 			if (this.isLocked())
 			{
-				ret += "[u][i]Locked[/i][/u]\n"
+				ret += "[color=" + this.Const.UI.Color.NegativeValue + "]Locked[/color]\n"
 				if (this.LockReason != "")
 				{
 					ret += this.LockReason + "\n";
@@ -176,66 +198,66 @@ gt.MSU.defineClasses <- function()
 				name = this.getName(),
 				locked = this.isLocked(),
 				value = this.getValue()
-			}
+			};
 		}
 
-		function getFlag( _modID )
+		function getFlag( _pageID )
 		{
-			return "ModSetting." + _modID + "." + this.getName();
+			return "ModSetting." + _pageID + "." + this.getID();
 		}
 
-		function getPropertyFlag( _modID, _property )
+		function getPropertyFlag( _pageID, _property )
 		{
-			return this.getFlag(_modID) + "." + _property;
+			return this.getFlag(_pageID) + "." + _property;
 		}
 
-		function setFlagForProperty( _property, _modID )
+		function setFlagForProperty( _property, _pageID )
 		{
-			this.World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]) 
+			this.World.Flags.set(this.getPropertyFlag(_pageID, _property), this[_property]);
 		}
 
-		function setPropertyIfFlagExists( _property, _modID )
+		function setPropertyIfFlagExists( _property, _pageID )
 		{
-			local flag = this.getPropertyFlag(_modID, _property);
+			local flag = this.getPropertyFlag(_pageID, _property);
 			if (this.World.Flags.has(flag))
 			{
 				this[_property] = this.World.Flags.get(flag);
 			}
 		}
 
-		function clearFlagForProperty( _property, _modID )
+		function clearFlagForProperty( _property, _pageID )
 		{
-			local flag = this.getPropertyFlag(_modID, _property);
+			local flag = this.getPropertyFlag(_pageID, _property);
 			if (this.World.Flags.has(flag))
 			{
 				this.World.Flags.remove(flag);
 			}
 		}
 
-		function flagSerialize( _modID )
+		function flagSerialize( _pageID )
 		{
-			this.setFlagForProperty("Value", _modID);
-			this.setFlagForProperty("Locked", _modID);
-			this.setFlagForProperty("LockReason"_modID);
+			this.setFlagForProperty("Value", _pageID);
+			this.setFlagForProperty("Locked", _pageID);
+			this.setFlagForProperty("LockReason"_pageID);
 		}
 
-		function flagDeserialize( _modID )
+		function flagDeserialize( _pageID )
 		{
-			this.setPropertyIfFlagExists("Value", _modID);
-			this.setPropertyIfFlagExists("Locked", _modID);
-			this.setPropertyIfFlagExists("LockReason", _modID);
+			this.setPropertyIfFlagExists("Value", _pageID);
+			this.setPropertyIfFlagExists("Locked", _pageID);
+			this.setPropertyIfFlagExists("LockReason", _pageID);
 		}
 
-		function resetFlags( _modID )
+		function resetFlags( _pageID )
 		{
-			this.clearFlagForProperty("Value", _modID);
-			this.clearFlagForProperty("Locked", _modID);
-			this.clearFlagForProperty("LockReason", _modID);
+			this.clearFlagForProperty("Value", _pageID);
+			this.clearFlagForProperty("Locked", _pageID);
+			this.clearFlagForProperty("LockReason", _pageID);
 		}
 
 		function tostring()
 		{
-			return "Type: " + this.getType() + " | Name: " + this.getName() + " | Value: " + this.getValue();
+			return "Type: " + this.getType() + " | ID: " + this.getID() + " | Name: " + this.getName() + " | Value: " + this.getValue();
 		}
 
 		function _tostring()
@@ -244,47 +266,51 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.BooleanSetting <- class extends gt.MSU.GenericSetting
+	gt.MSU.BooleanSetting <- class extends gt.MSU.AbstractSetting
 	{
 		static Type = "Boolean";
 
-		constructor( _name, _value, _id = null)
+		constructor( _id, _value, _name = null)
 		{
 			if (typeof _value != "bool")
 			{
-				this.logError("Boolean value must be a boolean");
+				this.logError("The value for Boolean Setting must be a boolean");
 				throw this.Exception.InvalidTypeException;
 			}
-			base.constructor(_name, _value, _id);
+			base.constructor(_id, _value, _name);
 		}
 
 		function set( _value )
 		{
 			if (typeof _value != "bool")
 			{
-				this.logError("Boolean value must be a boolean");
+				this.logError("The value for Boolean Setting must be a boolean");
 				throw this.Exception.InvalidTypeException;
 			}
 			base.set(_value);
 		}
-
-		function getUIData()
-		{
-			local ret = base.getUIData();
-			return ret;
-		}
 	}
 
-	gt.MSU.RangeSetting <- class extends gt.MSU.GenericSetting
+	gt.MSU.RangeSetting <- class extends gt.MSU.AbstractSetting
 	{
 		Min = null;
 		Max = null;
 		Step = null;
 		static Type = "Range";
 
-		constructor( _name, _value, _min, _max, _step, _id = null )
+		constructor( _id, _value, _min, _max, _step, _name = null )
 		{
-			base.constructor(_name, _value, _id);
+			base.constructor(_id, _value, _name);
+
+			foreach (num in [_min, _max, _step])
+			{
+				if ((typeof num != "integer") && (typeof num != "float"))
+				{
+					this.logError("Max, Min and Step in a Range Setting have to be integers or floats");
+					throw this.Exception.InvalidTypeException;
+				}
+			}
+
 			this.Min = _min;
 			this.Max = _max;
 			this.Step = _step;
@@ -314,47 +340,30 @@ gt.MSU.defineClasses <- function()
 			return ret;
 		}
 
-		function flagSerialize( _modID )
-		{
-			base.flagSerialize(_modID);
-			this.setFlagForProperty("Min", _modID)
-			this.setFlagForProperty("Max", _modID)
-		}
-
-		function flagDeserialize( _modID )
-		{
-			base.flagDeserialize(_modID);
-			this.setPropertyIfFlagExists("Min", _modID);
-			this.setPropertyIfFlagExists("Max", _modID);
-		}
-
-		function resetFlags( _modID )
-		{
-			base.resetFlags(_modID);
-			this.clearFlagForProperty("Min", _modID);
-			this.clearFlagForProperty("Max", _modID);
-		}
-
 		function tostring()
 		{
 			return base.tostring() + " | Min: " + this.getMin() + " | Max: " + this.getMax() + " | Step: " + this.getStep();
 		}
 	}
 
-	gt.MSU.EnumSetting <- class extends gt.MSU.GenericSetting
+	gt.MSU.EnumSetting <- class extends gt.MSU.AbstractSetting
 	{
 		Array = null;
 		static Type = "Enum";
 
-		constructor( _name, _value, _array, _id = null )
+		constructor( _id, _array, _value = null, _name = null )
 		{
-			if (_array.find(_value) == null)
+			if (_value == null)
+			{
+				_value = _array[0];
+			}
+			else if (_array.find(_value) == null)
 			{
 				this.logError("Value must be an element in the Array");
 				throw this.Exception.KeyNotFound;
 			}
-			base.constructor(_name, _value, _id = null);
-			this.Array = _array
+			base.constructor(_id, _value, _name);
+			this.Array = _array;
 		}
 
 		function getUIData()
@@ -376,25 +385,15 @@ gt.MSU.defineClasses <- function()
 
 		function flagDeserialize(_modID)
 		{
-			local flag = this.getPropertyFlag(_modID, "Value");
-			if (this.World.Flags.has(flag))
+			base.flagDeserialize(_modID);
+			if (this.Array.find(this.Value) == null)
 			{
-				local value = this.World.Flags.get(flag);
-				if (this.Array.find(value) != null)
-				{
-					this.Value = value;
-				}
-				else
-				{
-					this.logError("Value \'" + value + "\' not contained in array for Setting " + this.getName() + " in mod " + _modID);
-					throw this.Exception.KeyNotFound;
-				}
+				this.logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + _modID);
+				this.Value = this.Array[0];
 			}
-			this.setPropertyIfFlagExists(_modID, "Locked")
-			this.setPropertyIfFlagExists(_modID, "LockReason")
 		}
 
-		//Note the Table ISN'T serialized
+		//Note the Array ISN'T serialized
 	}
 
 	gt.MSU.Divider <- class
@@ -403,7 +402,7 @@ gt.MSU.defineClasses <- function()
 		Description = null;
 		ID = null;
 		Value = null;
-		static Type = "Divider"
+		static Type = "Divider";
 
 		constructor(_id, _name = "", _description = "")
 		{
@@ -444,36 +443,144 @@ gt.MSU.defineClasses <- function()
 				name = this.getName(),
 				type = this.getType(),
 				value = this.getValue()
+			};
+		}
+	}
+
+	gt.MSU.SettingsModPanel <- class
+	{
+		Pages = null;
+		ID = null;
+		Name = null;
+
+		constructor( _id, _name = null)
+		{
+			this.ID = _id;
+			this.Name = _name == null ? _id : _name;
+			this.Pages = this.MSU.OrderedMap();
+		}
+
+		function getPages()
+		{
+			return this.Pages;
+		}
+
+		function add( _page )
+		{
+			if (!(_page instanceof this.MSU.SettingsPage))
+			{
+				throw this.Exception.InvalidTypeException;
 			}
+			this.Pages[_page.getID()] <- _page;
+		}
+
+		function get( _settingID )
+		{
+			foreach (page in this.Pages)
+			{
+				if ( page.Settings.Array.find(_settingID) != null)
+				{
+					return page.get(_settingID);
+				}
+			}
+
+			throw this.Exception.KeyNotFound;
+		}
+
+		function getName()
+		{
+			return this.Name;
+		}
+
+		function getID()
+		{
+			return this.ID;
+		}
+
+		function doSettingsFunction( _function, ... )
+		{
+			vargv.insert(0, null);
+			foreach (page in this.Pages)
+			{
+				foreach (setting in page.getSettings())
+				{
+					if (setting instanceof this.MSU.AbstractSetting)
+					{
+						vargv[0] = setting;
+						setting[_function].acall(vargv);
+					}
+				}
+			}
+		}
+
+		function flagSerialize()
+		{
+			this.doSettingsFunction("flagSerialize", this.getID());
+		}
+
+		function flagDeserialize()
+		{
+			this.doSettingsFunction("flagDeserialize", this.getID());
+		}
+
+		function resetFlags()
+		{
+			this.doSettingsFunction("resetFlags", this.getID());
+		}
+
+		function getUIData()
+		{
+			local ret = {
+				id = this.getID(),
+				name = this.getName(),
+				pages = []
+			}
+
+			foreach (pageID, page in this.Pages)
+			{
+				ret.pages.push(page.getUIData());
+			}
+
+			return ret;
 		}
 	}
 
 	gt.MSU.SettingsPage <- class
 	{
-		PageName = null;
-		ModID = null;
+		Name = null;
+		ID = null;
 		Settings = null;
 
-		constructor( _name, _modID )
+		constructor( _pageID, _name )
 		{
-			this.PageName = _name;
-			this.ModID = _modID;	
+			this.ID = _pageID;	
+			this.Name = _name;
 			this.Settings = this.MSU.OrderedMap();
 		}
 
 		function add( _setting )
 		{
-			if (!(_setting instanceof this.MSU.GenericSetting) && !(_setting instanceof this.MSU.Divider))
+			if (!(_setting instanceof this.MSU.AbstractSetting) && !(_setting instanceof this.MSU.Divider))
 			{
-				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from GenericSetting");
+				this.logError("Failed to add setting: setting needs to be one of the Setting types inheriting from AbstractSetting");
 				throw this.Exception.InvalidTypeException;
 			}
 			this.Settings[_setting.getID()] <- _setting;
 		}
 
-		function getModID()
+		function getID()
 		{
-			return this.ModID;
+			return this.ID;
+		}
+
+		function getName()
+		{
+			return this.Name;
+		}
+
+		function getSettings()
+		{
+			return this.Settings;
 		}
 
 		function get( _settingID )
@@ -481,40 +588,11 @@ gt.MSU.defineClasses <- function()
 			return this.Settings[_settingID];
 		}
 
-		function doSettingsFunction(_function, ...)
-		{
-			vargv.insert(0, null);
-
-			foreach (setting in this.Settings)
-			{
-				if (setting instanceof this.MSU.GenericSetting)
-				{
-					vargv[0] = setting;
-					setting[_function].acall(vargv);
-				}
-			}
-		}
-
-		function flagSerialize()
-		{
-			this.doSettingsFunction("flagSerialize", this.ModID);
-		}
-
-		function flagDeserialize()
-		{
-			this.doSettingsFunction("flagDeserialize", this.ModID);
-		}
-
-		function resetFlags()
-		{
-			this.doSettingsFunction("resetFlags", this.ModID);
-		}
-
 		function getUIData()
 		{
 			local ret = {
-				name = this.PageName,
-				modID = this.getModID(),
+				name = this.getName(),
+				id = this.getID(),
 				settings = []
 			}
 
@@ -527,7 +605,7 @@ gt.MSU.defineClasses <- function()
 
 		function tostring()
 		{
-			local ret = "Name: " + this.PageName + " | ModID: " + this.getModID + " | Settings:\n";
+			local ret = "Name: " + this.getName() + " | ID: " + this.getID() + " | Settings:\n";
 
 			foreach (setting in this.Settings)
 			{

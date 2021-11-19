@@ -21,6 +21,8 @@
 		}, '', 4);
 	}
 
+	Screens["MainMenuScreen"].getModule("MainMenuModule").addModOptionsButton();
+
 	MainMenuScreen.prototype.showMainMenuModule = function ()
 	{
 		this.mMainMenuModule.show();
@@ -31,7 +33,6 @@
 		this.mMainMenuModule.hide();
 	}
 
-	Screens["MainMenuScreen"].getModule("MainMenuModule").addModOptionsButton();
 
 	MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 	{

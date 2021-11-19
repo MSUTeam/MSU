@@ -12,6 +12,7 @@ var ModSettingsScreen = function ()
 	this.mListScrollContainer = null;
 	this.mModPageScrollContainer = null;
 	this.mActiveSettings = [];
+	this.mPageTabContainer = null;
 	/*
 
 	this.mModPanels = 
@@ -19,15 +20,22 @@ var ModSettingsScreen = function ()
 		{
 			modID = "",
 			name = "",
-			settings = [
-				{
-					id = "",
-					type = "",
-					name = "",
-					value = 0,
-					locked = false,
-				}
+			pages = [
+				id = "",
+				name = "",
+				settings = [
+					{
+						id = "",
+						type = "",
+						name = "",
+						value = 0,
+						locked = false,
+					}
+				]
 			]
+		}
+		{
+
 		}
 	]
 	*/
@@ -41,7 +49,7 @@ Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
 	enumerable: false,
 	writable: true });
 
-var BooleanSetting = function (_page, _setting, _parentDiv)
+var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.layout = $('<div class="boolean-container"/>');
 	_parentDiv.append(this.layout);
@@ -66,7 +74,7 @@ var BooleanSetting = function (_page, _setting, _parentDiv)
 	}
 
 	// Tooltip
-	this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+	this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 }
 
 BooleanSetting.prototype.unbindTooltip = function ()
@@ -74,7 +82,7 @@ BooleanSetting.prototype.unbindTooltip = function ()
 	this.label.unbindTooltip();
 }
 
-var RangeSetting = function (_page, _setting, _parentDiv)
+var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
 	this.layout = $('<div class="range-container"/>');
@@ -110,8 +118,8 @@ var RangeSetting = function (_page, _setting, _parentDiv)
 	}
 
 	// Tooltip
-	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
-	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 }
 
 RangeSetting.prototype.unbindTooltip = function ()
@@ -120,7 +128,7 @@ RangeSetting.prototype.unbindTooltip = function ()
 	this.title.unbindTooltip();
 }
 
-var EnumSetting = function (_page, _setting, _parentDiv)
+var EnumSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
 	this.setting = _setting;
@@ -155,8 +163,8 @@ var EnumSetting = function (_page, _setting, _parentDiv)
 	}
 
 	// Tooltip
-	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
-	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 }
 
 EnumSetting.prototype.cycle = function (_forward)
@@ -180,7 +188,7 @@ EnumSetting.prototype.unbindTooltip = function ()
 	this.button.unbindTooltip();
 }
 
-var DividerSetting = function (_page, _setting, _parentDiv)
+var DividerSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.layout = $('<div class="divider"/>');
 	_parentDiv.append(this.layout);
@@ -194,7 +202,7 @@ var DividerSetting = function (_page, _setting, _parentDiv)
 		this.layout.append(this.title);
 		this.layout.css("height", "3.0rem");
 		line.css("top", "3.0rem");
-		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _page.modID + "." + _setting.id });
+		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	}
 }
 
@@ -221,7 +229,10 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 	var dialogLayout = $('<div class="l-dialog-container"/>');
 	this.mContainer.append(dialogLayout);
-	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, false, 'dialog-1024-768');
+	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, true, 'dialog-1024-768');
+
+	this.mPageTabContainer = $('<div class="l-tab-button-bar"/>')
+	this.mDialogContainer.findDialogTabContainer().append(this.mPageTabContainer);
 
 	//Footer Bar
 	var footerButtonBar = $('<div class="l-button-bar"></div>');
@@ -299,28 +310,45 @@ ModSettingsScreen.prototype.hide = function()
 ModSettingsScreen.prototype.show = function (_data)
 {
 	this.mModPanels = _data;
-	this.createModPageList();
+	this.createModPanelList();
 
 	MSUUIScreen.prototype.show.call(this,_data);
 }
 
-ModSettingsScreen.prototype.createModPageList = function ()
+ModSettingsScreen.prototype.createModPanelList = function ()
 {
 	for (var i = this.mModPanels.length - 1; i >= 0; i--) {
-		this.addModPageButtonToList(this.mModPanels[i]);
+		this.addModPanelButtonToList(this.mModPanels[i]);
 	}
 }
 
-ModSettingsScreen.prototype.addModPageButtonToList = function (_page)
+ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
 {
 	var self = this;
-	this.mListScrollContainer.createTextButton(_page.name, function ()
+	this.mListScrollContainer.createTextButton(_mod.name, function ()
 	{
-		self.switchToMod(_page);
+		self.switchToModPanel(_mod);
+		self.switchToPage(_mod, _mod.pages[0])
 	}, 'l-button', 4);
 }
 
-ModSettingsScreen.prototype.switchToMod = function (_page)
+ModSettingsScreen.prototype.switchToModPanel = function (_mod)
+{
+	this.mPageTabContainer.empty();
+	var self = this;
+	this.mContainer.findDialogSubTitle().html(_mod.name);
+	_mod.pages.forEach(function(page)
+	{
+		var layout = $('<div class="l-tab-button"/>');
+		self.mPageTabContainer.append(layout);
+		var button = layout.createTabTextButton(page.name, function ()
+		{
+		    self.switchToPage(_mod, page);
+		}, null, 'tab-button', 7);
+	});
+}
+
+ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 {
 	for (var i = 0; i < this.mActiveSettings.length; i++) {
 		this.mActiveSettings[i].unbindTooltip();
@@ -328,10 +356,9 @@ ModSettingsScreen.prototype.switchToMod = function (_page)
 	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty();
 
-	this.mContainer.findDialogSubTitle().html(_page.name);
 	for (var i = 0; i < _page.settings.length; i++)
 	{
-		var setting = new window[_page.settings[i].type + "Setting"](_page, _page.settings[i], this.mModPageScrollContainer);
+		var setting = new window[_page.settings[i].type + "Setting"](_mod, _page, _page.settings[i], this.mModPageScrollContainer);
 		this.mActiveSettings.push(setting);
 	}
 }
@@ -339,18 +366,20 @@ ModSettingsScreen.prototype.switchToMod = function (_page)
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {
 	var changes = {}
-	for (var i = this.mModPanels.length - 1; i >= 0; i--) {
-		var modID = this.mModPanels[i].modID;
-		changes[modID] = {};
-		for (var j = this.mModPanels[i].settings.length - 1; j >= 0; j--) {
-			var setting = this.mModPanels[i].settings[j];
-			if (setting.type == "Divider" || setting.locked)
+	this.mModPanels.forEach(function(modPanel)
+	{
+		changes[modPanel.id] = {};
+		modPanel.pages.forEach(function(page)
+		{
+			page.settings.forEach(function(setting)
 			{
-				continue;
-			}
-			changes[modID][setting.id] = setting.value;
-		}
-	}
+				if (setting.type != "Divider" && !setting.locked)
+				{
+					changes[modPanel.id][setting.id] = setting.value;
+				}
+			});
+		});
+	});
 	return changes;
 }
 

@@ -10,18 +10,45 @@
 
 .msu-settings-screen .l-dialog-container
 {
-    width: 102.4rem;
-    height: 76.8rem;
-    position: absolute;
-    margin: auto;
+	width: 102.4rem;
+	height: 76.8rem;
+	position: absolute;
+	margin: auto;
+}
+
+.msu-settings-screen .dialog .tab-container .l-tab-button-bar
+{
+	top: -0.5rem;
+	left: 4.0rem;
+	right: 2.0rem;
+	bottom: 0;
+	height: 4.3rem;
+	position: absolute;
+	margin: auto;
+	text-align: center;
+}
+
+.msu-settings-screen .dialog .tab-container .l-tab-button
+{
+	width: 17.4rem;
+	height: 4.3rem;
+	margin-right: 0.66rem;
+	display: inline-block;
+
+	line-height: 3.0rem;
+}
+
+.msu-settings-screen .dialog .tab-container .l-tab-button:last-child
+{
+	margin-right: 0;
 }
 
 .msu-settings-screen .ui-control.dialog > .content
 {
-    top: 12.0rem;
-    position: absolute;
-    margin: auto;
-    overflow: hidden;
+	top: 12.0rem;
+	position: absolute;
+	margin: auto;
+	overflow: hidden;
 }
 
 .msu-settings-screen .dialog .content .l-page-container
@@ -79,17 +106,17 @@
 
 .msu-settings-screen .dialog .content .l-page-container .range-container .scale-label
 {
-    top: 3.9rem;
-    left: 30.5rem;
-    position: absolute;
+	top: 3.9rem;
+	left: 30.5rem;
+	position: absolute;
 }
 
 .msu-settings-screen .dialog .content .l-page-container .range-container .scale-slider
 {
-    top: 2.5rem;
-    height: 2.0rem;
+	top: 2.5rem;
+	height: 2.0rem;
 	width: 30.0rem;
-    position: absolute;
+	position: absolute;
 	float: left;
 
 	margin-bottom: 0.0rem;
@@ -153,7 +180,7 @@
 {
 	width: 25.2rem;
 	height: 98%;
-    position: absolute;
+	position: absolute;
 }
 
 .msu-settings-screen .dialog .content .l-list-container .scroll-container .l-button
@@ -161,17 +188,17 @@
 	width: 23rem;
 	position: relative;
 	left: -0.1rem;
-    height: 4.0rem;
-    line-height: 3.0rem;
+	height: 4.0rem;
+	line-height: 3.0rem;
 }
 
 .msu-settings-screen .dialog .footer .l-button-bar
 {
-    top: 0.0rem;
-    left: 2.0rem;
-    right: 2.0rem;
-    bottom: 0;
-    height: 4.3rem;
-    position: absolute;
-    margin: auto;
+	top: 0.0rem;
+	left: 2.0rem;
+	right: 2.0rem;
+	bottom: 0;
+	height: 4.3rem;
+	position: absolute;
+	margin: auto;
 }

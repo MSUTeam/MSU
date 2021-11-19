@@ -1,15 +1,15 @@
 this.mod_settings_manager <- {
 	m = {
-		Pages = null,
+		Panels = null,
 		Locked = false
 	},
 
 	function create()
 	{
-		this.m.Pages = this.MSU.OrderedMap();
+		this.m.Panels = this.MSU.OrderedMap();
 	}
 	
-	function add( _page )
+	function add( _modPanel )
 	{
 		if (this.m.Locked)
 		{
@@ -17,23 +17,23 @@ this.mod_settings_manager <- {
 		}
 		else
 		{
-			if (!(_page instanceof this.MSU.SettingsPage))
+			if (!(_modPanel instanceof this.MSU.SettingsModPanel))
 			{
 				throw this.Exception.InvalidTypeException;
 			}
-			this.m.Pages[_page.getModID()] <- _page;
+			this.m.Panels[_modPanel.getID()] <- _modPanel;
 		}
 	}
 
-	function get( _modID )
+	function get( _id )
 	{
-		return this.m.Pages[_modID];
+		return this.m.Panels[_id];
 	}
 
 	function finalize()
 	{
 		this.m.Locked = true;
-		this.m.Pages.sort(this.sortPagesByName);
+		this.m.Panels.sort(this.sortPanelsByName);
 	}
 
 	function updateSettings( _data )
@@ -41,59 +41,61 @@ this.mod_settings_manager <- {
 		/*
 		_data = {
 			modID = {
-				settingID = value
+				pageID = {
+					settingID = value
+				}
 			}
 		}
 		*/
 
-		foreach (modID, page in _data)
+		foreach (modID, panel in _data)
 		{
-			foreach (setting, value in page)
+			foreach (settingID, value in panel)
 			{
-				this.m.Pages[modID].get(setting).set(value);
+				this.m.Panels[modID].get(settingID).set(value);
 			}
 		}
 	}
 
-	function doPagesFunction(_function, ...)
+	function doPanelsFunction(_function, ...)
 	{
 		vargv.insert(0, null);
 
-		foreach (page in this.m.Pages)
+		foreach (panel in this.m.Panels)
 		{
-			vargv[0] = page;
-			page[_function].acall(vargv);
+			vargv[0] = panel;
+			panel[_function].acall(vargv);
 		}
 	}
 
 	function flagSerialize()
 	{
-		this.doPagesFunction("flagSerialize");
+		this.doPanelsFunction("flagSerialize");
 	}
 
 	function resetFlags()
 	{
-		this.doPagesFunction("resetFlags");
+		this.doPanelsFunction("resetFlags");
 	}
 
 	function flagDeserialize()
 	{
-		this.doPagesFunction("flagDeserialize");	
+		this.doPanelsFunction("flagDeserialize");	
 	}
 
 	function getUIData()
 	{
 		local ret = [];
-		foreach (page in this.m.Pages)
+		foreach (panel in this.m.Panels)
 		{
-			ret.push(page.getUIData());
+			ret.push(panel.getUIData());
 		}
 		ret.reverse() //No idea why conversion to JS reverses the array, but it does so I am pre-empting this.
 		return ret;
 	}
 	
-	function sortPagesByName( _page1, _page2 )
+	function sortPanelsByName( _key1, _mod1, _key2, _mod2 )
 	{
-		return _page1.getName() <=> _page2.getName();
+		return _mod1.getName() <=> _mod2.getName();
 	}
 }
