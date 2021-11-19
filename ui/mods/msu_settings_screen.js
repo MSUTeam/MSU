@@ -269,9 +269,11 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 ModSettingsScreen.prototype.destroy = function ()
 {
-	for (var i = 0; i < this.mActiveSettings.length; i++) {
-		this.mActiveSettings[i].remove();
-	}
+	this.mActiveSettings.forEach(function(setting)
+	{
+		setting.remove();
+	});
+
 	this.mActiveSettings = [];
 	this.mModPanels = {};
 	this.mChangedPanels = {};
@@ -281,9 +283,10 @@ ModSettingsScreen.prototype.destroy = function ()
 
 ModSettingsScreen.prototype.unbindTooltips = function ()
 {
-	for (var i = 0; i < this.mActiveSettings.length; i++) {
-		this.mActiveSettings[i].unbindTooltip();
-	}
+	this.mActiveSettings.forEach(function(setting)
+	{
+		setting.unbindTooltip();
+	});
 
 	MSUUIScreen.prototype.unbindTooltips.call(this);
 }
@@ -317,9 +320,11 @@ ModSettingsScreen.prototype.show = function (_data)
 
 ModSettingsScreen.prototype.createModPanelList = function ()
 {
-	for (var i = this.mModPanels.length - 1; i >= 0; i--) {
-		this.addModPanelButtonToList(this.mModPanels[i]);
-	}
+	var self = this;
+	this.mModPanels.forEach(function(mod)
+	{
+		self.addModPanelButtonToList(mod);
+	});
 }
 
 ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
@@ -350,17 +355,17 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 
 ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 {
-	for (var i = 0; i < this.mActiveSettings.length; i++) {
-		this.mActiveSettings[i].unbindTooltip();
-	}
+	this.mActiveSettings.forEach(function(setting)
+	{
+		setting.unbindTooltip();
+	});
 	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty();
 
-	for (var i = 0; i < _page.settings.length; i++)
+	_page.settings.forEach(function(setting)
 	{
-		var setting = new window[_page.settings[i].type + "Setting"](_mod, _page, _page.settings[i], this.mModPageScrollContainer);
-		this.mActiveSettings.push(setting);
-	}
+		self.mActiveSettings.push(new window[setting.type + "Setting"](_mod, _page, setting, this.mModPageScrollContainer));
+	});
 }
 
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
