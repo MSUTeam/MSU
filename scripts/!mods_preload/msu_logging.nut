@@ -40,6 +40,34 @@ gt.MSU.setupLoggingUtils <- function()
 			this.logInfo(string);
 		}
 
+		function pretty( _object )
+		{
+			local out = "";
+			local arrayVsTable = ["{", "}"];
+			switch (typeof _object)
+			{
+				case "array":
+					out += "["
+					arrayVsTable = ["[", "]"];
+					foreach (key in _object)
+					{
+						out += key + ", ";
+					}
+					out = out.slice(0, out.len() - 2) + "]";
+					return out;
+				case "table":
+					out += "{";
+					foreach (key, value in _object)
+					{
+						out += key + " = " + value + ", ";
+					}
+					out = out.slice(0, out.len() - 2) + "}"
+					return out;
+				default:
+					return _object;
+			}
+		}
+
 		function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
 		{
 			local string = "";

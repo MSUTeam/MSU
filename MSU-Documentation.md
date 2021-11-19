@@ -801,10 +801,10 @@ with a created page.
 ### Setting Types
 
 All setting types are classes
-which inherit from `this.MSU.GenericSetting`.
-Custom SettingTypes *must* also inherit from `GenericSetting`
+which inherit from `this.MSU.AbstractSetting`.
+Custom SettingTypes *must* also inherit from `AbstractSetting`
 
-#### GenericSetting (True for all Settings)
+#### AbstractSetting (True for all Settings)
 
 Should not be initialized directly,
 used as a parents for other settings.
@@ -867,7 +867,7 @@ Additional Setting Types can be created by:
 
  - Creating a new setting class, 
  with a unique `Type`, 
- which inherits from GenericSetting.
+ which inherits from AbstractSetting.
  - Defining a new JS var constructor for the Setting called 
  'TypeSetting' where 'Type' is replaced
  with the type of the setting class.
