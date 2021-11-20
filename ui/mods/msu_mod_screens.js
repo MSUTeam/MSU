@@ -33,6 +33,15 @@
 		this.mMainMenuModule.hide();
 	}
 
+	MainMenuScreen.prototype.hideNewCampaignModule = function ()
+	{
+		this.mNewCampaignModule.hide();
+	}
+
+	MainMenuScreen.prototype.showNewCampaignModule = function ()
+	{
+		this.mNewCampaignModule.show();
+	}
 
 	MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 	{

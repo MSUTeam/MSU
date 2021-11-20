@@ -156,12 +156,24 @@ gt.MSU.defineClasses <- function()
 		{
 			if (_flags != null)
 			{
-				foreach (flag in this.Flags)
+				if ("required" in _flags)
 				{
-					if (("required" in _flags && !(_flags.required.find(flag) == null)) || 
-						("excluded" in _flags && _flags.excluded.find(flag) != null))
+					foreach (required in _flags.required)
 					{
-						return false;
+						if (this.Flags.find(required) == null)
+						{
+							return false;
+						}
+					}
+				}
+				if ("excluded" in _flags)
+				{
+					foreach (excluded in _flags.excluded)
+					{
+						if (this.Flags.find(excluded) != null)
+						{
+							return false;
+						}
 					}
 				}
 			}
@@ -503,6 +515,18 @@ gt.MSU.defineClasses <- function()
 			throw this.Exception.KeyNotFound;
 		}
 
+		function verifyFlags( _flags )
+		{
+			foreach (page in this.Pages)
+			{
+				if (page.verifyFlags(_flags))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 		function getName()
 		{
 			return this.Name;
@@ -554,7 +578,10 @@ gt.MSU.defineClasses <- function()
 
 			foreach (pageID, page in this.Pages)
 			{
-				ret.pages.push(page.getUIData(_flags));
+				if (page.verifyFlags(_flags))
+				{
+					ret.pages.push(page.getUIData(_flags));
+				}
 			}
 
 			return ret;
@@ -602,6 +629,18 @@ gt.MSU.defineClasses <- function()
 		function get( _settingID )
 		{
 			return this.Settings[_settingID];
+		}
+
+		function verifyFlags( _flags )
+		{
+			foreach (setting in this.Settings)
+			{
+				if (setting.verifyFlags(_flags))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		function getUIData( _flags )

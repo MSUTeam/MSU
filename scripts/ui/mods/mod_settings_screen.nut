@@ -1,11 +1,23 @@
 this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 	m = {
-		MenuStack = null
+		MenuStack = null,
+		OnCancelPressedListener = null,
+		OnSavePressedListener = null
 	},
 	
 	function create()
 	{
 		
+	}
+
+	function setOnSavePressedListener( _listener )
+	{
+		this.m.OnSavePressedListener = _listener;
+	}
+
+	function setOnCancelPressedListener( _listener )
+	{
+		this.m.OnCancelPressedListener = _listener;
 	}
 
 	function show(_flags = null)
@@ -33,12 +45,11 @@ this.mod_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 
 	function onCancelButtonPressed()
 	{
-		this.m.MenuStack.pop();
+		this.m.OnCancelPressedListener();
 	}
 
 	function onSaveButtonPressed( _data )
 	{
-		this.MSU.SettingsManager.updateSettings(_data);
-		this.m.MenuStack.pop();
+		this.m.OnSavePressedListener(_data);
 	}
 });

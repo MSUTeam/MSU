@@ -88,7 +88,10 @@ this.mod_settings_manager <- {
 		local ret = [];
 		foreach (panel in this.m.Panels)
 		{
-			ret.push(panel.getUIData(_flags));
+			if (panel.verifyFlags(_flags))
+			{
+				ret.push(panel.getUIData(_flags));
+			}
 		}
 		ret.reverse() //No idea why conversion to JS reverses the array, but it does so I am pre-empting this.
 		return ret;

@@ -50,9 +50,9 @@ gt.MSU.setupSettingsSystem <- function()
 	}
 
 	this.MSU.SettingsFlags <- {
-		CampaignStart = {
+		NewCampaign = {
 			required = [
-				"CampaignStart"
+				"NewCampaign"
 			]
 		}
 		World = {
@@ -73,5 +73,5 @@ gt.MSU.setupSettingsSystem <- function()
 	}
 
 	// Testing Code
-	// testSettingsSystem();
+	testSettingsSystem();
 }
