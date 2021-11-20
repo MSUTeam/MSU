@@ -1,4 +1,4 @@
-this.mod_settings_manager <- {
+this.msu_settings_manager <- {
 	m = {
 		Panels = null,
 		Locked = false
