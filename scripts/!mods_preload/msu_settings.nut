@@ -15,7 +15,7 @@ local testSettingsSystem = function()
 			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0);
 			test1.lock()
 			local test2 = this.MSU.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
-			test2.addFlag("NotMain")
+			test2.addFlags(["NewCampaign", "NewCampaignOnly"])
 			local test3 = this.MSU.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
 			test3.lock()
 			local test4 = this.MSU.EnumSetting("TestEnum" + j + 1, ["hi", "hello", "goodbye"]);
@@ -57,21 +57,21 @@ gt.MSU.setupSettingsSystem <- function()
 		}
 		World = {
 			excluded = [
-				"NotWorld"
+				"NotWorld", "NewCampaignOnly", "TacticalOnly", "MainOnly"
 			]
 		}
 		Tactical = {
 			excluded = [
-				"NotTactical"
+				"NotTactical", "NewCampaignOnly", "MainOnly", "WorldOnly"
 			]
 		}
 		Main = {
 			excluded = [
-				"NotMain"
+				"NotMain", "NewCampaignOnly", "TacticalOnly", "WorldOnly"
 			]
 		}
 	}
 
 	// Testing Code
-	testSettingsSystem();
+	// testSettingsSystem();
 }
