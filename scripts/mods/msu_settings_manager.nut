@@ -17,7 +17,7 @@ this.msu_settings_manager <- {
 		}
 		else
 		{
-			if (!(_modPanel instanceof this.MSU.SettingsModPanel))
+			if (!(_modPanel instanceof this.MSU.SettingsPanel))
 			{
 				throw this.Exception.InvalidTypeException;
 			}

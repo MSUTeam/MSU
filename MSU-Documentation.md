@@ -765,14 +765,16 @@ This function will push the screen to an array of screens,
 which will then all be connected 
 as soon as all JS & CSS files added by `::mods_register[CSS/JSS]` are loaded.
 
-## Settings Manager & Screen
+# Settings Manager 🟢
 
-The settings manager is an automated system of managing mod settings
+The settings manager is a save-compatible, automated system of
+managing and displaying mod settings
 which allows modders to easily setup configuration for their mods.
 
-The system allows you to create a 'mod page' for your mod,
+The system allows you to create a 'mod panel' for your mod,
+add between 1 and 5 pages to it,
 add it to the SettingsManager,
-and then create the settings you want to have.
+and finally create the settings you want to have.
 All within Squirrel.
 
 The settings are ordered by when they're added,
@@ -781,87 +783,127 @@ of the page.
 
 These settings are automatically (de)serialized when loading/saving a game.
 
-### Settings Page
+#### Adding a Panel to the SettingsManager
+`this.MSU.SettingsManager.add( _modPanel )`
 
-`local myModPage = this.MSU.SettingsPage( _name, _modID)`
+`_modPanel` is a SettingsPanel.
 
-`_name` and `_modID` are Strings, 
-`_modID` has to be *unique* for all mods with Settings Pages.
+## Settings Panel
 
-`myModPage` then becomes the mod page that can have settings appended to it.
+#### Constructor
+`local myModPanel = this.MSU.SettingsPanel( _id, _name = null )`
 
-`this.MSU.SettingsManager.add( _page )`
+`_id` and `_name` are strings,
+`_name` defaults to `_id`,
+`_id` has to be *unique* across all settings panels.
 
-`_page` is a `this.MSU.SettingsPage`
+#### Adding a Page to a SettingsPanel
+`<SettingsPanel>.add( _page )`
 
-Adds the mod page to be managed by the `SettingsManager`.
-This is required for the settings system to do anything
-with a created page.
+`_page` is a SettingsPage.
 
-### Setting Types
+## Settings Page
 
-All setting types are classes
-which inherit from `this.MSU.AbstractSetting`.
-Custom SettingTypes *must* also inherit from `AbstractSetting`
+#### Constructor
+`local myPage = this.MSU.SettingsPage( _id, _name)`
 
-#### AbstractSetting (True for all Settings)
+`_name` and `_id` are Strings, 
+`_id` has to be *unique* for all SettingsPages within a SettingsPanel.
 
-Should not be initialized directly,
-used as a parents for other settings.
-Any statements made here apply to all other settings.
+`myPage` then becomes the mod page that can have settings added to it.
 
-The constructor has the parameters `( _name, _value, _id = null)`,
-where `_name` and `_id` are strings
-and `_id` defaults to `_name`.
-The setting defaults to `_value`
+#### Adding an Element to a SettingsPage
+`<SettingsPage>.add( _element )`
 
-`_id` *must* be unique for all settings within a mod page.
+`_element` is a `this.MSU.SettingsElement`
+
+## Setting Elements
+
+All setting elements are classes
+which inherit from `this.MSU.SettingsElement`.
+Custom elements *must* inherit from `SettingsElement`
+or a descendant of it.
+
+#### Setting Descripton for Tooltips
 
 `function setDescription( _description )`
 
 `_description` is a string
 
-Sets the description for tooltips.
+### Flags
 
+Flags allow for settings to show up only during certain screens.
+
+Use the `"NewCampaign"` flag to specify that a setting should show up
+when creating a new campaign.
+
+Use the `"NewCampaignOnly"` flag to specify that a setting should not show up
+except when creating a new campaign.
+
+#### Adding Flags
+
+`<SettingElement>.addFlags( ... )`
+
+`...` is an arbitrary number of string arguments eg: 
+`("NewCampaign", "NewCampaignOnly")`
+
+### AbstractSetting (extends SettingsElement)
+
+Should not be initialized directly;
+used as a parents for other settings.
+All custom Settings should inherit from AbstractSetting.
+
+#### Constructor
+`local doNotUse = this.MSU.AbstractSetting( _id, _value, _name = null )`
+
+`_id` and `_name` are strings and `_id` defaults to `_name`.
+
+`_id` *must* be unique for all settings within a mod panel.
+`_value` sets the default value for the setting.
+
+#### Lock the Setting
 `function lock( _lockReason = "" )`
 
 Prevents the setting from being changed by the user or by other code.
 A `_lockReason` can be given which will show up in the tooltip.
 
+#### Unlock the Setting
 `function unlock()`
 
-Allows the setting to be changed.
+### BooleanSetting (extends AbstractSetting)
 
-#### BooleanSetting
-
-`local myBooleanSetting = this.MSU.BooleanSetting( _name, _value, _id = null )`
+#### Constructor
+`local myBooleanSetting = this.MSU.BooleanSetting( _id, _value, _name = null )`
 
 `_value` is a boolean.
 
 Creates a simple checkbox.
 
-#### RangeSetting
+### RangeSetting (extends AbstractSetting)
 
-`local myRangeSetting = this.MSU.RangeSetting( _name, _value, _min, _max, _step, _id = null )`
+#### Constructor
+`local myRangeSetting = this.MSU.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
 
 `_name` and `_id` are strings,
-`_value`, `_min`, `_max`, and `_step` are ints.
+`_value`, `_min`, `_max`, and `_step` are ints or floats.
 
 Creates a slider 
 which allows the user to select values between `_min` and `_max` 
 with `_step` sized increments.
 
-#### EnumSetting
+### EnumSetting (extends AbstractSetting)
 
-`local myEnumSetting = this.MSU.EnumSetting( _name, _value, _array, _id = null )`
+#### Constructor
+`local myEnumSetting = this.MSU.EnumSetting( _id, _array, _value = null, _name = null )`
 
 `_value` is a string element 
-of the array `_array`.
+of the string array `_array`,
+if `null` it will default to the first element of `_array`
 
 Creates a Button 
 which allows the user to switch between all the values in `_array`.
 
-#### Custom Settings
+### Custom Settings
 
 Additional Setting Types can be created by:
 
@@ -870,20 +912,20 @@ Additional Setting Types can be created by:
  which inherits from AbstractSetting.
  - Defining a new JS var constructor for the Setting called 
  'TypeSetting' where 'Type' is replaced
- with the type of the setting class.
+ with the `Type` property of the setting class.
  - Adding an unbindTooltip function to that 'TypeSetting' var.
  - Defining the layout of the setting in a CSS
 
 It is recommended to look at the already present implementations
 as a guide.
 
-### Divider
+### SettingsDivider (extends SettingsElement)
 
-The settings system also allows adding a `this.MSU.Divider`
+The settings system also allows adding a `this.MSU.SettingsDivider`
 to improve the layout of your mod page.
 This is a horizontal line with an optional title.
 
-`local myDivider = this.MSU.Divider(_id, _name = "", _description = "")`
+`local myDivider = this.MSU.SettingsDivider(_id, _name = "", _description = "")`
 
 `_id` is a string and *must* be unique for the mod page.
 

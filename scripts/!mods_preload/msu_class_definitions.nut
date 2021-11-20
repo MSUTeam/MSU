@@ -137,14 +137,9 @@ gt.MSU.defineClasses <- function()
 			return this.ID;
 		}
 
-		function addFlags( _array )
+		function addFlags( ... )
 		{
-			this.Flags.extend(_array);
-		}
-
-		function addFlag( _flag )
-		{
-			this.Flags.push(_flag)
+			this.Flags.extend(vargv);
 		}
 
 		function getFlags()
@@ -207,7 +202,7 @@ gt.MSU.defineClasses <- function()
 
 		function set( _value )
 		{
-			if (Locked)
+			if (this.Locked)
 			{
 				this.logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed")
 				return;
@@ -466,7 +461,7 @@ gt.MSU.defineClasses <- function()
 		//Note the Array ISN'T serialized
 	}
 
-	gt.MSU.Divider <- class extends gt.MSU.SettingsElement
+	gt.MSU.SettingsDivider <- class extends gt.MSU.SettingsElement
 	{
 		static Type = "Divider";
 		constructor(_id, _name = "")
@@ -475,7 +470,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.SettingsModPanel <- class
+	gt.MSU.SettingsPanel <- class
 	{
 		Pages = null;
 		ID = null;
@@ -594,21 +589,21 @@ gt.MSU.defineClasses <- function()
 		ID = null;
 		Settings = null;
 
-		constructor( _pageID, _name )
+		constructor( _id, _name )
 		{
-			this.ID = _pageID;	
+			this.ID = _id;	
 			this.Name = _name;
 			this.Settings = this.MSU.OrderedMap();
 		}
 
-		function add( _setting )
+		function add( _element )
 		{
-			if (!(_setting instanceof this.MSU.SettingsElement))
+			if (!(_element instanceof this.MSU.SettingsElement))
 			{
 				this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
 				throw this.Exception.InvalidTypeException;
 			}
-			this.Settings[_setting.getID()] <- _setting;
+			this.Settings[_element.getID()] <- _element;
 		}
 
 		function getID()
