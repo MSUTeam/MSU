@@ -805,10 +805,11 @@ These settings are automatically (de)serialized when loading/saving a game.
 ## Settings Page
 
 #### Constructor
-`local myPage = this.MSU.SettingsPage( _id, _name)`
+`local myPage = this.MSU.SettingsPage( _id, _name = null )`
 
 `_name` and `_id` are Strings, 
-`_id` has to be *unique* for all SettingsPages within a SettingsPanel.
+`_id` has to be *unique* for all SettingsPages within a SettingsPanel,
+`_name` defaults to `_id`.
 
 `myPage` then becomes the mod page that can have settings added to it.
 

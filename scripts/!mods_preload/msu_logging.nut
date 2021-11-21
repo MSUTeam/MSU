@@ -135,7 +135,7 @@ gt.MSU.setupLoggingUtils <- function()
 
 		function isDebug( _str )
 		{
-			return (_str in gt.MSU.Log.DebugLog && gt.MSU.Log.DebugLog[_str]);
+			return (_str in gt.MSU.Log.DebugLog && gt.MSU.Log.DebugLog[_str]) || ::getModSetting("MSU", "logall").getValue();
 		}
 
 		function print( _arg, _name, _logType )
@@ -146,7 +146,7 @@ gt.MSU.setupLoggingUtils <- function()
 				return;
 			}
 
-			if (this.MSU.Log.DebugLog[_name])
+			if (this.MSU.Log.DebugLog[_name] || ::getModSetting("MSU", "logall").getValue())
 			{
 				local src = getstackinfos(3).src.slice(0, -4);
 				src = split(src, "/")[split(src, "/").len()-1];

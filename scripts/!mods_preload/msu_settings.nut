@@ -5,7 +5,7 @@ local testSettingsSystem = function()
 
 	for (local i = 0; i < 5; ++i)
 	{
-		local modPanel = this.MSU.SettingsModPanel("MSU" + i, "M" + i)
+		local modPanel = this.MSU.SettingsPanel("MSU" + i, "M" + i)
 		local numPages = rand() % 5 + 1;
 		for (local j = 0; j < numPages; ++j)
 		{
@@ -71,6 +71,14 @@ gt.MSU.setupSettingsSystem <- function()
 			]
 		}
 	}
+
+	local panel = this.MSU.SettingsPanel("MSU");
+	local logPage = this.MSU.SettingsPage("Logging");
+	local logToggle = this.MSU.BooleanSetting("logall", false, "Enable all mod logging")
+	this.MSU.SettingsManager.add(panel);
+	panel.add(logPage);
+	logPage.add(logToggle);
+
 
 	// Testing Code
 	// testSettingsSystem();

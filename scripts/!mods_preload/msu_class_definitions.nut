@@ -589,10 +589,10 @@ gt.MSU.defineClasses <- function()
 		ID = null;
 		Settings = null;
 
-		constructor( _id, _name )
+		constructor( _id, _name = null )
 		{
 			this.ID = _id;	
-			this.Name = _name;
+			this.Name = _name == null ? _id : _name;
 			this.Settings = this.MSU.OrderedMap();
 		}
 
