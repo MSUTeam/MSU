@@ -699,11 +699,14 @@ Registers debugging for mod id `_modID`. Mod id should match up with modding scr
 `_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
 `_flagTableBool` is an optional boolean for setFlags().
 Example usage:
+
 `local MSUDebugFlags = {
-			debug = true,
-			movement = true,
-			skills = false,
-		}
+	debug = true,
+	movement = true,
+	skills = false,
+}
+`
+`
 this.MSU.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
 `
 
