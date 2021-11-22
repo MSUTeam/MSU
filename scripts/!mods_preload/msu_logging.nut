@@ -23,14 +23,14 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			if (_modID in this.ModTable)
 			{
 				this.logError(format("Mod %s already exists in the debug log table!"), _modID);
-				return
+				return;
 			}
-			this.ModTable[_modID] <- {}
-			this.setFlagValue(_modID, this.DefaultFlag, _defaultFlagValue)
+			this.ModTable[_modID] <- {};
+			this.setFlagValue(_modID, this.DefaultFlag, _defaultFlagValue);
 
 			if (_flagIDTable != null)
 			{
-				this.setFlagValues(_modID, _flagIDTable, _flagIDTableValue)
+				this.setFlagValues(_modID, _flagIDTable, _flagIDTableValue);
 			}
 		}
 
@@ -47,7 +47,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			if (!(_modID in this.ModTable))
 			{
 				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod()."), _modID, this.MSUModName, "debug");
-				return
+				return;
 			}
 			this.ModTable[_modID][_flagID] <- _flagValue;
 			if (_flagValue == true)
@@ -69,25 +69,25 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			if (!(_modID in this.ModTable))
 			{
 				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSUModName, "debug");
-				return false
+				return false;
 			}
 			if (_flagID == null)
 			{
-				_flagID = this.DefaultFlag
+				_flagID = this.DefaultFlag;
 			}
 			if (!(_flagID in this.ModTable[_modID]))
 			{
 				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSUModName, "debug");
-				return false
+				return false;
 			}
 
-			return this.ModTable[_modID][_flagID] == true
+			return this.ModTable[_modID][_flagID] == true;
 		}
 
 		function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
 		{
 			local count = 2;
-			local string = ""
+			local string = "";
 			while (getstackinfos(count) != null)
 			{
 				local line = getstackinfos(count++);
@@ -116,7 +116,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 
 			if (_key == "this" || _key == "_release_hook_DO_NOT_delete_it_")
 			{
-				return string
+				return string;
 			}
 
 			if (!_isArray)
@@ -157,12 +157,12 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		{
 			if (!(_modID in this.ModTable))
 			{
-				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSUModName, "debug")
+				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSUModName, "debug");
 				return;
 			}
 			if (_flagID == null)
 			{
-				_flagID = this.DefaultFlag
+				_flagID = this.DefaultFlag;
 			}
 
 			if (this.isEnabledForMod(_modID, _flagID))
@@ -214,9 +214,9 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 	this.MSU.Debug.registerMod(this.MSU.Debug.MSUModName, true, this.MSU.Debug.MSUDebugFlags);
 	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
 
-	::printLog("I am a default print", "mod_msu")
-	::printLog("I am a movement print", "mod_msu", "movement")
-	::printLog("I am a skills print and should not print.", "mod_msu", "skills")
+	::printLog("I am a default print", "mod_MSU")
+	::printLog("I am a movement print", "mod_MSU", "movement")
+	::printLog("I am a skills print and should not print.", "mod_MSU", "skills")
 	::printLog("I am a vanilla default print", "vanilla")
 	::printLog("I am a vanilla default print", "vanilla", "testFlag")
 	::printLog("I am a mod that doesnt exist", "testMod", "testFlag")
