@@ -213,12 +213,4 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 
 	this.MSU.Debug.registerMod(this.MSU.Debug.MSUModName, true, this.MSU.Debug.MSUDebugFlags);
 	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
-
-	::printLog("I am a default print", "mod_MSU")
-	::printLog("I am a movement print", "mod_MSU", "movement")
-	::printLog("I am a skills print and should not print.", "mod_MSU", "skills")
-	::printLog("I am a vanilla default print", "vanilla")
-	::printLog("I am a vanilla default print", "vanilla", "testFlag")
-	::printLog("I am a mod that doesnt exist", "testMod", "testFlag")
-
 }
