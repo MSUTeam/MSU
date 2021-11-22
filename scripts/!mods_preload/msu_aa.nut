@@ -1,6 +1,6 @@
 local gt = this.getroottable();
-
-::mods_registerMod("mod_MSU", 1.0, "Modding Standards and Utils 0.6.24");
+local MSUModName = "mod_MSU"
+::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.24");
 
 gt.MSU <- {};
 
@@ -13,14 +13,16 @@ gt.MSU <- {};
 		Enemy = 3
 	}
 
+	gt.MSU.setupDebuggingUtils(MSUModName);
+	delete gt.MSU.setupDebuggingUtils;
+
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
 	gt.MSU.setupDamageTypeSystem();
 	delete gt.MSU.setupDamageTypeSystem;
 	gt.MSU.setupTileUtils();
 	delete gt.MSU.setupTileUtils;
-	gt.MSU.setupLoggingUtils();
-	delete gt.MSU.setupLoggingUtils;
+	
 	gt.MSU.setupUtils();
 	delete gt.MSU.setupUtils;
 

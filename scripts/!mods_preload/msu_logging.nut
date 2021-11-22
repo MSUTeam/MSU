@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.MSU.setupLoggingUtils <- function()
+gt.MSU.setupDebuggingUtils <- function(_msuModName)
 {
 	this.MSU.Debug <- {
 		ModTable = {},
@@ -9,7 +9,9 @@ gt.MSU.setupLoggingUtils <- function()
 			Warning = 2,
 			Error = 3
 		},
-		DefaultFlag = "defaultFlag",
+		DefaultFlag = "default",
+		VanillaLogName = "vanilla",
+		MSUModName = _msuModName,
 
 		// maxLen is the maximum length of an array/table whose elements will be displayed
 		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
@@ -44,24 +46,42 @@ gt.MSU.setupLoggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				this.logError(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod()."), _modID);
+				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod()."), _modID, this.MSUModName, "debug");
 				return
 			}
 			this.ModTable[_modID][_flagID] <- _flagValue;
 			if (_flagValue == true)
 			{
-				this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
+				if (_modID == this.MSUModName)
+				{
+					this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
+				}
+				else
+				{
+					::printLog(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSUModName, "debug");
+				}
 			}
 		}
 
 
 		function isEnabledForMod( _modID, _flagID = null)
 		{
+			if (!(_modID in this.ModTable))
+			{
+				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSUModName, "debug");
+				return false
+			}
 			if (_flagID == null)
 			{
 				_flagID = this.DefaultFlag
 			}
-			return (_modID in this.ModTable && _flagID in this.ModTable[_modID] && this.ModTable[_modID][_flagID] == true);
+			if (!(_flagID in this.ModTable[_modID]))
+			{
+				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSUModName, "debug");
+				return false
+			}
+
+			return this.ModTable[_modID][_flagID] == true
 		}
 
 		function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
@@ -137,7 +157,7 @@ gt.MSU.setupLoggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				this.logWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID))
+				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSUModName, "debug")
 				return;
 			}
 			if (_flagID == null)
@@ -145,24 +165,24 @@ gt.MSU.setupLoggingUtils <- function()
 				_flagID = this.DefaultFlag
 			}
 
-			if (this.isDebugEnabled(_modID, _flagID))
+			if (this.isEnabledForMod(_modID, _flagID))
 			{
 				local src = getstackinfos(3).src.slice(0, -4);
-				src = split(src, "/")[split(src, "/").len()-1];
-				local string = _flagID +  ": -- " + src + " -- : " + _arg;
+				src = split(src, "/")[split(src, "/").len()-1] + ".nut";
+				local string = format("%s::%s -- %s -- %s", _modID, _flagID, src, _arg);
 				switch (_logType)
 				{
-					case this.MSU.Log.LogType.Info:
+					case this.LogType.Info:
 						this.logInfo(string);
 						return;
 					case this.LogType.Warning:
 						this.logWarning(string);
 						return;
-					case this.MSU.Log.LogType.Error:
+					case this.LogType.Error:
 						this.logError(string);
 						return;
 					default:
-						this.logWarning("No log type defined for this log:");
+						this.printWarning("No log type defined for this log:", this.MSUModName, "debug");
 						this.logInfo(string);
 						return;
 				}
@@ -170,27 +190,35 @@ gt.MSU.setupLoggingUtils <- function()
 		}
 
 		MSUDebugFlags = {
-			movement = false,
+			debug = true,
+			movement = true,
 			skills = false,
 		}
 	}
 
-	this.MSU.Log.registerMod("mod_msu", false, this.MSU.Log.MSUDebugFlags);
-
-	::printLog <- function( _arg = "No argument for debug log", _modID = "default", _flagID = null)
+	::printLog <- function( _arg, _modID, _flagID = null)
 	{
-		this.MSU.Log.print(_arg, _flagID, this.MSU.Log.LogType.Info, _flagID);
+		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Info, _flagID);
 	}
 
-	::printWarning <- function( _arg = "No argument for debug log", _modID = "default", _flagID = null)
+	::printWarning <- function( _arg,  _modID, _flagID = null)
 	{
-		this.MSU.Log.print(_arg, _flagID, this.MSU.Log.LogType.Warning, _flagID);
+		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Warning, _flagID);
 	}
 
-	::printError <- function( _arg = "No argument for debug log", _modID = "default", _flagID = null)
+	::printError <- function( _arg,  _modID, _flagID = null)
 	{
-		this.MSU.Log.print(_arg, _flagID, this.MSU.Log.LogType.Error, _flagID);
+		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Error, _flagID);
 	}
 
+	this.MSU.Debug.registerMod(this.MSU.Debug.MSUModName, true, this.MSU.Debug.MSUDebugFlags);
+	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
+
+	::printLog("I am a default print", "mod_msu")
+	::printLog("I am a movement print", "mod_msu", "movement")
+	::printLog("I am a skills print and should not print.", "mod_msu", "skills")
+	::printLog("I am a vanilla default print", "vanilla")
+	::printLog("I am a vanilla default print", "vanilla", "testFlag")
+	::printLog("I am a mod that doesnt exist", "testMod", "testFlag")
 
 }
