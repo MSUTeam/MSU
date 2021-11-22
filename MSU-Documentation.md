@@ -706,6 +706,7 @@ Example usage:
 	skills = false,
 }
 `
+
 `
 this.MSU.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
 `
