@@ -52,7 +52,12 @@ this.msu_settings_manager <- {
 		{
 			foreach (settingID, value in panel)
 			{
-				this.m.Panels[modID].get(settingID).set(value);
+				local setting = this.m.Panels[modID].get(settingID)
+				if (setting.getValue() != value)
+				{
+					setting.onChangedCallback(value);
+				}
+				setting.set(value);
 			}
 		}
 	}

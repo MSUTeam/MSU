@@ -191,13 +191,27 @@ gt.MSU.defineClasses <- function()
 		static Type = "Abstract";
 		Locked = null; // Serialized
 		LockReason = null; // Serialized
+		Callbacks = [];
 		
-		constructor( _id, _value, _name = null)
+		constructor( _id, _value, _name = null )
 		{
 			base.constructor(_id, _name)
 			this.Value = _value; 
 			this.Locked = false;
 			this.LockReason = "";
+		}
+
+		function onChangedCallback(_newValue)
+		{
+			foreach(callback in this.Callbacks)
+			{
+				callback.call(this, _newValue);
+			}
+		}
+
+		function addCallback(_callback)
+		{
+			this.Callbacks.push(_callback);
 		}
 
 		function set( _value )
@@ -298,6 +312,7 @@ gt.MSU.defineClasses <- function()
 				this.World.Flags.remove(flag);
 			}
 		}
+
 
 		function flagSerialize( _modID )
 		{
@@ -476,7 +491,7 @@ gt.MSU.defineClasses <- function()
 		ID = null;
 		Name = null;
 
-		constructor( _id, _name = null)
+		constructor( _id, _name = null )
 		{
 			this.ID = _id;
 			this.Name = _name == null ? _id : _name;

@@ -12,7 +12,9 @@ local testSettingsSystem = function()
 			local testPage = this.MSU.SettingsPage("Page" + j, "Page Name " + j);
 
 			local test = this.MSU.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0);
+			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
+				this.logInfo("worked?")
+			});
 			test1.lock()
 			local test2 = this.MSU.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
@@ -74,7 +76,10 @@ gt.MSU.setupSettingsSystem <- function()
 
 	local panel = this.MSU.SettingsPanel("MSU");
 	local logPage = this.MSU.SettingsPage("Logging");
-	local logToggle = this.MSU.BooleanSetting("logall", false, "Enable all mod logging")
+	local logToggle = this.MSU.BooleanSetting("logall", false, "Enable all mod logging");
+	logToggle.addCallback(function(_data){
+		this.logInfo("I am a callback of " + this.tostring() + " \nChanged to: " + _data)
+	})
 	this.MSU.SettingsManager.add(panel);
 	panel.add(logPage);
 	logPage.add(logToggle);
