@@ -689,26 +689,36 @@ MSU adds useful functionality to various miscellaneous classes.
 Returns true if the current active entity is not null and is `_entity`.
 
 # Utilities 🟢
-## Logging
-- `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+## Logging and Debugging
+MSU adds functionality to improve the debugging capabilites of the user. It allows you to register a mod for debugging, optionally registering additional flags. This allows the user to leave debugging information in the code, but turn off specific parts when distributing the mod.
+Every registered mod has a default flag. This allows for simple syntax, such as `printlog("My statement", "my_mod")`. If you want more granularity, you can add further flags to turn debug on and off for specific areas of the mod.
+
+- `registerMod(_modID, _defaultFlagValue = false, _flagIDTable = null, _flagIDTableValue = null)`
+
+Registers debugging for mod id `_name`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagValue` sets the value of the `default` flag.
+`_flagIDTable` allows to set flags in bulk via setFlagValues, and with `_flagIDTableValue`, you can turn these flags on or off simultaneously.
+
+- `function setFlagValues(_modID, _flagIDTable, _flagIDTableValue = null)`
+
+Sets every flag in the `_flagIDTable` for mod `_modID`. `_flagIDTable` must be of form `{ flag1 = false, flag2 = true ...}` If `_flagIDTableValue` is not null, every flag will be set to this value instead.
+
+- `function setFlagValue(_modID, _flagID, _flagValue)`
+
+Sets one flag for mod `_modID` in the `ModTable`.
+
+- `isEnabledForMod( _modID, _flagID = "default")`
+
+Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
+
+- `::printLog( _arg, _modID, _flagID = null)`, `::printWarning`, `::printError`
+
+Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
+
+#Other debugging tools
+
+- `this.MSU.Debug.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
-
-- `this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
-
-Enables or Disables the debug logging system for the mod id `_name`.
-
-- `::printLog( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logInfo`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_name`.
-
-- `::printWarning( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logWarning`. Prints the warning as `_arg` if DebugLog is enabled for the mod id `_name`.
-
-- `::printError( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logError`. Prints the error as `_arg` if DebugLog is enabled for the mod id `_name`.
 
 ## Tile
 `this.MSU.Tile.canResurrectOnTile( _tile, _force = false )`
