@@ -8,7 +8,7 @@ gt.MSU.modParty <- function ()
 		o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
 		o.m.BaseMovementSpeedMult <- 1.0;
 		o.m.MovementSpeedMult <- 1.0;
-		o.m.MovementSpeedMultFunctions = {};
+		o.m.MovementSpeedMultFunctions <- {};
 
 		local create = o.create;
 		o.create = function()
@@ -73,7 +73,7 @@ gt.MSU.modParty <- function ()
 			foreach(key, func in this.m.MovementSpeedMultFunctions)
 			{
 				local funcResult = func();
-				::printLog("Function " + key + " returned a mult of: " + funcResult, "msu_movement")
+				::printLog("Function " + key + " returned a mult of: " + funcResult, "mod_MSU", "movement")
 				mult *= funcResult;
 			}
 			return mult;
