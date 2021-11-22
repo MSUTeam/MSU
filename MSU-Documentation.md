@@ -693,16 +693,17 @@ Returns true if the current active entity is not null and is `_entity`.
 MSU adds functionality to improve the debugging capabilites of the user. It allows you to register a mod for debugging, optionally registering additional flags. This allows the user to leave debugging information in the code, but turn off specific parts when distributing the mod.
 Every registered mod has a default flag. This allows for simple syntax, such as `printlog("My statement", "my_mod")`. If you want more granularity, you can add further flags to turn debug on and off for specific areas of the mod.
 
-- `registerMod(_modID, _defaultFlagValue = false, _flagIDTable = null, _flagIDTableValue = null)`
+- `registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)`
 
-Registers debugging for mod id `_name`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagValue` sets the value of the `default` flag.
-`_flagIDTable` allows to set flags in bulk via setFlagValues, and with `_flagIDTableValue`, you can turn these flags on or off simultaneously.
+Registers debugging for mod id `_modID`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagBool` sets the value of the `default` flag.
+`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
+`_flagTableBool` is an optional boolean for setFlags().
 
-- `function setFlagValues(_modID, _flagIDTable, _flagIDTableValue = null)`
+- `function setFlags(_modID, _flagTable, _flagTableBool = null)`
 
-Sets every flag in the `_flagIDTable` for mod `_modID`. `_flagIDTable` must be of form `{ flag1 = false, flag2 = true ...}` If `_flagIDTableValue` is not null, every flag will be set to this value instead.
+Sets every flag in the `_flagTable` for mod `_modID`. If `_flagTableBool` is not null, every flag will be set to this value instead.
 
-- `function setFlagValue(_modID, _flagID, _flagValue)`
+- `function setFlag(_modID, _flagID, _flagBool)`
 
 Sets one flag for mod `_modID` in the `ModTable`.
 

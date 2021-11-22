@@ -19,7 +19,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		// advanced allows the ID of the object to be displayed to identify different/identical objects
 
 
-		function registerMod(_modID, _defaultFlagValue = false, _flagIDTable = null, _flagIDTableValue = null)
+		function registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)
 		{
 			if (_modID in this.ModTable)
 			{
@@ -27,33 +27,33 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 				return;
 			}
 			this.ModTable[_modID] <- {};
-			this.setFlagValue(_modID, this.DefaultFlag, _defaultFlagValue);
+			this.setFlag(_modID, this.DefaultFlag, _defaultFlagBool);
 
-			if (_flagIDTable != null)
+			if (_flagTable != null)
 			{
-				this.setFlagValues(_modID, _flagIDTable, _flagIDTableValue);
+				this.setFlags(_modID, _flagTable, _flagTableBool);
 			}
 		}
 
-		function setFlagValues(_modID, _flagIDTable, _flagIDTableValue = null)
+		function setFlags(_modID, _flagTable, _flagTableBool = null)
 		{
-			foreach(flagID, flagValue in _flagIDTable)
+			foreach(flagID, flagBool in _flagTable)
 			{
-				this.setFlagValue(_modID, flagID, _flagIDTableValue != null ? _flagIDTableValue : flagValue);
+				this.setFlag(_modID, flagID, _flagTableBool != null ? _flagTableBool : flagBool);
 			}
 		}
 
-		function setFlagValue(_modID, _flagID, _flagValue)
+		function setFlag(_modID, _flagID, _flagBool)
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod()."), _modID, this.MSUModName, "debug");
+				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSUModName, "debug");
 				return;
 			}
-			this.ModTable[_modID][_flagID] <- _flagValue;
-			if (_flagValue == true)
+			this.ModTable[_modID][_flagID] <- _flagBool;
+			if (_flagBool == true)
 			{
-				if (_modID == this.MSUModName)
+				if (_modID == this.MSUModName && _flagID == this.DefaultFlag)
 				{
 					this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
 				}
@@ -86,9 +86,9 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			return this.FullDebug;
 		}
 
-		function setFullDebug(_value)
+		function setFullDebug(_bool)
 		{
-			this.FullDebug = _value;
+			this.FullDebug = _bool;
 		}
 
 		function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
