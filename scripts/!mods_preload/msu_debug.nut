@@ -9,6 +9,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			Warning = 2,
 			Error = 3
 		},
+		FullDebug = false,
 		DefaultFlag = "default",
 		VanillaLogName = "vanilla",
 		MSUModName = _msuModName,
@@ -77,7 +78,17 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 				return false;
 			}
 
-			return this.ModTable[_modID][_flagID] == true;
+			return (this.ModTable[_modID][_flagID] == true) || this.isFullDebug();
+		}
+
+		function isFullDebug()
+		{
+			return this.FullDebug;
+		}
+
+		function setFullDebug(_value)
+		{
+			this.FullDebug = _value;
 		}
 
 		function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
