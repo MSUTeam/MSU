@@ -711,9 +711,9 @@ Sets one flag for mod `_modID` in the `ModTable`.
 
 Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
 
-- `::printLog( _arg, _modID, _flagID = null)`, `::printWarning`, `::printError`
+- `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
 
-Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
+Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints the log as `_printText` if DebugLog is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
 
 #Other debugging tools
 

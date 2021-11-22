@@ -160,7 +160,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			return string;
 		}
 
-		function print( _arg, _modID, _logType, _flagID = "default")
+		function print( _printText, _modID, _logType, _flagID = "default")
 		{
 			if (!(_modID in this.ModTable))
 			{
@@ -172,7 +172,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			{
 				local src = getstackinfos(3).src.slice(0, -4);
 				src = split(src, "/")[split(src, "/").len()-1] + ".nut";
-				local string = format("%s::%s -- %s -- %s", _modID, _flagID, src, _arg);
+				local string = format("%s::%s -- %s -- %s", _modID, _flagID, src, _printText);
 				switch (_logType)
 				{
 					case this.LogType.Info:
