@@ -3,17 +3,11 @@ local MSUModName = "mod_MSU"
 ::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.24");
 
 gt.MSU <- {};
+gt.MSU.MSUModName <- MSUModName;
 
 ::mods_queue(null, null, function()
 {
-	gt.Const.FactionRelation <- {
-		Any = 0,
-		SameFaction = 1,
-		Allied = 2,
-		Enemy = 3
-	}
-
-	gt.MSU.setupDebuggingUtils(MSUModName);
+	gt.MSU.setupDebuggingUtils();
 	delete gt.MSU.setupDebuggingUtils;
 
 	gt.MSU.modInjuries();

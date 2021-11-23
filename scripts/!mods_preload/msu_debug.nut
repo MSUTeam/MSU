@@ -1,6 +1,6 @@
 local gt = this.getroottable();
 
-gt.MSU.setupDebuggingUtils <- function(_msuModName)
+gt.MSU.setupDebuggingUtils <- function()
 {
 	this.MSU.Debug <- {
 		ModTable = {},
@@ -12,12 +12,6 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		FullDebug = false,
 		DefaultFlag = "default",
 		VanillaLogName = "vanilla",
-		MSUModName = _msuModName,
-
-		// maxLen is the maximum length of an array/table whose elements will be displayed
-		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
-		// advanced allows the ID of the object to be displayed to identify different/identical objects
-
 
 		function registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)
 		{
@@ -47,19 +41,19 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSUModName, "debug");
+				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSU.MSUModName, "debug");
 				return;
 			}
 			this.ModTable[_modID][_flagID] <- _flagBool;
 			if (_flagBool == true)
 			{
-				if (_modID == this.MSUModName && _flagID == this.DefaultFlag)
+				if (_modID == this.MSU.MSUModName && _flagID == this.DefaultFlag)
 				{
 					this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
 				}
 				else
 				{
-					::printLog(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSUModName, "debug");
+					::printLog(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSU.MSUModName, "debug");
 				}
 			}
 		}
@@ -69,12 +63,12 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSUModName, "debug");
+				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSU.MSUModName, "debug");
 				return false;
 			}
 			if (!(_flagID in this.ModTable[_modID]))
 			{
-				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSUModName, "debug");
+				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSU.MSUModName, "debug");
 				return false;
 			}
 
@@ -91,6 +85,9 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 			this.FullDebug = _bool;
 		}
 
+		// maxLen is the maximum length of an array/table whose elements will be displayed
+		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
+		// advanced allows the ID of the object to be displayed to identify different/identical objects
 		function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
 		{
 			local count = 2;
@@ -164,7 +161,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 		{
 			if (!(_modID in this.ModTable))
 			{
-				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSUModName, "debug");
+				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.MSUModName, "debug");
 				return;
 			}
 
@@ -185,7 +182,7 @@ gt.MSU.setupDebuggingUtils <- function(_msuModName)
 						this.logError(string);
 						return;
 					default:
-						this.printWarning("No log type defined for this log:", this.MSUModName, "debug");
+						this.printWarning("No log type defined for this log:", this.MSU.MSUModName, "debug");
 						this.logInfo(string);
 						return;
 				}
