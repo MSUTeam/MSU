@@ -703,19 +703,19 @@ Example usage:
 `local MSUDebugFlags = {
 	debug = true,
 	movement = true,
-	skills = false,
-}
+	skills = false
+};
 `
 
 `
 this.MSU.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
 `
 
-- `function setFlags(_modID, _flagTable, _flagTableBool = null)`
+- `setFlags(_modID, _flagTable, _flagTableBool = null)`
 
 Sets every flag in the `_flagTable` for mod `_modID`. If `_flagTableBool` is not null, every flag will be set to this value instead.
 
-- `function setFlag(_modID, _flagID, _flagBool)`
+- `setFlag(_modID, _flagID, _flagBool)`
 
 Sets one flag for mod `_modID` in the `ModTable`.
 
