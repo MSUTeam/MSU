@@ -70,6 +70,11 @@ function onAfterUpdate( _properties )
 ```
 In the original game, doing this will cause the action point cost of the skill to continue to reduce indefinitely on every call to this function. However, with the MSU resetting system, this will ensure that the skill’s action point cost is only reduced by 1 compared to its base cost. Another mod can then hook the same function and add or subtract from the cost in further increments.
 
+## Getting the saved base value of a field
+`<skill>.getBaseValue( _field )`
+
+`_field` is a key in the `m` table of skill. Returns the saved base value of that field.
+
 ## Scheduled Changes
 Skills in Battle Brothers are updated in the order of their SkillOrder. Imagine we have two skills:
 

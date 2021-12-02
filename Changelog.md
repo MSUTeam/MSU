@@ -1,5 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
+
+##Next Version - Midas
+- Added `getBaseValue(_field)` function to skill to get the base value of a field in the m table from when the base values of the skill were saved.
+
 ## 0.6.24
 - Added a robust party movement speed system.
 - Added hooks to party and player_party to improve movement speed handling
