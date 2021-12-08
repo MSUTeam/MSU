@@ -15,6 +15,7 @@ gt.MSU.modParty <- function ()
 		{
 			create();
 			this.m.MovementSpeedMultFunctions["BaseMovementSpeedMult"] <- this.getBaseMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["RoadMovementSpeedMult"] <- this.getRoadMovementSpeedMult;
 			this.m.MovementSpeedMultFunctions["SlowdownPerUnitMovementSpeedMult"] <- this.getSlowdownPerUnitMovementSpeedMult;
 			this.m.MovementSpeedMultFunctions["GlobalMovementSpeedMult"] <- this.getGlobalMovementSpeedMult;
 			this.m.MovementSpeedMultFunctions["NightTimeMovementSpeedMult"] <- this.getNightTimeMovementSpeedMult;
