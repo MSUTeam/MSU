@@ -25,6 +25,13 @@ gt.MSU.modActor <- function() {
 			this.m.IsMoving = false;
 		}
 
+		local onDeath = o.onDeath;
+		o.onDeath = function( _killer, _skill, _tile, _fatalityType )
+		{
+			this.m.Skills.onDeathWithInfo(_killer, _skill, _tile, _fatalityType);
+			onDeath(_killer, _skill, _tile, _fatalityType);
+		}
+
 		local getActionPointsMax = o.getActionPointsMax
 		o.getActionPointsMax = function()
 		{

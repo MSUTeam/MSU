@@ -180,6 +180,16 @@ gt.MSU.modSkillContainer <- function ()
 			], false);
 		}
 
+		o.onDeathWithInfo <- function( _killer, _skill, _tile, _fatalityType )
+		{
+			this.doOnFunction("onDeathWithInfo", [
+				_killer,
+				_skill,
+				_tile,
+				_fatalityType
+			], false);
+		}
+
 		//Vanilla Overwrites start
 		
 		o.onAfterDamageReceived = function()

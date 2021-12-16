@@ -203,7 +203,11 @@ gt.MSU.modSkill <- function ()
 		}
 
 		o.onQueryTooltip <- function( _skill, _tooltip )
-		{			
+		{
+		}
+
+		o.onDeathWithInfo <- function( _killer, _skill, _tile, _fatalityType )
+		{
 		}
 
 		local use = o.use;
