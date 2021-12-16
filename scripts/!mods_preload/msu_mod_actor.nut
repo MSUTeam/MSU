@@ -25,6 +25,19 @@ gt.MSU.modActor <- function() {
 			this.m.IsMoving = false;
 		}
 
+		local onMovementStep = o.onMovementStep;
+		o.onMovementStep  = function( _tile, _levelDifference )
+		{
+			local ret = onMovementStep(_tile, _levelDifference);
+
+			if (ret)
+			{
+				this.m.Skills.onMovementStep(_tile, _levelDifference);
+			}
+
+			return ret;
+		}
+
 		local onDeath = o.onDeath;
 		o.onDeath = function( _killer, _skill, _tile, _fatalityType )
 		{

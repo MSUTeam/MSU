@@ -107,6 +107,14 @@ gt.MSU.modSkillContainer <- function ()
 			]);
 		}
 
+		o.onMovementStep <- function( _tile, _levelDifference )
+		{
+			this.doOnFunction("onMovementStep", [
+				_tile,
+				_levelDifference
+			], false);
+		}
+
 		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
 		{
 			// Don't update if using a movement skill e.g. Rotation because this leads

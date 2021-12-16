@@ -156,6 +156,10 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
+		o.onMovementStep <- function( _tile, _levelDifference )
+		{
+		}
+
 		o.onAfterDamageReceived <- function()
 		{
 		}
