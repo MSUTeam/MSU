@@ -3,6 +3,9 @@ Changelog
 
 ##Next Version - Midas
 - Added `getBaseValue(_field)` function to skill to get the base value of a field in the m table from when the base values of the skill were saved.
+- `onAnySkillUsed` now resets HitChanceBonus of skills before calling the functions.
+- Implemented onDeathWithInfo function for skills.
+- Implemented onMovementStep function for skills.
 
 ## 0.6.24
 - Added a robust party movement speed system.

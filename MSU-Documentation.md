@@ -60,6 +60,9 @@ This function is never automatically called, but can be manually called using `<
 ### `resetField( _field )`
 This function can be used to reset a particular field back to its base value e.g. `<skill>.resetField(“Description”)`.
 
+### Misc
+The `HitChanceBonus` field of every skill is reset when a call to `onAnySkillUsed` is made. This allows other skills to modify the `HitChanceBonus` of a skill in increments without having to worry about infinite runaway changes.
+
 ### Use Cases
 This system allows changing a value in a skill’s m table in increments rather than assigning it particular values, which opens up possibilities for flexible and compatible modding. For example, now you can do:
 ```
@@ -320,10 +323,18 @@ The first function is called before the used skill's `use` function triggers, wh
 ### Actor movement
 - `onMovementStarted( _tile, _numTiles )`
 - `onMovementFinished( _tile )`
+- `onMovementStep( _tile, _levelDifference )`
 
-`_tile` is the tile on which the movement was started or finished and `_numTiles` is how many tiles the actor is trying to move (?).
+`_tile` is the tile on which the movement was started or finished and `_numTiles` is how many tiles the actor is trying to move (?). `_levelDifference` is the difference between the target tile and the current tile.
 
-During these function calls, the `this.m.IsMoving` parameter of the actor is `true`.
+During the calls to `onMovementStarted` and `onMovementFinished`, the `this.m.IsMoving` parameter of the actor is `true`. Note that `onMovementStep` is triggered even when the movement is prevented e.g. due to an attack of opportunity from an adjacent enemy. Therefore, if you really want to be sure that the actor actually moved, you should do a check such as `if (!_tile.isSameTileAs(this.getContainer().getActor().getTile())`.
+
+### Actor death
+- `onDeathWithInfo( _killer, _skill, _tile, _fatalityType )`
+
+`_killer` is the actor who killed this actor. `_skill` is the skill used to kill. `_tile` is the tile on which this actor was present when the death occurred (?). `_fatalityType` is the fatality type that occurred.
+
+This function is more useful than the standard `onDeath()` function of skills as it passes several parameters. Note, however, that this function is called via a hook into the `onDeath` function of actor.nut. That function is normally called at the end of each entity's own individual `onDeath` function.
 
 ### Damage
 - `onAfterDamageReceived()`
