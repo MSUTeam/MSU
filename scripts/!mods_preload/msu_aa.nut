@@ -7,6 +7,7 @@ gt.MSU.MSUModName <- MSUModName;
 
 ::mods_queue(null, null, function()
 {
+	::mods_registerJS("mod_MSU.js")
 	gt.MSU.setupDebuggingUtils();
 	delete gt.MSU.setupDebuggingUtils;
 

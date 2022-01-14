@@ -689,6 +689,19 @@ MSU adds useful functionality to various miscellaneous classes.
 Returns true if the current active entity is not null and is `_entity`.
 
 # Utilities 🟢
+## Global UI Keyhandler
+MSU adds a global keyhandler for the UI side of things. This is found in ui/mod_MSU.js
+
+- `AddHandlerFunction(_key, _id, _func)`
+Adds a new handler function, when keyboard key `_key` is pressed. `_id` allows grouping and to remove the function once the screen is closed. `_func` is the function to execute. If `_func` returns false, no other function for the same key gets executed.
+
+- `RemoveHandlerFunction(_key, _id)`
+Removes a function added above.
+
+- `CallHandlerFunction(_key, _id)`
+Called when key is pressed. Calls each function registered under `_key` in reverse order of being added, so newest goes first. Passes the `event` to each function called. If one function returns false, stops executing the other functions.
+
+
 ## Logging and Debugging
 MSU adds functionality to improve the debugging capabilites of the user. It allows you to register a mod for debugging, optionally registering additional flags. This allows the user to leave debugging information in the code, but turn off specific parts when distributing the mod.
 Every registered mod has a default flag. This allows for simple syntax, such as `printlog("My statement", "my_mod")`. If you want more granularity, you can add further flags to turn debug on and off for specific areas of the mod.
