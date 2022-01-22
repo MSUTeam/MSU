@@ -520,6 +520,12 @@ Returns true only if `<actor>` is placed on the tactical map **and** there is an
 Returns true if `<actor>` has access to the `special.double_grip` skill and the skill is not hidden. Otherwise returns false.
 
 # Items 🟡
+
+## New functions
+### `onAfterUpdateProperties( _properties )`
+Is called during update of the actor's skill container when the `onAfterUpdate` functions for skills are run. Similar to the `onUpdateProperties` function of items, this function is called via the `generic_item` skill that each item adds to the actor when that item is equipped. Hence, the `SkillOrder` of this function being called is `this.Const.SkillOrder.Item`.
+
+## Item Types
 MSU provides functions to safely add a new ItemType to the game, and to modify the ItemType of items.
 
 ### Creating a new ItemType

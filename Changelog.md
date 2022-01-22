@@ -6,6 +6,7 @@ Changelog
 - `onAnySkillUsed` now resets HitChanceBonus of skills before calling the functions.
 - Implemented onDeathWithInfo function for skills.
 - Implemented onMovementStep function for skills.
+- Implemented onAfterUpdateProperties function for items.
 
 ## 0.6.24
 - Added a robust party movement speed system.

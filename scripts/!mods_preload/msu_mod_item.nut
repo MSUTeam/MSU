@@ -53,5 +53,9 @@ gt.MSU.modItem <- function ()
 
 			addSkill(_skill);
 		}
+
+		o.onAfterUpdateProperties <- function( _properties )
+		{			
+		}
 	});
 }
