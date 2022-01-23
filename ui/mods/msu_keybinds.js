@@ -13,7 +13,7 @@ MSU.GlobalKeyHandler = {
     },
     RemoveHandlerFunction : function(_key, _id){
         //remove handler function, for example if screen is destroyed
-        var parsedKey = this.ParseModifiers(_key)
+        var parsedKey = MSU.CustomKeybinds.ParseModifiers(_key)
         if (!(parsedKey in this.HandlerFunctions)){
             return
         }
