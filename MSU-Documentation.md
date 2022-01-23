@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.24
+Documentation for v0.6.26
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -473,49 +473,49 @@ Returns an array of all actors within a distance of `_distance` inclusive from `
 Returns a random actor within a distance of `_distance` inclusive from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
 
 ### Getting items
-- `<actor>`.getMainhandItem()
+- `<actor>.getMainhandItem()`
 
 Returns the item currently equipped by `<actor>` in the Mainhand item slot. Returns null if no item is found in that slot.
 
-- `<actor>`.getOffhandItem()
+- `<actor>.getOffhandItem()`
 
 Returns the item currently equipped by `<actor>` in the Offhand item slot. Returns null if no item is found in that slot.
 
-- `<actor>`.getHeadItem()
+- `<actor>.getHeadItem()`
 
 Returns the item currently equipped by `<actor>` in the Head item slot. Returns null if no item is found in that slot.
 
-- `<actor>`.getBodyItem()
+- `<actor>.getBodyItem()`
 
 Returns the item currently equipped by `<actor>` in the Body item slot. Returns null if no item is found in that slot.
 
 ### Checking equipment
-- `<actor>`.isArmedWithOneHandedWeapon()
+- `<actor>.isArmedWithOneHandedWeapon()`
 
 Returns true if `<actor>` is currently holding a One-Handed item in their Mainhand, otherwise returns false.
 
-- `<actor>`.isArmedWithMeleeOrUnarmed()
+- `<actor>.isArmedWithMeleeOrUnarmed()`
 
 Returns true if `<actor>` is currently holding a Melee Weapon in their Mainhand or have the Hand to Hand active skill. Returns false if neither is true.
 
-- `<actor>`.isArmedWithTwoHandedWeapon()
+- `<actor>.isArmedWithTwoHandedWeapon()`
 
 Returns true if `<actor>` is currently holding a Two-Handed item in their Mainhand, otherwise returns false.
 
-- `<actor>`.getRemainingArmorFraction()
+- `<actor>.getRemainingArmorFraction( _bodyPart = null)`
 
-Returns a float which is the current total head and body remaining armor durability as a fraction of the maximum total head and armmor armor durability.
+Returns a float which is the current remaining armor durability as a fraction of the maximum durability. If `_bodyPart` is null then it returns the total remaining armor fraction calculated using both head and body armor.
 
-- `<actor>`.getTotalArmorStaminaModifier()
+- `<actor>.getTotalArmorStaminaModifier()`
 
 Returns an integer which is the total stamina modifier of `<actor>`'s currently equippped head and body armor. Returns 0 if no armor is equipped.
 
 ### Checking situation
-- `<actor>`.isEngagedInMelee()
+- `<actor>.isEngagedInMelee()`
 
 Returns true only if `<actor>` is placed on the tactical map **and** there is an enemy who is exerting zone of control on `<actor>`. Otherwise returns false.
 
-- `<actor>`.isDoubleGrippingWeapon()
+- `<actor>.isDoubleGrippingWeapon()`
 
 Returns true if `<actor>` has access to the `special.double_grip` skill and the skill is not hidden. Otherwise returns false.
 
