@@ -229,11 +229,11 @@ gt.MSU.setupCustomKeybinds <- function() {
 				this.logError(format("Trying to bind key %s to action %s but key is not found in keymap!", _key, _actionID));
 				return
 			}
-			::printWarning(format("Setting key %s (internal value %i ) for ID %s.", _key, keyMap[_key], _actionID), this.MSU.MSUModName, "keybinds");
+			//::printWarning(format("Setting key %s (internal value %i ) for ID %s.", _key, keyMap[_key], _actionID), this.MSU.MSUModName, "keybinds");
 			if(_override){
 				::printWarning("Override specified", this.MSU.MSUModName, "keybinds");
 			}
-			environment[_actionID] <- keyMap[_key];
+			environment[_actionID] <- _key;
 			
 		},
 		get = function(_actionID, _defaultKey, _inSQ = true){
@@ -268,12 +268,12 @@ gt.MSU.setupCustomKeybinds <- function() {
 		}
 	}
 	if (this.MSU.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
-		gt.MSU.CustomKeybinds.set("testKeybind", "3", false); //set new key in JS
-		gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
-		gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
-		gt.MSU.CustomKeybinds.get("wrongActionID", "f2"); //get key, returns default key f2 as actionID not bound
+		gt.MSU.CustomKeybinds.set("testKeybind", "3+shift", false); //set new key in JS
+		// gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
+		// gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
+		// gt.MSU.CustomKeybinds.get("wrongActionID", "f2"); //get key, returns default key f2 as actionID not bound
 
-		gt.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
-		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true); //override specified
+		// gt.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
+		// gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true); //override specified
 	}
 }
