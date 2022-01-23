@@ -81,6 +81,18 @@ gt.MSU.setupCustomKeybinds <- function() {
             "f10" : 80,
             "f11" : 81,
             "f12" : 82,
+            "f13" : 83,
+            "f14" : 84,
+            "f15" : 85,
+            "f16" : 86,
+            "f17" : 87,
+            "f18" : 88,
+            "f19" : 89,
+            "f20" : 90,
+            "f21" : 91,
+            "f22" : 92,
+            "f23" : 93,
+            "f24" : 94,
             "ctrl" : 95,
             "shift" : 96,
             "alt" : 97,
@@ -172,6 +184,18 @@ gt.MSU.setupCustomKeybinds <- function() {
             "f10" : 121,
             "f11" : 122,
             "f12" : 123,
+            "f13" : 124,
+            "f14" : 125,
+            "f15" : 126,
+            "f16" : 127,
+            "f17" : 128,
+            "f18" : 129,
+            "f19" : 130,
+            "f20" : 131,
+            "f21" : 132,
+            "f22" : 133,
+            "f23" : 134,
+            "f24" : 135,
             "numlock" : 144,
             "scrolllock" : 145,
             "semicolon" : 186,
@@ -243,12 +267,12 @@ gt.MSU.setupCustomKeybinds <- function() {
 		this.include(filename);
 	}
 	if (this.MSU.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
-		gt.MSU.CustomKeybinds.set("testKeybind", "3", false);
-		gt.MSU.CustomKeybinds.set("testKeybind", "f1");
-		gt.MSU.CustomKeybinds.get("testKeybind", "f2");
-		gt.MSU.CustomKeybinds.get("wrongActionID", "f2");
+		gt.MSU.CustomKeybinds.set("testKeybind", "3", false); //set new key in JS
+		gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
+		gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
+		gt.MSU.CustomKeybinds.get("wrongActionID", "f2"); //get key, returns default key f2 as actionID not bound
 
-		gt.MSU.CustomKeybinds.set("testKeybind", "f3");
-		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true);
+		gt.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
+		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true); //override specified
 	}
 }
