@@ -2,14 +2,21 @@ local gt = this.getroottable();
 local MSUModName = "mod_MSU"
 ::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.24");
 
+
 gt.MSU <- {};
 gt.MSU.MSUModName <- MSUModName;
 
+
 ::mods_queue(null, null, function()
 {
-	::mods_registerJS("mod_MSU.js")
+	gt.MSU.setupBackendConnection();
+	delete gt.MSU.setupBackendConnection;
+	
 	gt.MSU.setupDebuggingUtils();
 	delete gt.MSU.setupDebuggingUtils;
+
+	gt.MSU.setupCustomKeybinds();
+	delete gt.MSU.setupCustomKeybinds;
 
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;

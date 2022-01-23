@@ -41,7 +41,7 @@ gt.MSU.setupDebuggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSU.MSUModName, "debug");
+				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSU.MSUModName);
 				return;
 			}
 			this.ModTable[_modID][_flagID] <- _flagBool;
@@ -53,7 +53,9 @@ gt.MSU.setupDebuggingUtils <- function()
 				}
 				else
 				{
-					::printLog(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSU.MSUModName, "debug");
+					if (this.isEnabledForMod(this.MSU.MSUModName, "debug")){
+						::printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSU.MSUModName, "debug");
+					}
 				}
 			}
 		}
@@ -63,12 +65,18 @@ gt.MSU.setupDebuggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSU.MSUModName, "debug");
+				//circumvent infinite loop if MSU flag is somehow missing
+				if (("debug" in this.ModTable[this.MSU.MSUModName] && this.ModTable[this.MSU.MSUModName]["debug" ] == true)  || this.isFullDebug()){
+					::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSU.MSUModName, "debug");
+				}
 				return false;
 			}
 			if (!(_flagID in this.ModTable[_modID]))
 			{
-				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSU.MSUModName, "debug");
+				//circumvent infinite loop if MSU flag is somehow missing
+				if (("debug" in this.ModTable[this.MSU.MSUModName] && this.ModTable[this.MSU.MSUModName]["debug" ] == true)  || this.isFullDebug()){
+					::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSU.MSUModName, "debug");
+				}
 				return false;
 			}
 
@@ -161,7 +169,9 @@ gt.MSU.setupDebuggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.MSUModName, "debug");
+				if (this.isEnabledForMod(this.MSU.MSUModName, "debug")){
+					this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.MSUModName, "debug");
+				}
 				return;
 			}
 
@@ -188,11 +198,14 @@ gt.MSU.setupDebuggingUtils <- function()
 				}
 			}
 		}
+		MSUMainDebugFlag = {
+			debug = true
+		}
 
 		MSUDebugFlags = {
-			debug = true,
 			movement = true,
 			skills = false,
+			keybinds = true,
 		}
 	}
 
@@ -211,6 +224,12 @@ gt.MSU.setupDebuggingUtils <- function()
 		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Error, _flagID);
 	}
 
-	this.MSU.Debug.registerMod(this.MSU.Debug.MSUModName, true, this.MSU.Debug.MSUDebugFlags);
+	this.MSU.Debug.registerMod(this.MSU.MSUModName, true);
+
+	//need to set this first to print the others
+	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUMainDebugFlag)
+
+	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUDebugFlags)
+
 	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
 }
