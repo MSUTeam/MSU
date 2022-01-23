@@ -262,9 +262,10 @@ gt.MSU.setupCustomKeybinds <- function() {
 	}
 
 	local customKeybindsArray = this.IO.enumerateFiles("mod_config/keybinds/"); //returns either null if not valid path or no files, otherwise array with strings
-	if (customKeybindsArray == null) return
-	foreach (filename in customKeybindsArray){
-		this.include(filename);
+	if (customKeybindsArray != null){
+		foreach (filename in customKeybindsArray){
+			this.include(filename);
+		}
 	}
 	if (this.MSU.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
 		gt.MSU.CustomKeybinds.set("testKeybind", "3", false); //set new key in JS
