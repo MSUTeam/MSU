@@ -38,7 +38,9 @@ MSUBackendConnection.prototype.onDisconnection = function ()
 
 
 MSUBackendConnection.prototype.setCustomKeybinds = function(_keybinds){
-    MSU.GlobalKeyHandler.AddHandlerFunction(KeyConstants.Two, "testKeybind", function(_event){
+
+   
+    MSU.GlobalKeyHandler.AddHandlerFunction("2+shift", "testKeybind", function(_event){
         console.error("Testing keybind")
     })
     MSU.CustomKeybinds.setFromSQ(_keybinds);
