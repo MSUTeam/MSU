@@ -7,6 +7,7 @@ Changelog
 - Implemented onDeathWithInfo function for skills.
 - Implemented onMovementStep function for skills.
 - Implemented onAfterUpdateProperties function for items.
+- Implemented getSkills function in item which returns the array of this item's skills.
 
 ## 0.6.24
 - Added a robust party movement speed system.
