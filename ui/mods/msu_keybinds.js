@@ -1,20 +1,36 @@
 MSU.GlobalKeyHandler = {
     HandlerFunctions : {},
-    AddHandlerFunction : function(_key, _id, _func){
-        console.error("AddHandlerFunction " + _key + " " + _id)
-        if (!(_key in this.HandlerFunctions)){
-           this.HandlerFunctions[_key] = []
+    ParseModifiers : function(_key){
+        var keyArray = _key.split('+')
+        //reorder arguments
+        var parsedKey = keyArray[0];
+        if(keyArray.find("shift") != undefined){
+            parsedKey = parsedKey + "+shift"
         }
-        this.HandlerFunctions[_key].unshift({
+        if(keyArray.find("ctrl") != undefined){
+            parsedKey = parsedKey + "+ctrl"
+        }
+        if(keyArray.find("alt") != undefined){
+            parsedKey = parsedKey + "+alt"
+        }
+        return parsedKey
+    },
+    AddHandlerFunction : function(_key, _id, _func){
+        var parsedKey = this.ParseModifiers(_key)
+        if (!(parsedKey in this.HandlerFunctions)){
+           this.HandlerFunctions[parsedKey] = []
+        }
+        this.HandlerFunctions[parsedKey].unshift({
             ID: _id,
             Func: _func
         })
     },
     RemoveHandlerFunction : function(_key, _id){
-        if (!(_key in this.HandlerFunctions)){
+        var parsedKey = this.ParseModifiers(_key)
+        if (!(parsedKey in this.HandlerFunctions)){
             return
         }
-        var keyFuncArray = this.HandlerFunctions[_key]
+        var keyFuncArray = this.HandlerFunctions[parsedKey]
         for (var i = 0; i < keyFuncArray.length; i++) {
             if(keyFuncArray[i].ID == _id){
                 keyFuncArray.splice(i, 1)
@@ -22,11 +38,22 @@ MSU.GlobalKeyHandler = {
             }
         }       
     },
-    CallHandlerFunction : function(_key, event){
-        if (!(_key in this.HandlerFunctions)){
+    CallHandlerFunction : function(_key, _shiftPressed, _ctrlPressed, _altPressed, event){
+        
+        var parsedKey = _key;
+        if (_shiftPressed){
+            parsedKey = parsedKey + "+shift"
+        }
+        if (_ctrlPressed){
+            parsedKey = parsedKey + "+ctrl"
+        }
+        if (_altPressed){
+            parsedKey = parsedKey + "+alt"
+        }
+        if (!(parsedKey in this.HandlerFunctions)){
             return
         }
-        var keyFuncArray = this.HandlerFunctions[_key]
+        var keyFuncArray = this.HandlerFunctions[parsedKey]
         for (var i = 0; i < keyFuncArray.length; i++) {
             if (keyFuncArray[i].Func(event) === false){
                 return false
@@ -34,8 +61,13 @@ MSU.GlobalKeyHandler = {
         }
     }
 }
-document.addEventListener('keydown', function(event){
-    if (MSU.GlobalKeyHandler.CallHandlerFunction(event.keyCode, event) === false){
+document.addEventListener('keydown', function(_event){
+    var key = _event.keyCode
+    var shiftPressed = (KeyModiferConstants.ShiftKey in _event && _event[KeyModiferConstants.ShiftKey] === true);
+    var ctrlPressed = (KeyModiferConstants.CtrlKey in _event && _event[KeyModiferConstants.CtrlKey] === true);
+    var altPressed = (KeyModiferConstants.AltKey in _event && _event[KeyModiferConstants.AltKey] === true);
+
+    if (MSU.GlobalKeyHandler.CallHandlerFunction(key, shiftPressed, ctrlPressed, altPressed, event) === false){
         event.stopPropagation()
     }
 });
