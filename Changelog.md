@@ -1,7 +1,7 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
-##Next Version - Midas
+## 0.6.25
 - Added `getBaseValue(_field)` function to skill to get the base value of a field in the m table from when the base values of the skill were saved.
 - `onAnySkillUsed` now resets HitChanceBonus of skills before calling the functions.
 - Implemented onDeathWithInfo function for skills.
