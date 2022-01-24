@@ -3,10 +3,8 @@ local gt = this.getroottable();
 gt.MSU.setupCustomKeybinds <- function() {
 	::mods_registerJS("msu_keybinds.js")
     ::mods_hookNewObject("states/world_state", function(o){
-        this.logError("inworld_state hook")
         local world_keyFunc = o.helper_handleContextualKeyInput;
         o.helper_handleContextualKeyInput = function(_key){
-            this.logError("inworld_state onKeyInput")
             if(_key.getState() != 0) return world_keyFunc(_key) 
             local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, true)
             if(customHandling == false){
@@ -17,10 +15,8 @@ gt.MSU.setupCustomKeybinds <- function() {
     })
 
     ::mods_hookNewObject("states/tactical_state", function(o){
-        this.logError("tactical_state hook")
         local tactical_keyFunc = o.helper_handleContextualKeyInput;
         o.helper_handleContextualKeyInput = function(_key){
-            this.logError("tactical_state onKeyInput")
             if(_key.getState() != 0) return tactical_keyFunc(_key) 
             local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, false)
             if(customHandling == false){
@@ -258,10 +254,111 @@ gt.MSU.setupCustomKeybinds <- function() {
 		gt.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
 		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true); //override specified
 
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("r", "world_testRebindCharacterMenu", function(){
-            this.logError("r handler function test")
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("c", "world_toggleCharacterMenu", function(){
             this.toggleCharacterScreen();
             return false
+        })
+        local character_toggleCharacterMenu = function(){
+            if(!this.isInCharacterScreen) return true
+            this.toggleCharacterScreen();
+            return false
+        }
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("c", "character_toggleCharacterMenu_1", character_toggleCharacterMenu)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("i", "character_toggleCharacterMenu_2", character_toggleCharacterMenu)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("esc", "character_toggleCharacterMenu_3", character_toggleCharacterMenu)
+        local switchPreviousBrother = function(){
+           if(!this.isInCharacterScreen) return true
+            this.m.CharacterScreen.switchToPreviousBrother();
+            return false
+        }
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("left", "character_switchToPreviousBrother_1", switchPreviousBrother)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("a", "character_switchToPreviousBrother_2", switchPreviousBrother)
+        local switchNextBrother = function(){
+           if(!this.isInCharacterScreen) return true
+            this.m.CharacterScreen.switchToNextBrother();
+            return false
+        }
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("right", "character_switchToNextBrother_1", switchNextBrother)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("d", "character_switchToNextBrother_2", switchNextBrother)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tab", "character_switchToNextBrother_3", switchNextBrother)
+
+        local function isCampfireScreen(){
+            return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible()
+        }
+        local function world_closeCampfireScreen(){
+            if (!isCampfireScreen.call(this)) return true
+            this.m.CampfireScreen.onModuleClosed();
+            return false
+        }
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("p", "world_closeCampfireScreen_1", world_closeCampfireScreen)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("escape", "world_closeCampfireScreen_2", world_closeCampfireScreen)
+        local function isCampfireScreen(){
+            return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible()
+        }
+
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("escape", "world_toggleMenuScreen", function(){
+            if (isCampfireScreen.call(this)) return true
+            return (!this.toggleMenuScreen())
+        })
+        local function world_toggleCharacterScreen(){
+            if (!this.m.MenuStack.hasBacksteps() || this.m.CharacterScreen.isVisible() || this.m.WorldTownScreen.isVisible() && !this.m.EventScreen.isVisible())
+            {
+                if (!this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
+                {
+                    this.toggleCharacterScreen();
+                    return false;
+                }
+            }
+            return true
+        }
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("c", "world_toggleCharacterScreen_1", world_toggleCharacterScreen)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("i", "world_toggleCharacterScreen_2", world_toggleCharacterScreen)
+
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("r", "world_toggleRelationScreen", function(){
+            if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
+            {
+                this.topbar_options_module_onRelationsButtonClicked();
+                return false
+            }
+            else if (this.m.RelationsScreen.isVisible())
+            {
+                this.m.RelationsScreen.onClose();
+                return false
+            }
+            return true
+        })
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("o", "world_toggleObituarysScreen", function(){
+            if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
+            {
+                this.topbar_options_module_onObituaryButtonClicked();
+                return false
+            }
+            else if (this.m.ObituaryScreen.isVisible())
+            {
+                this.m.ObituaryScreen.onClose();
+                return false
+            }
+            return true
+        })
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("t", "world_toggleCamping", function(){
+            if (!this.m.MenuStack.hasBacksteps())
+            {
+                if (this.isCampingAllowed())
+                {
+                    this.onCamp();
+                    return false
+                }
+            }
+            return true
+        })
+
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("t", "world_togglePerksButton", function(){
+            if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
+            {
+                this.topbar_options_module_onPerksButtonClicked();
+                return false
+            }
+            return true
         })
 
 	}
