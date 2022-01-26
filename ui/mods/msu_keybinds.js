@@ -1,6 +1,7 @@
 MSU.GlobalKeyHandler = {
     HandlerFunctions : {},
-    AddHandlerFunction : function(_key, _id, _func){
+    HandlerFunctionsMap : {},
+    AddHandlerFunction : function(_id, _key, _func){
         //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
         var parsedKey = MSU.CustomKeybinds.get(_id, _key)
         if (!(parsedKey in this.HandlerFunctions)){
@@ -8,41 +9,47 @@ MSU.GlobalKeyHandler = {
         }
         this.HandlerFunctions[parsedKey].unshift({
             ID: _id,
-            Func: _func
+            Func: _func,
+            Key: parsedKey
         })
+        this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0]
     },
-    RemoveHandlerFunction : function(_key, _id){
+    RemoveHandlerFunction : function(_id, _key,){
         //remove handler function, for example if screen is destroyed
-        var parsedKey = MSU.CustomKeybinds.ParseModifiers(_key)
-        if (!(parsedKey in this.HandlerFunctions)){
+        if(!(_id in this.HandlerFunctionsMap)){
             return
         }
+        var handlerFunc = this.HandlerFunctionsMap[_id]
         var keyFuncArray = this.HandlerFunctions[parsedKey]
         for (var i = 0; i < keyFuncArray.length; i++) {
             if(keyFuncArray[i].ID == _id){
                 keyFuncArray.splice(i, 1)
+                if(keyFuncArray.length == 0){
+                    delete this.HandlerFunctions[parsedKey]
+                }
                 return
             }
-        }       
+        } 
+        delete this.HandlerFunctionsMap[handlerFunc.Key]      
     },
-    UpdateHandlerFunction : function(_key, _id){
-        //for when new custom binds are added after handler functions have already been added, for whatever reason
-        Object.keys(this.HandlerFunctions).forEach(function (handerFuncKey) {
-            var handlerFuncArray = this.HandlerFunctions[handerFuncKey]
-            for (var j = 0; j < handlerFuncArray.length; j++) {
-                if(handlerFuncArray[j].ID == _id){
-                    var result = handlerFuncArray.splice(j, 1)
-                    MSU.GlobalKeyHandler.AddHandlerFunction(_key, _id, result[0].Func)
-                }
-            } 
-        }.bind(this))
+    UpdateHandlerFunction : function(_id, _key,){
+        if(!(_id in this.HandlerFunctionsMap)){
+            this.logError("ID not found")
+            return
+        }
+        var handlerFunc = this.HandlerFunctionsMap[_id]
+        this.RemoveHandlerFunction(handlerFunc.ID, handlerFunc.Key)
+        this.AddHandlerFunction(_id, _key, handlerFunc.Func)
     },
+
     CallHandlerFunction : function(_key, event){ 
         // call all handler functions if they are present for the key+modifier, if one returns false execution ends
         // executed in order of last added
-        if (!(_key in this.HandlerFunctions)) return
-        var keyFuncArray = this.HandlerFunctions[_key]
-        for (var i = 0; i < keyFuncArray.length; i++) {
+        if (!(_key in this.HandlerFunctions)){
+            return
+        }
+        var keyFuncArray = this.HandlerFunctions[_key];
+        for (var i = 0; i < keyFuncArray.length; i++){
             if (keyFuncArray[i].Func(event) === false){
                 return false
             }
@@ -203,7 +210,7 @@ MSU.CustomKeybinds = {
         // set new custom binds gotten from SQ
         Object.keys(_keyBinds).forEach(function (_actionID){ 
             this.set(_actionID, _keyBinds[_actionID])
-            MSU.GlobalKeyHandler.UpdateHandlerFunction(_keyBinds[_actionID], _actionID)
+            MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, _keyBinds[_actionID])
         }.bind(this));
     }
 }
