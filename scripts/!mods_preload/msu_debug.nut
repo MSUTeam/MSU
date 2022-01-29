@@ -122,6 +122,14 @@ gt.MSU.setupDebuggingUtils <- function()
 			this.logInfo(string);
 		}
 
+		function printData(_data, _maxDepth = 1, _advanced = false){
+			local maxLen = 1;
+			if(typeof _data == "array" || typeof _data == "table"){
+				maxLen = _data.len();
+			}
+			return this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced)
+		}
+
 		function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
 		{
 			local string = "";
@@ -224,12 +232,16 @@ gt.MSU.setupDebuggingUtils <- function()
 		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Error, _flagID);
 	}
 
+	::isDebugEnabled <- function(_modID, _flagID = this.MSU.Debug.DefaultFlag){
+		return this.MSU.Debug.isEnabledForMod( _modID, _flagID)
+	}
+
 	this.MSU.Debug.registerMod(this.MSU.MSUModName, true);
 
 	//need to set this first to print the others
-	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUMainDebugFlag)
+	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUMainDebugFlag);
 
-	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUDebugFlags)
+	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUDebugFlags);
 
 	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
 }

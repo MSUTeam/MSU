@@ -53,7 +53,6 @@ gt.MSU.setupCustomKeybinds <- function() {
                 this.HandlerFunctions.rawdelete(handlerFunc.Key)
             }
             this.HandlerFunctionsMap.rawdelete(handlerFunc.Key)
-            
             //remove handler function, for example if screen is destroyed   
         },
         UpdateHandlerFunction = function(_id, _key){
