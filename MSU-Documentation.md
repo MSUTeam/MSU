@@ -714,26 +714,62 @@ MSU adds useful functionality to various miscellaneous classes.
 Returns true if the current active entity is not null and is `_entity`.
 
 # Utilities 🟢
-## Logging
-- `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+## Global UI Keyhandler
+MSU adds a global keyhandler for the UI side of things. This is found in ui/mod_MSU.js
+
+- `AddHandlerFunction(_key, _id, _func)`
+Adds a new handler function, when keyboard key `_key` is pressed. `_id` allows grouping and to remove the function once the screen is closed. `_func` is the function to execute. If `_func` returns false, no other function for the same key gets executed.
+
+- `RemoveHandlerFunction(_key, _id)`
+Removes a function added above.
+
+- `CallHandlerFunction(_key, _id)`
+Called when key is pressed. Calls each function registered under `_key` in reverse order of being added, so newest goes first. Passes the `event` to each function called. If one function returns false, stops executing the other functions.
+
+
+## Logging and Debugging
+MSU adds functionality to improve the debugging capabilites of the user. It allows you to register a mod for debugging, optionally registering additional flags. This allows the user to leave debugging information in the code, but turn off specific parts when distributing the mod.
+Every registered mod has a default flag. This allows for simple syntax, such as `printlog("My statement", "my_mod")`. If you want more granularity, you can add further flags to turn debug on and off for specific areas of the mod.
+
+- `registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)`
+
+Registers debugging for mod id `_modID`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagBool` sets the value of the `default` flag.
+`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
+`_flagTableBool` is an optional boolean for setFlags().
+Example usage:
+
+`local MSUDebugFlags = {
+	debug = true,
+	movement = true,
+	skills = false
+};
+`
+
+`
+this.MSU.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
+`
+
+- `setFlags(_modID, _flagTable, _flagTableBool = null)`
+
+Sets every flag in the `_flagTable` for mod `_modID`. If `_flagTableBool` is not null, every flag will be set to this value instead.
+
+- `setFlag(_modID, _flagID, _flagBool)`
+
+Sets one flag for mod `_modID` in the `ModTable`.
+
+- `isEnabledForMod( _modID, _flagID = "default")`
+
+Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
+
+- `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
+
+Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints the log as `_printText` if debugging is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
+
+`Other debugging tools`
+
+- `this.MSU.Debug.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
-
-- `this.MSU.Log.setDebugLog( _enabled = false, _name = "default")`
-
-Enables or Disables the debug logging system for the mod id `_name`.
-
-- `::printLog( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logInfo`. Prints the log as `_arg` if DebugLog is enabled for the mod id `_name`.
-
-- `::printWarning( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logWarning`. Prints the warning as `_arg` if DebugLog is enabled for the mod id `_name`.
-
-- `::printError( _arg = "No argument for debug log", _name = "default")`
-
-Is a substitute for `this.logError`. Prints the error as `_arg` if DebugLog is enabled for the mod id `_name`.
 
 ## Tile
 `this.MSU.Tile.canResurrectOnTile( _tile, _force = false )`
