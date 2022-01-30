@@ -464,7 +464,7 @@ gt.MSU.setupCustomKeybinds <- function() {
                 this.hideCharacterScreen();
                 return false
             }
-        }, true)
+        }, false)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "left",  switchPreviousBrother, false)
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "a",  switchPreviousBrother, false)
@@ -482,6 +482,7 @@ gt.MSU.setupCustomKeybinds <- function() {
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_3", "escape",  hideCharacterScreen, false)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleMenuScreen", "escape",  function(){
+            if(this.isInCharacterScreen()) return
             if (!this.m.MenuStack.hasBacksteps() || this.m.TacticalMenuScreen.isVisible())
             {
                 if (this.toggleMenuScreen())
@@ -510,18 +511,18 @@ gt.MSU.setupCustomKeybinds <- function() {
         }, false)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_initNextTurn", "enter",  function(){
-            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked()) return
+            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
              this.Tactical.TurnSequenceBar.initNextTurn();
             return false
         }, false)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_endTurnAll", "r",  function(){
-            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked()) return
+            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
             return false
         }, false)
         local function waitTurn(){
-            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked()) return
+            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
             {
                 local wasAbleToWait = this.Tactical.TurnSequenceBar.entityWaitTurn(this.Tactical.TurnSequenceBar.getActiveEntity());
@@ -538,13 +539,13 @@ gt.MSU.setupCustomKeybinds <- function() {
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_2", "space",  waitTurn, false)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_focusActiveEntity", "shift",  function(){
-            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked()) return
+            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             this.Tactical.TurnSequenceBar.focusActiveEntity(true);
             return false
         }, false)
 
         local function showCharacterScreen(){
-            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked()) return
+            if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             this.showCharacterScreen();
             return false
         }

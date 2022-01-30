@@ -20,6 +20,7 @@ MSU.GlobalKeyHandler = {
             return
         }
         var handlerFunc = this.HandlerFunctionsMap[_id]
+        var parsedKey = MSU.CustomKeybinds.ParseModifiers(_key)
         var keyFuncArray = this.HandlerFunctions[parsedKey]
         for (var i = 0; i < keyFuncArray.length; i++) {
             if(keyFuncArray[i].ID == _id){
@@ -34,7 +35,6 @@ MSU.GlobalKeyHandler = {
     },
     UpdateHandlerFunction : function(_id, _key){
         if(!(_id in this.HandlerFunctionsMap)){
-            console.error("ID not found")
             return
         }
         var handlerFunc = this.HandlerFunctionsMap[_id]
@@ -55,33 +55,26 @@ MSU.GlobalKeyHandler = {
             }
         }
     },
-    ProcessInput : function(_key){
-        var key = MSU.CustomKeybinds.KeyMapJS[_event.keyCode]
-        if (KeyModiferConstants.ShiftKey in _event && _event[KeyModiferConstants.ShiftKey] === true){
-            key += "+shift"
+    ProcessInput : function(_key, _event){
+        if (_event.shiftKey === true){
+            _key += "+shift"
         }
-        if (KeyModiferConstants.CtrlKey in _event && _event[KeyModiferConstants.CtrlKey] === true){
-            key += "+ctrl"
+        if (_event.ctrlKey === true){
+            _key += "+ctrl"
         }
-        if (KeyModiferConstants.AltKey in _event && _event[KeyModiferConstants.AltKey] === true){
-            key += "+alt"
+        if (_event.altKey === true){
+            _key += "+alt"
         }
-        return this.CallHandlerFunction(key)
+        return this.CallHandlerFunction(_key)
     }
 }
 document.addEventListener('keyup', function(_event){
     //transform key into string, add possible modifiers
     var key = MSU.CustomKeybinds.KeyMapJS[_event.keyCode]
-    if (KeyModiferConstants.ShiftKey in _event && _event[KeyModiferConstants.ShiftKey] === true){
-        key += "+shift"
+    if (key === undefined || key === null){
+        return
     }
-    if (KeyModiferConstants.CtrlKey in _event && _event[KeyModiferConstants.CtrlKey] === true){
-        key += "+ctrl"
-    }
-    if (KeyModiferConstants.AltKey in _event && _event[KeyModiferConstants.AltKey] === true){
-        key += "+alt"
-    }
-    if (MSU.GlobalKeyHandler.CallHandlerFunction(key) === false){
+    if (MSU.GlobalKeyHandler.ProcessInput(key, _event) === false){
         event.stopPropagation()
     }
 });
@@ -91,16 +84,7 @@ document.addEventListener('mouseup', function(_event){
     if (key === undefined || key === null){
         return
     }
-    if (_event.shiftKey === true){
-        key += "+shift"
-    }
-    if (_event.ctrlKey === true){
-        key += "+ctrl"
-    }
-    if (_event.altKey === true){
-        key += "+alt"
-    }
-    if (MSU.GlobalKeyHandler.CallHandlerFunction(key) === false){
+    if (MSU.GlobalKeyHandler.ProcessInput(key, _event) === false){
         event.stopPropagation()
     }
 });
@@ -242,12 +226,12 @@ MSU.CustomKeybinds = {
     set: function(_actionID, _key){
         _key = this.ParseModifiers(_key)
         this.CustomBinds[_actionID] = _key
+        MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, _key)
     },
     setFromSQ : function(_keyBinds){
         // set new custom binds gotten from SQ
         Object.keys(_keyBinds).forEach(function (_actionID){ 
             this.set(_actionID, _keyBinds[_actionID])
-            MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, _keyBinds[_actionID])
         }.bind(this));
     }
 }
@@ -255,30 +239,30 @@ MSU.CustomKeybinds = {
 //fetch custom binds from SQ
 SQ.call(Screens["MSUBackendConnection"].mSQHandle, 'passKeybinds');
 
+// For testing, need to pass over debugging status to JS maybe so that we can run better testing 
 
+// MSU.GlobalKeyHandler.AddHandlerFunction("lmb", "leftclick", function(){
+//     console.error("pressed lmb")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("lmbshift", "leftclick+shift", function(){
+//     console.error("pressed lmbshift")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("lmbctrl", "leftclick+ctrl", function(){
+//     console.error("pressed lmbctrl")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("lmbalt", "leftclick+alt", function(){
+//     console.error("pressed lmbalt")
+// })
 
-MSU.GlobalKeyHandler.AddHandlerFunction("lmb", "leftclick", function(){
-    console.error("pressed lmb")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("lmbshift", "leftclick+shift", function(){
-    console.error("pressed lmbshift")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("lmbctrl", "leftclick+ctrl", function(){
-    console.error("pressed lmbctrl")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("lmbalt", "leftclick+alt", function(){
-    console.error("pressed lmbalt")
-})
-
-MSU.GlobalKeyHandler.AddHandlerFunction("rmb", "rightclick", function(){
-    console.error("pressed rmb")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("rmbshift", "rightclick+shift", function(){
-    console.error("pressed rmbshift")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("rmbctrl", "rightclick+ctrl", function(){
-    console.error("pressed rmbctrl")
-})
-MSU.GlobalKeyHandler.AddHandlerFunction("rmbalt", "rightclick+alt", function(){
-    console.error("pressed rmbalt")
-})
+// MSU.GlobalKeyHandler.AddHandlerFunction("rmb", "rightclick", function(){
+//     console.error("pressed rmb")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("rmbshift", "rightclick+shift", function(){
+//     console.error("pressed rmbshift")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("rmbctrl", "rightclick+ctrl", function(){
+//     console.error("pressed rmbctrl")
+// })
+// MSU.GlobalKeyHandler.AddHandlerFunction("rmbalt", "rightclick+alt", function(){
+//     console.error("pressed rmbalt")
+// })
