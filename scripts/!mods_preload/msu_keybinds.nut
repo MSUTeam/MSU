@@ -1,34 +1,83 @@
 local gt = this.getroottable();
 
 gt.MSU.setupCustomKeybinds <- function() {
-	::mods_registerJS("msu_keybinds.js")
-    ::mods_hookNewObject("states/world_state", function(o){
-        local world_keyFunc = o.helper_handleContextualKeyInput;
-        o.helper_handleContextualKeyInput = function(_key){
+	::mods_registerJS("msu_keybinds.js");
+    ::mods_hookExactClass("states/world_state", function(o){
+        local world_keyFunc = o.onKeyInput;
+        o.onKeyInput = function(_key){
             if(_key.getState() != 0) return world_keyFunc(_key) 
-            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, true)
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.World)
             if(customHandling == false){
                 return false
             }
             return world_keyFunc(_key)  
         }
+        local world_mouseInput = o.onMouseInput
+        o.onMouseInput = function(_mouse){
+            if(_mouse.getState() != 1 || _mouse.getID() == 6) return world_mouseInput(_mouse)
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.World, this.MSU.GlobalKeyHandler.InputType.Mouse)
+            if(customHandling == false){
+                return false
+            }
+            return world_mouseInput(_mouse)
+        }
     })
 
-    ::mods_hookNewObject("states/tactical_state", function(o){
-        local tactical_keyFunc = o.helper_handleContextualKeyInput;
-        o.helper_handleContextualKeyInput = function(_key){
+    ::mods_hookExactClass("states/tactical_state", function(o){
+
+        local tactical_keyFunc = o.onKeyInput;
+        o.onKeyInput = function(_key){
             if(_key.getState() != 0 || this.isInLoadingScreen() || this.isBattleEnded()) return tactical_keyFunc(_key) 
-            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, false)
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.Tactical)
             if(customHandling == false){
                 return false
             }
             return tactical_keyFunc(_key)  
         }
+        local tactical_mouseInput = o.onMouseInput
+        o.onMouseInput = function(_mouse){
+            if(_mouse.getState() != 1 || _mouse.getID() == 6) return tactical_mouseInput(_mouse)
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.Tactical, this.MSU.GlobalKeyHandler.InputType.Mouse)
+            if(customHandling == false){
+                return false
+            }
+            return tactical_mouseInput(_mouse)
+        }
+    })
+    ::mods_hookExactClass("states/main_menu_state", function(o){
+        local menu_onKeyInput = o.onKeyInput
+        o.onKeyInput = function(_key){
+            if(_key.getState() != 0) return menu_onKeyInput(_key) 
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu)
+            if(customHandling == false){
+                return false
+            }
+            return menu_onKeyInput(_key)
+        }
+        //menu mouse input  somehow doesn't register any ID but 6 (movement)
+        local menu_mouseInput = o.onMouseInput
+        o.onMouseInput = function(_mouse){
+            if(_mouse.getState() != 1 || _mouse.getID() == 6) return menu_mouseInput(_mouse)
+            local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.MainMenu, this.MSU.GlobalKeyHandler.InputType.Mouse)
+            if(customHandling == false){
+                return false
+            }
+            return menu_mouseInput(_mouse)
+        }
     })
     gt.MSU.GlobalKeyHandler <- {
         HandlerFunctions = {},
         HandlerFunctionsMap = {},
-        AddHandlerFunction = function(_id, _key,  _func, _worldmap = true){
+        States = {
+            World = 0,
+            Tactical = 1,
+            MainMenu = 2,
+        },
+        InputType = {
+            Keyboard = 0,
+            Mouse = 1
+        },
+        AddHandlerFunction = function(_id, _key,  _func, _state = 0){
             //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
             local parsedKey = this.MSU.CustomKeybinds.get(_id, _key)
             if (!(parsedKey in this.HandlerFunctions)){
@@ -37,7 +86,7 @@ gt.MSU.setupCustomKeybinds <- function() {
             this.HandlerFunctions[parsedKey].insert(0, {
                 ID = _id,
                 Func = _func,
-                Worldmap = _worldmap,
+                State = _state,
                 Key = parsedKey
             })
             this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0]
@@ -63,17 +112,17 @@ gt.MSU.setupCustomKeybinds <- function() {
             }
             local handlerFunc = this.HandlerFunctionsMap[_id]
             this.RemoveHandlerFunction(handlerFunc.ID, handlerFunc.Key)
-            this.AddHandlerFunction(_id, _key, handlerFunc.Func)
+            this.AddHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State)
         },
-        CallHandlerFunction = function(_key, _env, _worldmap){ 
+        CallHandlerFunction = function(_key, _env, _state){ 
             // call all handler functions if they are present for the key+modifier, if one returns false execution ends
             // executed in order of last added
             if (!(_key in this.HandlerFunctions)) return
             local keyFuncArray = this.HandlerFunctions[_key]
             foreach (entry in keyFuncArray) {
                 ::printWarning(format("Checking handler function for key %s for ID %s", entry.Key, entry.ID), this.MSU.MSUModName, "keybinds");
-                ::printWarning("worldmap" + entry.Worldmap, this.MSU.MSUModName, "keybinds");
-                if (entry.Worldmap != _worldmap){
+                ::printWarning("State " + entry.State, this.MSU.MSUModName, "keybinds");
+                if (entry.State != _state){
                     continue;
                 }
                 ::printWarning(format("Calling handler function for key %s for ID %s.", entry.Key, entry.ID), this.MSU.MSUModName, "keybinds");
@@ -82,22 +131,31 @@ gt.MSU.setupCustomKeybinds <- function() {
                 }
             }
         },
-        ProcessInput = function(_key, _env, _worldmap){
-            local key = this.MSU.CustomKeybinds.KeyMapSQ[_key.getKey().tostring()]
-            if (_key.getModifier() == 2){
-                key += "+shift"
+        ProcessInput = function(_key, _env, _state, _inputType = 0){
+            local key;
+            if(_inputType == this.InputType.Keyboard){
+                key = this.MSU.CustomKeybinds.KeyMapSQ[_key.getKey().tostring()];
+                if (_key.getModifier() == 2){
+                    key += "+shift";
+                }
+                if (_key.getModifier() == 1){
+                    key += "+ctrl";
+                }
+                if (_key.getModifier() == 3){
+                    key += "+alt";
+                }
             }
-            if (_key.getModifier() == 1){
-                key += "+ctrl"
+            else if(_inputType == this.InputType.Mouse){
+                key = this.MSU.CustomKeybinds.KeyMapSQMouse[_key.getID().tostring()];
+                this.logError(key)
             }
-            if (_key.getModifier() == 3){
-                key += "+alt"
+            else{
+                this.logError(_inputType + " is not a valid input type!");
+                return
             }
-            return MSU.GlobalKeyHandler.CallHandlerFunction(key, _env, _worldmap)
+            return MSU.GlobalKeyHandler.CallHandlerFunction(key, _env, _state)
         }
     }
-
-
 	gt.MSU.CustomKeybinds <- {
 		KeyMapSQ = {
             "1" : "1",
@@ -193,6 +251,10 @@ gt.MSU.setupCustomKeybinds <- function() {
             "96" : "shift",
             "97" : "alt",
         },
+        KeyMapSQMouse = {
+            "1" : "leftclick",
+            "2" : "rightclick",
+        },
 		CustomBindsJS = {}, //JS and SQ use different binds
 		CustomBindsSQ = {},
         ParseModifiers = function(_key){
@@ -220,7 +282,7 @@ gt.MSU.setupCustomKeybinds <- function() {
             ::printWarning(format("Returning default key %s for ID %s.", _defaultKey, _actionID), this.MSU.MSUModName, "keybinds");
             return _defaultKey
         },
-		set = function(_actionID, _key, _inSQ = true, _override = false){
+		set = function(_actionID, _key, _override = false, _inSQ = true, ){
 			
 			if ((typeof _actionID != "string") || (typeof _key != "string")){
 				this.logError(format("Trying to bind key " + _key + " to action " + _actionID + " but either is not a string!"));
@@ -238,6 +300,9 @@ gt.MSU.setupCustomKeybinds <- function() {
             if(_inSQ) this.MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, key);
 			
 		},
+        setForJS = function(_actionID, _key, _override = false){
+            this.set(_actionID, _key, _override, false)
+        }
 		remove = function(_actionID, _inSQ = true){
 			local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 			::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.MSUModName, "keybinds")
@@ -252,13 +317,13 @@ gt.MSU.setupCustomKeybinds <- function() {
 		}
 	}
 	if (this.MSU.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
-		gt.MSU.CustomKeybinds.set("testKeybind", "3+shift", false); //set new key in JS
+		gt.MSU.CustomKeybinds.setForJS("testKeybind", "3+shift"); //set new key in JS
 		gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
 		gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
 		gt.MSU.CustomKeybinds.get("wrongActionID", "f2"); //get key, returns default key f2 as actionID not bound
 
 		gt.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
-		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true, true); //override specified
+		gt.MSU.CustomKeybinds.set("testKeybind", "f3", true); //override specified
 
         local character_toggleCharacterMenu = function(){
             if(!this.isInCharacterScreen()) return
@@ -464,22 +529,22 @@ gt.MSU.setupCustomKeybinds <- function() {
                 this.hideCharacterScreen();
                 return false
             }
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "left",  switchPreviousBrother, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "a",  switchPreviousBrother, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_1", "right",  switchNextBrother, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_2", "d",  switchNextBrother, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_3", "tab",  switchNextBrother, false)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "left",  switchPreviousBrother, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "a",  switchPreviousBrother, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_1", "right",  switchNextBrother, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_2", "d",  switchNextBrother, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_3", "tab",  switchNextBrother, gt.MSU.GlobalKeyHandler.States.Tactical)
         
         local function hideCharacterScreen(){
             if(!this.isInCharacterScreen() || this.m.CharacterScreen.isAnimating()) return
             this.hideCharacterScreen()
             return false
         }
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_1", "i",  hideCharacterScreen, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_2", "c",  hideCharacterScreen, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_3", "escape",  hideCharacterScreen, false)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_1", "i",  hideCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_2", "c",  hideCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_3", "escape",  hideCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleMenuScreen", "escape",  function(){
             if(this.isInCharacterScreen()) return
@@ -490,37 +555,37 @@ gt.MSU.setupCustomKeybinds <- function() {
                     return false;
                 }
             }
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleStatsOverlays", "alt",  function(){
             if (this.m.MenuStack.hasBacksteps()) return
             this.topbar_options_onToggleStatsOverlaysButtonClicked();
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleTreesButton", "t",  function(){
             if (this.m.MenuStack.hasBacksteps()) return
             this.topbar_options_onToggleTreesButtonClicked();
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleHighlightBlockedTiles", "b",  function(){
             if (this.m.MenuStack.hasBacksteps()) return
             this.topbar_options_onToggleHighlightBlockedTilesButtonClicked();
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_initNextTurn", "enter",  function(){
             if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
              this.Tactical.TurnSequenceBar.initNextTurn();
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_endTurnAll", "r",  function(){
             if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
         local function waitTurn(){
             if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
@@ -535,14 +600,14 @@ gt.MSU.setupCustomKeybinds <- function() {
             }
         }
 
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_1", "end",  waitTurn, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_2", "space",  waitTurn, false)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_1", "end",  waitTurn, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_2", "space",  waitTurn, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_focusActiveEntity", "shift",  function(){
             if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
             this.Tactical.TurnSequenceBar.focusActiveEntity(true);
             return false
-        }, false)
+        }, gt.MSU.GlobalKeyHandler.States.Tactical)
 
         local function showCharacterScreen(){
             if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
@@ -550,8 +615,8 @@ gt.MSU.setupCustomKeybinds <- function() {
             return false
         }
 
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, false)
-        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, false)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
+        gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
 
 	}
 }
