@@ -308,7 +308,7 @@ MSU adds the following onXYZ functions to all skills. These functions are called
 ### Checking for the execution of a movement skill
 `<skill_container>.m.IsExecutingMoveSkill`
 
-This boolean is true when the character executes a movement based skill e.g. Rotation. It is set to true during `onAnySkillExecuted` and then set to false at the end of the movement in the `onMovementFinished` function. The purpose of this boolean is to make sure that no corrupt tiles are fetched in functions as otherwise it led to crashes when `onAnySkillExecuted` had a call to a tile and the player used Rotation, because at this point somehow the tile is not a valid tile. The tile is valid at the start of the movement, and at the end, but not during it.
+This boolean is true when the character executes a movement based skill e.g. Rotation. It is set to true during `onAnySkillExecuted` and then set to false at the end of the function. The purpose of this boolean is to make sure that no corrupt tiles are fetched in functions as otherwise it led to crashes when `onAnySkillExecuted` had a call to a tile and the player used Rotation, because at this point somehow the tile is not a valid tile. The tile is valid at the start of the movement, and at the end, but not during it.
 
 Therefore, when fetching the actor's tile via the `<actor>.getTile()` function in a situation where you think that it may be possible that the character is using a movement skill e.g. in our own skill's `onAnySkillExecuted` function, make sure to always check that this boolean is false.
 
