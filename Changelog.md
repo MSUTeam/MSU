@@ -1,6 +1,10 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 0.6.27
+- Added `getInstancesAlliedWithFaction` and `getInstancesHostileWithFaction` functions to tactical_entity_manager.
+- Added more arguments to `onDeathWithInfo` and implemented `onOtherActorDeath` function for skills.
+
 ## 0.6.26
 - Fixed the getRemainingArmorFraction function. Also expanded it to now be able to be passed a bodyPart.
 
