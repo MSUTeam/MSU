@@ -210,8 +210,12 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
-		o.onDeathWithInfo <- function( _killer, _skill, _tile, _fatalityType )
+		o.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
 		{
+		}
+
+		o.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
+		{			
 		}
 
 		local use = o.use;
