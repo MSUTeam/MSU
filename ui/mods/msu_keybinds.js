@@ -193,7 +193,15 @@ MSU.CustomKeybinds = {
         145 :"scrolllock",
         186 :"semicolon",
         187 :"equalsign",
-        188 :",",
+        188 :"comma",
+        189 :"dash",
+        190 :"dot",
+        191 :"forwardslash",
+        192 :"graveaccent",
+        219 :"openbracket",
+        220 :"backslash",
+        221 :"closebracket",
+        222 :"singlequote"
     },
     KeyMapJSMouse : {
         0 : "leftclick",

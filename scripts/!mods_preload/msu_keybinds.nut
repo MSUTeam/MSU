@@ -93,7 +93,7 @@ gt.MSU.setupCustomKeybinds <- function() {
         },
         RemoveHandlerFunction = function(_id, _key){
             if(!(_id in this.HandlerFunctionsMap)){
-                this.logError("ID not found")
+                ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
                 return
             }
             local handlerFunc = this.HandlerFunctionsMap[_id]
@@ -107,7 +107,7 @@ gt.MSU.setupCustomKeybinds <- function() {
         UpdateHandlerFunction = function(_id, _key){
             //for when new custom binds are added after handler functions have already been added, for whatever reason
             if(!(_id in this.HandlerFunctionsMap)){
-                this.logError("ID not found")
+                ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
                 return
             }
             local handlerFunc = this.HandlerFunctionsMap[_id]
@@ -117,8 +117,10 @@ gt.MSU.setupCustomKeybinds <- function() {
         CallHandlerFunction = function(_key, _env, _state){ 
             // call all handler functions if they are present for the key+modifier, if one returns false execution ends
             // executed in order of last added
-            if (!(_key in this.HandlerFunctions)) return
-            local keyFuncArray = this.HandlerFunctions[_key]
+            if (!(_key in this.HandlerFunctions)){
+                return
+            }
+            local keyFuncArray = this.HandlerFunctions[_key];
             foreach (entry in keyFuncArray) {
                 ::printWarning(format("Checking handler function for key %s for ID %s", entry.Key, entry.ID), this.MSU.MSUModName, "keybinds");
                 ::printWarning("State " + entry.State, this.MSU.MSUModName, "keybinds");
@@ -134,6 +136,11 @@ gt.MSU.setupCustomKeybinds <- function() {
         ProcessInput = function(_key, _env, _state, _inputType = 0){
             local key;
             if(_inputType == this.InputType.Keyboard){
+                local keyAsString = _key.getKey().tostring();
+                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQ)){
+                    this.logWarning("Unknown key pressed! Key: " + _key.getKey());
+                    return
+                }
                 key = this.MSU.CustomKeybinds.KeyMapSQ[_key.getKey().tostring()];
                 if (_key.getModifier() == 2){
                     key += "+shift";
@@ -146,8 +153,12 @@ gt.MSU.setupCustomKeybinds <- function() {
                 }
             }
             else if(_inputType == this.InputType.Mouse){
+                local keyAsString = _key.getID().tostring();
+                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQMouse)){
+                    this.logWarning("Unknown mouse key pressed! Key: " + _key.getID());
+                    return
+                }
                 key = this.MSU.CustomKeybinds.KeyMapSQMouse[_key.getID().tostring()];
-                this.logError(key)
             }
             else{
                 this.logError(_inputType + " is not a valid input type!");
