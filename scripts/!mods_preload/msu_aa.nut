@@ -32,6 +32,8 @@ gt.MSU <- {};
 
 	gt.MSU.modAssetManager();
 	delete gt.MSU.modAssetManager;
+	gt.MSU.modTacticalEntityManager();
+	delete gt.MSU.modTacticalEntityManager;
 
 	gt.MSU.modActor();
 	delete gt.MSU.modActor;
