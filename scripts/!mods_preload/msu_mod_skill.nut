@@ -88,13 +88,15 @@ gt.MSU.modSkill <- function ()
 
 		o.saveBaseValues <- function()
 		{
-			if (this.m.IsBaseValuesSaved)
+			if (!this.m.IsBaseValuesSaved)
 			{
-				return;
+				this.b <- clone this.skill.m;
+				foreach (k, v in this.m)
+				{
+					this.b[k] <- v;
+				}
+				this.m.IsBaseValuesSaved = true;
 			}
-
-			this.b <- clone this.skill.m;
-			this.m.IsBaseValuesSaved = true;
 		}
 
 		o.getBaseValue <- function( _field )
