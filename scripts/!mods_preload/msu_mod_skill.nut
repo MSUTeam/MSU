@@ -102,6 +102,11 @@ gt.MSU.modSkill <- function ()
 			return this.b[_field];
 		}
 
+		o.setBaseValue <- function( _field, _value )
+		{
+			this.b[_field] = _value;
+		}
+
 		o.softReset <- function()
 		{
 			if (!this.m.IsBaseValuesSaved)
