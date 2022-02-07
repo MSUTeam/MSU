@@ -714,18 +714,52 @@ MSU adds useful functionality to various miscellaneous classes.
 Returns true if the current active entity is not null and is `_entity`.
 
 # Utilities 🟢
-## Global UI Keyhandler
-MSU adds a global keyhandler for the UI side of things. This is found in ui/mod_MSU.js
+## Global UI Keyhandler and Custom Keybinds
+MSU adds global input handlers, for mouse and keyboard inputs, on the Squirrel and the JS sides. This avoids having to hook the vanilla key handler functions when a mod wants to add a new keybind. It also allows users and modders to change or remove keybinds for actions.
+To allow for this, the main input functions (onKeyInput and onMouseInput in world_state, tactical_state and main_menu_state) have been hooked. In JS, a new document-level event was registered.
+Since we cannot have persistent mod data between saves, custom keybinds must be changed in a separate file. To do this, a new folder structure has been added: data/mod_config/keybinds. This keybinds folder currently comes with a file detailing all the vanilla keybinds. On game start, all the binds are parsed, and this allows for changing of vanilla binds. Mods adding new binds can add theirs in this same folder, and they will also be executed. See `CustomKeybinds` documentation for more information.
 
-- `AddHandlerFunction(_key, _id, _func)`
-Adds a new handler function, when keyboard key `_key` is pressed. `_id` allows grouping and to remove the function once the screen is closed. `_func` is the function to execute. If `_func` returns false, no other function for the same key gets executed.
+##Keyhandler
+#General information
+The keyhandler gathers arrays of events that are to be executed when a certain key or key combination is pressed. An event has an ID that is used to update and remove events, and a key combination expressed as a string. It is also executed via a certain context, which is world_state, tactical_state, main_menu_state or all of them. This context is passed to the function. 
 
-- `RemoveHandlerFunction(_key, _id)`
-Removes a function added above.
+- `AddHandlerFunction(_id, _key, _func, _state = 0)`
+Adds a new handler function, when key `_key` is pressed. `_key` can also be a mouse input. `_key` is `_id` allows grouping and to remove the function once the screen is closed. `_func` is the function to execute. If `_func` returns false, no other function for the same key gets executed.
 
-- `CallHandlerFunction(_key, _id)`
-Called when key is pressed. Calls each function registered under `_key` in reverse order of being added, so newest goes first. Passes the `event` to each function called. If one function returns false, stops executing the other functions.
+- `RemoveHandlerFunction(_id, _key)`
+Removes a an event handling based on `_id`.
 
+- `UpdateHandlerFunction = function(_id, _key)`
+Updates a handler function to react to a new key, generally used by the backend when a custom keybind is found.
+
+- `CallHandlerFunction(_key, _env, _state)`
+Called when key is pressed. Calls each function registered under `_key` in reverse order of being added, so newest goes first. `_env` is the environment that has called the event. Only calls functions with with the same `_state` or `_state` all. If one function returns false, stops executing the other functions.
+
+- `ProcessInput = function(_key, _env, _state, _inputType = 0)`
+Parses the input from the hooked functions. Checks if the pressed key(s) exist in the key conversion table and adds the modifiers.
+
+#JS side:
+Mostly the same. Instead of individual hooks, there are two document-level event handlers for mouse and keyboard. The full event can be passed here.
+
+##Custom Keybinds
+#General Information
+The Custom Binds module is used to be able to save and load custom keybinds for both vanilla and mod event handler functions. An input event is passed to this to be checked against the known custom keybinds, and if a match is found, the new keybind is returned instead. Keybinds are stored in the `CustomBindsJS` and `CustomBindsSQ` tables. On game start, the JS custom binds are passed over. To add custom keybinds in a manner that makes them easily editable by the user, include the data/mod_config/keybinds folder structure to your mod, and create a list of default actionID and keybind pairs in there- see MSU data structure.
+
+- `ParseModifiers(_key)`
+Gets the key input and parses modifiers: ctrl, shift, and alt.
+
+- `get(_actionID, _defaultKey, _inSQ = true)`
+Returns the keybind for `_actionID`. If none is found, the passed `_defaultKey` is used. If `_inSQ` is false, looks in the JS table.
+
+- `set = function(_actionID, _key, _override = false, _inSQ = true)`
+Sets a new `_key` for `_actionID`. Key must refer to to a string found in `KeyMapSQ`. Modifiers can be added with +, such as `delete+ctrl`.
+If `_override` is not specified, will return if custom bind is already present. If `_inSQ` is false, sets in the JS table. Will update existing event handlers.
+
+- `setForJS = function(_actionID, _key, _override = false, _inSQ = true)`
+Convenience function for `_inSQ = false`. Use this for clarity.
+
+- `remove(_actionID, _inSQ = true)`
+Removes a custom keybind.
 
 ## Logging and Debugging
 MSU adds functionality to improve the debugging capabilites of the user. It allows you to register a mod for debugging, optionally registering additional flags. This allows the user to leave debugging information in the code, but turn off specific parts when distributing the mod.
@@ -760,6 +794,10 @@ Sets one flag for mod `_modID` in the `ModTable`.
 - `isEnabledForMod( _modID, _flagID = "default")`
 
 Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
+
+- `::isDebugEnabled( _modID, _flagID = "default")`
+
+Convenience function for this.MSU.Debug.isEnabledForMod.
 
 - `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
 

@@ -41,7 +41,7 @@ gt.MSU.setupDebuggingUtils <- function()
 		{
 			if (!(_modID in this.ModTable))
 			{
-				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using setupMod().", _modID), this.MSU.MSUModName);
+				::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID), this.MSU.MSUModName);
 				return;
 			}
 			this.ModTable[_modID][_flagID] <- _flagBool;
@@ -213,7 +213,7 @@ gt.MSU.setupDebuggingUtils <- function()
 		MSUDebugFlags = {
 			movement = true,
 			skills = false,
-			keybinds = true,
+			keybinds = false,
 		}
 	}
 
