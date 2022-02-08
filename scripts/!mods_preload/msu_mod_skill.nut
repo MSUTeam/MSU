@@ -14,6 +14,23 @@ gt.MSU.modSkill <- function ()
 		VeryLast = 80000
 	};
 
+	local varcall = function(func, args)
+	{
+	  switch(args.len())
+	  {
+	    case 0: return func();
+	    case 1: return func(args[0]);
+	    case 2: return func(args[0], args[1]);
+	    case 3: return func(args[0], args[1], args[2]);
+	    case 4: return func(args[0], args[1], args[2], args[3]);
+	    case 5: return func(args[0], args[1], args[2], args[3], args[4]);
+	    case 6: return func(args[0], args[1], args[2], args[3], args[4], args[5]);
+	    case 7: return func(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+	    case 8: return func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+	    default: throw "Too many arguments: " + args.len();
+	  }
+	}
+
 	::mods_hookDescendants("skills/skill", function(o) {
 		if ("create" in o)
 		{
@@ -37,6 +54,27 @@ gt.MSU.modSkill <- function ()
 
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
+		
+		local setContainer = o.setContainer;
+		o.setContainer = function( _c )
+		{
+			if (_c == null)
+			{
+				this.getContainer().removeSkillEvents(this);
+			}
+
+			setContainer(_c);
+
+			foreach (event in this.MSU.Skills.EventsToAdd)
+			{
+				this.skill[event.Name] <- @(...) varcall(event.Func.bindenv(this), vargv);
+			}
+
+			if (_c != null)
+			{
+				this.getContainer().addSkillEvents(this);
+			}		
+		}
 
 		o.scheduleChange <- function( _field, _change, _set = false )
 		{
