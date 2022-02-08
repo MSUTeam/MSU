@@ -114,6 +114,7 @@ gt.MSU.modSkill <- function ()
 			if (!this.m.IsBaseValuesSaved)
 			{
 				this.logWarning("MSU Mod softReset() skill \"" + this.getID() + "\" does not have base values saved.");
+				this.MSU.Log.printStackTrace();
 				return false;
 			}
 
@@ -131,6 +132,7 @@ gt.MSU.modSkill <- function ()
 			if (!this.m.IsBaseValuesSaved)
 			{
 				this.logWarning("MSU Mod hardReset() skill \"" + this.getID() + "\" does not have base values saved.");
+				this.MSU.Log.printStackTrace();
 				return false;
 			}
 
@@ -146,7 +148,8 @@ gt.MSU.modSkill <- function ()
 		{
 			if (!this.m.IsBaseValuesSaved)
 			{
-				this.logWarning("MSU Mod resetField() skill \"" + this.getID() + "\" does not have base values saved.");
+				this.logWarning("MSU Mod resetField(\"" + _field + "\") skill \"" + this.getID() + "\" does not have base values saved.");
+				this.MSU.Log.printStackTrace();
 				return false;
 			}
 
