@@ -37,7 +37,8 @@ gt.MSU.MSUModName <- MSUModName;
 	delete gt.MSU.setupDamageTypeSystem;
 	gt.MSU.setupTileUtils();
 	delete gt.MSU.setupTileUtils;	
-	
+	gt.MSU.setupSaveVersionSystem();
+	delete gt.MSU.setupSaveVersionSystem;
 
 
 	gt.MSU.modItemContainer();
