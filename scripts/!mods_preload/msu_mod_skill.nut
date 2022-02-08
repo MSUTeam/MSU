@@ -434,46 +434,60 @@ gt.MSU.modSkill <- function ()
 			return ret;
 		}
 
-		o.getDefaultRangedTooltip <- function()
+		local getDefaultTooltip = o.getDefaultTooltip;
+		o.getDefaultTooltip = function()
 		{
-			local ret = this.getDefaultTooltip();
+			local tooltip = getDefaultTooltip();
 
-			ret.push({
-				id = 6,
-				type = "text",
-				icon = "ui/icons/vision.png",
-				text = "Has a range of [color=" + this.Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground, more if shooting downhill"
-			});
-
-			local accuText = "";
-			if (this.m.AdditionalAccuracy != 0)
+			if (this.isRanged())
 			{
-				local color = this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue;
-				local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
-				accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
-			}
+				local rangeBonus = ", more";
+				if (this.m.MaxRangeBonus == 0)
+				{
+					rangeBonus = " or"
+				}
+				else if (this.m.MaxRangeBonus < 0)
+				{
+					rangeBonus = ", less"
+				}
 
-			if (this.m.AdditionalHitChance != 0)
-			{
-				accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
-				local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
-				local sign = additionalHitChance > 0 ? "+" : "";
-				accuText += " [color=" + (additionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
-				accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
-				accuText += " per tile of distance";
-			}
-
-			if (accuText.len() != 0)
-			{
-				ret.push({
-					id = 7,
+				tooltip.push({
+					id = 6,
 					type = "text",
-					icon = "ui/icons/hitchance.png",
-					text = accuText
+					icon = "ui/icons/vision.png",
+					text = "Has a range of [color=" + this.Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground" + rangeBonus + " if shooting downhill"
 				});
+
+				local accuText = "";
+				if (this.m.AdditionalAccuracy != 0)
+				{
+					local color = this.m.AdditionalAccuracy > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue;
+					local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
+					accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
+				}
+
+				if (this.m.AdditionalHitChance != 0)
+				{
+					accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
+					local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
+					local sign = additionalHitChance > 0 ? "+" : "";
+					accuText += " [color=" + (additionalHitChance > 0 ? this.Const.UI.Color.PositiveValue : this.Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
+					accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
+					accuText += " per tile of distance";
+				}
+
+				if (accuText.len() != 0)
+				{
+					tooltip.push({
+						id = 7,
+						type = "text",
+						icon = "ui/icons/hitchance.png",
+						text = accuText
+					});
+				}
 			}
 
-			return ret;
+			return tooltip;
 		}
 
 		// o.getShieldBonus <- function( _skill, _targetEntity )
