@@ -70,7 +70,7 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.buildProperties <- function( _function, _argsArray )
 		{
-			_argsArray.insert(0, null)
+			_argsArray.insert(0, null);
 			_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
 
 			local wasUpdating = this.m.IsUpdating;
@@ -194,7 +194,7 @@ gt.MSU.modSkillContainer <- function ()
 				_killer,
 				_skill,
 				_deathTile,
-				_corpseTile
+				_corpseTile,
 				_fatalityType
 			], false);
 		}

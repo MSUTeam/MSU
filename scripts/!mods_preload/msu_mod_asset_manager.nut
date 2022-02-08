@@ -35,14 +35,14 @@ gt.MSU.modAssetManager <- function ()
 		local onSerialize = o.onSerialize;
 		o.onSerialize = function( _out )
 		{
-			this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled())
+			this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled());
 			onSerialize(_out);
 		}
 
 		local onDeserialize = o.onDeserialize;
 		o.onDeserialize = function( _in )
 		{
-			onDeserialize(_in)
+			onDeserialize(_in);
 			if (this.World.Flags.has("MSU.LastDayMorningEventCalled"))
 			{
 				this.World.Assets.setLastDayMorningEventCalled(this.World.Flags.get("MSU.LastDayMorningEventCalled"));

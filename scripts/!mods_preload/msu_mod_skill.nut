@@ -388,7 +388,7 @@ gt.MSU.modSkill <- function ()
 					break;
 				case this.Const.Injury.BurningAndPiercingBody:
 					this.addDamageType(this.Const.Damage.DamageType.Burning, 25);
-					this.addDamageType(this.Const.Damage.DamageType.Piercing, 75)
+					this.addDamageType(this.Const.Damage.DamageType.Piercing, 75);
 					break;
 				case this.Const.Injury.CuttingAndPiercingBody:
 					this.addDamageType(this.Const.Damage.DamageType.Cutting);
