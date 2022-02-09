@@ -102,7 +102,8 @@ gt.MSU.modParty <- function ()
 
 		//------------- All movementspeed factors, extracted out of party onUpdate() ---------------------
 
-		o.getSlowdownPerUnitMovementSpeedMult <- function(){
+		o.getSlowdownPerUnitMovementSpeedMult <- function()
+		{
 			return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
 		}
 
