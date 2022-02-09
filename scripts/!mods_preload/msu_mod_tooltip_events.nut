@@ -42,5 +42,33 @@ gt.MSU.modTooltipEvents <- function ()
 
 			return null;
 		}
+
+		local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
+		o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
+		{
+			local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
+			if (ret == null)
+			{
+				if (_elementId.find("msu-settings") == 0)
+				{
+					local threePartArray = split(_elementId, ".")
+					local setting = this.MSU.SettingsManager.get(threePartArray[1]).get(threePartArray[2]);
+					return [
+						{
+							id = 1,
+							type = "title",
+							text = setting.getName()
+						},
+						{
+							id = 2,
+							type = "description",
+							text = setting.getDescription()
+						}
+					];
+				}
+			}
+			return ret;
+			
+		}
 	});
 }

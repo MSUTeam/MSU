@@ -17,6 +17,13 @@ gt.MSU.MSUModName <- MSUModName;
 	gt.MSU.setupCustomKeybinds();
 	delete gt.MSU.setupCustomKeybinds;
 
+	gt.MSU.defineThrowables();
+	delete gt.MSU.defineThrowables;
+	gt.MSU.defineClasses();
+	delete gt.MSU.defineClasses;
+	gt.MSU.setupUI();
+	delete gt.MSU.setupUI;
+
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
 	gt.MSU.setupDamageTypeSystem();
@@ -25,6 +32,8 @@ gt.MSU.MSUModName <- MSUModName;
 	delete gt.MSU.setupTileUtils;	
 	gt.MSU.setupUtils();
 	delete gt.MSU.setupUtils;
+	gt.MSU.setupSettingsSystem();
+	delete gt.MSU.setupSettingsSystem;
 
 	gt.MSU.modItemContainer();
 	delete gt.MSU.modItemContainer;

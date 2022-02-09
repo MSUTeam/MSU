@@ -865,7 +865,7 @@ Prints the entire stack trace at the point where it is called, including a list 
 
 `_tile` is a Battle Brothers tile instance.
 
-Returns false if there is no corpse on the tile. If there is a corpse on the tile, then it returns true if that corpse can resurrect or if `_false` is set to true. This function can be hooked by mods to add additional functionality.
+Returns false if there is no corpse on the tile. If there is a corpse on the tile, then it returns true if that corpse can resurrect or if `_force` is set to true. This function can be hooked by mods to add additional functionality.
 
 ## String
 `this.MSU.String.capitalizeFirst( _string )`
@@ -894,3 +894,191 @@ Returns the value of the Normal Distribution for `_x` for the provided mean valu
 All three arguments can be any numbers, integer or float.
 
 Returns the probability density of `_x` using the Normal Distribution for the provided mean value of `_mean` and standard deviation `_stdev`.
+
+## Classes
+`this.MSU.OrderedMap`
+
+This is a class indexed by keys like a table,
+but ordered like an array.
+The only significant different is that
+instead of an `in` check,
+a call to the `contains` function must be used.
+
+## UI
+
+`this.MSU.UI.registerScreenToConnect( _screen )`
+
+`_screen` is a UI screen with a `connect` function
+ which will connect the SQ object to its JS counterpart.
+
+This function will push the screen to an array of screens, 
+which will then all be connected 
+as soon as all JS & CSS files added by `::mods_register[CSS/JSS]` are loaded.
+
+# Settings Manager 🟢
+
+The settings manager is a save-compatible, automated system of
+managing and displaying mod settings
+which allows modders to easily setup configuration for their mods.
+
+The system allows you to create a 'mod panel' for your mod,
+add between 1 and 5 pages to it,
+add it to the SettingsManager,
+and finally create the settings you want to have.
+All within Squirrel.
+
+The settings are ordered by when they're added,
+but this can be adjusted with a `sort()` on the Settings property
+of the page.
+
+These settings are automatically (de)serialized when loading/saving a game.
+
+#### Adding a Panel to the SettingsManager
+`this.MSU.SettingsManager.add( _modPanel )`
+
+`_modPanel` is a SettingsPanel.
+
+## Settings Panel
+
+#### Constructor
+`local myModPanel = this.MSU.SettingsPanel( _id, _name = null )`
+
+`_id` and `_name` are strings,
+`_name` defaults to `_id`,
+`_id` has to be *unique* across all settings panels.
+
+#### Adding a Page to a SettingsPanel
+`<SettingsPanel>.add( _page )`
+
+`_page` is a SettingsPage.
+
+## Settings Page
+
+#### Constructor
+`local myPage = this.MSU.SettingsPage( _id, _name = null )`
+
+`_name` and `_id` are Strings, 
+`_id` has to be *unique* for all SettingsPages within a SettingsPanel,
+`_name` defaults to `_id`.
+
+`myPage` then becomes the mod page that can have settings added to it.
+
+#### Adding an Element to a SettingsPage
+`<SettingsPage>.add( _element )`
+
+`_element` is a `this.MSU.SettingsElement`
+
+## Setting Elements
+
+All setting elements are classes
+which inherit from `this.MSU.SettingsElement`.
+Custom elements *must* inherit from `SettingsElement`
+or a descendant of it.
+
+#### Setting Descripton for Tooltips
+
+`function setDescription( _description )`
+
+`_description` is a string
+
+### Flags
+
+Flags allow for settings to show up only during certain screens.
+
+Use the `"NewCampaign"` flag to specify that a setting should show up
+when creating a new campaign.
+
+Use the `"NewCampaignOnly"` flag to specify that a setting should not show up
+except when creating a new campaign.
+
+#### Adding Flags
+
+`<SettingElement>.addFlags( ... )`
+
+`...` is an arbitrary number of string arguments eg: 
+`("NewCampaign", "NewCampaignOnly")`
+
+### AbstractSetting (extends SettingsElement)
+
+Should not be initialized directly;
+used as a parents for other settings.
+All custom Settings should inherit from AbstractSetting.
+
+#### Constructor
+`local doNotUse = this.MSU.AbstractSetting( _id, _value, _name = null )`
+
+`_id` and `_name` are strings and `_id` defaults to `_name`.
+
+`_id` *must* be unique for all settings within a mod panel.
+`_value` sets the default value for the setting.
+
+#### Lock the Setting
+`function lock( _lockReason = "" )`
+
+Prevents the setting from being changed by the user or by other code.
+A `_lockReason` can be given which will show up in the tooltip.
+
+#### Unlock the Setting
+`function unlock()`
+
+### BooleanSetting (extends AbstractSetting)
+
+#### Constructor
+`local myBooleanSetting = this.MSU.BooleanSetting( _id, _value, _name = null )`
+
+`_value` is a boolean.
+
+Creates a simple checkbox.
+
+### RangeSetting (extends AbstractSetting)
+
+#### Constructor
+`local myRangeSetting = this.MSU.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
+
+`_name` and `_id` are strings,
+`_value`, `_min`, `_max`, and `_step` are ints or floats.
+
+Creates a slider 
+which allows the user to select values between `_min` and `_max` 
+with `_step` sized increments.
+
+### EnumSetting (extends AbstractSetting)
+
+#### Constructor
+`local myEnumSetting = this.MSU.EnumSetting( _id, _array, _value = null, _name = null )`
+
+`_value` is a string element 
+of the string array `_array`,
+if `null` it will default to the first element of `_array`
+
+Creates a Button 
+which allows the user to switch between all the values in `_array`.
+
+### Custom Settings
+
+Additional Setting Types can be created by:
+
+ - Creating a new setting class, 
+ with a unique `Type`, 
+ which inherits from AbstractSetting.
+ - Defining a new JS var constructor for the Setting called 
+ 'TypeSetting' where 'Type' is replaced
+ with the `Type` property of the setting class.
+ - Adding an unbindTooltip function to that 'TypeSetting' var.
+ - Defining the layout of the setting in a CSS
+
+It is recommended to look at the already present implementations
+as a guide.
+
+### SettingsDivider (extends SettingsElement)
+
+The settings system also allows adding a `this.MSU.SettingsDivider`
+to improve the layout of your mod page.
+This is a horizontal line with an optional title.
+
+`local myDivider = this.MSU.SettingsDivider(_id, _name = "", _description = "")`
+
+`_id` is a string and *must* be unique for the mod page.
+
+If no name is provided,
+the divider will be a thin horizontal line across the entire page.
