@@ -41,8 +41,26 @@ gt.MSU.modActor <- function() {
 		local onDeath = o.onDeath;
 		o.onDeath = function( _killer, _skill, _tile, _fatalityType )
 		{
-			this.m.Skills.onDeathWithInfo(_killer, _skill, _tile, _fatalityType);
+			local deathTile = this.isPlacedOnMap() ? this.getTile() : null;
+			this.m.Skills.onDeathWithInfo(_killer, _skill, deathTile, _tile, _fatalityType);
+
 			onDeath(_killer, _skill, _tile, _fatalityType);
+
+			if (!this.Tactical.State.isFleeing() && deathTile != null)
+			{
+				local factions = this.Tactical.Entities.getAllInstances();
+
+				foreach( f in factions )
+				{
+					foreach( actor in f )
+					{
+						if (actor.getID() != this.getID())
+						{
+							actor.getSkills().onOtherActorDeath(_killer, this, _skill, deathTile, _tile, _fatalityType);
+						}
+					}
+				}
+			}
 		}
 
 		local getActionPointsMax = o.getActionPointsMax

@@ -1,5 +1,5 @@
 # Modding Standards & Utilities (MSU)
-Documentation for v0.6.26
+Documentation for v0.6.27
 
 This documentation follows a **Traffic Light** system:
 - Green 🟢 signifies stable features which are unlikely to undergo major save-breaking changes.
@@ -308,7 +308,7 @@ MSU adds the following onXYZ functions to all skills. These functions are called
 ### Checking for the execution of a movement skill
 `<skill_container>.m.IsExecutingMoveSkill`
 
-This boolean is true when the character executes a movement based skill e.g. Rotation. It is set to true during `onAnySkillExecuted` and then set to false at the end of the movement in the `onMovementFinished` function. The purpose of this boolean is to make sure that no corrupt tiles are fetched in functions as otherwise it led to crashes when `onAnySkillExecuted` had a call to a tile and the player used Rotation, because at this point somehow the tile is not a valid tile. The tile is valid at the start of the movement, and at the end, but not during it.
+This boolean is true when the character executes a movement based skill e.g. Rotation. It is set to true during `onAnySkillExecuted` and then set to false at the end of the function. The purpose of this boolean is to make sure that no corrupt tiles are fetched in functions as otherwise it led to crashes when `onAnySkillExecuted` had a call to a tile and the player used Rotation, because at this point somehow the tile is not a valid tile. The tile is valid at the start of the movement, and at the end, but not during it.
 
 Therefore, when fetching the actor's tile via the `<actor>.getTile()` function in a situation where you think that it may be possible that the character is using a movement skill e.g. in our own skill's `onAnySkillExecuted` function, make sure to always check that this boolean is false.
 
@@ -330,11 +330,17 @@ The first function is called before the used skill's `use` function triggers, wh
 During the calls to `onMovementStarted` and `onMovementFinished`, the `this.m.IsMoving` parameter of the actor is `true`. Note that `onMovementStep` is triggered even when the movement is prevented e.g. due to an attack of opportunity from an adjacent enemy. Therefore, if you really want to be sure that the actor actually moved, you should do a check such as `if (!_tile.isSameTileAs(this.getContainer().getActor().getTile())`.
 
 ### Actor death
-- `onDeathWithInfo( _killer, _skill, _tile, _fatalityType )`
+- `onDeathWithInfo( _killer, _skill, _deathTile, _corpseTile, _fatalityType )`
 
-`_killer` is the actor who killed this actor. `_skill` is the skill used to kill. `_tile` is the tile on which this actor was present when the death occurred (?). `_fatalityType` is the fatality type that occurred.
+`_killer` is the actor who killed this actor and can be null if there was no killer. `_skill` is the skill used to kill and can be null if the death occurred without a skill being involved. `_deathTile` is the tile on which this actor was present when the death occurred and can be null if the actor died while `isPlacedOnMap()` is false. `_corpseTile` is the tile on which the corpse spawned and can be null if no valid corpse tile existed. `_fatalityType` is the fatality type that occurred.
 
-This function is more useful than the standard `onDeath()` function of skills as it passes several parameters. Note, however, that this function is called via a hook into the `onDeath` function of actor.nut. That function is normally called at the end of each entity's own individual `onDeath` function.
+This function is more useful than the standard `onDeath()` function of skills as it passes several parameters. Note, however, that this function is called via a hook into the `onDeath` function of actor.nut. That function is normally called at the end of each entity's own individual `onDeath` function. Hence, this function runs after the entity's own `onDeath()` function but before the base actor.nut `onDeath()` function.
+
+- `onOtherActorDeath( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )`
+
+`_killer` is the actor who killed `_victim` and can be null if there was no killer. `_skill` is the skill used to kill and can be null if the death occurred without a skill being involved. `_deathTile` is the tile on which this actor was present when the death occurred and is never null. `_corpseTile` is the tile on which the corpse spawned and can be null if no valid corpse tile existed. `_fatalityType` is the fatality type that occurred.
+
+This function is called for all actors on the tactical map when an actor dies. Note that this function is only called when the tactical state is not `Fleeing` and when the `_deathTile` is not null i.e. the dying actor `isPlacedOnMap()`. This function is called via a hook into the `onDeath()` function of the dying actor and hence is called before the `onOtherActorDeath` functions of the actors on the battlefield are called.
 
 ### Damage
 - `onAfterDamageReceived()`
@@ -709,9 +715,20 @@ MSU adds useful functionality to various miscellaneous classes.
 
 ## `turn_sequence_bar`
 ### Getting the active entity
-`this.Tactical.TurnSequenceBar.isActiveEntity( _entity )`
+`isActiveEntity( _entity )`
 
 Returns true if the current active entity is not null and is `_entity`.
+
+## `tactical_entity_manager`
+### Getting all actors allied with a given faction
+`getInstancesAlliedWithFaction( _faction )`
+
+Returns an array containing all actors on the tactical map who are allied with `_faction`.
+
+### Getting all actors hostile to a given faction
+`getInstancesHostileWithFaction( _faction )`
+
+Returns an array containing all actors on the tactical map who are hostile to `_faction`.
 
 # Utilities 🟢
 ## Global UI Keyhandler and Custom Keybinds

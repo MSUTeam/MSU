@@ -1,7 +1,6 @@
 local gt = this.getroottable();
 local MSUModName = "mod_MSU"
-::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.24");
-
+::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.27");
 
 gt.MSU <- {};
 gt.MSU.MSUModName <- MSUModName;
@@ -36,6 +35,8 @@ gt.MSU.MSUModName <- MSUModName;
 
 	gt.MSU.modAssetManager();
 	delete gt.MSU.modAssetManager;
+	gt.MSU.modTacticalEntityManager();
+	delete gt.MSU.modTacticalEntityManager;
 
 	gt.MSU.modActor();
 	delete gt.MSU.modActor;

@@ -188,14 +188,27 @@ gt.MSU.modSkillContainer <- function ()
 			], false);
 		}
 
-		o.onDeathWithInfo <- function( _killer, _skill, _tile, _fatalityType )
+		o.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
 		{
 			this.doOnFunction("onDeathWithInfo", [
 				_killer,
 				_skill,
-				_tile,
+				_deathTile,
+				_corpseTile
 				_fatalityType
 			], false);
+		}
+
+		o.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
+		{
+			this.doOnFunction("onOtherActorDeath", [
+				_killer,
+				_victim,
+				_skill,
+				_deathTile,
+				_corpseTile,
+				_fatalityType
+			]);
 		}
 
 		//Vanilla Overwrites start
