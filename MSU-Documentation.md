@@ -635,10 +635,18 @@ MSU adds the following new fields to `party`:
 - `BaseMovementSpeedMult`
 - `MovementSpeedMult`
 - `RealBaseMovementSpeed` which is equal to `BaseMovementSpeed`
-- `MovementSpeedFunctions` which is an array to which functions can be added which change the `MovementSpeedMultiplier`
+- `MovementSpeedFunctions` which is a table to which functions can be added which change the `MovementSpeedMultiplier`
 
 ### New functions
 MSU adds the following new functions to `party`:
+- `setRealBaseMovementSpeed(_speed)`
+
+sets this.m.RealBaseMovementSpeed
+
+- `getRealBaseMovementSpeed(_speed)`
+
+returns this.m.RealBaseMovementSpeed
+
 - `setBaseMovementSpeed ( _speed )`
 
 Sets the `this.m.BaseMovementSpeed` field to `_speed`.
@@ -671,14 +679,34 @@ Calls all the functions in the `this.m.MovementSpeedFunctions` array and multipl
 
 Sets `this.m.MovementSpeedMult` to the return value of `getFinalMovementSpeedMult()`. Intended to be called after any movement speed factors might have changed.
 
-### Modified functions
-- `getMovementSpeed()`
+`Extracted speed functions`
 
-Now returns the produce of `this.m.BaseMovementSpeed` and `this.m.MovementSpeedMult`.
+`getSlowdownPerUnitMovementSpeedMult()`, `getGlobalMovementSpeedMult()`, `getRoadMovementSpeedMult()` `getNightTimeMovementSpeedMult()` `getRiverMovementSpeedMult()`, `getNotPlayerMovementSpeedMult()`
+These functions have been extraced from `onUpdate()`, see below. They are added to the `MovementSpeedFunctions` table. They each return a multiplier.
+
+`getTimeDelta`
+This function has also been extracted from `onUpdate()`, see below. Returns the time delta since the last update of the party, and is used to calculate the distance moved by the party.
+
+### Modified functions
+- `setMovementSpeed(_speed)`
+
+Overwritten. Now calls setBaseMovementSpeedMult with `_speed / 100.0`. This represents the move away from hardcoded BaseMovementSpeed values and towards multipliers.
+
+- `getMovementSpeed(_update = false)`
+
+Overwritten. Now returns the produce of `this.m.BaseMovementSpeed` and `this.m.MovementSpeedMult`. If `_update` is set to true, first calls  `updateMovementSpeedMult()`.
 
 - `onUpdate()`
 
-Hooked to set `this.m.BaseMovementSpeed` equal to `getMovementSpeed()`. Calls `resetBaseMovementSpeed()` after `onUpdate()`.
+Overwritten. The individual speed factors of a party were each calculated here, now they have been extracted into the functions under the `Extracted speed functions` header.
+Now calculates the speed of the party by calling `getMovementSpeed(true)`. This will first update the speed of the party to the currently correct value. Then, it is multiplied by the return of `getTimeDelta()`.
+With this overwrite, it is now possible to finely tune the factors that go into the speed of a party.
+
+- `onSerialize()`
+Hooked. Adds flags to record BaseMovementSpeedMult and RealBaseMovementSpeed. Flags ensure that this is non-savebreaking.
+
+- `onDeserialize()`
+Hooked. Calls setBaseMovementSpeedMult() and setRealBaseMovementSpeed(), using the previously serialized flags.
 
 ## `player_party`
 Calls `resetBaseMovementSpeed()` and sets `this.m.BaseMovementSpeedMult` to 1.05 to result in the vanilla player party movement speed of 105.
@@ -704,6 +732,12 @@ Queries any `movementSpeedMult` changes due to the retinue, checks for `getMovem
 - `create()`
 
 Hooked to push the previous four functions to `this.m.MovementSpeedMultFunctions`.
+
+##World.Common
+- `this.Const.World.Common.assignTroops()`
+Hooked to call `setBaseMovementSpeedMult()` on the `_party` with the `MovementSpeedMult` value of the `p` template.
+Hooked to call `resetBaseMovementSpeed()` on the `_party`, to set it back to 100.
+This represents the move away from hardcoded BaseMovementSpeed values and towards multipliers.
 
 ## Scenarios
 The following scenarios were hooked to conform to the new MSU standards while achieving the same results as vanilla:

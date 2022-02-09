@@ -22,8 +22,7 @@ gt.MSU.MSUModName <- MSUModName;
 	gt.MSU.setupDamageTypeSystem();
 	delete gt.MSU.setupDamageTypeSystem;
 	gt.MSU.setupTileUtils();
-	delete gt.MSU.setupTileUtils;
-	
+	delete gt.MSU.setupTileUtils;	
 	gt.MSU.setupUtils();
 	delete gt.MSU.setupUtils;
 

@@ -11,10 +11,11 @@ gt.MSU.modPlayerParty <- function ()
 			create();
 			this.resetBaseMovementSpeed();
 			this.setBaseMovementSpeedMult(1.05);
-			this.m.MovementSpeedMultFunctions.push(this.getRosterMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getStashMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getOriginMovementSpeedMult);
-			this.m.MovementSpeedMultFunctions.push(this.getRetinueMovementSpeedMult);
+			this.m.MovementSpeedMultFunctions["RosterMovementSpeedMult"] <- this.getRosterMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["StashMovementSpeedMult"] <- this.getStashMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["OriginMovementSpeedMult"] <- this.getOriginMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["RetinueMovementSpeedMult"] <- this.getRetinueMovementSpeedMult;
+			this.m.MovementSpeedMultFunctions["TerrainTypeSpeedMult"] <- this.getTerrainTypeSpeedMult;
 		}
 
 		o.getRosterMovementSpeedMult <- function()
@@ -68,6 +69,11 @@ gt.MSU.modPlayerParty <- function ()
 				}
 			}
 			return mult;
+		}
+
+		o.getTerrainTypeSpeedMult <- function()
+		{
+			return this.World.Assets.getTerrainTypeSpeedMult(this.getTile().Type);
 		}
 	});
 }
