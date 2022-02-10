@@ -8,14 +8,13 @@ gt.MSU.modSkillContainer <- function ()
 			"onCombatFinished"
 		],
 
-		function addEvent( _name, _argsArray = [], _func = null, _update = true, _aliveOnly = false )
+		function addEvent( _name, _func = null, _update = true, _aliveOnly = false )
 		{
 			local isEmpty = _func == null ? true : false;
 			if (_func == null) _func = function(...) {};
 
 			this.EventsToAdd.push({
 				Name = _name,
-				Args = _argsArray,
 				Update = _update,
 				AliveOnly = _aliveOnly,
 				Func = _func,
@@ -34,10 +33,10 @@ gt.MSU.modSkillContainer <- function ()
 		}
 	};
 		
-	// UNCOMMENT BELOW FOR TESTING. For testing right now 'OnEnterSettlement' will be called from onTurnStart so you can check if the added event works.
+	// UNCOMMENT BELOW FOR TESTING. Remember you have to call your added event somewhere in your code.
 
-	// this.MSU.Skills.addEvent("onEnterSettlement", [], function() { this.logInfo("onEnterSettlement is running for skill " + this.getID())});
-	// this.MSU.Skills.addEvent("onEnterSettlement");
+	// this.MSU.Skills.addEvent("onTestingEvent", function( _testingArg ) { this.logInfo("onTestingEvent is running for skill " + this.getID())});
+	// this.MSU.Skills.addEvent("onTestingEvent");
 	// this.MSU.Skills.modifyBaseSkillEvent("onTurnStart", function(o) { o.onTurnStart <- function() {this.logInfo(" modified onTurnsttart")}});
 
 	::mods_hookNewObject("skills/skill_container", function(o) {
@@ -45,6 +44,7 @@ gt.MSU.modSkillContainer <- function ()
 		o.m.IsExecutingMoveSkill <- false;
 
 		o.m.EventsDirectory <- {
+			onMovementStarted = [],
 			onMovementFinished = [],
 			onMovementStep = [],
 			onAnySkillExecuted = [],
@@ -86,13 +86,7 @@ gt.MSU.modSkillContainer <- function ()
 				this.MSU.Skills.AlwaysRunEvents.push(event.Name);
 			}
 			
-			o[event.Name] <- function(...) {
-				 // if (vargv.len() < event.Args.len())
-				 // {
-				 // 	throw;
-				 // }
-				 this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly); 
-			};
+			o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
 		}
 
 		o.addSkillEvents <- function( _skill )
@@ -128,13 +122,11 @@ gt.MSU.modSkillContainer <- function ()
 			this.logInfo("Removing events for " + skill.getID());
 			foreach (eventName, skills in  this.m.EventsDirectory)
 			{
-				for (local i = skills.len() - 1; i >= 0; i--)
+				local idx = skills.find(skill);
+				if (idx != null) 
 				{
-					if (skills[i] == skill)
-					{
-						this.logInfo("Removing event " + eventName + " for " + skill.getID())
-						skills.remove(i);
-					}
+					this.logInfo("Removing event " + eventName + " for " + skill.getID())
+					skills.remove(idx);
 				}
 			}
 		}
@@ -386,7 +378,6 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.onTurnStart = function()
 		{
-			this.doOnFunctionWhenAlive("onEnterSettlement");
 			this.doOnFunctionWhenAlive("onTurnStart");
 		}
 
