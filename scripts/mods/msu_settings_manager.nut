@@ -36,7 +36,15 @@ this.msu_settings_manager <- {
 		this.m.Panels.sort(this.sortPanelsByName);
 	}
 
-	function updateSettings( _data )
+	function updateSetting( _modID, _settingID, _value )
+	{
+		local tab = {}
+		tab[_modID] <- {}
+		tab[_modID][_settingID] <- _value
+		this.updateSettings(tab, false)
+	}
+
+	function updateSettings( _data, _informChange = true )
 	{
 		/*
 		_data = {
@@ -56,8 +64,25 @@ this.msu_settings_manager <- {
 				if (setting.getValue() != value)
 				{
 					setting.onChangedCallback(value);
+					if(_informChange){
+						this.logInfo("PARSEME;String;" + format("%s;this.MSU.SettingsManager.updateSetting(%s, %s, %s);", modID, modID, settingID, value.tostring()))
+						this.logInfo("PARSEME;ModSetting;" + format("%s;%s;%s;%s", modID, modID, settingID, value.tostring()))
+					}
 				}
-				setting.set(value);
+				setting.set(value);	
+			}
+		}
+	}
+
+	function importPersistentSettings(){
+		local persistentDirectory = this.IO.enumerateFiles("mod_config/")
+		if (persistentDirectory == null){
+			return
+		}
+		foreach(file in persistentDirectory){
+			if(file.find("String") != null){
+				this.include(file)
+				return
 			}
 		}
 	}
@@ -86,6 +111,7 @@ this.msu_settings_manager <- {
 	function flagDeserialize()
 	{
 		this.doPanelsFunction("flagDeserialize");	
+		this.importPersistentSettings()
 	}
 
 	function getUIData( _flags = null )
