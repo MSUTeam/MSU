@@ -42,38 +42,7 @@ gt.MSU.modSkillContainer <- function ()
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		o.m.BeforeSkillExecutedTile <- null;
 		o.m.IsExecutingMoveSkill <- false;
-
-		o.m.EventsDirectory <- {
-			onMovementStarted = [],
-			onMovementFinished = [],
-			onMovementStep = [],
-			onAnySkillExecuted = [],
-			onBeforeAnySkillExecuted = [],
-			onUpdateLevel = [],
-			onNewMorning = [],
-			onGetHitFactors = [],
-			onQueryTooltip = [],
-			onDeathWithInfo = [],
-			onOtherActorDeath = [],
-			onAfterDamageReceived = [],
-			onBeforeActivation = [],
-			onTurnStart = [],
-			onResumeTurn = [],
-			onRoundEnd = [],
-			onTurnEnd = [],
-			onWaitTurn = [],
-			onNewRound = [],
-			onNewDay = [],
-			onDamageReceived = [],
-			onBeforeTargetHit = [],
-			onTargetHit = [],
-			onTargetMissed = [],
-			onTargetKilled = [],
-			onMissed = [],
-			onCombatStarted = [],
-			onDeath = [],
-			onPayForItemAction = []
-		};
+		o.m.EventsDirectory <- {};
 
 		foreach (event in this.MSU.Skills.EventsToAdd)
 		{
@@ -516,6 +485,14 @@ gt.MSU.modSkillContainer <- function ()
 			}
 
 			return ret;
+		}
+
+		foreach (k, v in o)
+		{
+			if (k.len() > 1 && k != "onSerialize" && k != "onDeserialize" && k.slice(0, 2) == "on")
+			{
+				o.m.EventsDirectory[k] <- [];
+			}
 		}
 	});
 }
