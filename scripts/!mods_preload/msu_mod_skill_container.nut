@@ -10,15 +10,12 @@ gt.MSU.modSkillContainer <- function ()
 
 		function addEvent( _name, _func = null, _update = true, _aliveOnly = false )
 		{
-			local isEmpty = _func == null ? true : false;
-			if (_func == null) _func = function(...) {};
-
 			this.EventsToAdd.push({
 				Name = _name,
 				Update = _update,
 				AliveOnly = _aliveOnly,
-				Func = _func,
-				IsEmpty = isEmpty
+				IsEmpty = _func == null,
+				Func = _func == null ? @() {} : _func,
 			});
 		}
 
@@ -49,13 +46,13 @@ gt.MSU.modSkillContainer <- function ()
 			if (event.IsEmpty)
 			{
 				o.m.EventsDirectory[event.Name] <- [];
+				o[event.Name] <- @() this.doOnFunction(event.Name, [], event.Update, event.AliveOnly);
 			}
 			else
 			{
 				this.MSU.Skills.AlwaysRunEvents.push(event.Name);
+				o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
 			}
-			
-			o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
 		}
 
 		o.addSkillEvents <- function( _skill )
