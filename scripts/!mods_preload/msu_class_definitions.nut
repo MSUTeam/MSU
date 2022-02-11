@@ -187,11 +187,13 @@ gt.MSU.defineClasses <- function()
 
 	gt.MSU.AbstractSetting <- class extends this.MSU.SettingsElement
 	{
-		Value = null; // Serialized
+		
 		static Type = "Abstract";
+		Value = null;// Serialized
 		Locked = null; // Serialized
 		LockReason = null; // Serialized
-		Callbacks = [];
+		Callbacks = null;
+		PrintChange = null; //if it should print change to log for further manipulation
 		
 		constructor( _id, _value, _name = null )
 		{
@@ -199,6 +201,18 @@ gt.MSU.defineClasses <- function()
 			this.Value = _value; 
 			this.Locked = false;
 			this.LockReason = "";
+			this.PrintChange = true;
+			this.Callbacks = [];
+		}
+
+		function setPrintChange(_bool)
+		{
+			this.PrintChange = _bool;
+		}
+
+		function getPrintChange()
+		{
+			return this.PrintChange
 		}
 
 		function onChangedCallback(_newValue)
@@ -371,6 +385,31 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
+	gt.MSU.StringSetting <- class extends gt.MSU.AbstractSetting
+	{
+		static Type = "String";
+
+		constructor( _id, _value, _name = null)
+		{
+			if (typeof _value != "string")
+			{
+				this.logError("The value for String Setting must be a string");
+				throw this.Exception.InvalidTypeException;
+			}
+			base.constructor(_id, _value, _name);
+		}
+
+		function set( _value )
+		{
+			if (typeof _value != "string")
+			{
+				this.logError("The value for String Setting must be a string");
+				throw this.Exception.InvalidTypeException;
+			}
+			base.set(_value);
+		}
+	}
+
 	gt.MSU.RangeSetting <- class extends gt.MSU.AbstractSetting
 	{
 		Min = null;
@@ -523,6 +562,16 @@ gt.MSU.defineClasses <- function()
 			}
 
 			throw this.Exception.KeyNotFound;
+		}
+
+		function has( _pageID )
+		{
+			return this.getPages().contains(_pageID)
+		}
+
+		function getPage( _pageID )
+		{
+			return this.Pages[_pageID]
 		}
 
 		function verifyFlags( _flags )

@@ -80,11 +80,18 @@ gt.MSU.setupSettingsSystem <- function()
 	local logPage = this.MSU.SettingsPage("Logging");
 	local logToggle = this.MSU.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
-		this.logInfo("I am a callback of " + this.tostring() + " \nChanged to: " + _data)
+		this.MSU.Debug.FullDebug = _data;
 	})
 	this.MSU.SettingsManager.add(panel);
 	panel.add(logPage);
 	logPage.add(logToggle);
+
+	this.MSU.SettingsManager.importPersistentSettings()
+
+
+	//this neeeds to be moved into a hook
+	this.MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
+	this.MSU.CustomKeybinds.parseForUI();
 
 
 	// Testing Code

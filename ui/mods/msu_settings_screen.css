@@ -82,6 +82,32 @@
 	line-height: 2.0rem;
 }
 
+.msu-settings-screen .dialog .content .l-page-container .string-container
+{
+	float: left;
+	margin: 0.9rem;
+	position: relative;
+	width: 35.9rem;
+	height: 8.0rem;
+	left: 0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
+{
+	left: 0.5rem;
+	top: 2.8rem;
+	width: 23rem;
+	height: 4rem;
+	line-height: 3.0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .string-container .title
+{
+	left: 0.5rem;
+	position: absolute;
+	height: 4rem;
+}
+
 .msu-settings-screen .dialog .content .l-page-container .range-container
 {
 	height:  8.0rem;

@@ -82,6 +82,36 @@ BooleanSetting.prototype.unbindTooltip = function ()
 	this.label.unbindTooltip();
 }
 
+var StringSetting = function (_mod, _page, _setting, _parentDiv)
+{
+	var self = this;
+	this.layout = $('<div class="string-container"/>');
+	this.setting = _setting
+	_parentDiv.append(this.layout);
+
+	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
+	this.layout.append(this.title);
+
+    this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
+    this.input.val(_setting.value)
+    this.input.on("change", function(){
+    	self.setting.value = self.input.val();
+    	console.error(self.setting.id)
+    	console.error(self.setting.value)
+    })
+
+   
+	this.layout.append(this.input);
+
+	// Tooltip
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+}
+
+StringSetting.prototype.unbindTooltip = function ()
+{
+	this.title.unbindTooltip();
+}
+
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;

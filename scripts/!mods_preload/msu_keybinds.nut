@@ -270,6 +270,7 @@ gt.MSU.setupCustomKeybinds <- function() {
         },
 		CustomBindsJS = {}, //JS and SQ use different binds
 		CustomBindsSQ = {},
+        BindsToParse = [],
         ParseModifiers = function(_key){
             //reorder modifiers so that they are always in the same order
             local keyArray = split(_key, "+")
@@ -295,6 +296,11 @@ gt.MSU.setupCustomKeybinds <- function() {
             ::printWarning(format("Returning default key %s for ID %s.", _defaultKey, _actionID), this.MSU.MSUModName, "keybinds");
             return _defaultKey
         },
+        has = function(_actionID, _inSQ = true){
+            local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
+            return _actionID in environment
+        },
+
 		set = function(_actionID, _key, _override = false, _inSQ = true){
 			
 			if ((typeof _actionID != "string") || (typeof _key != "string")){
@@ -310,30 +316,117 @@ gt.MSU.setupCustomKeybinds <- function() {
 				::printWarning("Override specified", this.MSU.MSUModName, "keybinds");
 			}
 			environment[_actionID] <- key;
+            ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.MSUModName, "keybinds");
             if(_inSQ) this.MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, key);
 			
 		},
         setForJS = function(_actionID, _key, _override = false){
             this.set(_actionID, _key, _override, false)
-        }
+        },
 		remove = function(_actionID, _inSQ = true){
 			local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 			::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.MSUModName, "keybinds")
 			environment.rawdelete(_actionID)
 		},
+        parseForUI = function(){
+            foreach(mod in this.BindsToParse){
+                local modName = mod[0]
+                local bindsArray = mod[1]
+                local panel;
+                local page;
+                if(this.MSU.SettingsManager.has(modName)){
+                    panel = this.MSU.SettingsManager.get(modName)
+                }
+                else{
+                    panel = this.MSU.SettingsPanel(modName);
+                    this.MSU.SettingsManager.add(panel)
+                }
+                if (panel.has("Keybinds")){
+                    page = panel.getPage("Keybinds")
+                }
+                else{
+                    page = this.MSU.SettingsPage("Keybinds");
+                    panel.add(page)
+                }
+                foreach(bind in bindsArray){
+                    
+                    local id = bind.id
+                    local key = this.MSU.CustomKeybinds.get(id, bind.key)
+                    local name = bind.name
+                    local setting = this.MSU.StringSetting(id, key, name);
+                    setting.addCallback(function(_data){
+                        this.MSU.CustomKeybinds.set(id, _data, true)
+                        this.MSU.PersistentDataManager.writeToLog("Keybind", modName, format("%s;%s", id, _data))
+                    })
+                    setting.setPrintChange(false);
+                    page.add(setting)
+                }   
+            }
+        }
 	}
+
+    this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+       [
+            {
+                id = "character_toggleCharacterMenu_1",
+                key = "c",
+                name = "character_toggleCharacterMenu_1"
+            },
+            {
+                id = "character_toggleCharacterMenu_2",
+                key = "i",
+                name = "character_toggleCharacterMenu_2"
+            },
+            {
+                id = "character_toggleCharacterMenu_3",
+                key = "escape",
+                name = "character_toggleCharacterMenu_3"
+            }
+        ]
+    ])
+    this.MSU.CustomKeybinds.BindsToParse.push(["MSU",
+       [
+            {
+                id = "test",
+                key = "c",
+                name = "test"
+            },
+            {
+                id = "test2",
+                key = "i",
+                name = "test2"
+            },
+            {
+                id = "test3",
+                key = "escape",
+                name = "test3"
+            }
+        ]
+    ])
+    this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+       [
+            {
+                id = "test",
+                key = "c",
+                name = "test"
+            },
+            {
+                id = "test2",
+                key = "i",
+                name = "test2"
+            },
+            {
+                id = "test3",
+                key = "escape",
+                name = "test3"
+            }
+        ]
+    ])
 
 
 // --------------------------------------------- LOADING CUSTOM KEYBINDS -------------------------------------------------------
 
-	local customKeybindsArray = this.IO.enumerateFiles("mod_config/keybinds/"); //returns either null if not valid path or no files, otherwise array with strings
-	if (customKeybindsArray != null){
-		foreach (filename in customKeybindsArray){
-			this.include(filename);
-		}
-	}
-
-
+	
 
 // --------------------------------------------- ADDING VANILLA HANDLERS -------------------------------------------------------
     
@@ -641,3 +734,4 @@ gt.MSU.setupCustomKeybinds <- function() {
 
 	}
 }
+

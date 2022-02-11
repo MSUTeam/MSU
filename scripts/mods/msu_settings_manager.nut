@@ -30,6 +30,11 @@ this.msu_settings_manager <- {
 		return this.m.Panels[_id];
 	}
 
+	function has( _id )
+	{
+		return this.m.Panels.contains(_id);
+	}
+
 	function finalize()
 	{
 		this.m.Locked = true;
@@ -64,9 +69,8 @@ this.msu_settings_manager <- {
 				if (setting.getValue() != value)
 				{
 					setting.onChangedCallback(value);
-					if(_informChange){
-						this.MSU.PersistentDataManager.writeToLog("String", "MSU", format("this.MSU.SettingsManager.updateSetting(%s, %s, %s);", modID, settingID, value.tostring()))
-						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s;%s", modID, settingID, value.tostring()))
+					if(_informChange && setting.PrintChange == true){
+						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
 					}
 				}
 				setting.set(value);	

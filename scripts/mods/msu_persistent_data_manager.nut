@@ -16,11 +16,11 @@ this.msu_persistent_data_manager <- {
 	}
 
 	function getMod(_modID){
-		if(!(_modID in this.Mods)){
+		if(!(_modID in this.getMods())){
 			this.logError("No such mod config file: " + _modID)
 			return false
 		}
-		return this.m.Mods[_modID]
+		return this.getMods()[_modID]
 	}
 
 	function loadSettingForMod(_modID, _settingID)
@@ -35,7 +35,7 @@ this.msu_persistent_data_manager <- {
 	}
 
 	function loadSettingForEveryMod(_settingID){
-		foreach(modID in this.getMods()){
+		foreach(modID, modValue in this.getMods()){
 			this.loadSettingForMod(modID, _settingID)
 		}
 	}
@@ -53,7 +53,7 @@ this.msu_persistent_data_manager <- {
 		if(_modID in this.getMods() && _reset == false){
 			return
 		}
-		this.getMods()[_modID] = {}
+		this.getMods()[_modID] <- {}
 	}
 
 
@@ -67,7 +67,6 @@ this.msu_persistent_data_manager <- {
 			local components = split(file, "/")
 			local modID = components[1]
 			local settingsType = components[2]
-			local fileName = components[3]
 			this.setMod(modID)
 			if(!(settingsType in this.getMods()[modID])){
 				this.getMods()[modID][settingsType] <- file
