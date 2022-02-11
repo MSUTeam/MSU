@@ -65,8 +65,8 @@ this.msu_settings_manager <- {
 				{
 					setting.onChangedCallback(value);
 					if(_informChange){
-						this.logInfo("PARSEME;String;" + format("%s;this.MSU.SettingsManager.updateSetting(%s, %s, %s);", modID, modID, settingID, value.tostring()))
-						this.logInfo("PARSEME;ModSetting;" + format("%s;%s;%s;%s", modID, modID, settingID, value.tostring()))
+						this.MSU.PersistentDataManager.writeToLog("String", "MSU", format("this.MSU.SettingsManager.updateSetting(%s, %s, %s);", modID, settingID, value.tostring()))
+						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s;%s", modID, settingID, value.tostring()))
 					}
 				}
 				setting.set(value);	
@@ -75,16 +75,7 @@ this.msu_settings_manager <- {
 	}
 
 	function importPersistentSettings(){
-		local persistentDirectory = this.IO.enumerateFiles("mod_config/")
-		if (persistentDirectory == null){
-			return
-		}
-		foreach(file in persistentDirectory){
-			if(file.find("String") != null){
-				this.include(file)
-				return
-			}
-		}
+		this.MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
 	}
 
 	function doPanelsFunction(_function, ...)
