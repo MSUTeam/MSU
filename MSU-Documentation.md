@@ -104,6 +104,11 @@ function onUpdate( _properties )
 }
 ```
 
+## Helpful functions
+- `<skill>.verifyTargetAndRange( _targetTile, _origin = null )`
+
+Helpful function for checking if a skill would be useable on `_targetTile` from the `_origin` tile. If `_origin` is null then it defaults to the skill user's current tile. Returns true if both `this.onVerifyTarget(_origin, _targetTile)` and `this.isInRange(_targetTile, _origin)` are true.
+
 ## Damage Type 🟡
 MSU adds a robust and flexible `DamageType` system for skills. The purpose of this system is to allow skills to deal a variety of damage types and to streamline the injuries system. This system also eliminates the need to use `this.m.InjuriesOnBody` and `this.m.InjuriesOnHead` in skills. Only the `DamageType` needs to be defined.
 

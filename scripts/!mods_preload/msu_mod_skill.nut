@@ -397,6 +397,16 @@ gt.MSU.modSkill <- function ()
 			}
 		}
 
+		o.verifyTargetAndRange <- function( _targetTile, _origin = null )
+		{
+			if (_origin == null)
+			{
+				_origin = this.getContainer().getActor().getTile();	
+			}
+			
+			return this.onVerifyTarget(_origin, _targetTile) && this.isInRange(_targetTile, _origin);
+		}
+
 		local getDescription = o.getDescription;
 		o.getDescription = function()
 		{
