@@ -61,7 +61,7 @@ gt.MSU.modSkillContainer <- function ()
 
 			local getMember = function(obj, key)
 			{
-				while(true && obj.ClassName != "skill")
+				while(obj.ClassName != "skill")
 			    {
 				    if(key in obj) return obj[key];
 				    else obj = obj[obj.SuperName];

@@ -46,18 +46,18 @@ gt.MSU.modSkill <- function ()
 				this.getContainer().removeSkillEvents(this);
 			}
 
-			setContainer(_c);
-
-			foreach (event in this.MSU.Skills.EventsToAdd)
-			{
-				this.skill[event.Name] <- function(...) { 
-					vargv.insert(0, this);
-					event.Func.acall(vargv); 
-				}
-			}
+			setContainer(_c);			
 
 			if (_c != null)
 			{
+				foreach (event in this.MSU.Skills.EventsToAdd)
+				{
+					this.skill[event.Name] <- function(...) { 
+						vargv.insert(0, this);
+						event.Func.acall(vargv); 
+					}
+				}
+				
 				this.getContainer().addSkillEvents(this);
 			}		
 		}
