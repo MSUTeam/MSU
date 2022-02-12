@@ -2,6 +2,26 @@ local gt = this.getroottable();
 
 gt.MSU.modSkillContainer <- function ()
 {
+	// Vanilla Events:
+	// onTargetKilled
+	// onTargetMissed
+	// onNewDay
+	// onDamageReceived
+	// onAfterDamageReceived (but in vanilla it doesn't exist in skill.nut, only skill_container)
+	// onDeath
+	// onWaitTurn
+	// onBeforeTargetHit
+	// onTargetHit
+	// onCombatFinished
+	// onCombatStarted
+	// onBeforeActivation
+	// onResumeTurn
+	// onMissed
+	// onTurnStart
+	// onTurnEnd
+	// onRoundEnd
+	// onNewRound
+
 	gt.MSU.Skills <- {
 		EventsToAdd = [],
 		AlwaysRunEvents = [			
