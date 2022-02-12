@@ -881,6 +881,15 @@ Returns the passed string `_string` with its first letter having been capitalize
 
 Finds the string `_find` in the string `_string` and replaces it with the string `_replace`. Then returns the result.
 
+## Array
+`this.MSU.Array.sortDescending( _array, _member = null )`
+
+Sorts `_array` in descending order. If `_member` is not null then it assumes that the elements of the array are arrays or tables, and hence it sorts the array based on the value of each element's `_member` index.
+
+`this.MSU.Array.sortAscending( _array, _member = null )`
+
+Sorts `_array` in ascending order. If `_member` is not null then it assumes that the elements of the array are arrays or tables, and hence it sorts the array based on the value of each element's `_member` index.
+
 ## Math
 `this.MSU.log2int( _num )`
 

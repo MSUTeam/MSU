@@ -85,5 +85,29 @@ gt.MSU.setupUtils <- function()
 		        _array[j]  = temp;
 		    }
 		}
+
+		function sortDescending( _array, _member = null )
+		{
+			if (_member == null)
+			{
+				_array.sort(function(_a, _b) { if (_a < _b) return -1; if (_a > _b) return 1; return 0 });
+			}
+			else
+			{
+				_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return -1; if (_a[_member] < _b[_member]) return 1; return 0 });	
+			}
+		}
+
+		function sortAscending( _array, _member = null )
+		{
+			if (_member == null)
+			{
+				_array.sort();
+			}
+			else
+			{
+				_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return 1; if (_a[_member] < _b[_member]) return -1; return 0 });	
+			}
+		}
 	}
 }
