@@ -32,9 +32,9 @@ gt.MSU.modSkillContainer <- function ()
 		
 	// UNCOMMENT BELOW FOR TESTING. Remember you have to call your added event somewhere in your code.
 
-	// this.MSU.Skills.addEvent("onTestingEvent", function( _testingArg ) { this.logInfo("onTestingEvent is running for skill " + this.getID())});
+	// this.MSU.Skills.addEvent("onTestingEvent", function( _testingArg ) { // this.logInfo("onTestingEvent is running for skill " + this.getID())});
 	// this.MSU.Skills.addEvent("onTestingEvent");
-	// this.MSU.Skills.modifyBaseSkillEvent("onTurnStart", function(o) { o.onTurnStart <- function() {this.logInfo(" modified onTurnsttart")}});
+	// this.MSU.Skills.modifyBaseSkillEvent("onTurnStart", function(o) { o.onTurnStart <- function() {// this.logInfo(" modified onTurnsttart")}});
 
 	::mods_hookNewObject("skills/skill_container", function(o) {
 		o.m.BeforeSkillExecutedTile <- null;
@@ -70,12 +70,12 @@ gt.MSU.modSkillContainer <- function ()
 			    return null;
 			}
 
-			this.logInfo("Adding events for " + skill.getID());
+			// this.logInfo("Adding events for " + skill.getID());
 			foreach (eventName, skills in this.m.EventsDirectory)
 			{
 				if (getMember(skill, eventName) != null)
 				{
-					this.logInfo("Adding event " + eventName + " for " + skill.getID())
+					// this.logInfo("Adding event " + eventName + " for " + skill.getID())
 					skills.push(skill);
 				}
 			}
@@ -85,13 +85,13 @@ gt.MSU.modSkillContainer <- function ()
 		{
 			local skill = typeof _skill == "instance" ? _skill.get() : _skill;	
 
-			this.logInfo("Removing events for " + skill.getID());
+			// this.logInfo("Removing events for " + skill.getID());
 			foreach (eventName, skills in  this.m.EventsDirectory)
 			{
 				local idx = skills.find(skill);
 				if (idx != null) 
 				{
-					this.logInfo("Removing event " + eventName + " for " + skill.getID())
+					// this.logInfo("Removing event " + eventName + " for " + skill.getID())
 					skills.remove(idx);
 				}
 			}
@@ -132,7 +132,9 @@ gt.MSU.modSkillContainer <- function ()
 			this.m.IsBusy = false;
 			this.m.BusyStack = 0;
 
+			// local time = this.Time.getExactTime();
 			local skills = this.MSU.Skills.AlwaysRunEvents.find(_function) != null ? this.m.Skills : this.m.EventsDirectory[_function];
+			// local skills = this.m.Skills;
 
 			foreach (skill in skills)
 			{
@@ -143,11 +145,13 @@ gt.MSU.modSkillContainer <- function ()
 
 				if (!skill.isGarbage())
 				{
-					this.logInfo("Calling event " + _function + " for skill " + skill.getID());
+					// this.logInfo("Calling event " + _function + " for skill " + skill.getID());
 					_argsArray[0] = skill;
 					skill[_function].acall(_argsArray);
 				}
 			}
+
+			// this.logInfo(this.getActor().getName() + ": " + (this.Time.getExactTime() - time));
 
 			this.m.IsUpdating = wasUpdating;
 			
