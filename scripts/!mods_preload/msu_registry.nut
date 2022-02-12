@@ -90,7 +90,7 @@ gt.MSU.setupModRegistry <- function()
 				{
 					throw this.Exception.NotSemanticVersion;
 				}
-				else if (version.len() < 3 && version.len() != 1)
+				else if (version.len() < 3)
 				{
 					version.extend(array(3 - version.len(), "0"))
 				}
@@ -201,8 +201,7 @@ gt.MSU.setupModRegistry <- function()
 					return 0;
 				}
 
-				local min = _mod.PreRelease.len() > this.PreRelease.len() ? this.PreRelease.len() : _mod.PreRelease.len();
-				for (local i = 0; i < min; ++i)
+				for (local i = 0; i < this.Math.min(_mod.PreRelease.len(), this.PreRelease.len()); ++i)
 				{
 					local isInt1 = this.MSU.String.isInteger(this.PreRelease[i]);
 					local isInt2 = this.MSU.String.isInteger(_mod.PreRelease[i]);
