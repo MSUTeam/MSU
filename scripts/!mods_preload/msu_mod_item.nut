@@ -96,8 +96,7 @@ gt.MSU.modItem <- function ()
 		local getDescription = o.getDescription;
 		o.getDescription = function()
 		{
-			local ret = "[color=" + this.Const.UI.Color.NegativeValue + "]";
-			local hasNamedItemType = false;
+			local names = "";
 			foreach (itemType in this.Const.Items.ItemType)
 			{
 				if (this.isItemType(itemType))
@@ -105,13 +104,12 @@ gt.MSU.modItem <- function ()
 					local name = this.Const.Items.getItemTypeName(itemType);
 					if (name != "")
 					{
-						hasNamedItemType = true;
-						ret += name + ", "
-					}	
+						names += name + ", "
+					}
 				}
 			}
 
-			return hasNamedItemType ? ret.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
+			return names.len() > 1 ? "[color=" + this.Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
 		}
 
 		local addSkill = o.addSkill;
