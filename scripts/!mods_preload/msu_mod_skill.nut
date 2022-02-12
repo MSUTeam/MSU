@@ -34,7 +34,6 @@ gt.MSU.modSkill <- function ()
 
 		o.m.DamageType <- [];
 		o.m.ItemActionOrder <- this.Const.ItemActionOrder.Any;
-
 		o.m.IsBaseValuesSaved <- false;
 		o.m.ScheduledChanges <- [];
 		
@@ -43,23 +42,28 @@ gt.MSU.modSkill <- function ()
 		{
 			if (_c == null)
 			{
-				this.getContainer().removeSkillEvents(this);
+				if (!this.MSU.Skills.IsAllEventsMode)
+				{
+					this.getContainer().removeSkillEvents(this);	
+				}
 			}
-
-			setContainer(_c);			
-
-			if (_c != null)
+			else
 			{
 				foreach (event in this.MSU.Skills.EventsToAdd)
 				{
 					this.skill[event.Name] <- function(...) { 
 						vargv.insert(0, this);
-						event.Func.acall(vargv); 
+						event.Function.acall(vargv); 
 					}
 				}
-				
-				this.getContainer().addSkillEvents(this);
-			}		
+
+				if (!this.MSU.Skills.IsAllEventsMode)
+				{
+					_c.addSkillEvents(this);					
+				}
+			}
+
+			setContainer(_c);
 		}
 
 		o.scheduleChange <- function( _field, _change, _set = false )

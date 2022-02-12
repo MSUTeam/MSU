@@ -23,19 +23,21 @@ gt.MSU.modSkillContainer <- function ()
 	// onNewRound
 
 	gt.MSU.Skills <- {
+		IsAllEventsMode = false,
+		IsAllEventsModeCheckDone = false,
 		EventsToAdd = [],
 		AlwaysRunEvents = [			
 			"onCombatFinished"
 		],
 
-		function addEvent( _name, _func = null, _update = true, _aliveOnly = false )
+		function addEvent( _name, _isEmpty = true, _function = null, _update = true, _aliveOnly = false )
 		{
 			this.EventsToAdd.push({
 				Name = _name,
 				Update = _update,
 				AliveOnly = _aliveOnly,
-				IsEmpty = _func == null,
-				Func = _func == null ? @() {} : _func,
+				IsEmpty = _isEmpty
+				Function = _function == null ? function() {} : _function
 			});
 		}
 
@@ -52,7 +54,8 @@ gt.MSU.modSkillContainer <- function ()
 		
 	// UNCOMMENT BELOW FOR TESTING. Remember you have to call your added event somewhere in your code.
 
-	// this.MSU.Skills.addEvent("onTestingEvent", function( _testingArg ) { // this.logInfo("onTestingEvent is running for skill " + this.getID())});
+	// this.MSU.Skills.addEvent("onTestingEvent", false, function( _testingArg ) {  this.logInfo("onTestingEvent is running for skill " + this.getID())});
+	// this.MSU.Skills.addEvent("onTestingEvent", true, function() {});
 	// this.MSU.Skills.addEvent("onTestingEvent");
 	// this.MSU.Skills.modifyBaseSkillEvent("onTurnStart", function(o) { o.onTurnStart <- function() {// this.logInfo(" modified onTurnsttart")}});
 
@@ -61,18 +64,29 @@ gt.MSU.modSkillContainer <- function ()
 		o.m.IsExecutingMoveSkill <- false;
 		o.m.EventsDirectory <- {};
 
-		foreach (event in this.MSU.Skills.EventsToAdd)
+		local setActor = o.setActor;
+		o.setActor = function( _a )
 		{
-			if (event.IsEmpty)
+			if (!this.MSU.Skills.IsAllEventsModeCheckDone)
 			{
-				o.m.EventsDirectory[event.Name] <- [];
-				o[event.Name] <- @() this.doOnFunction(event.Name, [], event.Update, event.AliveOnly);
+				local numEvents = -2; // to remove onSerialize and onDeserialize
+				foreach (k, v in _c)
+				{
+					if (k.len() > 1 && k.slice(0, 2) == "on")
+					{
+						++numEvents;
+					}
+				}		
+
+				if (numEvents > this.m.EventsDirectory.len())
+				{
+					this.MSU.Skills.IsAllEventsMode = true;
+				}
+
+				this.MSU.Skills.IsAllEventsModeCheckDone = true;
 			}
-			else
-			{
-				this.MSU.Skills.AlwaysRunEvents.push(event.Name);
-				o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
-			}
+
+			setActor(_a);
 		}
 
 		o.addSkillEvents <- function( _skill )
@@ -153,7 +167,7 @@ gt.MSU.modSkillContainer <- function ()
 			this.m.BusyStack = 0;
 
 			// local time = this.Time.getExactTime();
-			local skills = this.MSU.Skills.AlwaysRunEvents.find(_function) != null ? this.m.Skills : this.m.EventsDirectory[_function];
+			local skills = (this.MSU.Skills.IsAllEventsMode || this.MSU.Skills.AlwaysRunEvents.find(_function) != null) ? this.m.Skills : this.m.EventsDirectory[_function];
 			// local skills = this.m.Skills;
 
 			foreach (skill in skills)
@@ -513,6 +527,20 @@ gt.MSU.modSkillContainer <- function ()
 			if (k.len() > 1 && k != "onSerialize" && k != "onDeserialize" && k.slice(0, 2) == "on")
 			{
 				o.m.EventsDirectory[k] <- [];
+			}
+		}
+
+		foreach (event in this.MSU.Skills.EventsToAdd)
+		{
+			o.m.EventsDirectory[event.Name] <- [];
+			if (event.IsEmpty)
+			{				
+				o[event.Name] <- @() this.doOnFunction(event.Name, [], event.Update, event.AliveOnly);
+			}
+			else
+			{
+				this.MSU.Skills.AlwaysRunEvents.push(event.Name);
+				o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
 			}
 		}
 	});
