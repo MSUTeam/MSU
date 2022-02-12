@@ -32,6 +32,8 @@ gt.MSU.MSUModName <- MSUModName;
 	delete gt.MSU.setupTileUtils;	
 	gt.MSU.setupUtils();
 	delete gt.MSU.setupUtils;
+	gt.MSU.setupModRegistry();
+	delete gt.MSU.setupModRegistry;
 	gt.MSU.setupSettingsSystem();
 	delete gt.MSU.setupSettingsSystem;
 
