@@ -203,7 +203,9 @@ gt.MSU.setupCustomKeybinds <- function() {
 		CustomBindsSQ = {},
 		CustomBindsJS = {}, //JS and SQ use different binds
         BindsToParse = [],
-        function ParseModifiers = function(_key){
+
+        function ParseModifiers(_key)
+        {
             //reorder modifiers so that they are always in the same order
             local keyArray = split(_key, "+")
             local parsedKey = keyArray[0];
@@ -239,13 +241,14 @@ gt.MSU.setupCustomKeybinds <- function() {
 
 		function set(_actionID, _key, _override = false, _inSQ = true)
         {
-			::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.MSUModName, "keybinds");
+			
 			if ((typeof _actionID != "string") || (typeof _key != "string"))
             {
 				this.logError(format("Trying to bind key " + _key + " to action " + _actionID + " but either is not a string!"));
 			}
 
             local key = this.ParseModifiers(_key);
+            ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.MSUModName, "keybinds");
 			local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 			if (_actionID in environment && !_override)
             {
@@ -276,6 +279,7 @@ gt.MSU.setupCustomKeybinds <- function() {
             {
                 local modName = mod[0];
                 local bindsArray = mod[1];
+                this.logInfo("modName " + modName)
                 local panel;
                 local page;
                 if (this.MSU.SettingsManager.has(modName)){
@@ -296,6 +300,7 @@ gt.MSU.setupCustomKeybinds <- function() {
                 {
                     
                     local id = bind.id;
+                    this.logInfo("id" + id)
                     local key = this.MSU.CustomKeybinds.get(id, bind.key);
                     local name = bind.name;
                     local setting = this.MSU.StringSetting(id, key, name);
@@ -403,11 +408,12 @@ gt.MSU.setupCustomKeybinds <- function() {
         "95" : "ctrl",
         "96" : "shift",
         "97" : "alt",
-    },
+    }
+
     gt.MSU.CustomKeybinds.KeyMapSQMouse <- {
         "1" : "leftclick",
         "2" : "rightclick",
-    },
+    }
 
 
 
@@ -430,6 +436,7 @@ gt.MSU.setupCustomKeybinds <- function() {
     //         }
     //     ]
     // ])
+
     // this.MSU.CustomKeybinds.BindsToParse.push(["MSU",
     //    [
     //         {
@@ -468,6 +475,186 @@ gt.MSU.setupCustomKeybinds <- function() {
     //         }
     //     ]
     // ])
+
+    this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+       [
+            {
+                id = "character_toggleCharacterMenu_1",
+                key = "c",
+                name = "character_toggleCharacterMenu_1"
+            },
+            {
+                id = "character_toggleCharacterMenu_2",
+                key = "i",
+                name = "character_toggleCharacterMenu_2"
+            },
+            {
+                id = "character_toggleCharacterMenu_3",
+                key = "escape",
+                name = "character_toggleCharacterMenu_3"
+            }
+            {
+                id = "character_switchToPreviousBrother_1",
+                key = "left",
+                name = "Switch to previous brother"
+            },
+            {
+                id = "character_switchToPreviousBrother_2",
+                key = "a",
+                name = "Switch to previous brother"
+            },
+            {
+                id = "character_switchToNextBrother_1",
+                key = "right",
+                name = "Switch to next brother"
+            },
+            {
+                id = "character_switchToNextBrother_2",
+                key = "d",
+                name = "Switch to next brother"
+            },
+            {
+                id = "character_switchToNextBrother_3",
+                key = "tab",
+                name = "Switch to next brother"
+            },
+            {
+                id = "world_closeCampfireScreen_1",
+                key = "tab",
+                name = "Close retinue screen"
+            },
+            {
+                id = "world_closeCampfireScreen_2",
+                key = "escape",
+                name = "Close retinue screen"
+            },
+            {
+                id = "world_toggleMenuScreen",
+                key = "tab",
+                name = "Close Menu"
+            },
+            {
+                id = "world_toggleCharacterScreen_1",
+                key = "c",
+                name = "Toggle inventory"
+            },
+            {
+                id = "world_toggleCharacterScreen_2",
+                key = "i",
+                name = "Toggle inventory"
+            },
+            {
+                id = "world_toggleRelationScreen",
+                key = "r",
+                name = "Toggle relations"
+            },
+            {
+                id = "world_toggleObituarysScreen",
+                key = "o",
+                name = "Toggle obituary"
+            },
+            {
+                id = "world_toggleCamping",
+                key = "t",
+                name = "Toggle camping"
+            },
+            {
+                id = "world_toggleRetinueButton",
+                key = "p",
+                name = "Toggle retinue"
+            },
+            {
+                id = "world_pause_1",
+                key = "0",
+                name = "Pause"
+            },
+            {
+                id = "world_pause_2",
+                key = "space",
+                name = "Pause"
+            },
+            {
+                id = "world_speedNormal",
+                key = "1",
+                name = "Normal Speed"
+            },
+            {
+                id = "world_speedFast",
+                key = "2",
+                name = "Fast Speed"
+            },
+            {
+                id = "world_trackingButton",
+                key = "f",
+                name = "Tracking"
+            },
+            {
+                id = "world_cameraLockButton",
+                key = "x",
+                name = "Lock Camera"
+            },
+            {
+                id = "world_quicksave",
+                key = "f5",
+                name = "Quicksave"
+            },
+            {
+                id = "world_quickload",
+                key = "f9",
+                name = "Quickload"
+            },
+
+            {
+                id = "world_event_1",
+                key = "1",
+                name = "Event input 1"
+            },
+            {
+                id = "world_event_2",
+                key = "2",
+                name = "Event input 2"
+            },
+            {
+                id = "world_event_3",
+                key = "3",
+                name = "Event input 3"
+            },
+            {
+                id = "world_event_4",
+                key = "4",
+                name = "Event input 4"
+            },
+            {
+                id = "world_release_forceattack",
+                key = "ctrl",
+                name = "Force Attack"
+            }
+        ]
+    ])
+
+
+    //On the tactical map:
+
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen", "enter")
+    // this.MSU.CustomKeybinds.set("tactical_switchPreviousBrother_1", "left")
+    // this.MSU.CustomKeybinds.set("tactical_switchPreviousBrother_1", "a")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_1", "right")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_2", "d")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_3", "tab"))
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_1", "i")
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_2", "c")
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_3", "escape")
+    // this.MSU.CustomKeybinds.set("tactical_toggleMenuScreen", "escape")
+    // this.MSU.CustomKeybinds.set("tactical_toggleStatsOverlays", "alt")
+    // this.MSU.CustomKeybinds.set("tactical_toggleTreesButton", "t")
+    // this.MSU.CustomKeybinds.set("tactical_toggleHighlightBlockedTiles", "b")
+    // this.MSU.CustomKeybinds.set("tactical_initNextTurn", "enter")
+    // this.MSU.CustomKeybinds.set("tactical_endTurnAll", "r")
+    // this.MSU.CustomKeybinds.set("tactical_waitTurn_1", "end")
+    // this.MSU.CustomKeybinds.set("tactical_waitTurn_2", "space")
+    // this.MSU.CustomKeybinds.set("tactical_focusActiveEntity", "shift")
+    // this.MSU.CustomKeybinds.set("tactical_showCharacterScreen_1", "i")
+    // this.MSU.CustomKeybinds.set("tactical_showCharacterScreen_2", "c")
 
 
 // --------------------------------------------- LOADING CUSTOM KEYBINDS -------------------------------------------------------

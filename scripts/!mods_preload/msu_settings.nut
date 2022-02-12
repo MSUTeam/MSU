@@ -86,6 +86,12 @@ gt.MSU.setupSettingsSystem <- function()
 	panel.add(logPage);
 	logPage.add(logToggle);
 
+	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
+	verboseModeToggle.addCallback(function(_data){
+		this.Const.AI.VerboseMode = _data
+	})
+	logPage.add(verboseModeToggle);
+
 	this.MSU.SettingsManager.importPersistentSettings()
 
 

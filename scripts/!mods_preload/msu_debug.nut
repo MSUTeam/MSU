@@ -214,6 +214,7 @@ gt.MSU.setupDebuggingUtils <- function()
 			movement = true,
 			skills = false,
 			keybinds = false,
+			persistence = true
 		}
 	}
 
