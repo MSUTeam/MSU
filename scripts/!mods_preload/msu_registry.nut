@@ -2,6 +2,12 @@ local gt = this.getroottable();
 
 gt.MSU.setupModRegistry <- function()
 {
+	this.MSU.System <- {
+		Serialization = 0,
+		ModSettings = 1,
+		Debug = 2
+	}
+
 	this.MSU.Mods <- {
 		List = [],
 		Options = null, // ? necessary?
@@ -31,11 +37,19 @@ gt.MSU.setupModRegistry <- function()
 			constructor( _id, _version, _options = null, _name = null )
 			{
 				this.MSU.requireString(_id, _version, _name == null ? "" : _name);
-				this.MSU.requireArray(_options == null ? [] : _options);
+				_options = _options == null ? [] : _options;
+				this.MSU.requireArray(_options);
+				foreach (value in _options)
+				{
+					if (value > this.MSU.System.len() || value < 0)
+					{
+						throw this.Exception.KeyNotFound;
+					}
+				}
 
 				this.ID = _id;
 				this.Name = _name == null ? _id : _name;
-				this.Options = _options == null ? [] : _options;
+				this.Options = _options;
 
 				local table = this.getVersionTable(_version);
 				this.Version = table.Version;
