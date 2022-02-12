@@ -56,10 +56,22 @@ gt.MSU.setupUtils <- function()
 	}
 
 	gt.MSU.Array <- {
-		function getRandom( _array, _start = 0, _end = 0 )
+		function getRandom( _array, _start = 0, _end = null )
 		{
-			_end = _end == 0 ? _array.len() - 1 : _end;
-			return _array[this.Math.rand(0 + _start, _end)];
+			if (_array.len() == 0) return null;
+			local start = _start;
+			local end = _end;
+
+			if (end == null) end = _array.len();
+			if (end < 0) end = _array.len() - end;
+			if (start < 0) start = _array.len() - start;
+			
+			if (start < 0 || end < start)
+			{
+				throw "Invalid indices. _array.len() = " + _array.len();
+			}
+
+			return _array[this.Math.rand(start, end - 1)];
 		}
 
 		function shuffle( _array )
