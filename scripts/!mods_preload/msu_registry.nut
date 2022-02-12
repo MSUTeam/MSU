@@ -86,9 +86,13 @@ gt.MSU.setupModRegistry <- function()
 				local prerelease = version.len() == 2 ? version[1] : null;
 				version = split(version[0], ".");
 
-				if (version.len() != 3)
+				if (version.len() > 3)
 				{
 					throw this.Exception.NotSemanticVersion;
+				}
+				else if (version.len() < 3 && version.len() != 1)
+				{
+					version.extend(array(3 - version.len(), "0"))
 				}
 
 				try
