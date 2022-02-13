@@ -3,7 +3,7 @@ local gt = this.getroottable();
 gt.MSU.setupModRegistry <- function()
 {
 
-	this.MSU.Classes.Mod <- class
+	this.MSU.Class.Mod <- class
 	{
 		ID = null;
 		Name = null;
@@ -14,19 +14,29 @@ gt.MSU.setupModRegistry <- function()
 
 		constructor( _id, _version, _options = null, _name = null )
 		{
-			this.MSU.requireString(_id, _version, _name == null ? "" : _name);
-			_options = _options == null ? [] : _options;
+			if (_name == null) _name = _id;
+			this.MSU.requireString(_id, _version, _name);
+			if (_options == null) _options == [];
 			this.MSU.requireArray(_options);
 			foreach (value in _options)
 			{
-				if (value > this.MSU.System.len() || value < 0)
+				local found = false;
+				foreach (system in this.MSU.Systems)
+				{
+					if (system.getID() == value)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (!found)
 				{
 					throw this.Exception.KeyNotFound;
 				}
 			}
 
 			this.ID = _id;
-			this.Name = _name == null ? _id : _name;
+			this.Name = _name;
 			this.Options = _options;
 
 			local table = this.getVersionTable(_version);
@@ -148,7 +158,7 @@ gt.MSU.setupModRegistry <- function()
 
 		function compareToVersionString( _version )
 		{
-			local dummy = this.MSU.Classes.Mod("dummy", _version);
+			local dummy = this.MSU.Class.Mod("dummy", _version);
 			return dummy <=> this;
 		}
 
@@ -236,14 +246,13 @@ gt.MSU.setupModRegistry <- function()
 		}
 	}
 
-	this.MSU.Classes.ModRegistrySystem <- class extends this.MSU.Classes.System
+	this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
 	{
 		Mods = null;
 		constructor()
 		{
 			base.constructor(this.MSU.SystemIDs.ModRegistry);
 			this.Mods = []
-			this.MSU.Mods <- this.Mods;
 		}
 
 		function registerMod( _modID, _version, _options = null, _modName = null )
@@ -254,13 +263,13 @@ gt.MSU.setupModRegistry <- function()
 				throw this.Exception.DuplicateKey;
 			}
 
-			local mod = this.MSU.Classes.Mod(_modID, _version, _options, _modName);
+			local mod = this.MSU.Class.Mod(_modID, _version, _options, _modName);
 			this.Mods[_modID] <- mod;
 			::printLog("MSU registered mod " + mod.getName() + ", version: " + mod.getVersionString(), this.MSUModName)
 
 			foreach (system in this.MSU.Systems)
 			{
-				if (system instanceof this.MSU.Classes.RequiredModSystem)
+				if (system instanceof this.MSU.Class.RequiredModSystem)
 				{
 					system.onModRegistered(mod);
 				}
@@ -268,8 +277,9 @@ gt.MSU.setupModRegistry <- function()
 		}
 	}
 
-	local system = this.MSU.Classes.ModRegistrySystem();
-	this.MSU.Systems.push(system)
+	local system = this.MSU.Class.ModRegistrySystem();
 
+	this.MSU.Systems.ModRegistry <- system;
+	this.MSU.Mods <- system.Mods;
 	this.MSU.registerMod <- system.registerMod;
 }

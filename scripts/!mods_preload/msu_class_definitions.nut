@@ -1,6 +1,7 @@
 local gt = this.getroottable();
 gt.MSU.defineClasses <- function()
 {
+	this.MSU.Class <- {};
 	gt.MSU.OrderedMap <- class
 	{
 		Array = null;

@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.setupSystems <- function()
 {
-	this.MSU.Systems <- [];
+	this.MSU.Systems <- {};
 	this.MSU.SystemDefinitions <- {};
 	this.MSU.SystemIDs <- {
 		Serialization = 0,
@@ -11,7 +11,7 @@ gt.MSU.setupSystems <- function()
 		Debug = 3
 	}
 
-	this.MSU.Classes.System <- class
+	this.MSU.Class.System <- class
 	{
 		ID = null;
 		constructor( _id, _dependencies = null )
@@ -43,10 +43,11 @@ gt.MSU.setupSystems <- function()
 		}
 	}
 
-	this.MSU.Classes.RequiredModSystem <- class extends this.MSU.Classes.System
+	this.MSU.Class.RequiredModSystem <- class extends this.MSU.Class.System
 	{
 		function onModRegistered( _mod )
 		{
+			return _mod.Options.find(this.getID()) != null;
 		}
 	}
 }
