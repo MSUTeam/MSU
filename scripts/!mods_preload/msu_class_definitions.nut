@@ -486,7 +486,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.SettingsPanel <- class
+	gt.MSU.Class.SettingsPanel <- class
 	{
 		Pages = null;
 		ID = null;

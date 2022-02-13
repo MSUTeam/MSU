@@ -4,7 +4,7 @@ local testSettingsSystem = function()
 {
 	for (local i = 0; i < 5; ++i)
 	{
-		local modPanel = this.MSU.SettingsPanel("MSU" + i, "M" + i)
+		local modPanel = this.MSU.Class.SettingsPanel("MSU" + i, "M" + i)
 		local numPages = rand() % 5 + 1;
 		for (local j = 0; j < numPages; ++j)
 		{
@@ -60,7 +60,7 @@ gt.MSU.setupSettingsSystem <- function()
 			}
 			else
 			{
-				if (!(_modPanel instanceof this.MSU.SettingsPanel))
+				if (!(_modPanel instanceof this.MSU.Class.SettingsPanel))
 				{
 					throw this.Exception.InvalidType;
 				}
@@ -154,7 +154,7 @@ gt.MSU.setupSettingsSystem <- function()
 			{
 				return false;
 			}
-			local panel = this.MSU.SettingsPanel(_mod.getName());
+			local panel = this.MSU.Class.SettingsPanel(_mod.getName());
 			this.Panel[_mod.getID()] <- panel;
 
 			return true;
@@ -194,7 +194,7 @@ gt.MSU.setupSettingsSystem <- function()
 		}
 	}
 
-	local panel = this.MSU.SettingsPanel("MSU");
+	local panel = this.MSU.Class.SettingsPanel("MSU");
 	local logPage = this.MSU.Class.SettingsPage("Logging");
 	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){

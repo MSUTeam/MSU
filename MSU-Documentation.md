@@ -941,7 +941,7 @@ These settings are automatically (de)serialized when loading/saving a game.
 ## Settings Panel
 
 #### Constructor
-`local myModPanel = this.MSU.SettingsPanel( _id, _name = null )`
+`local myModPanel = this.MSU.Class.SettingsPanel( _id, _name = null )`
 
 `_id` and `_name` are strings,
 `_name` defaults to `_id`,
