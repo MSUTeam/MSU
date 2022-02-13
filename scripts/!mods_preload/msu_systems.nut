@@ -3,7 +3,6 @@ local gt = this.getroottable();
 gt.MSU.setupSystems <- function()
 {
 	this.MSU.Systems <- {};
-	this.MSU.SystemDefinitions <- {};
 	this.MSU.SystemIDs <- {
 		Serialization = 0,
 		ModSettings = 1,

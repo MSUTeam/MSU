@@ -62,7 +62,7 @@ gt.MSU.setupSettingsSystem <- function()
 			{
 				if (!(_modPanel instanceof this.MSU.SettingsPanel))
 				{
-					throw this.Exception.InvalidTypeException;
+					throw this.Exception.InvalidType;
 				}
 				this.Panels[_modPanel.getID()] <- _modPanel;
 			}

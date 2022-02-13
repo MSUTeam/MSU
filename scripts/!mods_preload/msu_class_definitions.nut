@@ -105,7 +105,7 @@ gt.MSU.defineClasses <- function()
 			if (_id.find(" ") != null)
 			{
 				this.logError("The ID of a Setting Element should not have spaces");
-				throw this.Exception.InvalidTypeException;
+				throw this.Exception.InvalidType;
 			}
 			this.Name = _name == null ? _id : _name;
 			this.ID = _id;
@@ -356,7 +356,7 @@ gt.MSU.defineClasses <- function()
 			if (typeof _value != "bool")
 			{
 				this.logError("The value for Boolean Setting must be a boolean");
-				throw this.Exception.InvalidTypeException;
+				throw this.Exception.InvalidType;
 			}
 			base.constructor(_id, _value, _name);
 		}
@@ -366,7 +366,7 @@ gt.MSU.defineClasses <- function()
 			if (typeof _value != "bool")
 			{
 				this.logError("The value for Boolean Setting must be a boolean");
-				throw this.Exception.InvalidTypeException;
+				throw this.Exception.InvalidType;
 			}
 			base.set(_value);
 		}
@@ -388,7 +388,7 @@ gt.MSU.defineClasses <- function()
 				if ((typeof num != "integer") && (typeof num != "float"))
 				{
 					this.logError("Max, Min and Step in a Range Setting have to be integers or floats");
-					throw this.Exception.InvalidTypeException;
+					throw this.Exception.InvalidType;
 				}
 			}
 
@@ -508,7 +508,7 @@ gt.MSU.defineClasses <- function()
 		{
 			if (!(_page instanceof this.MSU.Class.SettingsPage))
 			{
-				throw this.Exception.InvalidTypeException;
+				throw this.Exception.InvalidType;
 			}
 			this.Pages[_page.getID()] <- _page;
 		}
@@ -617,7 +617,7 @@ gt.MSU.defineClasses <- function()
 			if (!(_element instanceof this.MSU.Class.SettingsElement))
 			{
 				this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
-				throw this.Exception.InvalidTypeException;
+				throw this.Exception.InvalidType;
 			}
 			this.Settings[_element.getID()] <- _element;
 		}
