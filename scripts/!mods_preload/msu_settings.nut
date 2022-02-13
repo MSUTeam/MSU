@@ -164,8 +164,8 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			base.registerMod(_modID)
 			local mod = this.MSU.Mods[_modID];
-			local panel = this.MSU.Class.SettingsPanel(mod.getName());
-			this.Panel[mod.getID()] <- panel;
+			local panel = this.MSU.Class.SettingsPanel(mod.getID(), mod.getName());
+			this.Panels[mod.getID()] <- panel;
 		}
 	}
 
@@ -204,13 +204,13 @@ gt.MSU.setupSettingsSystem <- function()
 		}
 	}
 
-	local panel = this.MSU.Class.SettingsPanel("MSU");
+	this.MSU.Systems.ModSettings.registerMod(this.MSU.MSUModName);
+	local panel = this.MSU.Systems.ModSettings.get(this.MSU.MSUModName);
 	local logPage = this.MSU.Class.SettingsPage("Logging");
 	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
 		this.MSU.Systems.Debug.FullDebug = _data;
 	})
-	this.MSU.Systems.ModSettings.add(panel);
 	panel.addPage(logPage);
 	logPage.add(logToggle);
 

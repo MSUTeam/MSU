@@ -20,7 +20,7 @@ gt.MSU.MSUModName <- MSUModName;
 	gt.MSU.setupModRegistry();
 	delete gt.MSU.setupModRegistry;
 
-	this.MSU.registerMod("mod_MSU", "0.6.27", "Modding Standards and Utils");
+	this.MSU.registerMod(MSUModName, "0.6.27", "Modding Standards and Utils");
 
 	gt.MSU.setupDebuggingUtils();
 	delete gt.MSU.setupDebuggingUtils;
