@@ -12,10 +12,11 @@ local testSettingsSystem = function()
 			local testPage = this.MSU.SettingsPage("Page" + j, "Page Name " + j);
 
 			local test = this.MSU.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
+			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro")
+			test1.addCallback(function(_data = null){
 				this.logInfo("worked?")
 			});
-			test1.lock()
+			#test1.lock()
 			local test2 = this.MSU.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
 			local test3 = this.MSU.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
@@ -101,5 +102,5 @@ gt.MSU.setupSettingsSystem <- function()
 
 
 	// Testing Code
-	// testSettingsSystem();
+	testSettingsSystem();
 }
