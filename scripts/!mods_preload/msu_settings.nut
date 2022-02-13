@@ -168,7 +168,7 @@ gt.MSU.setupSettingsSystem <- function()
 
 	::getModSetting <- function( _modID, _settingID )
 	{
-		return this.MSU.Settings.ModSettings.get(_modID).get(_settingID);
+		return this.MSU.Systems.ModSettings.get(_modID).get(_settingID);
 	}
 
 	this.MSU.SettingsFlags <- {
