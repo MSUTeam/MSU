@@ -9,9 +9,17 @@ this.getroottable().MSU.setupUI <- function()
 	::mods_registerJS("msu_mod_screens.js");
 
 	::mods_registerJS("~~msu_connect_screens.js")
+	::mods_registerJS("~~msu_backend_connection.js")
+
 
 	this.MSU.UI <- {
 		Screens = [],
+		JSConnection = null,
+
+		function setupJSConnection()
+		{
+			this.JSConnection <- this.new("scripts/ui/msu_JS_connection");
+		}
 
 		function registerScreenToConnect(_screen)
 		{
@@ -48,6 +56,11 @@ this.getroottable().MSU.setupUI <- function()
 		o.showNewCampaignModule <- function()
 		{
 			this.m.JSHandle.asyncCall("showNewCampaignModule", null);
+		}
+
+		o.setupJSConnection <- function()
+		{
+			this.MSU.UI.setupJSConnection();
 		}
 	});
 

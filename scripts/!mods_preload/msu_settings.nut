@@ -32,7 +32,7 @@ local testSettingsSystem = function()
 			testPage.add(test4);
 			testPage.add(test5);
 
-			modPanel.add(testPage);
+			modPanel.addPage(testPage);
 		}
 		this.MSU.Systems.ModSettings.add(modPanel);
 	}
@@ -164,6 +164,8 @@ gt.MSU.setupSettingsSystem <- function()
 	this.MSU.Systems.ModSettings <- this.MSU.Class.ModSettingsSystem();
 	this.MSU.SettingsScreen <- this.new("scripts/ui/mods/msu_settings_screen");
 
+	this.MSU.PersistentDataManager <- this.new("scripts/mods/msu_persistent_data_manager");
+
 	this.MSU.UI.registerScreenToConnect(this.MSU.SettingsScreen);
 
 	::getModSetting <- function( _modID, _settingID )
@@ -198,13 +200,26 @@ gt.MSU.setupSettingsSystem <- function()
 	local logPage = this.MSU.Class.SettingsPage("Logging");
 	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
-		this.logInfo("I am a callback of " + this.tostring() + " \nChanged to: " + _data)
+		this.MSU.Debug.FullDebug = _data;
 	})
 	this.MSU.Systems.ModSettings.add(panel);
-	panel.add(logPage);
+	panel.addPage(logPage);
 	logPage.add(logToggle);
+
+	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
+	verboseModeToggle.addCallback(function(_data){
+		this.Const.AI.VerboseMode = _data
+	})
+	logPage.add(verboseModeToggle);
+
+	this.MSU.SettingsManager.importPersistentSettings()
+
+
+	//this neeeds to be moved into a hook
+	this.MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
+	this.MSU.CustomKeybinds.parseForUI();
 
 
 	// Testing Code
-	// testSettingsSystem();
+	testSettingsSystem();
 }

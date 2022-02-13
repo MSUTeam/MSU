@@ -8,24 +8,28 @@ gt.MSU.MSUModName <- MSUModName;
 
 ::mods_queue(null, null, function()
 {
-	gt.MSU.setupBackendConnection();
-	delete gt.MSU.setupBackendConnection;
 	
+	gt.MSU.setupUtils();
+	delete gt.MSU.setupUtils;
 	gt.MSU.setupDebuggingUtils();
 	delete gt.MSU.setupDebuggingUtils;
-
-	gt.MSU.setupCustomKeybinds();
-	delete gt.MSU.setupCustomKeybinds;
-
-	gt.MSU.defineThrowables();
-	delete gt.MSU.defineThrowables;
 	gt.MSU.defineClasses();
 	delete gt.MSU.defineClasses;
 	gt.MSU.setupUI();
 	delete gt.MSU.setupUI;
-
 	gt.MSU.setupSystems();
 	delete gt.MSU.setupSystems;
+
+	gt.MSU.setupModRegistry();
+	delete gt.MSU.setupModRegistry;
+	gt.MSU.setupCustomKeybinds();
+	delete gt.MSU.setupCustomKeybinds;
+	gt.MSU.setupSettingsSystem();
+	delete gt.MSU.setupSettingsSystem;
+
+	gt.MSU.defineThrowables();
+	delete gt.MSU.defineThrowables;
+
 
 	gt.MSU.modInjuries();
 	delete gt.MSU.modInjuries;
@@ -33,12 +37,8 @@ gt.MSU.MSUModName <- MSUModName;
 	delete gt.MSU.setupDamageTypeSystem;
 	gt.MSU.setupTileUtils();
 	delete gt.MSU.setupTileUtils;	
-	gt.MSU.setupUtils();
-	delete gt.MSU.setupUtils;
-	gt.MSU.setupModRegistry();
-	delete gt.MSU.setupModRegistry;
-	gt.MSU.setupSettingsSystem();
-	delete gt.MSU.setupSettingsSystem;
+	
+
 
 	gt.MSU.modItemContainer();
 	delete gt.MSU.modItemContainer;

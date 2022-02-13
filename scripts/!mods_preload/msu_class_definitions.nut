@@ -188,11 +188,13 @@ gt.MSU.defineClasses <- function()
 
 	gt.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 	{
-		Value = null; // Serialized
+		
 		static Type = "Abstract";
+		Value = null;// Serialized
 		Locked = null; // Serialized
 		LockReason = null; // Serialized
-		Callbacks = [];
+		Callbacks = null;
+		ParseChange = null; //if it should print change to log for further manipulation
 		
 		constructor( _id, _value, _name = null )
 		{
@@ -200,6 +202,18 @@ gt.MSU.defineClasses <- function()
 			this.Value = _value; 
 			this.Locked = false;
 			this.LockReason = "";
+			this.ParseChange = true;
+			this.Callbacks = [];
+		}
+
+		function setParseChange(_bool)
+		{
+			this.ParseChange = _bool;
+		}
+
+		function getParseChange()
+		{
+			return this.ParseChange
 		}
 
 		function onChangedCallback(_newValue)
@@ -372,7 +386,32 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.Class.RangeSetting <- class extends gt.MSU.Class.AbstractSetting
+	gt.MSU.Class.StringSetting <- class extends gt.MSU.Class.AbstractSetting
+	{
+		static Type = "String";
+
+		constructor( _id, _value, _name = null)
+		{
+			if (typeof _value != "string")
+			{
+				this.logError("The value for String Setting must be a string");
+				throw this.Exception.InvalidType;
+			}
+			base.constructor(_id, _value, _name);
+		}
+
+		function set( _value )
+		{
+			if (typeof _value != "string")
+			{
+				this.logError("The value for String Setting must be a string");
+				throw this.Exception.InvalidType;
+			}
+			base.set(_value);
+		}
+	}
+
+	gt.MSU.RangeSetting <- class extends gt.MSU.AbstractSetting
 	{
 		Min = null;
 		Max = null;
@@ -504,7 +543,7 @@ gt.MSU.defineClasses <- function()
 			return this.Pages;
 		}
 
-		function add( _page )
+		function addPage( _page )
 		{
 			if (!(_page instanceof this.MSU.Class.SettingsPage))
 			{
@@ -513,7 +552,7 @@ gt.MSU.defineClasses <- function()
 			this.Pages[_page.getID()] <- _page;
 		}
 
-		function get( _settingID )
+		function getSetting( _settingID )
 		{
 			foreach (page in this.Pages)
 			{
@@ -524,6 +563,16 @@ gt.MSU.defineClasses <- function()
 			}
 
 			throw this.Exception.KeyNotFound;
+		}
+
+		function hasPage( _pageID )
+		{
+			return this.getPages().contains(_pageID)
+		}
+
+		function getPage( _pageID )
+		{
+			return this.Pages[_pageID]
 		}
 
 		function verifyFlags( _flags )

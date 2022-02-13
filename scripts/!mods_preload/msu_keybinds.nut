@@ -78,11 +78,13 @@ gt.MSU.setupCustomKeybinds <- function() {
             Keyboard = 0,
             Mouse = 1
         },
-        AddHandlerFunction = function(_id, _key,  _func, _state = 0){
+        function AddHandlerFunction(_id, _key,  _func, _state = 0)
+        {
             //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
-            local parsedKey = this.MSU.CustomKeybinds.get(_id, _key)
-            if (!(parsedKey in this.HandlerFunctions)){
-               this.HandlerFunctions[parsedKey] <- []
+            local parsedKey = this.MSU.CustomKeybinds.get(_id, _key);
+            if (!(parsedKey in this.HandlerFunctions))
+            {
+               this.HandlerFunctions[parsedKey] <- [];
             }
             this.HandlerFunctions[parsedKey].insert(0, {
                 ID = _id,
@@ -90,73 +92,99 @@ gt.MSU.setupCustomKeybinds <- function() {
                 State = _state,
                 Key = parsedKey
             })
-            this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0]
-        },
-        RemoveHandlerFunction = function(_id, _key){
-            if(!(_id in this.HandlerFunctionsMap)){
+            this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0];
+        }
+
+        function RemoveHandlerFunction(_id)
+        {
+            //remove handler function, for example if it's updated or a screen is is destroyed   
+            if(!(_id in this.HandlerFunctionsMap))
+            {
                 ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
                 return
             }
-            local handlerFunc = this.HandlerFunctionsMap[_id]
-            this.HandlerFunctions[handlerFunc.Key].remove(this.HandlerFunctions[handlerFunc.Key].find(handlerFunc))
-            if(this.HandlerFunctions[handlerFunc.Key].len() == 0){
-                this.HandlerFunctions.rawdelete(handlerFunc.Key)
+            local handlerFunc = this.HandlerFunctionsMap[_id];
+            local idx = this.HandlerFunctions[handlerFunc.Key].find(handlerFunc);
+            this.HandlerFunctions[handlerFunc.Key].remove(idx);
+
+            if(this.HandlerFunctions[handlerFunc.Key].len() == 0)
+            {
+                this.HandlerFunctions.rawdelete(handlerFunc.Key);
             }
-            this.HandlerFunctionsMap.rawdelete(handlerFunc.Key)
-            //remove handler function, for example if screen is destroyed   
-        },
-        UpdateHandlerFunction = function(_id, _key){
+            this.HandlerFunctionsMap.rawdelete(_id);
+            
+        }
+
+        function UpdateHandlerFunction(_id, _key)
+        {
             //for when new custom binds are added after handler functions have already been added, for whatever reason
-            if(!(_id in this.HandlerFunctionsMap)){
+            if(!(_id in this.HandlerFunctionsMap))
+            {
                 ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
                 return
             }
-            local handlerFunc = this.HandlerFunctionsMap[_id]
-            this.RemoveHandlerFunction(handlerFunc.ID, handlerFunc.Key)
-            this.AddHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State)
-        },
-        CallHandlerFunction = function(_key, _env, _state){ 
+            local handlerFunc = this.HandlerFunctionsMap[_id];
+            this.RemoveHandlerFunction(handlerFunc.ID);
+            this.AddHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State);
+        }
+
+        function CallHandlerFunction(_key, _env, _state)
+        { 
             ::printWarning(format("Checking handler function for key %s", _key), this.MSU.MSUModName, "keybinds");
             // call all handler functions if they are present for the key+modifier, if one returns false execution ends
             // executed in order of last added
-            if (!(_key in this.HandlerFunctions)){
+
+            if (!(_key in this.HandlerFunctions))
+            {
                 return
             }
             local keyFuncArray = this.HandlerFunctions[_key];
-            foreach (entry in keyFuncArray) {
-                ::printWarning(format("Checking handler function for key %s for ID %s", entry.Key, entry.ID), this.MSU.MSUModName, "keybinds");
-                ::printWarning("State " + entry.State, this.MSU.MSUModName, "keybinds");
-                if (entry.State != this.States.All && entry.State != _state){
+            foreach (entry in keyFuncArray) 
+            {
+                ::printWarning(format("Checking handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.MSUModName, "keybinds");
+                if (entry.State != this.States.All && entry.State != _state)
+                {
                     continue;
                 }
-                ::printWarning(format("Calling handler function for key %s for ID %s.", entry.Key, entry.ID), this.MSU.MSUModName, "keybinds");
-                if (entry.Func.call(_env) == false){
+
+                ::printWarning(format("Calling handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.MSUModName, "keybinds");
+                if (entry.Func.call(_env) == false)
+                {
                     return false
                 }
             }
-        },
-        ProcessInput = function(_key, _env, _state, _inputType = 0){
+        }
+
+        function ProcessInput(_key, _env, _state, _inputType = 0)
+        {
             local key;
-            if(_inputType == this.InputType.Keyboard){
+            if(_inputType == this.InputType.Keyboard)
+            {
                 local keyAsString = _key.getKey().tostring();
-                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQ)){
+                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQ))
+                {
                     this.logWarning("Unknown key pressed! Key: " + _key.getKey());
                     return
                 }
                 key = this.MSU.CustomKeybinds.KeyMapSQ[_key.getKey().tostring()];
-                if (_key.getModifier() == 2){
+                if (_key.getModifier() == 2)
+                {
                     key += "+ctrl";
                 }
-                if (_key.getModifier() == 1){
+                if (_key.getModifier() == 1)
+                {
                     key += "+shift";
                 }
-                if (_key.getModifier() == 3){
+                if (_key.getModifier() == 3)
+                {
                     key += "+alt";
                 }
             }
-            else if(_inputType == this.InputType.Mouse){
+            else if(_inputType == this.InputType.Mouse)
+            {
                 local keyAsString = _key.getID().tostring();
-                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQMouse)){
+                if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQMouse))
+                {
                     this.logWarning("Unknown mouse key pressed! Key: " + _key.getID());
                     return
                 }
@@ -170,170 +198,470 @@ gt.MSU.setupCustomKeybinds <- function() {
         }
     }
 	gt.MSU.CustomKeybinds <- {
-		KeyMapSQ = {
-            "1" : "1",
-            "2" : "2",
-            "3" : "3",
-            "4" : "4",
-            "5" : "5",
-            "6" : "6",
-            "7" : "7",
-            "8" : "8",
-            "9" : "9",
-            "10" : "0",
-            "11" : "a",
-            "12" : "b",
-            "13" : "c",
-            "14" : "d",
-            "15" : "e",
-            "16" : "f",
-            "17" : "g",
-            "18" : "h",
-            "19" : "i",
-            "20" : "j",
-            "21" : "k",
-            "22" : "l",
-            "23" : "m",
-            "24" : "n",
-            "25" : "o",
-            "26" : "p",
-            "27" : "q",
-            "28" : "r",
-            "29" : "s",
-            "30" : "t",
-            "31" : "u",
-            "32" : "v",
-            "33" : "w",
-            "34" : "x",
-            "35" : "y",
-            "36" : "z",
-            "37" : "backspace",
-            "38" : "tab",
-            "39" : "enter",
-            "40" : "space",
-            "41" : "escape",
-            "44" : "end",
-            "45" : "home",
-            "46" : "pagedown",
-            "47" : "pageup",
-            "48" : "left",
-            "49" : "up",
-            "50" : "right",
-            "51" : "down",
-            "53" : "insert",
-            "54" : "delete",
-            "55" : "n0",
-            "56" : "n1",
-            "57" : "n2",
-            "58" : "n3",
-            "59" : "n4",
-            "60" : "n5",
-            "61" : "n6",
-            "62" : "n7",
-            "63" : "n8",
-            "64" : "n9",
-            "66" : "*",
-            "67" : "+",
-            "68" : "-",
-            "70" : "/",
-            "71" : "f1",
-            "72" : "f2",
-            "73" : "f3",
-            "74" : "f4",
-            "75" : "f5",
-            "76" : "f6",
-            "77" : "f7",
-            "78" : "f8",
-            "79" : "f9",
-            "80" : "f10",
-            "81" : "f11",
-            "82" : "f12",
-            "83" : "f13",
-            "84" : "f14",
-            "85" : "f15",
-            "86" : "f16",
-            "87" : "f17",
-            "88" : "f18",
-            "89" : "f19",
-            "90" : "f20",
-            "91" : "f21",
-            "92" : "f22",
-            "93" : "f23",
-            "94" : "f24",
-            "95" : "ctrl",
-            "96" : "shift",
-            "97" : "alt",
-        },
-        KeyMapSQMouse = {
-            "1" : "leftclick",
-            "2" : "rightclick",
-        },
-		CustomBindsJS = {}, //JS and SQ use different binds
+	    KeyMapSQ = {}, //see below this table
+        KeyMapJS = {},  //see below this table
 		CustomBindsSQ = {},
-        ParseModifiers = function(_key){
+		CustomBindsJS = {}, //JS and SQ use different binds
+        BindsToParse = [],
+
+        function ParseModifiers(_key)
+        {
             //reorder modifiers so that they are always in the same order
             local keyArray = split(_key, "+")
-            local parsedKey = keyArray[0];
+            local key = keyArray.pop()
+            local parsedKey = ""
             local findAndAdd = function(_arr, _key){
                 if (_arr.find(_key) != null){
-                    parsedKey += "+" + _key
+                    parsedKey += _key + "+" 
                     return
                 }
             }
             findAndAdd(keyArray, "shift")
             findAndAdd(keyArray, "ctrl")
             findAndAdd(keyArray, "alt")
+            parsedKey += key
             return parsedKey
-        },
-        get = function(_actionID, _defaultKey, _inSQ = true){
+        }
+
+        function get(_actionID, _defaultKey, _inSQ = true)
+        {
             local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
-            ::printWarning("Getting key for ID " + _actionID, this.MSU.MSUModName, "keybinds")
+            ::printWarning("Getting key for ID " + _actionID, this.MSU.MSUModName, "keybinds");
             if (_actionID in environment){
                 ::printWarning(format("Returning key %s for ID %s.", environment[_actionID], _actionID), this.MSU.MSUModName, "keybinds");
-                return environment[_actionID]
+                return environment[_actionID];
             }
             ::printWarning(format("Returning default key %s for ID %s.", _defaultKey, _actionID), this.MSU.MSUModName, "keybinds");
             return _defaultKey
-        },
-		set = function(_actionID, _key, _override = false, _inSQ = true){
+        }
+
+        function has(_actionID, _inSQ = true)
+        {
+            local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
+            return _actionID in environment
+        }
+
+		function set(_actionID, _key, _override = false, _inSQ = true)
+        {
 			
-			if ((typeof _actionID != "string") || (typeof _key != "string")){
+			if ((typeof _actionID != "string") || (typeof _key != "string"))
+            {
 				this.logError(format("Trying to bind key " + _key + " to action " + _actionID + " but either is not a string!"));
 			}
-            local key = this.ParseModifiers(_key)
+
+            local key = this.ParseModifiers(_key);
+            ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.MSUModName, "keybinds");
 			local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
-			if (_actionID in environment && !_override){
+			if (_actionID in environment && !_override)
+            {
 				this.logError(format("Trying to bind key %s to action %s but is already bound and override not specified!", key, _actionID));
 				return
 			}
-			if(_override){
-				::printWarning("Override specified", this.MSU.MSUModName, "keybinds");
-			}
-			environment[_actionID] <- key;
+            environment[_actionID] <- key;
             if(_inSQ) this.MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, key);
 			
-		},
-        setForJS = function(_actionID, _key, _override = false){
-            this.set(_actionID, _key, _override, false)
+		}
+
+        function setForJS(_actionID, _key, _override = false)
+        {
+            this.set(_actionID, _key, _override, false);
         }
-		remove = function(_actionID, _inSQ = true){
+
+		function remove(_actionID, _inSQ = true)
+        {
+			::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.MSUModName, "keybinds");
 			local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
-			::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.MSUModName, "keybinds")
-			environment.rawdelete(_actionID)
-		},
+			environment.rawdelete(_actionID);
+		}
+
+        function parseForUI()
+        {
+            //parses keybinds for the settings page
+            foreach(mod in this.BindsToParse)
+            {
+                local modName = mod[0];
+                local bindsArray = mod[1];
+                this.logInfo("modName " + modName)
+                local panel;
+                local page;
+                if (this.MSU.SettingsManager.has(modName)){
+                    panel = this.MSU.SettingsManager.get(modName);
+                }
+                else {
+                    panel = this.MSU.SettingsPanel(modName);
+                    this.MSU.SettingsManager.add(panel);
+                }
+                if (panel.hasPage("Keybinds")){
+                    page = panel.getPage("Keybinds");
+                }
+                else {
+                    page = this.MSU.SettingsPage("Keybinds");
+                    panel.addPage(page);
+                }
+                foreach(bind in bindsArray)
+                {
+                    
+                    local id = bind.id;
+                    this.logInfo("id" + id)
+                    local key = this.MSU.CustomKeybinds.get(id, bind.key);
+                    local name = bind.name;
+                    local setting = this.MSU.StringSetting(id, key, name);
+                    setting.addCallback(function(_data){
+                        this.MSU.CustomKeybinds.set(id, _data, true);
+                        this.MSU.PersistentDataManager.writeToLog("Keybind", modName, format("%s;%s", id, _data));
+                    })
+                    setting.setParseChange(false);
+                    page.add(setting);
+                }   
+            }
+        }
 	}
+
+    gt.MSU.CustomKeybinds.KeyMapSQ <- {
+        "1" : "1",
+        "2" : "2",
+        "3" : "3",
+        "4" : "4",
+        "5" : "5",
+        "6" : "6",
+        "7" : "7",
+        "8" : "8",
+        "9" : "9",
+        "10" : "0",
+        "11" : "a",
+        "12" : "b",
+        "13" : "c",
+        "14" : "d",
+        "15" : "e",
+        "16" : "f",
+        "17" : "g",
+        "18" : "h",
+        "19" : "i",
+        "20" : "j",
+        "21" : "k",
+        "22" : "l",
+        "23" : "m",
+        "24" : "n",
+        "25" : "o",
+        "26" : "p",
+        "27" : "q",
+        "28" : "r",
+        "29" : "s",
+        "30" : "t",
+        "31" : "u",
+        "32" : "v",
+        "33" : "w",
+        "34" : "x",
+        "35" : "y",
+        "36" : "z",
+        "37" : "backspace",
+        "38" : "tab",
+        "39" : "enter",
+        "40" : "space",
+        "41" : "escape",
+        "44" : "end",
+        "45" : "home",
+        "46" : "pagedown",
+        "47" : "pageup",
+        "48" : "left",
+        "49" : "up",
+        "50" : "right",
+        "51" : "down",
+        "53" : "insert",
+        "54" : "delete",
+        "55" : "n0",
+        "56" : "n1",
+        "57" : "n2",
+        "58" : "n3",
+        "59" : "n4",
+        "60" : "n5",
+        "61" : "n6",
+        "62" : "n7",
+        "63" : "n8",
+        "64" : "n9",
+        "66" : "*",
+        "67" : "+",
+        "68" : "-",
+        "70" : "/",
+        "71" : "f1",
+        "72" : "f2",
+        "73" : "f3",
+        "74" : "f4",
+        "75" : "f5",
+        "76" : "f6",
+        "77" : "f7",
+        "78" : "f8",
+        "79" : "f9",
+        "80" : "f10",
+        "81" : "f11",
+        "82" : "f12",
+        "83" : "f13",
+        "84" : "f14",
+        "85" : "f15",
+        "86" : "f16",
+        "87" : "f17",
+        "88" : "f18",
+        "89" : "f19",
+        "90" : "f20",
+        "91" : "f21",
+        "92" : "f22",
+        "93" : "f23",
+        "94" : "f24",
+        "95" : "ctrl",
+        "96" : "shift",
+        "97" : "alt",
+    }
+
+    gt.MSU.CustomKeybinds.KeyMapSQMouse <- {
+        "1" : "leftclick",
+        "2" : "rightclick",
+    }
+
+
+
+    // this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+    //    [
+    //         {
+    //             id = "character_toggleCharacterMenu_1",
+    //             key = "c",
+    //             name = "character_toggleCharacterMenu_1"
+    //         },
+    //         {
+    //             id = "character_toggleCharacterMenu_2",
+    //             key = "i",
+    //             name = "character_toggleCharacterMenu_2"
+    //         },
+    //         {
+    //             id = "character_toggleCharacterMenu_3",
+    //             key = "escape",
+    //             name = "character_toggleCharacterMenu_3"
+    //         }
+    //     ]
+    // ])
+
+    // this.MSU.CustomKeybinds.BindsToParse.push(["MSU",
+    //    [
+    //         {
+    //             id = "test",
+    //             key = "c",
+    //             name = "test"
+    //         },
+    //         {
+    //             id = "test2",
+    //             key = "i",
+    //             name = "test2"
+    //         },
+    //         {
+    //             id = "test3",
+    //             key = "escape",
+    //             name = "test3"
+    //         }
+    //     ]
+    // ])
+    // this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+    //    [
+    //         {
+    //             id = "test",
+    //             key = "c",
+    //             name = "test"
+    //         },
+    //         {
+    //             id = "test2",
+    //             key = "i",
+    //             name = "test2"
+    //         },
+    //         {
+    //             id = "test3",
+    //             key = "escape",
+    //             name = "test3"
+    //         }
+    //     ]
+    // ])
+
+    this.MSU.CustomKeybinds.BindsToParse.push(["Vanilla",
+       [
+            {
+                id = "character_toggleCharacterMenu_1",
+                key = "c",
+                name = "character_toggleCharacterMenu_1"
+            },
+            {
+                id = "character_toggleCharacterMenu_2",
+                key = "i",
+                name = "character_toggleCharacterMenu_2"
+            },
+            {
+                id = "character_toggleCharacterMenu_3",
+                key = "escape",
+                name = "character_toggleCharacterMenu_3"
+            }
+            {
+                id = "character_switchToPreviousBrother_1",
+                key = "left",
+                name = "Switch to previous brother"
+            },
+            {
+                id = "character_switchToPreviousBrother_2",
+                key = "a",
+                name = "Switch to previous brother"
+            },
+            {
+                id = "character_switchToNextBrother_1",
+                key = "right",
+                name = "Switch to next brother"
+            },
+            {
+                id = "character_switchToNextBrother_2",
+                key = "d",
+                name = "Switch to next brother"
+            },
+            {
+                id = "character_switchToNextBrother_3",
+                key = "tab",
+                name = "Switch to next brother"
+            },
+            {
+                id = "world_closeCampfireScreen_1",
+                key = "tab",
+                name = "Close retinue screen"
+            },
+            {
+                id = "world_closeCampfireScreen_2",
+                key = "escape",
+                name = "Close retinue screen"
+            },
+            {
+                id = "world_toggleMenuScreen",
+                key = "tab",
+                name = "Close Menu"
+            },
+            {
+                id = "world_toggleCharacterScreen_1",
+                key = "c",
+                name = "Toggle inventory"
+            },
+            {
+                id = "world_toggleCharacterScreen_2",
+                key = "i",
+                name = "Toggle inventory"
+            },
+            {
+                id = "world_toggleRelationScreen",
+                key = "r",
+                name = "Toggle relations"
+            },
+            {
+                id = "world_toggleObituarysScreen",
+                key = "o",
+                name = "Toggle obituary"
+            },
+            {
+                id = "world_toggleCamping",
+                key = "t",
+                name = "Toggle camping"
+            },
+            {
+                id = "world_toggleRetinueButton",
+                key = "p",
+                name = "Toggle retinue"
+            },
+            {
+                id = "world_pause_1",
+                key = "0",
+                name = "Pause"
+            },
+            {
+                id = "world_pause_2",
+                key = "space",
+                name = "Pause"
+            },
+            {
+                id = "world_speedNormal",
+                key = "1",
+                name = "Normal Speed"
+            },
+            {
+                id = "world_speedFast",
+                key = "2",
+                name = "Fast Speed"
+            },
+            {
+                id = "world_trackingButton",
+                key = "f",
+                name = "Tracking"
+            },
+            {
+                id = "world_cameraLockButton",
+                key = "x",
+                name = "Lock Camera"
+            },
+            {
+                id = "world_quicksave",
+                key = "f5",
+                name = "Quicksave"
+            },
+            {
+                id = "world_quickload",
+                key = "f9",
+                name = "Quickload"
+            },
+
+            {
+                id = "world_event_1",
+                key = "1",
+                name = "Event input 1"
+            },
+            {
+                id = "world_event_2",
+                key = "2",
+                name = "Event input 2"
+            },
+            {
+                id = "world_event_3",
+                key = "3",
+                name = "Event input 3"
+            },
+            {
+                id = "world_event_4",
+                key = "4",
+                name = "Event input 4"
+            },
+            {
+                id = "world_release_forceattack",
+                key = "ctrl",
+                name = "Force Attack"
+            }
+        ]
+    ])
+
+
+    //On the tactical map:
+
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen", "enter")
+    // this.MSU.CustomKeybinds.set("tactical_switchPreviousBrother_1", "left")
+    // this.MSU.CustomKeybinds.set("tactical_switchPreviousBrother_1", "a")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_1", "right")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_2", "d")
+    // this.MSU.CustomKeybinds.set("tactical_switchNextBrother_3", "tab"))
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_1", "i")
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_2", "c")
+    // this.MSU.CustomKeybinds.set("tactical_hideCharacterScreen_3", "escape")
+    // this.MSU.CustomKeybinds.set("tactical_toggleMenuScreen", "escape")
+    // this.MSU.CustomKeybinds.set("tactical_toggleStatsOverlays", "alt")
+    // this.MSU.CustomKeybinds.set("tactical_toggleTreesButton", "t")
+    // this.MSU.CustomKeybinds.set("tactical_toggleHighlightBlockedTiles", "b")
+    // this.MSU.CustomKeybinds.set("tactical_initNextTurn", "enter")
+    // this.MSU.CustomKeybinds.set("tactical_endTurnAll", "r")
+    // this.MSU.CustomKeybinds.set("tactical_waitTurn_1", "end")
+    // this.MSU.CustomKeybinds.set("tactical_waitTurn_2", "space")
+    // this.MSU.CustomKeybinds.set("tactical_focusActiveEntity", "shift")
+    // this.MSU.CustomKeybinds.set("tactical_showCharacterScreen_1", "i")
+    // this.MSU.CustomKeybinds.set("tactical_showCharacterScreen_2", "c")
 
 
 // --------------------------------------------- LOADING CUSTOM KEYBINDS -------------------------------------------------------
 
-	local customKeybindsArray = this.IO.enumerateFiles("mod_config/keybinds/"); //returns either null if not valid path or no files, otherwise array with strings
-	if (customKeybindsArray != null){
-		foreach (filename in customKeybindsArray){
-			this.include(filename);
-		}
-	}
-
-
+	
 
 // --------------------------------------------- ADDING VANILLA HANDLERS -------------------------------------------------------
     
@@ -641,3 +969,4 @@ gt.MSU.setupCustomKeybinds <- function() {
 
 	}
 }
+
