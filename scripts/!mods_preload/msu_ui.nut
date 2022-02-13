@@ -136,7 +136,7 @@ this.getroottable().MSU.setupUI <- function()
 
 		o.msu_settings_screen_onSavepressed <- function( _data )
 		{
-			this.MSU.SettingsManager.updateSettings(_data);
+			this.MSU.Systems.ModSettings.updateSettings(_data);
 			this.m.MenuStack.pop();
 			if (this.m.ModSettingsShown)
 			{
@@ -182,24 +182,24 @@ this.getroottable().MSU.setupUI <- function()
 
 		o.msu_settings_screen_onSavepressed <- function( _data )
 		{
-			this.MSU.SettingsManager.updateSettings(_data);
+			this.MSU.Systems.ModSettings.updateSettings(_data);
 			this.m.MenuStack.pop();
 		}
 
 		local onSerialize = o.onSerialize;
 		o.onSerialize = function( _out )
 		{
-			this.MSU.SettingsManager.flagSerialize();
+			this.MSU.Systems.ModSettings.flagSerialize();
 			onSerialize(_out);
-			this.MSU.SettingsManager.resetFlags();
+			this.MSU.Systems.ModSettings.resetFlags();
 		}
 
 		local onDeserialize = o.onDeserialize;
 		o.onDeserialize = function( _in )
 		{
 			onDeserialize(_in);
-			this.MSU.SettingsManager.flagDeserialize();
-			this.MSU.SettingsManager.resetFlags();
+			this.MSU.Systems.ModSettings.flagDeserialize();
+			this.MSU.Systems.ModSettings.resetFlags();
 		}
 	});
 
@@ -238,7 +238,7 @@ this.getroottable().MSU.setupUI <- function()
 
 		o.msu_settings_screen_onSavepressed <- function( _data )
 		{
-			this.MSU.SettingsManager.updateSettings(_data);
+			this.MSU.Systems.ModSettings.updateSettings(_data);
 			this.m.MenuStack.pop();
 		}
 	});

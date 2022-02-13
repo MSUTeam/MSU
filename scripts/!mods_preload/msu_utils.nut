@@ -53,6 +53,15 @@ gt.MSU.setupUtils <- function()
 			
 			return _string;
 		}
+
+		function isInteger( _string )
+		{
+			foreach (char in _string)
+			{
+				if (char < 48 || char > 57) return false;
+			}
+			return true;
+		}
 	}
 
 	gt.MSU.Array <- {

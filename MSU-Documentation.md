@@ -896,7 +896,7 @@ All three arguments can be any numbers, integer or float.
 Returns the probability density of `_x` using the Normal Distribution for the provided mean value of `_mean` and standard deviation `_stdev`.
 
 ## Classes
-`this.MSU.OrderedMap`
+`this.this.MSU.Class.OrderedMap`
 
 This is a class indexed by keys like a table,
 but ordered like an array.
@@ -934,7 +934,7 @@ of the page.
 These settings are automatically (de)serialized when loading/saving a game.
 
 #### Adding a Panel to the SettingsManager
-`this.MSU.SettingsManager.add( _modPanel )`
+`this.MSU.Systems.ModSettings.add( _modPanel )`
 
 `_modPanel` is a SettingsPanel.
 
@@ -955,7 +955,7 @@ These settings are automatically (de)serialized when loading/saving a game.
 ## Settings Page
 
 #### Constructor
-`local myPage = this.MSU.SettingsPage( _id, _name = null )`
+`local myPage = this.MSU.Class.SettingsPage( _id, _name = null )`
 
 `_name` and `_id` are Strings, 
 `_id` has to be *unique* for all SettingsPages within a SettingsPanel,
@@ -966,12 +966,12 @@ These settings are automatically (de)serialized when loading/saving a game.
 #### Adding an Element to a SettingsPage
 `<SettingsPage>.add( _element )`
 
-`_element` is a `this.MSU.SettingsElement`
+`_element` is a `this.MSU.Class.SettingsElement`
 
 ## Setting Elements
 
 All setting elements are classes
-which inherit from `this.MSU.SettingsElement`.
+which inherit from `this.MSU.Class.SettingsElement`.
 Custom elements *must* inherit from `SettingsElement`
 or a descendant of it.
 
@@ -1005,7 +1005,7 @@ used as a parents for other settings.
 All custom Settings should inherit from AbstractSetting.
 
 #### Constructor
-`local doNotUse = this.MSU.AbstractSetting( _id, _value, _name = null )`
+`local doNotUse = this.this.MSU.Class.AbstractSetting( _id, _value, _name = null )`
 
 `_id` and `_name` are strings and `_id` defaults to `_name`.
 
@@ -1024,7 +1024,7 @@ A `_lockReason` can be given which will show up in the tooltip.
 ### BooleanSetting (extends AbstractSetting)
 
 #### Constructor
-`local myBooleanSetting = this.MSU.BooleanSetting( _id, _value, _name = null )`
+`local myBooleanSetting = this.MSU.Class.BooleanSetting( _id, _value, _name = null )`
 
 `_value` is a boolean.
 
@@ -1033,7 +1033,7 @@ Creates a simple checkbox.
 ### RangeSetting (extends AbstractSetting)
 
 #### Constructor
-`local myRangeSetting = this.MSU.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
+`local myRangeSetting = this.MSU.Class.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
 
 `_name` and `_id` are strings,
 `_value`, `_min`, `_max`, and `_step` are ints or floats.
@@ -1045,7 +1045,7 @@ with `_step` sized increments.
 ### EnumSetting (extends AbstractSetting)
 
 #### Constructor
-`local myEnumSetting = this.MSU.EnumSetting( _id, _array, _value = null, _name = null )`
+`local myEnumSetting = this.MSU.Class.EnumSetting( _id, _array, _value = null, _name = null )`
 
 `_value` is a string element 
 of the string array `_array`,
@@ -1072,11 +1072,11 @@ as a guide.
 
 ### SettingsDivider (extends SettingsElement)
 
-The settings system also allows adding a `this.MSU.SettingsDivider`
+The settings system also allows adding a `this.MSU.Class.SettingsDivider`
 to improve the layout of your mod page.
 This is a horizontal line with an optional title.
 
-`local myDivider = this.MSU.SettingsDivider(_id, _name = "", _description = "")`
+`local myDivider = this.MSU.Class.SettingsDivider(_id, _name = "", _description = "")`
 
 `_id` is a string and *must* be unique for the mod page.
 

@@ -30,7 +30,7 @@ this.msu_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
 		{
 			throw this.Exception.AlreadyVisible;
 		}
-		this.m.JSHandle.asyncCall("show", this.MSU.SettingsManager.getUIData(_flags));
+		this.m.JSHandle.asyncCall("show", this.MSU.Systems.ModSettings.getUIData(_flags));
 	}
 
 	function connect()

@@ -63,7 +63,6 @@ gt.MSU.modSkill <- function ()
 						{
 							this.m[c.Field] += c.Change;
 						}
-
 						break;
 
 					case "string":
