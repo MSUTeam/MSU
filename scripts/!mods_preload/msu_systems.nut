@@ -4,8 +4,14 @@ gt.MSU.setupSystems <- function()
 {
 	this.MSU.Systems <- [];
 	this.MSU.SystemDefinitions <- {};
+	this.MSU.SystemIDs <- {
+		Serialization = 0,
+		ModSettings = 1,
+		ModRegistry = 2,
+		Debug = 3
+	}
 
-	this.MSU.System <- class
+	this.MSU.Classes.System <- class
 	{
 		ID = null;
 		constructor( _id, _dependencies = null )
@@ -37,7 +43,7 @@ gt.MSU.setupSystems <- function()
 		}
 	}
 
-	this.MSU.RequiredModSystem <- class extends this.MSU.System
+	this.MSU.Classes.RequiredModSystem <- class extends this.MSU.Classes.System
 	{
 		function onModRegistered( _mod )
 		{

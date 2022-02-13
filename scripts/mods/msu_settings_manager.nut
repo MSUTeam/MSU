@@ -41,9 +41,7 @@ this.msu_settings_manager <- {
 		/*
 		_data = {
 			modID = {
-				pageID = {
-					settingID = value
-				}
+				settingID = value
 			}
 		}
 		*/
