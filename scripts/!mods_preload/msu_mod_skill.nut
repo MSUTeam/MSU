@@ -174,11 +174,11 @@ gt.MSU.modSkill <- function ()
 		{
 		}
 
-		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 		{
 		}
 
-		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 		{
 		}
 
@@ -237,11 +237,11 @@ gt.MSU.modSkill <- function ()
 			local container = this.m.Container;
 			local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
 
-			container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity);
+			container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
 			local ret = use( _targetTile, _forFree );
 
-			container.onAnySkillExecuted(this, _targetTile, targetEntity);
+			container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
 			return ret;
 		}
