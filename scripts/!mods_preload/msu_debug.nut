@@ -2,24 +2,50 @@ local gt = this.getroottable();
 
 gt.MSU.setupDebuggingUtils <- function()
 {
-	this.MSU.Debug <- {
-		ModTable = {},
-		LogType = {
-			Info = 1,
-			Warning = 2,
-			Error = 3
-		},
-		FullDebug = false,
-		DefaultFlag = "default",
-		VanillaLogName = "vanilla",
 
-		function registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)
+	this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
+	{
+		ModTable = null;
+		LogType = null;
+		FullDebug = null;
+		DefaultFlag = null;
+		VanillaLogName = null;
+		MSUMainDebugFlag = null;
+		MSUDebugFlags = null;
+
+		constructor()
 		{
+			base.constructor(this.MSU.SystemIDs.Debug, [this.MSU.SystemIDs.ModRegistry]);
+			this.ModTable = {};
+			this.LogType = {
+				Info = 1,
+				Warning = 2,
+				Error = 3
+			};
+			this.FullDebug = false;
+			this.DefaultFlag = "default";
+			this.VanillaLogName = "vanilla";
+
+			this.MSUMainDebugFlag = {
+				debug = true
+			}
+			this.MSUDebugFlags = {
+				movement = true,
+				skills = false,
+				keybinds = false,
+				persistence = true
+			}
+		}
+
+		function registerMod( _modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null )
+		{
+			base.registerMod(_modID);
 			if (_modID in this.ModTable)
 			{
 				this.logError(format("Mod %s already exists in the debug log table!"), _modID);
-				return;
+				throw this.Exception.DuplicateKey;
 			}
+
 			this.ModTable[_modID] <- {};
 			this.setFlag(_modID, this.DefaultFlag, _defaultFlagBool);
 
@@ -59,7 +85,6 @@ gt.MSU.setupDebuggingUtils <- function()
 				}
 			}
 		}
-
 
 		function isEnabledForMod( _modID, _flagID = "default")
 		{
@@ -206,43 +231,35 @@ gt.MSU.setupDebuggingUtils <- function()
 				}
 			}
 		}
-		MSUMainDebugFlag = {
-			debug = true
-		}
-
-		MSUDebugFlags = {
-			movement = true,
-			skills = false,
-			keybinds = false,
-			persistence = true
-		}
 	}
 
-	::printLog <- function( _arg, _modID, _flagID = this.MSU.Debug.DefaultFlag)
+	this.MSU.Systems.Debug <- this.MSU.Class.DebugSystem();
+
+	::printLog <- function( _arg, _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Info, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Info, _flagID);
 	}
 
-	::printWarning <- function( _arg,  _modID, _flagID = this.MSU.Debug.DefaultFlag)
+	::printWarning <- function( _arg,  _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Warning, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Warning, _flagID);
 	}
 
-	::printError <- function( _arg,  _modID, _flagID = this.MSU.Debug.DefaultFlag)
+	::printError <- function( _arg,  _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Debug.print(_arg, _modID, this.MSU.Debug.LogType.Error, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Error, _flagID);
 	}
 
-	::isDebugEnabled <- function(_modID, _flagID = this.MSU.Debug.DefaultFlag){
-		return this.MSU.Debug.isEnabledForMod( _modID, _flagID)
+	::isDebugEnabled <- function(_modID, _flagID = this.MSU.Systems.Debug.DefaultFlag){
+		return this.MSU.Systems.Debug.isEnabledForMod( _modID, _flagID)
 	}
 
-	this.MSU.Debug.registerMod(this.MSU.MSUModName, true);
+	this.MSU.Systems.Debug.registerMod(this.MSU.MSUModName, true);
 
 	//need to set this first to print the others
-	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUMainDebugFlag);
+	this.MSU.Systems.Debug.setFlags(this.MSU.MSUModName, this.MSU.Systems.Debug.MSUMainDebugFlag);
 
-	this.MSU.Debug.setFlags(this.MSU.MSUModName, this.MSU.Debug.MSUDebugFlags);
+	this.MSU.Systems.Debug.setFlags(this.MSU.MSUModName, this.MSU.Systems.Debug.MSUDebugFlags);
 
-	this.MSU.Debug.registerMod(this.MSU.Debug.VanillaLogName, true);
+	this.MSU.Systems.Debug.registerMod(this.MSU.Systems.Debug.VanillaLogName, true);
 }

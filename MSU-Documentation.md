@@ -819,7 +819,7 @@ Every registered mod has a default flag. This allows for simple syntax, such as 
 - `registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)`
 
 Registers debugging for mod id `_modID`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagBool` sets the value of the `default` flag.
-`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
+`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.Systems.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
 `_flagTableBool` is an optional boolean for setFlags().
 Example usage:
 
@@ -831,7 +831,7 @@ Example usage:
 `
 
 `
-this.MSU.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
+this.MSU.Systems.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
 `
 
 - `setFlags(_modID, _flagTable, _flagTableBool = null)`
@@ -848,7 +848,7 @@ Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
 
 - `::isDebugEnabled( _modID, _flagID = "default")`
 
-Convenience function for this.MSU.Debug.isEnabledForMod.
+Convenience function for this.MSU.Systems.Debug.isEnabledForMod.
 
 - `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
 
@@ -856,7 +856,7 @@ Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints th
 
 `Other debugging tools`
 
-- `this.MSU.Debug.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+- `this.MSU.Systems.Debug.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
 

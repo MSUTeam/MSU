@@ -40,13 +40,14 @@ gt.MSU.setupSystems <- function()
 		{
 			return this.ID;
 		}
-	}
 
-	this.MSU.Class.RequiredModSystem <- class extends this.MSU.Class.System
-	{
-		function onModRegistered( _mod )
+		function registerMod( _modID )
 		{
-			return _mod.Options.find(this.getID()) != null;
+			if (!(_modID in this.MSU.Mods))
+			{
+				this.logError("Register your mod with this.MSU.registerMod first before registering it with MSU systems, and use the same ID");
+				throw this.Exception.KeyNotFound;
+			}
 		}
 	}
 }

@@ -958,7 +958,7 @@ gt.MSU.setupCustomKeybinds <- function() {
     gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
     gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
 
-	if (this.MSU.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
+	if (this.MSU.Systems.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
 		gt.MSU.CustomKeybinds.setForJS("testKeybind", "3+shift"); //set new key in JS
 		gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
 		gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
