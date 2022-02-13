@@ -193,7 +193,7 @@ gt.MSU.defineClasses <- function()
 		Locked = null; // Serialized
 		LockReason = null; // Serialized
 		Callbacks = null;
-		PrintChange = null; //if it should print change to log for further manipulation
+		ParseChange = null; //if it should print change to log for further manipulation
 		
 		constructor( _id, _value, _name = null )
 		{
@@ -201,18 +201,18 @@ gt.MSU.defineClasses <- function()
 			this.Value = _value; 
 			this.Locked = false;
 			this.LockReason = "";
-			this.PrintChange = true;
+			this.ParseChange = true;
 			this.Callbacks = [];
 		}
 
-		function setPrintChange(_bool)
+		function setParseChange(_bool)
 		{
-			this.PrintChange = _bool;
+			this.ParseChange = _bool;
 		}
 
-		function getPrintChange()
+		function getParseChange()
 		{
-			return this.PrintChange
+			return this.ParseChange
 		}
 
 		function onChangedCallback(_newValue)
@@ -542,7 +542,7 @@ gt.MSU.defineClasses <- function()
 			return this.Pages;
 		}
 
-		function add( _page )
+		function addPage( _page )
 		{
 			if (!(_page instanceof this.MSU.SettingsPage))
 			{
@@ -551,7 +551,7 @@ gt.MSU.defineClasses <- function()
 			this.Pages[_page.getID()] <- _page;
 		}
 
-		function get( _settingID )
+		function getSetting( _settingID )
 		{
 			foreach (page in this.Pages)
 			{
@@ -564,7 +564,7 @@ gt.MSU.defineClasses <- function()
 			throw this.Exception.KeyNotFound;
 		}
 
-		function has( _pageID )
+		function hasPage( _pageID )
 		{
 			return this.getPages().contains(_pageID)
 		}

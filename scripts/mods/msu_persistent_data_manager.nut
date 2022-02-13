@@ -16,7 +16,6 @@ this.msu_persistent_data_manager <- {
 		{
 			return
 		}
-
 		foreach(file in persistentDirectory)
 		{
 			local components = split(file, "/");
@@ -37,12 +36,16 @@ this.msu_persistent_data_manager <- {
 		return this.m.Mods
 	}
 
+	function hasMod(_modID)
+	{
+		return (_modID in this.getMods())
+	}
+
 	function getMod(_modID)
 	{
-		if(!(_modID in this.getMods()))
+		if(!this.hasMod(_modID))
 		{
-			this.logError("No such mod config file: " + _modID);
-			return false
+			throw ("Mod " + _modID + " not found in mods!");
 		}
 		return this.getMods()[_modID]
 	}
@@ -50,44 +53,47 @@ this.msu_persistent_data_manager <- {
 	function loadSettingForMod(_modID, _settingID)
 	{
 		::printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), this.MSU.MSUModName, "persistence");
-		local mod = this.getMod(_modID);
-		if(mod && _settingID in mod)
+		if(_settingID in this.getMod(_modID))
 		{
-			this.include(mod[_settingID]);
+			this.include(this.getMod(_modID)[_settingID]);
 			return true
 		}
 		return false
 
 	}
 
-	function loadSettingForEveryMod(_settingID){
+	function loadSettingForEveryMod(_settingID)
+	{
 		foreach(modID, modValue in this.getMods())
 		{
 			this.loadSettingForMod(modID, _settingID);
 		}
 	}
 
-	function loadAllSettingsForMod(_modID, _settingID){
-		local mod = this.getMod(_modID);
-		if(mod)
+	function loadAllSettingsForMod(_modID, _settingID)
+	{
+		if(!this.hasMod(_modID))
 		{
-			foreach(setting in mod)
-			{
-				this.loadSettingForMod(_modID, setting);
-			}
+			throw ("Mod " + _modID + " not found in mods!")
+		}
+
+		foreach(setting in this.getMod(_modID))
+		{
+			this.loadSettingForMod(_modID, setting);
 		}
 	}
 
-	function setMod(_modID, _reset = false){
-		if(_modID in this.getMods() && _reset == false)
+	function setMod(_modID, _reset = false)
+	{
+		if(this.hasMod(_modID) && _reset == false)
 		{
 			return
 		}
 		this.getMods()[_modID] <- {};
 	}
 
-	function writeToLog(_settingID, _modID, _content)
+	function writeToLog(_settingID, _modID, _value)
 	{
-		this.logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _content.tostring()))
+		this.logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()))
 	}
 }

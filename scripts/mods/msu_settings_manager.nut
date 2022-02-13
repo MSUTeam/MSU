@@ -65,12 +65,13 @@ this.msu_settings_manager <- {
 		{
 			foreach (settingID, value in panel)
 			{
-				local setting = this.m.Panels[modID].get(settingID)
+				local setting = this.m.Panels[modID].getSetting(settingID)
 				if (setting.getValue() != value)
 				{
 					setting.onChangedCallback(value);
 					//sometimes printing the change is undesired, like when data is read during init or on some data types
-					if(_informChange && setting.PrintChange == true){
+					if(_informChange && setting.ParseChange == true)
+					{
 						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
 					}
 				}
@@ -79,7 +80,8 @@ this.msu_settings_manager <- {
 		}
 	}
 
-	function importPersistentSettings(){
+	function importPersistentSettings()
+	{
 		this.MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
 	}
 
@@ -107,7 +109,7 @@ this.msu_settings_manager <- {
 	function flagDeserialize()
 	{
 		this.doPanelsFunction("flagDeserialize");	
-		this.importPersistentSettings()
+		this.importPersistentSettings() //needs to be moved to some hook
 	}
 
 	function getUIData( _flags = null )

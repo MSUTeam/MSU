@@ -208,16 +208,18 @@ gt.MSU.setupCustomKeybinds <- function() {
         {
             //reorder modifiers so that they are always in the same order
             local keyArray = split(_key, "+")
-            local parsedKey = keyArray[0];
+            local key = keyArray.pop()
+            local parsedKey = ""
             local findAndAdd = function(_arr, _key){
                 if (_arr.find(_key) != null){
-                    parsedKey += "+" + _key
+                    parsedKey += _key + "+" 
                     return
                 }
             }
             findAndAdd(keyArray, "shift")
             findAndAdd(keyArray, "ctrl")
             findAndAdd(keyArray, "alt")
+            parsedKey += key
             return parsedKey
         }
 
@@ -289,12 +291,12 @@ gt.MSU.setupCustomKeybinds <- function() {
                     panel = this.MSU.SettingsPanel(modName);
                     this.MSU.SettingsManager.add(panel);
                 }
-                if (panel.has("Keybinds")){
+                if (panel.hasPage("Keybinds")){
                     page = panel.getPage("Keybinds");
                 }
                 else {
                     page = this.MSU.SettingsPage("Keybinds");
-                    panel.add(page);
+                    panel.addPage(page);
                 }
                 foreach(bind in bindsArray)
                 {
@@ -308,7 +310,7 @@ gt.MSU.setupCustomKeybinds <- function() {
                         this.MSU.CustomKeybinds.set(id, _data, true);
                         this.MSU.PersistentDataManager.writeToLog("Keybind", modName, format("%s;%s", id, _data));
                     })
-                    setting.setPrintChange(false);
+                    setting.setParseChange(false);
                     page.add(setting);
                 }   
             }

@@ -34,7 +34,7 @@ local testSettingsSystem = function()
 			testPage.add(test4);
 			testPage.add(test5);
 
-			modPanel.add(testPage);
+			modPanel.addPage(testPage);
 		}
 		this.MSU.SettingsManager.add(modPanel);
 	}
@@ -84,7 +84,7 @@ gt.MSU.setupSettingsSystem <- function()
 		this.MSU.Debug.FullDebug = _data;
 	})
 	this.MSU.SettingsManager.add(panel);
-	panel.add(logPage);
+	panel.addPage(logPage);
 	logPage.add(logToggle);
 
 	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
