@@ -164,6 +164,11 @@ gt.MSU.modWeapon <- function ()
 			return _only ? this.m.WeaponType == _t : (this.m.WeaponType & _t) != 0;
 		}
 
+		o.isAllWeaponTypes <- function( _t )
+		{
+			return _t & this.m.WeaponType == _t;
+		}
+
 		o.addWeaponType <- function( _weaponType, _setupCategories = true )
 		{
 			if (!this.isWeaponType(_weaponType))
@@ -190,7 +195,7 @@ gt.MSU.modWeapon <- function ()
 
 		o.removeWeaponType <- function( _weaponType, _setupCategories = true )
 		{
-			if (this.isWeaponType(_weaponType))
+			if (this.isAllWeaponTypes(_weaponType))
 			{
 				this.m.WeaponType -= _weaponType;				
 			}
