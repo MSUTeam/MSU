@@ -79,7 +79,16 @@ gt.MSU.setupSettingsSystem <- function()
 			this.Panels.sort(this.sortPanelsByName);
 		}
 
-		function updateSettings( _data )
+		function updateSetting( _modID, _settingID, _value )
+		{
+			local tab = {}
+			tab[_modID] <- {}
+			tab[_modID][_settingID] <- _value
+			this.updateSettings(tab, false)
+		}
+
+
+		function updateSettings( _data, _informChange = true  )
 		{
 			/*
 			_data = {
@@ -97,7 +106,12 @@ gt.MSU.setupSettingsSystem <- function()
 					if (setting.getValue() != value)
 					{
 						setting.onChangedCallback(value);
+						if(_informChange && setting.ParseChange == true)
+						{
+							this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
+						}
 					}
+
 					setting.set(value);
 				}
 			}
@@ -212,7 +226,7 @@ gt.MSU.setupSettingsSystem <- function()
 	})
 	logPage.add(verboseModeToggle);
 
-	this.MSU.SettingsManager.importPersistentSettings()
+	this.MSU.Systems.ModSettings.importPersistentSettings()
 
 
 	//this neeeds to be moved into a hook

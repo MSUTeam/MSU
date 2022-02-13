@@ -284,12 +284,12 @@ gt.MSU.setupCustomKeybinds <- function() {
                 this.logInfo("modName " + modName)
                 local panel;
                 local page;
-                if (this.MSU.SettingsManager.has(modName)){
-                    panel = this.MSU.SettingsManager.get(modName);
+                if (this.MSU.Systems.ModSettings.has(modName)){
+                    panel = this.MSU.Systems.ModSettings.get(modName);
                 }
                 else {
                     panel = this.MSU.SettingsPanel(modName);
-                    this.MSU.SettingsManager.add(panel);
+                    this.MSU.Systems.ModSettings.add(panel);
                 }
                 if (panel.hasPage("Keybinds")){
                     page = panel.getPage("Keybinds");
