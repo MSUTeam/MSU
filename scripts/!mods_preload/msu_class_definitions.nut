@@ -2,7 +2,7 @@ local gt = this.getroottable();
 gt.MSU.defineClasses <- function()
 {
 	this.MSU.Class <- {};
-	gt.MSU.OrderedMap <- class
+	this.MSU.Class.OrderedMap <- class
 	{
 		Array = null;
 		Table = null;
@@ -92,7 +92,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.SettingsElement <- class
+	gt.MSU.Class.SettingsElement <- class
 	{
 		Name = null;
 		ID = null;
@@ -186,7 +186,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.AbstractSetting <- class extends this.MSU.SettingsElement
+	gt.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 	{
 		Value = null; // Serialized
 		static Type = "Abstract";
@@ -347,7 +347,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.BooleanSetting <- class extends gt.MSU.AbstractSetting
+	gt.MSU.Class.BooleanSetting <- class extends gt.MSU.Class.AbstractSetting
 	{
 		static Type = "Boolean";
 
@@ -372,7 +372,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.RangeSetting <- class extends gt.MSU.AbstractSetting
+	gt.MSU.Class.RangeSetting <- class extends gt.MSU.Class.AbstractSetting
 	{
 		Min = null;
 		Max = null;
@@ -427,7 +427,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.EnumSetting <- class extends gt.MSU.AbstractSetting
+	gt.MSU.Class.EnumSetting <- class extends gt.MSU.Class.AbstractSetting
 	{
 		Array = null;
 		static Type = "Enum";
@@ -477,7 +477,7 @@ gt.MSU.defineClasses <- function()
 		//Note the Array ISN'T serialized
 	}
 
-	gt.MSU.SettingsDivider <- class extends gt.MSU.SettingsElement
+	gt.MSU.Class.SettingsDivider <- class extends gt.MSU.Class.SettingsElement
 	{
 		static Type = "Divider";
 		constructor(_id, _name = "")
@@ -496,7 +496,7 @@ gt.MSU.defineClasses <- function()
 		{
 			this.ID = _id;
 			this.Name = _name == null ? _id : _name;
-			this.Pages = this.MSU.OrderedMap();
+			this.Pages = this.MSU.Class.OrderedMap();
 		}
 
 		function getPages()
@@ -506,7 +506,7 @@ gt.MSU.defineClasses <- function()
 
 		function add( _page )
 		{
-			if (!(_page instanceof this.MSU.SettingsPage))
+			if (!(_page instanceof this.MSU.Class.SettingsPage))
 			{
 				throw this.Exception.InvalidTypeException;
 			}
@@ -555,7 +555,7 @@ gt.MSU.defineClasses <- function()
 			{
 				foreach (setting in page.getSettings())
 				{
-					if (setting instanceof this.MSU.AbstractSetting)
+					if (setting instanceof this.MSU.Class.AbstractSetting)
 					{
 						vargv[0] = setting;
 						setting[_function].acall(vargv);
@@ -599,7 +599,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.SettingsPage <- class
+	this.MSU.Class.SettingsPage <- class
 	{
 		Name = null;
 		ID = null;
@@ -609,12 +609,12 @@ gt.MSU.defineClasses <- function()
 		{
 			this.ID = _id;	
 			this.Name = _name == null ? _id : _name;
-			this.Settings = this.MSU.OrderedMap();
+			this.Settings = this.MSU.Class.OrderedMap();
 		}
 
 		function add( _element )
 		{
-			if (!(_element instanceof this.MSU.SettingsElement))
+			if (!(_element instanceof this.MSU.Class.SettingsElement))
 			{
 				this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
 				throw this.Exception.InvalidTypeException;

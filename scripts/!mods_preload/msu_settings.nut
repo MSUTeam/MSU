@@ -8,21 +8,21 @@ local testSettingsSystem = function()
 		local numPages = rand() % 5 + 1;
 		for (local j = 0; j < numPages; ++j)
 		{
-			local testPage = this.MSU.SettingsPage("Page" + j, "Page Name " + j);
+			local testPage = this.MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
 
-			local test = this.MSU.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
+			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
+			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
 				this.logInfo("worked?")
 			});
 			test1.lock()
-			local test2 = this.MSU.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
+			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
-			local test3 = this.MSU.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
+			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
 			test3.lock()
-			local test4 = this.MSU.EnumSetting("TestEnum" + j + 1, ["hi", "hello", "goodbye"]);
-			local divider = this.MSU.SettingsDivider("divider")
+			local test4 = this.MSU.Class.EnumSetting("TestEnum" + j + 1, ["hi", "hello", "goodbye"]);
+			local divider = this.MSU.Class.SettingsDivider("divider")
 
-			local test5 = this.MSU.EnumSetting("TestEnum" + j + 2, ["hi", "hello", "goodbye"]);
+			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, ["hi", "hello", "goodbye"]);
 
 			testPage.add(test);
 			testPage.add(test1);
@@ -49,7 +49,7 @@ gt.MSU.setupSettingsSystem <- function()
 		{
 			base.constructor(this.MSU.SystemIDs.ModSettings, [this.MSU.SystemIDs.ModRegistry]);
 			Locked = false;
-			this.Panels = this.MSU.OrderedMap();
+			this.Panels = this.MSU.Class.OrderedMap();
 		}
 
 		function add( _modPanel )
@@ -195,8 +195,8 @@ gt.MSU.setupSettingsSystem <- function()
 	}
 
 	local panel = this.MSU.SettingsPanel("MSU");
-	local logPage = this.MSU.SettingsPage("Logging");
-	local logToggle = this.MSU.BooleanSetting("logall", false, "Enable all mod logging");
+	local logPage = this.MSU.Class.SettingsPage("Logging");
+	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
 		this.logInfo("I am a callback of " + this.tostring() + " \nChanged to: " + _data)
 	})
