@@ -16,14 +16,13 @@ gt.MSU.setupSerializationSystem <- function ()
 			base.registerMod(_modID);
 			this.Mods.push(this.MSU.Mods[_modID]);
 		}
-
 	}
 
-	this.MSU.Systems.Serialization <- this.MSU.Class.SerialiationSystem();
+	this.MSU.Systems.Serialization <- this.MSU.Class.SerializationSystem();
 
 	::isSavedVersionAtLeast <- function( _modID, _version )
 	{
-		return this.MSU.Mods[_modID].compareToVersionString(_version) > -1;
+		return _version == "" || this.MSU.Mods[_modID].compareVersion(_version) > -1;
 	}
 
 	::mods_hookExactClass("states/world_state", function(o) {
@@ -35,7 +34,7 @@ gt.MSU.setupSerializationSystem <- function ()
 			foreach (mod in this.MSU.Systems.Serialization.Mods)
 			{
 				meta.setString(mod.getID() + "Version", mod.getVersionString());
-				this.logInfo(mod.getName() + " Save Version " + mod.getVersionString());
+				::printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.MSUModName);
 			}
 		}
 
@@ -45,7 +44,24 @@ gt.MSU.setupSerializationSystem <- function ()
 			onBeforeDeserialize(_in);
 			foreach (mod in this.MSU.Systems.Serialization.Mods)
 			{
-				this.logInfo("Loading " + mod.getName() + " Version " + _in.getMetaData().getString(mod.getID() + "Version"));
+				local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
+				if (oldVersion == "") return;
+
+				switch (mod.compareVersion(oldVersion))
+				{
+					case -1:
+						this.logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+						break;
+					case 0:
+						::printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.MSUModName);
+						break;
+					case 1:
+						this.logWarning(format("MSU Serialiation: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
+						break;
+					default:
+						this.logError("Something has gone very wrong with MSU Serialization");
+						this.MSU.Systems.Debug.printStackTrace();
+				}
 			}
 		}
 	});
