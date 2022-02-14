@@ -7,7 +7,7 @@ gt.MSU.setupSystems <- function()
 		Serialization = 0,
 		ModSettings = 1,
 		ModRegistry = 2,
-		Debug = 3
+		Log = 3
 	}
 
 	this.MSU.Class.System <- class
