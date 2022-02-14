@@ -40,26 +40,15 @@ gt.MSU.modSkill <- function ()
 		local setContainer = o.setContainer;
 		o.setContainer = function( _c )
 		{
-			if (_c == null)
+			if (!this.MSU.Skills.IsAllEventsMode)
 			{
-				if (!this.MSU.Skills.IsAllEventsMode)
+				if (_c == null)
 				{
-					this.getContainer().removeSkillEvents(this);	
+					this.getContainer().removeSkillEvents(this);
 				}
-			}
-			else
-			{
-				foreach (event in this.MSU.Skills.EventsToAdd)
+				else
 				{
-					this.skill[event.Name] <- function(...) { 
-						vargv.insert(0, this);
-						event.Function.acall(vargv); 
-					}
-				}
-
-				if (!this.MSU.Skills.IsAllEventsMode)
-				{
-					_c.addSkillEvents(this);					
+					_c.addSkillEvents(this);
 				}
 			}
 
