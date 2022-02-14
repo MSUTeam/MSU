@@ -2,43 +2,28 @@ local gt = this.getroottable();
 
 gt.MSU.setupSerializationSystem <- function ()
 {
-	gt.MSU.Serialization <- {
+	this.MSU.Class.SerialiationSystem <- class extends this.MSU.Class.System
+	{
 		Mods = [],
 
-		function registerMod( _mod, _ver )
+		constructor()
 		{
-			this.MSU.requireString(_mod, _ver);
-			this.MSU.Serialization.Mods.push({ Name = _mod,	Version = _ver });
+			base.constructor(this.MSU.SystemIDs.Serialization, [this.MSU.SystemIDs.ModRegistry]);
 		}
 
-		function compareSavedVersionTo( _ver, _mod, _metaData )
+		function registerMod( _modID )
 		{
-			local savedVer = _metaData.getString(_mod + "Version");
-
-		    if (savedVer == "") return -1;
-
-		    _ver = split(_ver, ".").map(@(a) a.tointeger());
-		    savedVer = split(savedVer, ".").map(@(a) a.tointeger());
-
-		    foreach (i, num in _ver)
-		    {
-		        if (num > savedVer[i])
-		        {
-		            return -1;
-		        }
-		        else if (num < savedVer[i])
-		        {
-		            return 1;
-		        }
-		    }
-		    
-		    return 0;
+			base.registerMod(_modID);
+			this.Mods.push(this.MSU.Mods[_modID]);
 		}
-	}	
 
-	::isSavedVersionAtLeast <- function( _ver, _mod, _metaData )
+	}
+
+	this.MSU.Systems.Serialization <- this.MSU.Class.SerialiationSystem();
+
+	::isSavedVersionAtLeast <- function( _modID, _version )
 	{
-		return this.MSU.Serialization.compareSavedVersionTo(_ver, _mod, _metaData) > -1;
+		return this.MSU.Mods[_modID].compareToVersionString(_version) > -1;
 	}
 
 	::mods_hookExactClass("states/world_state", function(o) {
@@ -47,10 +32,10 @@ gt.MSU.setupSerializationSystem <- function ()
 		{
 			onBeforeSerialize(_out);
 			local meta = _out.getMetaData();
-			foreach (mod in this.MSU.Serialization.Mods)
+			foreach (mod in this.MSU.Systems.Serialization.Mods)
 			{
-				meta.setString(mod.Name + "Version", mod.Version);
-				this.logInfo(mod.Name + " Save Version " + mod.Version);
+				meta.setString(mod.getID() + "Version", mod.getVersionString());
+				this.logInfo(mod.getName() + " Save Version " + mod.getVersionString());
 			}
 		}
 
@@ -58,9 +43,9 @@ gt.MSU.setupSerializationSystem <- function ()
 		o.onBeforeDeserialize = function( _in )
 		{
 			onBeforeDeserialize(_in);
-			foreach (mod in this.MSU.Serialization.Mods)
+			foreach (mod in this.MSU.Systems.Serialization.Mods)
 			{
-				this.logInfo("Loading " + mod.Name + " Version " + _in.getMetaData().getString(mod.Name + "Version"));
+				this.logInfo("Loading " + mod.getName() + " Version " + _in.getMetaData().getString(mod.getID() + "Version"));
 			}
 		}
 	});
