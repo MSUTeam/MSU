@@ -92,6 +92,89 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
+	this.MSU.Class.WeightedContainer <- class
+	{
+		Total = null;
+		Array = null;
+
+		constructor()
+		{
+			this.Total = 0;
+			this.Array = [];
+		}
+
+		function extend( _array )
+		{
+			foreach (i in _array)
+			{
+				this.push(i);
+			}
+		}
+
+		function push( _item )
+		{
+			switch (typeof _item)
+			{
+				case "string":
+					_item = [1, _item];
+				case: "array":
+					this.Total += _item[0];
+					this.Array.push(_item);
+					break;
+				default:
+					throw this.Exception.InvalidType;
+			}
+		}
+
+		function roll()
+		{
+			local i = this.Math.rand(1, this.m.Total);
+			local weight = 0;
+			foreach (pair in this.m.Array)
+			{
+				weight += pair[0];
+				if (weight >= i) return pair[1];
+			}
+
+			return null;
+		}
+
+		function rollChance(_chance)
+		{
+			return _chance < this.Math.rand(1, 100) ? this.roll() : null;
+		}
+
+		function get(_idx)
+		{
+			return this.Array[_idx];
+		}
+
+		function len()
+		{
+			return this.Array.len();
+		}
+
+		function onSerialize( _out )
+		{
+			_out.writeU32(this.Total);
+			_out.writeU32(this.len());
+			foreach (pair in this.Array)
+			{
+				_out.writeU16(pair[0]);
+				_out.writeString(pair[1]);
+			}
+		}
+
+		function onDeserialize( _in )
+		{
+			this.Total = _in.readU32();
+			for (local i = 0; i < _in.readU32(); ++i)
+			{
+				this.Array.push([_in.readU16(), _in.readString()]);
+			}
+		}
+	}
+
 	gt.MSU.Class.SettingsElement <- class
 	{
 		Name = null;
