@@ -209,15 +209,6 @@
 	position: absolute;
 }
 
-.msu-settings-screen .dialog .content .l-list-container .scroll-container .l-button
-{
-	width: 23rem;
-	position: relative;
-	left: -0.1rem;
-	height: 4.0rem;
-	line-height: 3.0rem;
-}
-
 .msu-settings-screen .dialog .footer .l-button-bar
 {
 	top: 0.0rem;

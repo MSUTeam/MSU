@@ -13,6 +13,7 @@ var ModSettingsScreen = function ()
 	this.mModPageScrollContainer = null;
 	this.mActiveSettings = [];
 	this.mPageTabContainer = null;
+	this.mActivePanelButton = null;
 	/*
 
 	this.mModPanels = 
@@ -334,6 +335,8 @@ ModSettingsScreen.prototype.hide = function()
 {
 	this.mDialogContainer.findDialogSubTitle().html("Select a Mod From the List");
 
+	this.mActiveButton = null;
+
 	this.mPageTabContainer.empty();
 	this.mModPageScrollContainer.empty();
 	this.mListScrollContainer.empty();
@@ -361,11 +364,22 @@ ModSettingsScreen.prototype.createModPanelList = function ()
 ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
 {
 	var self = this;
-	this.mListScrollContainer.createTextButton(_mod.name, function ()
+	var button = this.mListScrollContainer.createCustomButton(null, function (_button)
 	{
+		if (self.mActivePanelButton !== null)
+		{
+			self.mActivePanelButton.removeClass('is-active');
+		}
+		self.mActivePanelButton = _button;
+		_button.addClass('is-active')
+
 		self.switchToModPanel(_mod);
 		self.switchToPage(_mod, _mod.pages[0])
-	}, 'l-button', 4);
+	}, 'msu-button');
+
+	button.text(_mod.name);
+	button.removeClass('button');
+
 }
 
 ModSettingsScreen.prototype.switchToModPanel = function (_mod)
@@ -373,6 +387,8 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 	this.mPageTabContainer.empty();
 	var self = this;
 	this.mContainer.findDialogSubTitle().html(_mod.name);
+
+	var first = true;
 	_mod.pages.forEach(function(page)
 	{
 		var layout = $('<div class="l-tab-button"/>');
@@ -381,6 +397,12 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 		{
 		    self.switchToPage(_mod, page);
 		}, null, 'tab-button', 7);
+
+		if (first)
+		{
+			button.addClass('is-selected');
+			first = false;
+		}
 	});
 }
 
