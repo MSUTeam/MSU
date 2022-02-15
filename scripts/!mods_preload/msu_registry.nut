@@ -156,10 +156,21 @@ gt.MSU.setupModRegistry <- function()
 			return ret;
 		}
 
-		function compareToVersionString( _version )
+		function compareVersion( _version )
 		{
-			local dummy = this.MSU.Class.Mod("dummy", _version);
-			return dummy <=> this;
+			switch (typeof _version)
+			{
+				case "string":
+					local dummy = this.MSU.Class.Mod("dummy", _version);
+					return dummy <=> this;
+				case "instance":
+					if (_version instanceof this.MSU.Class.Mod)
+					{
+						return _version <=> this;
+					}
+				default:
+					throw this.Exception.InvalidType;
+			}
 		}
 
 		function _cmp( _mod )
