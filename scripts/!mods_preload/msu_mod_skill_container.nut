@@ -225,7 +225,7 @@ gt.MSU.modSkillContainer <- function ()
 						break;
 					}
 
-					if (!skill.isGarbage())
+					if (!skill.isGarbage() && !skill.m.IsNew)
 					{
 						// this.logInfo("Calling event " + _function + " for skill " + skill.getID());
 						_argsArray[0] = skill;
@@ -266,9 +266,12 @@ gt.MSU.modSkillContainer <- function ()
 				{
 					if (shouldReset) skill.resetField("HitChanceBonus");
 
-					// this.logInfo("Building Properties via function " + _function + " for skill " + skill.getID());
-					_argsArray[0] = skill;
-					skill[_function].acall(_argsArray);
+					if (!skill.m.IsNew)
+					{
+						// this.logInfo("Building Properties via function " + _function + " for skill " + skill.getID());
+						_argsArray[0] = skill;
+						skill[_function].acall(_argsArray);
+					}
 				}
 				this.m.IsUpdating = wasUpdating;
 			}
