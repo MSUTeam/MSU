@@ -79,6 +79,7 @@ gt.MSU.modSkillContainer <- function ()
 		o.m.BeforeSkillExecutedTile <- null;
 		o.m.IsExecutingMoveSkill <- false;
 		o.m.EventsDirectory <- clone this.MSU.Skills.EventsDirectory;
+		o.m.EventsToSort <- [];
 
 		local setActor = o.setActor;
 		o.setActor = function( _a )
@@ -106,6 +107,38 @@ gt.MSU.modSkillContainer <- function ()
 			setActor(_a);
 		}
 
+		local add = o.add;
+		o.add = function( _skill, _order = 0 )
+		{
+			local lenBefore = this.m.Skills.len();
+			add(_skill, _order);
+			if (this.m.Skills.len() > lenBefore)
+			{
+				foreach (eventName in this.m.EventsToSort)
+				{
+					this.m.EventsDirectory[eventName].sort(this.compareSkillsByOrder);
+				}
+				this.m.EventsToSort.clear();
+			}
+		}
+
+		local collectGarbage = o.collectGarbage;
+		o.collectGarbage = function( _performUpdate = true )
+		{
+			if (this.m.IsUpdating) return;
+
+			local hasSomethingToAdd = this.m.SkillsToAdd.len() > 0;
+			collectGarbage(_performUpdate);
+			if (hasSomethingToAdd)
+			{
+				foreach (eventName in this.m.EventsToSort)
+				{
+					this.m.EventsDirectory[eventName].sort(this.compareSkillsByOrder);
+				}
+				this.m.EventsToSort.clear();
+			}
+		}
+
 		o.addSkillEvents <- function( _skill )
 		{
 			local skill = typeof _skill == "instance" ? _skill.get() : _skill;
@@ -126,6 +159,7 @@ gt.MSU.modSkillContainer <- function ()
 			{
 				if (getMember(skill, eventName) != null)
 				{
+					this.m.EventsToSort.push(eventName);
 					// this.logInfo("Adding event " + eventName + " for " + skill.getID());
 					if (skills == null) this.m.EventsDirectory[eventName] = [skill];
 					else skills.push(skill);
@@ -138,7 +172,7 @@ gt.MSU.modSkillContainer <- function ()
 			local skill = typeof _skill == "instance" ? _skill.get() : _skill;	
 
 			// this.logInfo("Removing events for " + skill.getID());
-			foreach (eventName, skills in  this.m.EventsDirectory)
+			foreach (eventName, skills in this.m.EventsDirectory)
 			{
 				local idx = skills.find(skill);
 				if (idx != null) 
