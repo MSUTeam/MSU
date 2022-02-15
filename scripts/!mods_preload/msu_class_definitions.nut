@@ -113,27 +113,20 @@ gt.MSU.defineClasses <- function()
 
 		function push( _item )
 		{
-			switch (typeof _item)
-			{
-				case "string":
-					_item = [1, _item];
-				case: "array":
-					this.Total += _item[0];
-					this.Array.push(_item);
-					break;
-				default:
-					throw this.Exception.InvalidType;
-			}
+			if (typeof _item != "array") _item = [1, _item];
+
+			this.Total += _item[0];
+			this.Array.push(_item);
 		}
 
 		function roll()
 		{
-			local i = this.Math.rand(1, this.m.Total);
+			local roll = this.Math.rand(1, this.Total);
 			local weight = 0;
-			foreach (pair in this.m.Array)
+			foreach (pair in this.Array)
 			{
-				weight += pair[0];
-				if (weight >= i) return pair[1];
+				if (roll <= pair[0]) return pair;
+				roll -= pair[0];
 			}
 
 			return null;
@@ -144,7 +137,12 @@ gt.MSU.defineClasses <- function()
 			return _chance < this.Math.rand(1, 100) ? this.roll() : null;
 		}
 
-		function get(_idx)
+		function _nexti( _idx )
+		{
+			return _idx == null ? 0 : _idx + 1;
+		}
+
+		function _get(_idx)
 		{
 			return this.Array[_idx];
 		}
