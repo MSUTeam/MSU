@@ -22,10 +22,19 @@ gt.MSU.modSkillContainer <- function ()
 	// onRoundEnd
 	// onNewRound
 
+	// Vanilla buildProperties
+	// buildPropertiesForUse -> onAnySkillUsed
+	// buildPropertiesForDefense -> onBeingAttacked
+	// buildPropertiesForBeingHit -> onBeforeDamageReceived
+
 	gt.MSU.Skills <- {
 		IsAllEventsMode = false,
 		IsAllEventsModeCheckDone = false,
-		EventsDirectory = {},
+		EventsDirectory = {
+			onAnySkillUsed = null,
+			onBeingAttacked = null,
+			onBeforeDamageReceived = null			
+		},
 		EventsToAdd = [],
 		AlwaysRunEvents = [			
 			"onCombatFinished"
@@ -85,7 +94,7 @@ gt.MSU.modSkillContainer <- function ()
 					}
 				}		
 
-				if (numEvents > this.m.EventsDirectory.len())
+				if (numEvents > this.m.EventsDirectory.len() - 3) // Subtract 3 to remove the buildProperties functions
 				{
 					this.MSU.Skills.IsAllEventsMode = true;
 					this.logWarning("MSU: Setting IsAllEventsMode to true");
@@ -206,26 +215,31 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.buildProperties <- function( _function, _argsArray )
 		{
-			_argsArray.insert(0, null)
-			_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
-
-			local wasUpdating = this.m.IsUpdating;
-			this.m.IsUpdating = true;
-
-			local shouldReset = _function == "onAnySkillUsed";
-
-			foreach (skill in this.m.Skills)
+			local properties = this.m.Actor.getCurrentProperties().getClone();			
+			local skills = this.MSU.Skills.IsAllEventsMode ? this.m.Skills : this.m.EventsDirectory[_function];
+			if (skills != null)
 			{
-				if (shouldReset)
-				{
-					skill.resetField("HitChanceBonus");
-				}
+				_argsArray.insert(0, null)
+				_argsArray.push(properties);
 
-				_argsArray[0] = skill;
-				skill[_function].acall(_argsArray);
+				local wasUpdating = this.m.IsUpdating;
+				this.m.IsUpdating = true;
+
+				local shouldReset = _function == "onAnySkillUsed";
+				if (shouldReset) _argsArray[1].resetField("HitChanceBonus"); // Not very happy about the hard index -- Midas
+
+				foreach (skill in skills)
+				{
+					if (shouldReset) skill.resetField("HitChanceBonus");
+
+					// this.logInfo("Building Properties via function " + _function + " for skill " + skill.getID());
+					_argsArray[0] = skill;
+					skill[_function].acall(_argsArray);
+				}
+				this.m.IsUpdating = wasUpdating;
 			}
-			this.m.IsUpdating = wasUpdating;
-			return _argsArray[_argsArray.len() - 1];
+
+			return properties;
 		}
 
 		o.onMovementStarted <- function( _tile, _numTiles )
@@ -535,8 +549,9 @@ gt.MSU.modSkillContainer <- function ()
 	local container = this.new("scripts/skills/skill_container");
 	foreach (k, v in container)
 	{
-		if (k.len() > 1 && k != "onSerialize" && k != "onDeserialize" && k.slice(0, 2) == "on")
+		if (k.len() > 1 && k.slice(0, 2) == "on" && k != "onSerialize" && k != "onDeserialize")
 		{
+			// this.logInfo("Adding event " + k + " to this.MSU.Skills.EventsDirectory");			
 			this.MSU.Skills.EventsDirectory[k] <- null;
 		}
 	}
