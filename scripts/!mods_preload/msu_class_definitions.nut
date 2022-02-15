@@ -139,7 +139,9 @@ gt.MSU.defineClasses <- function()
 
 		function _nexti( _idx )
 		{
-			return _idx == null ? 0 : _idx + 1;
+			if (_idx == null) _idx = -1;
+
+			return ++_idx == this.len() ? _idx : null;
 		}
 
 		function _get(_idx)
