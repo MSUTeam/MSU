@@ -70,7 +70,7 @@ gt.MSU.defineThrowables <- function ()
 	{
 		foreach (value in vargv)
 		{
-			if (_typeArray.find(typeof value) != null)
+			if (_typeArray.find(typeof value) == null)
 			{
 				throw this.Exception.InvalidType;
 			}
