@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.setupSerializationSystem <- function ()
 {
-	this.MSU.Class.SerialiationSystem <- class extends this.MSU.Class.System
+	this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 	{
 		Mods = [],
 
@@ -56,7 +56,7 @@ gt.MSU.setupSerializationSystem <- function ()
 						::printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.MSUModName);
 						break;
 					case 1:
-						this.logWarning(format("MSU Serialiation: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
+						this.logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
 						break;
 					default:
 						this.logError("Something has gone very wrong with MSU Serialization");
