@@ -128,6 +128,11 @@ gt.MSU.setupSettingsSystem <- function()
 			}
 		}
 
+		function importPersistentSettings()
+		{
+			this.MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
+		}
+
 		function flagSerialize()
 		{
 			this.doPanelsFunction("flagSerialize");
@@ -219,6 +224,10 @@ gt.MSU.setupSettingsSystem <- function()
 	this.MSU.Systems.ModSettings.add(panel);
 	panel.addPage(logPage);
 	logPage.add(logToggle);
+
+	// this.MSU.Systems.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
+	// 	this.MSU.Debug.FullDebug = _data;
+	// }))
 
 	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
 	verboseModeToggle.addCallback(function(_data){

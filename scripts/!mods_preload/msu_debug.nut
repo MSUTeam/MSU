@@ -211,7 +211,7 @@ gt.MSU.setupDebuggingUtils <- function()
 		}
 
 		MSUDebugFlags = {
-			movement = true,
+			movement = false,
 			skills = false,
 			keybinds = false,
 			persistence = true

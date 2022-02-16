@@ -288,24 +288,23 @@ gt.MSU.setupCustomKeybinds <- function() {
                     panel = this.MSU.Systems.ModSettings.get(modName);
                 }
                 else {
-                    panel = this.MSU.SettingsPanel(modName);
+                    panel = this.MSU.Class.SettingsPanel(modName);
                     this.MSU.Systems.ModSettings.add(panel);
                 }
                 if (panel.hasPage("Keybinds")){
                     page = panel.getPage("Keybinds");
                 }
                 else {
-                    page = this.MSU.SettingsPage("Keybinds");
+                    page = this.MSU.Class.SettingsPage("Keybinds");
                     panel.addPage(page);
                 }
                 foreach(bind in bindsArray)
                 {
                     
                     local id = bind.id;
-                    this.logInfo("id" + id)
                     local key = this.MSU.CustomKeybinds.get(id, bind.key);
                     local name = bind.name;
-                    local setting = this.MSU.StringSetting(id, key, name);
+                    local setting = this.MSU.Class.StringSetting(id, key, name);
                     setting.addCallback(function(_data){
                         this.MSU.CustomKeybinds.set(id, _data, true);
                         this.MSU.PersistentDataManager.writeToLog("Keybind", modName, format("%s;%s", id, _data));
