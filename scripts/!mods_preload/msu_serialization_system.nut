@@ -4,7 +4,7 @@ gt.MSU.setupSerializationSystem <- function ()
 {
 	this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 	{
-		Mods = [],
+		Mods = [];
 
 		constructor()
 		{

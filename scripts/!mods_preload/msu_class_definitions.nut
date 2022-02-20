@@ -411,7 +411,7 @@ gt.MSU.defineClasses <- function()
 		}
 	}
 
-	gt.MSU.RangeSetting <- class extends gt.MSU.AbstractSetting
+	gt.MSU.Class.RangeSetting <- class extends gt.MSU.Class.AbstractSetting
 	{
 		Min = null;
 		Max = null;
