@@ -11,10 +11,10 @@ local testSettingsSystem = function()
 			local testPage = this.MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
 
 			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
-				this.logInfo("worked?")
-			});
-			test1.lock()
+			// local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
+			// 	this.logInfo("worked?")
+			// });
+			// test1.lock()
 			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
 			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
@@ -25,7 +25,7 @@ local testSettingsSystem = function()
 			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, ["hi", "hello", "goodbye"]);
 
 			testPage.add(test);
-			testPage.add(test1);
+			#testPage.add(test1);
 			testPage.add(test2);
 			testPage.add(test3);
 			testPage.add(divider);
@@ -73,6 +73,11 @@ gt.MSU.setupSettingsSystem <- function()
 			return this.Panels[_id];
 		}
 
+		function has( _id )
+		{
+			return _id in this.Panels
+		}
+
 		function finalize()
 		{
 			this.Locked = true;
@@ -102,7 +107,7 @@ gt.MSU.setupSettingsSystem <- function()
 			{
 				foreach (settingID, value in panel)
 				{
-					local setting = this.Panels[modID].get(settingID)
+					local setting = this.Panels[modID].getSetting(settingID)
 					if (setting.getValue() != value)
 					{
 						setting.onChangedCallback(value);
@@ -229,7 +234,7 @@ gt.MSU.setupSettingsSystem <- function()
 	// 	this.MSU.Debug.FullDebug = _data;
 	// }))
 
-	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
+	local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable VerboseMode");
 	verboseModeToggle.addCallback(function(_data){
 		this.Const.AI.VerboseMode = _data
 	})
