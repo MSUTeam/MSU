@@ -11,9 +11,10 @@ local testSettingsSystem = function()
 			local testPage = this.MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
 
 			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			// local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
-			// 	this.logInfo("worked?")
-			// });
+			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
+			test1.addCallback(function(_data = null){
+				this.logInfo("worked?")
+			})
 			// test1.lock()
 			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
@@ -25,7 +26,7 @@ local testSettingsSystem = function()
 			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, ["hi", "hello", "goodbye"]);
 
 			testPage.add(test);
-			#testPage.add(test1);
+			testPage.add(test1);
 			testPage.add(test2);
 			testPage.add(test3);
 			testPage.add(divider);
