@@ -2,7 +2,7 @@ local gt = this.getroottable();
 
 gt.MSU.setupSerializationSystem <- function ()
 {
-	this.MSU.Class.SerialiationSystem <- class extends this.MSU.Class.System
+	this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 	{
 		Mods = [],
 
