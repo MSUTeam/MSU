@@ -166,7 +166,7 @@ gt.MSU.modWeapon <- function ()
 
 		o.isAllWeaponTypes <- function( _t )
 		{
-			return _t & this.m.WeaponType == _t;
+			return this.m.WeaponType & _t == _t;
 		}
 
 		o.addWeaponType <- function( _weaponType, _setupCategories = true )
