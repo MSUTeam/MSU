@@ -209,7 +209,7 @@ gt.MSU.setupSettingsSystem <- function()
 	local logPage = this.MSU.Class.SettingsPage("Logging");
 	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
-		this.MSU.Systems.Log.FullDebug = _data;
+		this.MSU.Systems.Debug.FullDebug = _data;
 	})
 	panel.addPage(logPage);
 	logPage.add(logToggle);

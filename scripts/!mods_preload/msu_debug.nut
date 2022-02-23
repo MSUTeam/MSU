@@ -3,7 +3,7 @@ local gt = this.getroottable();
 gt.MSU.setupDebuggingUtils <- function()
 {
 
-	this.MSU.Class.LogSystem <- class extends this.MSU.Class.System
+	this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		ModTable = null;
 		LogType = null;
@@ -153,33 +153,33 @@ gt.MSU.setupDebuggingUtils <- function()
 		}
 	}
 
-	this.MSU.Systems.Log <- this.MSU.Class.LogSystem();
+	this.MSU.Systems.Debug <- this.MSU.Class.DebugSystem();
 
-	::printLog <- function( _arg, _modID, _flagID = this.MSU.Systems.Log.DefaultFlag)
+	::printLog <- function( _arg, _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Systems.Log.print(_arg, _modID, this.MSU.Systems.Log.LogType.Info, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Info, _flagID);
 	}
 
-	::printWarning <- function( _arg,  _modID, _flagID = this.MSU.Systems.Log.DefaultFlag)
+	::printWarning <- function( _arg,  _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Systems.Log.print(_arg, _modID, this.MSU.Systems.Log.LogType.Warning, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Warning, _flagID);
 	}
 
-	::printError <- function( _arg,  _modID, _flagID = this.MSU.Systems.Log.DefaultFlag)
+	::printError <- function( _arg,  _modID, _flagID = this.MSU.Systems.Debug.DefaultFlag)
 	{
-		this.MSU.Systems.Log.print(_arg, _modID, this.MSU.Systems.Log.LogType.Error, _flagID);
+		this.MSU.Systems.Debug.print(_arg, _modID, this.MSU.Systems.Debug.LogType.Error, _flagID);
 	}
 
-	::isDebugEnabled <- function(_modID, _flagID = this.MSU.Systems.Log.DefaultFlag){
-		return this.MSU.Systems.Log.isEnabledForMod( _modID, _flagID)
+	::isDebugEnabled <- function(_modID, _flagID = this.MSU.Systems.Debug.DefaultFlag){
+		return this.MSU.Systems.Debug.isEnabledForMod( _modID, _flagID)
 	}
 
-	this.MSU.Systems.Log.registerMod(this.MSU.MSUModName, true);
+	this.MSU.Systems.Debug.registerMod(this.MSU.MSUModName, true);
 
 	//need to set this first to print the others
-	this.MSU.Systems.Log.setFlags(this.MSU.MSUModName, this.MSU.Systems.Log.MSUMainDebugFlag);
+	this.MSU.Systems.Debug.setFlags(this.MSU.MSUModName, this.MSU.Systems.Debug.MSUMainDebugFlag);
 
-	this.MSU.Systems.Log.setFlags(this.MSU.MSUModName, this.MSU.Systems.Log.MSUDebugFlags);
+	this.MSU.Systems.Debug.setFlags(this.MSU.MSUModName, this.MSU.Systems.Debug.MSUDebugFlags);
 
-	this.MSU.Systems.Log.registerMod(this.MSU.Systems.Log.VanillaLogName, true);
+	this.MSU.Systems.Debug.registerMod(this.MSU.Systems.Debug.VanillaLogName, true);
 }

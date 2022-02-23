@@ -84,7 +84,7 @@ gt.MSU.setupUtils <- function()
 		}
 	}
 
-	gt.MSU.Debug <- {
+	gt.MSU.Log <- {
 		// maxLen is the maximum length of an array/table whose elements will be displayed
 		// maxDepth is the maximum depth at which arrays/tables elements will be displayed
 		// advanced allows the ID of the object to be displayed to identify different/identical objects
