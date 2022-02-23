@@ -97,14 +97,18 @@ gt.MSU.defineClasses <- function()
 		Total = null;
 		Array = null;
 
-		constructor()
+		constructor( _array = null )
 		{
+			if (_array == null) _array = [];
+			this.MSU.requireArray(_array);
 			this.Total = 0;
-			this.Array = [];
+			this.Array = array(_array.len());
+			this.extend(_array);
 		}
 
 		function extend( _array )
 		{
+			this.MSU.requireArray(_array);
 			foreach (i in _array)
 			{
 				this.push(i);
