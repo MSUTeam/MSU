@@ -65,4 +65,15 @@ gt.MSU.defineThrowables <- function ()
 			}
 		}
 	}
+
+	this.MSU.requireOneOfType <- function( _typeArray, ... )
+	{
+		foreach (value in vargv)
+		{
+			if (_typeArray.find(typeof value) == null)
+			{
+				throw this.Exception.InvalidType;
+			}
+		}
+	}
 }
