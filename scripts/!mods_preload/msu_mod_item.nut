@@ -80,9 +80,14 @@ gt.MSU.modItem <- function ()
 			this.m.ItemType = _t;
 		}
 
+		o.isAllItemTypes <- function( _t )
+		{
+			return this.m.ItemType & _t == _t;
+		}
+
 		o.removeItemType <- function( _t )
 		{
-			if (this.isItemType(_t))
+			if (this.isAllItemTypes(_t))
 			{
 				this.m.ItemType -= _t;		
 			}
