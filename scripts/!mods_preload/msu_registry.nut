@@ -10,34 +10,14 @@ gt.MSU.setupModRegistry <- function()
 		Version = null;
 		PreRelease = null;
 		Metadata = null;
-		Options = null;
 
-		constructor( _id, _version, _options = null, _name = null )
+		constructor( _id, _version, _name = null )
 		{
 			if (_name == null) _name = _id;
 			this.MSU.requireString(_id, _version, _name);
-			if (_options == null) _options == [];
-			this.MSU.requireArray(_options);
-			foreach (value in _options)
-			{
-				local found = false;
-				foreach (system in this.MSU.Systems)
-				{
-					if (system.getID() == value)
-					{
-						found = true;
-						break;
-					}
-				}
-				if (!found)
-				{
-					throw this.Exception.KeyNotFound;
-				}
-			}
 
 			this.ID = _id;
 			this.Name = _name;
-			this.Options = _options;
 
 			local table = this.getVersionTable(_version);
 			this.Version = table.Version;
@@ -263,28 +243,29 @@ gt.MSU.setupModRegistry <- function()
 		constructor()
 		{
 			base.constructor(this.MSU.SystemIDs.ModRegistry);
-			this.Mods = []
-		}
+			this.Mods = {}
 
-		function registerMod( _modID, _version, _options = null, _modName = null )
+			local mod = this.MSU.Class.Mod("vanilla", "1.4.0+48", "Vanilla");
+			this.Mods[mod.getID()] <- mod;
+			this.logInfo(format("MSU registered %s, version: %s", mod.getName(), mod.getVersionString()))
+;		}
+
+		function registerMod( _modID, _version, _modName = null )
 		{
-			if (_modID in this.MSU.Mods)
+			if (_modID in this.Mods)
 			{
 				this.logError("Duplicate Mod ID for mod: " + _modID);
 				throw this.Exception.DuplicateKey;
 			}
-
-			local mod = this.MSU.Class.Mod(_modID, _version, _options, _modName);
-			this.Mods[_modID] <- mod;
-			::printLog("MSU registered mod " + mod.getName() + ", version: " + mod.getVersionString(), this.MSUModName)
-
-			foreach (system in this.MSU.Systems)
+			else if (::mods_getRegisteredMod(_modID) == null)
 			{
-				if (system instanceof this.MSU.Class.RequiredModSystem)
-				{
-					system.onModRegistered(mod);
-				}
+				this.logError("Register your mod using the same ID with mod_hooks before registering with MSU");
+				throw this.Exception.KeyNotFound;
 			}
+
+			local mod = this.MSU.Class.Mod(_modID, _version, _modName);
+			this.Mods[_modID] <- mod;
+			this.logInfo(format("MSU registered mod %s, version: %s", mod.getName(), mod.getVersionString()));
 		}
 	}
 

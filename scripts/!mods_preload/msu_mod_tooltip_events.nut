@@ -52,7 +52,7 @@ gt.MSU.modTooltipEvents <- function ()
 				if (_elementId.find("msu-settings") == 0)
 				{
 					local threePartArray = split(_elementId, ".")
-					local setting = this.MSU.Systems.ModSettings.get(threePartArray[1]).get(threePartArray[2]);
+					local setting = ::getModSetting(threePartArray[1], threePartArray[2]);
 					return [
 						{
 							id = 1,

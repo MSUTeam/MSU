@@ -8,27 +8,29 @@ gt.MSU.MSUModName <- MSUModName;
 
 ::mods_queue(null, null, function()
 {
-	
 	gt.MSU.setupUtils();
 	delete gt.MSU.setupUtils;
-	gt.MSU.setupDebuggingUtils();
-	delete gt.MSU.setupDebuggingUtils;
+	gt.MSU.defineThrowables();
+	delete gt.MSU.defineThrowables;
 	gt.MSU.defineClasses();
 	delete gt.MSU.defineClasses;
-	gt.MSU.setupUI();
-	delete gt.MSU.setupUI;
+
 	gt.MSU.setupSystems();
 	delete gt.MSU.setupSystems;
-
 	gt.MSU.setupModRegistry();
 	delete gt.MSU.setupModRegistry;
+
+	this.MSU.registerMod(MSUModName, "0.6.27", "Modding Standards and Utilities");
+
+	gt.MSU.setupDebuggingUtils();
+	delete gt.MSU.setupDebuggingUtils;
+	gt.MSU.setupUI();
+	delete gt.MSU.setupUI;
+
 	gt.MSU.setupCustomKeybinds();
 	delete gt.MSU.setupCustomKeybinds;
 	gt.MSU.setupSettingsSystem();
 	delete gt.MSU.setupSettingsSystem;
-
-	gt.MSU.defineThrowables();
-	delete gt.MSU.defineThrowables;
 
 
 	gt.MSU.modInjuries();

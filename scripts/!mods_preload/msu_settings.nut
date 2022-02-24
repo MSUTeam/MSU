@@ -11,9 +11,7 @@ local testSettingsSystem = function()
 			local testPage = this.MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
 
 			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro", function(_data = null){
-				this.logInfo("worked?")
-			});
+			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
 			test1.lock()
 			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
@@ -40,7 +38,7 @@ local testSettingsSystem = function()
 
 gt.MSU.setupSettingsSystem <- function()
 {
-	this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.RequiredModSystem
+	this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 	{
 		Panels = null;
 		Locked = null;
@@ -102,7 +100,7 @@ gt.MSU.setupSettingsSystem <- function()
 			{
 				foreach (settingID, value in panel)
 				{
-					local setting = this.Panels[modID].get(settingID)
+					local setting = this.Panels[modID].getSetting(settingID)
 					if (setting.getValue() != value)
 					{
 						setting.onChangedCallback(value);
@@ -162,16 +160,12 @@ gt.MSU.setupSettingsSystem <- function()
 			return _mod1.getName() <=> _mod2.getName();
 		}
 
-		function onModRegistered( _mod )
+		function registerMod( _modID )
 		{
-			if (!base.onModRegistered(_mod))
-			{
-				return false;
-			}
-			local panel = this.MSU.Class.SettingsPanel(_mod.getName());
-			this.Panel[_mod.getID()] <- panel;
-
-			return true;
+			base.registerMod(_modID)
+			local mod = this.MSU.Mods[_modID];
+			local panel = this.MSU.Class.SettingsPanel(mod.getID(), mod.getName());
+			this.Panels[mod.getID()] <- panel;
 		}
 	}
 
@@ -184,7 +178,7 @@ gt.MSU.setupSettingsSystem <- function()
 
 	::getModSetting <- function( _modID, _settingID )
 	{
-		return this.MSU.Systems.ModSettings.get(_modID).get(_settingID);
+		return this.MSU.Systems.ModSettings.get(_modID).getSetting(_settingID);
 	}
 
 	this.MSU.SettingsFlags <- {
@@ -210,28 +204,28 @@ gt.MSU.setupSettingsSystem <- function()
 		}
 	}
 
-	local panel = this.MSU.Class.SettingsPanel("MSU");
+	this.MSU.Systems.ModSettings.registerMod(this.MSU.MSUModName);
+	local panel = this.MSU.Systems.ModSettings.get(this.MSU.MSUModName);
 	local logPage = this.MSU.Class.SettingsPage("Logging");
 	local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 	logToggle.addCallback(function(_data){
-		this.MSU.Debug.FullDebug = _data;
+		this.MSU.Systems.Debug.FullDebug = _data;
 	})
-	this.MSU.Systems.ModSettings.add(panel);
 	panel.addPage(logPage);
 	logPage.add(logToggle);
 
-	local verboseModeToggle = this.MSU.BooleanSetting("verbose", false, "Enable VerboseMode");
+	local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable VerboseMode");
 	verboseModeToggle.addCallback(function(_data){
 		this.Const.AI.VerboseMode = _data
 	})
 	logPage.add(verboseModeToggle);
 
-	this.MSU.Systems.ModSettings.importPersistentSettings()
+	// this.MSU.Systems.ModSettings.importPersistentSettings()
 
 
-	//this neeeds to be moved into a hook
-	this.MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
-	this.MSU.CustomKeybinds.parseForUI();
+	// //this neeeds to be moved into a hook
+	// this.MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
+	// this.MSU.CustomKeybinds.parseForUI();
 
 
 	// Testing Code
