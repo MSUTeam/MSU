@@ -1082,3 +1082,10 @@ This is a horizontal line with an optional title.
 
 If no name is provided,
 the divider will be a thin horizontal line across the entire page.
+
+
+### Misc
+
+## isNull
+`this.MSU.isNull(_obj)`
+Convenient way to check if object is null. Checks if object is instance of weaktableref and returns isNull if it's the case.

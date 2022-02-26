@@ -2,6 +2,18 @@ local gt = this.getroottable();
 
 gt.MSU.setupUtils <- function()
 {
+	gt.MSU.isNull <- function(_obj){
+		if (_obj == null)
+		{
+			return true
+		}
+		if (typeof _obj == "instance" && _obj instanceof this.WeakTableRef)
+		{
+			return _obj.isNull()
+		}
+		return false
+	}
+	
 	gt.MSU.Math <- {
 		// returns log2 of _num, floored (as an int)
 		function log2int( _num )

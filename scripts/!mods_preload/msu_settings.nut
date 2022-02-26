@@ -12,7 +12,10 @@ local testSettingsSystem = function()
 
 			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
 			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
-			test1.lock()
+			test1.addCallback(function(_data = null){
+				this.logInfo("worked?")
+			})
+			// test1.lock()
 			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
 			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
@@ -71,6 +74,11 @@ gt.MSU.setupSettingsSystem <- function()
 			return this.Panels[_id];
 		}
 
+		function has( _id )
+		{
+			return _id in this.Panels
+		}
+
 		function finalize()
 		{
 			this.Locked = true;
@@ -124,6 +132,11 @@ gt.MSU.setupSettingsSystem <- function()
 				vargv[0] = panel;
 				panel[_function].acall(vargv);
 			}
+		}
+
+		function importPersistentSettings()
+		{
+			this.MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
 		}
 
 		function flagSerialize()
@@ -213,6 +226,10 @@ gt.MSU.setupSettingsSystem <- function()
 	})
 	panel.addPage(logPage);
 	logPage.add(logToggle);
+
+	// this.MSU.Systems.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
+	// 	this.MSU.Debug.FullDebug = _data;
+	// }))
 
 	local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable VerboseMode");
 	verboseModeToggle.addCallback(function(_data){
