@@ -70,7 +70,7 @@ gt.MSU.modSkillContainer <- function ()
 
 		o.buildProperties <- function( _function, _argsArray )
 		{
-			_argsArray.insert(0, null)
+			_argsArray.insert(0, null);
 			_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
 
 			local wasUpdating = this.m.IsUpdating;
@@ -115,7 +115,7 @@ gt.MSU.modSkillContainer <- function ()
 			], false);
 		}
 
-		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
+		o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 		{
 			// Don't update if using a movement skill e.g. Rotation because this leads
 			// to crashes if any skill tries to access the current tile in its onUpdate
@@ -126,19 +126,21 @@ gt.MSU.modSkillContainer <- function ()
 			this.doOnFunction("onAnySkillExecuted", [
 				_skill,
 				_targetTile,
-				_targetEntity
+				_targetEntity,
+				_forFree
 			], !this.m.IsExecutingMoveSkill);
 
 			this.m.IsExecutingMoveSkill = false;
 		}
 
-		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity )
+		o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 		{
 			this.m.BeforeSkillExecutedTile = this.getActor().getTile();
 			this.doOnFunction("onBeforeAnySkillExecuted", [
 				_skill,
 				_targetTile,
-				_targetEntity
+				_targetEntity,
+				_forFree
 			]);
 		}
 
@@ -194,7 +196,7 @@ gt.MSU.modSkillContainer <- function ()
 				_killer,
 				_skill,
 				_deathTile,
-				_corpseTile
+				_corpseTile,
 				_fatalityType
 			], false);
 		}

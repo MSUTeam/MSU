@@ -63,7 +63,7 @@ gt.MSU.modActor <- function() {
 			}
 		}
 
-		local getActionPointsMax = o.getActionPointsMax
+		local getActionPointsMax = o.getActionPointsMax;
 		o.getActionPointsMax = function()
 		{
 			return this.Math.floor(getActionPointsMax());
