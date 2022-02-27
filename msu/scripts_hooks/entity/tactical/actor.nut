@@ -47,9 +47,9 @@
 		{
 			local factions = this.Tactical.Entities.getAllInstances();
 
-			foreach( f in factions )
+			foreach ( f in factions )
 			{
-				foreach( actor in f )
+				foreach ( actor in f )
 				{
 					if (actor.getID() != this.getID())
 					{
@@ -86,7 +86,7 @@
 		local actors = this.Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
-		foreach( a in actors )
+		foreach ( a in actors )
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) != _distance ||
@@ -126,7 +126,7 @@
 		local actors = this.Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
-		foreach( a in actors )
+		foreach ( a in actors )
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) > _distance ||

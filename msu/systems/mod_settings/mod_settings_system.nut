@@ -69,7 +69,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 				if (setting.getValue() != value)
 				{
 					setting.onChangedCallback(value);
-					if(_informChange && setting.ParseChange == true)
+					if (_informChange && setting.ParseChange == true)
 					{
 						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
 					}

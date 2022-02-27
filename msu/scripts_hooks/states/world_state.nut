@@ -49,7 +49,7 @@
 		properties.IsAttackingLocation = false;
 		local factions = array(256, 0)
 
-		foreach( party in raw_parties )
+		foreach ( party in raw_parties )
 		{
 			if (!party.isAlive() || party.isPlayerControlled())
 			{
@@ -74,7 +74,7 @@
 			}
 		}
 
-		foreach( party in raw_parties )
+		foreach ( party in raw_parties )
 		{
 			if (!party.isAlive() || party.isPlayerControlled())
 			{
@@ -95,7 +95,7 @@
 			{
 				local hasOpponent = false;
 
-				foreach( other in raw_parties )
+				foreach ( other in raw_parties )
 				{
 					if (other.isAlive() && !party.isAlliedWith(other))
 					{
@@ -115,7 +115,7 @@
 			}
 		}
 
-		foreach( party in parties )
+		foreach ( party in parties )
 		{
 			if (party.isInCombat())
 			{
@@ -134,7 +134,7 @@
 			party.onBeforeCombatStarted();
 			local troops = party.getTroops();
 
-			foreach( t in troops )
+			foreach ( t in troops )
 			{
 				if (t.Script != "")
 				{
@@ -169,7 +169,7 @@
 		local highest_faction = 0;
 		local best = 0;
 
-		foreach( i, f in factions )
+		foreach ( i, f in factions )
 		{
 			if (f > best)
 			{
@@ -250,4 +250,35 @@
 		this.MSU.Systems.ModSettings.flagDeserialize();
 		this.MSU.Systems.ModSettings.resetFlags();
 	}
+
+    local world_keyFunc = o.onKeyInput;
+    o.onKeyInput = function( _key )
+    {
+        if (_key.getState() != 0)
+        {
+            return world_keyFunc(_key);
+        }
+        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.World);
+        if (customHandling == false)
+        {
+            return false;
+        }
+        return world_keyFunc(_key);
+    }
+
+    local world_mouseInput = o.onMouseInput;
+    o.onMouseInput = function( _mouse )
+    {
+        if (_mouse.getState() != 1 || _mouse.getID() == 6)
+        {
+            return world_mouseInput(_mouse);
+        }
+
+        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.World, this.MSU.GlobalKeyHandler.InputType.Mouse);
+        if (customHandling == false)
+        {
+            return false;
+        }
+        return world_mouseInput(_mouse);
+    }
 });

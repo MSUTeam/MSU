@@ -7,7 +7,7 @@
 		{
 			this.m.LastDayMorningEventCalled = this.World.getTime().Days;
 			local roster = this.World.getPlayerRoster().getAll();
-			foreach( bro in roster )
+			foreach ( bro in roster )
 			{
 				bro.getSkills().onNewMorning();
 			}

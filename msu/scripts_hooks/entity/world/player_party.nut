@@ -16,7 +16,7 @@
 	{
 		local mult = 1.0;
 		local roster = this.World.getPlayerRoster().getAll();
-		foreach(bro in roster)
+		foreach (bro in roster)
 		{
 			if ("getMovementSpeedMult" in bro)
 			{
@@ -30,7 +30,7 @@
 	{
 		local mult = 1.0;
 		local inventory = this.World.Assets.getStash();
-		foreach(item in inventory.getItems())
+		foreach (item in inventory.getItems())
 		{
 			if ("getMovementSpeedMult" in item)
 			{
@@ -55,7 +55,7 @@
 	{
 		local mult = 1.0;
 		local retinue = this.World.Retinue;
-		foreach(follower in retinue.m.Followers)
+		foreach (follower in retinue.m.Followers)
 		{
 			if ("getMovementSpeedMult" in follower)
 			{

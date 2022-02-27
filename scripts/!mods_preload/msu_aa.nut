@@ -11,6 +11,4 @@ gt.MSU.MSUModName <- MSUModName;
 	gt.MSU.setupUI();
 	delete gt.MSU.setupUI;
 
-	gt.MSU.setupCustomKeybinds();
-	delete gt.MSU.setupCustomKeybinds;
 });

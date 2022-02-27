@@ -17,7 +17,7 @@
 		this.m.MovementSpeedMultFunctions["NotPlayerMovementSpeedMult"] <- this.getNotPlayerMovementSpeedMult;
 	}
 
-	o.setRealBaseMovementSpeed <- function(_speed)
+	o.setRealBaseMovementSpeed <- function( _speed )
 	{
 		this.m.RealBaseMovementSpeed = _speed;
 	}
@@ -27,7 +27,7 @@
 		return this.m.RealBaseMovementSpeed;
 	}
 
-	o.setBaseMovementSpeed <- function(_speed)
+	o.setBaseMovementSpeed <- function( _speed )
 	{
 		this.m.BaseMovementSpeed = _speed;
 	}
@@ -42,7 +42,7 @@
 		return this.m.BaseMovementSpeedMult;
 	}
 
-	o.setBaseMovementSpeedMult <- function(_mult)
+	o.setBaseMovementSpeedMult <- function( _mult )
 	{
 		this.m.BaseMovementSpeedMult = _mult;
 	}
@@ -52,12 +52,12 @@
 		return this.m.MovementSpeedMult;
 	}
 
-	o.setMovementSpeed <- function(_speed)
+	o.setMovementSpeed <- function( _speed )
 	{
 		this.setBaseMovementSpeedMult(_speed / 100.0);
 	}
 
-	o.setMovementSpeedMult <- function(_mult)
+	o.setMovementSpeedMult <- function( _mult )
 	{
 		this.m.MovementSpeedMult = _mult;
 	}
@@ -65,7 +65,7 @@
 	o.getFinalMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
-		foreach(key, func in this.m.MovementSpeedMultFunctions)
+		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
 			::printLog("Function " + key + " returned a mult of: " + funcResult, "mod_MSU", "movement")
@@ -79,12 +79,13 @@
 		this.setMovementSpeedMult(this.getFinalMovementSpeedMult());
 	}
 
-	o.getMovementSpeed <- function(_update = false)
+	o.getMovementSpeed <- function( _update = false )
 	{
-		if (_update){
+		if (_update)
+		{
 			this.updateMovementSpeedMult();
 		}
-		local speed = this.getBaseMovementSpeed() * this.getMovementSpeedMult()
+		local speed = this.getBaseMovementSpeed() * this.getMovementSpeedMult();
 		return speed;
 	}
 
@@ -108,7 +109,8 @@
 
 	o.getRoadMovementSpeedMult <- function()
 	{
-		if(this.isIgnoringCollision()){
+		if (this.isIgnoringCollision())
+		{
 			return 1.0;
 		}
 		local myTile = this.getTile();
@@ -267,6 +269,7 @@
 			this.Sound.play(this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], this.Const.Sound.Volume.Ambience, this.getPos());
 		}
 	}
+	
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{

@@ -52,7 +52,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 
 	function setFlags(_modID, _flagTable, _flagTableBool = null)
 	{
-		foreach(flagID, flagBool in _flagTable)
+		foreach (flagID, flagBool in _flagTable)
 		{
 			this.setFlag(_modID, flagID, _flagTableBool != null ? _flagTableBool : flagBool);
 		}

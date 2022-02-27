@@ -10,7 +10,7 @@
 			return;
 		}
 
-		foreach( skill in this.m.Skills )
+		foreach ( skill in this.m.Skills )
 		{
 			skill.saveBaseValues();
 			skill.softReset();
@@ -18,7 +18,7 @@
 
 		update();
 
-		foreach( skill in this.m.Skills )
+		foreach ( skill in this.m.Skills )
 		{
 			skill.executeScheduledChanges();
 		}
@@ -37,7 +37,7 @@
 		this.m.IsBusy = false;
 		this.m.BusyStack = 0;
 
-		foreach( skill in this.m.Skills )
+		foreach ( skill in this.m.Skills )
 		{
 			if (_aliveOnly && !this.m.Actor.isAlive())
 			{

@@ -35,4 +35,34 @@
 		this.MSU.Systems.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
+
+
+    local tactical_keyFunc = o.onKeyInput;
+    o.onKeyInput = function( _key )
+    {
+        if (_key.getState() != 0 || this.isInLoadingScreen() || this.isBattleEnded())
+        {
+            return tactical_keyFunc(_key);
+        }
+        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.Tactical);
+        if (customHandling == false)
+        {
+            return false;
+        }
+        return tactical_keyFunc(_key);
+    }
+    local tactical_mouseInput = o.onMouseInput;
+    o.onMouseInput = function( _mouse )
+    {
+        if (_mouse.getState() != 1 || _mouse.getID() == 6)
+        {
+            return tactical_mouseInput(_mouse);
+        }
+        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.Tactical, this.MSU.GlobalKeyHandler.InputType.Mouse);
+        if (customHandling == false)
+        {
+            return false;
+        }
+        return tactical_mouseInput(_mouse);
+    }
 });

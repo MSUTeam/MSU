@@ -69,4 +69,35 @@
 			this.m.ModSettingsShown = false;
 		}
 	}
+
+	local menu_onKeyInput = o.onKeyInput;
+	o.onKeyInput = function( _key )
+	{
+	    if (_key.getState() != 0)
+	    { 
+	        return menu_onKeyInput(_key);
+	    }
+	    local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu);
+	    if (customHandling == false)
+	    {
+	        return false;
+	    }
+	    return menu_onKeyInput(_key);
+	}
+
+	//menu mouse input  somehow doesn't register any ID but 6 (movement)
+	local menu_mouseInput = o.onMouseInput;
+	o.onMouseInput = function( _mouse )
+	{
+	    if (_mouse.getState() != 1 || _mouse.getID() == 6)
+	    { 
+	        return menu_mouseInput(_mouse);
+	    }
+	    local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.MainMenu, this.MSU.GlobalKeyHandler.InputType.Mouse);
+	    if (customHandling == false)
+	    {
+	        return false;
+	    }
+	    return menu_mouseInput(_mouse);
+	}
 });

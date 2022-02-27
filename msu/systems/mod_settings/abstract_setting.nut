@@ -30,7 +30,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 
 	function onChangedCallback(_newValue)
 	{
-		foreach(callback in this.Callbacks)
+		foreach (callback in this.Callbacks)
 		{
 			callback.call(this, _newValue);
 		}

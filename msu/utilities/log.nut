@@ -30,7 +30,7 @@ gt.MSU.Log <- {
 
 	function printData(_data, _maxDepth = 1, _advanced = false){
 		local maxLen = 1;
-		if(typeof _data == "array" || typeof _data == "table"){
+		if (typeof _data == "array" || typeof _data == "table"){
 			maxLen = _data.len();
 		}
 		return this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced)
