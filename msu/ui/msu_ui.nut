@@ -11,22 +11,27 @@
 
 this.MSU.UI <- {
 	m = {
-		JSHandle = this.UI.connect("MSUBackendConnection", this),
+		JSHandle =  null,
 		Screens = [],
 	},
 
+	function connectJS()
+	{
+		this.UI.connect("MSUBackendConnection", this);
+	}
+
 	function registerScreenToConnect( _screen )
 	{
-		this.Screens.push(_screen);
+		this.m.Screens.push(_screen);
 	}
 
 	function connectScreens() // Want to make this call another function which acts as a very late time to run code, eg I want to lock the settingsmanager at this point (this runs after main menu load)
 	{
-		foreach (screen in this.Screens)
+		foreach (screen in this.m.Screens)
 		{
 			screen.connect();
 		}
-		this.Screens = [];
+		this.m.Screens = [];
 	}
 
 	function passKeybinds()

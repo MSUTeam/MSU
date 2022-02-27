@@ -22,6 +22,6 @@
 
 	o.setupJSConnection <- function()
 	{
-		this.include("msu/ui/msu_ui");
+		this.MSU.UI.connectJS();
 	}
 });

@@ -16,7 +16,7 @@ var MSUBackendConnection = function(_parent)
 {
     this.mSQHandle = null;
     SQ.call(Screens["MainMenuScreen"].mSQHandle, "setupJSConnection");
-    SQ.call(this.mSQHandle, "connectScreens");
+   
 }
 
 
@@ -28,6 +28,7 @@ MSUBackendConnection.prototype.isConnected = function ()
 MSUBackendConnection.prototype.onConnection = function (_handle)
 {
     this.mSQHandle = _handle;
+    SQ.call(this.mSQHandle, "connectScreens");
 };
 
 MSUBackendConnection.prototype.onDisconnection = function ()

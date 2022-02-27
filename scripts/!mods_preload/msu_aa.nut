@@ -8,7 +8,5 @@ gt.MSU.MSUModName <- MSUModName;
 
 ::mods_queue(null, null, function()
 {
-	gt.MSU.setupUI();
-	delete gt.MSU.setupUI;
 
 });
