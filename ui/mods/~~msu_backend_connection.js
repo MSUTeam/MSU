@@ -14,9 +14,9 @@
 var MSU = {}
 var MSUBackendConnection = function(_parent)
 {
-
     this.mSQHandle = null;
-
+    SQ.call(Screens["MainMenuScreen"].mSQHandle, "setupJSConnection");
+    SQ.call(this.mSQHandle, "connectScreens");
 }
 
 
@@ -37,20 +37,17 @@ MSUBackendConnection.prototype.onDisconnection = function ()
 };
 
 
-MSUBackendConnection.prototype.setCustomKeybinds = function(_keybinds){
-
-   
+MSUBackendConnection.prototype.setCustomKeybinds = function(_keybinds)
+{
     MSU.GlobalKeyHandler.AddHandlerFunction("2+shift", "testKeybind", function(_event){
         console.error("Testing keybind")
     })
     MSU.CustomKeybinds.setFromSQ(_keybinds);
-    //test
-    
 }
 
 registerScreen("MSUBackendConnection", new MSUBackendConnection());
 
-SQ.call(Screens["MainMenuScreen"].mSQHandle, "setupJSConnection");
+
 
 
 
