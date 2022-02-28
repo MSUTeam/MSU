@@ -1,6 +1,5 @@
-this.msu_ui_screen <- {
+this.ui_screen <- this.inherit("msu/ui/JS_connection", {
 	m = {
-		JSHandle = null,
 		Visible = false,
 		Animating = false,
 		OnDisconnectedListener = null,
@@ -58,21 +57,10 @@ this.msu_ui_screen <- {
 		this.m.OnScreenShownListener = null;
 	}
 
-	function create()
-	{
-		
-	}
-
-	function connect()
-	{
-		//Needs a UI Bind:
-		//this.m.JSHandle = this.UI.connect("path/to/ui_screen.", this);
-	}
-
 	function destroy()
 	{
 		this.clearEventListeners();
-		this.m.JSHandle = this.UI.disconnect(this.m.JSHandle);
+		this.js_connection.destroy()
 	}
 
 	function show(_data)
@@ -127,9 +115,4 @@ this.msu_ui_screen <- {
 		this.m.Animating = true;
 	}
 
-	function isConnected()
-	{
-		return this.m.JSHandle != null;
-	}
-
-}
+});

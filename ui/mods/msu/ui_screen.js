@@ -5,27 +5,18 @@
 
 var MSUUIScreen = function ()
 {
-	this.mSQHandle = null;
+	MSUBackendConnection.call(this);
 	this.mEventListener = null;
 	this.mContainer = null;
 
 	this.mID = "MSUUIScreen"
 }
 
-MSUUIScreen.prototype.isConnected = function ()
-{
-	return this.mSQHandle !== null;
-}
-
-MSUUIScreen.prototype.onConnection = function (_handle)
-{
-	this.mSQHandle = _handle;
-};
-
-MSUUIScreen.prototype.onDisconnection = function ()
-{
-	this.mSQHandle = null;
-};
+MSUUIScreen.prototype = Object.create(MSUBackendConnection.prototype)
+Object.defineProperty(MSUUIScreen.prototype, 'constructor', {
+	value: MSUUIScreen,
+	enumerable: false,
+	writable: true });
 
 MSUUIScreen.prototype.registerEventListener = function (_listener)
 {

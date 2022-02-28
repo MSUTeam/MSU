@@ -20,8 +20,4 @@
 		this.m.JSHandle.asyncCall("showNewCampaignModule", null);
 	}
 
-	o.setupJSConnection <- function()
-	{
-		this.MSU.UI.setupJSConnection();
-	}
 });

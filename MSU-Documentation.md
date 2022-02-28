@@ -920,7 +920,7 @@ a call to the `contains` function must be used.
 
 ## UI
 
-`this.MSU.UI.registerScreenToConnect( _screen )`
+`this.MSU.UI.registerConnection( _screen )`
 
 `_screen` is a UI screen with a `connect` function
  which will connect the SQ object to its JS counterpart.

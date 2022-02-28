@@ -1,11 +1,16 @@
-this.msu_JS_connection <- {
+this.js_connection <- {
 	m = {
 		JSHandle = null,
 	},
 
 	function create()
 	{
-		this.m.JSHandle = this.UI.connect("MSUBackendConnection", this);
+
+	}
+
+	function connect()
+	{
+
 	}
 
 	function destroy()
@@ -23,10 +28,8 @@ this.msu_JS_connection <- {
 		return false
 	}
 
-	function passKeybinds(){
-		this.m.JSHandle.asyncCall("setCustomKeybinds", this.MSU.CustomKeybinds.CustomBindsJS);
+	function isConnected()
+	{
+		this.m.JSHandle != null;
 	}
-
 };
-
-

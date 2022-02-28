@@ -1,4 +1,4 @@
-this.msu_settings_screen <- this.inherit("scripts/ui/mods/msu_ui_screen", {
+this.settings_screen <- this.inherit("msu/ui/ui_screen", {
 	m = {
 		MenuStack = null,
 		OnCancelPressedListener = null,

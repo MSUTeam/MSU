@@ -1,3 +1,4 @@
+"use strict";
 var vanilla_createItemSlot = CharacterScreenInventoryListModule.prototype.createItemSlot;
 CharacterScreenInventoryListModule.prototype.createItemSlot = function( _owner, _index, _parentDiv, _screenDiv )
 {

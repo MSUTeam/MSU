@@ -12,8 +12,8 @@
 		this.m.OnModOptionsPressedListener();
 	}
 
-	o.connectModScreens <- function()
+	o.connectBackend <- function()
 	{
-		this.MSU.UI.connectScreens();
+		this.MSU.UI.connect();
 	}
 });

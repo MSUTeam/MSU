@@ -42,7 +42,7 @@ this.MSU.SettingsScreen <- this.new("scripts/ui/mods/msu_settings_screen");
 
 this.MSU.PersistentDataManager <- this.new("scripts/mods/msu_persistent_data_manager");
 
-this.MSU.UI.registerScreenToConnect(this.MSU.SettingsScreen);
+this.MSU.UI.registerConnection(this.MSU.SettingsScreen);
 
 ::getModSetting <- function( _modID, _settingID )
 {
