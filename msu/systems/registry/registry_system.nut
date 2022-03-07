@@ -3,7 +3,7 @@ this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
 	Mods = null;
 	constructor()
 	{
-		base.constructor(this.MSU.SystemIDs.ModRegistry);
+		base.constructor(this.MSU.SystemID.ModRegistry);
 		this.Mods = {}
 
 		local mod = this.MSU.Class.Mod("vanilla", "1.4.0+48", "Vanilla");

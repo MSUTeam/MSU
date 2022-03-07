@@ -10,7 +10,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemIDs.Log);
+		base.constructor(this.MSU.SystemID.Log);
 		this.ModTable = {};
 		this.LogType = {
 			Info = 1,
@@ -62,20 +62,20 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.ModTable))
 		{
-			::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID), this.MSU.MSUModName);
+			::printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID), this.MSU.ID);
 			return;
 		}
 		this.ModTable[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
 		{
-			if (_modID == this.MSU.MSUModName && _flagID == this.DefaultFlag)
+			if (_modID == this.MSU.ID && _flagID == this.DefaultFlag)
 			{
 				this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
 			}
 			else
 			{
-				if (this.isEnabledForMod(this.MSU.MSUModName, "debug")){
-					::printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSU.MSUModName, "debug");
+				if (this.isEnabledForMod(this.MSU.ID, "debug")){
+					::printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), this.MSU.ID, "debug");
 				}
 			}
 		}
@@ -86,16 +86,16 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		if (!(_modID in this.ModTable))
 		{
 			//circumvent infinite loop if MSU flag is somehow missing
-			if (("debug" in this.ModTable[this.MSU.MSUModName] && this.ModTable[this.MSU.MSUModName]["debug" ] == true)  || this.isFullDebug()){
-				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSU.MSUModName, "debug");
+			if (("debug" in this.ModTable[this.MSU.ID] && this.ModTable[this.MSU.ID]["debug" ] == true)  || this.isFullDebug()){
+				::printWarning(format("Mod '%s' not found in debug table!", _modID), this.MSU.ID, "debug");
 			}
 			return false;
 		}
 		if (!(_flagID in this.ModTable[_modID]))
 		{
 			//circumvent infinite loop if MSU flag is somehow missing
-			if (("debug" in this.ModTable[this.MSU.MSUModName] && this.ModTable[this.MSU.MSUModName]["debug" ] == true)  || this.isFullDebug()){
-				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSU.MSUModName, "debug");
+			if (("debug" in this.ModTable[this.MSU.ID] && this.ModTable[this.MSU.ID]["debug" ] == true)  || this.isFullDebug()){
+				::printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), this.MSU.ID, "debug");
 			}
 			return false;
 		}
@@ -117,8 +117,8 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.ModTable))
 		{
-			if (this.isEnabledForMod(this.MSU.MSUModName, "debug")){
-				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.MSUModName, "debug");
+			if (this.isEnabledForMod(this.MSU.ID, "debug")){
+				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.ID, "debug");
 			}
 			return;
 		}
@@ -140,7 +140,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 					this.logError(string);
 					return;
 				default:
-					this.printWarning("No log type defined for this log:", this.MSU.MSUModName, "debug");
+					this.printWarning("No log type defined for this log:", this.MSU.ID, "debug");
 					this.logInfo(string);
 					return;
 			}

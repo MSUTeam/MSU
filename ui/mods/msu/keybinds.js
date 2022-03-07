@@ -274,7 +274,7 @@ MSU.CustomKeybinds = {
 }
 
 //fetch custom binds from SQ
-SQ.call(Screens["MSUBackendConnection"].mSQHandle, 'passKeybinds');
+SQ.call(Screens["MSUConnection"].mSQHandle, 'passKeybinds');
 
 // For testing, need to pass over debugging status to JS maybe so that we can run better testing 
 

@@ -21,7 +21,7 @@ this.msu_persistent_data_manager <- {
 			local components = split(file, "/");
 			local modID = components[1];
 			local settingsType = components[2];
-			::printWarning(format("Checking file, potential modID: '%s' and settingstype '%s'.", modID, settingsType), this.MSU.MSUModName, "persistence");
+			::printWarning(format("Checking file, potential modID: '%s' and settingstype '%s'.", modID, settingsType), this.MSU.ID, "persistence");
 			this.setMod(modID);
 			if (!(settingsType in this.getMods()[modID]))
 			{
@@ -52,7 +52,7 @@ this.msu_persistent_data_manager <- {
 
 	function loadSettingForMod( _modID, _settingID )
 	{
-		::printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), this.MSU.MSUModName, "persistence");
+		::printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), this.MSU.ID, "persistence");
 		if (_settingID in this.getMod(_modID))
 		{
 			this.include(this.getMod(_modID)[_settingID]);

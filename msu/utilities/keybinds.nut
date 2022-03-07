@@ -39,7 +39,7 @@ gt.MSU.GlobalKeyHandler <- {
         //remove handler function, for example if it's updated or a screen is is destroyed   
         if (!(_id in this.HandlerFunctionsMap))
         {
-            ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
+            ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.ID, "keybinds");
             return;
         }
         local handlerFunc = this.HandlerFunctionsMap[_id];
@@ -59,7 +59,7 @@ gt.MSU.GlobalKeyHandler <- {
         //for when new custom binds are added after handler functions have already been added, for whatever reason
         if (!(_id in this.HandlerFunctionsMap))
         {
-            ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.MSUModName, "keybinds");
+            ::printWarning("ID " + _id + " not found in Handlerfunctions!", this.MSU.ID, "keybinds");
             return;
         }
         local handlerFunc = this.HandlerFunctionsMap[_id];
@@ -69,7 +69,7 @@ gt.MSU.GlobalKeyHandler <- {
 
     function CallHandlerFunction( _key, _env, _state )
     { 
-        ::printWarning(format("Checking handler function for key %s", _key), this.MSU.MSUModName, "keybinds");
+        ::printWarning(format("Checking handler function for key %s", _key), this.MSU.ID, "keybinds");
         // call all handler functions if they are present for the key+modifier, if one returns false execution ends
         // executed in order of last added
 
@@ -80,13 +80,13 @@ gt.MSU.GlobalKeyHandler <- {
         local keyFuncArray = this.HandlerFunctions[_key];
         foreach (entry in keyFuncArray) 
         {
-            ::printWarning(format("Checking handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.MSUModName, "keybinds");
+            ::printWarning(format("Checking handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.ID, "keybinds");
             if (entry.State != this.States.All && entry.State != _state)
             {
                 continue;
             }
 
-            ::printWarning(format("Calling handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.MSUModName, "keybinds");
+            ::printWarning(format("Calling handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.ID, "keybinds");
             if (entry.Func.call(_env) == false)
             {
                 return false;
@@ -168,13 +168,13 @@ gt.MSU.CustomKeybinds <- {
     function get( _actionID, _defaultKey, _inSQ = true )
     {
         local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
-        ::printWarning("Getting key for ID " + _actionID, this.MSU.MSUModName, "keybinds");
+        ::printWarning("Getting key for ID " + _actionID, this.MSU.ID, "keybinds");
         if (_actionID in environment)
         {
-            ::printWarning(format("Returning key %s for ID %s.", environment[_actionID], _actionID), this.MSU.MSUModName, "keybinds");
+            ::printWarning(format("Returning key %s for ID %s.", environment[_actionID], _actionID), this.MSU.ID, "keybinds");
             return environment[_actionID];
         }
-        ::printWarning(format("Returning default key %s for ID %s.", _defaultKey, _actionID), this.MSU.MSUModName, "keybinds");
+        ::printWarning(format("Returning default key %s for ID %s.", _defaultKey, _actionID), this.MSU.ID, "keybinds");
         return _defaultKey;
     }
 
@@ -193,7 +193,7 @@ gt.MSU.CustomKeybinds <- {
 		}
 
         local key = this.ParseModifiers(_key);
-        ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.MSUModName, "keybinds");
+        ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.ID, "keybinds");
 		local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 		if ( _actionID in environment && !_override )
         {
@@ -212,7 +212,7 @@ gt.MSU.CustomKeybinds <- {
 
 	function remove( _actionID, _inSQ = true )
     {
-		::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.MSUModName, "keybinds");
+		::printWarning("Removing  keybinds for ID " + _actionID, this.MSU.ID, "keybinds");
 		local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 		environment.rawdelete(_actionID);
 	}
@@ -226,14 +226,14 @@ gt.MSU.CustomKeybinds <- {
             local bindsArray = mod[1];
             local panel;
             local page;
-            if (this.MSU.Systems.ModSettings.has(modName))
+            if (this.MSU.System.ModSettings.has(modName))
             {
-                panel = this.MSU.Systems.ModSettings.get(modName);
+                panel = this.MSU.System.ModSettings.get(modName);
             }
             else 
             {
                 panel = this.MSU.Class.SettingsPanel(modName);
-                this.MSU.Systems.ModSettings.add(panel);
+                this.MSU.System.ModSettings.add(panel);
             }
             if (panel.hasPage("Keybinds"))
             {
@@ -903,7 +903,7 @@ local function showCharacterScreen(){
 gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
 gt.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, gt.MSU.GlobalKeyHandler.States.Tactical)
 
-if (this.MSU.Systems.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
+if (this.MSU.System.Debug.isEnabledForMod(this.MSU.ID,"keybinds")){
 	gt.MSU.CustomKeybinds.setForJS("testKeybind", "3+shift"); //set new key in JS
 	gt.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
 	gt.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
@@ -913,5 +913,3 @@ if (this.MSU.Systems.Debug.isEnabledForMod(this.MSU.MSUModName,"keybinds")){
 	gt.MSU.CustomKeybinds.set("testKeybind", "f3", true); //override specified
 
 }
-
-

@@ -1,4 +1,5 @@
-this.MSU.Systems.Serialization <- this.MSU.Class.SerializationSystem();
+::includeFile("msu/systems/serialization/", "serialization_system.nut");
+this.MSU.System.Serialization <- this.MSU.Class.SerializationSystem();
 
 ::isSavedVersionAtLeast <- function( _modID, _version )
 {

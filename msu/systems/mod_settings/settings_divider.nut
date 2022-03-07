@@ -1,4 +1,4 @@
-this.MSU.Class.SettingsDivider <- class extends gt.MSU.Class.SettingsElement
+this.MSU.Class.SettingsDivider <- class extends this.MSU.Class.SettingsElement
 {
 	static Type = "Divider";
 	constructor(_id, _name = "")

@@ -15,7 +15,7 @@ CharacterScreenInventoryListModule.prototype.createItemSlot = function( _owner, 
 var vanilla_CharacterScreenInventoryListModule_createDIV = CharacterScreenInventoryListModule.prototype.createDIV;
 CharacterScreenInventoryListModule.prototype.createDIV = function( _parentDiv )
 {
-    vanilla_CharacterScreenInventoryListModuleDiv.call(this, _parentDiv);
+    vanilla_CharacterScreenInventoryListModule_createDIV.call(this, _parentDiv);
     this.mLastHoveredSlot = null;
 }
 

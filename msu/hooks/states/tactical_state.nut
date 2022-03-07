@@ -32,7 +32,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.Systems.ModSettings.updateSettings(_data);
+		this.MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
 

@@ -1,14 +1,10 @@
-local gt = this.getroottable();
-local MSUModName = "mod_MSU"
-::mods_registerMod(MSUModName, 1.0, "Modding Standards and Utils 0.6.27");
+::MSU <- {};
+::MSU.Version <- "1.0.0-alpha";
+::MSU.ID <- "mod_MSU";
+::MSU.Name <- "Modding Standards & Utilities";
 
-gt.MSU <- {};
-gt.MSU.MSUModName <- MSUModName;
-
-
+::mods_registerMod(this.MSU.ID, 1.0, this.MSU.Name);
 ::mods_queue(null, null, function()
 {
-	gt.MSU.setupUI();
-	delete gt.MSU.setupUI;
-
+	this.include("msu/load.nut");
 });

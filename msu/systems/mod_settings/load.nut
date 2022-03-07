@@ -1,3 +1,22 @@
+local function includeFile( _file )
+{
+	::includeFile("msu/systems/mod_settings/", _file);
+}
+
+includeFile("settings_element.nut");
+includeFile("settings_divider.nut");
+
+includeFile("abstract_setting.nut");
+includeFile("boolean_setting.nut");
+includeFile("enum_setting.nut");
+includeFile("string_setting.nut");
+includeFile("range_setting.nut");
+
+includeFile("settings_page.nut");
+includeFile("settings_panel.nut");
+
+includeFile("mod_settings_system.nut");
+
 local testSettingsSystem = function()
 {
 	for (local i = 0; i < 5; ++i)
@@ -33,20 +52,20 @@ local testSettingsSystem = function()
 
 			modPanel.addPage(testPage);
 		}
-		this.MSU.Systems.ModSettings.add(modPanel);
+		this.MSU.System.ModSettings.add(modPanel);
 	}
 }
 
-this.MSU.Systems.ModSettings <- this.MSU.Class.ModSettingsSystem();
+this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
 this.MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
 
-this.MSU.PersistentDataManager <- this.new("scripts/mods/msu_persistent_data_manager");
+this.MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
 
 this.MSU.UI.registerConnection(this.MSU.SettingsScreen);
 
 ::getModSetting <- function( _modID, _settingID )
 {
-	return this.MSU.Systems.ModSettings.get(_modID).getSetting(_settingID);
+	return this.MSU.System.ModSettings.get(_modID).getSetting(_settingID);
 }
 
 this.MSU.SettingsFlags <- {
@@ -72,27 +91,28 @@ this.MSU.SettingsFlags <- {
 	}
 }
 
-this.MSU.Systems.ModSettings.registerMod(this.MSU.MSUModName);
-local panel = this.MSU.Systems.ModSettings.get(this.MSU.MSUModName);
+this.MSU.System.ModSettings.registerMod(this.MSU.ID);
+local panel = this.MSU.System.ModSettings.get(this.MSU.ID);
+
 local logPage = this.MSU.Class.SettingsPage("Logging");
 local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 logToggle.addCallback(function(_data){
-	this.MSU.Systems.Debug.FullDebug = _data;
+	this.MSU.System.Debug.FullDebug = _data;
 })
 panel.addPage(logPage);
 logPage.add(logToggle);
 
-// this.MSU.Systems.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
+// this.MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
 // 	this.MSU.Debug.FullDebug = _data;
 // }))
 
-local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable VerboseMode");
+local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
 verboseModeToggle.addCallback(function(_data){
 	this.Const.AI.VerboseMode = _data
 })
 logPage.add(verboseModeToggle);
 
-// this.MSU.Systems.ModSettings.importPersistentSettings()
+// this.MSU.System.ModSettings.importPersistentSettings()
 
 
 // //this neeeds to be moved into a hook

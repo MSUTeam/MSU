@@ -62,7 +62,7 @@ this.Const.Items.getItemTypeName <- function( _itemType )
 	return "";
 }
 
-gt.Const.Items.WeaponType <- {
+this.Const.Items.WeaponType <- {
 	None = 0,
 	Axe = 1,
 	Bow = 2,
@@ -82,7 +82,7 @@ gt.Const.Items.WeaponType <- {
 	Musical = 32768
 }
 
-gt.Const.Items.WeaponTypeName <- [
+this.Const.Items.WeaponTypeName <- [
 	"No Weapon Type",
 	"Axe",
 	"Bow",
@@ -102,7 +102,7 @@ gt.Const.Items.WeaponTypeName <- [
 	"Musical Instrument"
 ]
 
-gt.Const.Items.getWeaponTypeName <- function( _weaponType )
+this.Const.Items.getWeaponTypeName <- function( _weaponType )
 {
 	local idx = this.MSU.Math.log2int(_weaponType) + 1;
 	if (idx < this.Const.Items.WeaponTypeName.len())
@@ -114,7 +114,7 @@ gt.Const.Items.getWeaponTypeName <- function( _weaponType )
 	return "";
 }
 
-gt.Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
+this.Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
 {
 	if (_weaponType in this.Const.Items.WeaponType)
 	{

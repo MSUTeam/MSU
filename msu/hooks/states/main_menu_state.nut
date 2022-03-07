@@ -1,4 +1,4 @@
-::mods_hookExactClass("states/main_menu_state", function(o) {
+::mods_hookNewObjectOnce("states/main_menu_state", function(o) {
 	o.m.ModSettingsShown <- false;
 	o.m.TempSettings <- null;
 
@@ -60,7 +60,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.Systems.ModSettings.updateSettings(_data);
+		this.MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 		if (this.m.ModSettingsShown)
 		{

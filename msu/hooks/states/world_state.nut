@@ -32,7 +32,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.Systems.ModSettings.updateSettings(_data);
+		this.MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
 
@@ -191,10 +191,10 @@
 	{
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
-		foreach (mod in this.MSU.Systems.Serialization.Mods)
+		foreach (mod in this.MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
-			::printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.MSUModName);
+			::printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.ID);
 		}
 	}
 
@@ -202,7 +202,7 @@
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
-		foreach (mod in this.MSU.Systems.Serialization.Mods)
+		foreach (mod in this.MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 			if (oldVersion == "") return;
@@ -213,14 +213,14 @@
 					this.logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
 					break;
 				case 0:
-					::printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.MSUModName);
+					::printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.ID);
 					break;
 				case 1:
 					this.logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
 					break;
 				default:
 					this.logError("Something has gone very wrong with MSU Serialization");
-					this.MSU.Systems.Debug.printStackTrace();
+					this.MSU.System.Debug.printStackTrace();
 			}
 		}
 	}
@@ -228,10 +228,10 @@
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		this.MSU.Systems.ModSettings.flagSerialize();		
+		this.MSU.System.ModSettings.flagSerialize();
 		this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
-		this.MSU.Systems.ModSettings.resetFlags();
+		this.MSU.System.ModSettings.resetFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
@@ -247,8 +247,8 @@
 			this.World.Assets.setLastDayMorningEventCalled(0);
 		}
 
-		this.MSU.Systems.ModSettings.flagDeserialize();
-		this.MSU.Systems.ModSettings.resetFlags();
+		this.MSU.System.ModSettings.flagDeserialize();
+		this.MSU.System.ModSettings.resetFlags();
 	}
 
     local world_keyFunc = o.onKeyInput;

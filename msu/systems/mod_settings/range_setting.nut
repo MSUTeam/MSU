@@ -1,4 +1,4 @@
-this.MSU.Class.RangeSetting <- class extends gt.MSU.Class.AbstractSetting
+this.MSU.Class.RangeSetting <- class extends this.MSU.Class.AbstractSetting
 {
 	Min = null;
 	Max = null;

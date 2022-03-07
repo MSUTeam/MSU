@@ -8,7 +8,7 @@ this.MSU.Class.System <- class
 		foreach (dependency in _dependencies)
 		{
 			local found = false;
-			foreach (system in this.MSU.Systems)
+			foreach (system in this.MSU.System)
 			{
 				if (dependency == system.getID())
 				{

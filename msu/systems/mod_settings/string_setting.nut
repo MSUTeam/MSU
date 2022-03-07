@@ -1,4 +1,4 @@
-this.MSU.Class.StringSetting <- class extends gt.MSU.Class.AbstractSetting
+this.MSU.Class.StringSetting <- class extends this.MSU.Class.AbstractSetting
 {
 	static Type = "String";
 

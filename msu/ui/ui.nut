@@ -1,15 +1,3 @@
-::mods_registerCSS("msu/css.css");
-::mods_registerJS("msu/backend_connection.js");
-::mods_registerJS("msu/ui_screen.js");
-
-::mods_registerJS("msu/settings_screen.js");
-::mods_registerCSS("msu/settings_screen.css");
-
-::mods_registerJS("msu/mod_screens.js");
-
-::mods_registerJS("msu/~~connect_screens.js")
-
-
 this.MSU.UI <- {
 	Connections = [],
 	JSConnection = null,
@@ -29,5 +17,3 @@ this.MSU.UI <- {
 	}
 }
 
-this.MSU.UI.JSConnection = this.new("scripts/mods/msu/msu_connection");
-this.MSU.UI.registerConnection(this.MSU.UI.JSConnection);
