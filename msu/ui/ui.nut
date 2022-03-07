@@ -21,13 +21,13 @@ this.MSU.UI <- {
 
 	function connect() // Want to make this call another function which acts as a very late time to run code, eg I want to lock the settingsmanager at this point (this runs after main menu load)
 	{
-		foreach (screen in this.Connections)
+		foreach (connection in this.Connections)
 		{
-			screen.connect();
+			connection.connect();
 		}
-		this.MSU.UI.Connections = [];
+		this.MSU.UI.Connections.clear();
 	}
 }
 
-this.MSU.UI.JSConnection = this.new("msu/ui/msu_connection");
+this.MSU.UI.JSConnection = this.new("scripts/mods/msu/msu_connection");
 this.MSU.UI.registerConnection(this.MSU.UI.JSConnection);

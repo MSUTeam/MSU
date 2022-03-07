@@ -1,4 +1,4 @@
-this.ui_screen <- this.inherit("msu/ui/JS_connection", {
+this.ui_screen <- this.inherit("scripts/mods/msu/JS_connection", {
 	m = {
 		Visible = false,
 		Animating = false,

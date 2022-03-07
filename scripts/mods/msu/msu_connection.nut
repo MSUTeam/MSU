@@ -1,4 +1,4 @@
-this.msu_connection <- this.inherit("msu/ui/js_connection", {
+this.msu_connection <- this.inherit("scripts/mods/msu/js_connection", {
 	m = {},
 
 	function connect()

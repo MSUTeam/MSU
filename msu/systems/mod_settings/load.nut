@@ -38,7 +38,7 @@ local testSettingsSystem = function()
 }
 
 this.MSU.Systems.ModSettings <- this.MSU.Class.ModSettingsSystem();
-this.MSU.SettingsScreen <- this.new("scripts/ui/mods/msu_settings_screen");
+this.MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
 
 this.MSU.PersistentDataManager <- this.new("scripts/mods/msu_persistent_data_manager");
 
