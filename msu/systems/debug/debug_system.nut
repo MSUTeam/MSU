@@ -4,7 +4,6 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	LogType = null;
 	FullDebug = null;
 	DefaultFlag = null;
-	VanillaLogName = null;
 	MSUMainDebugFlag = null;
 	MSUDebugFlags = null;
 
@@ -19,7 +18,6 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		};
 		this.FullDebug = false;
 		this.DefaultFlag = "default";
-		this.VanillaLogName = "vanilla";
 
 		this.MSUMainDebugFlag = {
 			debug = true

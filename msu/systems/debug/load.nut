@@ -29,4 +29,4 @@ this.MSU.System.Debug.setFlags(this.MSU.ID, this.MSU.System.Debug.MSUMainDebugFl
 
 this.MSU.System.Debug.setFlags(this.MSU.ID, this.MSU.System.Debug.MSUDebugFlags);
 
-this.MSU.System.Debug.registerMod(this.MSU.System.Debug.VanillaLogName, true);
+this.MSU.System.Debug.registerMod(this.MSU.VanillaID, true);

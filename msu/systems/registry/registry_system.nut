@@ -5,10 +5,6 @@ this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
 	{
 		base.constructor(this.MSU.SystemID.ModRegistry);
 		this.Mods = {}
-
-		local mod = this.MSU.Class.Mod("vanilla", "1.4.0+48", "Vanilla");
-		this.Mods[mod.getID()] <- mod;
-		this.logInfo(format("MSU registered %s, version: %s", mod.getName(), mod.getVersionString()));
 	}
 
 	function registerMod( _modID, _version, _modName = null )

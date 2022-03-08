@@ -80,7 +80,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		}
 	}
 
-	function doPanelsFunction(_function, ...)
+	function callPanelsFunction(_function, ...)
 	{
 		vargv.insert(0, null);
 
@@ -98,17 +98,17 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 
 	function flagSerialize()
 	{
-		this.doPanelsFunction("flagSerialize");
+		this.callPanelsFunction("flagSerialize");
 	}
 
 	function resetFlags()
 	{
-		this.doPanelsFunction("resetFlags");
+		this.callPanelsFunction("resetFlags");
 	}
 
 	function flagDeserialize()
 	{
-		this.doPanelsFunction("flagDeserialize");
+		this.callPanelsFunction("flagDeserialize");
 	}
 
 	function getUIData( _flags = null )

@@ -3,6 +3,8 @@
 ::MSU.ID <- "mod_MSU";
 ::MSU.Name <- "Modding Standards & Utilities";
 
+::MSU.VanillaID <- "vanilla";
+
 ::mods_registerMod(this.MSU.ID, 1.0, this.MSU.Name);
 ::mods_queue(null, null, function()
 {
