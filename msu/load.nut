@@ -28,5 +28,6 @@ includeLoad("classes");
 includeLoad("ui");
 includeLoad("systems");
 includeLoad("config");
+includeLoad("keyhandling");
 
 includeLoad("hooks");
