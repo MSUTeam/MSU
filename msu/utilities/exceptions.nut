@@ -1,4 +1,4 @@
-this.Exception <- {
+::Exception <- {
 	KeyNotFound = "Key not found",
 	NotConnected = "The screen does not have a JSHandle (make sure you connect your screens)",
 	AlreadyVisible = "Trying to show already visible screen",

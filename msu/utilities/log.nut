@@ -33,7 +33,7 @@ this.MSU.Log <- {
 		if (typeof _data == "array" || typeof _data == "table"){
 			maxLen = _data.len();
 		}
-		return this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced)
+		this.logInfo(this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced));
 	}
 
 	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )

@@ -7,6 +7,13 @@ this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
 		this.Mods = {}
 	}
 
+	function addMod( _modID, _version, _modName )
+	{
+		local mod = this.MSU.Class.Mod(_modID, _version, _modName);
+		this.Mods[_modID] <- mod;
+		this.logInfo(format("MSU registered mod %s, version: %s", mod.getName(), mod.getVersionString()));
+	}
+
 	function registerMod( _modID, _version, _modName = null )
 	{
 		if (_modID in this.Mods)
@@ -20,8 +27,6 @@ this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
 			throw this.Exception.KeyNotFound;
 		}
 
-		local mod = this.MSU.Class.Mod(_modID, _version, _modName);
-		this.Mods[_modID] <- mod;
-		this.logInfo(format("MSU registered mod %s, version: %s", mod.getName(), mod.getVersionString()));
+		this.addMod(_modID, _version, _modName);
 	}
 }
