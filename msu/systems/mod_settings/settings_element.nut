@@ -5,6 +5,7 @@ this.MSU.Class.SettingsElement <- class
 	static Type = "Element";
 	Flags = null;
 	Description = null;
+	PanelID = null;
 
 	constructor(_id, _name = null)
 	{
@@ -22,6 +23,11 @@ this.MSU.Class.SettingsElement <- class
 	function getType()
 	{
 		return this.Type;
+	}
+
+	function setPanelID( _panelID )
+	{
+		this.PanelID = _panelID;
 	}
 
 	function setDescription( _description )

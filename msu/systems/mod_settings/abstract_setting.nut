@@ -1,13 +1,12 @@
 this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 {
-	
 	static Type = "Abstract";
 	Value = null;// Serialized
 	Locked = null; // Serialized
 	LockReason = null; // Serialized
 	Callbacks = null;
 	ParseChange = null; //if it should print change to log for further manipulation
-	
+
 	constructor( _id, _value, _name = null )
 	{
 		base.constructor(_id, _name)
@@ -41,7 +40,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		this.Callbacks.push(_callback);
 	}
 
-	function set( _value )
+	function set( _value, _updateJS = true )
 	{
 		if (this.Locked)
 		{
@@ -50,6 +49,10 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		}
 
 		this.Value = _value
+		if (_updateJS)
+		{
+			this.MSU.UI.JSConnection.updateSetting(this.PanelID, this.getID(), this.getValue())
+		}
 	}
 
 	function getValue()

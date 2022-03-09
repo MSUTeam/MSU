@@ -31,6 +31,11 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		return this.Panels[_id];
 	}
 
+	function getPanels()
+	{
+		return this.Panels;
+	}
+
 	function has( _id )
 	{
 		return _id in this.Panels
@@ -73,9 +78,8 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 					{
 						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
 					}
+					setting.set(value);
 				}
-
-				setting.set(value);
 			}
 		}
 	}
@@ -122,6 +126,16 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 			}
 		}
 		ret.reverse() //No idea why conversion to JS reverses the array, but it does so I am pre-empting this.
+		return ret;
+	}
+
+	function getLogicalData()
+	{
+		local ret = {};
+		foreach (panel in this.getPanels())
+		{
+			ret[panel.getID()] <- panel.getLogicalData();
+		}
 		return ret;
 	}
 

@@ -22,6 +22,7 @@ this.MSU.Class.SettingsPanel <- class
 		{
 			throw this.Exception.InvalidType;
 		}
+		_page.setPanelID(this.ID)
 		this.Pages[_page.getID()] <- _page;
 	}
 
@@ -29,7 +30,7 @@ this.MSU.Class.SettingsPanel <- class
 	{
 		foreach (page in this.Pages)
 		{
-			if ( page.Settings.Array.find(_settingID) != null)
+			if (page.Settings.Array.find(_settingID) != null)
 			{
 				return page.get(_settingID);
 			}
@@ -70,7 +71,7 @@ this.MSU.Class.SettingsPanel <- class
 		return this.ID;
 	}
 
-	function doSettingsFunction( _function, ... )
+	function callSettingsFunction( _function, ... )
 	{
 		vargv.insert(0, null);
 		foreach (page in this.Pages)
@@ -88,17 +89,17 @@ this.MSU.Class.SettingsPanel <- class
 
 	function flagSerialize()
 	{
-		this.doSettingsFunction("flagSerialize", this.getID());
+		this.callSettingsFunction("flagSerialize", this.getID());
 	}
 
 	function flagDeserialize()
 	{
-		this.doSettingsFunction("flagDeserialize", this.getID());
+		this.callSettingsFunction("flagDeserialize", this.getID());
 	}
 
 	function resetFlags()
 	{
-		this.doSettingsFunction("resetFlags", this.getID());
+		this.callSettingsFunction("resetFlags", this.getID());
 	}
 
 	function getUIData( _flags )
@@ -117,6 +118,22 @@ this.MSU.Class.SettingsPanel <- class
 			}
 		}
 
+		return ret;
+	}
+
+	function getLogicalData()
+	{
+		local ret = {};
+		foreach (page in this.getPages())
+		{
+			foreach (setting in page.getSettings())
+			{
+				if (setting instanceof this.MSU.Class.AbstractSetting)
+				{
+					ret[setting.getID()] <- setting.getValue()
+				}
+			}
+		}
 		return ret;
 	}
 }
