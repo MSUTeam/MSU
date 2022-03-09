@@ -3,13 +3,9 @@ this.MSU.Class.EnumSetting <- class extends this.MSU.Class.AbstractSetting
 	Array = null;
 	static Type = "Enum";
 
-	constructor( _id, _array, _value = null, _name = null )
+	constructor( _id, _value, _array, _name = null )
 	{
-		if (_value == null)
-		{
-			_value = _array[0];
-		}
-		else if (_array.find(_value) == null)
+		if (_array.find(_value) == null)
 		{
 			this.logError("Value must be an element in the Array");
 			throw this.Exception.KeyNotFound;
