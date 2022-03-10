@@ -5,7 +5,7 @@ this.MSU.CustomKeybinds <- {
 	CustomBindsJS = {}, //JS and SQ use different binds
     BindsToParse = [],
 
-    function ParseModifiers( _key )
+    function parseModifiers( _key )
     {
         //reorder modifiers so that they are always in the same order
         local keyArray = split(_key, "+");
@@ -53,7 +53,7 @@ this.MSU.CustomKeybinds <- {
 			this.logError(format("Trying to bind key " + _key + " to action " + _actionID + " but either is not a string!"));
 		}
 
-        local key = this.ParseModifiers(_key);
+        local key = this.parseModifiers(_key);
         ::printWarning("Set "  + _actionID + " with key " + key + " in env ", this.MSU.ID, "keybinds");
 		local environment = _inSQ ? this.CustomBindsSQ : this.CustomBindsJS;
 		if ( _actionID in environment && !_override )
@@ -62,7 +62,7 @@ this.MSU.CustomKeybinds <- {
 			return;
 		}
         environment[_actionID] <- key;
-        if (_inSQ) this.MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, key);
+        if (_inSQ) this.MSU.GlobalKeyHandler.updateHandlerFunction(_actionID, key);
 		
 	}
 

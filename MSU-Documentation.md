@@ -779,19 +779,19 @@ Since we cannot have persistent mod data between saves, custom keybinds must be 
 #General information
 The keyhandler gathers arrays of events that are to be executed when a certain key or key combination is pressed. An event has an ID that is used to update and remove events, and a key combination expressed as a string. It is also executed via a certain context, which is world_state, tactical_state, main_menu_state or all of them. This context is passed to the function. 
 
-- `AddHandlerFunction(_id, _key, _func, _state = 0)`
+- `addHandlerFunction(_id, _key, _func, _state = 0)`
 Adds a new handler function, when key `_key` is pressed. `_key` can also be a mouse input. `_key` is `_id` allows grouping and to remove the function once the screen is closed. `_func` is the function to execute. If `_func` returns false, no other function for the same key gets executed.
 
-- `RemoveHandlerFunction(_id, _key)`
+- `removeHandlerFunction(_id, _key)`
 Removes a an event handling based on `_id`.
 
-- `UpdateHandlerFunction = function(_id, _key)`
+- `updateHandlerFunction = function(_id, _key)`
 Updates a handler function to react to a new key, generally used by the backend when a custom keybind is found.
 
-- `CallHandlerFunction(_key, _env, _state)`
+- `callHandlerFunction(_key, _env, _state)`
 Called when key is pressed. Calls each function registered under `_key` in reverse order of being added, so newest goes first. `_env` is the environment that has called the event. Only calls functions with with the same `_state` or `_state` all. If one function returns false, stops executing the other functions.
 
-- `ProcessInput = function(_key, _env, _state, _inputType = 0)`
+- `processInput = function(_key, _env, _state, _inputType = 0)`
 Parses the input from the hooked functions. Checks if the pressed key(s) exist in the key conversion table and adds the modifiers.
 
 #JS side:
@@ -801,7 +801,7 @@ Mostly the same. Instead of individual hooks, there are two document-level event
 #General Information
 The Custom Binds module is used to be able to save and load custom keybinds for both vanilla and mod event handler functions. An input event is passed to this to be checked against the known custom keybinds, and if a match is found, the new keybind is returned instead. Keybinds are stored in the `CustomBindsJS` and `CustomBindsSQ` tables. On game start, the JS custom binds are passed over. To add custom keybinds in a manner that makes them easily editable by the user, include the data/mod_config/keybinds folder structure to your mod, and create a list of default actionID and keybind pairs in there- see MSU data structure.
 
-- `ParseModifiers(_key)`
+- `parseModifiers(_key)`
 Gets the key input and parses modifiers: ctrl, shift, and alt.
 
 - `get(_actionID, _defaultKey, _inSQ = true)`

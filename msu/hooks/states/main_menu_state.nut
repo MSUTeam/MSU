@@ -77,7 +77,7 @@
 	    { 
 	        return menu_onKeyInput(_key);
 	    }
-	    local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu);
+	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu);
 	    if (customHandling == false)
 	    {
 	        return false;
@@ -93,7 +93,7 @@
 	    { 
 	        return menu_mouseInput(_mouse);
 	    }
-	    local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.MainMenu, this.MSU.GlobalKeyHandler.InputType.Mouse);
+	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_mouse, this, this.MSU.GlobalKeyHandler.States.MainMenu, this.MSU.GlobalKeyHandler.InputType.Mouse);
 	    if (customHandling == false)
 	    {
 	        return false;

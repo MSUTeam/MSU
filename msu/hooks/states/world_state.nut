@@ -258,7 +258,7 @@
         {
             return world_keyFunc(_key);
         }
-        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_key, this, this.MSU.GlobalKeyHandler.States.World);
+        local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.World);
         if (customHandling == false)
         {
             return false;
@@ -274,7 +274,7 @@
             return world_mouseInput(_mouse);
         }
 
-        local customHandling = this.MSU.GlobalKeyHandler.ProcessInput(_mouse, this, this.MSU.GlobalKeyHandler.States.World, this.MSU.GlobalKeyHandler.InputType.Mouse);
+        local customHandling = this.MSU.GlobalKeyHandler.processInput(_mouse, this, this.MSU.GlobalKeyHandler.States.World, this.MSU.GlobalKeyHandler.InputType.Mouse);
         if (customHandling == false)
         {
             return false;

@@ -12,7 +12,7 @@
         Mouse = 1
     },
 
-    function AddHandlerFunction( _id, _key,  _func, _state = 0 )
+    function addHandlerFunction( _id, _key,  _func, _state = 0 )
     {
         //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
         local parsedKey = this.MSU.CustomKeybinds.get(_id, _key);
@@ -29,7 +29,7 @@
         this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0];
     }
 
-    function RemoveHandlerFunction( _id )
+    function removeHandlerFunction( _id )
     {
         //remove handler function, for example if it's updated or a screen is is destroyed   
         if (!(_id in this.HandlerFunctionsMap))
@@ -49,7 +49,7 @@
         
     }
 
-    function UpdateHandlerFunction( _id, _key )
+    function updateHandlerFunction( _id, _key )
     {
         //for when new custom binds are added after handler functions have already been added, for whatever reason
         if (!(_id in this.HandlerFunctionsMap))
@@ -58,11 +58,11 @@
             return;
         }
         local handlerFunc = this.HandlerFunctionsMap[_id];
-        this.RemoveHandlerFunction(handlerFunc.ID);
-        this.AddHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State);
+        this.removeHandlerFunction(handlerFunc.ID);
+        this.addHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State);
     }
 
-    function CallHandlerFunction( _key, _env, _state )
+    function callHandlerFunction( _key, _env, _state )
     { 
         ::printWarning(format("Checking handler function for key %s", _key), this.MSU.ID, "keybinds");
         // call all handler functions if they are present for the key+modifier, if one returns false execution ends
@@ -89,7 +89,7 @@
         }
     }
 
-    function ProcessInput( _key, _env, _state, _inputType = 0 )
+    function processInput( _key, _env, _state, _inputType = 0 )
     {
         local key;
         if (_inputType == this.InputType.Keyboard)
@@ -129,6 +129,6 @@
             this.logError(_inputType + " is not a valid input type!");
             return;
         }
-        return MSU.GlobalKeyHandler.CallHandlerFunction(key, _env, _state);
+        return MSU.GlobalKeyHandler.callHandlerFunction(key, _env, _state);
     }
 }

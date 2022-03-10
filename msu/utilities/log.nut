@@ -62,7 +62,12 @@ this.MSU.Log <- {
 					{
 						string += this.getLocalString(key2, value2, _maxLen, _depth - 1, _advanced, arrayVsTable[1]);
 					}
-					string = string.slice(0, string.len() - 2) + arrayVsTable[2] + ", ";
+					if (_value.len() > 0)
+					{
+						string = string.slice(0, string.len() - 2);
+					}
+					string += arrayVsTable[2] + ", ";
+
 					break;
 				}
 			case "function":

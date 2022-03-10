@@ -1,7 +1,7 @@
 MSU.GlobalKeyHandler = {
     HandlerFunctions : {},
     HandlerFunctionsMap : {},
-    AddHandlerFunction : function( _id, _key, _func )
+    addHandlerFunction : function( _id, _key, _func )
     {
         //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
         var parsedKey = MSU.CustomKeybinds.get(_id, _key);
@@ -16,7 +16,7 @@ MSU.GlobalKeyHandler = {
         })
         this.HandlerFunctionsMap[_id] = this.HandlerFunctions[parsedKey][0];
     },
-    RemoveHandlerFunction : function( _id, _key )
+    removeHandlerFunction : function( _id, _key )
     {
         //remove handler function, for example if screen is destroyed
         if(!(_id in this.HandlerFunctionsMap))
@@ -24,7 +24,7 @@ MSU.GlobalKeyHandler = {
             return;
         }
         var handlerFunc = this.HandlerFunctionsMap[_id];
-        var parsedKey = MSU.CustomKeybinds.ParseModifiers(_key);
+        var parsedKey = MSU.CustomKeybinds.parseModifiers(_key);
         var keyFuncArray = this.HandlerFunctions[parsedKey];
         for (var i = 0; i < keyFuncArray.length; i++)
         {
@@ -40,18 +40,18 @@ MSU.GlobalKeyHandler = {
         } 
         delete this.HandlerFunctionsMap[handlerFunc.Key];
     },
-    UpdateHandlerFunction : function( _id, _key )
+    updateHandlerFunction : function( _id, _key )
     {
         if (!(_id in this.HandlerFunctionsMap))
         {
             return;
         }
         var handlerFunc = this.HandlerFunctionsMap[_id];
-        this.RemoveHandlerFunction(handlerFunc.ID, handlerFunc.Key);
-        this.AddHandlerFunction(_id, _key, handlerFunc.Func);
+        this.removeHandlerFunction(handlerFunc.ID, handlerFunc.Key);
+        this.addHandlerFunction(_id, _key, handlerFunc.Func);
     },
 
-    CallHandlerFunction : function( _key, event )
+    callHandlerFunction : function( _key, event )
     { 
         // call all handler functions if they are present for the key+modifier, if one returns false execution ends
         // executed in order of last added
@@ -68,7 +68,7 @@ MSU.GlobalKeyHandler = {
             }
         }
     },
-    ProcessInput : function( _key, _event )
+    processInput : function( _key, _event )
     {
         if (_event.shiftKey === true)
         {
@@ -82,7 +82,7 @@ MSU.GlobalKeyHandler = {
         {
             _key += "+alt";
         }
-        return this.CallHandlerFunction(_key);
+        return this.callHandlerFunction(_key);
     }
 }
 document.addEventListener('keyup', function( _event ){
@@ -92,7 +92,7 @@ document.addEventListener('keyup', function( _event ){
     {
         return;
     }
-    if (MSU.GlobalKeyHandler.ProcessInput(key, _event) === false)
+    if (MSU.GlobalKeyHandler.processInput(key, _event) === false)
     {
         event.stopPropagation();
     }
@@ -104,7 +104,7 @@ document.addEventListener('mouseup', function( _event ){
     {
         return;
     }
-    if (MSU.GlobalKeyHandler.ProcessInput(key, _event) === false)
+    if (MSU.GlobalKeyHandler.processInput(key, _event) === false)
     {
         event.stopPropagation();
     }
@@ -228,7 +228,7 @@ MSU.CustomKeybinds = {
         0 : "leftclick",
         2 : "rightclick",
     },
-    ParseModifiers : function( _key )
+    parseModifiers : function( _key )
     {
         // reorder modifiers so that they are always in the same order
         var keyArray = _key.split('+');
@@ -260,9 +260,9 @@ MSU.CustomKeybinds = {
     },
     set: function( _actionID, _key )
     {
-        _key = this.ParseModifiers(_key);
+        _key = this.parseModifiers(_key);
         this.CustomBinds[_actionID] = _key;
-        MSU.GlobalKeyHandler.UpdateHandlerFunction(_actionID, _key);
+        MSU.GlobalKeyHandler.updateHandlerFunction(_actionID, _key);
     },
     setFromSQ : function( _keyBinds )
     {
@@ -275,28 +275,28 @@ MSU.CustomKeybinds = {
 
 // For testing, need to pass over debugging status to JS maybe so that we can run better testing 
 
-// MSU.GlobalKeyHandler.AddHandlerFunction("lmb", "leftclick", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("lmb", "leftclick", function(){
 //     console.error("pressed lmb")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("lmbshift", "leftclick+shift", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("lmbshift", "leftclick+shift", function(){
 //     console.error("pressed lmbshift")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("lmbctrl", "leftclick+ctrl", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("lmbctrl", "leftclick+ctrl", function(){
 //     console.error("pressed lmbctrl")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("lmbalt", "leftclick+alt", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("lmbalt", "leftclick+alt", function(){
 //     console.error("pressed lmbalt")
 // })
 
-// MSU.GlobalKeyHandler.AddHandlerFunction("rmb", "rightclick", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("rmb", "rightclick", function(){
 //     console.error("pressed rmb")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("rmbshift", "rightclick+shift", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("rmbshift", "rightclick+shift", function(){
 //     console.error("pressed rmbshift")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("rmbctrl", "rightclick+ctrl", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("rmbctrl", "rightclick+ctrl", function(){
 //     console.error("pressed rmbctrl")
 // })
-// MSU.GlobalKeyHandler.AddHandlerFunction("rmbalt", "rightclick+alt", function(){
+// MSU.GlobalKeyHandler.addHandlerFunction("rmbalt", "rightclick+alt", function(){
 //     console.error("pressed rmbalt")
 // })

@@ -191,24 +191,24 @@ local character_toggleCharacterMenu = function(){
         return false
     }
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_toggleCharacterMenu_1", "c",  character_toggleCharacterMenu)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_toggleCharacterMenu_2", "i",  character_toggleCharacterMenu)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_toggleCharacterMenu_3", "escape",  character_toggleCharacterMenu)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_toggleCharacterMenu_1", "c",  character_toggleCharacterMenu)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_toggleCharacterMenu_2", "i",  character_toggleCharacterMenu)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_toggleCharacterMenu_3", "escape",  character_toggleCharacterMenu)
 local switchPreviousBrother = function(){
    if (!this.isInCharacterScreen()) return
     this.m.CharacterScreen.switchToPreviousBrother();
     return false
 }
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_switchToPreviousBrother_1", "left",  switchPreviousBrother)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_switchToPreviousBrother_2", "a",  switchPreviousBrother)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_switchToPreviousBrother_1", "left",  switchPreviousBrother)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_switchToPreviousBrother_2", "a",  switchPreviousBrother)
 local switchNextBrother = function(){
    if (!this.isInCharacterScreen()) return
     this.m.CharacterScreen.switchToNextBrother();
     return false
 }
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_switchToNextBrother_1", "right",  switchNextBrother)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_switchToNextBrother_2", "d",  switchNextBrother)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("character_switchToNextBrother_3", "tab",  switchNextBrother)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_switchToNextBrother_1", "right",  switchNextBrother)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_switchToNextBrother_2", "d",  switchNextBrother)
+this.MSU.GlobalKeyHandler.addHandlerFunction("character_switchToNextBrother_3", "tab",  switchNextBrother)
 
 local function isCampfireScreen(){
     return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible()
@@ -218,10 +218,10 @@ local function world_closeCampfireScreen(){
     this.m.CampfireScreen.onModuleClosed();
     return false
 }
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_closeCampfireScreen_1", "p",  world_closeCampfireScreen)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_closeCampfireScreen_2", "escape",  world_closeCampfireScreen)
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_closeCampfireScreen_1", "p",  world_closeCampfireScreen)
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_closeCampfireScreen_2", "escape",  world_closeCampfireScreen)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleMenuScreen", "escape",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleMenuScreen", "escape",  function(){
     if (isCampfireScreen.call(this)) return
     if (this.toggleMenuScreen())
     {
@@ -238,10 +238,10 @@ local function world_toggleCharacterScreen(){
         }
     }
 }
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleCharacterScreen_1", "c",  world_toggleCharacterScreen)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleCharacterScreen_2", "i",  world_toggleCharacterScreen)
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleCharacterScreen_1", "c",  world_toggleCharacterScreen)
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleCharacterScreen_2", "i",  world_toggleCharacterScreen)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleRelationScreen", "r",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleRelationScreen", "r",  function(){
     if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
     {
         this.topbar_options_module_onRelationsButtonClicked();
@@ -253,7 +253,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleRelationScreen", "r", 
         return false
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleObituarysScreen", "o",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleObituarysScreen", "o",  function(){
     if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
     {
         this.topbar_options_module_onObituaryButtonClicked();
@@ -265,7 +265,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleObituarysScreen", "o",
         return false
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleCamping", "t",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleCamping", "t",  function(){
     if (!this.m.MenuStack.hasBacksteps())
     {
         if (this.isCampingAllowed())
@@ -276,7 +276,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleCamping", "t",  functi
     }
 })
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_toggleRetinueButton", "p",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_toggleRetinueButton", "p",  function(){
     if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
     {
         this.topbar_options_module_onPerksButtonClicked();
@@ -292,53 +292,53 @@ local function world_pause(){
     }
 }
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_pause_1", "0",  world_pause)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_pause_2", "space",  world_pause)
-//this.MSU.GlobalKeyHandler.AddHandlerFunction("t", "world_pause_3", worldmap_pause) 42?
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_pause_1", "0",  world_pause)
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_pause_2", "space",  world_pause)
+//this.MSU.GlobalKeyHandler.addHandlerFunction("t", "world_pause_3", worldmap_pause) 42?
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_speedNormal", "1",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_speedNormal", "1",  function(){
     if (!this.m.MenuStack.hasBacksteps())
     {
         this.setNormalTime();
         return false;
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_speedFast", "2",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_speedFast", "2",  function(){
     if (!this.m.MenuStack.hasBacksteps())
     {
         this.setFastTime();
         return false;
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_trackingButton", "f",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_trackingButton", "f",  function(){
     if (!this.m.MenuStack.hasBacksteps())
     {
         this.m.WorldScreen.getTopbarOptionsModule().onTrackingButtonPressed();
         return false;
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_cameraLockButton", "x",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_cameraLockButton", "x",  function(){
     if (!this.m.MenuStack.hasBacksteps())
     {
         this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
         return false;
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_quicksave", "f5",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_quicksave", "f5",  function(){
     if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman())
     {
         this.saveCampaign("quicksave");
         return false
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_quickload", "f9",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_quickload", "f9",  function(){
     if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman() && this.World.canLoad("quicksave"))
     {
         this.loadCampaign("quicksave");
         return false
     }
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_1", "1",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_event_1", "1",  function(){
     if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
     {
         return
@@ -347,7 +347,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_1", "1",  function(){
     this.m.EventScreen.onButtonPressed(0);
     return false;
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_2", "2",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_event_2", "2",  function(){
     if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
     {
         return
@@ -356,7 +356,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_2", "2",  function(){
     this.m.EventScreen.onButtonPressed(1);
     return false;
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_3", "3",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_event_3", "3",  function(){
     if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
     {
         return
@@ -365,7 +365,7 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_3", "3",  function(){
     this.m.EventScreen.onButtonPressed(2);
     return false;
 })
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_4", "4",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_event_4", "4",  function(){
     if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
     {
         return
@@ -375,14 +375,14 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("world_event_4", "4",  function(){
     return false;
 })
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("world_release_forceattack", "ctrl",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("world_release_forceattack", "ctrl",  function(){
     this.m.IsForcingAttack = false;
 })
 
 //-------------------------------------------TACTICAL---------------------------------------------------------------------------------
 
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen", "enter",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_hideCharacterScreen", "enter",  function(){
     if (!this.isInCharacterScreen()) return
     if (this.m.CharacterScreen.isInBattlePreparationMode() == true)
     {
@@ -391,22 +391,22 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen", "en
     }
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "left",  switchPreviousBrother, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchPreviousBrother_1", "a",  switchPreviousBrother, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_1", "right",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_2", "d",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_switchNextBrother_3", "tab",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_switchPreviousBrother_1", "left",  switchPreviousBrother, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_switchPreviousBrother_1", "a",  switchPreviousBrother, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_switchNextBrother_1", "right",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_switchNextBrother_2", "d",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_switchNextBrother_3", "tab",  switchNextBrother, this.MSU.GlobalKeyHandler.States.Tactical)
 
 local function hideCharacterScreen(){
     if (!this.isInCharacterScreen() || this.m.CharacterScreen.isAnimating()) return
     this.hideCharacterScreen()
     return false
 }
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_1", "i",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_2", "c",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_hideCharacterScreen_3", "escape",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_hideCharacterScreen_1", "i",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_hideCharacterScreen_2", "c",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_hideCharacterScreen_3", "escape",  hideCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleMenuScreen", "escape",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_toggleMenuScreen", "escape",  function(){
     if (this.isInCharacterScreen()) return
     if (!this.m.MenuStack.hasBacksteps() || this.m.TacticalMenuScreen.isVisible())
     {
@@ -417,31 +417,31 @@ this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleMenuScreen", "escap
     }
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleStatsOverlays", "alt",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_toggleStatsOverlays", "alt",  function(){
     if (this.m.MenuStack.hasBacksteps()) return
     this.topbar_options_onToggleStatsOverlaysButtonClicked();
     return false
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleTreesButton", "t",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_toggleTreesButton", "t",  function(){
     if (this.m.MenuStack.hasBacksteps()) return
     this.topbar_options_onToggleTreesButtonClicked();
     return false
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_toggleHighlightBlockedTiles", "b",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_toggleHighlightBlockedTiles", "b",  function(){
     if (this.m.MenuStack.hasBacksteps()) return
     this.topbar_options_onToggleHighlightBlockedTilesButtonClicked();
     return false
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_initNextTurn", "enter",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_initNextTurn", "enter",  function(){
     if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
      this.Tactical.TurnSequenceBar.initNextTurn();
     return false
 }, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_endTurnAll", "r",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_endTurnAll", "r",  function(){
     if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
     this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
     return false
@@ -460,10 +460,10 @@ local function waitTurn(){
     }
 }
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_1", "end",  waitTurn, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_waitTurn_2", "space",  waitTurn, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_waitTurn_1", "end",  waitTurn, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_waitTurn_2", "space",  waitTurn, this.MSU.GlobalKeyHandler.States.Tactical)
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_focusActiveEntity", "shift",  function(){
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_focusActiveEntity", "shift",  function(){
     if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return
     this.Tactical.TurnSequenceBar.focusActiveEntity(true);
     return false
@@ -475,8 +475,8 @@ local function showCharacterScreen(){
     return false
 }
 
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
-this.MSU.GlobalKeyHandler.AddHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
+this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
 
 if (this.MSU.System.Debug.isEnabledForMod(this.MSU.ID,"keybinds")){
 	this.MSU.CustomKeybinds.setForJS("testKeybind", "3+shift"); //set new key in JS
