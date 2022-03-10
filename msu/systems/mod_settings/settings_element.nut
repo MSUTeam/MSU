@@ -35,6 +35,11 @@ this.MSU.Class.SettingsElement <- class
 		return this.Parent;
 	}
 
+	function getPanelID()
+	{
+		return this.getParent().getParent().getID();
+	}
+
 	function setDescription( _description )
 	{
 		this.Description = _description;
