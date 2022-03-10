@@ -22,7 +22,7 @@ this.MSU.Class.SettingsPanel <- class
 		{
 			throw this.Exception.InvalidType;
 		}
-		_page.setPanelID(this.ID)
+		_page.setParent(this)
 		this.Pages[_page.getID()] <- _page;
 	}
 
@@ -30,7 +30,7 @@ this.MSU.Class.SettingsPanel <- class
 	{
 		foreach (page in this.Pages)
 		{
-			if (page.Settings.Array.find(_settingID) != null)
+			if (page.getSettings().contains(_settingID))
 			{
 				return page.get(_settingID);
 			}

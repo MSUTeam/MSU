@@ -3,7 +3,7 @@ this.MSU.Class.SettingsPage <- class
 	Name = null;
 	ID = null;
 	Settings = null;
-	PanelID = null;
+	Parent = null;
 
 	constructor( _id, _name = null )
 	{
@@ -19,17 +19,18 @@ this.MSU.Class.SettingsPage <- class
 			this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
 			throw this.Exception.InvalidType;
 		}
-		_element.setPanelID(this.PanelID)
+		_element.setParent(this);
 		this.Settings[_element.getID()] <- _element;
 	}
 
-	function setPanelID( _panelID )
+	function setParent( _parent )
 	{
-		this.PanelID = _panelID;
-		foreach (setting in this.getSettings())
-		{
-			setting.setPanelID(_panelID);
-		}
+		this.Parent = _parent;
+	}
+
+	function getParent()
+	{
+		return this.Parent;
 	}
 
 	function getID()

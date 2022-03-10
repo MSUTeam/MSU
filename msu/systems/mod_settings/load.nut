@@ -35,12 +35,12 @@ local testSettingsSystem = function()
 			// test1.lock()
 			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
-			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, ["hi", "hello", "goodbye"], "goodbye");
+			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
 			test3.lock()
-			local test4 = this.MSU.Class.EnumSetting("TestEnum" + j + 1, ["hi", "hello", "goodbye"]);
+			local test4 = this.MSU.Class.EnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
 			local divider = this.MSU.Class.SettingsDivider("divider")
 
-			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, ["hi", "hello", "goodbye"]);
+			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, "hi", ["hi", "hello", "goodbye"]);
 
 			testPage.add(test);
 			testPage.add(test1);

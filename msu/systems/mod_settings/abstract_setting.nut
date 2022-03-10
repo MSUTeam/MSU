@@ -51,7 +51,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		this.Value = _value
 		if (_updateJS)
 		{
-			this.MSU.UI.JSConnection.updateSetting(this.PanelID, this.getID(), this.getValue())
+			this.MSU.UI.JSConnection.updateSetting(this.getParent().getParent().getID(), this.getID(), this.getValue())
 		}
 	}
 
