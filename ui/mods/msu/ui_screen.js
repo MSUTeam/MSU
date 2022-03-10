@@ -44,7 +44,7 @@ MSUUIScreen.prototype.unbindTooltips = function ()
 
 }
 
-MSUUIScreen.prototype.show = function (_data)
+MSUUIScreen.prototype.show = function ()
 {
 	var self = this;
 	var moveTo = { opacity: 1, right: '10.0rem' };
