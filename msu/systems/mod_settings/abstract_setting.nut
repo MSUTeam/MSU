@@ -40,7 +40,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		this.Callbacks.push(_callback);
 	}
 
-	function set( _value, _updateJS = true )
+	function set( _value, _updateJS = true, _updatePersistence = true )
 	{
 		if (this.Locked)
 		{
@@ -48,10 +48,18 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 			return;
 		}
 
-		this.Value = _value
-		if (_updateJS)
+		if (_value != this.Value)
 		{
-			this.MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), this.getValue())
+			this.onChangedCallback(_value);
+			if (_updatePersistence && this.ParseChange == true)
+			{
+				this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
+			}
+			this.Value = _value
+			if (_updateJS)
+			{
+				this.MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
+			}
 		}
 	}
 

@@ -35,7 +35,7 @@ MSUConnection.prototype.updateSetting = function (_setting)
 
 var getModSettingValue = function (_modID, _settingID)
 {
-	return Screens["MSUConnection"].mModSettings[_modID][_setting];
+	return Screens["MSUConnection"].mModSettings[_modID][_settingID];
 }
 
 var setModSettingValue = function (_modID, _settingID, _value)

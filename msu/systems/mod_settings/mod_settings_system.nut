@@ -47,15 +47,6 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		this.Panels.sort(this.sortPanelsByName);
 	}
 
-	function updateSetting( _modID, _settingID, _value )
-	{
-		local tab = {}
-		tab[_modID] <- {}
-		tab[_modID][_settingID] <- _value
-		this.updateSettings(tab, false)
-	}
-
-
 	function updateSettings( _data, _informChange = true  )
 	{
 		/*
@@ -71,16 +62,30 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 			foreach (settingID, value in panel)
 			{
 				local setting = this.Panels[modID].getSetting(settingID)
-				if (setting.getValue() != value)
-				{
-					setting.onChangedCallback(value);
-					if (_informChange && setting.ParseChange == true)
-					{
-						this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", settingID, value.tostring()))
-					}
-					setting.set(value);
-				}
+				setting.set(value);
 			}
+		}
+	}
+
+	function setSettingFromPersistence( _modID, _settingID, _value )
+	{
+		if (!this.Panels.contains(_modID))
+		{
+			::printWarning(format("The mod %s has been removed", _modID), ::MSU.ID, this.MSU.System.Debug.MSUMainDebugFlag);
+			return;
+		}
+		try
+		{
+			this.get(_modID).getSetting(_settingID).set(_value, true, false);
+		}
+		catch (error)
+		{
+			if (error == this.Exception.KeyNotFound)
+			{
+				::printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), ::MSU.ID, this.MSU.System.Debug.MSUMainDebugFlag);
+				return;
+			}
+			throw error;
 		}
 	}
 
