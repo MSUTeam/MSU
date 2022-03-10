@@ -33,6 +33,11 @@ this.MSU.Class.SettingsPage <- class
 		return this.Parent;
 	}
 
+	function getPanelID()
+	{
+		return this.getParent().getID();
+	}
+
 	function getID()
 	{
 		return this.ID;
