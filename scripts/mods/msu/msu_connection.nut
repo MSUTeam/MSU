@@ -20,11 +20,15 @@ this.msu_connection <- this.inherit("scripts/mods/msu/js_connection", {
 
 	function updateSetting( _modID, _settingID, _value )
 	{
-		this.m.JSHandle.asyncCall("updateSetting", {
-			mod = _modID,
-			setting = _settingID,
-			value = _value
-		});
+		// Need to check in case settings are changed before backend is set up.
+		if (this.m.JSHandle != null)
+		{
+			this.m.JSHandle.asyncCall("updateSetting", {
+				mod = _modID,
+				setting = _settingID,
+				value = _value
+			});
+		}
 	}
 
 	function updateSettingJS( _data )
