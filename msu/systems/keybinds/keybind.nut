@@ -5,39 +5,66 @@ this.MSU.Class.Keybind <- class
 	ID = null;
 	Name = null;
 	Description = null;
-	Function = null;
 
 	constructor( _modID, _id, _key, _name = null )
 	{
-
-	}
-
-	function parseModifiers( _key )
-	{
-		//reorder modifiers so that they are always in the same order
-		local keyArray = split(_key, "+");
-		local key = keyArray.pop();
-
-		//TODO Needs to throw an error if key == shift/ctrl/alt
-
-		local parsedKey = "";
-		local findAndAdd = function( _arr, _key )
+		if (_name == null) _name = _id;
+		if (!(_modID in this.MSU.System.Keybinds.Mods))
 		{
-		    if (_arr.find(_key) != null)
-		    {
-		        parsedKey += _key + "+";
-		        return;
-		    }
+			throw ::Exception.ModNotRegistered;
 		}
-		findAndAdd(keyArray, "shift");
-		findAndAdd(keyArray, "ctrl");
-		findAndAdd(keyArray, "alt");
-		parsedKey += key;
-		return parsedKey;
+		::MSU.requireString(_modID, _id, _key, _name);
+
+		this.ModID = _modID;
+		this.ID = _id;
+		this.Key = getParsedKeyFromMSUKey(_key);
+		this.Environment = _environment;
+		this.Name = _name;
 	}
 
-	function call( _env )
+	function setDescription( _description )
 	{
-		this.Function.call(_env);
+		this.Description = _description;
+	}
+
+	function getDescription()
+	{
+		return this.Description;
+	}
+
+	function getKey()
+	{
+		return this.Key;
+	}
+
+	function getID()
+	{
+		return this.ID;
+	}
+
+	function getName()
+	{
+		return this.Name;
+	}
+
+	function getModID()
+	{
+		return this.ModID;
+	}
+
+	function getEnvironment()
+	{
+		return this.Environment;
+	}
+
+	function makeSetting()
+	{
+		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKey(), this.getName());
+		setting.setDescription(this.getDescription());
+		setting.addCallback(function(_data)
+		{
+			::MSU.System.Keybinds.update(this.getModID(), this.getID(), _data);
+		});
+		return setting;
 	}
 }

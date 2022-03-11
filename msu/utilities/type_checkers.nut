@@ -33,6 +33,11 @@ this.MSU.requireInstance <- function( ... )
 	this.MSU.requireTypeArray("instance", vargv);
 }
 
+this.MSU.requireFunction <- function( ... )
+{
+	this.MSU.requireTypeArray("function", vargv);
+}
+
 this.MSU.requireType <- function( _type, ... )
 {
 	this.MSU.requireTypeArray(_type, vargv);
