@@ -42,11 +42,14 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		}
 		else
 		{
-			if (!(_keybind.getKey() in this.KeybindsByKey))
+			foreach (key in keybind.getRawKeyCombinations())
 			{
-				this.KeybindsByKey[_keybind.getKey()] <- [];
+				if (!(key in this.KeybindsByKey))
+				{
+					this.KeybindsByKey[key] <- [];
+				}
+				this.KeybindsByKey[key].push(_keybind);
 			}
-			this.KeybindsByKey[_keybind.getKey()].push(_keybind);
 		}
 
 		this.KeybindsByMod[_keybind.getModID()][_keybind.getID()] <- _keybind;
@@ -56,9 +59,9 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		}
 	}
 
-	function update( _modID, _id, _key )
+	// Private
+	function remove( _modID, _id )
 	{
-		//remove start
 		local keybind = this.KeybindsByMod[_modID].rawdelete(_id);
 		if (_keybind instanceof ::MSU.Class.KeybindJS)
 		{
@@ -67,13 +70,22 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		}
 		else
 		{
-			this.KeybindsByKey[keybind.getKey()].remove(this.KeybindsByKey[keybind.getKey()].find(keybind));
+			foreach (key in keybind.getRawKeyCombinations())
+			{
+				this.KeybindsByKey[key].remove(this.KeybindsByKey[key].find(keybind));
+				if (this.KeybindsByKey[key].len() == 0)
+				{
+					this.KeybindsByKey.rawdelete(key);
+				}
+			}
 		}
-		//remove end
+	}
 
-		keybind.Key = _key;
-		::getModSetting(_modID, _id).set(_key);
-
+	function update( _modID, _id, _keyCombination )
+	{
+		local keybind = this.remove(_modID, _id);
+		keybind.KeyCombinations = ::MSU.Key.sortKeyCombinationsString(_keyCombination);
+		::getModSetting(_modID, _id).set(keybind.KeyCombinations);
 		this.add(keybind, false);
 	}
 

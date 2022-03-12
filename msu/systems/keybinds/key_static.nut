@@ -41,6 +41,11 @@ this.MSU.Key <- {
 		return key;
 	}
 
+	function sortKeyCombinationsString( _keyCombination )
+	{
+		return split(_keyCombination, "/").apply(this.sortKeyString).reduce(@(a, b) a + "/" + b);
+	}
+
 	MouseMapSQ <- {
 		"1" : "leftclick",
 		"2" : "rightclick",

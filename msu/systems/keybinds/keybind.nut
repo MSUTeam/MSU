@@ -1,13 +1,13 @@
 this.MSU.Class.Keybind <- class
 {
-	Key = null;
+	KeyCombinations = null;
 	ModID = null;
 	ID = null;
 	Name = null;
 	Description = null;
 	KeyState = null;
 
-	constructor( _modID, _id, _key, _name = null, _keyState = null )
+	constructor( _modID, _id, _keyCombinations, _name = null, _keyState = null )
 	{
 		if (_name == null) _name = _id;
 		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
@@ -15,11 +15,11 @@ this.MSU.Class.Keybind <- class
 		if (!(_modID in this.MSU.System.Keybinds.Mods)) throw ::Exception.ModNotRegistered;
 		if (!(_keyState in ::MSU.Key.KeyState)) throw ::Exception.KeyNotFound;
 
-		::MSU.requireString(_modID, _id, _key, _name);
+		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 
 		this.ModID = _modID;
 		this.ID = _id;
-		this.Key = ::MSU.Key.sortKeyString(_key);
+		this.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations), "/");
 		this.Environment = _environment;
 		this.Name = _name;
 		this.KeyState = _keyState;
@@ -44,9 +44,14 @@ this.MSU.Class.Keybind <- class
 		return _keyState == this.KeyState;
 	}
 
-	function getKey()
+	function getKeyCombatinations()
 	{
-		return this.Key;
+		return this.KeyCombinations.reduce(@(a,b) a + "/" + b);
+	}
+
+	function getRawKeyCombinations()
+	{
+		return this.KeyCombinations;
 	}
 
 	function getID()
@@ -71,7 +76,7 @@ this.MSU.Class.Keybind <- class
 
 	function makeSetting()
 	{
-		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKey(), this.getName());
+		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKeyCombatinations(), this.getName());
 		setting.setDescription(this.getDescription());
 		setting.addCallback(function(_data)
 		{
