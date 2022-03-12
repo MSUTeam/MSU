@@ -23,9 +23,9 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 			debug = true
 		}
 		this.MSUDebugFlags = {
-			movement = true,
+			movement = false,
 			skills = false,
-			keybinds = false,
+			keybinds = true,
 			persistence = true
 		}
 	}

@@ -254,10 +254,10 @@
     local world_keyFunc = o.onKeyInput;
     o.onKeyInput = function( _key )
     {
-        if (_key.getState() != 0)
-        {
-            return world_keyFunc(_key);
-        }
+    	if (!this.MSU.GlobalKeyHandler.processPressedKeys(_key)) // if was pressed down before, just return the normal onKeyInput
+    	{
+    	    return world_keyFunc(_key);
+    	}
         local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.World);
         if (customHandling == false)
         {

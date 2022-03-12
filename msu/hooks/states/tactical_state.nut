@@ -40,10 +40,10 @@
     local tactical_keyFunc = o.onKeyInput;
     o.onKeyInput = function( _key )
     {
-        if (_key.getState() != 0 || this.isInLoadingScreen() || this.isBattleEnded())
-        {
-            return tactical_keyFunc(_key);
-        }
+    	if (!this.MSU.GlobalKeyHandler.processPressedKeys(_key)) // if was pressed down before, just return the normal onKeyInput
+    	{
+    	    return tactical_keyFunc(_key);
+    	}
         local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.Tactical);
         if (customHandling == false)
         {

@@ -73,11 +73,11 @@
 	local menu_onKeyInput = o.onKeyInput;
 	o.onKeyInput = function( _key )
 	{
-	    if (_key.getState() != 0)
-	    { 
-	        return menu_onKeyInput(_key);
-	    }
-	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu);
+		if (!this.MSU.GlobalKeyHandler.processPressedKeys(_key)) // if was pressed down before, just return the normal onKeyInput
+		{
+		    return menu_onKeyInput(_key);
+		}
+	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu); //else do custom handling
 	    if (customHandling == false)
 	    {
 	        return false;

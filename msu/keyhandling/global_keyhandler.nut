@@ -11,22 +11,23 @@
         Keyboard = 0,
         Mouse = 1
     },
+    PressedKeys = {},
 
     function addHandlerFunction( _id, _key,  _func, _state = 0 )
     {
         //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
-        local parsedKey = this.MSU.CustomKeybinds.get(_id, _key);
-        if (!(parsedKey in this.HandlerFunctions))
-        {
-           this.HandlerFunctions[parsedKey] <- [];
-        }
-        this.HandlerFunctions[parsedKey].insert(0, {
-            ID = _id,
-            Func = _func,
-            State = _state,
-            Key = parsedKey
-        })
-        this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0];
+    	local parsedKey = this.MSU.CustomKeybinds.get(_id, _key);
+    	if (!(parsedKey in this.HandlerFunctions))
+    	{
+    	   this.HandlerFunctions[parsedKey] <- [];
+    	}
+    	this.HandlerFunctions[parsedKey].insert(0, {
+    	    ID = _id,
+    	    Func = _func,
+    	    State = _state,
+    	    Key = parsedKey
+    	})
+    	this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0];
     }
 
     function removeHandlerFunction( _id )
@@ -89,46 +90,71 @@
         }
     }
 
+    function processPressedKeys( _key )
+    {
+
+    	local key = _key.getKey().tostring();
+    	if (!(key in this.MSU.CustomKeybinds.KeyMapSQ))
+    	{
+    		return false
+    	}
+    	key = this.MSU.CustomKeybinds.KeyMapSQ[key];
+    	local wasPressed = key in this.PressedKeys; //record if it was pressed before
+    	if ( _key.getState() == 1 )
+    	{
+    		this.PressedKeys[key] <- 1;
+    		if (wasPressed)
+    		{
+    			return false;
+    		}
+    	}
+    	else
+    	{
+    		delete this.PressedKeys[key]
+    	}
+    	return true //execute keybinds based on it being pressed
+    }
+
     function processInput( _key, _env, _state, _inputType = 0 )
     {
-        local key;
+        local keyAsString;
         if (_inputType == this.InputType.Keyboard)
         {
-            local keyAsString = _key.getKey().tostring();
-            if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQ))
-            {
-                this.logWarning("Unknown key pressed! Key: " + _key.getKey());
-                return
-            }
-            key = this.MSU.CustomKeybinds.KeyMapSQ[_key.getKey().tostring()];
-            if (_key.getModifier() == 2)
-            {
-                key += "+ctrl";
-            }
-            if (_key.getModifier() == 1)
-            {
-                key += "+shift";
-            }
-            if (_key.getModifier() == 3)
-            {
-                key += "+alt";
-            }
+        	keyAsString = _key.getKey().tostring();
+        	if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQ))
+        	{
+        		this.logWarning("Unknown key pressed! Key: " + _key.getKey());
+        		return;
+        	}
+        	keyAsString = this.MSU.CustomKeybinds.KeyMapSQ[keyAsString]
         }
         else if (_inputType == this.InputType.Mouse)
         {
-            local keyAsString = _key.getID().tostring();
-            if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQMouse))
-            {
-                this.logWarning("Unknown mouse key pressed! Key: " + _key.getID());
-                return;
-            }
-            key = this.MSU.CustomKeybinds.KeyMapSQMouse[_key.getID().tostring()];
+        	keyAsString = _key.getID().tostring();
+        	if (!(keyAsString in this.MSU.CustomKeybinds.KeyMapSQMouse))
+        	{
+        		this.logWarning("Unknown key pressed! Key: " + _key.getID());
+        		return;
+        	}
+        	keyAsString = this.MSU.CustomKeybinds.KeyMapSQMouse[keyAsString]
         }
         else
         {
             this.logError(_inputType + " is not a valid input type!");
             return;
         }
-        return MSU.GlobalKeyHandler.callHandlerFunction(key, _env, _state);
+
+
+        local key = "";
+        local pressedKeys = clone this.PressedKeys;
+        foreach(pressedKeyID, value in pressedKeys)
+        {
+        	if(keyAsString != pressedKeyID)
+        	{
+        		key += pressedKeyID + "+";
+        	}
+        }
+        key += keyAsString;
+        return this.callHandlerFunction(key, _env, _state);
     }
 }

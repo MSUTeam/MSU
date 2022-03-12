@@ -4,4 +4,11 @@ local function includeFile(_file)
 }
 includeFile("custom_keybinds.nut");
 includeFile("global_keyhandler.nut");
-includeFile("vanilla_keybinds.nut");
+
+
+if (this.MSU.System.Debug.isEnabledForMod(this.MSU.ID,"keybinds"))
+{
+	includeFile("key_testing.nut");
+}
+
+#includeFile("vanilla_keybinds.nut");

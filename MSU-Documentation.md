@@ -747,6 +747,9 @@ This represents the move away from hardcoded BaseMovementSpeed values and toward
 ## Scenarios
 The following scenarios were hooked to conform to the new MSU standards while achieving the same results as vanilla:
 
+- Starting Scenario (Parent scenario):
+Added `onNewDay()` and `onNewMorning()`.
+
 - Rangers scenario: `onInit()` was hooked to reset the `this.m.BaseMovementSpeed` to 100 and then added the `getMovementSpeedMult()` function to return the appropriate value to achieve the same speed as vanilla rangers scenario.
 
 # Misc 🟢

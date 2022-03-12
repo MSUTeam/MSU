@@ -8,22 +8,21 @@ this.MSU.CustomKeybinds <- {
     function parseModifiers( _key )
     {
         //reorder modifiers so that they are always in the same order
+        local key = "";
         local keyArray = split(_key, "+");
-        local key = keyArray.pop();
-        local parsedKey = "";
-        local findAndAdd = function( _arr, _key )
+        local mainKey = keyArray.pop();
+        if (keyArray.len() > 1)
         {
-            if (_arr.find(_key) != null)
-            {
-                parsedKey += _key + "+";
-                return;
-            }
+        	keyArray.sort();
+        	key = keyArray.reduce(@(a, b) a + "+" + b) + "+";
         }
-        findAndAdd(keyArray, "shift");
-        findAndAdd(keyArray, "ctrl");
-        findAndAdd(keyArray, "alt");
-        parsedKey += key;
-        return parsedKey;
+        else if (keyArray.len() == 1)
+        {
+        	key = keyArray[0] + "+";
+        }
+
+        key += mainKey;
+        return key;
     }
 
     function get( _actionID, _defaultKey, _inSQ = true )

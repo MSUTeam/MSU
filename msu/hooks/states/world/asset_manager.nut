@@ -11,6 +11,12 @@
 			{
 				bro.getSkills().onNewMorning();
 			}
+			this.World.Assets.getOrigin().onNewMorning();
+		}
+
+		if (this.World.getTime().Days > this.m.LastDayPaid && this.World.getTime().Hours > 8 && this.m.IsConsumingAssets)
+		{
+			this.World.Assets.getOrigin().onNewDay();
 		}
 
 		update( _worldState );
