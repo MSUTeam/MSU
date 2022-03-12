@@ -4,6 +4,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	KeybindsByMod = null;
 	KeybindsForJS = null;
 	IsConnected = null;
+	PressedKeys = null;
 
 	constructor()
 	{
@@ -12,6 +13,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};
 		this.IsConnected = false;
+		this.PressedKeys = {};
 	}
 
 	function registerMod( _modID )
@@ -75,7 +77,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		this.add(keybind, false);
 	}
 
-	function call( _key, _state, _environment )
+	function call( _key, _environment, _state, _keyState )
 	{
 		if (!(_key in this.KeybindsByKey))
 		{
@@ -89,9 +91,16 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 			{
 				continue;
 			}
+
+			if (!keybind.callOnKeyState(_keyState))
+			{
+				continue;
+			}
+
 			::printWarning(format("Calling handler function: key %s | ID %s | State %s", keybind.getKey(), keybind.getID(), keybind.getState().tostring()), this.MSU.ID, "keybinds");
 			if (!keybind.call(_environment))
 			{
+            	::printWarning("Returning after keybind call returned false.", ::MSU.ID, "keybinds");
 				return false;
 			}
 		}
@@ -116,6 +125,14 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 	function getJSKeybinds()
 	{
+		// ret = {
+		// 	modID = {
+		// 		keybindID = {
+		// 			name = "",
+		// 			key = ""
+		// 		}
+		// 	}
+		// }
 		local ret = {}
 		foreach (modID, mod in this.KeybindsForJS)
 		{
@@ -128,4 +145,67 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		return ret;
 	}
 
+	function onKeyInput( _key, _environment, _state )
+	{
+		local keyAsString = _key.getKey().tostring();
+		if (!(keyAsString in ::MSU.Key.KeyMapSQ))
+		{
+			::printWarning("Unknown key pressed: %s" + _key.getKey(), ::MSU.ID, "keybinds");
+			return;
+		}
+		keyAsString = ::MSU.Key.KeyMapSQ[keyAsString];
+		return this.onInput(_key, _environment, _state, keyAsString);
+	}
+
+	function onMouseInput( _key, _environment, _state )
+	{
+		local keyAsString = _key.getID().tostring();
+		if (!(keyAsString in ::MSU.Key.KeyMapSQMouse))
+		{
+			::printWarning("Unknown key pressed: %s" + _key.getID(), ::MSU.ID, "keybinds");
+			return;
+		}
+		keyAsString = ::MSU.Key.KeyMapSQMouse[keyAsString];
+		return this.onInput(_key, _environment, _state, keyAsString);
+	}
+
+	// Private
+	function onInput( _key, _environment, _state, _keyAsString )
+	{
+		local key = "";
+		foreach (pressedKeyID, value in this.PressedKeys)
+		{
+			if (_keyAsString != pressedKeyID)
+			{
+				key += pressedKeyID + "+";
+			}
+		}
+		key += _keyAsString;
+		return this.call(key, _environment, _state, _key.getState());
+	}
+
+	function updatePressedKey( _key )
+	{
+		local key = _key.getKey().tostring();
+		if (!(key in ::MSU.Key.KeyMapSQ))
+		{
+			return false;
+		}
+
+		key = ::MSU.Key.KeyMapSQ[key];
+		local wasPressed = key in this.PressedKeys;
+		if (_key.getState() == 1)
+		{
+			if (wasPressed)
+			{
+				return false;
+			}
+			this.PressedKeys[key] <- 1;
+		}
+		else
+		{
+			delete this.PressedKeys[key];
+		}
+		return true;
+	}
 }

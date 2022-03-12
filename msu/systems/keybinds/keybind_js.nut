@@ -3,8 +3,8 @@
 	function getForJS()
 	{
 		return {
-			Key = this.getKey(),
-			Name = this.getName()
+			key = this.getKey(),
+			name = this.getName()
 		}
 	}
 }

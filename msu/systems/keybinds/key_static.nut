@@ -16,6 +16,31 @@ this.MSU.Key <- {
 		Mouse = 1
 	}
 
+	KeyState <- {
+		Release = 0,
+		Press = 1,
+		All = 2
+	}
+
+	function sortKeyString( _key )
+	{
+		local key = "";
+		local keyArray = split(_key, "+");
+		local mainKey = keyArray.pop();
+		if (keyArray.len() > 1)
+		{
+			keyArray.sort();
+			key = keyArray.reduce(@(a, b) a + "+" + b) + "+";
+		}
+		else if (keyArray.len() == 1)
+		{
+			key = keyArray[0] + "+";
+		}
+
+		key += mainKey;
+		return key;
+	}
+
 	MouseMapSQ <- {
 		"1" : "leftclick",
 		"2" : "rightclick",

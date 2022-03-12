@@ -70,34 +70,31 @@
 		}
 	}
 
-	local menu_onKeyInput = o.onKeyInput;
+	local onKeyInput = o.onKeyInput;
 	o.onKeyInput = function( _key )
 	{
-		if (!this.MSU.GlobalKeyHandler.processPressedKeys(_key)) // if was pressed down before, just return the normal onKeyInput
+		if (!::MSU.System.Keybinds.updatePressedKey(_key)) // if was pressed down before, just return the normal onKeyInput
 		{
-		    return menu_onKeyInput(_key);
+			return onKeyInput(_key);
 		}
-	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.MainMenu); //else do custom handling
-	    if (customHandling == false)
-	    {
-	        return false;
-	    }
-	    return menu_onKeyInput(_key);
+		if (!::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.MainMenu))
+		{
+			return false;
+		}
+		return onKeyInput(_key);
 	}
 
-	//menu mouse input  somehow doesn't register any ID but 6 (movement)
-	local menu_mouseInput = o.onMouseInput;
+	local onMouseInput = o.onMouseInput;
 	o.onMouseInput = function( _mouse )
 	{
-	    if (_mouse.getState() != 1 || _mouse.getID() == 6)
-	    { 
-	        return menu_mouseInput(_mouse);
-	    }
-	    local customHandling = this.MSU.GlobalKeyHandler.processInput(_mouse, this, this.MSU.GlobalKeyHandler.States.MainMenu, this.MSU.GlobalKeyHandler.InputType.Mouse);
-	    if (customHandling == false)
-	    {
-	        return false;
-	    }
-	    return menu_mouseInput(_mouse);
+		if (_mouse.getState() != 1 || _mouse.getID() == 6)
+		{
+			return onMouseInput(_mouse);
+		}
+		if (!::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.MainMenu))
+		{
+			return false;
+		}
+		return onMouseInput(_mouse);
 	}
 });

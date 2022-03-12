@@ -5,21 +5,24 @@ this.MSU.Class.Keybind <- class
 	ID = null;
 	Name = null;
 	Description = null;
+	KeyState = null;
 
-	constructor( _modID, _id, _key, _name = null )
+	constructor( _modID, _id, _key, _name = null, _keyState = null )
 	{
 		if (_name == null) _name = _id;
-		if (!(_modID in this.MSU.System.Keybinds.Mods))
-		{
-			throw ::Exception.ModNotRegistered;
-		}
+		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
+
+		if (!(_modID in this.MSU.System.Keybinds.Mods)) throw ::Exception.ModNotRegistered;
+		if (!(_keyState in ::MSU.Key.KeyState)) throw ::Exception.KeyNotFound;
+
 		::MSU.requireString(_modID, _id, _key, _name);
 
 		this.ModID = _modID;
 		this.ID = _id;
-		this.Key = getParsedKeyFromMSUKey(_key);
+		this.Key = ::MSU.Key.sortKeyString(_key);
 		this.Environment = _environment;
 		this.Name = _name;
+		this.KeyState = _keyState;
 	}
 
 	function setDescription( _description )
@@ -30,6 +33,15 @@ this.MSU.Class.Keybind <- class
 	function getDescription()
 	{
 		return this.Description;
+	}
+
+	function callOnKeyState( _keyState )
+	{
+		if (this.KeyState == ::MSU.Key.KeyState.All)
+		{
+			return true;
+		}
+		return _keyState == this.KeyState;
 	}
 
 	function getKey()

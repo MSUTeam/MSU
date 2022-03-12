@@ -36,33 +36,31 @@
 		this.m.MenuStack.pop();
 	}
 
+	local onKeyInput = o.onKeyInput;
+	o.onKeyInput = function( _key )
+	{
+		if (!::MSU.System.Keybinds.updatePressedKey(_key)) // if was pressed down before, just return the normal onKeyInput
+		{
+			return onKeyInput(_key);
+		}
+		if (!::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical))
+		{
+			return false;
+		}
+		return onKeyInput(_key);
+	}
 
-    local tactical_keyFunc = o.onKeyInput;
-    o.onKeyInput = function( _key )
-    {
-    	if (!this.MSU.GlobalKeyHandler.processPressedKeys(_key)) // if was pressed down before, just return the normal onKeyInput
-    	{
-    	    return tactical_keyFunc(_key);
-    	}
-        local customHandling = this.MSU.GlobalKeyHandler.processInput(_key, this, this.MSU.GlobalKeyHandler.States.Tactical);
-        if (customHandling == false)
-        {
-            return false;
-        }
-        return tactical_keyFunc(_key);
-    }
-    local tactical_mouseInput = o.onMouseInput;
-    o.onMouseInput = function( _mouse )
-    {
-        if (_mouse.getState() != 1 || _mouse.getID() == 6)
-        {
-            return tactical_mouseInput(_mouse);
-        }
-        local customHandling = this.MSU.GlobalKeyHandler.processInput(_mouse, this, this.MSU.GlobalKeyHandler.States.Tactical, this.MSU.GlobalKeyHandler.InputType.Mouse);
-        if (customHandling == false)
-        {
-            return false;
-        }
-        return tactical_mouseInput(_mouse);
-    }
+	local onMouseInput = o.onMouseInput;
+	o.onMouseInput = function( _mouse )
+	{
+		if (_mouse.getState() != 1 || _mouse.getID() == 6)
+		{
+			return onMouseInput(_mouse);
+		}
+		if (!::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.Tactical))
+		{
+			return false;
+		}
+		return onMouseInput(_mouse);
+	}
 });
