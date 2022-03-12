@@ -1,5 +1,6 @@
 this.MSU.UI <- {
 	Connections = [],
+	Callbacks = [],
 	JSConnection = null,
 
 	function registerConnection( _connection )
@@ -7,13 +8,24 @@ this.MSU.UI <- {
 		this.Connections.push(_connection);
 	}
 
-	function connect() // Want to make this call another function which acts as a very late time to run code, eg I want to lock the settingsmanager at this point (this runs after main menu load)
+	function connect()
 	{
 		foreach (connection in this.Connections)
 		{
 			connection.connect();
 		}
-		this.MSU.UI.Connections.clear();
+		this.Connections.clear();
+		foreach (callback in this.Callbacks)
+		{
+			callback()
+		}
+		this.Callbacks.clear()
+	}
+
+	function addAfterConnectionCallback( _function )
+	{
+		::MSU.requireFunction(_function);
+		this.Callbacks.push(_function)
 	}
 }
 

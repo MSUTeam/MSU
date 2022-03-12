@@ -1,4 +1,4 @@
-this.MSU.isNull <- function(_obj)
+this.MSU.isNull <- function( _obj )
 {
 	if (_obj == null)
 	{
