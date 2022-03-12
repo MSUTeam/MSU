@@ -13,7 +13,7 @@
     },
     PressedKeys = {},
 
-    function addHandlerFunction( _id, _key,  _func, _state = 0 )
+    function addHandlerFunction( _id, _key,  _func, _state = 0, _release = true )
     {
         //adds a new handler function entry, key is the pressed key + modifiers, ID is used to check for custom binds and to modify/remove them
     	local parsedKey = this.MSU.CustomKeybinds.get(_id, _key);
@@ -25,6 +25,7 @@
     	    ID = _id,
     	    Func = _func,
     	    State = _state,
+    	    Release = _release
     	    Key = parsedKey
     	})
     	this.HandlerFunctionsMap[_id] <- this.HandlerFunctions[parsedKey][0];
@@ -63,9 +64,9 @@
         this.addHandlerFunction(_id, _key, handlerFunc.Func, handlerFunc.State);
     }
 
-    function callHandlerFunction( _key, _env, _state )
+    function callHandlerFunction( _key, _env, _state, _release = true )
     { 
-        ::printWarning(format("Checking handler function for key %s", _key), this.MSU.ID, "keybinds");
+        ::printWarning(format("Checking key input: key %s | Environment %s | State %s | Release %s", _key, _env.tostring(), _state.tostring(), _release ? "True" : "False"), this.MSU.ID, "keybinds");
         // call all handler functions if they are present for the key+modifier, if one returns false execution ends
         // executed in order of last added
 
@@ -76,19 +77,26 @@
         local keyFuncArray = this.HandlerFunctions[_key];
         foreach (entry in keyFuncArray) 
         {
-            ::printWarning(format("Checking handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.ID, "keybinds");
+            ::printWarning(format("Checking handler function: key %s | ID %s | State %s | Release %s", entry.Key, entry.ID, entry.State.tostring(), entry.Release ? "True" : "False"), this.MSU.ID, "keybinds");
             if (entry.State != this.States.All && entry.State != _state)
             {
                 continue;
             }
 
-            ::printWarning(format("Calling handler function: key %s | ID %s | State %s", entry.Key, entry.ID, entry.State.tostring()), this.MSU.ID, "keybinds");
+            if ( _release != entry.Release)
+            {
+            	continue;
+            }
+
+            ::printWarning(format("Calling handler function: key %s | ID %s | State %s | Release %s", entry.Key, entry.ID, entry.State.tostring(), entry.Release ? "True" : "False"), this.MSU.ID, "keybinds");
             if (entry.Func.call(_env) == false)
             {
+            	::printWarning("Returning after handlerfunc returned false.", this.MSU.ID, "keybinds");
                 return false;
             }
         }
     }
+
 
     function processPressedKeys( _key )
     {
@@ -155,6 +163,6 @@
         	}
         }
         key += keyAsString;
-        return this.callHandlerFunction(key, _env, _state);
+        return this.callHandlerFunction(key, _env, _state, _key.getState() == 0);
     }
 }

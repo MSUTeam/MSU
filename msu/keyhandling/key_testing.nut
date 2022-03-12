@@ -21,4 +21,14 @@ this.MSU.GlobalKeyHandler.addHandlerFunction("test_4", "shift+alt+leftclick",  f
 this.MSU.GlobalKeyHandler.addHandlerFunction("test_5", "a+s+d",  function(){
 	this.logWarning("test_5 runs")
 }, 4)
-#this.MSU.CustomKeybinds.set("test_1", ["1", "shift+leftclick", "leftclick", "shift+alt+leftclick"]);
+
+this.MSU.GlobalKeyHandler.addHandlerFunction("test_press", "t",  function(){
+	this.logWarning("test_press runs")
+	return false
+}, 4, false)
+
+this.MSU.GlobalKeyHandler.addHandlerFunction("test_release", "t",  function(){
+	this.logWarning("test_release runs")
+	return false
+}, 4)
+

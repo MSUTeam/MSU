@@ -478,13 +478,4 @@ local function showCharacterScreen(){
 this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_showCharacterScreen_1", "i",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
 this.MSU.GlobalKeyHandler.addHandlerFunction("tactical_showCharacterScreen_2", "c",  showCharacterScreen, this.MSU.GlobalKeyHandler.States.Tactical)
 
-if (this.MSU.System.Debug.isEnabledForMod(this.MSU.ID,"keybinds")){
-	this.MSU.CustomKeybinds.setForJS("testKeybind", "3+shift"); //set new key in JS
-	this.MSU.CustomKeybinds.set("testKeybind", "f1"); //set new key in SQ
-	this.MSU.CustomKeybinds.get("testKeybind", "f2"); //get key, returns f1
-	this.MSU.CustomKeybinds.get("wrongActionID", "f2"); //get key, returns default key f2 as actionID not bound
 
-	this.MSU.CustomKeybinds.set("testKeybind", "f3"); //override not specified
-	this.MSU.CustomKeybinds.set("testKeybind", "f3", true); //override specified
-
-}
