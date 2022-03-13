@@ -16,10 +16,12 @@ Object.defineProperty(MSUConnection.prototype, 'constructor', {
 
 MSUConnection.prototype.setCustomKeybinds = function (_keybinds)
 {
-	MSU.GlobalKeyHandler.addHandlerFunction("2+shift", "testKeybind", function(_event){
-		console.error("Testing keybind")
-	})
-	MSU.CustomKeybinds.setFromSQ(_keybinds);
+	console.error("setCustomKeybinds:\n" + JSON.stringify(_keybinds))
+	//TODO
+	// MSU.GlobalKeyHandler.addHandlerFunction("2+shift", "testKeybind", function(_event){
+	// 	console.error("Testing keybind")
+	// })
+	// MSU.CustomKeybinds.setFromSQ(_keybinds);
 	//test
 }
 

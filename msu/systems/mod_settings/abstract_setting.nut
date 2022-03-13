@@ -40,7 +40,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		this.Callbacks.push(_callback);
 	}
 
-	function set( _value, _updateJS = true, _updatePersistence = true )
+	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
 	{
 		if (this.Locked)
 		{
@@ -50,7 +50,10 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 
 		if (_value != this.Value)
 		{
-			this.onChangedCallback(_value);
+			if (_updateCallback)
+			{
+				this.onChangedCallback(_value);
+			}
 			if (_updatePersistence && this.ParseChange == true)
 			{
 				this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))

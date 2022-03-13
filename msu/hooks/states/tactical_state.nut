@@ -43,7 +43,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (!::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical))
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical) == false)
 		{
 			return false;
 		}
@@ -57,7 +57,7 @@
 		{
 			return onMouseInput(_mouse);
 		}
-		if (!::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.Tactical))
+		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.Tactical) == false)
 		{
 			return false;
 		}

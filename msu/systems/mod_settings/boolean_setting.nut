@@ -4,21 +4,13 @@ this.MSU.Class.BooleanSetting <- class extends this.MSU.Class.AbstractSetting
 
 	constructor( _id, _value, _name = null)
 	{
-		if (typeof _value != "bool")
-		{
-			this.logError("The value for Boolean Setting must be a boolean");
-			throw this.Exception.InvalidType;
-		}
+		::MSU.requireBool(_value)
 		base.constructor(_id, _value, _name);
 	}
 
-	function set( _value )
+	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
 	{
-		if (typeof _value != "bool")
-		{
-			this.logError("The value for Boolean Setting must be a boolean");
-			throw this.Exception.InvalidType;
-		}
-		base.set(_value);
+		::MSU.requireBool(_value)
+		base.set(_value, _updateJS, _updatePersistence, _updateCallback);
 	}
 }

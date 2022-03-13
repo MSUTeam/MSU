@@ -3,16 +3,10 @@
 	Function = null;
 	State = null;
 
-	constructor( _modID, _id, _key, _state, _function, _name = null)
+	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
 	{
 		::MSU.requireFunction(_function);
-		if (!(_state in ::MSU.Key.State))
-		{
-			this.logError("_state must be one of the keys in ::MSU.Key.State");
-			throw ::Exception.KeyNotFound;
-		}
-
-		base.constructor(_modID, _id, _key, _name);
+		base.constructor(_modID, _id, _keyCombinations, _name);
 
 		this.Function = _function;
 		this.State = _state;

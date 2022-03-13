@@ -1,9 +1,10 @@
-this.MSU.System <- {};
-this.MSU.SystemID <- {
+::MSU.System <- {};
+::MSU.SystemID <- {
 	Serialization = 0,
 	ModSettings = 1,
 	ModRegistry = 2,
-	Log = 3
+	Log = 3,
+	Keybinds = 4
 }
 
 local function includeLoad(_folder)
@@ -17,4 +18,5 @@ includeLoad("registry");
 includeLoad("debug");
 includeLoad("mod_settings");
 includeLoad("serialization");
+includeLoad("keybinds");
 

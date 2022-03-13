@@ -12,17 +12,16 @@ this.MSU.Class.Keybind <- class
 		if (_name == null) _name = _id;
 		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
 
-		if (!(_modID in this.MSU.System.Keybinds.Mods)) throw ::Exception.ModNotRegistered;
-		if (!(_keyState in ::MSU.Key.KeyState)) throw ::Exception.KeyNotFound;
+		if (!(_modID in this.MSU.System.Keybinds.KeybindsByMod)) throw ::Exception.ModNotRegistered;
 
 		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 
 		this.ModID = _modID;
 		this.ID = _id;
 		this.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations), "/");
-		this.Environment = _environment;
 		this.Name = _name;
 		this.KeyState = _keyState;
+		this.Description = "";
 	}
 
 	function setDescription( _description )
@@ -78,9 +77,10 @@ this.MSU.Class.Keybind <- class
 	{
 		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKeyCombatinations(), this.getName());
 		setting.setDescription(this.getDescription());
+		local self = this.weakref();
 		setting.addCallback(function(_data)
 		{
-			::MSU.System.Keybinds.update(this.getModID(), this.getID(), _data);
+			::MSU.System.Keybinds.update(self.ref().getModID(), self.ref().getID(), _data);
 		});
 		return setting;
 	}

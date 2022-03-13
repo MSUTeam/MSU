@@ -27,7 +27,7 @@ this.MSU.Class.SettingsElement <- class
 
 	function setParent( _parent )
 	{
-		this.Parent = _parent;
+		this.Parent = _parent.weakref();
 	}
 
 	function getParent()

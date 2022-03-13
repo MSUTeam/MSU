@@ -1,22 +1,22 @@
 this.MSU.Key <- {
-	Environment <- {
+	Environment = {
 		SQ = 0,
 		JS = 1
 	}
 
-	State <- {
+	State = {
 		World = 0,
 		Tactical = 1,
 		MainMenu = 2,
 		All = 4
 	}
 
-	Input <- {
+	Input = {
 		Keyboard = 0,
 		Mouse = 1
 	}
 
-	KeyState <- {
+	KeyState = {
 		Release = 0,
 		Press = 1,
 		All = 2
@@ -43,15 +43,17 @@ this.MSU.Key <- {
 
 	function sortKeyCombinationsString( _keyCombination )
 	{
-		return split(_keyCombination, "/").apply(this.sortKeyString).reduce(@(a, b) a + "/" + b);
+		local array = split(_keyCombination, "/");
+		array.apply(this.sortKeyString);
+		return array.reduce(@(a, b) a + "/" + b);
 	}
 
-	MouseMapSQ <- {
+	MouseMapSQ = {
 		"1" : "leftclick",
 		"2" : "rightclick",
-	};
+	}
 
-	KeyMapSQ <- {
+	KeyMapSQ = {
 		"1" : "1",
 		"2" : "2",
 		"3" : "3",

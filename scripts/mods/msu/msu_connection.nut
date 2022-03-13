@@ -10,7 +10,7 @@ this.msu_connection <- this.inherit("scripts/mods/msu/js_connection", {
 
 	function passKeybinds()
 	{
-		this.m.JSHandle.asyncCall("setCustomKeybinds", this.MSU.CustomKeybinds.CustomBindsJS);
+		this.m.JSHandle.asyncCall("setCustomKeybinds", ::MSU.System.Keybinds.getJSKeybinds());
 	}
 
 	function passSettings()

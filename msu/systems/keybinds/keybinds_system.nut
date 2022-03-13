@@ -3,7 +3,6 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	KeybindsByKey = null;
 	KeybindsByMod = null;
 	KeybindsForJS = null;
-	IsConnected = null;
 	PressedKeys = null;
 
 	constructor()
@@ -12,7 +11,6 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		this.KeybindsByKey = {};
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};
-		this.IsConnected = false;
 		this.PressedKeys = {};
 	}
 
@@ -23,9 +21,10 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		{
 			::MSU.System.ModSettings.registerMod(_modID);
 		}
-		::MSU.System.ModSettings.get(_modID).addPage("Keybinds");
 
-		this.KeybindsByMod[_modID] <- [];
+		::MSU.System.ModSettings.get(_modID).addPage(::MSU.Class.SettingsPage("Keybinds"));
+
+		this.KeybindsByMod[_modID] <- {};
 		this.KeybindsForJS[_modID] <- {};
 	}
 
@@ -42,18 +41,20 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		}
 		else
 		{
-			foreach (key in keybind.getRawKeyCombinations())
+			foreach (key in _keybind.getRawKeyCombinations())
 			{
+				::printWarning(format("Adding keyCombination %s for keybind %s", key, _keybind.getID()), ::MSU.ID, "keybinds")
 				if (!(key in this.KeybindsByKey))
 				{
 					this.KeybindsByKey[key] <- [];
+					::printWarning("Creating Keybind array for key: " + key, ::MSU.ID, "keybinds")
 				}
 				this.KeybindsByKey[key].push(_keybind);
 			}
 		}
 
 		this.KeybindsByMod[_keybind.getModID()][_keybind.getID()] <- _keybind;
-		if (this.IsConnected && _makeSetting)
+		if (_makeSetting)
 		{
 			this.addKeybindSetting(_keybind)
 		}
@@ -62,8 +63,9 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	// Private
 	function remove( _modID, _id )
 	{
+		this.logInfo(this.KeybindsByMod[_modID][_id]);
 		local keybind = this.KeybindsByMod[_modID].rawdelete(_id);
-		if (_keybind instanceof ::MSU.Class.KeybindJS)
+		if (keybind instanceof ::MSU.Class.KeybindJS)
 		{
 			this.KeybindsForJS[_modID].rawdelete(_id);
 			::MSU.UI.JSConnection.removeKeybind(keybind);
@@ -79,13 +81,14 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 				}
 			}
 		}
+		return keybind;
 	}
 
-	function update( _modID, _id, _keyCombination )
+	function update( _modID, _id, _keyCombinations )
 	{
 		local keybind = this.remove(_modID, _id);
-		keybind.KeyCombinations = ::MSU.Key.sortKeyCombinationsString(_keyCombination);
-		::getModSetting(_modID, _id).set(keybind.KeyCombinations);
+		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations),"/");
+		::getModSetting(_modID, _id).set(keybind.getKeyCombatinations(), true, true, false);
 		this.add(keybind, false);
 	}
 
@@ -98,7 +101,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
-			::printWarning(format("Checking handler function: key %s | ID %s | State %s", keybind.getKey(), keybind.getID(), keybind.getState().tostring()), this.MSU.ID, "keybinds");
+			::printWarning(format("Checking handler function: key %s | ID %s | State %s", _key, keybind.getID(), keybind.getState().tostring()), ::MSU.ID, "keybinds");
 			if (keybind.getState() != _state && keybind.getState != ::MSU.Key.State.All)
 			{
 				continue;
@@ -109,8 +112,8 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 				continue;
 			}
 
-			::printWarning(format("Calling handler function: key %s | ID %s | State %s", keybind.getKey(), keybind.getID(), keybind.getState().tostring()), this.MSU.ID, "keybinds");
-			if (!keybind.call(_environment))
+			::printWarning(format("Calling handler function: key %s | ID %s | State %s", _key, keybind.getID(), keybind.getState().tostring()), this.MSU.ID, "keybinds");
+			if (keybind.call(_environment) == false)
 			{
             	::printWarning("Returning after keybind call returned false.", ::MSU.ID, "keybinds");
 				return false;
@@ -120,19 +123,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 	function addKeybindSetting( _keybind )
 	{
-		::MSU.System.ModSettings.get(modID).getPage("Keybinds").add(keybind.makeSetting());
-	}
-
-	function makeSettings()
-	{
-		foreach (modID, mod in this.KeybindsByMod)
-		{
-			foreach (keybind in mod)
-			{
-				this.addKeybindSetting(keybind);
-			}
-		}
-		this.IsConnected = true;
+		::MSU.System.ModSettings.get(_keybind.getModID()).getPage("Keybinds").add(_keybind.makeSetting());
 	}
 
 	function getJSKeybinds()
@@ -172,12 +163,12 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	function onMouseInput( _key, _environment, _state )
 	{
 		local keyAsString = _key.getID().tostring();
-		if (!(keyAsString in ::MSU.Key.KeyMapSQMouse))
+		if (!(keyAsString in ::MSU.Key.MouseMapSQ))
 		{
 			::printWarning("Unknown key pressed: %s" + _key.getID(), ::MSU.ID, "keybinds");
 			return;
 		}
-		keyAsString = ::MSU.Key.KeyMapSQMouse[keyAsString];
+		keyAsString = ::MSU.Key.MouseMapSQ[keyAsString];
 		return this.onInput(_key, _environment, _state, keyAsString);
 	}
 

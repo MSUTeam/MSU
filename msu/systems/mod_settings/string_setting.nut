@@ -4,21 +4,13 @@ this.MSU.Class.StringSetting <- class extends this.MSU.Class.AbstractSetting
 
 	constructor( _id, _value, _name = null)
 	{
-		if (typeof _value != "string")
-		{
-			this.logError("The value for String Setting must be a string");
-			throw this.Exception.InvalidType;
-		}
+		::MSU.requireString(_value);
 		base.constructor(_id, _value, _name);
 	}
 
-	function set( _value )
+	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
 	{
-		if (typeof _value != "string")
-		{
-			this.logError("The value for String Setting must be a string");
-			throw this.Exception.InvalidType;
-		}
-		base.set(_value);
+		::MSU.requireString(_value);
+		base.set(_value, _updateJS, _updatePersistence, _updateCallback);
 	}
 }
