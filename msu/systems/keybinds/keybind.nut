@@ -36,14 +36,15 @@ this.MSU.Class.Keybind <- class
 
 	function callOnKeyState( _keyState )
 	{
-		if (this.KeyState == ::MSU.Key.KeyState.All)
-		{
-			return true;
-		}
-		return _keyState == this.KeyState;
+		return (_keyState & this.KeyState) != 0;
 	}
 
-	function getKeyCombatinations()
+	function getKeyState()
+	{
+		return this.KeyState;
+	}
+
+	function getKeyCombinations()
 	{
 		return this.KeyCombinations.reduce(@(a,b) a + "/" + b);
 	}
@@ -68,14 +69,9 @@ this.MSU.Class.Keybind <- class
 		return this.ModID;
 	}
 
-	function getEnvironment()
-	{
-		return this.Environment;
-	}
-
 	function makeSetting()
 	{
-		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKeyCombatinations(), this.getName());
+		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKeyCombinations(), this.getName());
 		setting.setDescription(this.getDescription());
 		local self = this.weakref();
 		setting.addCallback(function(_data)
@@ -83,5 +79,10 @@ this.MSU.Class.Keybind <- class
 			::MSU.System.Keybinds.update(self.ref().getModID(), self.ref().getID(), _data);
 		});
 		return setting;
+	}
+
+	function _tostring()
+	{
+		return format("ModID: %s, ID: %s, KeyCombinations: %s, keyState: %s", this.getModID(), this.getID(), this.getKeyCombinations(), this.getKeyState().tostring());
 	}
 }

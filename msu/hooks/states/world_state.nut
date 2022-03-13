@@ -254,7 +254,7 @@
 	local onKeyInput = o.onKeyInput;
 	o.onKeyInput = function( _key )
 	{
-		if (!::MSU.System.Keybinds.updatePressedKey(_key)) // if was pressed down before, just return the normal onKeyInput
+		if (!::MSU.Key.isKnownKey(_key))
 		{
 			return onKeyInput(_key);
 		}
@@ -268,7 +268,7 @@
 	local onMouseInput = o.onMouseInput;
 	o.onMouseInput = function( _mouse )
 	{
-		if (_mouse.getState() != 1 || _mouse.getID() == 6)
+		if (!::MSU.Key.isKnownMouse(_mouse))
 		{
 			return onMouseInput(_mouse);
 		}

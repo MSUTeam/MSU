@@ -6,10 +6,15 @@
 	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
 	{
 		::MSU.requireFunction(_function);
-		base.constructor(_modID, _id, _keyCombinations, _name);
+		base.constructor(_modID, _id, _keyCombinations, _name, _keyState);
 
 		this.Function = _function;
 		this.State = _state;
+	}
+
+	function getState()
+	{
+		return this.State;
 	}
 
 	function hasState( _state )

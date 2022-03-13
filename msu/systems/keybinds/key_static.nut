@@ -17,9 +17,9 @@ this.MSU.Key <- {
 	}
 
 	KeyState = {
-		Release = 0,
 		Press = 1,
-		All = 2
+		Release = 2,
+		Continuous = 4
 	}
 
 	function sortKeyString( _key )
@@ -41,11 +41,32 @@ this.MSU.Key <- {
 		return key;
 	}
 
-	function sortKeyCombinationsString( _keyCombination )
+	function sortKeyCombinationsString( _keyCombinations )
 	{
-		local array = split(_keyCombination, "/");
+		local array = split(_keyCombinations, "/");
 		array.apply(this.sortKeyString);
 		return array.reduce(@(a, b) a + "/" + b);
+	}
+
+	function getKeyState( _rawKeyState )
+	{
+		switch (_rawKeyState)
+		{
+			case 0:
+				return this.KeyState.Release;
+			case 1:
+				return this.KeyState.Press;
+		}
+	}
+
+	function isKnownKey( _key )
+	{
+		return _key.getKey().tostring() in this.KeyMapSQ;
+	}
+
+	function isKnownMouse( _mouse )
+	{
+		return _mouse.getID().tostring() in this.MouseMapSQ;
 	}
 
 	MouseMapSQ = {

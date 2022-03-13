@@ -88,7 +88,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	{
 		local keybind = this.remove(_modID, _id);
 		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations),"/");
-		::getModSetting(_modID, _id).set(keybind.getKeyCombatinations(), true, true, false);
+		::getModSetting(_modID, _id).set(keybind.getKeyCombinations(), true, true, false);
 		this.add(keybind, false);
 	}
 
@@ -101,7 +101,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
-			::printWarning(format("Checking handler function: key %s | ID %s | State %s", _key, keybind.getID(), keybind.getState().tostring()), ::MSU.ID, "keybinds");
+			::printWarning("Checking keybind: " + keybind.tostring(), ::MSU.ID, "keybinds");
 			if (!keybind.hasState(_state))
 			{
 				continue;
@@ -112,7 +112,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 				continue;
 			}
 
-			::printWarning(format("Calling handler function: key %s | ID %s | State %s", _key, keybind.getID(), keybind.getState().tostring()), this.MSU.ID, "keybinds");
+			::printWarning("Calling keybind", this.MSU.ID, "keybinds");
 			if (keybind.call(_environment) == false)
 			{
             	::printWarning("Returning after keybind call returned false.", ::MSU.ID, "keybinds");
@@ -162,23 +162,32 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 			return;
 		}
 		keyAsString = ::MSU.Key.KeyMapSQ[keyAsString];
-		return this.onInput(_key, _environment, _state, keyAsString);
+		local keyState;
+		if (this.isKeyStateContinuous(_key))
+		{
+			keyState = ::MSU.Key.KeyState.Continuous;
+		}
+		else
+		{
+			keyState = ::MSU.Key.getKeyState(_key.getState())
+		}
+		return this.onInput(_key, _environment, _state, keyAsString, keyState);
 	}
 
-	function onMouseInput( _key, _environment, _state )
+	function onMouseInput( _mouse, _environment, _state )
 	{
-		local keyAsString = _key.getID().tostring();
+		local keyAsString = _mouse.getID().tostring();
 		if (!(keyAsString in ::MSU.Key.MouseMapSQ))
 		{
-			::printWarning("Unknown key pressed: %s" + _key.getID(), ::MSU.ID, "keybinds");
+			::printWarning("Unknown key pressed: %s" + _mouse.getID(), ::MSU.ID, "keybinds");
 			return;
 		}
 		keyAsString = ::MSU.Key.MouseMapSQ[keyAsString];
-		return this.onInput(_key, _environment, _state, keyAsString);
+		return this.onInput(_mouse, _environment, _state, keyAsString, _mouse.getState());
 	}
 
 	// Private
-	function onInput( _key, _environment, _state, _keyAsString )
+	function onInput( _key, _environment, _state, _keyAsString, _keyState )
 	{
 		local key = "";
 		foreach (pressedKeyID, value in this.PressedKeys)
@@ -189,31 +198,32 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 			}
 		}
 		key += _keyAsString;
-		return this.call(key, _environment, _state, _key.getState());
+		return this.call(key, _environment, _state, _keyState);
 	}
 
-	function updatePressedKey( _key )
+	function isKeyStateContinuous( _key )
 	{
-		local key = _key.getKey().tostring();
-		if (!(key in ::MSU.Key.KeyMapSQ))
-		{
-			return false;
-		}
+		// Assumes key is in KeyMapSQ
+		local key = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
+		::MSU.Log.printData(this.PressedKeys)
 
-		key = ::MSU.Key.KeyMapSQ[key];
-		local wasPressed = key in this.PressedKeys;
 		if (_key.getState() == 1)
 		{
-			if (wasPressed)
+			this.logInfo("keystate 1" + _key.getKey());
+			if (key in this.PressedKeys)
 			{
-				return false;
+				this.logInfo("should be continuous");
+				return true;
 			}
 			this.PressedKeys[key] <- 1;
 		}
 		else
 		{
-			delete this.PressedKeys[key];
+			if (key in this.PressedKeys) // in case the keypress started while tabbed out for example
+			{
+				delete this.PressedKeys[key];
+			}
 		}
-		return true;
+		return false;
 	}
 }
