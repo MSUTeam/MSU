@@ -8,7 +8,7 @@ this.MSU.Class.WeightedContainer <- class
 		if (_array == null) _array = [];
 		this.MSU.requireArray(_array);
 		this.Total = 0;
-		this.Array = array(_array.len());
+		this.Array = [];
 		this.extend(_array);
 	}
 
