@@ -1,10 +1,11 @@
 ::MSU.Class.KeybindJS <- class extends ::MSU.Class.Keybind
 {
-	function getForJS()
+	function getUIData()
 	{
 		return {
+			modID = this.getModID(),
 			id = this.getID(),
-			KeyCombinations = this.getKeyCombinations(),
+			keyCombinations = this.getKeyCombinations(),
 			keyState = this.KeyState
 		}
 	}

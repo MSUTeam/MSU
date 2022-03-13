@@ -30,6 +30,6 @@ this.js_connection <- {
 
 	function isConnected()
 	{
-		this.m.JSHandle != null;
+		return this.m.JSHandle != null;
 	}
 };

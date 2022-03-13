@@ -14,17 +14,29 @@ Object.defineProperty(MSUConnection.prototype, 'constructor', {
 	enumerable: false,
 	writable: true });
 
+MSUConnection.prototype.queryData = function (_data)
+{
+	this.setCustomKeybinds(_data.keybinds);
+	this.setSettings(_data.settings);
+}
+
 MSUConnection.prototype.setCustomKeybinds = function (_keybinds)
 {
-	console.error("setCustomKeybinds:\n" + JSON.stringify(_keybinds))
-
-	_keybinds.forEach(function(mod)
+	var self = this;
+	_keybinds.forEach(function(keybind)
 	{
-		mod.keybinds.forEach(function(keybind)
-		{
-			MSU.Keybinds.addKeybindFromSQ(new MSUKeybind(mod.id, keybind.id, keybind.keyCombinations, keybind.keyState))
-		});
+		self.addKeybind(keybind);
 	});
+}
+
+MSUConnection.prototype.removeKeybind = function (_keybind)
+{
+	MSU.Keybinds.removeKeybind(_keybind.modID, _keybind.id)
+}
+
+MSUConnection.prototype.addKeybind = function (_keybind)
+{
+	MSU.Keybinds.addKeybindFromSQ(_keybind.modID, _keybind.id, _keybind.keyCombinations, _keybind.keyState);
 }
 
 MSUConnection.prototype.setSettings = function (_settings)

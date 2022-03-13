@@ -37,6 +37,10 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		}
 		if (_keybind instanceof ::MSU.Class.KeybindJS)
 		{
+			if (::MSU.UI.JSConnection.isConnected())
+			{
+				::MSU.UI.JSConnection.addKeybind(_keybind);
+			}
 			this.KeybindsForJS[_keybind.getModID()][_keybind.getID()] <- _keybind;
 		}
 		else
@@ -148,15 +152,10 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		local ret = []
 		foreach (modID, mod in this.KeybindsForJS)
 		{
-			local modJS = {
-				id = modID,
-				keybinds = []
-			};
 			foreach (keybindID, keybind in mod)
 			{
-				modJS.keybinds.push(keybind.getForJS());
+				ret.push(keybind.getUIData());
 			}
-			ret.push(modJS);
 		}
 		return ret;
 	}

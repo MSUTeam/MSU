@@ -1,53 +1,51 @@
 MSU.Keybinds = {
-	KeybindsByKey = {},
-	KeybindsByMod = {},
-	PressedKeys = {},
-	KeybindsToParse = [],
-	addKeybindFromSQ( _keybind )
+	KeybindsByKey : {},
+	KeybindsByMod : {},
+	PressedKeys : {},
+	KeybindsToParse : {},
+	addKeybindFromSQ : function( _modID, _id, _keyCombinations, _keyState )
 	{
-		if (!(_keybind.ModID in this.KeybindsByMod))
+		this.KeybindsByMod[_modID][_id].initFromSQ(_keyCombinations, _keyState);
+		this.addKeybindToKeybindsByKey(this.KeybindsByMod[_modID][_id]);
+	},
+
+	addKeybindFunction : function( _modID, _id, _function )
+	{
+		var keybind = new MSUKeybind(_modID, _id, _function);
+		if (!(keybind.ModID in this.KeybindsByMod))
 		{
-			this.KeybindsByMod = {};
+			this.KeybindsByMod[keybind.ModID] = {};
 		}
-		this.KeybindsByMod[_keybind.ModID][_keybind.ID] = keybind;
+		this.KeybindsByMod[keybind.ModID][keybind.ID] = keybind;
 	},
 
-	addKeybindFunction( _modID, _id, _function )
+	addKeybindToKeybindsByKey : function(_keybind)
 	{
-		var keybind = this.KeybindsByMod[_modID][_id];
-		keybind.Function = _function;
-		this.addKeybindToKeybindsByKey(keybind);
-	},
-
-	addKeybindToKeybindsByKey(_keybind)
-	{
-		var rawKeyCombinations = keybind.getRawKeyCombinations();
+		var rawKeyCombinations = _keybind.getRawKeyCombinations();
 		for (var i = 0; i < rawKeyCombinations.length; i++)
 		{
 			if (!(rawKeyCombinations[i] in this.KeybindsByKey))
 			{
 				this.KeybindsByKey[rawKeyCombinations[i]] = [];
 			}
-			this.KeybindsByKey.push(keybind);
+			this.KeybindsByKey[rawKeyCombinations[i]].push(_keybind);
 		}
-	}
+	},
 
-	updateKeybind( _modID, _id, _keyCombinations )
+	removeKeybind : function(_modID, _id) // Only removes the keybinds from potential places it could be called so that if the keybind is just getting updated it will still be available for addKeybindFromSQ
 	{
-		// Assumes keybind has been given a function
 		var keybind = this.KeybindsByMod[_modID][_id];
 		var rawKeyCombinations = keybind.getRawKeyCombinations();
 		for (var i = 0; i < rawKeyCombinations.length; i++) {
 			this.KeybindsByKey[rawKeyCombinations[i]].splice(this.KeybindsByKey[rawKeyCombinations[i]].indexOf(keybind), 1);
-			if (this.KeybindsByKey[rawKeyCombinations[i]].len() == 0)
+			if (this.KeybindsByKey[rawKeyCombinations[i]].length == 0)
 			{
 				delete this.KeybindsByKey[rawKeyCombinations[i]];
 			}
 		}
-		this.addKeybindToKeybindsByKey(keybind);
-	}
+	},
 
-	call(key, _event, _keyState)
+	call : function(key, _event, _keyState)
 	{
 		if (!(key in this.KeybindsByKey))
 		{
@@ -65,12 +63,12 @@ MSU.Keybinds = {
 				return false;
 			}
 		}
-	}
+	},
 
-	onInput( _keyAsString, _event, _keyState )
+	onInput : function( _keyAsString, _event, _keyState )
 	{
 		var key = '';
-		Object.keys(this.PressedKeys).foreach(pressedKeyID =>
+		Object.keys(this.PressedKeys).forEach(function(pressedKeyID)
 		{
 			if (_keyAsString != pressedKeyID)
 			{
@@ -79,9 +77,9 @@ MSU.Keybinds = {
 		});
 		key += _keyAsString;
 		return this.call(key, _event, _keyState);
-	}
+	},
 
-	isKeyStateContinuous( _key, _release )
+	isKeyStateContinuous : function( _key, _release )
 	{
 		if (!_release)
 		{
@@ -89,7 +87,7 @@ MSU.Keybinds = {
 			{
 				return true;
 			}
-			this.PressedKeys[_key] <- 1;
+			this.PressedKeys[_key] = 1;
 		}
 		else
 		{

@@ -1,5 +1,5 @@
 MSU.Key = {
-	sortKeyString( _key )
+	sortKeyString : function( _key )
 	{
 		var key = '';
 		var keyArray = _key.split('+');
@@ -7,7 +7,7 @@ MSU.Key = {
 		if (keyArray.len() > 1)
 		{
 			keyArray.sort();
-			key = keyArray.reduce((a, b) => a + '+' + b) + '+';
+			key = keyArray.reduce(function(a, b) {return a + '+' + b;}) + '+';
 		}
 		else if (keyArray.len() == 1)
 		{
@@ -17,9 +17,9 @@ MSU.Key = {
 		key += mainKey;
 		return key;
 	},
-	sortKeyCombinationString( _keyCombinations )
+	sortKeyCombinationString : function( _keyCombinations )
 	{
-		return _keyCombinations.split('/').map(MSU.Key.sortKeyString).reduce((a, b) => a + '/' + b);
+		return _keyCombinations.split('/').map(MSU.Key.sortKeyString).reduce(function(a, b) {return a + '/' + b;});
 	},
 	KeyState : {
 		Press : 1,

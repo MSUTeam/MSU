@@ -38,7 +38,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 
 	function has( _id )
 	{
-		return _id in this.Panels
+		return this.Panels.contains(_id)
 	}
 
 	function finalize()

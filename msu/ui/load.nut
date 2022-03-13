@@ -13,7 +13,7 @@
 ::mods_registerJS("msu/keybinds/key_static.js");
 ::mods_registerJS("msu/keybinds/keybind.js");
 ::mods_registerJS("msu/keybinds/keybinds_system.js");
-::mods_registerJS("msu/keybinds/setup.js");
+::mods_registerJS("msu/keybinds/load.js");
 
 ::mods_registerJS("msu/~~connect_screens.js");
 

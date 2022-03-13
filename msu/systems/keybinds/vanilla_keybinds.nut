@@ -260,6 +260,30 @@ addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 	}
 }, "Toggle Forced Attack", null, ::MSU.Key.KeyState.Release | ::MSU.Key.KeyState.Press);
 
+// World Continuous, doesn't work cuz we handle keybinds differently from vanilla ):
+
+// addKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
+// {
+// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	{
+// 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
+// 	}
+
+// 	this.World.getCamera().move(-1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	return false;
+// }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
+
+// addKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
+// {
+// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	{
+// 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
+// 	}
+
+// 	this.World.getCamera().move(1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	return false;
+// }, "Move Camera Right", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
+
 //-------------------------------------------TACTICAL ONLY---------------------------------------------------------------------------------
 
 ::MSU.System.Keybinds.addKeybindDivider(::MSU.VanillaID, "tactical", "Combat Keybinds")
@@ -330,3 +354,8 @@ addKeybind("tactical_focusActiveEntity", "shift", ::MSU.Key.State.Tactical, func
 	this.Tactical.TurnSequenceBar.focusActiveEntity(true);
 	return false;
 }, "Focus on Active Character");
+
+
+// ::MSU.System.Keybinds.registerMod(::MSU.ID)
+// local jskeybind = ::MSU.Class.KeybindJS(::MSU.ID, "testkb", "ctrl+s");
+// ::MSU.System.Keybinds.add(jskeybind);

@@ -4,28 +4,26 @@ this.msu_connection <- this.inherit("scripts/mods/msu/js_connection", {
 	function connect()
 	{
 		this.m.JSHandle = this.UI.connect("MSUConnection", this);
-		this.passKeybinds();
-		this.passSettings();
+		this.queryData();
 	}
 
-	function passKeybinds()
+	function queryData()
 	{
-		this.m.JSHandle.asyncCall("setCustomKeybinds", ::MSU.System.Keybinds.getJSKeybinds());
-	}
-
-	function passSettings()
-	{
-		this.m.JSHandle.asyncCall("setSettings", this.MSU.System.ModSettings.getLogicalData())
-	}
-
-	function updateKeybind( _keybind )
-	{
-		this.m.JSHandle.asyncCall("updateKeybind", _keybind.getDataForUI());
+		local data = {
+			keybinds = ::MSU.System.Keybinds.getJSKeybinds(),
+			settings = ::MSU.System.ModSettings.getLogicalData()
+		};
+		this.m.JSHandle.asyncCall("queryData", data);
 	}
 
 	function removeKeybind( _keybind )
 	{
-		this.m.JSHandle.asyncCall("removeKeybind", _keybind.getDataForUI())
+		this.m.JSHandle.asyncCall("removeKeybind", _keybind.getUIData())
+	}
+
+	function addKeybind( _keybind )
+	{
+		this.m.JSHandle.asyncCall("addKeybind", _keybind.getUIData())
 	}
 
 	function updateSetting( _modID, _settingID, _value )

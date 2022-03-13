@@ -10,7 +10,10 @@ this.MSU.Class.OrderedMap <- class
 
 	function _newslot( _key, _value )
 	{
-		this.Array.push(_key);
+		if (!(_value in this.Table))
+		{
+			this.Array.push(_key);
+		}
 		this.Table[_key] <- _value;
 	}
 

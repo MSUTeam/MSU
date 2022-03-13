@@ -5,8 +5,8 @@ document.addEventListener('keydown', function( _event )
 	{
 		return;
 	}
-	var keyState = MSU.Keybinds.isKeyStateContinuous(key, true) ? MSU.Key.State.Continuous : MSU.Key.State.Release;
-	if (MSU.Keybinds.onInput(key, _event, _keyState) === false)
+	var keyState = MSU.Keybinds.isKeyStateContinuous(key, false) ? MSU.Key.KeyState.Continuous : MSU.Key.KeyState.Press;
+	if (MSU.Keybinds.onInput(key, _event, keyState) === false)
 	{
 		event.stopPropagation();
 	}
@@ -19,8 +19,8 @@ document.addEventListener('keyup', function( _event )
 	{
 		return;
 	}
-	MSU.Keybinds.isKeyStateContinuous(key, false);
-	if (MSU.Keybinds.onInput(key, _event, MSU.Key.State.Release) === false)
+	MSU.Keybinds.isKeyStateContinuous(key, true);
+	if (MSU.Keybinds.onInput(key, _event, MSU.Key.KeyState.Release) === false)
 	{
 		event.stopPropagation();
 	}
@@ -32,7 +32,7 @@ document.addEventListener('mouseup', function( _event ){
 	{
 		return;
 	}
-	if (MSU.Keybinds.onInput(key, _event, MSU.Key.State.Release) === false)
+	if (MSU.Keybinds.onInput(key, _event, MSU.Key.KeyState.Release) === false)
 	{
 		event.stopPropagation();
 	}
@@ -44,8 +44,14 @@ document.addEventListener('mousedown', function( _event ){
 	{
 		return;
 	}
-	if (MSU.Keybinds.onInput(key, _event, MSU.Key.State.Press) === false)
+	if (MSU.Keybinds.onInput(key, _event, MSU.Key.KeyState.Press) === false)
 	{
 		event.stopPropagation();
 	}
 });
+
+
+// MSU.Keybinds.addKeybindFunction('mod_MSU', 'testkb', function()
+// {
+// 	console.error("testkb")
+// })

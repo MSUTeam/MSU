@@ -97,8 +97,6 @@ var StringSetting = function (_mod, _page, _setting, _parentDiv)
     this.input.val(_setting.value)
     this.input.on("change", function(){
     	self.setting.value = self.input.val();
-    	console.error(self.setting.id)
-    	console.error(self.setting.value)
     })
 
    
