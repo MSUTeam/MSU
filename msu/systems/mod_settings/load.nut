@@ -10,6 +10,7 @@ includeFile("abstract_setting.nut");
 includeFile("boolean_setting.nut");
 includeFile("enum_setting.nut");
 includeFile("string_setting.nut");
+includeFile("keybind_setting.nut");
 includeFile("range_setting.nut");
 
 includeFile("settings_page.nut");

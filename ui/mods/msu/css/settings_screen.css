@@ -219,3 +219,51 @@
 	position: absolute;
 	margin: auto;
 }
+
+
+.change-keybind-popup
+{
+    width: 60.0rem;
+    height: 30.0rem;
+
+    background-image: url("coui://gfx/ui/skin/popup_background_600x300.png");
+    background-size: 60.0rem 30.0rem;
+    background-repeat: no-repeat;
+}
+
+.change-keybind-container
+{
+	/*border: 2px solid green;*/
+    width: 100%;
+    padding: 0.6rem;
+    position: relative;
+    float: left;
+}
+
+
+.l-keybind-button-container
+{
+	/*border: 2px solid blue;*/
+    width: 40rem;
+    height: 9rem;
+    position: relative;
+    float: left;
+}
+
+.l-keybind-button-container .row
+{
+    width: 37rem;
+    height: 3rem;
+    position: relative;
+    float: left;
+}
+
+.keybind-button-container
+{
+	/*border: 2px solid red;*/
+    width: 17.0rem;
+    height: 3rem;
+    position: relative;
+    float: left;
+}
+

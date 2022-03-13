@@ -71,7 +71,7 @@ this.MSU.Class.Keybind <- class
 
 	function makeSetting()
 	{
-		local setting = this.MSU.Class.StringSetting(this.getID(), this.getKeyCombinations(), this.getName());
+		local setting = this.MSU.Class.KeybindSetting(this.getID(), this.getKeyCombinations(), this.getName());
 		setting.setDescription(this.getDescription());
 		local self = this.weakref();
 		setting.addCallback(function(_data)
