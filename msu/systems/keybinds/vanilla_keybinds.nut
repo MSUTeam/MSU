@@ -258,7 +258,7 @@ addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 			return false;
 		}
 	}
-}, "Toggle Forced Attack", null, ::MSU.Key.KeyState.All);
+}, "Toggle Forced Attack", null, ::MSU.Key.KeyState.Release | ::MSU.Key.KeyState.Press);
 
 //-------------------------------------------TACTICAL ONLY---------------------------------------------------------------------------------
 

@@ -17,12 +17,14 @@ Object.defineProperty(MSUConnection.prototype, 'constructor', {
 MSUConnection.prototype.setCustomKeybinds = function (_keybinds)
 {
 	console.error("setCustomKeybinds:\n" + JSON.stringify(_keybinds))
-	//TODO
-	// MSU.GlobalKeyHandler.addHandlerFunction("2+shift", "testKeybind", function(_event){
-	// 	console.error("Testing keybind")
-	// })
-	// MSU.CustomKeybinds.setFromSQ(_keybinds);
-	//test
+
+	_keybinds.forEach(function(mod)
+	{
+		mod.keybinds.forEach(function(keybind)
+		{
+			MSU.Keybinds.addKeybindFromSQ(new MSUKeybind(mod.id, keybind.id, keybind.keyCombinations, keybind.keyState))
+		});
+	});
 }
 
 MSUConnection.prototype.setSettings = function (_settings)

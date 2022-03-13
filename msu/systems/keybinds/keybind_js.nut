@@ -3,8 +3,9 @@
 	function getForJS()
 	{
 		return {
-			key = this.getKey(),
-			name = this.getName()
+			id = this.getID(),
+			KeyCombinations = this.getKeyCombinations(),
+			keyState = this.KeyState
 		}
 	}
 }

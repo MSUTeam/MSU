@@ -133,22 +133,30 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 	function getJSKeybinds()
 	{
-		// ret = {
-		// 	modID = {
-		// 		keybindID = {
-		// 			name = "",
-		// 			key = ""
-		// 		}
+		// ret = [
+		// 	{
+		// 		id = "modID",
+		// 		keybinds = [
+		// 			{
+		// 				id = "keybindID",
+		// 				keyCombinations = "x/y+z",
+		// 				keyState = ::MSU.Key.Keystate.Release
+		// 			}
+		// 		]
 		// 	}
-		// }
-		local ret = {}
+		// ]
+		local ret = []
 		foreach (modID, mod in this.KeybindsForJS)
 		{
-			ret[modID] <- {};
+			local modJS = {
+				id = modID,
+				keybinds = []
+			};
 			foreach (keybindID, keybind in mod)
 			{
-				ret[modID][keybindID] <- keybind.getForJS();
+				modJS.keybinds.push(keybind.getForJS());
 			}
+			ret.push(modJS);
 		}
 		return ret;
 	}
