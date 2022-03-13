@@ -115,20 +115,21 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
 	this.layout = $('<div class="string-container"/>');
-	this.setting = _setting
-	this.parent = _parentDiv
+	this.setting = _setting;
+	this.parent = _parentDiv;
 	_parentDiv.append(this.layout);
 
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
     this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
-    this.input.val(_setting.value)
+    this.input.val(_setting.value);
     this.input.on("change", function(){
     	self.setting.value = self.input.val();
     })
 
     this.input.on("click", function(){
+    	this.blur();
     	self.createPopup(_parentDiv);
     })
 
@@ -141,31 +142,37 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 
 KeybindSetting.prototype.createPopup = function ()
 {
-	 var self = this;
-	 this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.setting.name, null, 'change-keybind-popup');
-	 this.parent.mPopupDialog.addPopupDialogContent(this.createChangeKeybindDialogContent(this.parent.mPopupDialog));
-	 this.parent.mPopupDialog.addPopupDialogButton('Cancel', 'l-cancel-button', function (_dialog)
+	var self = this;
+	this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.setting.name, null, 'change-keybind-popup');
+	var result = this.parent.mPopupDialog.addPopupDialogContent($('<div class="change-keybind-container"/>'));
+	//need to do this separately or the list won't render
+	this.createChangeKeybindScrollContainer(result);
+	this.parent.mPopupDialog.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
 	{
 	    _dialog.destroyPopupDialog();
 	})
-	 this.parent.mPopupDialog.addPopupDialogOkButton(function (_dialog)
-	 {
-	 	var buttons = $(".change-keybind-button")
-	 	var result = ""
-	 	for(var idx = 0; idx < buttons.length; idx++)
-	 	{
-	 		result += $(buttons[idx]).findButtonText().html()
-	 		if (idx != buttons.length-1)
-	 		{
-	 		  result += "/"
-	 		}
-	 	}
-	 	self.input.val(result);
-	 	self.setting.value = result;
-	 	self.parent.mPopupDialog = null;
-	 	_dialog.destroyPopupDialog();
-
-	 });
+	this.parent.mPopupDialog.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
+	{
+	    self.createChangeKeybindButton("");
+	})
+	this.parent.mPopupDialog.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
+	{
+		var buttons = $(".change-keybind-button")
+		var result = ""
+		for(var idx = 0; idx < buttons.length; idx++)
+		{
+			var text = $(buttons[idx]).findButtonText().html()
+			if(text.length > 0)
+			{
+				result += text + "/"
+			}
+		}
+		result = result.slice(0, -1);
+		self.input.val(result);
+		self.setting.value = result;
+		self.parent.mPopupDialog = null;
+		_dialog.destroyPopupDialog();
+	});
 
 	 this.parent.mPopupDialog.addPopupDialogCancelButton(function (_dialog)
 	 {
@@ -174,13 +181,26 @@ KeybindSetting.prototype.createPopup = function ()
 	 });
 }
 
-KeybindSetting.prototype.createChangeKeybindDialogContent = function (_dialog)
+KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 {
-	var result = $('<div class="change-keybind-container"/>');
-	var buttonContainer = $('<div class="l-keybind-button-container"/>');
-	result.append(buttonContainer);
-	var currentKeybinds =  this.setting.value;
-	var keybindArray = currentKeybinds.split("/");
+	this.mButtonContainer = _dialog.createList(2);
+	var keybindArray = this.setting.value.split("/");
+	for (var x = 0; x < keybindArray.length; x++)
+	{
+		this.createChangeKeybindButton(keybindArray[x]);
+	}
+}
+KeybindSetting.prototype.createChangeKeybindButton = function(_name)
+{
+	var row = $('<div class="row"/>');
+	this.mButtonContainer.findListScrollContainer().append(row);
+
+	var buttonLayout = $('<div class="keybind-button-container"/>');
+	row.append(buttonLayout);
+	var button = buttonLayout.createTextButton(_name, function ()
+	{
+	}, 'change-keybind-button', 1)
+
 	var selectedButton = null;
 	var callback = function(_event)
 	{
@@ -197,54 +217,39 @@ KeybindSetting.prototype.createChangeKeybindDialogContent = function (_dialog)
 	{
 		if (_forcedOff === true || _button.data("Selected") === true)
 		{
-			document.removeEventListener("keyup", callback, true)
-			_button.data("Selected", false)
+			document.removeEventListener("keyup", callback, true);
+			_button.data("Selected", false);
 			_button.removeClass('is-selected');
 			selectedButton = null;
 		}
 		else
 		{
-			document.addEventListener("keyup", callback, true)
-			_button.data("Selected", true)
+			document.addEventListener("keyup", callback, true);
+			_button.data("Selected", true);
 			_button.addClass('is-selected');
 			selectedButton = _button;
 		}
 	}
-	for (var x = 0; x < keybindArray.length; x++)
-	{
-		this.createChangeKeybindButton(keybindArray[x], buttonContainer);
-	}
-	return result
-}
-KeybindSetting.prototype.createChangeKeybindButton = function(_name, _container)
-{
-	var row = $('<div class="row"/>');
-	_container.append(row)
-
-	var buttonLayout = $('<div class="keybind-button-container"/>');
-	row.append(buttonLayout)
-	var button = buttonLayout.createTextButton(_name, function ()
-	{
-	}, 'change-keybind-button', 1)
 	button.on("click", function( _event ){
 		var mainButton = this;
-	    var buttons = $(".change-keybind-button")
+	    var buttons = $(".change-keybind-button");
 	    buttons.map(function()
 	    {
 	    	if (this != mainButton)
 	    	{
-	    		toggle($(this), true)
+	    		toggle($(this), true);
 	    	}
 	    })
-	    toggle($(this), false)
-	})
+	    toggle($(this), false);
+	});
 	button.off("mouseenter");
 	button.off("mouseleave");
 	button.off("mousedown");
 	button.off("mouseup");
 
+	//Delete button
 	buttonLayout = $('<div class="keybind-button-container"/>');
-	row.append(buttonLayout)
+	row.append(buttonLayout);
 	var destroyButton = buttonLayout.createTextButton("Delete", function ()
 	{
 	}, 'delete-keybind-button', 1)

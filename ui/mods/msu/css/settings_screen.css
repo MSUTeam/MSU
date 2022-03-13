@@ -233,7 +233,6 @@
 
 .change-keybind-container
 {
-	/*border: 2px solid green;*/
     width: 100%;
     padding: 0.6rem;
     position: relative;
@@ -241,16 +240,15 @@
 }
 
 
-.l-keybind-button-container
+.change-keybind-container .list
 {
-	/*border: 2px solid blue;*/
     width: 40rem;
-    height: 9rem;
+    height: 15rem;
     position: relative;
     float: left;
 }
 
-.l-keybind-button-container .row
+.change-keybind-container .list > .row
 {
     width: 37rem;
     height: 3rem;
@@ -260,10 +258,22 @@
 
 .keybind-button-container
 {
-	/*border: 2px solid red;*/
     width: 17.0rem;
     height: 3rem;
     position: relative;
     float: left;
 }
 
+.l-add-keybind-button,
+.l-cancel-keybind-button,
+.l-ok-keybind-button
+{
+    width: 17.5rem;
+    line-height: 3.0rem;
+    float: left;
+}
+
+.change-keybind-popup .l-button-bar
+{
+    width: 60.0rem !important;
+}
