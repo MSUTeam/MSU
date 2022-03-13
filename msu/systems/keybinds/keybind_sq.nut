@@ -12,9 +12,9 @@
 		this.State = _state;
 	}
 
-	function getState()
+	function hasState( _state )
 	{
-		return this.State;
+		return (this.State & _state) != 0;
 	}
 
 	function setFunction( _function )

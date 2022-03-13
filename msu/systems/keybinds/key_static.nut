@@ -5,10 +5,10 @@ this.MSU.Key <- {
 	}
 
 	State = {
-		World = 0,
-		Tactical = 1,
-		MainMenu = 2,
-		All = 4
+		World = 1,
+		Tactical = 2,
+		MainMenu = 4,
+		All = 1 + 2 + 4
 	}
 
 	Input = {

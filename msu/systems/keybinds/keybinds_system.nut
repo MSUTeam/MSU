@@ -102,7 +102,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
 			::printWarning(format("Checking handler function: key %s | ID %s | State %s", _key, keybind.getID(), keybind.getState().tostring()), ::MSU.ID, "keybinds");
-			if (keybind.getState() != _state && keybind.getState != ::MSU.Key.State.All)
+			if (!keybind.hasState(_state))
 			{
 				continue;
 			}
@@ -119,6 +119,11 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 				return false;
 			}
 		}
+	}
+
+	function addKeybindDivider( _modID, _id, _name )
+	{
+		::MSU.System.ModSettings.get(_modID).getPage("Keybinds").add(::MSU.Class.SettingsDivider(_id, _name));
 	}
 
 	function addKeybindSetting( _keybind )
