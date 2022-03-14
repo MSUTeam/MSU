@@ -2,7 +2,7 @@
 ::MSU.SystemID <- {
 	Serialization = 0,
 	ModSettings = 1,
-	ModRegistry = 2,
+	Registry = 2,
 	Log = 3,
 	Keybinds = 4
 }
