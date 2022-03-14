@@ -242,7 +242,7 @@
 
 .change-keybind-container .list
 {
-    width: 40rem;
+    width: 90%;
     height: 15rem;
     position: relative;
     float: left;
@@ -250,18 +250,48 @@
 
 .change-keybind-container .list > .row
 {
-    width: 37rem;
+    width: 100%;
     height: 3rem;
     position: relative;
     float: left;
 }
 
-.keybind-button-container
+.keybind-button-container,
+.keybind-delete-button-container
 {
-    width: 17.0rem;
     height: 3rem;
     position: relative;
     float: left;
+}
+
+.keybind-delete-button-container
+{
+	width: 17.0rem;
+}
+
+.keybind-button-container
+{
+	width: 30.0rem;
+}
+.keybind-button-container .button-1
+{
+	background-size: 30.0rem 4.3rem;
+	background-repeat: no-repeat;
+}
+
+.keybind-button-container .button-1:hover,
+.keybind-button-container .button-1.is-selected
+{
+    background-image: url("coui://gfx/ui/skin/button_01_hovered.png");
+    background-size: 30.0rem 4.3rem;
+    background-repeat: no-repeat;
+}
+
+.keybind-button-container .button-1.is-active
+{
+    background-image: url("coui://gfx/ui/skin/button_01_pressed.png");
+    background-size: 30.0rem 4.3rem;
+    background-repeat: no-repeat;
 }
 
 .l-add-keybind-button,
@@ -276,4 +306,6 @@
 .change-keybind-popup .l-button-bar
 {
     width: 60.0rem !important;
+    display: flex;
+    justify-content: space-between;
 }
