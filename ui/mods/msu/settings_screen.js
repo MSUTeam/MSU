@@ -202,29 +202,48 @@ KeybindSetting.prototype.createChangeKeybindButton = function(_name)
 	}, 'change-keybind-button', 1)
 
 	var selectedButton = null;
-	var callback = function(_event)
+
+	var callbackKeyboard = function(_event)
 	{
-		var key = MSU.CustomKeybinds.KeyMapJS[_event.keyCode];
+		var key = MSU.Key.KeyMapJS[_event.keyCode];
 		if (key === undefined || key === null)
 		{
 		    return;
 		}
-		var pressedKeys = MSU.GlobalKeyHandler.getPressedKeysAsString(key)
-		selectedButton.changeButtonText(pressedKeys+key);
+		setButton(key);
+	}
+
+	var callbackMouse = function(_event)
+	{
+		var key = MSU.Key.MouseMapJS[_event.button];
+		if (key === undefined || key === null)
+		{
+		    return;
+		}
+		setButton(key);
+	}
+
+	var setButton = function(_key)
+	{
+		var pressedKeys = MSU.Keybinds.getPressedKeysAsString(_key) + _key;
+		selectedButton.changeButtonText(MSU.Key.sortKeyString(pressedKeys));
 		toggle(selectedButton, true);
 	}
+
 	var toggle = function(_button, _forcedOff)
 	{
 		if (_forcedOff === true || _button.data("Selected") === true)
 		{
-			document.removeEventListener("keyup", callback, true);
+			document.removeEventListener("keyup", callbackKeyboard, true);
+			document.removeEventListener("mouseup", callbackMouse, true);
 			_button.data("Selected", false);
 			_button.removeClass('is-selected');
 			selectedButton = null;
 		}
 		else
 		{
-			document.addEventListener("keyup", callback, true);
+			document.addEventListener("keyup", callbackKeyboard, true);
+			document.addEventListener("mouseup", callbackMouse, true);
 			_button.data("Selected", true);
 			_button.addClass('is-selected');
 			selectedButton = _button;
@@ -248,7 +267,7 @@ KeybindSetting.prototype.createChangeKeybindButton = function(_name)
 	button.off("mouseup");
 
 	//Delete button
-	buttonLayout = $('<div class="keybind-button-container"/>');
+	buttonLayout = $('<div class="keybind-delete-button-container"/>');
 	row.append(buttonLayout);
 	var destroyButton = buttonLayout.createTextButton("Delete", function ()
 	{

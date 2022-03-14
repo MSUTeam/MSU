@@ -19,7 +19,7 @@ MSU.Keybinds = {
 		this.KeybindsByMod[keybind.ModID][keybind.ID] = keybind;
 	},
 
-	addKeybindToKeybindsByKey : function(_keybind)
+	addKeybindToKeybindsByKey : function( _keybind )
 	{
 		var rawKeyCombinations = _keybind.getRawKeyCombinations();
 		for (var i = 0; i < rawKeyCombinations.length; i++)
@@ -32,7 +32,7 @@ MSU.Keybinds = {
 		}
 	},
 
-	removeKeybind : function(_modID, _id) // Only removes the keybinds from potential places it could be called so that if the keybind is just getting updated it will still be available for addKeybindFromSQ
+	removeKeybind : function( _modID, _id ) // Only removes the keybinds from potential places it could be called so that if the keybind is just getting updated it will still be available for addKeybindFromSQ
 	{
 		var keybind = this.KeybindsByMod[_modID][_id];
 		var rawKeyCombinations = keybind.getRawKeyCombinations();
@@ -45,7 +45,7 @@ MSU.Keybinds = {
 		}
 	},
 
-	call : function(key, _event, _keyState)
+	call : function( key, _event, _keyState )
 	{
 		if (!(key in this.KeybindsByKey))
 		{
@@ -65,17 +65,22 @@ MSU.Keybinds = {
 		}
 	},
 
-	onInput : function( _keyAsString, _event, _keyState )
+	getPressedKeysAsString : function( _excludeKey )
 	{
 		var key = '';
-		Object.keys(this.PressedKeys).forEach(function(pressedKeyID)
+		Object.keys(this.PressedKeys).forEach( function( pressedKeyID )
 		{
-			if (_keyAsString != pressedKeyID)
+			if (_excludeKey != pressedKeyID)
 			{
 				key += pressedKeyID + "+";
 			}
 		});
-		key += _keyAsString;
+		return key;
+	},
+
+	onInput : function( _keyAsString, _event, _keyState )
+	{
+		var key = this.getPressedKeysAsString(_keyAsString) + _keyAsString;
 		return this.call(key, _event, _keyState);
 	},
 
