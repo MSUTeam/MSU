@@ -83,7 +83,7 @@ this.ui_screen <- this.inherit("scripts/mods/msu/js_connection", {
 		{
 			throw this.Exception.NotConnected;
 		}
-		else if (this.isVisible())
+		else if (!this.isVisible())
 		{
 			throw this.Exception.AlreadyInState;
 		}
