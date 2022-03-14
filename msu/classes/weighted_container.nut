@@ -24,6 +24,13 @@ this.MSU.Class.WeightedContainer <- class
 	function push( _item )
 	{
 		if (typeof _item != "array") _item = [1, _item];
+		else
+		{
+			if (_item.len() != 2)
+			{
+				throw ::Exception.InvalidType;
+			}
+		}
 
 		this.Total += _item[0];
 		this.Array.push(_item);

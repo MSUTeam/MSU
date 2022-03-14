@@ -12,7 +12,7 @@ this.MSU.Math <- {
 	}
 
 	// Returns the frequency density of _x using normal distribution
-	function normalDistDensity(_x, _mean, _stdev)
+	function normalDistDensity( _x, _mean, _stdev )
 	{
 		local divider = _stdev * sqrt(2 * 3.14);
 
@@ -24,7 +24,7 @@ this.MSU.Math <- {
 	}
 
 	// Returns the value of the normal distribution at _x
-	function normalDist(_x, _mean, _stdev)
+	function normalDist( _x, _mean, _stdev )
 	{
 		return exp(-0.5 * pow((_x - _mean)/(_stdev * 1.0), 2)) / (_stdev * sqrt(2 * 3.14));			
 	}

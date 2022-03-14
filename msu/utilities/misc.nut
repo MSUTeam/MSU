@@ -1,12 +1,12 @@
-this.MSU.isNull <- function( _obj )
+this.MSU.isNull <- function( _object )
 {
-	if (_obj == null)
+	if (_object == null)
 	{
 		return true;
 	}
-	if (typeof _obj == "instance" && _obj instanceof this.WeakTableRef)
+	if (typeof _object == "instance" && _object instanceof this.WeakTableRef)
 	{
-		return _obj.isNull();
+		return _object.isNull();
 	}
 	return false;
 }

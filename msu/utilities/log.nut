@@ -28,7 +28,8 @@ this.MSU.Log <- {
 		this.logInfo(string);
 	}
 
-	function printData(_data, _maxDepth = 1, _advanced = false){
+	function printData( _data, _maxDepth = 1, _advanced = false )
+	{
 		local maxLen = 1;
 		if (typeof _data == "array" || typeof _data == "table"){
 			maxLen = _data.len();

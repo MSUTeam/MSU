@@ -28,7 +28,7 @@ this.settings_screen <- this.inherit("scripts/mods/msu/ui_screen", {
 		}
 		else if (this.isVisible())
 		{
-			throw this.Exception.AlreadyVisible;
+			throw this.Exception.AlreadyInState;
 		}
 		this.m.JSHandle.asyncCall("show", this.MSU.System.ModSettings.getUIData(_flags));
 	}

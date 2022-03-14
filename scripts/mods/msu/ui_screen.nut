@@ -65,20 +65,30 @@ this.ui_screen <- this.inherit("scripts/mods/msu/js_connection", {
 
 	function show(_data)
 	{
-		if (this.m.JSHandle != null && !this.isVisible())
+		if (this.m.JSHandle == null)
 		{
-			this.Tooltip.show();
-			this.m.JSHandle.asyncCall("show", _data);
+			throw this.Exception.NotConnected;
 		}
+		else if (this.isVisible())
+		{
+			throw this.Exception.AlreadyInState;
+		}
+		this.Tooltip.show();
+		this.m.JSHandle.asyncCall("show", _data);
 	}
 
 	function hide()
 	{
-		if (this.m.JSHandle != null && this.isVisible())
+		if (this.m.JSHandle == null)
 		{
-			this.Tooltip.hide();
-			this.m.JSHandle.asyncCall("hide", null);
+			throw this.Exception.NotConnected;
 		}
+		else if (this.isVisible())
+		{
+			throw this.Exception.AlreadyInState;
+		}
+		this.Tooltip.hide();
+		this.m.JSHandle.asyncCall("hide", null);
 	}
 
 	function onScreenConnected()
