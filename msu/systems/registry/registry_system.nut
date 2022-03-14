@@ -1,9 +1,9 @@
-this.MSU.Class.ModRegistrySystem <- class extends this.MSU.Class.System
+this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 {
 	Mods = null;
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.ModRegistry);
+		base.constructor(this.MSU.SystemID.Registry);
 		this.Mods = {}
 	}
 

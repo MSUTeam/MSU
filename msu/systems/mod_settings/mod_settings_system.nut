@@ -5,7 +5,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.ModSettings, [this.MSU.SystemID.ModRegistry]);
+		base.constructor(this.MSU.SystemID.ModSettings);
 		Locked = false;
 		this.Panels = this.MSU.Class.OrderedMap();
 	}

@@ -4,7 +4,7 @@ this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.Serialization, [this.MSU.SystemID.ModRegistry]);
+		base.constructor(this.MSU.SystemID.Serialization);
 	}
 
 	function registerMod( _modID )
