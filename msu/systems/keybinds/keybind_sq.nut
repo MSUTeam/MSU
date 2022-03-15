@@ -2,14 +2,16 @@
 {
 	Function = null;
 	State = null;
+	KeyState = null;
 
 	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
 	{
 		::MSU.requireFunction(_function);
-		base.constructor(_modID, _id, _keyCombinations, _name, _keyState);
+		base.constructor(_modID, _id, _keyCombinations, _name);
 
 		this.Function = _function;
 		this.State = _state;
+		this.KeyState = _keyState;
 	}
 
 	function getState()
@@ -22,6 +24,16 @@
 		return (this.State & _state) != 0;
 	}
 
+	function callOnKeyState( _keyState )
+	{
+		return (_keyState & this.KeyState) != 0;
+	}
+
+	function getKeyState()
+	{
+		return this.KeyState;
+	}
+
 	function setFunction( _function )
 	{
 		this.Function = _function;
@@ -30,5 +42,10 @@
 	function call( _environment )
 	{
 		return this.Function.call(_environment);
+	}
+
+	function tostring()
+	{
+		return base.tostring() + ", Keystate: " + this.getKeyState();
 	}
 }

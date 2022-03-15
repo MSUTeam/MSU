@@ -54,21 +54,21 @@ MSU.Keybinds = {
 
 	isMousebindPressed : function( _modID, _id, _event )
 	{
-		var key = Key.MouseMapJS[event.button];
+		var key = MSU.Key.MouseMapJS[event.button];
 		return this.isPressed(_modID, _id, key);
-	}
+	},
 
 	isKeybindPressed : function( _modID, _id, _event )
 	{
-		var key = Key.KeyMapJS[_event.keyCode];
+		var key = MSU.Key.KeyMapJS[_event.keyCode];
 		return this.isPressed(_modID, _id, key);
-	}
+	},
 
 	isPressed : function( _modID, _id, _key )
 	{
 		var keyCombinations = this.KeybindsByMod[_modID][_id].getRawKeyCombinations();
 		var currentKeyCombination = this.getPressedKeysAsString(_key);
-		currentKeyCombination = Key.sortKeyString(currentKeyCombination) + "+" + _key;
+		currentKeyCombination = MSU.Key.sortKeyString(currentKeyCombination) + _key;
 		for (var i = 0; i < keyCombinations.length; i++)
 		{
 			if (keyCombinations[i] == currentKeyCombination)

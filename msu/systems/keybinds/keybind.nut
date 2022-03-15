@@ -5,12 +5,10 @@ this.MSU.Class.Keybind <- class
 	ID = null;
 	Name = null;
 	Description = null;
-	KeyState = null;
 
-	constructor( _modID, _id, _keyCombinations, _name = null, _keyState = null )
+	constructor( _modID, _id, _keyCombinations, _name = null )
 	{
 		if (_name == null) _name = _id;
-		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
 
 		if (!(_modID in this.MSU.System.Keybinds.KeybindsByMod)) throw ::Exception.ModNotRegistered;
 
@@ -20,7 +18,6 @@ this.MSU.Class.Keybind <- class
 		this.ID = _id;
 		this.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations), "/");
 		this.Name = _name;
-		this.KeyState = _keyState;
 		this.Description = "";
 	}
 
@@ -34,19 +31,9 @@ this.MSU.Class.Keybind <- class
 		return this.Description;
 	}
 
-	function callOnKeyState( _keyState )
-	{
-		return (_keyState & this.KeyState) != 0;
-	}
-
-	function getKeyState()
-	{
-		return this.KeyState;
-	}
-
 	function getKeyCombinations()
 	{
-		return this.KeyCombinations.reduce(@(a,b) a + "/" + b);
+		return this.KeyCombinations.reduce(@(_a, _b) _a + "/" + _b);
 	}
 
 	function getRawKeyCombinations()
@@ -81,8 +68,13 @@ this.MSU.Class.Keybind <- class
 		return setting;
 	}
 
+	function tostring()
+	{
+		return format("ModID: %s, ID: %s, KeyCombinations: %s", this.getModID(), this.getID(), this.getKeyCombinations());
+	}
+
 	function _tostring()
 	{
-		return format("ModID: %s, ID: %s, KeyCombinations: %s, keyState: %s", this.getModID(), this.getID(), this.getKeyCombinations(), this.getKeyState().tostring());
+		return this.tostring();
 	}
 }

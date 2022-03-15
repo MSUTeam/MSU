@@ -5,8 +5,7 @@
 		return {
 			modID = this.getModID(),
 			id = this.getID(),
-			keyCombinations = this.getKeyCombinations(),
-			keyState = this.KeyState
+			keyCombinations = this.getKeyCombinations()
 		}
 	}
 }
