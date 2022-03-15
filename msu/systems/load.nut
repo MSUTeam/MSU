@@ -28,7 +28,7 @@ includeLoad("registry");
 includeLoad("debug");
 
 includeFile("mod");
-::MSU.Vanilla <- ::MSU.Class.Mod(::MSU.VanillaID, "1.5.0-10", "Vanilla");
+::MSU.Vanilla <- ::MSU.Class.Mod(::MSU.VanillaID, ::MSU.System.Registry.formatVanillaVersionString(::GameInfo.getVersionNumber()), "Vanilla");
 ::MSU.Mod <- ::MSU.Class.Mod(::MSU.ID, ::MSU.Version, ::MSU.Name)
 
 ::MSU.Mod.register(::MSU.System.Debug, true);

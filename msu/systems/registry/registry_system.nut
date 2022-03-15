@@ -29,6 +29,13 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		this.addMod(_mod);
 	}
 
+	function formatVanillaVersionString( _vanillaVersion )
+	{
+		local versionArray = split(_vanillaVersion, ".");
+		local preRelease = versionArray.pop();
+		return versionArray.reduce(@(_a, _b) _a + "." + _b) + "-" +  preRelease;
+	}
+
 	function getVersionTable( _version )
 	{
 		local version = split(_version, "+");
