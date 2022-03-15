@@ -19,6 +19,8 @@ local function includeFile( _file )
 
 includeFile("system");
 includeFile("system_mod_addon");
+includeFile("empty_mod_addon");
+::MSU.EmptyModAddon <- ::MSU.Class.EmptyModAddon();
 
 includeLoad("registry");
 

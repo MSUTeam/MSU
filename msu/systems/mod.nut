@@ -26,6 +26,12 @@ this.MSU.Class.Mod <- class
 		this.PreRelease = table.PreRelease;
 		this.Metadata = table.Metadata;
 
+		Debug = ::MSU.EmptyModAddon;
+		Keybinds = ::MSU.EmptyModAddon;
+		ModSettings = ::MSU.EmptyModAddon;
+		Registry = ::MSU.EmptyModAddon;
+		Serialization = ::MSU.EmptyModAddon;
+
 		::MSU.System.Registry.registerMod(this);
 	}
 
