@@ -6,6 +6,13 @@ this.MSU.Class.Mod <- class
 	PreRelease = null;
 	Metadata = null;
 
+	// Systems
+	Debug = null;
+	Keybinds = null;
+	ModSettings = null;
+	Registry = null;
+	Serialization = null;
+
 	constructor( _id, _version, _name = null )
 	{
 		if (_name == null) _name = _id;
@@ -50,5 +57,13 @@ this.MSU.Class.Mod <- class
 		}
 
 		return ret;
+	}
+
+	function registerMod( _system, ... )
+	{
+		if (vargv == null) vargv = [];
+
+		vargv.insert(0, this); // Requires changing registerMod functions to accept a mod object rather than an ID
+		_system.registerMod.acall(vargv);
 	}
 }
