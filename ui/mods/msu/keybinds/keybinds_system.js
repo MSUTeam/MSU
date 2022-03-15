@@ -5,18 +5,37 @@ MSU.Keybinds = {
 	KeybindsToParse : {},
 	addKeybindFromSQ : function( _modID, _id, _keyCombinations, _keyState )
 	{
-		this.KeybindsByMod[_modID][_id].initFromSQ(_keyCombinations, _keyState);
-		this.addKeybindToKeybindsByKey(this.KeybindsByMod[_modID][_id]);
+		if (_modID in this.KeybindsByMod && _id in this.KeybindsByMod[_modID] && this.KeybindsByMod[_modID][_id].isFullyInit())
+		{
+			this.KeybindsByMod[_modID][_id].initFromSQ(_keyCombinations, _keyState);
+			this.addKeybindToKeybindsByKey(this.KeybindsByMod[_modID][_id]);
+		}
+		else
+		{
+			this.addKeybindToKeybindsByMod(new MSUKeybind(_modID, _id, null, _keyCombinations, _keyState));
+		}
 	},
 
 	addKeybindFunction : function( _modID, _id, _function )
 	{
-		var keybind = new MSUKeybind(_modID, _id, _function);
-		if (!(keybind.ModID in this.KeybindsByMod))
+		if (_modID in this.KeybindsByMod && _id in this.KeybindsByMod[_modID] && this.KeybindsByMod[_modID][_id].isFullyInit())
 		{
-			this.KeybindsByMod[keybind.ModID] = {};
+			this.KeybindsByMod[_modID][_id].initFromJS(_function);
+			this.addKeybindToKeybindsByKey(this.KeybindsByMod[_modID][_id]);
 		}
-		this.KeybindsByMod[keybind.ModID][keybind.ID] = keybind;
+		else
+		{
+			this.addKeybindToKeybindsByMod(new MSUKeybind(_modID, _id, _function));
+		}
+	},
+
+	addKeybindToKeybindsByMod : function( _keybind )
+	{
+		if (!(_keybind.ModID in this.KeybindsByMod))
+		{
+			this.KeybindsByMod[_keybind.ModID] = {};
+		}
+		this.KeybindsByMod[_keybind.ModID][_keybind.ID] = _keybind;
 	},
 
 	addKeybindToKeybindsByKey : function( _keybind )
