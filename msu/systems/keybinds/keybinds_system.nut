@@ -49,11 +49,11 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		{
 			foreach (key in _keybind.getRawKeyCombinations())
 			{
-				::printWarning(format("Adding keyCombination %s for keybind %s", key, _keybind.getID()), ::MSU.ID, "keybinds")
+				::MSU.Mod.printWarning(format("Adding keyCombination %s for keybind %s", key, _keybind.getID()), "keybinds")
 				if (!(key in this.KeybindsByKey))
 				{
 					this.KeybindsByKey[key] <- [];
-					::printWarning("Creating Keybind array for key: " + key, ::MSU.ID, "keybinds")
+					::MSU.Mod.printWarning("Creating Keybind array for key: " + key, "keybinds")
 				}
 				this.KeybindsByKey[key].push(_keybind);
 			}
@@ -107,7 +107,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
-			::printWarning("Checking keybind: " + keybind.tostring(), ::MSU.ID, "keybinds");
+			::MSU.Mod.printWarning("Checking keybind: " + keybind.tostring(), "keybinds");
 			if (!keybind.hasState(_state))
 			{
 				continue;
@@ -118,10 +118,10 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 				continue;
 			}
 
-			::printWarning("Calling keybind", this.MSU.ID, "keybinds");
+			::MSU.Mod.printWarning("Calling keybind", "keybinds");
 			if (keybind.call(_environment) == false)
 			{
-            	::printWarning("Returning after keybind call returned false.", ::MSU.ID, "keybinds");
+            	::MSU.Mod.printWarning("Returning after keybind call returned false.", "keybinds");
 				return false;
 			}
 		}
@@ -167,7 +167,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		local keyAsString = _key.getKey().tostring();
 		if (!(keyAsString in ::MSU.Key.KeyMapSQ))
 		{
-			::printWarning("Unknown key pressed: %s" + _key.getKey(), ::MSU.ID, "keybinds");
+			::MSU.Mod.printWarning("Unknown key pressed: %s" + _key.getKey(), "keybinds");
 			return;
 		}
 		keyAsString = ::MSU.Key.KeyMapSQ[keyAsString];
@@ -188,7 +188,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		local keyAsString = _mouse.getID().tostring();
 		if (!(keyAsString in ::MSU.Key.MouseMapSQ))
 		{
-			::printWarning("Unknown key pressed: %s" + _mouse.getID(), ::MSU.ID, "keybinds");
+			::MSU.Mod.printWarning("Unknown key pressed: %s" + _mouse.getID(), "keybinds");
 			return;
 		}
 		keyAsString = ::MSU.Key.MouseMapSQ[keyAsString];

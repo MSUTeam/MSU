@@ -68,7 +68,7 @@
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
-			::printLog("Function " + key + " returned a mult of: " + funcResult, "mod_MSU", "movement")
+			::MSU.Mod.printError("Function " + key + " returned a mult of: " + funcResult, "movement");
 			mult *= funcResult;
 		}
 		return mult;

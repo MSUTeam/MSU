@@ -194,7 +194,7 @@
 		foreach (mod in this.MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
-			::printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.ID);
+			::MSU.Mod.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
 	}
 
@@ -213,7 +213,7 @@
 					this.logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
 					break;
 				case 0:
-					::printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()), this.MSU.ID);
+					::MSU.Mod.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
 					break;
 				case 1:
 					this.logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
