@@ -14,18 +14,20 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 		this.PressedKeys = {};
 	}
 
-	function registerMod( _modID )
+	function registerMod( _mod )
 	{
-		base.registerMod(_modID);
-		if (!::MSU.System.ModSettings.has(_modID))
+		base.registerMod(_mod);
+		if (!::MSU.System.ModSettings.has(_mod.getID()))
 		{
-			::MSU.System.ModSettings.registerMod(_modID);
+			::MSU.System.ModSettings.registerMod(_mod);
 		}
 
-		::MSU.System.ModSettings.get(_modID).addPage(::MSU.Class.SettingsPage("Keybinds"));
+		_mod.Keybinds = ::MSU.Class.KeybindsModAddon(_mod);
 
-		this.KeybindsByMod[_modID] <- {};
-		this.KeybindsForJS[_modID] <- {};
+		::MSU.System.ModSettings.get(_mod.getID()).addPage(::MSU.Class.SettingsPage("Keybinds"));
+
+		this.KeybindsByMod[_mod.getID()] <- {};
+		this.KeybindsForJS[_mod.getID()] <- {};
 	}
 
 	// maybe add a Bind suffix to all these functions: eg addBind, updateBind etc

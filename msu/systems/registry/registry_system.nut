@@ -7,27 +7,26 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		this.Mods = {}
 	}
 
-	function addMod( _modID, _version, _modName )
+	function addMod( _mod )
 	{
-		local mod = this.MSU.Class.Mod(_modID, _version, _modName);
-		this.Mods[_modID] <- mod;
-		this.logInfo(format("MSU registered mod %s, version: %s", mod.getName(), mod.getVersionString()));
+		this.Mods[_mod.getID()] <- _mod;
+		this.logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
 	}
 
-	function registerMod( _modID, _version, _modName = null )
+	function registerMod( _mod )
 	{
-		if (_modID in this.Mods)
+		if (_mod.getID() in this.Mods)
 		{
-			this.logError("Duplicate Mod ID for mod: " + _modID);
+			this.logError("Duplicate Mod ID for mod: " + _mod.getID());
 			throw this.Exception.DuplicateKey;
 		}
-		else if (::mods_getRegisteredMod(_modID) == null)
+		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{
-			this.logError("Register your mod using the same ID with mod_hooks before registering with MSU");
+			this.logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 			throw this.Exception.KeyNotFound;
 		}
 
-		this.addMod(_modID, _version, _modName);
+		this.addMod(_mod);
 	}
 
 	function getVersionTable( _version )
@@ -97,8 +96,7 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		switch (typeof _version)
 		{
 			case "string":
-				local dummy = this.MSU.Class.Mod("dummy", _version);
-				return this.compareModVersions(_mod, dummy);
+				return this.compareModVersions(_mod, this.getVersionTable(_version));
 			case "instance":
 				if (_version instanceof this.MSU.Class.Mod)
 				{

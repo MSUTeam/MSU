@@ -149,11 +149,12 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		return _mod1.getName() <=> _mod2.getName();
 	}
 
-	function registerMod( _modID )
+	function registerMod( _mod )
 	{
-		base.registerMod(_modID)
-		local mod = this.MSU.Mods[_modID];
-		local panel = this.MSU.Class.SettingsPanel(mod.getID(), mod.getName());
-		this.Panels[mod.getID()] <- panel;
+		base.registerMod(_mod)
+
+		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
+		local panel = this.MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
+		this.Panels[_mod.getID()] <- panel;
 	}
 }

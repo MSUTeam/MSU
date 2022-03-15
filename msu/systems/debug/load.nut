@@ -1,4 +1,5 @@
 ::includeFile("msu/systems/debug/", "debug_system.nut");
+::includeFile("msu/systems/debug/", "debug_mod_addon.nut");
 
 this.MSU.System.Debug <- this.MSU.Class.DebugSystem();
 
@@ -22,11 +23,6 @@ this.MSU.System.Debug <- this.MSU.Class.DebugSystem();
 	return this.MSU.System.Debug.isEnabledForMod( _modID, _flagID)
 }
 
-this.MSU.System.Debug.registerMod(this.MSU.ID, true);
+// The above need to get removed
 
-//need to set this first to print the others
-this.MSU.System.Debug.setFlags(this.MSU.ID, this.MSU.System.Debug.MSUMainDebugFlag);
 
-this.MSU.System.Debug.setFlags(this.MSU.ID, this.MSU.System.Debug.MSUDebugFlags);
-
-this.MSU.System.Debug.registerMod(this.MSU.VanillaID, true);

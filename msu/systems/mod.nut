@@ -25,6 +25,8 @@ this.MSU.Class.Mod <- class
 		this.Version = table.Version;
 		this.PreRelease = table.PreRelease;
 		this.Metadata = table.Metadata;
+
+		::MSU.System.Registry.registerMod(this);
 	}
 
 	function getName()
@@ -59,11 +61,34 @@ this.MSU.Class.Mod <- class
 		return ret;
 	}
 
-	function registerMod( _system, ... )
+	function register( _system, ... )
 	{
 		if (vargv == null) vargv = [];
 
-		vargv.insert(0, this); // Requires changing registerMod functions to accept a mod object rather than an ID
+		vargv.insert(0, _system);
+		vargv.insert(1, this);
 		_system.registerMod.acall(vargv);
+	}
+
+	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	{
+		this.Debug.print(_text, this.getID(), ::MSU.System.Debug.LogType.Info, _flagID)
+	}
+
+	function printWarning( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	{
+		this.Debug.print(_text, this.getID(), ::MSU.System.Debug.LogType.Warning, _flagID);
+	}
+
+	function printError( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	{
+		this.Debug.print(_text, this.getID(), ::MSU.System.Debug.LogType.Error, _flagID);
+	}
+
+	// No isDebugEnabled cuz imo Debug.isEnabled is fine
+
+	function getSetting( _id )
+	{
+		return this.ModSettings.getSetting(_id);
 	}
 }

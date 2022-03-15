@@ -8,6 +8,7 @@ includeFile("keybind");
 includeFile("keybind_sq");
 includeFile("keybind_js");
 includeFile("keybinds_system");
+includeFile("keybinds_mod_addon");
 
 ::MSU.System.Keybinds <- ::MSU.Class.KeybindsSystem();
 

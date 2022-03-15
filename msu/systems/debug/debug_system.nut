@@ -30,21 +30,22 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		}
 	}
 
-	function registerMod( _modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null )
+	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null )
 	{
-		base.registerMod(_modID);
-		if (_modID in this.ModTable)
+		base.registerMod(_mod);
+		if (_mod.getID() in this.ModTable)
 		{
-			this.logError(format("Mod %s already exists in the debug log table!"), _modID);
+			this.logError(format("Mod %s already exists in the debug log table!"), _mod.getID());
 			throw this.Exception.DuplicateKey;
 		}
 
-		this.ModTable[_modID] <- {};
-		this.setFlag(_modID, this.DefaultFlag, _defaultFlagBool);
+		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
+		this.ModTable[_mod.getID()] <- {};
+		this.setFlag(_mod.getID(), this.DefaultFlag, _defaultFlagBool);
 
 		if (_flagTable != null)
 		{
-			this.setFlags(_modID, _flagTable, _flagTableBool);
+			this.setFlags(_mod.getID(), _flagTable, _flagTableBool);
 		}
 	}
 
