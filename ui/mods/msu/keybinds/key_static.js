@@ -21,11 +21,6 @@ MSU.Key = {
 	{
 		return _keyCombinations.split('/').map(MSU.Key.sortKeyString).reduce(function(a, b) {return a + '/' + b;});
 	},
-	KeyState : {
-		Press : 1,
-		Release : 2,
-		Continuous : 4
-	},
 	MouseMapJS : {
 		0 : "leftclick",
 		2 : "rightclick",
