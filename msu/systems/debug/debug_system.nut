@@ -61,7 +61,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.ModTable))
 		{
-			::MSU.Mod.printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID), this.MSU.ID);
+			::MSU.Mod.printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID));
 			return;
 		}
 		this.ModTable[_modID][_flagID] <- _flagBool;
