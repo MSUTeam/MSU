@@ -17,9 +17,9 @@
 		::MSU.System.Keybinds.add(keybind);
 	}
 
-	function addJSKeybind( _id, _keyCombinations, _name = null, _keyState = null, _description = "" )
+	function addJSKeybind( _id, _keyCombinations, _name = null, _description = "" )
 	{
-		local keybind = ::MSU.Class.KeybindJS(this.Mod.getID(), _id, _keyCombinations, _name, _keyState);
+		local keybind = ::MSU.Class.KeybindJS(this.Mod.getID(), _id, _keyCombinations, _name);
 		keybind.setDescription(_description);
 		::MSU.System.Keybinds.add(keybind)
 	}
