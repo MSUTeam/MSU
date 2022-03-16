@@ -7,9 +7,10 @@ this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 		base.constructor(this.MSU.SystemID.Serialization);
 	}
 
-	function registerMod( _modID )
+	function registerMod( _mod )
 	{
-		base.registerMod(_modID);
-		this.Mods.push(this.MSU.Mods[_modID]);
+		base.registerMod(_mod);
+		this.Mods.push(_mod);
+		_mod.Serialization = ::MSU.Class.SerializationModAddon(_mod);
 	}
 }

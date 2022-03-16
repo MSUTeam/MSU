@@ -71,7 +71,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 	{
 		if (!this.Panels.contains(_modID))
 		{
-			::printWarning(format("The mod %s has been removed", _modID), ::MSU.ID, this.MSU.System.Debug.MSUMainDebugFlag);
+			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), this.MSU.System.Debug.MSUMainDebugFlag);
 			return;
 		}
 		try
@@ -82,7 +82,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		{
 			if (error == this.Exception.KeyNotFound)
 			{
-				::printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), ::MSU.ID, this.MSU.System.Debug.MSUMainDebugFlag);
+				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), this.MSU.System.Debug.MSUMainDebugFlag);
 				return;
 			}
 			throw error;
@@ -149,11 +149,12 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		return _mod1.getName() <=> _mod2.getName();
 	}
 
-	function registerMod( _modID )
+	function registerMod( _mod )
 	{
-		base.registerMod(_modID)
-		local mod = this.MSU.Mods[_modID];
-		local panel = this.MSU.Class.SettingsPanel(mod.getID(), mod.getName());
-		this.Panels[mod.getID()] <- panel;
+		base.registerMod(_mod)
+
+		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
+		local panel = this.MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
+		this.Panels[_mod.getID()] <- panel;
 	}
 }

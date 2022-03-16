@@ -30,7 +30,7 @@ this.MSU.Key <- {
 		if (keyArray.len() > 1)
 		{
 			keyArray.sort();
-			key = keyArray.reduce(@(a, b) a + "+" + b) + "+";
+			key = keyArray.reduce(@(_a, _b) _a + "+" + _b) + "+";
 		}
 		else if (keyArray.len() == 1)
 		{
@@ -45,7 +45,7 @@ this.MSU.Key <- {
 	{
 		local array = split(_keyCombinations, "/");
 		array.apply(this.sortKeyString);
-		return array.reduce(@(a, b) a + "/" + b);
+		return array.reduce(@(_a, _b) _a + "/" + _b);
 	}
 
 	function getKeyState( _rawKeyState )

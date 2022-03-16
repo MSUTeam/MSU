@@ -1,20 +1,13 @@
-::MSU.System.Keybinds.registerMod(::MSU.VanillaID);
-function addKeybind( _id, _keyCombinations, _state, _function, _name, _description = "", _keyState = null )
-{
-	local keybind = ::MSU.Class.KeybindSQ(::MSU.VanillaID, _id, _keyCombinations, _state, _function, _name, _keyState);
-	keybind.setDescription(_description);
-	::MSU.System.Keybinds.add(keybind);
+::MSU.Vanilla.register(::MSU.System.Keybinds);
 
-}
-
-addKeybind("character_closeCharacterScreen", "c/i/escape", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("character_closeCharacterScreen", "c/i/escape", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
 	if (!this.isInCharacterScreen()) return;
 	this.toggleCharacterScreen();
 	return false;
 }, "Close Character Screen");
 
-addKeybind("character_openCharacterScreen", "c/i", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("character_openCharacterScreen", "c/i", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
 	if (::mods_isClass(this, "tactical_state"))
 	{
@@ -35,14 +28,14 @@ addKeybind("character_openCharacterScreen", "c/i", ::MSU.Key.State.World | ::MSU
 	}
 }, "Open Character Screen");
 
-addKeybind("character_switchToPreviousBrother", "left/a", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("character_switchToPreviousBrother", "left/a", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
 	if (!this.isInCharacterScreen()) return;
 	this.m.CharacterScreen.switchToPreviousBrother();
 	return false;
 }, "Switch to Previous Brother");
 
-addKeybind("character_switchToNextBrother", "right/d/tab", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("character_switchToNextBrother", "right/d/tab", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
 	if (!this.isInCharacterScreen()) return;
 	this.m.CharacterScreen.switchToNextBrother();
@@ -53,7 +46,7 @@ local function isCampfireScreen(){
 	return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible();
 }
 
-addKeybind("world_toggleMenuScreen", "escape", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleMenuScreen", "escape", ::MSU.Key.State.World, function()
 {
 	if (::mods_isClass(this, "world_state"))
 	{
@@ -78,16 +71,16 @@ addKeybind("world_toggleMenuScreen", "escape", ::MSU.Key.State.World, function()
 
 //-------------------------------------------WORLD ONLY---------------------------------------------------------------------------------
 
-::MSU.System.Keybinds.addKeybindDivider(::MSU.VanillaID, "world", "World Keybinds");
+::MSU.Vanilla.Keybinds.addDivider("world", "World Keybinds");
 
-addKeybind("world_closeCampfireScreen", "p/escape", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_closeCampfireScreen", "p/escape", ::MSU.Key.State.World, function()
 {
 	if (!isCampfireScreen.call(this)) return;
 	this.m.CampfireScreen.onModuleClosed();
 	return false;
 }, "Close Campfire Screen");
 
-addKeybind("world_toggleRelationScreen", "r", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleRelationScreen", "r", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
 	{
@@ -101,7 +94,7 @@ addKeybind("world_toggleRelationScreen", "r", ::MSU.Key.State.World, function()
 	}
 }, "Toggle Relations Screen");
 
-addKeybind("world_toggleObituarysScreen", "o", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleObituarysScreen", "o", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
 	{
@@ -115,7 +108,7 @@ addKeybind("world_toggleObituarysScreen", "o", ::MSU.Key.State.World, function()
 	}
 }, "Toggle Obituary Screen");
 
-addKeybind("world_toggleCamping", "t", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleCamping", "t", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -128,7 +121,7 @@ addKeybind("world_toggleCamping", "t", ::MSU.Key.State.World, function()
 }, "Toggle Camping");
 
 
-addKeybind("world_toggleRetinueButton", "p", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleRetinueButton", "p", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps() && !this.m.EventScreen.isVisible() && !this.m.EventScreen.isAnimating())
 	{
@@ -137,7 +130,7 @@ addKeybind("world_toggleRetinueButton", "p", ::MSU.Key.State.World, function()
 	}
 }, "Toggle Retinue SCreen");
 
-addKeybind("world_pause", "0/pause", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_pause", "0/pause", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -146,7 +139,7 @@ addKeybind("world_pause", "0/pause", ::MSU.Key.State.World, function()
 	}
 }, "Pause World");
 
-addKeybind("world_speedNormal", "1", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_speedNormal", "1", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -155,7 +148,7 @@ addKeybind("world_speedNormal", "1", ::MSU.Key.State.World, function()
 	}
 }, "Normal World Speed (1x)");
 
-addKeybind("world_speedFast", "2", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_speedFast", "2", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -164,7 +157,7 @@ addKeybind("world_speedFast", "2", ::MSU.Key.State.World, function()
 	}
 }, "Fast World Speed (2x)");
 
-addKeybind("world_trackingButton", "f", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_trackingButton", "f", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -173,7 +166,7 @@ addKeybind("world_trackingButton", "f", ::MSU.Key.State.World, function()
 	}
 }, "Toggle Tracks");
 
-addKeybind("world_cameraLockButton", "x", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_cameraLockButton", "x", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
@@ -182,7 +175,7 @@ addKeybind("world_cameraLockButton", "x", ::MSU.Key.State.World, function()
 	}
 }, "Lock Camera on Party");
 
-addKeybind("world_quicksave", "f5", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_quicksave", "f5", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman())
 	{
@@ -191,7 +184,7 @@ addKeybind("world_quicksave", "f5", ::MSU.Key.State.World, function()
 	}
 }, "Quicksave")
 
-addKeybind("world_quickload", "f9", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_quickload", "f9", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman() && this.World.canLoad("quicksave"))
 	{
@@ -200,7 +193,7 @@ addKeybind("world_quickload", "f9", ::MSU.Key.State.World, function()
 	}
 }, "Quickload")
 
-addKeybind("world_event_1", "1", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_1", "1", ::MSU.Key.State.World, function()
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
@@ -209,9 +202,9 @@ addKeybind("world_event_1", "1", ::MSU.Key.State.World, function()
 
 	this.m.EventScreen.onButtonPressed(0);
 	return false;
-}, "Select Event Option 1", "Click the first button from the top in a world event");
+}, "Select Event Option 1", null, "Click the first button from the top in a world event");
 
-addKeybind("world_event_2", "2", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_2", "2", ::MSU.Key.State.World, function()
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
@@ -220,9 +213,9 @@ addKeybind("world_event_2", "2", ::MSU.Key.State.World, function()
 
 	this.m.EventScreen.onButtonPressed(1);
 	return false;
-}, "Select Event Option 2", "Click the second button from the top in a world event");
+}, "Select Event Option 2", null, "Click the second button from the top in a world event");
 
-addKeybind("world_event_3", "3", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_3", "3", ::MSU.Key.State.World, function()
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
@@ -231,9 +224,9 @@ addKeybind("world_event_3", "3", ::MSU.Key.State.World, function()
 
 	this.m.EventScreen.onButtonPressed(2);
 	return false;
-}, "Select Event Option 3", "Click the third button from the top in a world event");
+}, "Select Event Option 3", null, "Click the third button from the top in a world event");
 
-addKeybind("world_event_4", "4", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_4", "4", ::MSU.Key.State.World, function()
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
@@ -242,9 +235,9 @@ addKeybind("world_event_4", "4", ::MSU.Key.State.World, function()
 
 	this.m.EventScreen.onButtonPressed(3);
 	return false;
-}, "Select Event Option 4", "Click the fourth button from the top in a world event");
+}, "Select Event Option 4", null, "Click the fourth button from the top in a world event");
 
-addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 {
 	if (this.m.IsForcingAttack)
 	{
@@ -258,11 +251,11 @@ addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 			return false;
 		}
 	}
-}, "Toggle Forced Attack", null, ::MSU.Key.KeyState.Release | ::MSU.Key.KeyState.Press);
+}, "Toggle Forced Attack", ::MSU.Key.KeyState.Release | ::MSU.Key.KeyState.Press);
 
 // World Continuous, doesn't work cuz we handle keybinds differently from vanilla ):
 
-// addKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
+// ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
 // {
 // 	if (this.Settings.getTempGameplaySettings().CameraLocked)
 // 	{
@@ -273,7 +266,7 @@ addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 // 	return false;
 // }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 
-// addKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
+// ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
 // {
 // 	if (this.Settings.getTempGameplaySettings().CameraLocked)
 // 	{
@@ -286,9 +279,9 @@ addKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 
 //-------------------------------------------TACTICAL ONLY---------------------------------------------------------------------------------
 
-::MSU.System.Keybinds.addKeybindDivider(::MSU.VanillaID, "tactical", "Combat Keybinds")
+::MSU.Vanilla.Keybinds.addDivider("tactical", "Combat Keybinds");
 
-addKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical ,function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical ,function()
 {
 	if (!this.isInCharacterScreen()) return;
 	if (this.m.CharacterScreen.isInBattlePreparationMode() == true)
@@ -298,42 +291,42 @@ addKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical ,fu
 	}
 }, "Close Character Screen");
 
-addKeybind("tactical_toggleStatsOverlays", "alt", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_toggleStatsOverlays", "alt", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps()) return;
 	this.topbar_options_onToggleStatsOverlaysButtonClicked();
 	return false;
 }, "Toggle Stats Overlay");
 
-addKeybind("tactical_toggleTreesButton", "t", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_toggleTreesButton", "t", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps()) return;
 	this.topbar_options_onToggleTreesButtonClicked();
 	return false;
 }, "Toggle Trees");
 
-addKeybind("tactical_toggleHighlightBlockedTiles", "b", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_toggleHighlightBlockedTiles", "b", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps()) return;
 	this.topbar_options_onToggleHighlightBlockedTilesButtonClicked();
 	return false;
 }, "Toggle Highlighting Blocked Tiles");
 
-addKeybind("tactical_initNextTurn", "enter", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_initNextTurn", "enter", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
 	 this.Tactical.TurnSequenceBar.initNextTurn();
 	return false;
 }, "End Turn for Character");
 
-addKeybind("tactical_endTurnAll", "r", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_endTurnAll", "r", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
 	this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
 	return false;
 }, "End Turn for All Characters");
 
-addKeybind("tactical_waitTurn", "end/space", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_waitTurn", "end/space", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
 	if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
@@ -348,7 +341,7 @@ addKeybind("tactical_waitTurn", "end/space", ::MSU.Key.State.Tactical, function(
 	}
 }, "Wait Character Turn");
 
-addKeybind("tactical_focusActiveEntity", "shift", ::MSU.Key.State.Tactical, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_focusActiveEntity", "shift", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
 	this.Tactical.TurnSequenceBar.focusActiveEntity(true);

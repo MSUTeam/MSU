@@ -29,9 +29,9 @@ this.MSU.Class.System <- class
 		return this.ID;
 	}
 
-	function registerMod( _modID )
+	function registerMod( _mod )
 	{
-		if (!(_modID in this.MSU.Mods))
+		if (!(_mod.getID() in this.MSU.Mods))
 		{
 			this.logError("Register your mod with this.MSU.registerMod first before registering it with MSU systems, and use the same ID");
 			throw this.Exception.KeyNotFound;

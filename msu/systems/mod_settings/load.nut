@@ -17,6 +17,8 @@ includeFile("settings_page.nut");
 includeFile("settings_panel.nut");
 
 includeFile("mod_settings_system.nut");
+this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
+includeFile("mod_settings_mod_addon.nut");
 
 local testSettingsSystem = function()
 {
@@ -57,7 +59,7 @@ local testSettingsSystem = function()
 	}
 }
 
-this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
+
 this.MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
 
 this.MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
@@ -92,15 +94,15 @@ this.MSU.SettingsFlags <- {
 	}
 }
 
-this.MSU.System.ModSettings.registerMod(this.MSU.ID);
-local panel = this.MSU.System.ModSettings.get(this.MSU.ID);
+::MSU.Mod.register(::MSU.System.ModSettings)
 
 local logPage = this.MSU.Class.SettingsPage("Logging");
+::MSU.Mod.ModSettings.addPage(logPage);
+
 local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 logToggle.addCallback(function(_data){
 	this.MSU.System.Debug.FullDebug = _data;
 })
-panel.addPage(logPage);
 logPage.add(logToggle);
 
 // this.MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
@@ -122,4 +124,4 @@ logPage.add(verboseModeToggle);
 
 
 // Testing Code
-testSettingsSystem();
+// testSettingsSystem();
