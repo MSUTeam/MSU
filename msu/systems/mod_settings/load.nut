@@ -17,6 +17,7 @@ includeFile("settings_page.nut");
 includeFile("settings_panel.nut");
 
 includeFile("mod_settings_system.nut");
+this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
 includeFile("mod_settings_mod_addon.nut");
 
 local testSettingsSystem = function()
@@ -58,7 +59,7 @@ local testSettingsSystem = function()
 	}
 }
 
-this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
+
 this.MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
 
 this.MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
