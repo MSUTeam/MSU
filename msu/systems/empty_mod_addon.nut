@@ -2,6 +2,6 @@
 {
 	function _get(_key)
 	{
-		throw ::Exception.ModNotRegistered;
+		throw ::MSU.Exception.ModNotRegistered;
 	}
 }

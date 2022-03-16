@@ -36,7 +36,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		if (_mod.getID() in this.ModTable)
 		{
 			this.logError(format("Mod %s already exists in the debug log table!"), _mod.getID());
-			throw this.Exception.DuplicateKey;
+			throw ::MSU.Exception.DuplicateKey;
 		}
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);

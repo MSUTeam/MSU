@@ -67,11 +67,11 @@ this.ui_screen <- this.inherit("scripts/mods/msu/js_connection", {
 	{
 		if (this.m.JSHandle == null)
 		{
-			throw this.Exception.NotConnected;
+			throw ::MSU.Exception.NotConnected;
 		}
 		else if (this.isVisible())
 		{
-			throw this.Exception.AlreadyInState;
+			throw ::MSU.Exception.AlreadyInState;
 		}
 		this.Tooltip.show();
 		this.m.JSHandle.asyncCall("show", _data);
@@ -81,11 +81,11 @@ this.ui_screen <- this.inherit("scripts/mods/msu/js_connection", {
 	{
 		if (this.m.JSHandle == null)
 		{
-			throw this.Exception.NotConnected;
+			throw ::MSU.Exception.NotConnected;
 		}
 		else if (!this.isVisible())
 		{
-			throw this.Exception.AlreadyInState;
+			throw ::MSU.Exception.AlreadyInState;
 		}
 		this.Tooltip.hide();
 		this.m.JSHandle.asyncCall("hide", null);

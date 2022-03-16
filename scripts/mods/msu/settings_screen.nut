@@ -24,11 +24,11 @@ this.settings_screen <- this.inherit("scripts/mods/msu/ui_screen", {
 	{
 		if (this.m.JSHandle == null)
 		{
-			throw this.Exception.NotConnected;
+			throw ::MSU.Exception.NotConnected;
 		}
 		else if (this.isVisible())
 		{
-			throw this.Exception.AlreadyInState;
+			throw ::MSU.Exception.AlreadyInState;
 		}
 		this.m.JSHandle.asyncCall("show", this.MSU.System.ModSettings.getUIData(_flags));
 	}

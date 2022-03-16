@@ -28,7 +28,7 @@ this.MSU.Class.OrderedMap <- class
 				return;
 			}
 		}
-		throw this.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound;
 	}
 
 	function _set( _key, _value )

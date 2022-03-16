@@ -20,7 +20,7 @@ this.MSU.Class.SettingsPanel <- class
 	{
 		if (!(_page instanceof this.MSU.Class.SettingsPage))
 		{
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 		_page.setParent(this)
 		this.Pages[_page.getID()] <- _page;
@@ -36,7 +36,7 @@ this.MSU.Class.SettingsPanel <- class
 			}
 		}
 
-		throw this.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound;
 	}
 
 	function hasPage( _pageID )

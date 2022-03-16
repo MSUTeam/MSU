@@ -50,7 +50,7 @@ this.MSU.requireTypeArray <- function( _type, _values )
 	{
 		if (typeof value != _type)
 		{
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 	}
 }
@@ -61,7 +61,7 @@ this.MSU.requireOneOfType <- function( _typeArray, ... )
 	{
 		if (_typeArray.find(typeof value) == null)
 		{
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 	}
 }

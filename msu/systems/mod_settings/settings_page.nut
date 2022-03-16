@@ -17,7 +17,7 @@ this.MSU.Class.SettingsPage <- class
 		if (!(_element instanceof this.MSU.Class.SettingsElement))
 		{
 			this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 		_element.setParent(this);
 		this.Settings[_element.getID()] <- _element;

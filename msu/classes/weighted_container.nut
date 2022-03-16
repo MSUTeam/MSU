@@ -28,7 +28,7 @@ this.MSU.Class.WeightedContainer <- class
 		{
 			if (_item.len() != 2)
 			{
-				throw ::Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType;
 			}
 		}
 

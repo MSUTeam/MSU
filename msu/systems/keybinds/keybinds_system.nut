@@ -35,7 +35,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_keybind instanceof ::MSU.Class.Keybind))
 		{
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 		if (_keybind instanceof ::MSU.Class.KeybindJS)
 		{

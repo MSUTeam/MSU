@@ -10,7 +10,7 @@ this.MSU.Class.Keybind <- class
 	{
 		if (_name == null) _name = _id;
 
-		if (!(_modID in this.MSU.System.Keybinds.KeybindsByMod)) throw ::Exception.ModNotRegistered;
+		if (!(_modID in this.MSU.System.Keybinds.KeybindsByMod)) throw ::MSU.Exception.ModNotRegistered;
 
 		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 

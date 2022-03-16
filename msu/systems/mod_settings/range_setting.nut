@@ -14,7 +14,7 @@ this.MSU.Class.RangeSetting <- class extends this.MSU.Class.AbstractSetting
 			if ((typeof num != "integer") && (typeof num != "float"))
 			{
 				this.logError("Max, Min and Step in a Range Setting have to be integers or floats");
-				throw this.Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType;
 			}
 		}
 

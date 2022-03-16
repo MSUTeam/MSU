@@ -20,7 +20,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		{
 			if (!(_modPanel instanceof this.MSU.Class.SettingsPanel))
 			{
-				throw this.Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType;
 			}
 			this.Panels[_modPanel.getID()] <- _modPanel;
 		}
@@ -80,7 +80,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		}
 		catch (error)
 		{
-			if (error == this.Exception.KeyNotFound)
+			if (error == ::MSU.Exception.KeyNotFound)
 			{
 				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), this.MSU.System.Debug.MSUMainDebugFlag);
 				return;

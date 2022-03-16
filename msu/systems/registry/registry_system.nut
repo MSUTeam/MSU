@@ -18,12 +18,12 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		if (_mod.getID() in this.Mods)
 		{
 			this.logError("Duplicate Mod ID for mod: " + _mod.getID());
-			throw this.Exception.DuplicateKey;
+			throw ::MSU.Exception.DuplicateKey;
 		}
 		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{
 			this.logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
-			throw this.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound;
 		}
 
 		this.addMod(_mod);
@@ -41,14 +41,14 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		local version = split(_version, "+");
 		if (version.len() > 2)
 		{
-			throw this.Exception.NotSemanticVersion;
+			throw ::MSU.Exception.NotSemanticVersion;
 		}
 		local metadata = version.len() == 2 ? version[1] : null;
 		version = split(version[0], "-");
 
 		if (version.len() > 2)
 		{
-			throw this.Exception.NotSemanticVersion;
+			throw ::MSU.Exception.NotSemanticVersion;
 		}
 
 		local prerelease = version.len() == 2 ? version[1] : null;
@@ -56,7 +56,7 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 
 		if (version.len() > 3)
 		{
-			throw this.Exception.NotSemanticVersion;
+			throw ::MSU.Exception.NotSemanticVersion;
 		}
 		else if (version.len() < 3)
 		{
@@ -69,14 +69,14 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 			{
 				if (!this.MSU.String.isInteger(version[i]))
 				{
-					throw this.Exception.NotSemanticVersion;
+					throw ::MSU.Exception.NotSemanticVersion;
 				}
 				version[i] = version[i].tointeger();
 			}
 		}
 		catch (error)
 		{
-			throw this.Exception.NotSemanticVersion;
+			throw ::MSU.Exception.NotSemanticVersion;
 		}
 
 		local ret = {
@@ -110,7 +110,7 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 					return this.compareModVersions(_mod, _version);
 				}
 			default:
-				throw this.Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType;
 		}
 	}
 

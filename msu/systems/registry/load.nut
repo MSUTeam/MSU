@@ -12,7 +12,7 @@ this.MSU.getMod <- function( _modID )
 {
 	if(!(_modID in this.Mods))
 	{
-		throw this.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound;
 	}
 	return this.Mods[_modID]
 }

@@ -8,7 +8,7 @@ this.MSU.Class.EnumSetting <- class extends this.MSU.Class.AbstractSetting
 		if (_array.find(_value) == null)
 		{
 			this.logError("Value must be an element in the Array");
-			throw this.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound;
 		}
 		base.constructor(_id, _value, _name);
 		this.Array = _array;

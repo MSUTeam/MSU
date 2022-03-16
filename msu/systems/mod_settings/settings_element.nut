@@ -12,7 +12,7 @@ this.MSU.Class.SettingsElement <- class
 		if (_id.find(" ") != null)
 		{
 			this.logError("The ID of a Setting Element should not have spaces");
-			throw this.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType;
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
