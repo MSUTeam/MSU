@@ -36,7 +36,7 @@ MSUConnection.prototype.removeKeybind = function (_keybind)
 
 MSUConnection.prototype.addKeybind = function (_keybind)
 {
-	MSU.Keybinds.addKeybindFromSQ(_keybind.modID, _keybind.id, _keybind.keyCombinations, _keybind.keyState);
+	MSU.Keybinds.addKeybindFromSQ(_keybind.modID, _keybind.id, _keybind.keyCombinations);
 }
 
 MSUConnection.prototype.setSettings = function (_settings)
