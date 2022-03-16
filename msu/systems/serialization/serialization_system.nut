@@ -11,5 +11,6 @@ this.MSU.Class.SerializationSystem <- class extends this.MSU.Class.System
 	{
 		base.registerMod(_mod);
 		this.Mods.push(_mod);
+		_mod.Serialization = ::MSU.Class.SerializationModAddon(_mod);
 	}
 }
