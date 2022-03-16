@@ -71,7 +71,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 	{
 		if (!this.Panels.contains(_modID))
 		{
-			::MSU.Mod.printWarning(format("The mod %s has been removed", _modID), this.MSU.System.Debug.MSUMainDebugFlag);
+			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), this.MSU.System.Debug.MSUMainDebugFlag);
 			return;
 		}
 		try
@@ -82,7 +82,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		{
 			if (error == this.Exception.KeyNotFound)
 			{
-				::MSU.Mod.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), this.MSU.System.Debug.MSUMainDebugFlag);
+				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), this.MSU.System.Debug.MSUMainDebugFlag);
 				return;
 			}
 			throw error;

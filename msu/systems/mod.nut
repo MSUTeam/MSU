@@ -76,28 +76,6 @@ this.MSU.Class.Mod <- class
 		_system.registerMod.acall(vargv);
 	}
 
-	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
-	{
-		this.Debug.print(_text, ::MSU.System.Debug.LogType.Info, _flagID)
-	}
-
-	function printWarning( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
-	{
-		this.Debug.print(_text, ::MSU.System.Debug.LogType.Warning, _flagID);
-	}
-
-	function printError( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
-	{
-		this.Debug.print(_text, ::MSU.System.Debug.LogType.Error, _flagID);
-	}
-
-	// No isDebugEnabled cuz imo Debug.isEnabled is fine
-
-	function getSetting( _id )
-	{
-		return this.ModSettings.getSetting(_id);
-	}
-
 	function _tostring()
 	{
 		return format("Mod %s, Versions %s\n Registered Systems:\nDebug: %s\nKeybinds: %s\nModSettings: %s", this.getID(), this.getVersionString(), (this.Debug == ::MSU.EmptyModAddon).tostring(), (this.Keybinds == ::MSU.EmptyModAddon).tostring(), (this.ModSettings == ::MSU.EmptyModAddon).tostring());
