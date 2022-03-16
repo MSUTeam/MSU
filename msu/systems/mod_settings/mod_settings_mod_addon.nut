@@ -2,21 +2,21 @@
 {
 	function getPanel()
 	{
-		return ::MSU.System.ModSettings.get(this.getID());
+		return ::MSU.System.ModSettings.get(this.Mod.getID());
 	}
 
 	function addPage( _page )
 	{
-		::MSU.System.ModSettings.get(this.getID()).addPage(_page);
+		::MSU.System.ModSettings.get(this.Mod.getID()).addPage(_page);
 	}
 
 	function addPageElement( _pageID, _element )
 	{
-		::MSU.System.ModSettings.get(this.getID()).getPage(_page).add(_element);
+		::MSU.System.ModSettings.get(this.Mod.getID()).getPage(_page).add(_element);
 	}
 
 	function getSetting( _settingID )
 	{
-		return ::MSU.System.ModSettings.get(this.getID()).getSetting(_settingID);
+		return ::MSU.System.ModSettings.get(this.Mod.getID()).getSetting(_settingID);
 	}
 }

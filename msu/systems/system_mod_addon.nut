@@ -1,18 +1,13 @@
 ::MSU.Class.SystemModAddon <- class
 {
-	Parent = null;
-	constructor(_parent)
+	Mod = null;
+	constructor( _mod )
 	{
-		this.Parent = _parent;
+		this.Mod = _mod;
 	}
 
-	function getParent()
+	function getMod()
 	{
-		return this.Parent;
-	}
-
-	function getID()
-	{
-		return this.getParent().getID();
+		return this.Mod;
 	}
 }
