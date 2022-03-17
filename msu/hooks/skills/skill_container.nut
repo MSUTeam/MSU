@@ -12,7 +12,6 @@
 
 		foreach ( skill in this.m.Skills )
 		{
-			skill.saveBaseValues();
 			skill.softReset();
 		}
 

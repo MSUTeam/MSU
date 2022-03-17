@@ -141,6 +141,17 @@
 		return true;
 	}
 
+	local setContainer = o.setContainer;
+	o.setContainer = function( _c )
+	{
+		if (_c != null)
+		{
+			this.saveBaseValues();
+		}
+
+		setContainer(_c);
+	}
+
 	o.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
