@@ -1,7 +1,3 @@
-"use strict";
-
-var MSU = {}
-
 var MSUConnection = function ()
 {
 	MSUBackendConnection.call(this);
