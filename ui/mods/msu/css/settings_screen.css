@@ -248,31 +248,35 @@
     float: left;
 }
 
-.change-keybind-container .list > .row
+.change-keybind-container .scroll-container > .row
 {
     width: 100%;
-    height: 3rem;
+    height: 4.3rem;
     position: relative;
-    float: left;
+    border: 2px solid black;
+
+    overflow: hidden;
 }
 
 .keybind-button-container,
 .keybind-delete-button-container
 {
-    height: 3rem;
+    height: 4.3rem;
     position: relative;
-    float: left;
+
 }
 
-.keybind-delete-button-container
-{
-	width: 17.0rem;
+.keybind-delete-button-container{
+	float: right;
+	width: 9.8rem;
 }
 
 .keybind-button-container
 {
+	float: left;
 	width: 30.0rem;
 }
+
 .keybind-button-container .button-1
 {
 	background-size: 30.0rem 4.3rem;

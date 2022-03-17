@@ -238,6 +238,7 @@ KeybindSetting.prototype.createChangeKeybindButton = function(_name)
 			document.removeEventListener("mouseup", callbackMouse, true);
 			_button.data("Selected", false);
 			_button.removeClass('is-selected');
+			_button.css('pointer-events', 'auto');
 			selectedButton = null;
 		}
 		else
@@ -246,6 +247,7 @@ KeybindSetting.prototype.createChangeKeybindButton = function(_name)
 			document.addEventListener("mouseup", callbackMouse, true);
 			_button.data("Selected", true);
 			_button.addClass('is-selected');
+			_button.css('pointer-events', 'none');
 			selectedButton = _button;
 		}
 	}
@@ -271,7 +273,7 @@ KeybindSetting.prototype.createChangeKeybindButton = function(_name)
 	row.append(buttonLayout);
 	var destroyButton = buttonLayout.createTextButton("Delete", function ()
 	{
-	}, 'delete-keybind-button', 1)
+	}, 'delete-keybind-button', 2)
 	destroyButton.data("sibling", button);
 	destroyButton.on("click", function( _event ){
 		$(this).data("sibling").remove();
