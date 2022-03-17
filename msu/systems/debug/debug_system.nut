@@ -35,7 +35,6 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		base.registerMod(_mod);
 		if (_mod.getID() in this.Mods)
 		{
-			this.logError(format("Mod %s already exists in the debug log table!"), _mod.getID());
 			throw ::MSU.Exception.DuplicateKey;
 		}
 
@@ -63,15 +62,14 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.Mods))
 		{
-			::MSU.Mod.Debug.printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID));
-			return;
+			throw ::MSU.Exception.ModNotRegistered
 		}
 		this.Mods[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
 		{
 			if (_modID == this.MSU.ID && _flagID == this.DefaultFlag)
 			{
-				this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
+				::MSU.Mod.Debug.printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), "default");
 			}
 			else
 			{
@@ -84,15 +82,13 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.Mods))
 		{
-			::MSU.Mod.Debug.printWarning(format("Mod '%s' not found in debug table!", _modID), "debug");
-			return false;
+			throw ::MSU.Exception.KeyNotFound;
 		}
 		if (!(_flagID in this.Mods[_modID]))
 		{
-			::MSU.Mod.Debug.printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), "debug");
-			return false;
+			throw ::MSU.Exception.KeyNotFound;
 		}
-		return  this.isFullDebug() || this.Mods[_modID].isFullDebug() || this.Mods[_modID][_flagID] == true;
+		return  this.isFullDebug() || this.isFullDebugForMod(_modID) || this.Mods[_modID][_flagID] == true;
 	}
 
 	function isFullDebug()
@@ -119,8 +115,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	{
 		if (!(_modID in this.Mods))
 		{
-			::MSU.Mod.Debug.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), "debug");
-			return;
+			throw ::MSU.Exception.ModNotRegistered
 		}
 
 		if (this.isEnabledForMod(_modID, _flagID))
