@@ -34,8 +34,13 @@ includeFile("mod");
 ::MSU.Mod.register(::MSU.System.Debug, true);
 
 //need to set this first to print the others
-::MSU.Mod.Debug.setFlags(this.MSU.System.Debug.MSUMainDebugFlag);
-::MSU.Mod.Debug.setFlags(this.MSU.System.Debug.MSUDebugFlags)
+::MSU.Mod.Debug.setFlag("debug", true);
+::MSU.Mod.Debug.setFlags({
+	"movement" : false,
+	"skills" : false,
+	"keybinds" : true,
+	"persistence" : true
+})
 
 ::MSU.Vanilla.register(::MSU.System.Debug, true);
 

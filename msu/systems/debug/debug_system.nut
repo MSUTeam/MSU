@@ -18,16 +18,6 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		};
 		this.FullDebug = false;
 		this.DefaultFlag = "default";
-
-		this.MSUMainDebugFlag = {
-			debug = true
-		}
-		this.MSUDebugFlags = {
-			movement = false,
-			skills = false,
-			keybinds = true,
-			persistence = true
-		}
 	}
 
 	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null)
