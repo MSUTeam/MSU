@@ -4,8 +4,6 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 	LogType = null;
 	FullDebug = null;
 	DefaultFlag = null;
-	MSUMainDebugFlag = null;
-	MSUDebugFlags = null;
 
 	constructor()
 	{
