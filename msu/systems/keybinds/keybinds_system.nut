@@ -214,14 +214,11 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	{
 		// Assumes key is in KeyMapSQ
 		local key = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
-		::MSU.Log.printData(this.PressedKeys)
 
 		if (_key.getState() == 1)
 		{
-			this.logInfo("keystate 1" + _key.getKey());
 			if (key in this.PressedKeys)
 			{
-				this.logInfo("should be continuous");
 				return true;
 			}
 			this.PressedKeys[key] <- 1;

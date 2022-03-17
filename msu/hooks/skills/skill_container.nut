@@ -344,9 +344,9 @@
 		this.doOnFunction("onCombatFinished");
 	}
 
-	o.onDeath = function()
+	o.onDeath = function( _fatalityType )
 	{
-		this.doOnFunction("onDeath");
+		this.doOnFunction("onDeath", [_fatalityType]);
 	}
 
 	//Vanilla Ovewrites End

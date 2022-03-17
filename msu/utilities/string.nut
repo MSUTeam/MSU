@@ -1,9 +1,10 @@
 this.MSU.String <- {		
 	function capitalizeFirst( _string )
 	{
-		local first = (_string).slice(0, 1);
+		local string = _string.tostring();
+		local first = (string).slice(0, 1);
 		first = first.toupper();
-		local second = (_string).slice(1);
+		local second = (string).slice(1);
 		return first + second;
 	}
 

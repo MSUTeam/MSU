@@ -207,7 +207,7 @@
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 			if (oldVersion == "") return;
 
-			switch (::MSU.Registry.compareModToVersion(mod, oldVersion))
+			switch (::MSU.System.Registry.compareModToVersion(mod, oldVersion))
 			{
 				case -1:
 					this.logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
