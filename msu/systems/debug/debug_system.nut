@@ -1,16 +1,14 @@
 this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 {
-	ModTable = null;
+	Mods = null;
 	LogType = null;
 	FullDebug = null;
 	DefaultFlag = null;
-	MSUMainDebugFlag = null;
-	MSUDebugFlags = null;
 
 	constructor()
 	{
 		base.constructor(this.MSU.SystemID.Log);
-		this.ModTable = {};
+		this.Mods = {};
 		this.LogType = {
 			Info = 1,
 			Warning = 2,
@@ -18,29 +16,20 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		};
 		this.FullDebug = false;
 		this.DefaultFlag = "default";
-
-		this.MSUMainDebugFlag = {
-			debug = true
-		}
-		this.MSUDebugFlags = {
-			movement = false,
-			skills = false,
-			keybinds = true,
-			persistence = true
-		}
 	}
 
-	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null )
+	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null)
 	{
 		base.registerMod(_mod);
-		if (_mod.getID() in this.ModTable)
+		if (_mod.getID() in this.Mods)
 		{
-			this.logError(format("Mod %s already exists in the debug log table!"), _mod.getID());
 			throw ::MSU.Exception.DuplicateKey;
 		}
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
-		this.ModTable[_mod.getID()] <- {};
+		this.Mods[_mod.getID()] <- {
+			FullDebug = false,
+		};
 		this.setFlag(_mod.getID(), this.DefaultFlag, _defaultFlagBool);
 
 		if (_flagTable != null)
@@ -49,57 +38,45 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		}
 	}
 
-	function setFlags(_modID, _flagTable, _flagTableBool = null)
+	function setFlags(_modID, _flagTable)
 	{
 		foreach (flagID, flagBool in _flagTable)
 		{
-			this.setFlag(_modID, flagID, _flagTableBool != null ? _flagTableBool : flagBool);
+			this.setFlag(_modID, flagID, flagBool);
 		}
 	}
 
 	function setFlag(_modID, _flagID, _flagBool)
 	{
-		if (!(_modID in this.ModTable))
+		if (!(_modID in this.Mods))
 		{
-			::MSU.Mod.Debug.printWarning(format("Mod '%s' does not exist in the debug log table! Please initialise using registerMod().", _modID));
-			return;
+			throw ::MSU.Exception.ModNotRegistered
 		}
-		this.ModTable[_modID][_flagID] <- _flagBool;
+		this.Mods[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
 		{
 			if (_modID == this.MSU.ID && _flagID == this.DefaultFlag)
 			{
-				this.logInfo(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID));
+				::MSU.Mod.Debug.printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), "default");
 			}
 			else
 			{
-				if (this.isEnabledForMod(this.MSU.ID, "debug")){
-					::MSU.Mod.Debug.printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), "debug");
-				}
+				::MSU.Mod.Debug.printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), "debug");
 			}
 		}
 	}
 
 	function isEnabledForMod( _modID, _flagID = "default")
 	{
-		if (!(_modID in this.ModTable))
+		if (!(_modID in this.Mods))
 		{
-			//circumvent infinite loop if MSU flag is somehow missing
-			if (("debug" in this.ModTable[this.MSU.ID] && this.ModTable[this.MSU.ID]["debug" ] == true)  || this.isFullDebug()){
-				::MSU.Mod.Debug.printWarning(format("Mod '%s' not found in debug table!", _modID), "debug");
-			}
-			return false;
+			throw ::MSU.Exception.KeyNotFound;
 		}
-		if (!(_flagID in this.ModTable[_modID]))
+		if (!(_flagID in this.Mods[_modID]))
 		{
-			//circumvent infinite loop if MSU flag is somehow missing
-			if (("debug" in this.ModTable[this.MSU.ID] && this.ModTable[this.MSU.ID]["debug" ] == true)  || this.isFullDebug()){
-				::MSU.Mod.Debug.printWarning(format("Flag '%s' not found in mod '%s'! ", _flagID, _modID), "debug");
-			}
-			return false;
+			throw ::MSU.Exception.KeyNotFound;
 		}
-
-		return (this.ModTable[_modID][_flagID] == true) || this.isFullDebug();
+		return  this.isFullDebug() || this.isFullDebugForMod(_modID) || this.Mods[_modID][_flagID] == true;
 	}
 
 	function isFullDebug()
@@ -112,14 +89,21 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		this.FullDebug = _bool;
 	}
 
+	function setFullDebugForMod( _modID, _bool )
+	{
+		this.Mods[_modID].FullDebug = _bool;
+	}
+
+	function isFullDebugForMod( _modID )
+	{
+		return this.Mods[_modID].FullDebug;
+	}
+
 	function print( _printText, _modID, _logType, _flagID = "default")
 	{
-		if (!(_modID in this.ModTable))
+		if (!(_modID in this.Mods))
 		{
-			if (this.isEnabledForMod(this.MSU.ID, "debug")){
-				this.printWarning(format("Mod '%s' not registered in debug logging! Call this.registerMod().", _modID), this.MSU.ID, "debug");
-			}
-			return;
+			throw ::MSU.Exception.ModNotRegistered
 		}
 
 		if (this.isEnabledForMod(_modID, _flagID))

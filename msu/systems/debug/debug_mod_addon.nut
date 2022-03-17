@@ -1,13 +1,23 @@
 ::MSU.Class.DebugModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function setFlags( _flagTable, _flagTableBool = null )
+	function setFlags( _flagTable)
 	{
-		::MSU.System.Debug.setFlags(this.Mod.getID(), _flagTable, _flagTableBool);
+		::MSU.System.Debug.setFlags(this.Mod.getID(), _flagTable);
 	}
 
 	function setFlag( _flagID, _flagBool )
 	{
 		::MSU.System.Debug.setFlag(this.Mod.getID(), _flagID, _flagBool);
+	}
+
+	function setFullDebug( _bool )
+	{
+		::MSU.System.Debug.setFullDebugForMod(this.Mod.getID(), _bool);
+	}
+
+	function isFullDebug()
+	{
+		return ::MSU.System.Debug.isFullDebugForMod(this.Mod.getID());
 	}
 
 	function isEnabled( _flagID = "default" )
