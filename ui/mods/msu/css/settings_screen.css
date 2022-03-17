@@ -63,7 +63,7 @@
 {
 	height: 2.2rem;
 	float: left;
-	width: 35.9rem;
+	width: 35rem;
 	position: relative;
 	margin-left: 0.9rem;
 	margin-right: 0.9rem;
@@ -87,7 +87,7 @@
 	float: left;
 	margin: 0.9rem;
 	position: relative;
-	width: 35.9rem;
+	width: 35rem;
 	height: 8.0rem;
 	left: 0rem;
 }
@@ -95,8 +95,8 @@
 .msu-settings-screen .dialog .content .l-page-container .string-container .string-input
 {
 	left: 0.5rem;
-	top: 2.8rem;
-	width: 23rem;
+	top: 3.5rem;
+	width: 30rem;
 	height: 4rem;
 	line-height: 3.0rem;
 }
@@ -111,7 +111,7 @@
 .msu-settings-screen .dialog .content .l-page-container .range-container
 {
 	height:  8.0rem;
-	width: 35.9rem;
+	width: 35rem;
 	float: left;
 	position: relative;
 	margin: 0.9rem;
@@ -153,7 +153,7 @@
 	float: left;
 	margin: 0.9rem;
 	position: relative;
-	width: 35.9rem;
+	width: 35rem;
 	height: 8.0rem;
 	left: 0rem;
 }
@@ -178,7 +178,7 @@
 {
 	float: left;
 	position: relative;
-	width: 73.6rem;
+	width: 72rem;
 	height: 0.3rem;
 	margin-top: 0.0rem;
 	margin-bottom: 1.0rem;
@@ -196,9 +196,9 @@
 	position: absolute;
 	top: 0rem;
 	height: 0.3rem;
-	width: 73.6rem;
+	width: 72rem;
 	background-image: url("coui://gfx/ui/skin/line_gold.png");
-	background-size: 73.6rem 0.3rem;
+	background-size: 72rem 0.3rem;
 }
 
 
@@ -223,50 +223,48 @@
 
 .change-keybind-popup
 {
-    width: 60.0rem;
-    height: 30.0rem;
+	width: 60.0rem;
+	height: 30.0rem;
 
-    background-image: url("coui://gfx/ui/skin/popup_background_600x300.png");
-    background-size: 60.0rem 30.0rem;
-    background-repeat: no-repeat;
+	background-image: url("coui://gfx/ui/skin/popup_background_600x300.png");
+	background-size: 60.0rem 30.0rem;
+	background-repeat: no-repeat;
 }
 
 .change-keybind-container
 {
-    width: 100%;
-    padding: 0.6rem;
-    position: relative;
-    float: left;
+	width: 100%;
+	padding: 0.6rem;
+	position: relative;
+	float: left;
 }
 
 
 .change-keybind-container .list
 {
-    width: 90%;
-    height: 15rem;
-    position: relative;
-    float: left;
+	width: 90%;
+	height: 15rem;
+	position: relative;
+	float: left;
 }
 
 .change-keybind-container .scroll-container > .row
 {
-    width: 100%;
-    height: 4.3rem;
-    position: relative;
-    border: 2px solid black;
-
-    overflow: hidden;
+	width: 100%;
+	height: 4.3rem;
+	position: relative;
+	overflow: hidden;
 }
 
 .keybind-button-container,
 .keybind-delete-button-container
 {
-    height: 4.3rem;
-    position: relative;
-
+	height: 4.3rem;
+	position: relative;
 }
 
-.keybind-delete-button-container{
+.keybind-delete-button-container
+{
 	float: right;
 	width: 9.8rem;
 }
@@ -274,42 +272,21 @@
 .keybind-button-container
 {
 	float: left;
-	width: 30.0rem;
-}
-
-.keybind-button-container .button-1
-{
-	background-size: 30.0rem 4.3rem;
-	background-repeat: no-repeat;
-}
-
-.keybind-button-container .button-1:hover,
-.keybind-button-container .button-1.is-selected
-{
-    background-image: url("coui://gfx/ui/skin/button_01_hovered.png");
-    background-size: 30.0rem 4.3rem;
-    background-repeat: no-repeat;
-}
-
-.keybind-button-container .button-1.is-active
-{
-    background-image: url("coui://gfx/ui/skin/button_01_pressed.png");
-    background-size: 30.0rem 4.3rem;
-    background-repeat: no-repeat;
+	width: 23.0rem;
 }
 
 .l-add-keybind-button,
 .l-cancel-keybind-button,
 .l-ok-keybind-button
 {
-    width: 17.5rem;
-    line-height: 3.0rem;
-    float: left;
+	width: 17.5rem;
+	line-height: 3.0rem;
+	float: left;
 }
 
 .change-keybind-popup .l-button-bar
 {
-    width: 60.0rem !important;
-    display: flex;
-    justify-content: space-between;
+	width: 60.0rem !important;
+	display: flex;
+	justify-content: space-between;
 }
