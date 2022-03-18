@@ -1,4 +1,4 @@
-this.persistent_data_manager <- {
+::persistent_data_manager <- {
 	m = {
 		ModConfigPath = "mod_config/"
 		Mods = {}
