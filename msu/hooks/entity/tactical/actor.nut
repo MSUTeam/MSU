@@ -3,7 +3,7 @@
 	o.onInit = function()
 	{
 		onInit();
-		this.m.Skills.add(this.new("scripts/skills/effects/msu_injuries_handler_effect"));
+		this.m.Skills.add(::new("scripts/skills/effects/msu_injuries_handler_effect"));
 	}
 
 	local onMovementStart = o.onMovementStart;

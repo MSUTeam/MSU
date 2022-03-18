@@ -60,9 +60,9 @@ local testSettingsSystem = function()
 }
 
 
-::MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
+::MSU.SettingsScreen <- ::new("scripts/mods/msu/settings_screen");
 
-::MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
+::MSU.PersistentDataManager <- ::new("scripts/mods/msu/persistent_data_manager");
 
 ::MSU.UI.registerConnection(::MSU.SettingsScreen);
 
