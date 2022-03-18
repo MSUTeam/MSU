@@ -98,6 +98,11 @@
 		return ret;
 	}
 
+	function compareVersionStrings( _version, _version1 )
+	{
+		return compareModVersions(this.getVersionTable(_version), this.getVersionTable(_version1));
+	}
+
 	function compareModToVersion( _mod, _version )
 	{
 		switch (typeof _version)
@@ -105,13 +110,14 @@
 			case "string":
 				return this.compareModVersions(_mod, this.getVersionTable(_version));
 			case "instance":
-				if (_version instanceof ::MSU.Class.Mod)
+				if (!(_version instanceof ::MSU.Class.Mod))
 				{
-					return this.compareModVersions(_mod, _version);
+					break;
 				}
-			default:
-				throw ::MSU.Exception.InvalidType;
+			case "table":
+				return this.compareModVersions(_mod, _version);
 		}
+		throw ::MSU.Exception.InvalidType;
 	}
 
 	function compareModVersions( _mod1, _mod2 )

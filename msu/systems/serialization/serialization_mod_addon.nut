@@ -1,7 +1,7 @@
 ::MSU.Class.SerializationModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function isSavedVersionAtLeast( _version )
+	function isSavedVersionAtLeast( _version, _metaData )
 	{
-		return _version == "" || ::MSU.System.Registry.compareModToVersion(this.Mod, _version) > -1;
+		return _version == "" || ::MSU.System.Registry.compareVersionStrings(_metaData.getString(this.Mod.getID() + "Version"), _version) > -1;
 	}
 }
