@@ -6,7 +6,7 @@
 			return;
 		}
 
-		if (this.Settings.getGameplaySettings().AlwaysFocusCamera && !this.m.Actor.isPlayerControlled() && !this.m.Actor.isHiddenToPlayer())
+		if (::Settings.getGameplaySettings().AlwaysFocusCamera && !this.m.Actor.isPlayerControlled() && !this.m.Actor.isHiddenToPlayer())
 		{
 			this.Tactical.getCamera().moveToExactly(this.m.Actor);
 		}		

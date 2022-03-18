@@ -257,7 +257,7 @@ local function isCampfireScreen(){
 
 // ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
 // {
-// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	if (::Settings.getTempGameplaySettings().CameraLocked)
 // 	{
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
@@ -268,7 +268,7 @@ local function isCampfireScreen(){
 
 // ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
 // {
-// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	if (::Settings.getTempGameplaySettings().CameraLocked)
 // 	{
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
