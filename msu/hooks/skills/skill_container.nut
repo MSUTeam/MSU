@@ -3,6 +3,7 @@
 // this.MSU.Skills.addEvent("onTestingEvent", false, function( _testingArg ) {  this.logInfo("onTestingEvent is running for skill " + this.getID())});
 // this.MSU.Skills.addEvent("onTestingEvent", true, function( _testingArg ) {});
 // this.MSU.Skills.addEvent("onTestingEvent");
+// this.MSU.Skills.modifyBaseSkillEvent("onTurnStart", function(o) { o.onTurnStart <- function() {// this.logInfo(" modified onTurnsttart")}});
 
 ::mods_hookNewObject("skills/skill_container", function(o) {
 	o.m.BeforeSkillExecutedTile <- null;

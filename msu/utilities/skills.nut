@@ -52,4 +52,14 @@
 			o[_name] <- _function == null ? function() {} : _function;
 		});
 	}
+
+	function modifyBaseSkillEvent( _name, _func )
+	{
+		::mods_hookBaseClass("skills/skill", function(o) {
+			o = o[o.SuperName];
+			_func(o);
+		});
+
+		gt.MSU.Skills.AlwaysRunEvents.push(_name);
+	}
 }
