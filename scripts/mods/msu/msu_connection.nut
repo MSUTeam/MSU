@@ -3,7 +3,7 @@
 
 	function connect()
 	{
-		this.m.JSHandle = this.UI.connect("MSUConnection", this);
+		this.m.JSHandle = ::UI.connect("MSUConnection", this);
 		this.queryData();
 	}
 

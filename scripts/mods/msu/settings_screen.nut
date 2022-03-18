@@ -35,7 +35,7 @@
 
 	function connect()
 	{
-		this.m.JSHandle = this.UI.connect("ModSettingsScreen", this);
+		this.m.JSHandle = ::UI.connect("ModSettingsScreen", this);
 	}
 
 	function linkMenuStack( _menuStack )
