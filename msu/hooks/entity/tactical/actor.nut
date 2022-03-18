@@ -76,7 +76,7 @@
 	// 	setDirty(_value);
 	// }
 
-	o.getActorsAtDistanceAsArray <- function( _distance, _relation = this.Const.FactionRelation.Any )
+	o.getActorsAtDistanceAsArray <- function( _distance, _relation = ::Const.FactionRelation.Any )
 	{
 		if (!this.isPlacedOnMap())
 		{
@@ -90,9 +90,9 @@
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) != _distance ||
-					_relation == this.Const.FactionRelation.SameFaction && a.getFaction() != this.getFaction() ||
-					_relation == this.Const.FactionRelation.Allied && !a.isAlliedWith(this) ||
-					_relation == this.Const.FactionRelation.Enemy && a.isAlliedWith(this)
+					_relation == ::Const.FactionRelation.SameFaction && a.getFaction() != this.getFaction() ||
+					_relation == ::Const.FactionRelation.Allied && !a.isAlliedWith(this) ||
+					_relation == ::Const.FactionRelation.Enemy && a.isAlliedWith(this)
 				)
 			{
 				continue;
@@ -104,7 +104,7 @@
 		return result;
 	}
 
-	o.getRandomActorAtDistance <- function ( _distance, _relation = this.Const.FactionRelation.Any )
+	o.getRandomActorAtDistance <- function ( _distance, _relation = ::Const.FactionRelation.Any )
 	{
 		local actors = this.getActorsAtDistanceAsArray(_distance, _relation);
 
@@ -116,7 +116,7 @@
 		return actors[this.Math.rand(0, actors.len()-1)];
 	}
 
-	o.getActorsWithinDistanceAsArray <- function ( _distance, _relation = this.Const.FactionRelation.Any )
+	o.getActorsWithinDistanceAsArray <- function ( _distance, _relation = ::Const.FactionRelation.Any )
 	{
 		if (!this.isPlacedOnMap())
 		{
@@ -130,9 +130,9 @@
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) > _distance ||
-					_relation == this.Const.FactionRelation.SameFaction && a.getFaction() != this.getFaction() ||
-					_relation == this.Const.FactionRelation.Allied && !a.isAlliedWith(this) ||
-					_relation == this.Const.FactionRelation.Enemy && a.isAlliedWith(this)
+					_relation == ::Const.FactionRelation.SameFaction && a.getFaction() != this.getFaction() ||
+					_relation == ::Const.FactionRelation.Allied && !a.isAlliedWith(this) ||
+					_relation == ::Const.FactionRelation.Enemy && a.isAlliedWith(this)
 				)
 			{
 				continue;
@@ -144,7 +144,7 @@
 		return result;
 	}
 
-	o.getRandomActorWithinDistance <- function( _distance, _relation = this.Const.FactionRelation.Any )
+	o.getRandomActorWithinDistance <- function( _distance, _relation = ::Const.FactionRelation.Any )
 	{
 		local actors = this.getActorsWithinDistanceAsArray(_distance, _relation);
 
@@ -153,28 +153,28 @@
 
 	o.getMainhandItem <- function()
 	{
-		return this.getItems().getItemAtSlot(this.Const.ItemSlot.Mainhand);
+		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
 	}
 
 	o.getOffhandItem <- function()
 	{
-		return this.getItems().getItemAtSlot(this.Const.ItemSlot.Offhand);
+		return this.getItems().getItemAtSlot(::Const.ItemSlot.Offhand);
 	}
 
 	o.getHeadItem <- function()
 	{
-		return this.getItems().getItemAtSlot(this.Const.ItemSlot.Head);
+		return this.getItems().getItemAtSlot(::Const.ItemSlot.Head);
 	}
 
 	o.getBodyItem <- function()
 	{
-		return this.getItems().getItemAtSlot(this.Const.ItemSlot.Body);
+		return this.getItems().getItemAtSlot(::Const.ItemSlot.Body);
 	}
 
 	o.isArmedWithOneHandedWeapon <- function()
 	{
 		local item = this.getMainhandItem();
-		return item != null && item.isItemType(this.Const.Items.ItemType.OneHanded);
+		return item != null && item.isItemType(::Const.Items.ItemType.OneHanded);
 	}
 
 	o.isArmedWithMeleeOrUnarmed <- function()
@@ -185,7 +185,7 @@
 	o.isArmedWithTwoHandedWeapon <- function()
 	{
 		local item = this.getMainhandItem();
-		return item != null && item.isItemType(this.Const.Items.ItemType.TwoHanded);
+		return item != null && item.isItemType(::Const.Items.ItemType.TwoHanded);
 	}
 
 	o.getRemainingArmorFraction <- function( _bodyPart = null )
@@ -195,8 +195,8 @@
 
 		if (_bodyPart == null)
 		{
-			totalArmorMax = this.getArmorMax(this.Const.BodyPart.Head) + this.getArmorMax(this.Const.BodyPart.Body);
-			currentArmor = this.getArmor(this.Const.BodyPart.Head) + this.getArmor(this.Const.BodyPart.Body);
+			totalArmorMax = this.getArmorMax(::Const.BodyPart.Head) + this.getArmorMax(::Const.BodyPart.Body);
+			currentArmor = this.getArmor(::Const.BodyPart.Head) + this.getArmor(::Const.BodyPart.Body);
 		}
 		else
 		{
@@ -210,8 +210,8 @@
 	o.getTotalArmorStaminaModifier <- function()
 	{
 		local ret = 0;
-		local bodyArmor = this.getItems().getItemAtSlot(this.Const.ItemSlot.Body);
-		local headArmor = this.getItems().getItemAtSlot(this.Const.ItemSlot.Head);
+		local bodyArmor = this.getItems().getItemAtSlot(::Const.ItemSlot.Body);
+		local headArmor = this.getItems().getItemAtSlot(::Const.ItemSlot.Head);
 
 		if (bodyArmor != null)
 		{

@@ -34,11 +34,11 @@
 	o.getDescription = function()
 	{
 		local names = "";
-		foreach (itemType in this.Const.Items.ItemType)
+		foreach (itemType in ::Const.Items.ItemType)
 		{
 			if (this.isItemType(itemType))
 			{
-				local name = this.Const.Items.getItemTypeName(itemType);
+				local name = ::Const.Items.getItemTypeName(itemType);
 				if (name != "")
 				{
 					names += name + ", "
@@ -46,13 +46,13 @@
 			}
 		}
 
-		return names.len() > 1 ? "[color=" + this.Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
+		return names.len() > 1 ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
 	}
 
 	local addSkill = o.addSkill;
 	o.addSkill = function( _skill )
 	{
-		if (_skill.isType(this.Const.SkillType.Active) && ("FatigueOnSkillUse" in child.m))
+		if (_skill.isType(::Const.SkillType.Active) && ("FatigueOnSkillUse" in child.m))
 		{
 			_skill.setFatigueCost(this.Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
 		}

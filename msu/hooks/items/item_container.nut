@@ -30,7 +30,7 @@
 
 		info.sort(sortByItemActionOrder);
 
-		local cost = this.Const.Tactical.Settings.SwitchItemAPCost;
+		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
 		foreach (i in info)
 		{
@@ -58,6 +58,6 @@
 	o.onNewRound = function()
 	{
 		onNewRound();
-		this.m.ActionCost = this.Const.Tactical.Settings.SwitchItemAPCost;
+		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
 	}
 });

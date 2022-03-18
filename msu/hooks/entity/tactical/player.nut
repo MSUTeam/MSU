@@ -2,12 +2,12 @@
 	local updateLevel = o.updateLevel;
 	o.updateLevel = function()
 	{
-		while (this.m.Level < this.Const.LevelXP.len() && this.m.XP >= this.Const.LevelXP[this.m.Level])
+		while (this.m.Level < ::Const.LevelXP.len() && this.m.XP >= ::Const.LevelXP[this.m.Level])
 		{
 			++this.m.Level;
 			++this.m.LevelUps;
 
-			if (this.m.Level <= this.Const.XP.MaxLevelWithPerkpoints)
+			if (this.m.Level <= ::Const.XP.MaxLevelWithPerkpoints)
 			{
 				++this.m.PerkPoints;
 			}

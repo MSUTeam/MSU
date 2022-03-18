@@ -99,12 +99,12 @@
 
 	o.getSlowdownPerUnitMovementSpeedMult <- function()
 	{
-		return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
+		return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
 	}
 
 	o.getGlobalMovementSpeedMult <- function()
 	{
-		return this.Const.World.MovementSettings.GlobalMult;
+		return ::Const.World.MovementSettings.GlobalMult;
 	}
 
 	o.getRoadMovementSpeedMult <- function()
@@ -116,11 +116,11 @@
 		local myTile = this.getTile();
 		if (myTile.HasRoad)
 		{
-			return this.Math.maxf(this.Const.World.TerrainTypeSpeedMult[myTile.Type] * this.Const.World.MovementSettings.RoadMult, 1.0);
+			return this.Math.maxf(::Const.World.TerrainTypeSpeedMult[myTile.Type] * ::Const.World.MovementSettings.RoadMult, 1.0);
 		}
 		else
 		{
-			return this.Const.World.TerrainTypeSpeedMult[myTile.Type];
+			return ::Const.World.TerrainTypeSpeedMult[myTile.Type];
 		}
 	}
 
@@ -130,7 +130,7 @@
 		{
 			return 1.0;
 		}
-		return this.Const.World.MovementSettings.NighttimeMult;
+		return ::Const.World.MovementSettings.NighttimeMult;
 	}
 
 	o.getRiverMovementSpeedMult <- function()
@@ -139,17 +139,17 @@
 		{
 			return 1.0;
 		}
-		return this.Const.World.MovementSettings.RiverMult;
+		return ::Const.World.MovementSettings.RiverMult;
 	}
 
 	//could be baseMovementSpeedMult for all parties that player_party overrides anyways
 	o.getNotPlayerMovementSpeedMult <- function()
 	{
-		if (this.getFaction() == this.Const.Faction.Player)
+		if (this.getFaction() == ::Const.Faction.Player)
 		{
 			return 1.0;
 		}
-		return this.Const.World.MovementSettings.NotPlayerMult;
+		return ::Const.World.MovementSettings.NotPlayerMult;
 	}
 
 	o.onUpdate = function()
@@ -182,13 +182,13 @@
 			{
 				//use function instead of accessing m
 				this.setVisibilityMult(0.0);
-				this.getController().getBehavior(this.Const.World.AI.Behavior.ID.Attack).setEnabled(false);
+				this.getController().getBehavior(::Const.World.AI.Behavior.ID.Attack).setEnabled(false);
 			}
 			else
 			{
 				//use function instead of accessing m
 				this.setVisibilityMult(1.0);
-				this.getController().getBehavior(this.Const.World.AI.Behavior.ID.Attack).setEnabled(true);
+				this.getController().getBehavior(::Const.World.AI.Behavior.ID.Attack).setEnabled(true);
 			}
 		}
 
@@ -266,7 +266,7 @@
 		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && this.Math.rand(1, 100) <= 5 && this.isVisibleToEntity(this.World.State.getPlayer(), 500))
 		{
 			this.m.LastIdleSound = this.Time.getRealTimeF();
-			this.Sound.play(this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, this.Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], this.Const.Sound.Volume.Ambience, this.getPos());
+			this.Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
 		}
 	}
 	

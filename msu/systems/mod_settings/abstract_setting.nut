@@ -81,7 +81,7 @@
 		local ret = "";
 		if (this.isLocked())
 		{
-			ret += "[color=" + this.Const.UI.Color.NegativeValue + "]Locked[/color]\n"
+			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n"
 			if (this.LockReason != "")
 			{
 				ret += this.LockReason + "\n";

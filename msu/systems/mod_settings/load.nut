@@ -111,7 +111,7 @@ logPage.add(logToggle);
 
 local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
 verboseModeToggle.addCallback(function(_data){
-	this.Const.AI.VerboseMode = _data
+	::Const.AI.VerboseMode = _data
 })
 logPage.add(verboseModeToggle);
 

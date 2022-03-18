@@ -81,12 +81,12 @@ In the original game, doing this will cause the action point cost of the skill t
 ## Scheduled Changes
 Skills in Battle Brothers are updated in the order of their SkillOrder. Imagine we have two skills:
 
-- Skill A with `this.m.SkillOrder = this.Const.SkillOrder.First`
-- Skill B with `this.m.SkillOrder = this.Const.SkillOrder.Any`
+- Skill A with `this.m.SkillOrder = ::Const.SkillOrder.First`
+- Skill B with `this.m.SkillOrder = ::Const.SkillOrder.Any`
 
 Whenever the skill_container runs its `update()` or `buildPropertiesForUse` (which calls the `onAnySkillUsed` function in skills) functions, the respective functions are called on the skills in the order of their `SkillOrder`. Hence, skill A will update before skill B in the above example.
 
-If you want skill A to modify something in skill B after skill B’s update, you would have to change the order of skill A to be something later than that of skill B e.g. set skill A’s order to `this.Const.SkillOrder.Last`. Usually this is quite doable. However, there may be cases where you absolutely want skill A to be updated before skill B but still want skill A to be able to change something in skill B when skill B is updated. MSU allows you to do this via the `scheduleChange` function.
+If you want skill A to modify something in skill B after skill B’s update, you would have to change the order of skill A to be something later than that of skill B e.g. set skill A’s order to `::Const.SkillOrder.Last`. Usually this is quite doable. However, there may be cases where you absolutely want skill A to be updated before skill B but still want skill A to be able to change something in skill B when skill B is updated. MSU allows you to do this via the `scheduleChange` function.
 
 Multiple changes to the same skill can be scheduled by using the function multiple times. Scheduled changes are executed in the `onAfterUpdate` function of the target skill after its base `onAfterUpdate` function (i.e. the one defined in the skill’s own file) has run.
 
@@ -115,8 +115,8 @@ MSU adds a robust and flexible `DamageType` system for skills. The purpose of th
 Each skill now has a parameter called `this.m.DamageType` which can be set during the skill’s `create()` function. This parameter is an array which contains tables as its entries. Each table contains two keys: `Type` and `Weight`. For example:
 ```
 this.m.DamageType = [
-	{ Type = this.Const.Damage.DamageType.Cutting, Weight = 75 },
-	{ Type = this.Const.Damage.DamageType.Piercing, Weight = 25 }
+	{ Type = ::Const.Damage.DamageType.Cutting, Weight = 75 },
+	{ Type = ::Const.Damage.DamageType.Piercing, Weight = 25 }
 ]
 ```
 The above example will give this skill 75% Cutting damage and 25% Piercing damage.
@@ -128,54 +128,54 @@ The skill’s rolled damage type’s Probability is also passed to `_hitInfo` ca
 MSU also adds the damage types of a skill to the skill’s tooltip automatically including their relative probabilities.
 
 ### Adding a new damage type
-`this.Const.Damage.addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )`
+`::Const.Damage.addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )`
 
-`_damageType` is a string which will become a key in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of strings where each entry is an ID of an injury skill. `_damageTypeName` is a string which can be used as the name of this damage type in tooltips; if not provided then `_damageType` is used as the name in tooltips.
+`_damageType` is a string which will become a key in the `::Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of strings where each entry is an ID of an injury skill. `_damageTypeName` is a string which can be used as the name of this damage type in tooltips; if not provided then `_damageType` is used as the name in tooltips.
 
 ### Getting a damage type's name
-`this.Const.Damage.getDamageTypeName( _damageType )`
+`::Const.Damage.getDamageTypeName( _damageType )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table.
 
 Returns the name of the damage type as string, or returns an empty string if `_damageType` does not exist.
 
 ### Getting a list of injuries a damage type can inflict
-`this.Const.Damage.getDamageTypeInjuries( _damageType )`
+`::Const.Damage.getDamageTypeInjuries( _damageType )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table.
 
 Returns a table `{ Head = [], Body = [] }` where Head and Body are arrays tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply on the respective body part. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ### Setting the injuries an existing damage type can inflict
-`this.Const.Damage.setDamageTypeInjuries( _damageType, _injuriesOnHead, _injuriesOnBody )`
+`::Const.Damage.setDamageTypeInjuries( _damageType, _injuriesOnHead, _injuriesOnBody )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ### Getting a list of injuries applicable to a situation
-`this.Const.Damage.getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )`
+`::Const.Damage.getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_bodyPart` is the body part hit. `_targetEntity` is the entity being attacked which, if not null, removes the ExcludedInjuries of the `_targetEntity` from the returned array.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table. `_bodyPart` is the body part hit. `_targetEntity` is the entity being attacked which, if not null, removes the ExcludedInjuries of the `_targetEntity` from the returned array.
 
 Returns an array which contains tables as its entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply in the given situation. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
 ### Checking if a skill has a damage type
 `<skill>.hasDamageType( _damageType, _only = false )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. If `_only` is true, then function only returns true if the skill has no other damage type.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table. If `_only` is true, then function only returns true if the skill has no other damage type.
 
 Returns a `true` if the skill has the damage type and `false` if it doesn’t.
 
 ### Adding a damage type to a skill
 `<skill>.addDamageType( _damageType, _weight )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_weight` is an integer.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table. `_weight` is an integer.
 
 Adds the given damage type to the skill’s `this.m.DamageType` array with the provided weight.
 
 ### Removing a damage type from a skill
 `<skill>.removeDamageType( _damageType )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table.
 
 Removes the given damage type from the skill if the skill has it.
 
@@ -187,31 +187,31 @@ Returns the `this.m.DamageType` array of the skill.
 ### Getting the weight of a skill’s particular damage type
 `<skill>.getDamageTypeWeight( _damageType )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table.
 
 Returns an integer which is the weight of the given damage type in the skill. Returns null if the skill does not have the given damage type.
 
 ### Setting the weight of a skill’s particular damage type
 `<skill>.setDamageTypeWeight( _damageType, _weight )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_weight` is an integer.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table. `_weight` is an integer.
 
 Finds the given damage type in the skill’s damage types and sets its weight to the given value. Does nothing if the skill does not have the given damage type.
 
 ### Getting the probability of a skill's particular damage type
 `<skill>.getDamageTypeProbability( _damageType )`
 
-`_damageType` is a slot in the `this.Const.Damage.DamageType` table.
+`_damageType` is a slot in the `::Const.Damage.DamageType` table.
 
 Returns a float between 0 and 1 which is the probability of rolling the given damage type when using a skill. Returns null if the skill does not have the given damage type.
 
 ### Rolling a damage type from a skill
 `<skill>.getWeightedRandomDamageType()`
 
-Selects a damage type from the skill based on weighted random distribution and returns it. The returned value is a slot in the `this.Const.Damage.DamageType` table. For example, this function is used by MSU in the `msu_injuries_handler_effect.nut` to roll a damage type from the skill when attacking a target.
+Selects a damage type from the skill based on weighted random distribution and returns it. The returned value is a slot in the `::Const.Damage.DamageType` table. For example, this function is used by MSU in the `msu_injuries_handler_effect.nut` to roll a damage type from the skill when attacking a target.
 
 ### Accessing a skill's rolled damage type and damage weight during an attack
-MSU adds the following two slots to the `this.Const.Tactical.HitInfo` table:
+MSU adds the following two slots to the `::Const.Tactical.HitInfo` table:
 - `DamageType`
 - `DamageTypeProbability`
 
@@ -222,7 +222,7 @@ For example, if a skill should only do something when the attacker attacked with
 ```
 function onBeforeTargetHit( _skill, _targetEntity, _hitInfo )`
 {
-	if( _hitInfo.DamageType == this.Const.Damage.DamageType.Cutting && _hitInfo.DamageTypeProbability > 0.5)
+	if( _hitInfo.DamageType == ::Const.Damage.DamageType.Cutting && _hitInfo.DamageTypeProbability > 0.5)
 	{
 		// Do stuff
 	}
@@ -237,9 +237,9 @@ Item Action refers to swapping/equipping/removing items on a character during co
 3. `onPayForItemAction( _skill, _items )`
 
 ### Defining a skill's item action order
-The `ItemActionOrder` parameter of a skill defines the priority in which a skill is consumed for changing the AP cost of an item action. The possible values are defined in a table `this.Const.ItemActionOrder` and can be expanded. A skill's order can then be defined during the `create()` function by an expression such as `this.m.ItemActionOrder = this.Const.ItemActionOrder.First`. 
+The `ItemActionOrder` parameter of a skill defines the priority in which a skill is consumed for changing the AP cost of an item action. The possible values are defined in a table `::Const.ItemActionOrder` and can be expanded. A skill's order can then be defined during the `create()` function by an expression such as `this.m.ItemActionOrder = ::Const.ItemActionOrder.First`. 
 
-By default all skills are assigned `this.m.ItemActionOrder = this.Const.ItemActionOrder.Any`.
+By default all skills are assigned `this.m.ItemActionOrder = ::Const.ItemActionOrder.Any`.
 
 ### Allowing a skill to change an item action's Action Point cost
 `getItemActionCost( _items )`
@@ -261,7 +261,7 @@ This function is called on all skills after an item action.
 Using this new system, Quick Hands is now implemented as follows:
 ```
 this.m.IsSpent = false;
-this.m.ItemActionOrder = this.Const.ItemActionOrder.Any;
+this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
 
 function getItemActionCost( _items )
 {
@@ -288,7 +288,7 @@ function getItemActionCost( _items )
 	local count = 0;
 	foreach (item in _items)
 	{
-		if (item != null && item.isItemType(this.Const.Items.ItemType.OneHanded))
+		if (item != null && item.isItemType(::Const.Items.ItemType.OneHanded))
 		{
 			count++;
 		}
@@ -385,17 +385,17 @@ MSU adds a system to exclude certain sets of injuries from certain entities easi
 - Head
 
 ### Creating a new set of excluded injuries or expanding an existing set
-`this.Const.Injury.ExcludedInjuries.add( _name, _injuries, _include = [] )`
+`::Const.Injury.ExcludedInjuries.add( _name, _injuries, _include = [] )`
 
-`_name` is a string that will become a key in the `this.Const.Injury.ExcludedInjuries` table. `_injuries` is an array containing skill IDs of injuries. `_include` is an array of slots from the `this.Const.Injury.ExcludedInjuries` table.
+`_name` is a string that will become a key in the `::Const.Injury.ExcludedInjuries` table. `_injuries` is an array containing skill IDs of injuries. `_include` is an array of slots from the `::Const.Injury.ExcludedInjuries` table.
 
-Creates an entry in the `this.Const.Injury.ExcludedInjuries` table with `_name` as key and `{ Injuries = _injuries, Include = _include }` as value. The slots passed in the `_include` array must already exist.
+Creates an entry in the `::Const.Injury.ExcludedInjuries` table with `_name` as key and `{ Injuries = _injuries, Include = _include }` as value. The slots passed in the `_include` array must already exist.
 
-If the key `_name` already exists in `this.Const.Injury.ExcludedInjuries` then its associated `Injuries` and `Include` are expanded to include `_injuries` and `_include`.
+If the key `_name` already exists in `::Const.Injury.ExcludedInjuries` then its associated `Injuries` and `Include` are expanded to include `_injuries` and `_include`.
 
 #### Example
 ```
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	“Hand”,
 	[
 		“injury.fractured_hand”,
@@ -403,27 +403,27 @@ this.Const.Injury.ExcludedInjuries.add(
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	“Arm”, 
 	[
 		“injury.fractured_elbow”
 	],
 	[
-		this.Const.Injury.ExcludedInjuries.Hand
+		::Const.Injury.ExcludedInjuries.Hand
 	]
 );
 ```
 
 ### Getting a set of excluded injuries
-`this.Const.Injury.ExcludedInjuries.get( _injuries )`
+`::Const.Injury.ExcludedInjuries.get( _injuries )`
 
-`_injuries` is a slot in the `this.Const.Injury.ExcludedInjuries` table.
+`_injuries` is a slot in the `::Const.Injury.ExcludedInjuries` table.
 
 Returns an array including the skill IDs of all the injuries associated with that slot. The array is expanded using the all the sets of injuries defined in the associated `Include` of that set.
 
 #### Example
 ```
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	“Hand”,
 	[
 		“injury.fractured_hand”,
@@ -431,31 +431,31 @@ this.Const.Injury.ExcludedInjuries.add(
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	“Arm”, 
 	[
 		“injury.fractured_elbow”
 	],
 	[
-		this.Const.Injury.ExcludedInjuries.Hand
+		::Const.Injury.ExcludedInjuries.Hand
 	]
 );
 
-local result = this.Const.Injury.ExcludedInjuries.get(this.Const.Injury.ExcludedInjuries.Arm);
+local result = ::Const.Injury.ExcludedInjuries.get(::Const.Injury.ExcludedInjuries.Arm);
 ```
 In this example `result` will be equal to `["injury.fractured_elbow", “injury.fractured_hand”, “injury.crushed_finger”]`.
 
 ### Adding excluded injuries to actors
 `<actor>.addExcludedInjuries( _injuries )`
 
-`_injuries` is a slot in the `this.Const.Injury.ExcludedInjuries` table.
+`_injuries` is a slot in the `::Const.Injury.ExcludedInjuries` table.
 
-Uses the `this.Const.Injury.ExcludedInjuries.get` function using the passed parameter and adds the entries in the returned array to the `this.m.ExcludedInjuries` array of `<actor>`. Entries already present in `this.m.ExcludedInjuries` are not duplicated.
+Uses the `::Const.Injury.ExcludedInjuries.get` function using the passed parameter and adds the entries in the returned array to the `this.m.ExcludedInjuries` array of `<actor>`. Entries already present in `this.m.ExcludedInjuries` are not duplicated.
 
 #### Example
 In order to prevent Serpents from gaining Arm related injuries, hook the `onInit` function of serpent and add the following line of code:
 ```
-this.addExcludedInjuries(this.Const.Injury.ExcludedInjuries.Arm);
+this.addExcludedInjuries(::Const.Injury.ExcludedInjuries.Arm);
 ```
 
 # Actor 🟢
@@ -466,20 +466,20 @@ MSU modifies the vanilla `getActionPointsMax` function of `actor` to now return 
 MSU adds several convenience functions to actor which allow for cleaner code and a faster modding experience.
 
 ### Getting actors at a certain distance
-- `<actor>.getActorsAtDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+- `<actor>.getActorsAtDistanceAsArray( _distance, _relation = ::Const.FactionRelation.Any )`
 
 Returns an array of all actors at a distance of `_distance` from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
 
-- `<actor>.getRandomActorAtDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+- `<actor>.getRandomActorAtDistance( _distance, _relation = ::Const.FactionRelation.Any )`
 
 Returns a random actor at a distance of `_distance` from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
 
 ### Getting actors within a certain distance
-- `<actor>.getActorsWithinDistanceAsArray( _distance, _relation = this.Const.FactionRelation.Any )`
+- `<actor>.getActorsWithinDistanceAsArray( _distance, _relation = ::Const.FactionRelation.Any )`
 
 Returns an array of all actors within a distance of `_distance` inclusive from `<actor>` and who have the faction relation `_relation` with `<actor>`'s faction.
 
-- `<actor>.getRandomActorWithinDistance( _distance, _relation = this.Const.FactionRelation.Any )`
+- `<actor>.getRandomActorWithinDistance( _distance, _relation = ::Const.FactionRelation.Any )`
 
 Returns a random actor within a distance of `_distance` inclusive from `<actor>` and who has the faction relation `_relation` with `<actor>`'s faction.
 
@@ -534,7 +534,7 @@ Returns true if `<actor>` has access to the `special.double_grip` skill and the 
 
 ## New functions
 ### `onAfterUpdateProperties( _properties )`
-Is called during update of the actor's skill container when the `onAfterUpdate` functions for skills are run. Similar to the `onUpdateProperties` function of items, this function is called via the `generic_item` skill that each item adds to the actor when that item is equipped. Hence, the `SkillOrder` of this function being called is `this.Const.SkillOrder.Item`.
+Is called during update of the actor's skill container when the `onAfterUpdate` functions for skills are run. Similar to the `onUpdateProperties` function of items, this function is called via the `generic_item` skill that each item adds to the actor when that item is equipped. Hence, the `SkillOrder` of this function being called is `::Const.SkillOrder.Item`.
 
 ### `getSkills()`
 Returns an array which contains the skills of this item.
@@ -543,9 +543,9 @@ Returns an array which contains the skills of this item.
 MSU provides functions to safely add a new ItemType to the game, and to modify the ItemType of items.
 
 ### Creating a new ItemType
-`this.Const.Items.addNewItemType( _itemType )`
+`::Const.Items.addNewItemType( _itemType )`
 
-`itemType` is a string which will become a key in the `this.Const.Items.ItemType` table.
+`itemType` is a string which will become a key in the `::Const.Items.ItemType` table.
 
 ### Adding an item type to an item
 `<item>.addItemType( _t )`
@@ -570,57 +570,57 @@ Removes `_t` from the `this.m.ItemType` of this item. Does nothing if the item d
 
 # Weapons 🟢
 ## WeaponType and Categories
-In the vanilla game, each item contains a `this.m.Categories` parameter which is a string and determines what is shown in the weapon’s tooltip e.g. `“Sword, Two-Handed”`. However, the actual type of the item is defined separately in `this.m.ItemType`. So it is entirely possible for someone to make a mistake and write `“Two-Handed”` in categories but assign `this.m.ItemType` as `this.Const.Items.ItemType.Onehanded`.
+In the vanilla game, each item contains a `this.m.Categories` parameter which is a string and determines what is shown in the weapon’s tooltip e.g. `“Sword, Two-Handed”`. However, the actual type of the item is defined separately in `this.m.ItemType`. So it is entirely possible for someone to make a mistake and write `“Two-Handed”` in categories but assign `this.m.ItemType` as `::Const.Items.ItemType.Onehanded`.
 
 Similarly a weapon may be a Sword but someone can write `“Hammer, One-Handed”` in the categories and it won’t cause any errors. But this can lead to issues in terms of player confusion and especially if any mod adds skills/perks which require a certain type of weapon e.g. if the skill should only work with Swords.
 
 MSU eliminates the need for manually typing `this.m.Categories` and builds this parameter automatically using assigned `WeaponType` and `ItemType` values.
 
 ### Weapon types
-Weapon types are defined in the table `this.Const.Items.WeaponType`.
+Weapon types are defined in the table `::Const.Items.WeaponType`.
 
 ### Added a new weapon type
-`this.Const.Items.addNewWeaponType( _weaponType, _weaponTypeName = "" )`
+`::Const.Items.addNewWeaponType( _weaponType, _weaponTypeName = "" )`
 
-`_weaponType` is a string which will become a key in the `this.Const.Items.WeaponType` table. `_weaponTypeName` is an optional string parameter that will be used as the name of this weapon type in tooltips; if not provided then the same string as `_weaponType` is used as the name.
+`_weaponType` is a string which will become a key in the `::Const.Items.WeaponType` table. `_weaponTypeName` is an optional string parameter that will be used as the name of this weapon type in tooltips; if not provided then the same string as `_weaponType` is used as the name.
 
 #### Example
-`this.Const.Items.addNewWeaponType(“Musical”, “Musical Instrument”)` will add a weapon type that can then be accessed and checked against using `this.Const.Items.WeaponType.Musical` and will show up as `“Musical Instrument”` in tooltips.
+`::Const.Items.addNewWeaponType(“Musical”, “Musical Instrument”)` will add a weapon type that can then be accessed and checked against using `::Const.Items.WeaponType.Musical` and will show up as `“Musical Instrument”` in tooltips.
 
 ### Getting the name of a weapon type
-`this.Const.Items.getWeaponTypeName( _weaponType )`
+`::Const.Items.getWeaponTypeName( _weaponType )`
 
-Returns a string which is the the associated name of `_weaponType`. For instance, in the above example it will return `“Musical Instrument”` if `this.Const.Items.WeaponType.Musical` is passed as a parameter. If `_weaponType` does not exist as a weapon type, it returns an empty string.
+Returns a string which is the the associated name of `_weaponType`. For instance, in the above example it will return `“Musical Instrument”` if `::Const.Items.WeaponType.Musical` is passed as a parameter. If `_weaponType` does not exist as a weapon type, it returns an empty string.
 
 ### Adding a weapon type to a weapon
 There are two methods of doing this. The recommended method is to use the `create()` function of the weapon to set its `this.m.WeaponType`. For example, for an Axe/Hammer hybrid weapon:
 ```
-this.m.WeaponType = this.Const.Items.WeaponType.Axe | this.Const.Items.WeaponType.Hammer;
+this.m.WeaponType = ::Const.Items.WeaponType.Axe | ::Const.Items.WeaponType.Hammer;
 ```
 
 Alternatively, the following function can be used after the weapon has been created:
 `<weapon>.addWeaponType( _weaponType, _setupCategories = true )`
 
-`_weaponType` is a slot in the `this.Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
+`_weaponType` is a slot in the `::Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
 
 ### Removing a weapon type from a weapon
 `<weapon>.removeWeaponType( _weaponType, _setupCategories = true )`
 
-`_weaponType` is a slot in the `this.Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
+`_weaponType` is a slot in the `::Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
 
 Removes a weapon type from the given weapon. Does nothing if the weapon does not have the given weapon type.
 
 ### Setting a weapon's weapon type
 `<weapon>.setWeaponType( _weaponType, _setupCategories = true )`
 
-`_weaponType` is a slot in the `this.Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
+`_weaponType` is a slot in the `::Const.Items.WeaponType table`. If `_setupCategories` is true, then MSU will recreate the `this.m.Categories` of the weapon.
 
 Sets the weapon’s `this.m.WeaponType` to `_weaponType`. Multiple weapon types can be passed `_weaponType` by using the bitwise |.
 
 ### Checking if a weapon has a certain weapon type
 `<weapon>.isWeaponType( _weaponType, _only = false )`
 
-`_weaponType` is a slot in the `this.Const.Items.WeaponType table`.
+`_weaponType` is a slot in the `::Const.Items.WeaponType table`.
 
 Returns true if the weapon has the given weapon type. If `_only` is true then it will only return true if the weapon has the given weapon type and no other weapon type.
 
@@ -739,7 +739,7 @@ Queries any `movementSpeedMult` changes due to the retinue, checks for `getMovem
 Hooked to push the previous four functions to `this.m.MovementSpeedMultFunctions`.
 
 ##World.Common
-- `this.Const.World.Common.assignTroops()`
+- `::Const.World.Common.assignTroops()`
 Hooked to call `setBaseMovementSpeedMult()` on the `_party` with the `MovementSpeedMult` value of the `p` template.
 Hooked to call `resetBaseMovementSpeed()` on the `_party`, to set it back to 100.
 This represents the move away from hardcoded BaseMovementSpeed values and towards multipliers.

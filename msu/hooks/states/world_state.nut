@@ -38,12 +38,12 @@
 
 	o.getLocalCombatProperties = function( _pos, _ignoreNoEnemies = false )
 	{
-		local raw_parties = this.World.getAllEntitiesAtPos(_pos, this.Const.World.CombatSettings.CombatPlayerDistance);
+		local raw_parties = this.World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
 		local parties = [];
-		local properties = this.Const.Tactical.CombatInfo.getClone();
+		local properties = ::Const.Tactical.CombatInfo.getClone();
 		local tile = this.World.getTile(this.World.worldToTile(_pos));
 		local isAtUniqueLocation = false;
-		properties.TerrainTemplate = this.Const.World.TerrainTacticalTemplate[tile.TacticalType];
+		properties.TerrainTemplate = ::Const.World.TerrainTacticalTemplate[tile.TacticalType];
 		properties.Tile = tile;
 		properties.InCombatAlready = false;
 		properties.IsAttackingLocation = false;
@@ -61,7 +61,7 @@
 				continue;
 			}
 
-			if (party.isLocation() && party.isLocationType(this.Const.World.LocationType.Unique))
+			if (party.isLocation() && party.isLocationType(::Const.World.LocationType.Unique))
 			{
 				isAtUniqueLocation = true;
 				break;
@@ -69,7 +69,7 @@
 
 			if (party.isInCombat())
 			{
-				raw_parties = this.World.getAllEntitiesAtPos(_pos, this.Const.World.CombatSettings.CombatPlayerDistance * 2.0);
+				raw_parties = this.World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance * 2.0);
 				break;
 			}
 		}
@@ -86,7 +86,7 @@
 				continue;
 			}
 
-			if (isAtUniqueLocation && (!party.isLocation() || !party.isLocationType(this.Const.World.LocationType.Unique)))
+			if (isAtUniqueLocation && (!party.isLocation() || !party.isLocationType(::Const.World.LocationType.Unique)))
 			{
 				continue;
 			}
