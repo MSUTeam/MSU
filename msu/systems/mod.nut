@@ -76,8 +76,13 @@
 		_system.registerMod.acall(vargv);
 	}
 
-	function _tostring()
+	function tostring()
 	{
 		return format("Mod %s, Versions %s\n Registered Systems:\nDebug: %s\nKeybinds: %s\nModSettings: %s", this.getID(), this.getVersionString(), (this.Debug == ::MSU.EmptyModAddon).tostring(), (this.Keybinds == ::MSU.EmptyModAddon).tostring(), (this.ModSettings == ::MSU.EmptyModAddon).tostring());
+	}
+
+	function _tostring()
+	{
+		return this.tostring();
 	}
 }
