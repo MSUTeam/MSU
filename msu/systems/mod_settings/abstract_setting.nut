@@ -133,24 +133,24 @@
 
 	function setFlagForProperty( _property, _modID )
 	{
-		this.World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]);
+		::World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]);
 	}
 
 	function setPropertyIfFlagExists( _property, _modID )
 	{
 		local flag = this.getPropertyFlag(_modID, _property);
-		if (this.World.Flags.has(flag))
+		if (::World.Flags.has(flag))
 		{
-			this[_property] = this.World.Flags.get(flag);
+			this[_property] = ::World.Flags.get(flag);
 		}
 	}
 
 	function clearFlagForProperty( _property, _modID )
 	{
 		local flag = this.getPropertyFlag(_modID, _property);
-		if (this.World.Flags.has(flag))
+		if (::World.Flags.has(flag))
 		{
-			this.World.Flags.remove(flag);
+			::World.Flags.remove(flag);
 		}
 	}
 

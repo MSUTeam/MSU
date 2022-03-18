@@ -126,7 +126,7 @@
 
 	o.getNightTimeMovementSpeedMult <- function()
 	{
-		if (!this.m.IsSlowerAtNight || this.World.isDaytime())
+		if (!this.m.IsSlowerAtNight || ::World.isDaytime())
 		{
 			return 1.0;
 		}
@@ -178,7 +178,7 @@
 		{
 			this.m.IsLeavingFootprints = false;
 
-			if (this.World.getTime().IsDaytime)
+			if (::World.getTime().IsDaytime)
 			{
 				//use function instead of accessing m
 				this.setVisibilityMult(0.0);
@@ -207,7 +207,7 @@
 
 			if (this.m.Path != null)
 			{
-				this.m.Destination = this.World.tileToWorld(this.m.Path.getCurrent());
+				this.m.Destination = ::World.tileToWorld(this.m.Path.getCurrent());
 			}
 		}
 
@@ -251,7 +251,7 @@
 						scale = this.m.FootprintSizeOverride;
 					}
 
-					this.World.spawnFootprint(this.createVec(this.getPos().X - 5, this.getPos().Y - 15), this.m.Footprints[this.getDirection8To(this.m.Destination)] + "_0" + this.m.LastFootprintType, scale, this.m.FootprintSizeOverride != 0.0 ? 30.0 : 0.0, this.World.Assets.getFootprintVision(), this.m.FootprintType);
+					::World.spawnFootprint(this.createVec(this.getPos().X - 5, this.getPos().Y - 15), this.m.Footprints[this.getDirection8To(this.m.Destination)] + "_0" + this.m.LastFootprintType, scale, this.m.FootprintSizeOverride != 0.0 ? 30.0 : 0.0, ::World.Assets.getFootprintVision(), this.m.FootprintType);
 					this.m.LastFootprintTime = this.Time.getVirtualTimeF();
 					this.m.LastFootprintType = this.m.LastFootprintType == 1 ? 2 : 1;
 				}
@@ -263,7 +263,7 @@
 			}
 		}
 
-		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && this.Math.rand(1, 100) <= 5 && this.isVisibleToEntity(this.World.State.getPlayer(), 500))
+		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && this.Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
 		{
 			this.m.LastIdleSound = this.Time.getRealTimeF();
 			this.Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());

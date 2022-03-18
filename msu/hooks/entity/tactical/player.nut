@@ -12,7 +12,7 @@
 				++this.m.PerkPoints;
 			}
 
-			if ((this.m.Level == 11 || this.m.Level == 7 && this.World.Assets.getOrigin().getID() == "scenario.manhunters" && this.getBackground().getID() == "background.slave") && this.m.Skills.hasSkill("perk.student"))
+			if ((this.m.Level == 11 || this.m.Level == 7 && ::World.Assets.getOrigin().getID() == "scenario.manhunters" && this.getBackground().getID() == "background.slave") && this.m.Skills.hasSkill("perk.student"))
 			{
 				++this.m.PerkPoints;
 			}

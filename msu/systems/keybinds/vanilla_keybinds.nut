@@ -177,7 +177,7 @@ local function isCampfireScreen(){
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_quicksave", "f5", ::MSU.Key.State.World, function()
 {
-	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman())
+	if (!this.m.MenuStack.hasBacksteps() && !::World.Assets.isIronman())
 	{
 		this.saveCampaign("quicksave");
 		return false;
@@ -186,7 +186,7 @@ local function isCampfireScreen(){
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_quickload", "f9", ::MSU.Key.State.World, function()
 {
-	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman() && this.World.canLoad("quicksave"))
+	if (!this.m.MenuStack.hasBacksteps() && !::World.Assets.isIronman() && ::World.canLoad("quicksave"))
 	{
 		this.loadCampaign("quicksave");
 		return false;
@@ -262,7 +262,7 @@ local function isCampfireScreen(){
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	this.World.getCamera().move(-1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(-1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 
@@ -273,7 +273,7 @@ local function isCampfireScreen(){
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	this.World.getCamera().move(1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Right", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 

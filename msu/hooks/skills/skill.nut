@@ -681,7 +681,7 @@
 
 	// 	local r = this.Math.rand(1, 100);
 
-	// 	if (("Assets" in this.World) && this.World.Assets != null && this.World.Assets.getCombatDifficulty() == 0)
+	// 	if (("Assets" in ::World) && ::World.Assets != null && ::World.Assets.getCombatDifficulty() == 0)
 	// 	{
 	// 		if (_user.isPlayerControlled())
 	// 		{

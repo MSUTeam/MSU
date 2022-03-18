@@ -18,7 +18,7 @@
 			::MSU.SettingsScreen.hide();
 			local allowRetreat = this.m.StrategicProperties == null || !this.m.StrategicProperties.IsFleeingProhibited;
 			local allowQuit = !this.isScenarioMode();
-			this.m.TacticalMenuScreen.show(allowRetreat, allowQuit, !this.isScenarioMode() && this.World.Assets.isIronman() ? "Quit & Retire" : "Quit");
+			this.m.TacticalMenuScreen.show(allowRetreat, allowQuit, !this.isScenarioMode() && ::World.Assets.isIronman() ? "Quit & Retire" : "Quit");
 		}, function ()
 		{
 			return !::MSU.SettingsScreen.isAnimating();

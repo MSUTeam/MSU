@@ -3,20 +3,20 @@
 	local update = o.update;
 	o.update = function( _worldState )
 	{
-		if (this.World.getTime().Hours == 1 && this.World.getTime().Hours != this.m.LastHourUpdated && this.World.getTime().Days > this.m.LastDayMorningEventCalled)
+		if (::World.getTime().Hours == 1 && ::World.getTime().Hours != this.m.LastHourUpdated && ::World.getTime().Days > this.m.LastDayMorningEventCalled)
 		{
-			this.m.LastDayMorningEventCalled = this.World.getTime().Days;
-			local roster = this.World.getPlayerRoster().getAll();
+			this.m.LastDayMorningEventCalled = ::World.getTime().Days;
+			local roster = ::World.getPlayerRoster().getAll();
 			foreach ( bro in roster )
 			{
 				bro.getSkills().onNewMorning();
 			}
-			this.World.Assets.getOrigin().onNewMorning();
+			::World.Assets.getOrigin().onNewMorning();
 		}
 
-		if (this.World.getTime().Days > this.m.LastDayPaid && this.World.getTime().Hours > 8 && this.m.IsConsumingAssets)
+		if (::World.getTime().Days > this.m.LastDayPaid && ::World.getTime().Hours > 8 && this.m.IsConsumingAssets)
 		{
-			this.World.Assets.getOrigin().onNewDay();
+			::World.Assets.getOrigin().onNewDay();
 		}
 
 		update( _worldState );

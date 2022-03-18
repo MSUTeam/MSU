@@ -15,7 +15,7 @@
 	o.getRosterMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
-		local roster = this.World.getPlayerRoster().getAll();
+		local roster = ::World.getPlayerRoster().getAll();
 		foreach (bro in roster)
 		{
 			if ("getMovementSpeedMult" in bro)
@@ -29,7 +29,7 @@
 	o.getStashMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
-		local inventory = this.World.Assets.getStash();
+		local inventory = ::World.Assets.getStash();
 		foreach (item in inventory.getItems())
 		{
 			if ("getMovementSpeedMult" in item)
@@ -43,7 +43,7 @@
 	o.getOriginMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
-		local origin = this.World.Assets.getOrigin();
+		local origin = ::World.Assets.getOrigin();
 		if ("getMovementSpeedMult" in origin)
 		{
 			mult *= origin.getMovementSpeedMult();
@@ -54,7 +54,7 @@
 	o.getRetinueMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
-		local retinue = this.World.Retinue;
+		local retinue = ::World.Retinue;
 		foreach (follower in retinue.m.Followers)
 		{
 			if ("getMovementSpeedMult" in follower)
@@ -67,6 +67,6 @@
 
 	o.getTerrainTypeSpeedMult <- function()
 	{
-		return this.World.Assets.getTerrainTypeSpeedMult(this.getTile().Type);
+		return ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type);
 	}
 });

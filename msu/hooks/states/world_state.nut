@@ -38,10 +38,10 @@
 
 	o.getLocalCombatProperties = function( _pos, _ignoreNoEnemies = false )
 	{
-		local raw_parties = this.World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
+		local raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
 		local parties = [];
 		local properties = ::Const.Tactical.CombatInfo.getClone();
-		local tile = this.World.getTile(this.World.worldToTile(_pos));
+		local tile = ::World.getTile(::World.worldToTile(_pos));
 		local isAtUniqueLocation = false;
 		properties.TerrainTemplate = ::Const.World.TerrainTacticalTemplate[tile.TacticalType];
 		properties.Tile = tile;
@@ -69,7 +69,7 @@
 
 			if (party.isInCombat())
 			{
-				raw_parties = this.World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance * 2.0);
+				raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance * 2.0);
 				break;
 			}
 		}
@@ -130,7 +130,7 @@
 				properties.LocationTemplate.OwnedByFaction = party.getFaction();
 			}
 
-			this.World.Combat.abortCombatWithParty(party);
+			::World.Combat.abortCombatWithParty(party);
 			party.onBeforeCombatStarted();
 			local troops = party.getTroops();
 
@@ -142,7 +142,7 @@
 					t.Party <- this.WeakTableRef(party);
 					properties.Entities.push(t);
 
-					if (!this.World.FactionManager.isAlliedWithPlayer(party.getFaction()))
+					if (!::World.FactionManager.isAlliedWithPlayer(party.getFaction()))
 					{
 						++factions[party.getFaction()];
 					}
@@ -178,9 +178,9 @@
 			}
 		}
 
-		if (this.World.FactionManager.getFaction(highest_faction) != null)
+		if (::World.FactionManager.getFaction(highest_faction) != null)
 		{
-			properties.Music = this.World.FactionManager.getFaction(highest_faction).getCombatMusic();
+			properties.Music = ::World.FactionManager.getFaction(highest_faction).getCombatMusic();
 		}
 
 		return properties;
@@ -229,7 +229,7 @@
 	o.onSerialize = function( _out )
 	{
 		::MSU.System.ModSettings.flagSerialize();
-		this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled());
+		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
 		::MSU.System.ModSettings.resetFlags();
 	}
@@ -238,13 +238,13 @@
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
-		if (this.World.Flags.has("MSU.LastDayMorningEventCalled"))
+		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{
-			this.World.Assets.setLastDayMorningEventCalled(this.World.Flags.get("MSU.LastDayMorningEventCalled"));
+			::World.Assets.setLastDayMorningEventCalled(::World.Flags.get("MSU.LastDayMorningEventCalled"));
 		}
 		else
 		{
-			this.World.Assets.setLastDayMorningEventCalled(0);
+			::World.Assets.setLastDayMorningEventCalled(0);
 		}
 
 		::MSU.System.ModSettings.flagDeserialize();
