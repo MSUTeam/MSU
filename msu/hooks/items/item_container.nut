@@ -47,7 +47,7 @@
 	o.payForAction = function ( _items )
 	{
 		local actionCost = this.getActionCost(_items);
-		this.m.Actor.setActionPoints(this.Math.max(0, this.m.Actor.getActionPoints() - actionCost));
+		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
 
 		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill, _items);
 

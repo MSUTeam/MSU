@@ -14,14 +14,14 @@
 			throw "Invalid indices. _array.len() = " + _array.len();
 		}
 
-		return _array[this.Math.rand(start, end - 1)];
+		return _array[::Math.rand(start, end - 1)];
 	}
 
 	function shuffle( _array )
 	{
 	    for (local i = _array.len() - 1; i > 0; i--)
 	    {
-	        local j = this.Math.rand(0, i);
+	        local j = ::Math.rand(0, i);
 
 	        local temp = _array[i];
 	        _array[i] = _array[j];

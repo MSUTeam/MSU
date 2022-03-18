@@ -91,7 +91,7 @@
 
 	o.getTimeDelta <- function() 
 	{
-		local delta = this.Math.maxf(0.0, this.Time.getVirtualTimeF() - this.m.LastUpdateTime);
+		local delta = ::Math.maxf(0.0, this.Time.getVirtualTimeF() - this.m.LastUpdateTime);
 		return delta;
 	}
 
@@ -99,7 +99,7 @@
 
 	o.getSlowdownPerUnitMovementSpeedMult <- function()
 	{
-		return (1.0 - this.Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
+		return (1.0 - ::Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
 	}
 
 	o.getGlobalMovementSpeedMult <- function()
@@ -116,7 +116,7 @@
 		local myTile = this.getTile();
 		if (myTile.HasRoad)
 		{
-			return this.Math.maxf(::Const.World.TerrainTypeSpeedMult[myTile.Type] * ::Const.World.MovementSettings.RoadMult, 1.0);
+			return ::Math.maxf(::Const.World.TerrainTypeSpeedMult[myTile.Type] * ::Const.World.MovementSettings.RoadMult, 1.0);
 		}
 		else
 		{
@@ -244,7 +244,7 @@
 
 					if (this.m.FootprintSizeOverride == 0.0)
 					{
-						scale = this.Math.minf(1.0, this.Math.maxf(0.4, this.m.Troops.len() * 0.05));
+						scale = ::Math.minf(1.0, ::Math.maxf(0.4, this.m.Troops.len() * 0.05));
 					}
 					else
 					{
@@ -263,10 +263,10 @@
 			}
 		}
 
-		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && this.Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
+		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && ::Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
 		{
 			this.m.LastIdleSound = this.Time.getRealTimeF();
-			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
+			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][::Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
 		}
 	}
 	

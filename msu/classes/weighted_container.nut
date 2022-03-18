@@ -38,7 +38,7 @@
 
 	function roll()
 	{
-		local roll = this.Math.rand(1, this.Total);
+		local roll = ::Math.rand(1, this.Total);
 		local weight = 0;
 		foreach (pair in this.Array)
 		{
@@ -51,7 +51,7 @@
 
 	function rollChance(_chance)
 	{
-		return _chance < this.Math.rand(1, 100) ? this.roll() : null;
+		return _chance < ::Math.rand(1, 100) ? this.roll() : null;
 	}
 
 	function _nexti( _idx )

@@ -262,7 +262,7 @@ local function isCampfireScreen(){
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	::World.getCamera().move(-1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(-1500.0 * this.Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 
@@ -273,7 +273,7 @@ local function isCampfireScreen(){
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	::World.getCamera().move(1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(1500.0 * this.Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Right", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 

@@ -63,7 +63,7 @@
 	local getActionPointsMax = o.getActionPointsMax;
 	o.getActionPointsMax = function()
 	{
-		return this.Math.floor(getActionPointsMax());
+		return ::Math.floor(getActionPointsMax());
 	}
 
 	// local setDirty = o.setDirty;
@@ -113,7 +113,7 @@
 			return null;
 		}
 
-		return actors[this.Math.rand(0, actors.len()-1)];
+		return actors[::Math.rand(0, actors.len()-1)];
 	}
 
 	o.getActorsWithinDistanceAsArray <- function ( _distance, _relation = ::Const.FactionRelation.Any )
@@ -148,7 +148,7 @@
 	{
 		local actors = this.getActorsWithinDistanceAsArray(_distance, _relation);
 
-		return actors.len() == 0 ? null : actors[this.Math.rand(0, actors.len()-1)];
+		return actors.len() == 0 ? null : actors[::Math.rand(0, actors.len()-1)];
 	}
 
 	o.getMainhandItem <- function()

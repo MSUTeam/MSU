@@ -54,7 +54,7 @@
 	{
 		if (_skill.isType(::Const.SkillType.Active) && ("FatigueOnSkillUse" in child.m))
 		{
-			_skill.setFatigueCost(this.Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
+			_skill.setFatigueCost(::Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
 		}
 
 		addSkill(_skill);

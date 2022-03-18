@@ -141,7 +141,7 @@
 			return 0;
 		}
 
-		for (local i = 0; i < this.Math.min(_mod2.PreRelease.len(), _mod1.PreRelease.len()); ++i)
+		for (local i = 0; i < ::Math.min(_mod2.PreRelease.len(), _mod1.PreRelease.len()); ++i)
 		{
 			local isInt1 = ::MSU.String.isInteger(_mod1.PreRelease[i]);
 			local isInt2 = ::MSU.String.isInteger(_mod2.PreRelease[i]);

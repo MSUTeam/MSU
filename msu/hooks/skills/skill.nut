@@ -347,7 +347,7 @@
 			totalWeight += d.Weight;
 		}
 
-		local roll = this.Math.rand(1, totalWeight);
+		local roll = ::Math.rand(1, totalWeight);
 
 		foreach (d in this.m.DamageType)
 		{
@@ -413,7 +413,7 @@
 
 		foreach (d in this.m.DamageType)
 		{
-			local probability = this.Math.round(this.getDamageTypeProbability(d.Type) * 100);
+			local probability = ::Math.round(this.getDamageTypeProbability(d.Type) * 100);
 
 			if (probability < 100)
 			{
@@ -582,7 +582,7 @@
 	// 	toHit += this.getShieldRelevantHitChanceBonus(this, _targetEntity);
 
 	// 	toHit = toHit * properties.TotalAttackToHitMult;
-	// 	toHit = toHit + this.Math.max(0, 100 - toHit) * (1.0 - defenderProperties.TotalDefenseToHitMult);
+	// 	toHit = toHit + ::Math.max(0, 100 - toHit) * (1.0 - defenderProperties.TotalDefenseToHitMult);
 	// 	local userTile = user.getTile();
 
 	// 	if (allowDiversion && this.m.IsRanged && userTile.getDistanceTo(_targetEntity.getTile()) > 1)
@@ -592,11 +592,11 @@
 	// 		if (blockedTiles.len() != 0)
 	// 		{
 	// 			local blockChance = ::Const.Combat.RangedAttackBlockedChance * properties.RangedAttackBlockedChanceMult;
-	// 			toHit = this.Math.floor(toHit * (1.0 - blockChance));
+	// 			toHit = ::Math.floor(toHit * (1.0 - blockChance));
 	// 		}
 	// 	}
 
-	// 	return this.Math.max(5, this.Math.min(95, toHit));
+	// 	return ::Math.max(5, ::Math.min(95, toHit));
 	// }
 
 	// o.attackEntity = function( _user, _targetEntity, _allowDiversion = true, _isDiverting = false )
@@ -614,11 +614,11 @@
 	// 	{
 	// 		local blockedTiles = ::Const.Tactical.Common.getBlockedTiles(userTile, _targetEntity.getTile(), _user.getFaction());
 
-	// 		if (blockedTiles.len() != 0 && this.Math.rand(1, 100) <= this.Math.ceil(::Const.Combat.RangedAttackBlockedChance * properties.RangedAttackBlockedChanceMult * 100))
+	// 		if (blockedTiles.len() != 0 && ::Math.rand(1, 100) <= ::Math.ceil(::Const.Combat.RangedAttackBlockedChance * properties.RangedAttackBlockedChanceMult * 100))
 	// 		{
 	// 			_allowDiversion = false;
 	// 			astray = true;
-	// 			_targetEntity = blockedTiles[this.Math.rand(0, blockedTiles.len() - 1)].getEntity();
+	// 			_targetEntity = blockedTiles[::Math.rand(0, blockedTiles.len() - 1)].getEntity();
 	// 		}
 	// 	}
 
@@ -679,17 +679,17 @@
 	// 		toHit = 0;
 	// 	}
 
-	// 	local r = this.Math.rand(1, 100);
+	// 	local r = ::Math.rand(1, 100);
 
 	// 	if (("Assets" in ::World) && ::World.Assets != null && ::World.Assets.getCombatDifficulty() == 0)
 	// 	{
 	// 		if (_user.isPlayerControlled())
 	// 		{
-	// 			r = this.Math.max(1, r - 5);
+	// 			r = ::Math.max(1, r - 5);
 	// 		}
 	// 		else if (_targetEntity.isPlayerControlled())
 	// 		{
-	// 			r = this.Math.min(100, r + 5);
+	// 			r = ::Math.min(100, r + 5);
 	// 		}
 	// 	}
 
@@ -706,11 +706,11 @@
 	// 			{
 	// 				if (isHit)
 	// 				{
-	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + this.Math.min(95, this.Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 				}
 	// 				else
 	// 				{
-	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + this.Math.min(95, this.Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 				}
 	// 			}
 	// 			else
@@ -722,11 +722,11 @@
 	// 		{
 	// 			if (isHit)
 	// 			{
-	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + this.Math.min(95, this.Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 			}
 	// 			else
 	// 			{
-	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + this.Math.min(95, this.Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 			}
 	// 		}
 	// 		else
@@ -735,9 +735,9 @@
 	// 		}
 	// 	}
 
-	// 	if (isHit && this.Math.rand(1, 100) <= _targetEntity.getCurrentProperties().RerollDefenseChance)
+	// 	if (isHit && ::Math.rand(1, 100) <= _targetEntity.getCurrentProperties().RerollDefenseChance)
 	// 	{
-	// 		r = this.Math.rand(1, 100);
+	// 		r = ::Math.rand(1, 100);
 	// 		isHit = r <= toHit;
 	// 	}
 
@@ -762,7 +762,7 @@
 	// 			if (this.m.SoundOnHit.len() != 0)
 	// 			{
 	// 				this.Time.scheduleEvent(this.TimeUnit.Virtual, time + this.m.SoundOnHitDelay, this.onPlayHitSound.bindenv(this), {
-	// 					Sound = this.m.SoundOnHit[this.Math.rand(0, this.m.SoundOnHit.len() - 1)],
+	// 					Sound = this.m.SoundOnHit[::Math.rand(0, this.m.SoundOnHit.len() - 1)],
 	// 					Pos = _targetEntity.getPos()
 	// 				});
 	// 			}
@@ -771,12 +771,12 @@
 	// 		{
 	// 			if (this.m.SoundOnHit.len() != 0)
 	// 			{
-	// 				::Sound.play(this.m.SoundOnHit[this.Math.rand(0, this.m.SoundOnHit.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
+	// 				::Sound.play(this.m.SoundOnHit[::Math.rand(0, this.m.SoundOnHit.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
 	// 			}
 
 	// 			if (this.Tactical.State.getStrategicProperties() != null && this.Tactical.State.getStrategicProperties().IsArenaMode && toHit <= 15)
 	// 			{
-	// 				::Sound.play(::Const.Sound.ArenaShock[this.Math.rand(0, ::Const.Sound.ArenaShock.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 				::Sound.play(::Const.Sound.ArenaShock[::Math.rand(0, ::Const.Sound.ArenaShock.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 			}
 
 	// 			this.onScheduledTargetHit(info);
@@ -791,7 +791,7 @@
 	// 		this.m.Container.onTargetMissed(this, _targetEntity);
 	// 		local prohibitDiversion = false;
 
-	// 		if (_allowDiversion && this.m.IsRanged && !_user.isPlayerControlled() && this.Math.rand(1, 100) <= 25 && distanceToTarget > 2)
+	// 		if (_allowDiversion && this.m.IsRanged && !_user.isPlayerControlled() && ::Math.rand(1, 100) <= 25 && distanceToTarget > 2)
 	// 		{
 	// 			local targetTile = _targetEntity.getTile();
 
@@ -845,7 +845,7 @@
 	// 		{
 	// 			if (this.m.SoundOnMiss.len() != 0)
 	// 			{
-	// 				::Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
+	// 				::Sound.play(this.m.SoundOnMiss[::Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
 	// 			}
 
 	// 			if (this.m.IsShowingProjectile && this.m.ProjectileType != 0)
@@ -863,11 +863,11 @@
 	// 			{
 	// 				if (toHit >= 90 || _targetEntity.getHitpointsPct() <= 0.1)
 	// 				{
-	// 					::Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaBigMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 					::Sound.play(::Const.Sound.ArenaMiss[::Math.rand(0, ::Const.Sound.ArenaBigMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 				}
-	// 				else if (this.Math.rand(1, 100) <= 20)
+	// 				else if (::Math.rand(1, 100) <= 20)
 	// 				{
-	// 					::Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 					::Sound.play(::Const.Sound.ArenaMiss[::Math.rand(0, ::Const.Sound.ArenaMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 				}
 	// 			}
 	// 		}
@@ -890,7 +890,7 @@
 
 	// 	if (dist >= ::Const.Combat.DiversionSpreadMinDist)
 	// 	{
-	// 		d = this.Math.rand(0, ::Const.Direction.COUNT - 1);
+	// 		d = ::Math.rand(0, ::Const.Direction.COUNT - 1);
 	// 	}
 
 	// 	if (tile.hasNextTile(d))
@@ -916,10 +916,10 @@
 
 	// 			if (this.m.SoundOnMiss.len() != 0)
 	// 			{
-	// 				::Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, divertTile.Pos);
+	// 				::Sound.play(this.m.SoundOnMiss[::Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, divertTile.Pos);
 	// 			}
 
-	// 			if (divertTile.IsEmpty && !divertTile.IsCorpseSpawned && ::Const.Tactical.TerrainSubtypeAllowProjectileDecals[divertTile.Subtype] && ::Const.ProjectileDecals[this.m.ProjectileType].len() != 0 && this.Math.rand(0, 100) < ::Const.Combat.SpawnArrowDecalChance)
+	// 			if (divertTile.IsEmpty && !divertTile.IsCorpseSpawned && ::Const.Tactical.TerrainSubtypeAllowProjectileDecals[divertTile.Subtype] && ::Const.ProjectileDecals[this.m.ProjectileType].len() != 0 && ::Math.rand(0, 100) < ::Const.Combat.SpawnArrowDecalChance)
 	// 			{
 	// 				local info = {
 	// 					Skill = this,
@@ -950,7 +950,7 @@
 	// 		return;
 	// 	}
 
-	// 	local partHit = this.Math.rand(1, 100);
+	// 	local partHit = ::Math.rand(1, 100);
 	// 	local bodyPart = ::Const.BodyPart.Body;
 	// 	local bodyPartDamageMult = 1.0;
 
@@ -966,11 +966,11 @@
 	// 	bodyPartDamageMult = bodyPartDamageMult * _info.Properties.DamageAgainstMult[bodyPart];
 	// 	local damageMult = this.m.IsRanged ? _info.Properties.RangedDamageMult : _info.Properties.MeleeDamageMult;
 	// 	damageMult = damageMult * _info.Properties.DamageTotalMult;
-	// 	local damageRegular = this.Math.rand(_info.Properties.DamageRegularMin, _info.Properties.DamageRegularMax) * _info.Properties.DamageRegularMult;
-	// 	local damageArmor = this.Math.rand(_info.Properties.DamageRegularMin, _info.Properties.DamageRegularMax) * _info.Properties.DamageArmorMult;
-	// 	damageRegular = this.Math.max(0, damageRegular + _info.DistanceToTarget * _info.Properties.DamageAdditionalWithEachTile);
-	// 	damageArmor = this.Math.max(0, damageArmor + _info.DistanceToTarget * _info.Properties.DamageAdditionalWithEachTile);
-	// 	local damageDirect = this.Math.minf(1.0, _info.Properties.DamageDirectMult * (this.m.DirectDamageMult + _info.Properties.DamageDirectAdd));
+	// 	local damageRegular = ::Math.rand(_info.Properties.DamageRegularMin, _info.Properties.DamageRegularMax) * _info.Properties.DamageRegularMult;
+	// 	local damageArmor = ::Math.rand(_info.Properties.DamageRegularMin, _info.Properties.DamageRegularMax) * _info.Properties.DamageArmorMult;
+	// 	damageRegular = ::Math.max(0, damageRegular + _info.DistanceToTarget * _info.Properties.DamageAdditionalWithEachTile);
+	// 	damageArmor = ::Math.max(0, damageArmor + _info.DistanceToTarget * _info.Properties.DamageAdditionalWithEachTile);
+	// 	local damageDirect = ::Math.minf(1.0, _info.Properties.DamageDirectMult * (this.m.DirectDamageMult + _info.Properties.DamageDirectAdd));
 	// 	local injuries;
 
 	// 	if (this.m.InjuriesOnBody != null && bodyPart == ::Const.BodyPart.Body)
@@ -1017,7 +1017,7 @@
 	// 	{
 	// 		if (this.m.SoundOnHitHitpoints.len() != 0)
 	// 		{
-	// 			::Sound.play(this.m.SoundOnHitHitpoints[this.Math.rand(0, this.m.SoundOnHitHitpoints.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
+	// 			::Sound.play(this.m.SoundOnHitHitpoints[::Math.rand(0, this.m.SoundOnHitHitpoints.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
 	// 		}
 	// 	}
 
@@ -1025,7 +1025,7 @@
 	// 	{
 	// 		if (this.m.SoundOnHitArmor.len() != 0)
 	// 		{
-	// 			::Sound.play(this.m.SoundOnHitArmor[this.Math.rand(0, this.m.SoundOnHitArmor.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
+	// 			::Sound.play(this.m.SoundOnHitArmor[::Math.rand(0, this.m.SoundOnHitArmor.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
 	// 		}
 	// 	}
 
