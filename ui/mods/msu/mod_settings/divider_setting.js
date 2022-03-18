@@ -14,7 +14,7 @@ var DividerSetting = function (_mod, _page, _setting, _parentDiv)
 		line.css("top", "3.0rem");
 		this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	}
-}
+};
 
 DividerSetting.prototype.unbindTooltip = function ()
 {
@@ -22,4 +22,4 @@ DividerSetting.prototype.unbindTooltip = function ()
 	{
 		this.title.unbindTooltip();
 	}
-}
+};

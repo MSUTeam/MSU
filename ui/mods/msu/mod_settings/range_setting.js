@@ -36,10 +36,10 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	// Tooltip
 	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
-}
+};
 
 RangeSetting.prototype.unbindTooltip = function ()
 {
 	this.control.unbindTooltip();
 	this.title.unbindTooltip();
-}
+};

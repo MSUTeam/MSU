@@ -35,7 +35,7 @@ var EnumSetting = function (_mod, _page, _setting, _parentDiv)
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
-}
+};
 
 EnumSetting.prototype.cycle = function (_forward)
 {
@@ -50,10 +50,10 @@ EnumSetting.prototype.cycle = function (_forward)
 	}
 	this.setting.value = this.setting.array[this.idx];
 	this.button.changeButtonText(this.setting.value);
-}
+};
 
 EnumSetting.prototype.unbindTooltip = function ()
 {
 	this.title.unbindTooltip();
 	this.button.unbindTooltip();
-}
+};

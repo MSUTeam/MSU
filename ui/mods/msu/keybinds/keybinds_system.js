@@ -78,4 +78,4 @@ MSU.Keybinds = {
 		}
 		return false;
 	}
-}
+};

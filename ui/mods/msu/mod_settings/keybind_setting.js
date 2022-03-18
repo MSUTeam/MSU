@@ -13,12 +13,12 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 	this.input.val(_setting.value);
 	this.input.on("change", function(){
 		self.setting.value = self.input.val();
-	})
+	});
 
 	this.input.on("click", function(){
 		this.blur();
 		self.createPopup(_parentDiv);
-	})
+	});
 
 
 	this.layout.append(this.input);
@@ -26,7 +26,7 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.input.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
-}
+};
 
 KeybindSetting.prototype.createPopup = function ()
 {
@@ -38,21 +38,21 @@ KeybindSetting.prototype.createPopup = function ()
 	this.parent.mPopupDialog.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
 	{
 		_dialog.destroyPopupDialog();
-	})
+	});
 	this.parent.mPopupDialog.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
 	{
 		self.createChangeKeybindRow("");
-	})
+	});
 	this.parent.mPopupDialog.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
 	{
-		var buttons = $(".change-keybind-button")
-		var result = ""
+		var buttons = $(".change-keybind-button");
+		var result = "";
 		for(var idx = 0; idx < buttons.length; idx++)
 		{
-			var text = $(buttons[idx]).findButtonText().html()
+			var text = $(buttons[idx]).findButtonText().html();
 			if(text.length > 0)
 			{
-				result += text + "/"
+				result += text + "/";
 			}
 		}
 		result = result.slice(0, -1);
@@ -67,7 +67,7 @@ KeybindSetting.prototype.createPopup = function ()
 		self.parent.mPopupDialog = null;
 		_dialog.destroyPopupDialog();
 	 });
-}
+};
 
 KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 {
@@ -77,7 +77,7 @@ KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 	{
 		this.createChangeKeybindRow(keybindArray[x]);
 	}
-}
+};
 
 KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 {
@@ -100,7 +100,7 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 			return;
 		}
 		setButton(key);
-	}
+	};
 
 	var callbackMouse = function(_event)
 	{
@@ -110,14 +110,14 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 			return;
 		}
 		setButton(key);
-	}
+	};
 
 	var setButton = function(_key)
 	{
 		var pressedKeys = MSU.Keybinds.getPressedKeysAsString(_key) + _key;
 		selectedButton.changeButtonText(MSU.Key.sortKeyString(pressedKeys));
 		toggle(selectedButton, true);
-	}
+	};
 
 	var toggle = function(_button, _forcedOff)
 	{
@@ -139,7 +139,7 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 			_button.css('pointer-events', 'none');
 			selectedButton = _button;
 		}
-	}
+	};
 	button.on("click", function( _event ){
 		var mainButton = this;
 		var buttons = $(".change-keybind-button");
@@ -149,7 +149,7 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 			{
 				toggle($(this), true);
 			}
-		})
+		});
 		toggle($(this), false);
 	});
 	button.off("mouseenter");
@@ -179,10 +179,10 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 		destroyButtonLayout.remove();
 		row.remove();
 	}, 'delete-keybind-button', 2);
-}
+};
 
 KeybindSetting.prototype.unbindTooltip = function ()
 {
 	this.title.unbindTooltip();
 	this.input.unbindTooltip();
-}
+};

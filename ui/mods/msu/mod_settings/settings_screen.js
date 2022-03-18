@@ -1,5 +1,3 @@
-"use strict";
-
 var ModSettingsScreen = function ()
 {
 	MSUUIScreen.call(this);
@@ -41,10 +39,10 @@ var ModSettingsScreen = function ()
 	]
 	*/
 
-}
+};
 
 // Inheritance in JS
-ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype)
+ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype);
 Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
 	value: ModSettingsScreen,
 	enumerable: false,
@@ -54,7 +52,7 @@ ModSettingsScreen.prototype.onConnection = function (_handle)
 {
 	MSUUIScreen.prototype.onConnection.call(this, _handle);
 	this.register($('.root-screen'));
-}
+};
 
 ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
@@ -68,7 +66,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	this.mContainer.append(dialogLayout);
 	this.mDialogContainer = dialogLayout.createDialog('Mod Settings', "Select a Mod From the List", null, true, 'dialog-1024-768');
 
-	this.mPageTabContainer = $('<div class="l-tab-button-bar"/>')
+	this.mPageTabContainer = $('<div class="l-tab-button-bar"/>');
 	this.mDialogContainer.findDialogTabContainer().append(this.mPageTabContainer);
 
 	//Footer Bar
@@ -82,7 +80,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 		self.notifyBackendCancelButtonPressed();
 	}, '', 1);
 
-	var layout = $('<div class="l-ok-button"/>');
+	layout = $('<div class="l-ok-button"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
@@ -102,7 +100,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	content.append(modPageContainerLayout);
 	this.mModPageContainer = modPageContainerLayout.createList(2);
 	this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
-}
+};
 
 ModSettingsScreen.prototype.destroy = function ()
 {
@@ -116,7 +114,7 @@ ModSettingsScreen.prototype.destroy = function ()
 	this.mChangedPanels = {};
 
 	MSUUIScreen.prototype.destroy.call(this);
-}
+};
 
 ModSettingsScreen.prototype.unbindTooltips = function ()
 {
@@ -126,7 +124,7 @@ ModSettingsScreen.prototype.unbindTooltips = function ()
 	});
 
 	MSUUIScreen.prototype.unbindTooltips.call(this);
-}
+};
 
 ModSettingsScreen.prototype.destroyDIV = function ()
 {
@@ -139,7 +137,7 @@ ModSettingsScreen.prototype.destroyDIV = function ()
 	this.mDialogContainer.remove();
 	this.mDialogContainer = null;
 	MSUUIScreen.prototype.destroyDIV.call(this);
-}
+};
 
 ModSettingsScreen.prototype.hide = function()
 {
@@ -152,7 +150,7 @@ ModSettingsScreen.prototype.hide = function()
 	this.mListScrollContainer.empty();
 
 	MSUUIScreen.prototype.hide.call(this);
-}
+};
 
 ModSettingsScreen.prototype.show = function (_data)
 {
@@ -160,7 +158,7 @@ ModSettingsScreen.prototype.show = function (_data)
 	this.createModPanelList();
 
 	MSUUIScreen.prototype.show.call(this,_data);
-}
+};
 
 ModSettingsScreen.prototype.createModPanelList = function ()
 {
@@ -169,7 +167,7 @@ ModSettingsScreen.prototype.createModPanelList = function ()
 	{
 		self.addModPanelButtonToList(mod);
 	});
-}
+};
 
 ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
 {
@@ -181,16 +179,15 @@ ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
 			self.mActivePanelButton.removeClass('is-active');
 		}
 		self.mActivePanelButton = _button;
-		_button.addClass('is-active')
+		_button.addClass('is-active');
 
 		self.switchToModPanel(_mod);
-		self.switchToPage(_mod, _mod.pages[0])
+		self.switchToPage(_mod, _mod.pages[0]);
 	}, 'msu-button');
 
 	button.text(_mod.name);
 	button.removeClass('button');
-
-}
+};
 
 ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 {
@@ -214,7 +211,7 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 			first = false;
 		}
 	});
-}
+};
 
 ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 {
@@ -235,15 +232,15 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 		{
 			while (setting.title.width() >= 341)
 			{
-				setting.title.css('font-size', (parseInt(setting.title.css('font-size').slice(0, -2)) - 1) + 'px')
+				setting.title.css('font-size', (parseInt(setting.title.css('font-size').slice(0, -2)) - 1) + 'px');
 			}
 		}
 	});
-}
+};
 
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {
-	var changes = {}
+	var changes = {};
 	this.mModPanels.forEach(function(modPanel)
 	{
 		changes[modPanel.id] = {};
@@ -259,16 +256,16 @@ ModSettingsScreen.prototype.getChanges = function () // Could still be significa
 		});
 	});
 	return changes;
-}
+};
 
 ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
 	SQ.call(this.mSQHandle, 'onCancelButtonPressed');
-}
+};
 
 ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 {
 	SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
-}
+};
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());

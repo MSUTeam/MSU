@@ -24,9 +24,9 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 
 	// Tooltip
 	this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
-}
+};
 
 BooleanSetting.prototype.unbindTooltip = function ()
 {
 	this.label.unbindTooltip();
-}
+};
