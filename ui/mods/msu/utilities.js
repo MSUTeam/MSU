@@ -17,13 +17,12 @@ MSU.printData = function( _obj, _depth, _maxLen )
 			length = Object.keys(_obj).length;
 		}
 	}
-	var string = MSU.getLocalString("Data: ", _obj, Math.max(length, _maxLen), _depth, isArray)
+	var string = MSU.getLocalString("Data: ", _obj, Math.max(length, _maxLen), _depth, isArray);
 	for (var i = 0; i < string.length; i = i + 900)
 	{
 		console.error(string.slice(i, Math.min(i + 900, string.length)));
 	}
-
-}
+};
 
 MSU.getLocalString = function( _key, _value, _maxLen, _depth, _isArray )
 {
@@ -40,10 +39,9 @@ MSU.getLocalString = function( _key, _value, _maxLen, _depth, _isArray )
 		case "object":
 			if (_value === null)
 			{
-				string += "null, "
+				string += "null, ";
 				break;
 			}
-			var length = 0;
 			if (Array.isArray(_value))
 			{
 				if (_value.length > _maxLen || _depth <= 0)
@@ -87,15 +85,13 @@ MSU.getLocalString = function( _key, _value, _maxLen, _depth, _isArray )
 			}
 			break;
 		default:
-			string += "(" + typeof _value + ") " + value + ", "
-
-
+			string += "(" + typeof _value + ") " + _value + ", ";
 	}
 
 	return string;
-}
+};
 
 MSU.capitalizeFirst = function ( _string )
 {
 	return _string.charAt(0).toUpperCae() + _string.slice(1);
-}
+};

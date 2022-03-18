@@ -1,18 +1,13 @@
-"use strict";
-
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf#polyfill
-// Allows for 'easy' inheritance:
-
 var MSUUIScreen = function ()
 {
 	MSUBackendConnection.call(this);
 	this.mEventListener = null;
 	this.mContainer = null;
 
-	this.mID = "MSUUIScreen"
-}
+	this.mID = "MSUUIScreen";
+};
 
-MSUUIScreen.prototype = Object.create(MSUBackendConnection.prototype)
+MSUUIScreen.prototype = Object.create(MSUBackendConnection.prototype);
 Object.defineProperty(MSUUIScreen.prototype, 'constructor', {
 	value: MSUUIScreen,
 	enumerable: false,
@@ -25,24 +20,25 @@ MSUUIScreen.prototype.registerEventListener = function (_listener)
 
 MSUUIScreen.prototype.createDIV = function (_parentDiv)
 {
-}
+
+};
 
 MSUUIScreen.prototype.destroyDIV = function ()
 {
 	this.mContainer.empty();
 	this.mContainer.remove();
 	this.mContainer = null;
-}
+};
 
 MSUUIScreen.prototype.bindTooltips = function ()
 {
 
-}
+};
 
 MSUUIScreen.prototype.unbindTooltips = function ()
 {
 
-}
+};
 
 MSUUIScreen.prototype.show = function ()
 {
@@ -92,7 +88,7 @@ MSUUIScreen.prototype.hide = function ()
 			self.notifyBackendOnHidden();
 		}
 	});
-}
+};
 
 
 MSUUIScreen.prototype.create = function(_parentDiv)
@@ -150,7 +146,7 @@ MSUUIScreen.prototype.isRegistered = function ()
 MSUUIScreen.prototype.showBackgroundImage = function ()
 {
 
-}
+};
 
 //Notify backend Functions
 MSUUIScreen.prototype.notifyBackendOnShown = function ()
@@ -167,7 +163,7 @@ MSUUIScreen.prototype.notifyBackendOnHidden = function ()
 	{
 		SQ.call(this.mSQHandle, 'onScreenHidden');
 	}
-}
+};
 
 MSUUIScreen.prototype.notifyBackendOnAnimating = function ()
 {
@@ -175,6 +171,4 @@ MSUUIScreen.prototype.notifyBackendOnAnimating = function ()
 	{
 		SQ.call(this.mSQHandle, 'onScreenAnimating');
 	}
-}
-
-
+};

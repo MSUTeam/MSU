@@ -1,1 +1,1 @@
-SQ.call(Screens["MainMenuScreen"].getModule("MainMenuModule").mSQHandle, "connectBackend");
+SQ.call(Screens.MainMenuScreen.getModule("MainMenuModule").mSQHandle, "connectBackend");

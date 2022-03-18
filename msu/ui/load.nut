@@ -10,7 +10,14 @@
 ::mods_registerJS("msu/backend_connection.js");
 ::mods_registerJS("msu/msu_connection.js");
 ::mods_registerJS("msu/ui_screen.js");
-::mods_registerJS("msu/settings_screen.js");
+
+::mods_registerJS("msu/mod_settings/boolean_setting.js")
+::mods_registerJS("msu/mod_settings/divider_setting.js")
+::mods_registerJS("msu/mod_settings/enum_setting.js")
+::mods_registerJS("msu/mod_settings/keybind_setting.js")
+::mods_registerJS("msu/mod_settings/range_setting.js")
+::mods_registerJS("msu/mod_settings/string_setting.js")
+::mods_registerJS("msu/mod_settings/settings_screen.js");
 
 ::mods_registerJS("msu/keybinds/key_static.js");
 ::mods_registerJS("msu/keybinds/keybind.js");

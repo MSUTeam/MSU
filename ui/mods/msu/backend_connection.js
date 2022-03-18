@@ -1,9 +1,7 @@
-"use strict";
-
 var MSUBackendConnection = function ()
 {
 	this.mSQHandle = null;
-}
+};
 
 MSUBackendConnection.prototype.isConnected = function ()
 {
