@@ -1,6 +1,40 @@
+// UNCOMMENT BELOW FOR TESTING. Remember you have to call your added event somewhere in your code.
+
+// this.MSU.Skills.addEvent("onTestingEvent", false, function( _testingArg ) {  this.logInfo("onTestingEvent is running for skill " + this.getID())});
+// this.MSU.Skills.addEvent("onTestingEvent", true, function( _testingArg ) {});
+// this.MSU.Skills.addEvent("onTestingEvent");
+
 ::mods_hookNewObject("skills/skill_container", function(o) {
 	o.m.BeforeSkillExecutedTile <- null;
 	o.m.IsExecutingMoveSkill <- false;
+	o.m.EventsDirectory <- clone this.MSU.Skills.EventsDirectory;
+	o.m.EventsToSort <- [];
+
+	local setActor = o.setActor;
+	o.setActor = function( _a )
+	{
+		if (!::MSU.Skills.IsAllEventsModeCheckDone)
+		{
+			local numEvents = -2; // to remove onSerialize and onDeserialize
+			foreach (k, v in this)
+			{
+				if (k.len() > 1 && k.slice(0, 2) == "on")
+				{
+					++numEvents;
+				}
+			}		
+
+			if (numEvents > this.m.EventsDirectory.len() - 3) // Subtract 3 to remove the buildProperties functions
+			{
+				::MSU.Skills.IsAllEventsMode = true;
+				this.logWarning("MSU: Setting IsAllEventsMode to true");
+			}
+
+			::MSU.Skills.IsAllEventsModeCheckDone = true;
+		}
+
+		setActor(_a);
+	}
 
 	local update = o.update;
 	o.update = function()
@@ -23,31 +57,112 @@
 		}
 	}
 
-	o.doOnFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
+	o.addSkillEvents <- function( _skill )
 	{
-		if (_argsArray == null) _argsArray = [null];
-		else _argsArray.insert(0, null);
+		local skill = typeof _skill == "instance" ? _skill.get() : _skill;
 
-		local wasUpdating = this.m.IsUpdating;
-		this.m.IsUpdating = true;
-		this.m.IsBusy = false;
-		this.m.BusyStack = 0;
-
-		foreach ( skill in this.m.Skills )
+		local getMember = function( _obj, _key )
 		{
-			if (_aliveOnly && !this.m.Actor.isAlive())
-			{
-				break;
-			}
+			while (_obj.ClassName != "skill")
+		    {
+			    if (_key in _obj) return _obj[_key];
+			    else _obj = _obj[_obj.SuperName];
+		    }
 
-			if (!skill.isGarbage())
-			{
-				_argsArray[0] = skill;
-				skill[_function].acall(_argsArray);
-			}
+		    return null;
 		}
 
-		this.m.IsUpdating = wasUpdating;
+		// this.logInfo("Adding events for " + skill.getID());
+		foreach (eventName, skills in this.m.EventsDirectory)
+		{
+			if (getMember(skill, eventName) != null)
+			{
+				this.m.EventsToSort.push(eventName);
+				// this.logInfo("Adding event " + eventName + " for " + skill.getID());
+				if (skills == null) this.m.EventsDirectory[eventName] = [skill];
+				else skills.push(skill);
+			}
+		}
+	}
+
+	o.removeSkillEvents <- function( _skill )
+	{
+		local skill = typeof _skill == "instance" ? _skill.get() : _skill;	
+
+		// this.logInfo("Removing events for " + skill.getID());
+		foreach (eventName, skills in this.m.EventsDirectory)
+		{
+			local idx = skills.find(skill);
+			if (idx != null) 
+			{
+				// this.logInfo("Removing event " + eventName + " for " + skill.getID())
+				skills.remove(idx);
+			}
+		}
+	}
+
+	local add = o.add;
+	o.add = function( _skill, _order = 0 )
+	{
+		local lenBefore = this.m.Skills.len();
+		add(_skill, _order);
+		if (this.m.Skills.len() > lenBefore)
+		{
+			foreach (eventName in this.m.EventsToSort)
+			{
+				this.m.EventsDirectory[eventName].sort(this.compareSkillsByOrder);
+			}
+			this.m.EventsToSort.clear();
+		}
+	}
+
+	local collectGarbage = o.collectGarbage;
+	o.collectGarbage = function( _performUpdate = true )
+	{
+		if (this.m.IsUpdating) return;
+
+		local hasSomethingToAdd = this.m.SkillsToAdd.len() > 0;
+		collectGarbage(_performUpdate);
+		if (hasSomethingToAdd)
+		{
+			foreach (eventName in this.m.EventsToSort)
+			{
+				this.m.EventsDirectory[eventName].sort(this.compareSkillsByOrder);
+			}
+			this.m.EventsToSort.clear();
+		}
+	}
+
+	o.doOnFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
+	{
+		local skills = (::MSU.Skills.IsAllEventsMode || ::MSU.Skills.AlwaysRunEvents.find(_function) != null) ? this.m.Skills : this.m.EventsDirectory[_function];
+		if (skills != null)
+		{
+			local wasUpdating = this.m.IsUpdating;
+			this.m.IsUpdating = true;
+			this.m.IsBusy = false;
+			this.m.BusyStack = 0;
+
+			if (_argsArray == null) _argsArray = [null];
+			else _argsArray.insert(0, null);
+
+			foreach (skill in skills)
+			{
+				if (_aliveOnly && !this.m.Actor.isAlive())
+				{
+					break;
+				}
+
+				if (!skill.isGarbage() && !skill.m.IsNew)
+				{
+					// this.logInfo("Calling event " + _function + " for skill " + skill.getID());
+					_argsArray[0] = skill;
+					skill[_function].acall(_argsArray);
+				}
+			}
+			
+			this.m.IsUpdating = wasUpdating;
+		}
 		
 		if (_update)
 		{
@@ -62,19 +177,29 @@
 
 	o.buildProperties <- function( _function, _argsArray )
 	{
-		_argsArray.insert(0, null);
-		_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
-
-		local wasUpdating = this.m.IsUpdating;
-		this.m.IsUpdating = true;
-
-		foreach (skill in this.m.Skills)
+		local properties = this.m.Actor.getCurrentProperties().getClone();			
+		local skills = ::MSU.Skills.IsAllEventsMode ? this.m.Skills : this.m.EventsDirectory[_function];
+		if (skills != null)
 		{
-			_argsArray[0] = skill;
-			skill[_function].acall(_argsArray);
+			_argsArray.insert(0, null)
+			_argsArray.push(properties);
+
+			local wasUpdating = this.m.IsUpdating;
+			this.m.IsUpdating = true;
+
+			foreach (skill in skills)
+			{
+				if (!skill.m.IsNew)
+				{
+					// this.logInfo("Building Properties via function " + _function + " for skill " + skill.getID());
+					_argsArray[0] = skill;
+					skill[_function].acall(_argsArray);
+				}
+			}
+			this.m.IsUpdating = wasUpdating;
 		}
-		this.m.IsUpdating = wasUpdating;
-		return _argsArray[_argsArray.len() - 1];
+
+		return properties;
 	}
 
 	o.onMovementStarted <- function( _tile, _numTiles )
@@ -384,3 +509,13 @@
 		o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
 	}
 });
+
+local container = this.new("scripts/skills/skill_container");
+foreach (k, v in container)
+{
+	if (k.len() > 1 && k.slice(0, 2) == "on" && k != "onSerialize" && k != "onDeserialize")
+	{
+		// this.logInfo("Adding event " + k + " to this.MSU.Skills.EventsDirectory");			
+		this.MSU.Skills.EventsDirectory[k] <- null;
+	}
+}

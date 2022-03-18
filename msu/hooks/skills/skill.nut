@@ -149,6 +149,18 @@
 			this.saveBaseValues();
 		}
 
+		if (!::MSU.Skills.IsAllEventsMode)
+		{
+			if (_c == null)
+			{
+				this.getContainer().removeSkillEvents(this);
+			}
+			else
+			{
+				_c.addSkillEvents(this);
+			}
+		}
+
 		setContainer(_c);
 	}
 
