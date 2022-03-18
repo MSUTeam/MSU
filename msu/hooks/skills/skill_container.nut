@@ -25,11 +25,8 @@
 
 	o.doOnFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
-		if (_argsArray == null)
-		{
-			_argsArray = [];
-		}
-		_argsArray.insert(0, null);
+		if (_argsArray == null) _argsArray = [null];
+		else _argsArray.insert(0, null);
 
 		local wasUpdating = this.m.IsUpdating;
 		this.m.IsUpdating = true;
