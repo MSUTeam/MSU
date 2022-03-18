@@ -1,9 +1,28 @@
 .line
 {
-	border-style:solid;
-	border-color:#eee;
-	border-width:1px;
+	outline: 2px solid white;
 }
+
+.black
+{
+	outline-color: black;
+}
+
+.red
+{
+	outline-color: red;
+}
+
+.green
+{
+	outline-color: green;
+}
+
+.blue
+{
+	outline-color: blue;
+}
+
 
 .msu-button
 {
