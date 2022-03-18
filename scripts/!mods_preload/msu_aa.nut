@@ -8,5 +8,5 @@
 ::mods_registerMod(::MSU.ID, 1.0, ::MSU.Name);
 ::mods_queue(null, null, function()
 {
-	this.include("msu/load.nut");
+	::include("msu/load.nut");
 });

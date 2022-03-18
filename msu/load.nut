@@ -1,11 +1,11 @@
 local prefix = "msu/"
 ::includeLoad <- function( _prefix, _folder )
 {
-	this.include(_prefix + _folder + "/load.nut");
+	::include(_prefix + _folder + "/load.nut");
 }
 ::includeFile <- function( _prefix, _file )
 {
-	this.include(_prefix + _file);
+	::include(_prefix + _file);
 }
 ::includeFiles <- function( _files, _includeLoad = false )
 {
@@ -13,7 +13,7 @@ local prefix = "msu/"
 	{
 		if (split(file, "/").pop() != "load.nut" || _includeLoad)
 		{
-			this.include(file);
+			::include(file);
 		}
 	}
 }

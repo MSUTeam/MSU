@@ -55,7 +55,7 @@ this.persistent_data_manager <- {
 		::MSU.Mod.Debug.printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), "persistence");
 		if (_settingID in this.getMod(_modID))
 		{
-			this.include(this.getMod(_modID)[_settingID]);
+			::include(this.getMod(_modID)[_settingID]);
 			return true;
 		}
 		return false;
