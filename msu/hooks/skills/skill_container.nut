@@ -68,15 +68,8 @@
 		local wasUpdating = this.m.IsUpdating;
 		this.m.IsUpdating = true;
 
-		local shouldReset = _function == "onAnySkillUsed";
-
 		foreach (skill in this.m.Skills)
 		{
-			if (shouldReset)
-			{
-				skill.resetField("HitChanceBonus");
-			}
-
 			_argsArray[0] = skill;
 			skill[_function].acall(_argsArray);
 		}
@@ -214,6 +207,8 @@
 
 	o.buildPropertiesForUse = function( _caller, _targetEntity )
 	{
+		_caller.resetField("HitChanceBonus");
+
 		return this.buildProperties("onAnySkillUsed", [
 			_caller,
 			_targetEntity
