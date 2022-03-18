@@ -378,4 +378,9 @@
 
 		return ret;
 	}
+
+	foreach (event in ::MSU.Skills.EventsToAdd)
+	{
+		o[event.Name] <- @(...) this.doOnFunction(event.Name, vargv, event.Update, event.AliveOnly);
+	}
 });
