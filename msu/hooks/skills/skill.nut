@@ -771,12 +771,12 @@
 	// 		{
 	// 			if (this.m.SoundOnHit.len() != 0)
 	// 			{
-	// 				this.Sound.play(this.m.SoundOnHit[this.Math.rand(0, this.m.SoundOnHit.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
+	// 				::Sound.play(this.m.SoundOnHit[this.Math.rand(0, this.m.SoundOnHit.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
 	// 			}
 
 	// 			if (this.Tactical.State.getStrategicProperties() != null && this.Tactical.State.getStrategicProperties().IsArenaMode && toHit <= 15)
 	// 			{
-	// 				this.Sound.play(::Const.Sound.ArenaShock[this.Math.rand(0, ::Const.Sound.ArenaShock.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 				::Sound.play(::Const.Sound.ArenaShock[this.Math.rand(0, ::Const.Sound.ArenaShock.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 			}
 
 	// 			this.onScheduledTargetHit(info);
@@ -845,7 +845,7 @@
 	// 		{
 	// 			if (this.m.SoundOnMiss.len() != 0)
 	// 			{
-	// 				this.Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
+	// 				::Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
 	// 			}
 
 	// 			if (this.m.IsShowingProjectile && this.m.ProjectileType != 0)
@@ -863,11 +863,11 @@
 	// 			{
 	// 				if (toHit >= 90 || _targetEntity.getHitpointsPct() <= 0.1)
 	// 				{
-	// 					this.Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaBigMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 					::Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaBigMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 				}
 	// 				else if (this.Math.rand(1, 100) <= 20)
 	// 				{
-	// 					this.Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
+	// 					::Sound.play(::Const.Sound.ArenaMiss[this.Math.rand(0, ::Const.Sound.ArenaMiss.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 				}
 	// 			}
 	// 		}
@@ -916,7 +916,7 @@
 
 	// 			if (this.m.SoundOnMiss.len() != 0)
 	// 			{
-	// 				this.Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, divertTile.Pos);
+	// 				::Sound.play(this.m.SoundOnMiss[this.Math.rand(0, this.m.SoundOnMiss.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, divertTile.Pos);
 	// 			}
 
 	// 			if (divertTile.IsEmpty && !divertTile.IsCorpseSpawned && ::Const.Tactical.TerrainSubtypeAllowProjectileDecals[divertTile.Subtype] && ::Const.ProjectileDecals[this.m.ProjectileType].len() != 0 && this.Math.rand(0, 100) < ::Const.Combat.SpawnArrowDecalChance)
@@ -1017,7 +1017,7 @@
 	// 	{
 	// 		if (this.m.SoundOnHitHitpoints.len() != 0)
 	// 		{
-	// 			this.Sound.play(this.m.SoundOnHitHitpoints[this.Math.rand(0, this.m.SoundOnHitHitpoints.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
+	// 			::Sound.play(this.m.SoundOnHitHitpoints[this.Math.rand(0, this.m.SoundOnHitHitpoints.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
 	// 		}
 	// 	}
 
@@ -1025,7 +1025,7 @@
 	// 	{
 	// 		if (this.m.SoundOnHitArmor.len() != 0)
 	// 		{
-	// 			this.Sound.play(this.m.SoundOnHitArmor[this.Math.rand(0, this.m.SoundOnHitArmor.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
+	// 			::Sound.play(this.m.SoundOnHitArmor[this.Math.rand(0, this.m.SoundOnHitArmor.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, pos);
 	// 		}
 	// 	}
 

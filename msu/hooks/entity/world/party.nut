@@ -266,7 +266,7 @@
 		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && this.Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
 		{
 			this.m.LastIdleSound = this.Time.getRealTimeF();
-			this.Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
+			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][this.Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
 		}
 	}
 	
