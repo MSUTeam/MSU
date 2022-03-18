@@ -2,6 +2,7 @@
 {
 	function isSavedVersionAtLeast( _version, _metaData )
 	{
-		return _version == "" || ::MSU.System.Registry.compareVersionStrings(_metaData.getString(this.Mod.getID() + "Version"), _version) > -1;
+		local version = _metaData.getString(this.Mod.getID() + "Version")
+		return version != "" && ::MSU.System.Registry.compareVersionStrings(version, _version) > -1;
 	}
 }
