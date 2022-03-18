@@ -116,12 +116,12 @@ StringSetting.prototype.unbindTooltip = function ()
 var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
-	this.layout = $('<div class="string-container line"/>');
+	this.layout = $('<div class="string-container outline"/>');
 	this.setting = _setting;
 	this.parent = _parentDiv;
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-big font-bold font-color-title outline">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
 	this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
@@ -156,7 +156,7 @@ KeybindSetting.prototype.createPopup = function ()
 	})
 	this.parent.mPopupDialog.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
 	{
-		self.createChangeKeybindButton("");
+		self.createChangeKeybindRow("");
 	})
 	this.parent.mPopupDialog.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
 	{
@@ -190,11 +190,11 @@ KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 	var keybindArray = this.setting.value.split("/");
 	for (var x = 0; x < keybindArray.length; x++)
 	{
-		this.createChangeKeybindButton(keybindArray[x]);
+		this.createChangeKeybindRow(keybindArray[x]);
 	}
 }
 
-KeybindSetting.prototype.createChangeKeybindButton = function(_name)
+KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 {
 	var row = $('<div class="row"/>');
 	this.mButtonContainer.findListScrollContainer().append(row);
@@ -305,10 +305,10 @@ KeybindSetting.prototype.unbindTooltip = function ()
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
-	this.layout = $('<div class="range-container line"/>');
+	this.layout = $('<div class="range-container outline"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title line">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-big font-bold font-color-title outline">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
 	this.control = $('<div class="scale-control"/>');
