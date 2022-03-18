@@ -94,6 +94,6 @@ this.persistent_data_manager <- {
 
 	function writeToLog(_settingID, _modID, _value)
 	{
-		this.logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
+		::logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
 	}
 }

@@ -33,7 +33,7 @@ local testSettingsSystem = function()
 			local test = ::MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
 			local test1 = ::MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
 			test1.addCallback(function(_data = null){
-				this.logInfo("worked?")
+				::logInfo("worked?")
 			})
 			// test1.lock()
 			local test2 = ::MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);

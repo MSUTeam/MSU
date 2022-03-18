@@ -114,13 +114,13 @@
 			switch (_logType)
 			{
 				case this.LogType.Info:
-					this.logInfo(string);
+					::logInfo(string);
 					return;
 				case this.LogType.Warning:
-					this.logWarning(string);
+					::logWarning(string);
 					return;
 				case this.LogType.Error:
-					this.logError(string);
+					::logError(string);
 					return;
 				default:
 					::MSU.Mod.Debug.printWarning("No log type defined for this log: " + string, "debug")

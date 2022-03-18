@@ -14,7 +14,7 @@
 	{
 		if (this.Locked)
 		{
-			this.logError("Settings Manager is Locked, no more settings can be added");
+			::logError("Settings Manager is Locked, no more settings can be added");
 		}
 		else
 		{

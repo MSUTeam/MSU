@@ -10,19 +10,19 @@
 	function addMod( _mod )
 	{
 		this.Mods[_mod.getID()] <- _mod;
-		this.logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
+		::logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
 	}
 
 	function registerMod( _mod )
 	{
 		if (_mod.getID() in this.Mods)
 		{
-			this.logError("Duplicate Mod ID for mod: " + _mod.getID());
+			::logError("Duplicate Mod ID for mod: " + _mod.getID());
 			throw ::MSU.Exception.DuplicateKey;
 		}
 		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{
-			this.logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
+			::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 

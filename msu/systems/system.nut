@@ -33,7 +33,7 @@
 	{
 		if (!(_mod.getID() in ::MSU.Mods))
 		{
-			this.logError("Register your mod with ::MSU.registerMod first before registering it with MSU systems, and use the same ID");
+			::logError("Register your mod with ::MSU.registerMod first before registering it with MSU systems, and use the same ID");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 	}

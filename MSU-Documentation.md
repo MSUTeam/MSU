@@ -860,7 +860,7 @@ Convenience function for ::MSU.System.Debug.isEnabledForMod.
 
 - `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
 
-Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints the log as `_printText` if debugging is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
+Substitutes for `::logInfo`, `::logWarning` and `::logError`. Prints the log as `_printText` if debugging is enabled for the mod id `_modID`. `_flagID` specifies a flag of the mod, and is set to default if left empty.
 
 `Other debugging tools`
 

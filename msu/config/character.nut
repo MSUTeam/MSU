@@ -22,7 +22,7 @@
 	{
 		if (_damageType in this.DamageType)
 		{
-			this.logError("addNewDamageType: \'" + _damageType + "\' already exists.");
+			::logError("addNewDamageType: \'" + _damageType + "\' already exists.");
 			return;
 		}
 
@@ -63,7 +63,7 @@
 			return this.DamageTypeName[idx];
 		}
 
-		this.logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
+		::logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
 
 		return "";
 	}
@@ -76,7 +76,7 @@
 			return this.DamageTypeInjuries[idx].Injuries;
 		}
 
-		this.logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+		::logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
 
 		return null;			
 	}
@@ -87,7 +87,7 @@
 
 		if (injuries == null)
 		{
-			this.logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+			::logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
 			return;
 		}
 

@@ -34,7 +34,7 @@ foreach (itemType in ::Const.Items.ItemType)
 {
 	if (_itemType in ::Const.Items.ItemType)
 	{
-		this.logError("addNewItemType: \'" + _itemType + "\' already exists.");
+		::logError("addNewItemType: \'" + _itemType + "\' already exists.");
 		return;
 	}
 
@@ -58,7 +58,7 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.ItemTypeName[idx];
 	}
 
-	this.logError("getItemTypeName: _itemType \'" + _itemType + "\' does not exist");
+	::logError("getItemTypeName: _itemType \'" + _itemType + "\' does not exist");
 	return "";
 }
 
@@ -110,7 +110,7 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.WeaponTypeName[idx];
 	}
 
-	this.logError("getWeaponTypeName: _weaponType \'" + _weaponType + "\' does not exist");
+	::logError("getWeaponTypeName: _weaponType \'" + _weaponType + "\' does not exist");
 	return "";
 }
 
@@ -118,7 +118,7 @@ foreach (itemType in ::Const.Items.ItemType)
 {
 	if (_weaponType in ::Const.Items.WeaponType)
 	{
-		this.logError("addNewWeaponType: \'" + _weaponType + "\' already exists.");
+		::logError("addNewWeaponType: \'" + _weaponType + "\' already exists.");
 		return;
 	}
 

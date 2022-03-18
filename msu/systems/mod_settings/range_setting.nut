@@ -13,7 +13,7 @@
 		{
 			if ((typeof num != "integer") && (typeof num != "float"))
 			{
-				this.logError("Max, Min and Step in a Range Setting have to be integers or floats");
+				::logError("Max, Min and Step in a Range Setting have to be integers or floats");
 				throw ::MSU.Exception.InvalidType;
 			}
 		}

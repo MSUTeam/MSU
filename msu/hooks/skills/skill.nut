@@ -96,7 +96,7 @@
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
-			this.logWarning("MSU Mod softReset() skill \"" + this.getID() + "\" does not have base values saved.");
+			::logWarning("MSU Mod softReset() skill \"" + this.getID() + "\" does not have base values saved.");
 			::MSU.Log.printStackTrace();
 			return false;
 		}
@@ -114,7 +114,7 @@
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
-			this.logWarning("MSU Mod hardReset() skill \"" + this.getID() + "\" does not have base values saved.");
+			::logWarning("MSU Mod hardReset() skill \"" + this.getID() + "\" does not have base values saved.");
 			::MSU.Log.printStackTrace();
 			return false;
 		}
@@ -131,7 +131,7 @@
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
-			this.logWarning("MSU Mod resetField(\"" + _field + "\") skill \"" + this.getID() + "\" does not have base values saved.");
+			::logWarning("MSU Mod resetField(\"" + _field + "\") skill \"" + this.getID() + "\" does not have base values saved.");
 			::MSU.Log.printStackTrace();
 			return false;
 		}

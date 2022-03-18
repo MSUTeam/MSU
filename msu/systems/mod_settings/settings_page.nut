@@ -16,7 +16,7 @@
 	{
 		if (!(_element instanceof ::MSU.Class.SettingsElement))
 		{
-			this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
+			::logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
 			throw ::MSU.Exception.InvalidType;
 		}
 		_element.setParent(this);

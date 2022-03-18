@@ -7,7 +7,7 @@
 	{
 		if (_array.find(_value) == null)
 		{
-			this.logError("Value must be an element in the Array");
+			::logError("Value must be an element in the Array");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 		base.constructor(_id, _value, _name);
@@ -36,7 +36,7 @@
 		base.flagDeserialize(_modID);
 		if (this.Array.find(this.Value) == null)
 		{
-			this.logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + _modID);
+			::logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + _modID);
 			this.Value = this.Array[0];
 		}
 	}

@@ -25,7 +25,7 @@
 			string = string.slice(0, string.len() - 2);
 			string += "\n";
 		}
-		this.logInfo(string);
+		::logInfo(string);
 	}
 
 	function printData( _data, _maxDepth = 1, _advanced = false )
@@ -34,7 +34,7 @@
 		if (typeof _data == "array" || typeof _data == "table"){
 			maxLen = _data.len();
 		}
-		this.logInfo(this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced));
+		::logInfo(this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced));
 	}
 
 	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
