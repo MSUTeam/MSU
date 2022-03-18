@@ -1,4 +1,4 @@
-this.MSU.Math <- {
+::MSU.Math <- {
 	// returns log2 of _num, floored (as an int)
 	function log2int( _num )
 	{

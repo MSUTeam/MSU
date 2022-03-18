@@ -1,28 +1,28 @@
-this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
+::MSU.Class.RegistrySystem <- class extends ::MSU.Class.System
 {
 	Mods = null;
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.Registry);
+		base.constructor(::MSU.SystemID.Registry);
 		this.Mods = {}
 	}
 
 	function addMod( _mod )
 	{
 		this.Mods[_mod.getID()] <- _mod;
-		this.logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
+		::logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
 	}
 
 	function registerMod( _mod )
 	{
 		if (_mod.getID() in this.Mods)
 		{
-			this.logError("Duplicate Mod ID for mod: " + _mod.getID());
+			::logError("Duplicate Mod ID for mod: " + _mod.getID());
 			throw ::MSU.Exception.DuplicateKey;
 		}
 		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{
-			this.logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
+			::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 
@@ -67,7 +67,7 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 		{
 			for (local i = 0; i < version.len(); ++i)
 			{
-				if (!this.MSU.String.isInteger(version[i]))
+				if (!::MSU.String.isInteger(version[i]))
 				{
 					throw ::MSU.Exception.NotSemanticVersion;
 				}
@@ -105,7 +105,7 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 			case "string":
 				return this.compareModVersions(_mod, this.getVersionTable(_version));
 			case "instance":
-				if (_version instanceof this.MSU.Class.Mod)
+				if (_version instanceof ::MSU.Class.Mod)
 				{
 					return this.compareModVersions(_mod, _version);
 				}
@@ -141,10 +141,10 @@ this.MSU.Class.RegistrySystem <- class extends this.MSU.Class.System
 			return 0;
 		}
 
-		for (local i = 0; i < this.Math.min(_mod2.PreRelease.len(), _mod1.PreRelease.len()); ++i)
+		for (local i = 0; i < ::Math.min(_mod2.PreRelease.len(), _mod1.PreRelease.len()); ++i)
 		{
-			local isInt1 = this.MSU.String.isInteger(_mod1.PreRelease[i]);
-			local isInt2 = this.MSU.String.isInteger(_mod2.PreRelease[i]);
+			local isInt1 = ::MSU.String.isInteger(_mod1.PreRelease[i]);
+			local isInt2 = ::MSU.String.isInteger(_mod2.PreRelease[i]);
 
 			if (isInt1 || isInt2)
 			{

@@ -1,6 +1,6 @@
 ::mods_hookExactClass("skills/perks/perk_quick_hands", function(o) {
 	o.m.IsSpent <- false;
-	o.m.ItemActionOrder <- this.Const.ItemActionOrder.Any;
+	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	o.onUpdate = function(_properties)
 	{

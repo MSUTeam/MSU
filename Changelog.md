@@ -110,9 +110,9 @@ Changelog
 - The `<skill>.onAnySkillExecuted` and `<skill>.onBeforeAnySkillExecuted` functions now have a third argument: `_targetEntity`.
 - The `_set` parameter in `<skill>.scheduleChange` now defaults to false.
 - Added `getDamageTypeProbability` function to skill.
-- Added `getDamageTypeName` function to `this.Const.Damage`.
-- The `getInjuriesForDamageType` function in `this.Const.Damage` is renamed to `getDamageTypeInjuries`.
-- Added function `setDamageTypeInjuries` in `this.Const.Damage`.
-- The `this.Const.Damage.addNewDamageType` function now takes an optional `_damageTypeName` parameter, which can be used to alter the damage type's name in tooltips.
+- Added `getDamageTypeName` function to `::Const.Damage`.
+- The `getInjuriesForDamageType` function in `::Const.Damage` is renamed to `getDamageTypeInjuries`.
+- Added function `setDamageTypeInjuries` in `::Const.Damage`.
+- The `::Const.Damage.addNewDamageType` function now takes an optional `_damageTypeName` parameter, which can be used to alter the damage type's name in tooltips.
 - HitInfo now contains DamageTypeProbabilty.
 - Added some error logging to various functions to check for bad input.

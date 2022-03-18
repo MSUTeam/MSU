@@ -1,4 +1,4 @@
-this.MSU.Tile <- {
+::MSU.Tile <- {
 	function canResurrectOnTile( _tile, _force = false )
 	{
 		if (!_tile.IsCorpseSpawned) 

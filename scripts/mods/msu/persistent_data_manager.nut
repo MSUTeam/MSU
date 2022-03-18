@@ -1,4 +1,4 @@
-this.persistent_data_manager <- {
+::persistent_data_manager <- {
 	m = {
 		ModConfigPath = "mod_config/"
 		Mods = {}
@@ -55,7 +55,7 @@ this.persistent_data_manager <- {
 		::MSU.Mod.Debug.printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), "persistence");
 		if (_settingID in this.getMod(_modID))
 		{
-			this.include(this.getMod(_modID)[_settingID]);
+			::include(this.getMod(_modID)[_settingID]);
 			return true;
 		}
 		return false;
@@ -94,6 +94,6 @@ this.persistent_data_manager <- {
 
 	function writeToLog(_settingID, _modID, _value)
 	{
-		this.logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
+		::logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
 	}
 }

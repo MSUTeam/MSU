@@ -9,19 +9,19 @@
 
 	o.main_menu_module_onModOptionsPressed <- function()
 	{
-		this.MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
-		this.MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
+		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
+		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 		this.toggleMenuScreen();
 		this.m.WorldScreen.hide();
-		this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.World);
+		::MSU.SettingsScreen.show(::MSU.SettingsFlags.World);
 		this.m.MenuStack.push(function ()
 		{
-			this.MSU.SettingsScreen.hide();
+			::MSU.SettingsScreen.hide();
 			this.m.WorldScreen.show();
 			this.toggleMenuScreen();
 		}, function ()
 		{
-			return !this.MSU.SettingsScreen.isAnimating();
+			return !::MSU.SettingsScreen.isAnimating();
 		});
 	}
 
@@ -32,18 +32,18 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
 
 	o.getLocalCombatProperties = function( _pos, _ignoreNoEnemies = false )
 	{
-		local raw_parties = this.World.getAllEntitiesAtPos(_pos, this.Const.World.CombatSettings.CombatPlayerDistance);
+		local raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
 		local parties = [];
-		local properties = this.Const.Tactical.CombatInfo.getClone();
-		local tile = this.World.getTile(this.World.worldToTile(_pos));
+		local properties = ::Const.Tactical.CombatInfo.getClone();
+		local tile = ::World.getTile(::World.worldToTile(_pos));
 		local isAtUniqueLocation = false;
-		properties.TerrainTemplate = this.Const.World.TerrainTacticalTemplate[tile.TacticalType];
+		properties.TerrainTemplate = ::Const.World.TerrainTacticalTemplate[tile.TacticalType];
 		properties.Tile = tile;
 		properties.InCombatAlready = false;
 		properties.IsAttackingLocation = false;
@@ -61,7 +61,7 @@
 				continue;
 			}
 
-			if (party.isLocation() && party.isLocationType(this.Const.World.LocationType.Unique))
+			if (party.isLocation() && party.isLocationType(::Const.World.LocationType.Unique))
 			{
 				isAtUniqueLocation = true;
 				break;
@@ -69,7 +69,7 @@
 
 			if (party.isInCombat())
 			{
-				raw_parties = this.World.getAllEntitiesAtPos(_pos, this.Const.World.CombatSettings.CombatPlayerDistance * 2.0);
+				raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance * 2.0);
 				break;
 			}
 		}
@@ -86,7 +86,7 @@
 				continue;
 			}
 
-			if (isAtUniqueLocation && (!party.isLocation() || !party.isLocationType(this.Const.World.LocationType.Unique)))
+			if (isAtUniqueLocation && (!party.isLocation() || !party.isLocationType(::Const.World.LocationType.Unique)))
 			{
 				continue;
 			}
@@ -130,7 +130,7 @@
 				properties.LocationTemplate.OwnedByFaction = party.getFaction();
 			}
 
-			this.World.Combat.abortCombatWithParty(party);
+			::World.Combat.abortCombatWithParty(party);
 			party.onBeforeCombatStarted();
 			local troops = party.getTroops();
 
@@ -142,7 +142,7 @@
 					t.Party <- this.WeakTableRef(party);
 					properties.Entities.push(t);
 
-					if (!this.World.FactionManager.isAlliedWithPlayer(party.getFaction()))
+					if (!::World.FactionManager.isAlliedWithPlayer(party.getFaction()))
 					{
 						++factions[party.getFaction()];
 					}
@@ -178,9 +178,9 @@
 			}
 		}
 
-		if (this.World.FactionManager.getFaction(highest_faction) != null)
+		if (::World.FactionManager.getFaction(highest_faction) != null)
 		{
-			properties.Music = this.World.FactionManager.getFaction(highest_faction).getCombatMusic();
+			properties.Music = ::World.FactionManager.getFaction(highest_faction).getCombatMusic();
 		}
 
 		return properties;
@@ -191,7 +191,7 @@
 	{
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
-		foreach (mod in this.MSU.System.Serialization.Mods)
+		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
@@ -202,7 +202,7 @@
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
-		foreach (mod in this.MSU.System.Serialization.Mods)
+		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 			if (oldVersion == "") return;
@@ -210,17 +210,17 @@
 			switch (::MSU.System.Registry.compareModToVersion(mod, oldVersion))
 			{
 				case -1:
-					this.logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+					::logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
 					break;
 				case 0:
 					::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
 					break;
 				case 1:
-					this.logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
+					::logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
 					break;
 				default:
-					this.logError("Something has gone very wrong with MSU Serialization");
-					this.MSU.System.Debug.printStackTrace();
+					::logError("Something has gone very wrong with MSU Serialization");
+					::MSU.System.Debug.printStackTrace();
 			}
 		}
 	}
@@ -228,27 +228,27 @@
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		this.MSU.System.ModSettings.flagSerialize();
-		this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled());
+		::MSU.System.ModSettings.flagSerialize();
+		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
-		this.MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.resetFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
-		if (this.World.Flags.has("MSU.LastDayMorningEventCalled"))
+		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{
-			this.World.Assets.setLastDayMorningEventCalled(this.World.Flags.get("MSU.LastDayMorningEventCalled"));
+			::World.Assets.setLastDayMorningEventCalled(::World.Flags.get("MSU.LastDayMorningEventCalled"));
 		}
 		else
 		{
-			this.World.Assets.setLastDayMorningEventCalled(0);
+			::World.Assets.setLastDayMorningEventCalled(0);
 		}
 
-		this.MSU.System.ModSettings.flagDeserialize();
-		this.MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.flagDeserialize();
+		::MSU.System.ModSettings.resetFlags();
 	}
 
 	local onKeyInput = o.onKeyInput;

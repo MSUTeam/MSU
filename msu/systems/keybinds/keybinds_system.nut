@@ -1,4 +1,4 @@
-this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
+::MSU.Class.KeybindsSystem <- class extends ::MSU.Class.System
 {
 	KeybindsByKey = null;
 	KeybindsByMod = null;
@@ -7,7 +7,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.Keybinds);
+		base.constructor(::MSU.SystemID.Keybinds);
 		this.KeybindsByKey = {};
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};
@@ -69,7 +69,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 	// Private
 	function remove( _modID, _id )
 	{
-		this.logInfo(this.KeybindsByMod[_modID][_id]);
+		::logInfo(this.KeybindsByMod[_modID][_id]);
 		local keybind = this.KeybindsByMod[_modID].rawdelete(_id);
 		if (keybind instanceof ::MSU.Class.KeybindJS)
 		{

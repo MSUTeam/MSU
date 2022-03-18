@@ -4,11 +4,11 @@ local function includeFile( _file )
 }
 includeFile("registry_system.nut");
 
-local system = this.MSU.Class.RegistrySystem();
+local system = ::MSU.Class.RegistrySystem();
 
-this.MSU.System.Registry <- system;
-this.MSU.Mods <- system.Mods;
-this.MSU.getMod <- function( _modID )
+::MSU.System.Registry <- system;
+::MSU.Mods <- system.Mods;
+::MSU.getMod <- function( _modID )
 {
 	if(!(_modID in this.Mods))
 	{

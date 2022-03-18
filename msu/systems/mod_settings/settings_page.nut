@@ -1,4 +1,4 @@
-this.MSU.Class.SettingsPage <- class
+::MSU.Class.SettingsPage <- class
 {
 	Name = null;
 	ID = null;
@@ -9,14 +9,14 @@ this.MSU.Class.SettingsPage <- class
 	{
 		this.ID = _id;	
 		this.Name = _name == null ? _id : _name;
-		this.Settings = this.MSU.Class.OrderedMap();
+		this.Settings = ::MSU.Class.OrderedMap();
 	}
 
 	function add( _element )
 	{
-		if (!(_element instanceof this.MSU.Class.SettingsElement))
+		if (!(_element instanceof ::MSU.Class.SettingsElement))
 		{
-			this.logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
+			::logError("Failed to add element: element needs to be one of the Setting elements inheriting from SettingsElement");
 			throw ::MSU.Exception.InvalidType;
 		}
 		_element.setParent(this);

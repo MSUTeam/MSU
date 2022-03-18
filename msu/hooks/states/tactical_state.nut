@@ -9,19 +9,19 @@
 
 	o.main_menu_module_onModOptionsPressed <- function()
 	{
-		this.MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
-		this.MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
+		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
+		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 		this.m.TacticalMenuScreen.hide();
-		this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.Tactical);
+		::MSU.SettingsScreen.show(::MSU.SettingsFlags.Tactical);
 		this.m.MenuStack.push(function ()
 		{
-			this.MSU.SettingsScreen.hide();
+			::MSU.SettingsScreen.hide();
 			local allowRetreat = this.m.StrategicProperties == null || !this.m.StrategicProperties.IsFleeingProhibited;
 			local allowQuit = !this.isScenarioMode();
-			this.m.TacticalMenuScreen.show(allowRetreat, allowQuit, !this.isScenarioMode() && this.World.Assets.isIronman() ? "Quit & Retire" : "Quit");
+			this.m.TacticalMenuScreen.show(allowRetreat, allowQuit, !this.isScenarioMode() && ::World.Assets.isIronman() ? "Quit & Retire" : "Quit");
 		}, function ()
 		{
-			return !this.MSU.SettingsScreen.isAnimating();
+			return !::MSU.SettingsScreen.isAnimating();
 		});
 	}
 
@@ -32,7 +32,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
 

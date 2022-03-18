@@ -177,7 +177,7 @@ local function isCampfireScreen(){
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_quicksave", "f5", ::MSU.Key.State.World, function()
 {
-	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman())
+	if (!this.m.MenuStack.hasBacksteps() && !::World.Assets.isIronman())
 	{
 		this.saveCampaign("quicksave");
 		return false;
@@ -186,7 +186,7 @@ local function isCampfireScreen(){
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_quickload", "f9", ::MSU.Key.State.World, function()
 {
-	if (!this.m.MenuStack.hasBacksteps() && !this.World.Assets.isIronman() && this.World.canLoad("quicksave"))
+	if (!this.m.MenuStack.hasBacksteps() && !::World.Assets.isIronman() && ::World.canLoad("quicksave"))
 	{
 		this.loadCampaign("quicksave");
 		return false;
@@ -257,23 +257,23 @@ local function isCampfireScreen(){
 
 // ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
 // {
-// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	if (::Settings.getTempGameplaySettings().CameraLocked)
 // 	{
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	this.World.getCamera().move(-1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(-1500.0 * this.Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 
 // ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
 // {
-// 	if (this.Settings.getTempGameplaySettings().CameraLocked)
+// 	if (::Settings.getTempGameplaySettings().CameraLocked)
 // 	{
 // 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
 // 	}
 
-// 	this.World.getCamera().move(1500.0 * this.Time.getDelta() * this.Math.maxf(1.0, this.World.getCamera().Zoom * 0.66), 0);
+// 	::World.getCamera().move(1500.0 * this.Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
 // 	return false;
 // }, "Move Camera Right", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
 
@@ -315,27 +315,27 @@ local function isCampfireScreen(){
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_initNextTurn", "enter", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	 this.Tactical.TurnSequenceBar.initNextTurn();
+	 ::Tactical.TurnSequenceBar.initNextTurn();
 	return false;
 }, "End Turn for Character");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_endTurnAll", "r", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
+	::Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
 	return false;
 }, "End Turn for All Characters");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_waitTurn", "end/space", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
+	if (::Tactical.TurnSequenceBar.getActiveEntity() != null && ::Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
 	{
-		local wasAbleToWait = this.Tactical.TurnSequenceBar.entityWaitTurn(this.Tactical.TurnSequenceBar.getActiveEntity());
+		local wasAbleToWait = ::Tactical.TurnSequenceBar.entityWaitTurn(::Tactical.TurnSequenceBar.getActiveEntity());
 
 		if (!wasAbleToWait)
 		{
-			this.Tactical.TurnSequenceBar.initNextTurn();
+			::Tactical.TurnSequenceBar.initNextTurn();
 		}
 		return false;
 	}
@@ -344,7 +344,7 @@ local function isCampfireScreen(){
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_focusActiveEntity", "shift", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	this.Tactical.TurnSequenceBar.focusActiveEntity(true);
+	::Tactical.TurnSequenceBar.focusActiveEntity(true);
 	return false;
 }, "Focus on Active Character");
 

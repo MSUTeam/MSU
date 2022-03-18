@@ -1,4 +1,4 @@
-this.MSU.Class.RangeSetting <- class extends this.MSU.Class.AbstractSetting
+::MSU.Class.RangeSetting <- class extends ::MSU.Class.AbstractSetting
 {
 	Min = null;
 	Max = null;
@@ -13,7 +13,7 @@ this.MSU.Class.RangeSetting <- class extends this.MSU.Class.AbstractSetting
 		{
 			if ((typeof num != "integer") && (typeof num != "float"))
 			{
-				this.logError("Max, Min and Step in a Range Setting have to be integers or floats");
+				::logError("Max, Min and Step in a Range Setting have to be integers or floats");
 				throw ::MSU.Exception.InvalidType;
 			}
 		}

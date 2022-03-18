@@ -1,4 +1,4 @@
-this.MSU.UI <- {
+::MSU.UI <- {
 	Connections = [],
 	Callbacks = [],
 	JSConnection = null,

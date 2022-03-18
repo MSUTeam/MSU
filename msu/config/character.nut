@@ -1,7 +1,7 @@
-this.Const.Combat.DivertedAttackHitChancePenalty <- 15;
-this.Const.Combat.DivertedAttackDamageMult <- 0.75;
+::Const.Combat.DivertedAttackHitChancePenalty <- 15;
+::Const.Combat.DivertedAttackDamageMult <- 0.75;
 
-this.Const.ItemActionOrder <- {
+::Const.ItemActionOrder <- {
 	First = 0,
 	Early = 1000,
 	Any = 50000,
@@ -10,19 +10,19 @@ this.Const.ItemActionOrder <- {
 	VeryLast = 80000
 };
 
-this.Const.FactionRelation <- {
+::Const.FactionRelation <- {
 	Any = 0,
 	SameFaction = 1,
 	Allied = 2,
 	Enemy = 3
 }
 
-this.Const.Damage <- {
+::Const.Damage <- {
 	function addNewDamageType ( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
 	{
 		if (_damageType in this.DamageType)
 		{
-			this.logError("addNewDamageType: \'" + _damageType + "\' already exists.");
+			::logError("addNewDamageType: \'" + _damageType + "\' already exists.");
 			return;
 		}
 
@@ -52,31 +52,31 @@ this.Const.Damage <- {
 			_damageTypeName = _damageType;
 		}
 
-		this.Const.Damage.DamageTypeName.push(_damageTypeName);
+		::Const.Damage.DamageTypeName.push(_damageTypeName);
 	}
 
 	function getDamageTypeName( _damageType )
 	{
-		local idx = this.MSU.Math.log2int(_damageType) + 1;
+		local idx = ::MSU.Math.log2int(_damageType) + 1;
 		if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
 		{
 			return this.DamageTypeName[idx];
 		}
 
-		this.logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
+		::logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
 
 		return "";
 	}
 
 	function getDamageTypeInjuries ( _damageType )
 	{	
-		local idx = this.MSU.Math.log2int(_damageType) + 1;
+		local idx = ::MSU.Math.log2int(_damageType) + 1;
 		if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
 		{
 			return this.DamageTypeInjuries[idx].Injuries;
 		}
 
-		this.logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+		::logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
 
 		return null;			
 	}
@@ -87,7 +87,7 @@ this.Const.Damage <- {
 
 		if (injuries == null)
 		{
-			this.logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
+			::logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
 			return;
 		}
 
@@ -106,7 +106,7 @@ this.Const.Damage <- {
 				local inj = this.getDamageTypeInjuries(d);
 				if (inj != null)
 				{
-					injuries = _bodyPart == this.Const.BodyPart.Head ? inj.Head : inj.Body;
+					injuries = _bodyPart == ::Const.BodyPart.Head ? inj.Head : inj.Body;
 					break;
 				}
 			}
@@ -127,7 +127,7 @@ this.Const.Damage <- {
 	}
 };
 
-this.Const.Damage.DamageType <- {
+::Const.Damage.DamageType <- {
 		None = 0,
 		Blunt = 1,
 		Piercing = 2
@@ -135,7 +135,7 @@ this.Const.Damage.DamageType <- {
 		Burning = 8
 };
 
-this.Const.Damage.DamageTypeName <- [
+::Const.Damage.DamageTypeName <- [
 	"No Damage Type",
 	"Blunt",
 	"Piercing",
@@ -143,40 +143,40 @@ this.Const.Damage.DamageTypeName <- [
 	"Burning"
 ];
 
-this.Const.Damage.DamageTypeInjuries <- [
+::Const.Damage.DamageTypeInjuries <- [
 	{
-		DamageType = this.Const.Damage.DamageType.None,
+		DamageType = ::Const.Damage.DamageType.None,
 		Injuries = {
 			Head = [],
 			Body = []
 		}
 	},
 	{
-		DamageType = this.Const.Damage.DamageType.Blunt,
+		DamageType = ::Const.Damage.DamageType.Blunt,
 		Injuries = {
-			Head = this.Const.Injury.BluntHead,
-			Body = this.Const.Injury.BluntBody
+			Head = ::Const.Injury.BluntHead,
+			Body = ::Const.Injury.BluntBody
 		}
 	},
 	{
-		DamageType = this.Const.Damage.DamageType.Piercing,
+		DamageType = ::Const.Damage.DamageType.Piercing,
 		Injuries = {
-			Head = this.Const.Injury.PiercingHead,
-			Body = this.Const.Injury.PiercingBody
+			Head = ::Const.Injury.PiercingHead,
+			Body = ::Const.Injury.PiercingBody
 		}
 	},
 	{
-		DamageType = this.Const.Damage.DamageType.Cutting,
+		DamageType = ::Const.Damage.DamageType.Cutting,
 		Injuries = {
-			Head = this.Const.Injury.CuttingHead,
-			Body = this.Const.Injury.CuttingBody
+			Head = ::Const.Injury.CuttingHead,
+			Body = ::Const.Injury.CuttingBody
 		}
 	},
 	{
-		DamageType = this.Const.Damage.DamageType.Burning,
+		DamageType = ::Const.Damage.DamageType.Burning,
 		Injuries = {
-			Head = this.Const.Injury.BurningHead,
-			Body = this.Const.Injury.BurningBody
+			Head = ::Const.Injury.BurningHead,
+			Body = ::Const.Injury.BurningBody
 		}
 	}
 ];

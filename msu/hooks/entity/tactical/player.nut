@@ -2,17 +2,17 @@
 	local updateLevel = o.updateLevel;
 	o.updateLevel = function()
 	{
-		while (this.m.Level < this.Const.LevelXP.len() && this.m.XP >= this.Const.LevelXP[this.m.Level])
+		while (this.m.Level < ::Const.LevelXP.len() && this.m.XP >= ::Const.LevelXP[this.m.Level])
 		{
 			++this.m.Level;
 			++this.m.LevelUps;
 
-			if (this.m.Level <= this.Const.XP.MaxLevelWithPerkpoints)
+			if (this.m.Level <= ::Const.XP.MaxLevelWithPerkpoints)
 			{
 				++this.m.PerkPoints;
 			}
 
-			if ((this.m.Level == 11 || this.m.Level == 7 && this.World.Assets.getOrigin().getID() == "scenario.manhunters" && this.getBackground().getID() == "background.slave") && this.m.Skills.hasSkill("perk.student"))
+			if ((this.m.Level == 11 || this.m.Level == 7 && ::World.Assets.getOrigin().getID() == "scenario.manhunters" && this.getBackground().getID() == "background.slave") && this.m.Skills.hasSkill("perk.student"))
 			{
 				++this.m.PerkPoints;
 			}

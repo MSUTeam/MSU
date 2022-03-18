@@ -1,4 +1,4 @@
-this.MSU.Class <- {};
+::MSU.Class <- {};
 
 local function includeFile(_file)
 {

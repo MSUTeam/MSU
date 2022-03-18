@@ -1,4 +1,4 @@
-this.MSU.Class.System <- class
+::MSU.Class.System <- class
 {
 	ID = null;
 	constructor( _id, _dependencies = null )
@@ -8,7 +8,7 @@ this.MSU.Class.System <- class
 		foreach (dependency in _dependencies)
 		{
 			local found = false;
-			foreach (system in this.MSU.System)
+			foreach (system in ::MSU.System)
 			{
 				if (dependency == system.getID())
 				{
@@ -31,9 +31,9 @@ this.MSU.Class.System <- class
 
 	function registerMod( _mod )
 	{
-		if (!(_mod.getID() in this.MSU.Mods))
+		if (!(_mod.getID() in ::MSU.Mods))
 		{
-			this.logError("Register your mod with this.MSU.registerMod first before registering it with MSU systems, and use the same ID");
+			::logError("Register your mod with ::MSU.registerMod first before registering it with MSU systems, and use the same ID");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 	}

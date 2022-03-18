@@ -2,7 +2,7 @@
 	local general_querySkillTooltipData = o.general_querySkillTooltipData;
 	o.general_querySkillTooltipData = function( _entityId, _skillId )
 	{
-		local entity = this.Tactical.getEntityByID(_entityId);
+		local entity = ::Tactical.getEntityByID(_entityId);
 
 		if (entity != null)
 		{
@@ -22,7 +22,7 @@
 	local general_queryStatusEffectTooltipData = o.general_queryStatusEffectTooltipData;
 	o.general_queryStatusEffectTooltipData = function( _entityId, _statusEffectId )
 	{
-		local entity = this.Tactical.getEntityByID(_entityId);
+		local entity = ::Tactical.getEntityByID(_entityId);
 
 		if (entity != null)
 		{

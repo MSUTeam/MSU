@@ -1,50 +1,50 @@
-this.MSU.requireString <- function( ... )
+::MSU.requireString <- function( ... )
 {
-	this.MSU.requireTypeArray("string", vargv);
+	::MSU.requireTypeArray("string", vargv);
 }
 
-this.MSU.requireInt <- function( ... )
+::MSU.requireInt <- function( ... )
 {
-	this.MSU.requireTypeArray("integer", vargv);
+	::MSU.requireTypeArray("integer", vargv);
 }
 
-this.MSU.requireArray <- function( ... )
+::MSU.requireArray <- function( ... )
 {
-	this.MSU.requireTypeArray("array", vargv);
+	::MSU.requireTypeArray("array", vargv);
 }
 
-this.MSU.requireFloat <- function( ... )
+::MSU.requireFloat <- function( ... )
 {
-	this.MSU.requireTypeArray("float", vargv);
+	::MSU.requireTypeArray("float", vargv);
 }
 
-this.MSU.requireBool <- function( ... )
+::MSU.requireBool <- function( ... )
 {
-	this.MSU.requireTypeArray("bool", vargv);
+	::MSU.requireTypeArray("bool", vargv);
 }
 
-this.MSU.requireTable <- function( ... )
+::MSU.requireTable <- function( ... )
 {
-	this.MSU.requireTypeArray("table", vargv);
+	::MSU.requireTypeArray("table", vargv);
 }
 
-this.MSU.requireInstance <- function( ... )
+::MSU.requireInstance <- function( ... )
 {
-	this.MSU.requireTypeArray("instance", vargv);
+	::MSU.requireTypeArray("instance", vargv);
 }
 
-this.MSU.requireFunction <- function( ... )
+::MSU.requireFunction <- function( ... )
 {
-	this.MSU.requireTypeArray("function", vargv);
+	::MSU.requireTypeArray("function", vargv);
 }
 
-this.MSU.requireType <- function( _type, ... )
+::MSU.requireType <- function( _type, ... )
 {
-	this.MSU.requireTypeArray(_type, vargv);
+	::MSU.requireTypeArray(_type, vargv);
 }
 
 // Private
-this.MSU.requireTypeArray <- function( _type, _values )
+::MSU.requireTypeArray <- function( _type, _values )
 {
 	foreach (value in _values)
 	{
@@ -55,7 +55,7 @@ this.MSU.requireTypeArray <- function( _type, _values )
 	}
 }
 
-this.MSU.requireOneOfType <- function( _typeArray, ... )
+::MSU.requireOneOfType <- function( _typeArray, ... )
 {
 	foreach (value in vargv)
 	{

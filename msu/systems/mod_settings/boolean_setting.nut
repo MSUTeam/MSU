@@ -1,4 +1,4 @@
-this.MSU.Class.BooleanSetting <- class extends this.MSU.Class.AbstractSetting
+::MSU.Class.BooleanSetting <- class extends ::MSU.Class.AbstractSetting
 {
 	static Type = "Boolean";
 

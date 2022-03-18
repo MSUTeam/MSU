@@ -1,4 +1,4 @@
-this.MSU.Class.OrderedMap <- class
+::MSU.Class.OrderedMap <- class
 {
 	Array = null;
 	Table = null;
@@ -77,7 +77,7 @@ this.MSU.Class.OrderedMap <- class
 
 	function shuffle()
 	{
-		this.MSU.Array.shuffle(this.Array);
+		::MSU.Array.shuffle(this.Array);
 	}
 
 	function len()

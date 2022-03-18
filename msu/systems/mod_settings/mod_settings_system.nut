@@ -1,24 +1,24 @@
-this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
+::MSU.Class.ModSettingsSystem <- class extends ::MSU.Class.System
 {
 	Panels = null;
 	Locked = null;
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.ModSettings);
+		base.constructor(::MSU.SystemID.ModSettings);
 		Locked = false;
-		this.Panels = this.MSU.Class.OrderedMap();
+		this.Panels = ::MSU.Class.OrderedMap();
 	}
 
 	function add( _modPanel )
 	{
 		if (this.Locked)
 		{
-			this.logError("Settings Manager is Locked, no more settings can be added");
+			::logError("Settings Manager is Locked, no more settings can be added");
 		}
 		else
 		{
-			if (!(_modPanel instanceof this.MSU.Class.SettingsPanel))
+			if (!(_modPanel instanceof ::MSU.Class.SettingsPanel))
 			{
 				throw ::MSU.Exception.InvalidType;
 			}
@@ -71,7 +71,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 	{
 		if (!this.Panels.contains(_modID))
 		{
-			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), this.MSU.System.Debug.MSUMainDebugFlag);
+			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), ::MSU.System.Debug.MSUMainDebugFlag);
 			return;
 		}
 		try
@@ -82,7 +82,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		{
 			if (error == ::MSU.Exception.KeyNotFound)
 			{
-				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), this.MSU.System.Debug.MSUMainDebugFlag);
+				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), ::MSU.System.Debug.MSUMainDebugFlag);
 				return;
 			}
 			throw error;
@@ -102,7 +102,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 
 	function importPersistentSettings()
 	{
-		this.MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
+		::MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
 	}
 
 	function flagSerialize()
@@ -154,7 +154,7 @@ this.MSU.Class.ModSettingsSystem <- class extends this.MSU.Class.System
 		base.registerMod(_mod)
 
 		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
-		local panel = this.MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
+		local panel = ::MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
 		this.Panels[_mod.getID()] <- panel;
 	}
 }

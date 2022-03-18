@@ -5,8 +5,8 @@ this.msu_injuries_handler_effect <- this.inherit("scripts/skills/skill", {
 		this.m.ID = "effects.msu_injuries_handler";
 		this.m.Name = "";
 		this.m.Description = "";
-		this.m.Type = this.Const.SkillType.StatusEffect;
-		this.m.Order = this.Const.SkillOrder.First;
+		this.m.Type = ::Const.SkillType.StatusEffect;
+		this.m.Order = ::Const.SkillOrder.First;
 		this.m.IsActive = false;
 		this.m.IsHidden = true;
 	}
@@ -26,7 +26,7 @@ this.msu_injuries_handler_effect <- this.inherit("scripts/skills/skill", {
 		
 		_hitInfo.DamageTypeProbability = _skill.getDamageTypeProbability(_hitInfo.DamageType);
 
-		local injuries = this.Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
+		local injuries = ::Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
 
 		if (injuries.len() > 0)
 		{

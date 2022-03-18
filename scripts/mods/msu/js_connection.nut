@@ -1,4 +1,4 @@
-this.js_connection <- {
+::js_connection <- {
 	m = {
 		JSHandle = null,
 	},
@@ -15,7 +15,7 @@ this.js_connection <- {
 
 	function destroy()
 	{
-		this.m.JSHandle = this.UI.disconnect(this.m.JSHandle);
+		this.m.JSHandle = ::UI.disconnect(this.m.JSHandle);
 	}
 
 	function isVisible()

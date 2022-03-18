@@ -1,4 +1,4 @@
-this.MSU.Class.KeybindSetting <- class extends this.MSU.Class.StringSetting
+::MSU.Class.KeybindSetting <- class extends ::MSU.Class.StringSetting
 {
 	static Type = "Keybind";
 

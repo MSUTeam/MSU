@@ -1,4 +1,4 @@
-this.MSU.Class.WeightedContainer <- class
+::MSU.Class.WeightedContainer <- class
 {
 	Total = null;
 	Array = null;
@@ -6,7 +6,7 @@ this.MSU.Class.WeightedContainer <- class
 	constructor( _array = null )
 	{
 		if (_array == null) _array = [];
-		this.MSU.requireArray(_array);
+		::MSU.requireArray(_array);
 		this.Total = 0;
 		this.Array = [];
 		this.extend(_array);
@@ -14,7 +14,7 @@ this.MSU.Class.WeightedContainer <- class
 
 	function extend( _array )
 	{
-		this.MSU.requireArray(_array);
+		::MSU.requireArray(_array);
 		foreach (i in _array)
 		{
 			this.push(i);
@@ -38,7 +38,7 @@ this.MSU.Class.WeightedContainer <- class
 
 	function roll()
 	{
-		local roll = this.Math.rand(1, this.Total);
+		local roll = ::Math.rand(1, this.Total);
 		local weight = 0;
 		foreach (pair in this.Array)
 		{
@@ -51,7 +51,7 @@ this.MSU.Class.WeightedContainer <- class
 
 	function rollChance(_chance)
 	{
-		return _chance < this.Math.rand(1, 100) ? this.roll() : null;
+		return _chance < ::Math.rand(1, 100) ? this.roll() : null;
 	}
 
 	function _nexti( _idx )

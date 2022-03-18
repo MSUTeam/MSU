@@ -3,9 +3,9 @@
     o.onInit = function()
     {
         onInit();
-        if (this.World.State.getPlayer() != null)
+        if (::World.State.getPlayer() != null)
         {
-            this.World.State.getPlayer().setBaseMovementSpeed(100);
+            ::World.State.getPlayer().setBaseMovementSpeed(100);
         }
     }
 

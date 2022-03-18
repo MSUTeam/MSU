@@ -1,4 +1,4 @@
-this.Const.Injury.ExcludedInjuries <- {
+::Const.Injury.ExcludedInjuries <- {
 	function get(_injuries)
 	{
 		local ret = _injuries.Injuries;
@@ -41,7 +41,7 @@ this.Const.Injury.ExcludedInjuries <- {
 	}
 };
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Hand",
 	[
 		"injury.fractured_hand",
@@ -53,7 +53,7 @@ this.Const.Injury.ExcludedInjuries.add(
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Arm",
 	[
 		"injury.fractured_elbow",
@@ -66,11 +66,11 @@ this.Const.Injury.ExcludedInjuries.add(
 		"injury.pierced_arm_muscles"
 	],
 	[
-		this.Const.Injury.ExcludedInjuries.Hand
+		::Const.Injury.ExcludedInjuries.Hand
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Foot",
 	[
 		"injury.sprained_ankle",
@@ -78,7 +78,7 @@ this.Const.Injury.ExcludedInjuries.add(
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Leg",
 	[
 		"injury.bruised_leg",
@@ -89,11 +89,11 @@ this.Const.Injury.ExcludedInjuries.add(
 		"injury.burnt_legs"
 	],
 	[
-		this.Const.Injury.ExcludedInjuries.Foot
+		::Const.Injury.ExcludedInjuries.Foot
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Face",
 	[
 		"injury.broken_nose",
@@ -105,7 +105,7 @@ this.Const.Injury.ExcludedInjuries.add(
 	]
 );
 
-this.Const.Injury.ExcludedInjuries.add(
+::Const.Injury.ExcludedInjuries.add(
 	"Head",
 	[
 		"injury.severe_concussion",
@@ -115,6 +115,6 @@ this.Const.Injury.ExcludedInjuries.add(
 		"injury.cut_throat"
 	],
 	[
-		this.Const.Injury.ExcludedInjuries.Face
+		::Const.Injury.ExcludedInjuries.Face
 	]
 );

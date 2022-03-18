@@ -1,4 +1,4 @@
-this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
+::MSU.Class.AbstractSetting <- class extends ::MSU.Class.SettingsElement
 {
 	static Type = "Abstract";
 	Value = null;// Serialized
@@ -44,7 +44,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 	{
 		if (this.Locked)
 		{
-			this.logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed")
+			::logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed")
 			return;
 		}
 
@@ -56,12 +56,12 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 			}
 			if (_updatePersistence && this.ParseChange == true)
 			{
-				this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
+				::MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
 			}
 			this.Value = _value
 			if (_updateJS)
 			{
-				this.MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
+				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
 			}
 		}
 	}
@@ -81,7 +81,7 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 		local ret = "";
 		if (this.isLocked())
 		{
-			ret += "[color=" + this.Const.UI.Color.NegativeValue + "]Locked[/color]\n"
+			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n"
 			if (this.LockReason != "")
 			{
 				ret += this.LockReason + "\n";
@@ -133,24 +133,24 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 
 	function setFlagForProperty( _property, _modID )
 	{
-		this.World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]);
+		::World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]);
 	}
 
 	function setPropertyIfFlagExists( _property, _modID )
 	{
 		local flag = this.getPropertyFlag(_modID, _property);
-		if (this.World.Flags.has(flag))
+		if (::World.Flags.has(flag))
 		{
-			this[_property] = this.World.Flags.get(flag);
+			this[_property] = ::World.Flags.get(flag);
 		}
 	}
 
 	function clearFlagForProperty( _property, _modID )
 	{
 		local flag = this.getPropertyFlag(_modID, _property);
-		if (this.World.Flags.has(flag))
+		if (::World.Flags.has(flag))
 		{
-			this.World.Flags.remove(flag);
+			::World.Flags.remove(flag);
 		}
 	}
 

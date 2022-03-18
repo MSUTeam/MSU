@@ -30,7 +30,7 @@
 
 		info.sort(sortByItemActionOrder);
 
-		local cost = this.Const.Tactical.Settings.SwitchItemAPCost;
+		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
 		foreach (i in info)
 		{
@@ -47,7 +47,7 @@
 	o.payForAction = function ( _items )
 	{
 		local actionCost = this.getActionCost(_items);
-		this.m.Actor.setActionPoints(this.Math.max(0, this.m.Actor.getActionPoints() - actionCost));
+		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
 
 		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill, _items);
 
@@ -58,6 +58,6 @@
 	o.onNewRound = function()
 	{
 		onNewRound();
-		this.m.ActionCost = this.Const.Tactical.Settings.SwitchItemAPCost;
+		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
 	}
 });
