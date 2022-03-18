@@ -1,4 +1,4 @@
-this.MSU.Class.Mod <- class
+::MSU.Class.Mod <- class
 {
 	ID = null;
 	Name = null;
@@ -16,7 +16,7 @@ this.MSU.Class.Mod <- class
 	constructor( _id, _version, _name = null )
 	{
 		if (_name == null) _name = _id;
-		this.MSU.requireString(_id, _version, _name);
+		::MSU.requireString(_id, _version, _name);
 
 		this.ID = _id;
 		this.Name = _name;

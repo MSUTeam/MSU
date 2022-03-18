@@ -1,4 +1,4 @@
-this.MSU.Class.Keybind <- class
+::MSU.Class.Keybind <- class
 {
 	KeyCombinations = null;
 	ModID = null;
@@ -10,7 +10,7 @@ this.MSU.Class.Keybind <- class
 	{
 		if (_name == null) _name = _id;
 
-		if (!(_modID in this.MSU.System.Keybinds.KeybindsByMod)) throw ::MSU.Exception.ModNotRegistered;
+		if (!(_modID in ::MSU.System.Keybinds.KeybindsByMod)) throw ::MSU.Exception.ModNotRegistered;
 
 		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 
@@ -58,7 +58,7 @@ this.MSU.Class.Keybind <- class
 
 	function makeSetting()
 	{
-		local setting = this.MSU.Class.KeybindSetting(this.getID(), this.getKeyCombinations(), this.getName());
+		local setting = ::MSU.Class.KeybindSetting(this.getID(), this.getKeyCombinations(), this.getName());
 		setting.setDescription(this.getDescription());
 		local self = this.weakref();
 		setting.addCallback(function(_data)

@@ -1,4 +1,4 @@
-this.MSU.Log <- {
+::MSU.Log <- {
 	// maxLen is the maximum length of an array/table whose elements will be displayed
 	// maxDepth is the maximum depth at which arrays/tables elements will be displayed
 	// advanced allows the ID of the object to be displayed to identify different/identical objects
@@ -76,7 +76,7 @@ this.MSU.Log <- {
 			case "null":
 				if (!_advanced)
 				{
-					string += this.MSU.String.capitalizeFirst(typeof _value) + ", ";
+					string += ::MSU.String.capitalizeFirst(typeof _value) + ", ";
 					break;
 				}
 			default:

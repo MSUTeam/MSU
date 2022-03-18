@@ -1,4 +1,4 @@
-this.MSU.Key <- {
+::MSU.Key <- {
 	Environment = {
 		SQ = 0,
 		JS = 1

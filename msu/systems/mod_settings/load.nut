@@ -17,33 +17,33 @@ includeFile("settings_page.nut");
 includeFile("settings_panel.nut");
 
 includeFile("mod_settings_system.nut");
-this.MSU.System.ModSettings <- this.MSU.Class.ModSettingsSystem();
+::MSU.System.ModSettings <- ::MSU.Class.ModSettingsSystem();
 includeFile("mod_settings_mod_addon.nut");
 
 local testSettingsSystem = function()
 {
 	for (local i = 0; i < 5; ++i)
 	{
-		local modPanel = this.MSU.Class.SettingsPanel("MSU" + i, "M" + i)
+		local modPanel = ::MSU.Class.SettingsPanel("MSU" + i, "M" + i)
 		local numPages = rand() % 5 + 1;
 		for (local j = 0; j < numPages; ++j)
 		{
-			local testPage = this.MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
+			local testPage = ::MSU.Class.SettingsPage("Page" + j, "Page Name " + j);
 
-			local test = this.MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
-			local test1 = this.MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
+			local test = ::MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
+			local test1 = ::MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
 			test1.addCallback(function(_data = null){
 				this.logInfo("worked?")
 			})
 			// test1.lock()
-			local test2 = this.MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
+			local test2 = ::MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 			test2.addFlags("NewCampaign", "NewCampaignOnly")
-			local test3 = this.MSU.Class.EnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
+			local test3 = ::MSU.Class.EnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
 			test3.lock()
-			local test4 = this.MSU.Class.EnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
-			local divider = this.MSU.Class.SettingsDivider("divider")
+			local test4 = ::MSU.Class.EnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
+			local divider = ::MSU.Class.SettingsDivider("divider")
 
-			local test5 = this.MSU.Class.EnumSetting("TestEnum" + j + 2, "hi", ["hi", "hello", "goodbye"]);
+			local test5 = ::MSU.Class.EnumSetting("TestEnum" + j + 2, "hi", ["hi", "hello", "goodbye"]);
 
 			testPage.add(test);
 			testPage.add(test1);
@@ -55,23 +55,23 @@ local testSettingsSystem = function()
 
 			modPanel.addPage(testPage);
 		}
-		this.MSU.System.ModSettings.add(modPanel);
+		::MSU.System.ModSettings.add(modPanel);
 	}
 }
 
 
-this.MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
+::MSU.SettingsScreen <- this.new("scripts/mods/msu/settings_screen");
 
-this.MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
+::MSU.PersistentDataManager <- this.new("scripts/mods/msu/persistent_data_manager");
 
-this.MSU.UI.registerConnection(this.MSU.SettingsScreen);
+::MSU.UI.registerConnection(::MSU.SettingsScreen);
 
 ::getModSetting <- function( _modID, _settingID )
 {
-	return this.MSU.System.ModSettings.get(_modID).getSetting(_settingID);
+	return ::MSU.System.ModSettings.get(_modID).getSetting(_settingID);
 }
 
-this.MSU.SettingsFlags <- {
+::MSU.SettingsFlags <- {
 	NewCampaign = {
 		required = [
 			"NewCampaign"
@@ -96,31 +96,31 @@ this.MSU.SettingsFlags <- {
 
 ::MSU.Mod.register(::MSU.System.ModSettings)
 
-local logPage = this.MSU.Class.SettingsPage("Logging");
+local logPage = ::MSU.Class.SettingsPage("Logging");
 ::MSU.Mod.ModSettings.addPage(logPage);
 
-local logToggle = this.MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
+local logToggle = ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 logToggle.addCallback(function(_data){
-	this.MSU.System.Debug.FullDebug = _data;
+	::MSU.System.Debug.FullDebug = _data;
 })
 logPage.add(logToggle);
 
-// this.MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
-// 	this.MSU.Debug.FullDebug = _data;
+// ::MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
+// 	::MSU.Debug.FullDebug = _data;
 // }))
 
-local verboseModeToggle = this.MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
+local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
 verboseModeToggle.addCallback(function(_data){
 	this.Const.AI.VerboseMode = _data
 })
 logPage.add(verboseModeToggle);
 
-// this.MSU.System.ModSettings.importPersistentSettings()
+// ::MSU.System.ModSettings.importPersistentSettings()
 
 
 // //this neeeds to be moved into a hook
-// this.MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
-// this.MSU.CustomKeybinds.parseForUI();
+// ::MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
+// ::MSU.CustomKeybinds.parseForUI();
 
 
 // Testing Code

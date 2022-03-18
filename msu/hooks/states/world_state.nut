@@ -9,19 +9,19 @@
 
 	o.main_menu_module_onModOptionsPressed <- function()
 	{
-		this.MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
-		this.MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
+		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
+		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 		this.toggleMenuScreen();
 		this.m.WorldScreen.hide();
-		this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.World);
+		::MSU.SettingsScreen.show(::MSU.SettingsFlags.World);
 		this.m.MenuStack.push(function ()
 		{
-			this.MSU.SettingsScreen.hide();
+			::MSU.SettingsScreen.hide();
 			this.m.WorldScreen.show();
 			this.toggleMenuScreen();
 		}, function ()
 		{
-			return !this.MSU.SettingsScreen.isAnimating();
+			return !::MSU.SettingsScreen.isAnimating();
 		});
 	}
 
@@ -32,7 +32,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 	}
 
@@ -191,7 +191,7 @@
 	{
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
-		foreach (mod in this.MSU.System.Serialization.Mods)
+		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
@@ -202,7 +202,7 @@
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
-		foreach (mod in this.MSU.System.Serialization.Mods)
+		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 			if (oldVersion == "") return;
@@ -220,7 +220,7 @@
 					break;
 				default:
 					this.logError("Something has gone very wrong with MSU Serialization");
-					this.MSU.System.Debug.printStackTrace();
+					::MSU.System.Debug.printStackTrace();
 			}
 		}
 	}
@@ -228,10 +228,10 @@
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		this.MSU.System.ModSettings.flagSerialize();
+		::MSU.System.ModSettings.flagSerialize();
 		this.World.Flags.set("MSU.LastDayMorningEventCalled", this.World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
-		this.MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.resetFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
@@ -247,8 +247,8 @@
 			this.World.Assets.setLastDayMorningEventCalled(0);
 		}
 
-		this.MSU.System.ModSettings.flagDeserialize();
-		this.MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.flagDeserialize();
+		::MSU.System.ModSettings.resetFlags();
 	}
 
 	local onKeyInput = o.onKeyInput;

@@ -1,4 +1,4 @@
-this.MSU.Class.EnumSetting <- class extends this.MSU.Class.AbstractSetting
+::MSU.Class.EnumSetting <- class extends ::MSU.Class.AbstractSetting
 {
 	Array = null;
 	static Type = "Enum";

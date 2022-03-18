@@ -1,4 +1,4 @@
-this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
+::MSU.Class.DebugSystem <- class extends ::MSU.Class.System
 {
 	Mods = null;
 	LogType = null;
@@ -7,7 +7,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.Log);
+		base.constructor(::MSU.SystemID.Log);
 		this.Mods = {};
 		this.LogType = {
 			Info = 1,
@@ -55,7 +55,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 		this.Mods[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
 		{
-			if (_modID == this.MSU.ID && _flagID == this.DefaultFlag)
+			if (_modID == ::MSU.ID && _flagID == this.DefaultFlag)
 			{
 				::MSU.Mod.Debug.printWarning(format("Debug flag '%s' set to true for mod '%s'.", _flagID, _modID), "default");
 			}
@@ -123,8 +123,7 @@ this.MSU.Class.DebugSystem <- class extends this.MSU.Class.System
 					this.logError(string);
 					return;
 				default:
-					this.printWarning("No log type defined for this log:", this.MSU.ID, "debug");
-					this.logInfo(string);
+					::MSU.Mod.Debug.printWarning("No log type defined for this log: " + string, "debug")
 					return;
 			}
 		}

@@ -1,4 +1,4 @@
-this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
+::MSU.Class.AbstractSetting <- class extends ::MSU.Class.SettingsElement
 {
 	static Type = "Abstract";
 	Value = null;// Serialized
@@ -56,12 +56,12 @@ this.MSU.Class.AbstractSetting <- class extends this.MSU.Class.SettingsElement
 			}
 			if (_updatePersistence && this.ParseChange == true)
 			{
-				this.MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
+				::MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
 			}
 			this.Value = _value
 			if (_updateJS)
 			{
-				this.MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
+				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
 			}
 		}
 	}

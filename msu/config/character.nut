@@ -57,7 +57,7 @@ this.Const.Damage <- {
 
 	function getDamageTypeName( _damageType )
 	{
-		local idx = this.MSU.Math.log2int(_damageType) + 1;
+		local idx = ::MSU.Math.log2int(_damageType) + 1;
 		if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
 		{
 			return this.DamageTypeName[idx];
@@ -70,7 +70,7 @@ this.Const.Damage <- {
 
 	function getDamageTypeInjuries ( _damageType )
 	{	
-		local idx = this.MSU.Math.log2int(_damageType) + 1;
+		local idx = ::MSU.Math.log2int(_damageType) + 1;
 		if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
 		{
 			return this.DamageTypeInjuries[idx].Injuries;

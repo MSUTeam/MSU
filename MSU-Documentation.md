@@ -139,7 +139,7 @@ MSU also adds the damage types of a skill to the skill’s tooltip automatically
 
 Returns the name of the damage type as string, or returns an empty string if `_damageType` does not exist.
 
-###	Getting a list of injuries a damage type can inflict
+### Getting a list of injuries a damage type can inflict
 `this.Const.Damage.getDamageTypeInjuries( _damageType )`
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table.
@@ -151,7 +151,7 @@ Returns a table `{ Head = [], Body = [] }` where Head and Body are arrays tables
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_injuriesOnHead` and `_injuriesOnBody` are arrays of tables as their entries with each table having the following keys: `ID`, `Threshold`, `Script` for the injury skills that this damage type can apply. For examples of how such tables are constructed see the `character_injuries.nut` file in vanilla.
 
-###	Getting a list of injuries applicable to a situation
+### Getting a list of injuries applicable to a situation
 `this.Const.Damage.getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )`
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_bodyPart` is the body part hit. `_targetEntity` is the entity being attacked which, if not null, removes the ExcludedInjuries of the `_targetEntity` from the returned array.
@@ -172,7 +172,7 @@ Returns a `true` if the skill has the damage type and `false` if it doesn’t.
 
 Adds the given damage type to the skill’s `this.m.DamageType` array with the provided weight.
 
-###	Removing a damage type from a skill
+### Removing a damage type from a skill
 `<skill>.removeDamageType( _damageType )`
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table.
@@ -191,7 +191,7 @@ Returns the `this.m.DamageType` array of the skill.
 
 Returns an integer which is the weight of the given damage type in the skill. Returns null if the skill does not have the given damage type.
 
-###	Setting the weight of a skill’s particular damage type
+### Setting the weight of a skill’s particular damage type
 `<skill>.setDamageTypeWeight( _damageType, _weight )`
 
 `_damageType` is a slot in the `this.Const.Damage.DamageType` table. `_weight` is an integer.
@@ -205,7 +205,7 @@ Finds the given damage type in the skill’s damage types and sets its weight to
 
 Returns a float between 0 and 1 which is the probability of rolling the given damage type when using a skill. Returns null if the skill does not have the given damage type.
 
-###	Rolling a damage type from a skill
+### Rolling a damage type from a skill
 `<skill>.getWeightedRandomDamageType()`
 
 Selects a damage type from the skill based on weighted random distribution and returns it. The returned value is a slot in the `this.Const.Damage.DamageType` table. For example, this function is used by MSU in the `msu_injuries_handler_effect.nut` to roll a damage type from the skill when attacking a target.
@@ -827,7 +827,7 @@ Every registered mod has a default flag. This allows for simple syntax, such as 
 - `registerMod(_modID, _defaultFlagBool = false, _flagTable = null, _flagTableBool = null)`
 
 Registers debugging for mod id `_modID`. Mod id should match up with modding script hooks registration name, if present. `_defaultFlagBool` sets the value of the `default` flag.
-`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see this.MSU.System.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
+`_flagTable` is an optional table of `flagID` : `flagBool` pairs and must be of form `{ flag1 = false, flag2 = true ...}`, see ::MSU.System.Debug.MSUDebugFlags for an example. If passed, sets these flags via setFlags().
 `_flagTableBool` is an optional boolean for setFlags().
 Example usage:
 
@@ -839,7 +839,7 @@ Example usage:
 `
 
 `
-this.MSU.System.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
+::MSU.System.Debug.registerMod("mod_MSU", true, MSUDebugFlags);
 `
 
 - `setFlags(_modID, _flagTable, _flagTableBool = null)`
@@ -856,7 +856,7 @@ Checks if debugging is enabled for mod `_modID` and flag `_flagID`.
 
 - `::isDebugEnabled( _modID, _flagID = "default")`
 
-Convenience function for this.MSU.System.Debug.isEnabledForMod.
+Convenience function for ::MSU.System.Debug.isEnabledForMod.
 
 - `::printLog( _printText, _modID, _flagID = null)`, `::printWarning`, `::printError`
 
@@ -864,56 +864,56 @@ Substitutes for `this.logInfo`, `this.logWarning` and `this.logError`. Prints th
 
 `Other debugging tools`
 
-- `this.MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
+- `::MSU.Log.printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )`
 
 Prints the entire stack trace at the point where it is called, including a list of all variables. Also prints the elements of any arrays or tables up to `_maxDepth` and `_maxLen`. If `_advanced` is set to true, it also prints the memory address of each object.
 
 ## Tile
-`this.MSU.Tile.canResurrectOnTile( _tile, _force = false )`
+`::MSU.Tile.canResurrectOnTile( _tile, _force = false )`
 
 `_tile` is a Battle Brothers tile instance.
 
 Returns false if there is no corpse on the tile. If there is a corpse on the tile, then it returns true if that corpse can resurrect or if `_force` is set to true. This function can be hooked by mods to add additional functionality.
 
 ## String
-`this.MSU.String.capitalizeFirst( _string )`
+`::MSU.String.capitalizeFirst( _string )`
 
 Returns the passed string `_string` with its first letter having been capitalized.
 
-`this.MSU.String.replace( _string, _find, _replace )`
+`::MSU.String.replace( _string, _find, _replace )`
 
 Finds the string `_find` in the string `_string` and replaces it with the string `_replace`. Then returns the result.
 
 ## Array
-`this.MSU.Array.sortDescending( _array, _member = null )`
+`::MSU.Array.sortDescending( _array, _member = null )`
 
 Sorts `_array` in descending order. If `_member` is not null then it assumes that the elements of the array are arrays or tables, and hence it sorts the array based on the value of each element's `_member` index.
 
-`this.MSU.Array.sortAscending( _array, _member = null )`
+`::MSU.Array.sortAscending( _array, _member = null )`
 
 Sorts `_array` in ascending order. If `_member` is not null then it assumes that the elements of the array are arrays or tables, and hence it sorts the array based on the value of each element's `_member` index.
 
 ## Math
-`this.MSU.log2int( _num )`
+`::MSU.log2int( _num )`
 
 `_num` is an integer.
 
 Returns the base 2 logarithm of `_num` floored as an int.
 
-`this.MSU.normalDist( _x, _mean, _stdev )`
+`::MSU.normalDist( _x, _mean, _stdev )`
 
 All three arguments can be any numbers, integer or float.
 
 Returns the value of the Normal Distribution for `_x` for the provided mean value of `_mean` and standard deviation `_stdev`.
 
-`this.MSU.normalDistDensity( _x, _mean, _stdev )`
+`::MSU.normalDistDensity( _x, _mean, _stdev )`
 
 All three arguments can be any numbers, integer or float.
 
 Returns the probability density of `_x` using the Normal Distribution for the provided mean value of `_mean` and standard deviation `_stdev`.
 
 ## Classes
-`this.this.MSU.Class.OrderedMap`
+`this.::MSU.Class.OrderedMap`
 
 This is a class indexed by keys like a table,
 but ordered like an array.
@@ -923,7 +923,7 @@ a call to the `contains` function must be used.
 
 ## UI
 
-`this.MSU.UI.registerConnection( _screen )`
+`::MSU.UI.registerConnection( _screen )`
 
 `_screen` is a UI screen with a `connect` function
  which will connect the SQ object to its JS counterpart.
@@ -951,14 +951,14 @@ of the page.
 These settings are automatically (de)serialized when loading/saving a game.
 
 #### Adding a Panel to the SettingsManager
-`this.MSU.System.ModSettings.add( _modPanel )`
+`::MSU.System.ModSettings.add( _modPanel )`
 
 `_modPanel` is a SettingsPanel.
 
 ## Settings Panel
 
 #### Constructor
-`local myModPanel = this.MSU.Class.SettingsPanel( _id, _name = null )`
+`local myModPanel = ::MSU.Class.SettingsPanel( _id, _name = null )`
 
 `_id` and `_name` are strings,
 `_name` defaults to `_id`,
@@ -972,7 +972,7 @@ These settings are automatically (de)serialized when loading/saving a game.
 ## Settings Page
 
 #### Constructor
-`local myPage = this.MSU.Class.SettingsPage( _id, _name = null )`
+`local myPage = ::MSU.Class.SettingsPage( _id, _name = null )`
 
 `_name` and `_id` are Strings, 
 `_id` has to be *unique* for all SettingsPages within a SettingsPanel,
@@ -983,12 +983,12 @@ These settings are automatically (de)serialized when loading/saving a game.
 #### Adding an Element to a SettingsPage
 `<SettingsPage>.add( _element )`
 
-`_element` is a `this.MSU.Class.SettingsElement`
+`_element` is a `::MSU.Class.SettingsElement`
 
 ## Setting Elements
 
 All setting elements are classes
-which inherit from `this.MSU.Class.SettingsElement`.
+which inherit from `::MSU.Class.SettingsElement`.
 Custom elements *must* inherit from `SettingsElement`
 or a descendant of it.
 
@@ -1022,7 +1022,7 @@ used as a parents for other settings.
 All custom Settings should inherit from AbstractSetting.
 
 #### Constructor
-`local doNotUse = this.this.MSU.Class.AbstractSetting( _id, _value, _name = null )`
+`local doNotUse = this.::MSU.Class.AbstractSetting( _id, _value, _name = null )`
 
 `_id` and `_name` are strings and `_id` defaults to `_name`.
 
@@ -1041,7 +1041,7 @@ A `_lockReason` can be given which will show up in the tooltip.
 ### BooleanSetting (extends AbstractSetting)
 
 #### Constructor
-`local myBooleanSetting = this.MSU.Class.BooleanSetting( _id, _value, _name = null )`
+`local myBooleanSetting = ::MSU.Class.BooleanSetting( _id, _value, _name = null )`
 
 `_value` is a boolean.
 
@@ -1050,7 +1050,7 @@ Creates a simple checkbox.
 ### RangeSetting (extends AbstractSetting)
 
 #### Constructor
-`local myRangeSetting = this.MSU.Class.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
+`local myRangeSetting = ::MSU.Class.RangeSetting( _id, _value, _min, _max, _step, _name = null )`
 
 `_name` and `_id` are strings,
 `_value`, `_min`, `_max`, and `_step` are ints or floats.
@@ -1062,7 +1062,7 @@ with `_step` sized increments.
 ### EnumSetting (extends AbstractSetting)
 
 #### Constructor
-`local myEnumSetting = this.MSU.Class.EnumSetting( _id, _array, _value = null, _name = null )`
+`local myEnumSetting = ::MSU.Class.EnumSetting( _id, _array, _value = null, _name = null )`
 
 `_value` is a string element 
 of the string array `_array`,
@@ -1089,11 +1089,11 @@ as a guide.
 
 ### SettingsDivider (extends SettingsElement)
 
-The settings system also allows adding a `this.MSU.Class.SettingsDivider`
+The settings system also allows adding a `::MSU.Class.SettingsDivider`
 to improve the layout of your mod page.
 This is a horizontal line with an optional title.
 
-`local myDivider = this.MSU.Class.SettingsDivider(_id, _name = "", _description = "")`
+`local myDivider = ::MSU.Class.SettingsDivider(_id, _name = "", _description = "")`
 
 `_id` is a string and *must* be unique for the mod page.
 
@@ -1104,5 +1104,5 @@ the divider will be a thin horizontal line across the entire page.
 ### Misc
 
 ## isNull
-`this.MSU.isNull(_obj)`
+`::MSU.isNull(_obj)`
 Convenient way to check if object is null. Checks if object is instance of weaktableref and returns isNull if it's the case.

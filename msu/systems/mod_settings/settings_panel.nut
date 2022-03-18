@@ -1,4 +1,4 @@
-this.MSU.Class.SettingsPanel <- class
+::MSU.Class.SettingsPanel <- class
 {
 	Pages = null;
 	ID = null;
@@ -8,7 +8,7 @@ this.MSU.Class.SettingsPanel <- class
 	{
 		this.ID = _id;
 		this.Name = _name == null ? _id : _name;
-		this.Pages = this.MSU.Class.OrderedMap();
+		this.Pages = ::MSU.Class.OrderedMap();
 	}
 
 	function getPages()
@@ -18,7 +18,7 @@ this.MSU.Class.SettingsPanel <- class
 
 	function addPage( _page )
 	{
-		if (!(_page instanceof this.MSU.Class.SettingsPage))
+		if (!(_page instanceof ::MSU.Class.SettingsPage))
 		{
 			throw ::MSU.Exception.InvalidType;
 		}
@@ -78,7 +78,7 @@ this.MSU.Class.SettingsPanel <- class
 		{
 			foreach (setting in page.getSettings())
 			{
-				if (setting instanceof this.MSU.Class.AbstractSetting)
+				if (setting instanceof ::MSU.Class.AbstractSetting)
 				{
 					vargv[0] = setting;
 					setting[_function].acall(vargv);
@@ -128,7 +128,7 @@ this.MSU.Class.SettingsPanel <- class
 		{
 			foreach (setting in page.getSettings())
 			{
-				if (setting instanceof this.MSU.Class.AbstractSetting)
+				if (setting instanceof ::MSU.Class.AbstractSetting)
 				{
 					ret[setting.getID()] <- setting.getValue()
 				}

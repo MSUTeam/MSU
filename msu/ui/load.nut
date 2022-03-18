@@ -21,5 +21,5 @@
 
 ::includeFile("msu/ui/", "ui.nut");
 
-this.MSU.UI.JSConnection = this.new("scripts/mods/msu/msu_connection");
-this.MSU.UI.registerConnection(this.MSU.UI.JSConnection);
+::MSU.UI.JSConnection = this.new("scripts/mods/msu/msu_connection");
+::MSU.UI.registerConnection(::MSU.UI.JSConnection);

@@ -1,4 +1,4 @@
-this.MSU.String <- {		
+::MSU.String <- {
 	function capitalizeFirst( _string )
 	{
 		local string = _string.tostring();

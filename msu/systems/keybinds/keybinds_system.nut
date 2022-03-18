@@ -1,4 +1,4 @@
-this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
+::MSU.Class.KeybindsSystem <- class extends ::MSU.Class.System
 {
 	KeybindsByKey = null;
 	KeybindsByMod = null;
@@ -7,7 +7,7 @@ this.MSU.Class.KeybindsSystem <- class extends this.MSU.Class.System
 
 	constructor()
 	{
-		base.constructor(this.MSU.SystemID.Keybinds);
+		base.constructor(::MSU.SystemID.Keybinds);
 		this.KeybindsByKey = {};
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};

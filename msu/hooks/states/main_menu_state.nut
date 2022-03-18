@@ -12,17 +12,17 @@
 
 	o.main_menu_module_onModOptionsPressed <- function()
 	{
-		this.MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this)); // Need to bind these every time because it's a new screen and not a module (which tbh was probs a mistake).
-		this.MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
+		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this)); // Need to bind these every time because it's a new screen and not a module (which tbh was probs a mistake).
+		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 		this.m.MainMenuScreen.hideMainMenuModule();
-		this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.Main);
+		::MSU.SettingsScreen.show(::MSU.SettingsFlags.Main);
 		this.m.MenuStack.push(function ()
 		{
-			this.MSU.SettingsScreen.hide();
+			::MSU.SettingsScreen.hide();
 			this.m.MainMenuScreen.showMainMenuModule();
 		}, function ()
 		{
-			return !this.MSU.SettingsScreen.isAnimating();
+			return !::MSU.SettingsScreen.isAnimating();
 		});
 	}
 
@@ -37,17 +37,17 @@
 		else
 		{
 			this.m.ModSettingsShown = true;
-			this.MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
-			this.MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
+			::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
+			::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 			this.m.MainMenuScreen.hideNewCampaignModule();
-			this.MSU.SettingsScreen.show(this.MSU.SettingsFlags.NewCampaign);
+			::MSU.SettingsScreen.show(::MSU.SettingsFlags.NewCampaign);
 			this.m.MenuStack.push(function ()
 			{
-				this.MSU.SettingsScreen.hide();
+				::MSU.SettingsScreen.hide();
 				this.m.MainMenuScreen.showNewCampaignModule();
 			}, function ()
 			{
-				return !this.MSU.SettingsScreen.isAnimating();
+				return !::MSU.SettingsScreen.isAnimating();
 			})
 		}
 	}
@@ -60,7 +60,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		this.MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettings(_data);
 		this.m.MenuStack.pop();
 		if (this.m.ModSettingsShown)
 		{

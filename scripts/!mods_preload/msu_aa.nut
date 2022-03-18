@@ -5,7 +5,7 @@
 
 ::MSU.VanillaID <- "vanilla";
 
-::mods_registerMod(this.MSU.ID, 1.0, this.MSU.Name);
+::mods_registerMod(::MSU.ID, 1.0, ::MSU.Name);
 ::mods_queue(null, null, function()
 {
 	this.include("msu/load.nut");

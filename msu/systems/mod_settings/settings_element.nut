@@ -1,4 +1,4 @@
-this.MSU.Class.SettingsElement <- class
+::MSU.Class.SettingsElement <- class
 {
 	Name = null;
 	ID = null;

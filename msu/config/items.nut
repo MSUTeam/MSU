@@ -26,7 +26,7 @@ foreach (itemType in this.Const.Items.ItemType)
 			name = "Trade Good";				
 			break;
 	}
-	local idx = this.MSU.Math.log2int(itemType) + 1;
+	local idx = ::MSU.Math.log2int(itemType) + 1;
 	this.Const.Items.ItemTypeName[idx] = name;
 }
 
@@ -52,7 +52,7 @@ this.Const.Items.addNewItemType <- function( _itemType, _name = "" )
 
 this.Const.Items.getItemTypeName <- function( _itemType )
 {
-	local idx = this.MSU.Math.log2int(_itemType) + 1;
+	local idx = ::MSU.Math.log2int(_itemType) + 1;
 	if (idx < this.Const.Items.ItemTypeName.len())
 	{
 		return this.Const.Items.ItemTypeName[idx];
@@ -104,7 +104,7 @@ this.Const.Items.WeaponTypeName <- [
 
 this.Const.Items.getWeaponTypeName <- function( _weaponType )
 {
-	local idx = this.MSU.Math.log2int(_weaponType) + 1;
+	local idx = ::MSU.Math.log2int(_weaponType) + 1;
 	if (idx < this.Const.Items.WeaponTypeName.len())
 	{
 		return this.Const.Items.WeaponTypeName[idx];

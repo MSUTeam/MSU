@@ -14,6 +14,6 @@
 
 	o.connectBackend <- function()
 	{
-		this.MSU.UI.connect();
+		::MSU.UI.connect();
 	}
 });
