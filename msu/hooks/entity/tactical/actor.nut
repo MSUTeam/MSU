@@ -43,9 +43,9 @@
 
 		onDeath(_killer, _skill, _tile, _fatalityType);
 
-		if (!this.Tactical.State.isFleeing() && deathTile != null)
+		if (!::Tactical.State.isFleeing() && deathTile != null)
 		{
-			local factions = this.Tactical.Entities.getAllInstances();
+			local factions = ::Tactical.Entities.getAllInstances();
 
 			foreach ( f in factions )
 			{
@@ -83,7 +83,7 @@
 			return [];
 		}
 
-		local actors = this.Tactical.Entities.getAllInstancesAsArray();
+		local actors = ::Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
 		foreach ( a in actors )
@@ -123,7 +123,7 @@
 			return [];
 		}
 
-		local actors = this.Tactical.Entities.getAllInstancesAsArray();
+		local actors = ::Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
 		foreach ( a in actors )

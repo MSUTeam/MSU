@@ -315,27 +315,27 @@ local function isCampfireScreen(){
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_initNextTurn", "enter", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	 this.Tactical.TurnSequenceBar.initNextTurn();
+	 ::Tactical.TurnSequenceBar.initNextTurn();
 	return false;
 }, "End Turn for Character");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_endTurnAll", "r", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	this.Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
+	::Tactical.TurnSequenceBar.onEndTurnAllButtonPressed();
 	return false;
 }, "End Turn for All Characters");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_waitTurn", "end/space", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	if (this.Tactical.TurnSequenceBar.getActiveEntity() != null && this.Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
+	if (::Tactical.TurnSequenceBar.getActiveEntity() != null && ::Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
 	{
-		local wasAbleToWait = this.Tactical.TurnSequenceBar.entityWaitTurn(this.Tactical.TurnSequenceBar.getActiveEntity());
+		local wasAbleToWait = ::Tactical.TurnSequenceBar.entityWaitTurn(::Tactical.TurnSequenceBar.getActiveEntity());
 
 		if (!wasAbleToWait)
 		{
-			this.Tactical.TurnSequenceBar.initNextTurn();
+			::Tactical.TurnSequenceBar.initNextTurn();
 		}
 		return false;
 	}
@@ -344,7 +344,7 @@ local function isCampfireScreen(){
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_focusActiveEntity", "shift", ::MSU.Key.State.Tactical, function()
 {
 	if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
-	this.Tactical.TurnSequenceBar.focusActiveEntity(true);
+	::Tactical.TurnSequenceBar.focusActiveEntity(true);
 	return false;
 }, "Focus on Active Character");
 

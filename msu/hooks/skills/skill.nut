@@ -630,7 +630,7 @@
 
 	// 			if (_user.getTile().getDistanceTo(_targetEntity.getTile()) >= ::Const.Combat.SpawnProjectileMinDist)
 	// 			{
-	// 				this.Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), _targetEntity.getTile(), 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
+	// 				::Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), _targetEntity.getTile(), 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
 	// 			}
 	// 		}
 
@@ -657,11 +657,11 @@
 
 	// 	if (this.m.IsDoingAttackMove && !_user.isHiddenToPlayer() && !_targetEntity.isHiddenToPlayer())
 	// 	{
-	// 		this.Tactical.getShaker().cancel(_user);
+	// 		::Tactical.getShaker().cancel(_user);
 
 	// 		if (this.m.IsDoingForwardMove)
 	// 		{
-	// 			this.Tactical.getShaker().shake(_user, _targetEntity.getTile(), 5);
+	// 			::Tactical.getShaker().shake(_user, _targetEntity.getTile(), 5);
 	// 		}
 	// 		else
 	// 		{
@@ -669,7 +669,7 @@
 
 	// 			if (_user.getTile().hasNextTile(otherDir))
 	// 			{
-	// 				this.Tactical.getShaker().shake(_user, _user.getTile().getNextTile(otherDir), 6);
+	// 				::Tactical.getShaker().shake(_user, _user.getTile().getNextTile(otherDir), 6);
 	// 			}
 	// 		}
 	// 	}
@@ -698,7 +698,7 @@
 	// 	if (!_user.isHiddenToPlayer() && !_targetEntity.isHiddenToPlayer())
 	// 	{
 	// 		local rolled = r;
-	// 		this.Tactical.EventLog.log_newline();
+	// 		::Tactical.EventLog.log_newline();
 
 	// 		if (astray)
 	// 		{
@@ -706,32 +706,32 @@
 	// 			{
 	// 				if (isHit)
 	// 				{
-	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 					::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 				}
 	// 				else
 	// 				{
-	// 					this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 					::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 				}
 	// 			}
 	// 			else
 	// 			{
-	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity));
+	// 				::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and the shot goes astray and hits " + ::Const.UI.getColorizedEntityName(_targetEntity));
 	// 			}
 	// 		}
 	// 		else if (this.isUsingHitchance())
 	// 		{
 	// 			if (isHit)
 	// 			{
-	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 				::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 			}
 	// 			else
 	// 			{
-	// 				this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
+	// 				::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and misses " + ::Const.UI.getColorizedEntityName(_targetEntity) + " (Chance: " + ::Math.min(95, ::Math.max(5, toHit)) + ", Rolled: " + rolled + ")");
 	// 			}
 	// 		}
 	// 		else
 	// 		{
-	// 			this.Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity));
+	// 			::Tactical.EventLog.logEx(::Const.UI.getColorizedEntityName(_user) + " uses " + this.getName() + " and hits " + ::Const.UI.getColorizedEntityName(_targetEntity));
 	// 		}
 	// 	}
 
@@ -756,7 +756,7 @@
 	// 		if (this.m.IsShowingProjectile && this.m.ProjectileType != 0 && _user.getTile().getDistanceTo(_targetEntity.getTile()) >= ::Const.Combat.SpawnProjectileMinDist && (!_user.isHiddenToPlayer() || !_targetEntity.isHiddenToPlayer()))
 	// 		{
 	// 			local flip = !this.m.IsProjectileRotated && _targetEntity.getPos().X > _user.getPos().X;
-	// 			local time = this.Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), _targetEntity.getTile(), 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
+	// 			local time = ::Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), _targetEntity.getTile(), 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
 	// 			this.Time.scheduleEvent(this.TimeUnit.Virtual, time, this.onScheduledTargetHit, info);
 
 	// 			if (this.m.SoundOnHit.len() != 0)
@@ -774,7 +774,7 @@
 	// 				::Sound.play(this.m.SoundOnHit[::Math.rand(0, this.m.SoundOnHit.len() - 1)], ::Const.Sound.Volume.Skill * this.m.SoundVolume, _targetEntity.getPos());
 	// 			}
 
-	// 			if (this.Tactical.State.getStrategicProperties() != null && this.Tactical.State.getStrategicProperties().IsArenaMode && toHit <= 15)
+	// 			if (::Tactical.State.getStrategicProperties() != null && ::Tactical.State.getStrategicProperties().IsArenaMode && toHit <= 15)
 	// 			{
 	// 				::Sound.play(::Const.Sound.ArenaShock[::Math.rand(0, ::Const.Sound.ArenaShock.len() - 1)], ::Const.Sound.Volume.Tactical * ::Const.Sound.Volume.Arena);
 	// 			}
@@ -831,7 +831,7 @@
 
 	// 				if (_user.getTile().getDistanceTo(divertTile) >= ::Const.Combat.SpawnProjectileMinDist)
 	// 				{
-	// 					time = this.Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
+	// 					time = ::Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
 	// 				}
 
 	// 				this.Time.scheduleEvent(this.TimeUnit.Virtual, time, this.onShieldHit, info);
@@ -855,11 +855,11 @@
 
 	// 				if (_user.getTile().getDistanceTo(divertTile) >= ::Const.Combat.SpawnProjectileMinDist)
 	// 				{
-	// 					this.Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
+	// 					::Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
 	// 				}
 	// 			}
 
-	// 			if (this.Tactical.State.getStrategicProperties() != null && this.Tactical.State.getStrategicProperties().IsArenaMode)
+	// 			if (::Tactical.State.getStrategicProperties() != null && ::Tactical.State.getStrategicProperties().IsArenaMode)
 	// 			{
 	// 				if (toHit >= 90 || _targetEntity.getHitpointsPct() <= 0.1)
 	// 				{
@@ -909,7 +909,7 @@
 
 	// 			if (this.m.IsShowingProjectile && this.m.ProjectileType != 0 && _user.getTile().getDistanceTo(tile) >= ::Const.Combat.SpawnProjectileMinDist)
 	// 			{
-	// 				time = this.Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
+	// 				time = ::Tactical.spawnProjectileEffect(::Const.ProjectileSprite[this.m.ProjectileType], _user.getTile(), divertTile, 1.0, this.m.ProjectileTimeScale, this.m.IsProjectileRotated, flip);
 	// 			}
 
 	// 			this.getContainer().setBusy(true);
