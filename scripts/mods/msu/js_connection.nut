@@ -1,4 +1,4 @@
-::js_connection <- {
+this.js_connection <- {
 	m = {
 		JSHandle = null,
 	},
