@@ -98,9 +98,9 @@
 		return ret;
 	}
 
-	function compareVersionStrings( _version, _version1 )
+	function compareVersionStrings( _version1, _version2 )
 	{
-		return compareModVersions(this.getVersionTable(_version), this.getVersionTable(_version1));
+		return compareModVersions(this.getVersionTable(_version1), this.getVersionTable(_version2));
 	}
 
 	function compareModToVersion( _mod, _version )
@@ -126,11 +126,11 @@
 		{
 			if (_mod1.Version[i] > _mod2.Version[i])
 			{
-				return -1;
+				return 1;
 			}
 			else if (_mod1.Version[i] < _mod2.Version[i])
 			{
-				return 1;
+				return -1;
 			}
 		}
 
@@ -138,11 +138,11 @@
 		{
 			if (_mod1.PreRelease == null && _mod2.PreRelease != null)
 			{
-				return -1;
+				return 1;
 			}
 			if (_mod1.PreRelease != null && _mod2.PreRelease == null)
 			{
-				return 1;
+				return -1;
 			}
 			return 0;
 		}
@@ -160,22 +160,22 @@
 					local int2 = _mod2.PreRelease[i].tointeger();
 					if (int1 < int2)
 					{
-						return 1;
+						return -1;
 					}
 					else if (int1 > int2)
 					{
-						return -1;
+						return 1;
 					}
 				}
 				else
 				{
 					if (isInt1)
 					{
-						return 1;
+						return -1;
 					}
 					else
 					{
-						return -1;
+						return 1;
 					}
 				}
 			}
@@ -183,22 +183,22 @@
 			{
 				if (_mod1.PreRelease[i] > _mod2.PreRelease[i])
 				{
-					return -1;
+					return 1;
 				}
 				else if (_mod1.PreRelease[i] < _mod2.PreRelease[i])
 				{
-					return 1;
+					return -1;
 				}
 			}
 		}
 
 		if (_mod1.PreRelease.len() > _mod2.PreRelease.len())
 		{
-			return -1;
+			return 1;
 		}
 		else if (_mod1.PreRelease.len() < _mod2.PreRelease.len())
 		{
-			return 1;
+			return -1;
 		}
 		return 0;
 	}

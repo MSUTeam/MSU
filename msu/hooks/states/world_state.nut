@@ -209,13 +209,13 @@
 
 			switch (::MSU.System.Registry.compareModToVersion(mod, oldVersion))
 			{
-				case -1:
+				case 1:
 					::logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
 					break;
 				case 0:
 					::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
 					break;
-				case 1:
+				case -1:
 					::logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
 					break;
 				default:
