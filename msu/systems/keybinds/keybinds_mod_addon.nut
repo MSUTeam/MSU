@@ -21,7 +21,7 @@
 	{
 		local keybind = ::MSU.Class.KeybindJS(this.Mod.getID(), _id, _keyCombinations, _name);
 		keybind.setDescription(_description);
-		::MSU.System.Keybinds.add(keybind)
+		::MSU.System.Keybinds.add(keybind);
 	}
 
 	function addDivider( _id, _name )

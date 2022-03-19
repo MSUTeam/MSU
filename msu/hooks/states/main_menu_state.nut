@@ -52,7 +52,7 @@
 		}
 	}
 
-	o.msu_settings_screen_onCancelPressed <- function ()
+	o.msu_settings_screen_onCancelPressed <- function()
 	{
 		this.m.ModSettingsShown = false;
 		this.m.MenuStack.pop();

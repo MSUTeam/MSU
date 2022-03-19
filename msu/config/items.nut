@@ -80,7 +80,7 @@ foreach (itemType in ::Const.Items.ItemType)
 	Staff = 8192,
 	Throwing = 16384,
 	Musical = 32768
-}
+};
 
 ::Const.Items.WeaponTypeName <- [
 	"No Weapon Type",
@@ -100,7 +100,7 @@ foreach (itemType in ::Const.Items.ItemType)
 	"Staff",
 	"Throwing Weapon",
 	"Musical Instrument"
-]
+];
 
 ::Const.Items.getWeaponTypeName <- function( _weaponType )
 {

@@ -31,7 +31,7 @@
 		return ret;
 	}
 
-	function flagDeserialize(_modID)
+	function flagDeserialize( _modID )
 	{
 		base.flagDeserialize(_modID);
 		if (this.Array.find(this.Value) == null)

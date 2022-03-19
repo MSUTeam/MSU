@@ -62,7 +62,7 @@
 		this.KeybindsByMod[_keybind.getModID()][_keybind.getID()] <- _keybind;
 		if (_makeSetting)
 		{
-			this.addKeybindSetting(_keybind)
+			this.addKeybindSetting(_keybind);
 		}
 	}
 
@@ -121,7 +121,7 @@
 			::MSU.Mod.Debug.printWarning("Calling keybind", "keybinds");
 			if (keybind.call(_environment) == false)
 			{
-            	::MSU.Mod.Debug.printWarning("Returning after keybind call returned false.", "keybinds");
+				::MSU.Mod.Debug.printWarning("Returning after keybind call returned false.", "keybinds");
 				return false;
 			}
 		}

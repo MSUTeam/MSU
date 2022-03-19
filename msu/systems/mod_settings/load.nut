@@ -24,7 +24,7 @@ local testSettingsSystem = function()
 {
 	for (local i = 0; i < 5; ++i)
 	{
-		local modPanel = ::MSU.Class.SettingsPanel("MSU" + i, "M" + i)
+		local modPanel = ::MSU.Class.SettingsPanel("MSU" + i, "M" + i);
 		local numPages = rand() % 5 + 1;
 		for (local j = 0; j < numPages; ++j)
 		{
@@ -32,14 +32,15 @@ local testSettingsSystem = function()
 
 			local test = ::MSU.Class.RangeSetting("TestRange" + j, 100, 10, 300, 10);
 			local test1 = ::MSU.Class.BooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
-			test1.addCallback(function(_data = null){
+			test1.addCallback(function(_data = null)
+			{
 				::logInfo("worked?")
 			})
 			// test1.lock()
 			local test2 = ::MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
-			test2.addFlags("NewCampaign", "NewCampaignOnly")
+			test2.addFlags("NewCampaign", "NewCampaignOnly");
 			local test3 = ::MSU.Class.EnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
-			test3.lock()
+			test3.lock();
 			local test4 = ::MSU.Class.EnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
 			local divider = ::MSU.Class.SettingsDivider("divider")
 
@@ -59,11 +60,8 @@ local testSettingsSystem = function()
 	}
 }
 
-
 ::MSU.SettingsScreen <- ::new("scripts/mods/msu/settings_screen");
-
 ::MSU.PersistentDataManager <- ::new("scripts/mods/msu/persistent_data_manager");
-
 ::MSU.UI.registerConnection(::MSU.SettingsScreen);
 
 ::getModSetting <- function( _modID, _settingID )
@@ -92,15 +90,16 @@ local testSettingsSystem = function()
 			"NewCampaignOnly"
 		]
 	}
-}
+};
 
-::MSU.Mod.register(::MSU.System.ModSettings)
+::MSU.Mod.register(::MSU.System.ModSettings);
 
 local logPage = ::MSU.Class.SettingsPage("Logging");
 ::MSU.Mod.ModSettings.addPage(logPage);
 
 local logToggle = ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
-logToggle.addCallback(function(_data){
+logToggle.addCallback(function(_data)
+{
 	::MSU.System.Debug.FullDebug = _data;
 })
 logPage.add(logToggle);
@@ -110,18 +109,17 @@ logPage.add(logToggle);
 // }))
 
 local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
-verboseModeToggle.addCallback(function(_data){
+verboseModeToggle.addCallback(function(_data)
+{
 	::Const.AI.VerboseMode = _data
 })
 logPage.add(verboseModeToggle);
 
 // ::MSU.System.ModSettings.importPersistentSettings()
 
-
 // //this neeeds to be moved into a hook
 // ::MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
 // ::MSU.CustomKeybinds.parseForUI();
-
 
 // Testing Code
 // testSettingsSystem();

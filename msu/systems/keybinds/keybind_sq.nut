@@ -4,7 +4,7 @@
 	State = null;
 	KeyState = null;
 
-	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
+	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null )
 	{
 		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
 		::MSU.requireFunction(_function);

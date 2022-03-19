@@ -142,14 +142,14 @@
 	}
 
 	local setContainer = o.setContainer;
-	o.setContainer = function( _c )
+	o.setContainer = function( _container )
 	{
-		if (_c != null)
+		if (_container != null)
 		{
 			this.saveBaseValues();
 		}
 
-		setContainer(_c);
+		setContainer(_container);
 	}
 
 	o.onMovementStarted <- function( _tile, _numTiles )
@@ -233,7 +233,7 @@
 
 		container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
-		local ret = use( _targetTile, _forFree );
+		local ret = use(_targetTile, _forFree);
 
 		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
@@ -242,9 +242,9 @@
 
 	o.removeDamageType <- function( _damageType )
 	{
-		for (local i = 0; i < this.m.DamageType.len(); i++)
+		foreach (i, damageType in this.m.DamageType)
 		{
-			if (this.m.DamageType[i].DamageType == _damageType)
+			if (damageType.DamageType == _damageType)
 			{
 				this.m.DamageType.remove(i);
 			}

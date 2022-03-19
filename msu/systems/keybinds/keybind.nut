@@ -9,9 +9,7 @@
 	constructor( _modID, _id, _keyCombinations, _name = null )
 	{
 		if (_name == null) _name = _id;
-
 		if (!(_modID in ::MSU.System.Keybinds.KeybindsByMod)) throw ::MSU.Exception.ModNotRegistered;
-
 		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 
 		this.ModID = _modID;

@@ -1,9 +1,9 @@
 ::MSU.Class.AbstractSetting <- class extends ::MSU.Class.SettingsElement
 {
 	static Type = "Abstract";
-	Value = null;// Serialized
-	Locked = null; // Serialized
-	LockReason = null; // Serialized
+	Value = null;
+	Locked = null;
+	LockReason = null;
 	Callbacks = null;
 	ParseChange = null; //if it should print change to log for further manipulation
 
@@ -17,17 +17,17 @@
 		this.Callbacks = [];
 	}
 
-	function setParseChange(_bool)
+	function setParseChange( _bool )
 	{
 		this.ParseChange = _bool;
 	}
 
 	function getParseChange()
 	{
-		return this.ParseChange
+		return this.ParseChange;
 	}
 
-	function onChangedCallback(_newValue)
+	function onChangedCallback( _newValue )
 	{
 		foreach (callback in this.Callbacks)
 		{
@@ -35,7 +35,7 @@
 		}
 	}
 
-	function addCallback(_callback)
+	function addCallback( _callback )
 	{
 		this.Callbacks.push(_callback);
 	}
@@ -44,7 +44,7 @@
 	{
 		if (this.Locked)
 		{
-			::logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed")
+			::logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed");
 			return;
 		}
 
@@ -56,12 +56,12 @@
 			}
 			if (_updatePersistence && this.ParseChange == true)
 			{
-				::MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()))
+				::MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()));
 			}
-			this.Value = _value
+			this.Value = _value;
 			if (_updateJS)
 			{
-				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value)
+				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value);
 			}
 		}
 	}
@@ -81,7 +81,7 @@
 		local ret = "";
 		if (this.isLocked())
 		{
-			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n"
+			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n";
 			if (this.LockReason != "")
 			{
 				ret += this.LockReason + "\n";

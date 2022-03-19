@@ -1,5 +1,5 @@
 ::Const.Injury.ExcludedInjuries <- {
-	function get(_injuries)
+	function get( _injuries )
 	{
 		local ret = _injuries.Injuries;
 
@@ -11,7 +11,7 @@
 		return ret;
 	}
 
-	function add(_name, _injuries, _include = [])
+	function add( _name, _injuries, _include = [] )
 	{
 		if (_name in this)
 		{

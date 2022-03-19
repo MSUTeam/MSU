@@ -15,7 +15,7 @@
 	SameFaction = 1,
 	Allied = 2,
 	Enemy = 3
-}
+};
 
 ::Const.Damage <- {
 	function addNewDamageType ( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
@@ -37,15 +37,13 @@
 
 		this.DamageType[_damageType] <- n << 1;
 
-		this.DamageTypeInjuries.push(
-			{
-				DamageType = this.DamageType[_damageType],
-				Injuries = {
-					Head = _injuriesOnHead,
-					Body = _injuriesOnBody
-				}
+		this.DamageTypeInjuries.push({
+			DamageType = this.DamageType[_damageType],
+			Injuries = {
+				Head = _injuriesOnHead,
+				Body = _injuriesOnBody
 			}
-		);
+		});
 
 		if (_damageTypeName = "")
 		{
@@ -53,7 +51,7 @@
 		}
 
 		::Const.Damage.DamageTypeName.push(_damageTypeName);
-	}
+	};
 
 	function getDamageTypeName( _damageType )
 	{

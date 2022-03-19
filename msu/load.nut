@@ -1,4 +1,3 @@
-local prefix = "msu/"
 ::includeLoad <- function( _prefix, _folder )
 {
 	::include(_prefix + _folder + "/load.nut");
@@ -18,7 +17,7 @@ local prefix = "msu/"
 	}
 }
 
-local function includeLoad(_folder)
+local function includeLoad( _folder )
 {
 	::includeLoad("msu/", _folder);
 }

@@ -1,6 +1,6 @@
 this.persistent_data_manager <- {
 	m = {
-		ModConfigPath = "mod_config/"
+		ModConfigPath = "mod_config/",
 		Mods = {}
 	},
 	
@@ -29,7 +29,6 @@ this.persistent_data_manager <- {
 			}
 		}
 	}
-	
 
 	function getMods()
 	{
@@ -41,7 +40,7 @@ this.persistent_data_manager <- {
 		return (_modID in this.getMods());
 	}
 
-	function getMod(_modID)
+	function getMod( _modID )
 	{
 		if (!this.hasMod(_modID))
 		{
@@ -59,7 +58,6 @@ this.persistent_data_manager <- {
 			return true;
 		}
 		return false;
-
 	}
 
 	function loadSettingForEveryMod( _settingID )
@@ -92,7 +90,7 @@ this.persistent_data_manager <- {
 		this.getMods()[_modID] <- {};
 	}
 
-	function writeToLog(_settingID, _modID, _value)
+	function writeToLog( _settingID, _modID, _value )
 	{
 		::logInfo(format("PARSEME;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
 	}

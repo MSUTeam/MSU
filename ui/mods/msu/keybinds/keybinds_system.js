@@ -22,7 +22,7 @@ MSU.Keybinds = {
 	getPressedKeysAsString : function( _excludeKey )
 	{
 		var key = '';
-		Object.keys(this.PressedKeys).forEach( function( pressedKeyID )
+		Object.keys(this.PressedKeys).forEach(function(pressedKeyID)
 		{
 			if (_excludeKey != pressedKeyID)
 			{

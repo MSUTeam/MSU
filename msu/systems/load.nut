@@ -5,7 +5,7 @@
 	Registry = 2,
 	Log = 3,
 	Keybinds = 4
-}
+};
 
 local function includeLoad( _folder )
 {
@@ -21,10 +21,7 @@ includeFile("system");
 includeFile("system_mod_addon");
 includeFile("empty_mod_addon");
 ::MSU.EmptyModAddon <- ::MSU.Class.EmptyModAddon();
-
 includeLoad("registry");
-
-
 includeLoad("debug");
 
 includeFile("mod");
@@ -32,7 +29,6 @@ includeFile("mod");
 ::MSU.Mod <- ::MSU.Class.Mod(::MSU.ID, ::MSU.Version, ::MSU.Name)
 
 ::MSU.Mod.register(::MSU.System.Debug, true);
-
 //need to set this first to print the others
 ::MSU.Mod.Debug.setFlag("debug", true);
 ::MSU.Mod.Debug.setFlags({
@@ -41,10 +37,7 @@ includeFile("mod");
 	"keybinds" : true,
 	"persistence" : true
 })
-
 ::MSU.Vanilla.register(::MSU.System.Debug, true);
-
-
 
 includeLoad("mod_settings");
 includeLoad("serialization");

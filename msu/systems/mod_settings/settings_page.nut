@@ -76,7 +76,7 @@
 			name = this.getName(),
 			id = this.getID(),
 			settings = []
-		}
+		};
 
 		foreach (setting in this.Settings)
 		{
@@ -94,7 +94,7 @@
 
 		foreach (setting in this.Settings)
 		{
-			ret += " " + setting
+			ret += " " + setting;
 		}
 	}
 

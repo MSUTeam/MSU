@@ -7,7 +7,7 @@
 		{
 			this.m.LastDayMorningEventCalled = ::World.getTime().Days;
 			local roster = ::World.getPlayerRoster().getAll();
-			foreach ( bro in roster )
+			foreach (bro in roster)
 			{
 				bro.getSkills().onNewMorning();
 			}
@@ -19,7 +19,7 @@
 			::World.Assets.getOrigin().onNewDay();
 		}
 
-		update( _worldState );
+		update(_worldState);
 	}
 
 	o.getLastDayMorningEventCalled <- function()

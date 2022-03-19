@@ -19,14 +19,14 @@
 
 	function shuffle( _array )
 	{
-	    for (local i = _array.len() - 1; i > 0; i--)
-	    {
-	        local j = ::Math.rand(0, i);
+		for (local i = _array.len() - 1; i > 0; i--)
+		{
+			local j = ::Math.rand(0, i);
 
-	        local temp = _array[i];
-	        _array[i] = _array[j];
-	        _array[j]  = temp;
-	    }
+			local temp = _array[i];
+			_array[i] = _array[j];
+			_array[j]  = temp;
+		}
 	}
 
 	function sortDescending( _array, _member = null )

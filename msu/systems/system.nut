@@ -3,7 +3,7 @@
 	ID = null;
 	constructor( _id, _dependencies = null )
 	{
-		if (_dependencies == null) _dependencies = []
+		if (_dependencies == null) _dependencies = [];
 
 		foreach (dependency in _dependencies)
 		{

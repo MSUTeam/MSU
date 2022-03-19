@@ -38,7 +38,7 @@
 
 	function has( _id )
 	{
-		return this.Panels.contains(_id)
+		return this.Panels.contains(_id);
 	}
 
 	function finalize()
@@ -61,7 +61,7 @@
 		{
 			foreach (settingID, value in panel)
 			{
-				local setting = this.Panels[modID].getSetting(settingID)
+				local setting = this.Panels[modID].getSetting(settingID);
 				setting.set(value);
 			}
 		}
@@ -89,7 +89,7 @@
 		}
 	}
 
-	function callPanelsFunction(_function, ...)
+	function callPanelsFunction( _function, ... )
 	{
 		vargv.insert(0, null);
 
@@ -102,7 +102,7 @@
 
 	function importPersistentSettings()
 	{
-		::MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting")
+		::MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting");
 	}
 
 	function flagSerialize()

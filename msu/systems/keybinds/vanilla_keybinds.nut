@@ -42,7 +42,8 @@
 	return false;
 }, "Switch to Next Brother");
 
-local function isCampfireScreen(){
+local function isCampfireScreen()
+{
 	return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible();
 }
 
@@ -197,7 +198,7 @@ local function isCampfireScreen(){
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
-		return
+		return;
 	}
 
 	this.m.EventScreen.onButtonPressed(0);
@@ -208,7 +209,7 @@ local function isCampfireScreen(){
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
-		return
+		return;
 	}
 
 	this.m.EventScreen.onButtonPressed(1);
@@ -219,7 +220,7 @@ local function isCampfireScreen(){
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
-		return
+		return;
 	}
 
 	this.m.EventScreen.onButtonPressed(2);
@@ -230,7 +231,7 @@ local function isCampfireScreen(){
 {
 	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
 	{
-		return
+		return;
 	}
 
 	this.m.EventScreen.onButtonPressed(3);
@@ -281,7 +282,7 @@ local function isCampfireScreen(){
 
 ::MSU.Vanilla.Keybinds.addDivider("tactical", "Combat Keybinds");
 
-::MSU.Vanilla.Keybinds.addSQKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical ,function()
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical, function()
 {
 	if (!this.isInCharacterScreen()) return;
 	if (this.m.CharacterScreen.isInBattlePreparationMode() == true)

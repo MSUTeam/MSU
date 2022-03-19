@@ -17,15 +17,15 @@
 		this.Connections.clear();
 		foreach (callback in this.Callbacks)
 		{
-			callback()
+			callback();
 		}
-		this.Callbacks.clear()
+		this.Callbacks.clear();
 	}
 
 	function addAfterConnectionCallback( _function )
 	{
 		::MSU.requireFunction(_function);
-		this.Callbacks.push(_function)
+		this.Callbacks.push(_function);
 	}
 }
 
