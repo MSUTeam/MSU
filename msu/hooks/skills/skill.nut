@@ -222,6 +222,10 @@
 	{			
 	}
 
+	o.onEnterSettlement <- function( _settlement )
+	{		
+	}
+
 	local use = o.use;
 	o.use = function( _targetTile, _forFree = false )
 	{
