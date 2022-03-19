@@ -18,7 +18,7 @@
 		this.DefaultFlag = "default";
 	}
 
-	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null)
+	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null )
 	{
 		base.registerMod(_mod);
 		if (_mod.getID() in this.Mods)
@@ -38,7 +38,7 @@
 		}
 	}
 
-	function setFlags(_modID, _flagTable)
+	function setFlags( _modID, _flagTable )
 	{
 		foreach (flagID, flagBool in _flagTable)
 		{
@@ -46,7 +46,7 @@
 		}
 	}
 
-	function setFlag(_modID, _flagID, _flagBool)
+	function setFlag( _modID, _flagID, _flagBool )
 	{
 		if (!(_modID in this.Mods))
 		{
@@ -66,7 +66,7 @@
 		}
 	}
 
-	function isEnabledForMod( _modID, _flagID = "default")
+	function isEnabledForMod( _modID, _flagID = "default" )
 	{
 		if (!(_modID in this.Mods))
 		{
@@ -84,7 +84,7 @@
 		return this.FullDebug;
 	}
 
-	function setFullDebug(_bool)
+	function setFullDebug( _bool )
 	{
 		this.FullDebug = _bool;
 	}
@@ -99,11 +99,11 @@
 		return this.Mods[_modID].FullDebug;
 	}
 
-	function print( _printText, _modID, _logType, _flagID = "default")
+	function print( _printText, _modID, _logType, _flagID = "default" )
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.ModNotRegistered
+			throw ::MSU.Exception.ModNotRegistered;
 		}
 
 		if (this.isEnabledForMod(_modID, _flagID))

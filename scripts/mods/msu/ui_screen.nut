@@ -5,7 +5,7 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 		OnDisconnectedListener = null,
 		OnScreenShownListener = null,
 		OnScreenHiddenListener = null,
-		OnClosePressedListener = null,
+		OnClosePressedListener = null
 	},
 
 	function isVisible()
@@ -60,10 +60,10 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 	function destroy()
 	{
 		this.clearEventListeners();
-		this.js_connection.destroy()
+		this.js_connection.destroy();
 	}
 
-	function show(_data)
+	function show( _data )
 	{
 		if (this.m.JSHandle == null)
 		{

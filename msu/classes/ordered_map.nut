@@ -23,7 +23,7 @@
 		{
 			if (this.Array[i] == _key)
 			{
-				this.Array.remove(i)
+				this.Array.remove(i);
 				delete this.Table[_key];
 				return;
 			}
@@ -85,8 +85,8 @@
 		return this.Array.len();
 	}
 
-	function contains( _value )
+	function contains( _key )
 	{
-		return _value in this.Table;
+		return _key in this.Table;
 	}
 }

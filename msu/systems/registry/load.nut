@@ -14,5 +14,5 @@ local system = ::MSU.Class.RegistrySystem();
 	{
 		throw ::MSU.Exception.KeyNotFound;
 	}
-	return this.Mods[_modID]
+	return this.Mods[_modID];
 }

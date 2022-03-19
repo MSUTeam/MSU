@@ -4,7 +4,7 @@
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Registry);
-		this.Mods = {}
+		this.Mods = {};
 	}
 
 	function addMod( _mod )

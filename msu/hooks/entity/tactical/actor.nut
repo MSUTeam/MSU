@@ -7,18 +7,20 @@
 	}
 
 	local onMovementStart = o.onMovementStart;
-	o.onMovementStart = function ( _tile, _numTiles ) {
+	o.onMovementStart = function ( _tile, _numTiles )
+	{
 		onMovementStart(_tile, _numTiles);
 		this.m.IsMoving = true;
-		this.m.Skills.onMovementStarted( _tile, _numTiles );
+		this.m.Skills.onMovementStarted(_tile, _numTiles);
 		this.m.IsMoving = false;
 	}
 
 	local onMovementFinish = o.onMovementFinish;
-	o.onMovementFinish = function ( _tile ) {
+	o.onMovementFinish = function ( _tile )
+	{
 		onMovementFinish(_tile);
 		this.m.IsMoving = true;
-		this.m.Skills.onMovementFinished( _tile );
+		this.m.Skills.onMovementFinished(_tile);
 		this.m.IsMoving = false;
 	}
 
@@ -47,9 +49,9 @@
 		{
 			local factions = ::Tactical.Entities.getAllInstances();
 
-			foreach ( f in factions )
+			foreach (f in factions)
 			{
-				foreach ( actor in f )
+				foreach (actor in f)
 				{
 					if (actor.getID() != this.getID())
 					{
@@ -86,7 +88,7 @@
 		local actors = ::Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
-		foreach ( a in actors )
+		foreach (a in actors)
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) != _distance ||
@@ -126,7 +128,7 @@
 		local actors = ::Tactical.Entities.getAllInstancesAsArray();
 		local result = [];
 
-		foreach ( a in actors )
+		foreach (a in actors)
 		{
 			if (a == null || a.getID() == this.getID() || !a.isPlacedOnMap() ||
 				  a.getTile().getDistanceTo(this.getTile()) > _distance ||

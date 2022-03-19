@@ -15,9 +15,9 @@
 	function extend( _array )
 	{
 		::MSU.requireArray(_array);
-		foreach (i in _array)
+		foreach (item in _array)
 		{
-			this.push(i);
+			this.push(item);
 		}
 	}
 
@@ -49,7 +49,7 @@
 		return null;
 	}
 
-	function rollChance(_chance)
+	function rollChance( _chance )
 	{
 		return _chance < ::Math.rand(1, 100) ? this.roll() : null;
 	}
@@ -61,7 +61,7 @@
 		return ++_idx == this.len() ? _idx : null;
 	}
 
-	function _get(_idx)
+	function _get( _idx )
 	{
 		return this.Array[_idx];
 	}

@@ -5,8 +5,8 @@
 		local count = 0;
 		while (_num > 1) 
 		{
-		    _num = _num >> 1;
-		    count++;
+			_num = _num >> 1;
+			count++;
 		}
 		return count;
 	}

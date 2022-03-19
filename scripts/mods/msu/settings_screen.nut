@@ -20,7 +20,7 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 		this.m.OnCancelPressedListener = _listener;
 	}
 
-	function show(_flags = null)
+	function show( _flags = null )
 	{
 		if (this.m.JSHandle == null)
 		{

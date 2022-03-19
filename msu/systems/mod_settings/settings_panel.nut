@@ -22,7 +22,7 @@
 		{
 			throw ::MSU.Exception.InvalidType;
 		}
-		_page.setParent(this)
+		_page.setParent(this);
 		this.Pages[_page.getID()] <- _page;
 	}
 
@@ -41,12 +41,12 @@
 
 	function hasPage( _pageID )
 	{
-		return this.getPages().contains(_pageID)
+		return this.getPages().contains(_pageID);
 	}
 
 	function getPage( _pageID )
 	{
-		return this.Pages[_pageID]
+		return this.Pages[_pageID];
 	}
 
 	function verifyFlags( _flags )
@@ -130,7 +130,7 @@
 			{
 				if (setting instanceof ::MSU.Class.AbstractSetting)
 				{
-					ret[setting.getID()] <- setting.getValue()
+					ret[setting.getID()] <- setting.getValue();
 				}
 			}
 		}

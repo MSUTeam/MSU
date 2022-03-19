@@ -47,9 +47,9 @@
 		properties.Tile = tile;
 		properties.InCombatAlready = false;
 		properties.IsAttackingLocation = false;
-		local factions = array(256, 0)
+		local factions = array(256, 0);
 
-		foreach ( party in raw_parties )
+		foreach (party in raw_parties)
 		{
 			if (!party.isAlive() || party.isPlayerControlled())
 			{
@@ -74,7 +74,7 @@
 			}
 		}
 
-		foreach ( party in raw_parties )
+		foreach (party in raw_parties)
 		{
 			if (!party.isAlive() || party.isPlayerControlled())
 			{
@@ -95,7 +95,7 @@
 			{
 				local hasOpponent = false;
 
-				foreach ( other in raw_parties )
+				foreach (other in raw_parties)
 				{
 					if (other.isAlive() && !party.isAlliedWith(other))
 					{
@@ -115,7 +115,7 @@
 			}
 		}
 
-		foreach ( party in parties )
+		foreach (party in parties)
 		{
 			if (party.isInCombat())
 			{
@@ -134,7 +134,7 @@
 			party.onBeforeCombatStarted();
 			local troops = party.getTroops();
 
-			foreach ( t in troops )
+			foreach (t in troops)
 			{
 				if (t.Script != "")
 				{
@@ -169,7 +169,7 @@
 		local highest_faction = 0;
 		local best = 0;
 
-		foreach ( i, f in factions )
+		foreach (i, f in factions)
 		{
 			if (f > best)
 			{
@@ -216,7 +216,7 @@
 					::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
 					break;
 				case -1:
-					::logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()))
+					::logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s => %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
 					break;
 				default:
 					::logError("Something has gone very wrong with MSU Serialization");

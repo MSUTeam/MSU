@@ -115,12 +115,12 @@
 	{
 		if (this.isAllWeaponTypes(_weaponType))
 		{
-			this.m.WeaponType -= _weaponType;				
-		}
+			this.m.WeaponType -= _weaponType;
 
-		if (_setupCategories)
-		{
-			this.setupCategories();
+			if (_setupCategories)
+			{
+				this.setupCategories();
+			}
 		}
 	}
 

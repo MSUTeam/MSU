@@ -2,7 +2,7 @@
 	o.m.IsSpent <- false;
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
-	o.onUpdate = function(_properties)
+	o.onUpdate = function( _properties )
 	{
 	}
 
@@ -21,12 +21,12 @@
 		return this.m.IsSpent;
 	}
 
-	o.getItemActionCost <- function(_items)
+	o.getItemActionCost <- function( _items )
 	{
 		return this.m.IsSpent ? null : 0;
 	}
 
-	o.onPayForItemAction <- function(_skill, _items)
+	o.onPayForItemAction <- function( _skill, _items )
 	{
 		if (_skill == this)
 		{

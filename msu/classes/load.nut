@@ -1,6 +1,6 @@
 ::MSU.Class <- {};
 
-local function includeFile(_file)
+local function includeFile( _file )
 {
 	::includeFile("msu/classes/", _file + ".nut");
 }
