@@ -190,7 +190,6 @@
 
 	o.getItemActionCost <- function( _items )
 	{
-		return null;
 	}
 
 	o.getItemActionOrder <- function()

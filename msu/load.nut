@@ -10,7 +10,7 @@
 {
 	foreach (file in _files)
 	{
-		if (split(file, "/").pop() != "load.nut" || _includeLoad)
+		if (_includeLoad || split(file, "/").pop() != "load.nut")
 		{
 			::include(file);
 		}

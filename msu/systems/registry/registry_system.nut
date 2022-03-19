@@ -140,7 +140,7 @@
 			{
 				return 1;
 			}
-			if (_mod1.PreRelease != null && _mod2.PreRelease == null)
+			else if (_mod1.PreRelease != null && _mod2.PreRelease == null)
 			{
 				return -1;
 			}

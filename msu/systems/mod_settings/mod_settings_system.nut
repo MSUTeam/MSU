@@ -10,6 +10,15 @@
 		this.Panels = ::MSU.Class.OrderedMap();
 	}
 
+	function registerMod( _mod )
+	{
+		base.registerMod(_mod);
+
+		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
+		local panel = ::MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
+		this.Panels[_mod.getID()] <- panel;
+	}
+
 	function add( _modPanel )
 	{
 		if (this.Locked)
@@ -147,14 +156,5 @@
 	function sortPanelsByName( _key1, _mod1, _key2, _mod2 )
 	{
 		return _mod1.getName() <=> _mod2.getName();
-	}
-
-	function registerMod( _mod )
-	{
-		base.registerMod(_mod)
-
-		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
-		local panel = ::MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
-		this.Panels[_mod.getID()] <- panel;
 	}
 }

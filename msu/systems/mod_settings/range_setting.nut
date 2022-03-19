@@ -7,16 +7,8 @@
 
 	constructor( _id, _value, _min, _max, _step, _name = null )
 	{
+		::MSU.requireOneOfType(["integer", "float"], _min, _max, _step);
 		base.constructor(_id, _value, _name);
-
-		foreach (num in [_min, _max, _step])
-		{
-			if ((typeof num != "integer") && (typeof num != "float"))
-			{
-				::logError("Max, Min and Step in a Range Setting have to be integers or floats");
-				throw ::MSU.Exception.InvalidType;
-			}
-		}
 
 		this.Min = _min;
 		this.Max = _max;

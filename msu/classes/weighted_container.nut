@@ -6,7 +6,6 @@
 	constructor( _array = null )
 	{
 		if (_array == null) _array = [];
-		::MSU.requireArray(_array);
 		this.Total = 0;
 		this.Array = [];
 		this.extend(_array);

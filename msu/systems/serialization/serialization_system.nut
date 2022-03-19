@@ -1,10 +1,11 @@
 ::MSU.Class.SerializationSystem <- class extends ::MSU.Class.System
 {
-	Mods = [];
+	Mods = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Serialization);
+		this.Mods = [];
 	}
 
 	function registerMod( _mod )
