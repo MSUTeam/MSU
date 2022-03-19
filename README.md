@@ -1,6 +1,6 @@
 # Modding Standards & Utilities
 is a modding library for the game [Battle Brothers](https://store.steampowered.com/app/365360/Battle_Brothers/)
-allowing for better mod compatibility
+allowing for significantly better mod compatibility
 and providing common functions for mods.
 
 ## Links
