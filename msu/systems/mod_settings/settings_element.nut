@@ -11,7 +11,7 @@
 	{
 		if (_id.find(" ") != null)
 		{
-			::logError("The ID of a Setting Element should not have spaces");
+			::logError("The ID of a Settings Element should not have spaces");
 			throw ::MSU.Exception.InvalidType;
 		}
 		this.Name = _name == null ? _id : _name;

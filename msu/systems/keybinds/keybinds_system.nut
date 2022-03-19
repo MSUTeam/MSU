@@ -152,9 +152,9 @@
 		// 	}
 		// ]
 		local ret = []
-		foreach (modID, mod in this.KeybindsForJS)
+		foreach (mod in this.KeybindsForJS)
 		{
-			foreach (keybindID, keybind in mod)
+			foreach (keybind in mod)
 			{
 				ret.push(keybind.getUIData());
 			}

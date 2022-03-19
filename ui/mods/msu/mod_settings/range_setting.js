@@ -1,10 +1,10 @@
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
-	this.layout = $('<div class="range-container outline"/>');
+	this.layout = $('<div class="range-container"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title outline">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 
 	this.control = $('<div class="scale-control"/>');
