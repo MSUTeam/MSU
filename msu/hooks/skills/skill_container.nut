@@ -198,6 +198,13 @@
 		]);
 	}
 
+	o.onEnterSettlement <- function( _settlement )
+	{
+		this.doOnFunction("onEnterSettlement", [
+			_settlement
+		]);
+	}
+
 	//Vanilla Overwrites start
 	
 	o.onAfterDamageReceived = function()
