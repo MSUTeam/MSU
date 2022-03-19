@@ -93,5 +93,5 @@ MSU.getLocalString = function( _key, _value, _maxLen, _depth, _isArray )
 
 MSU.capitalizeFirst = function ( _string )
 {
-	return _string.charAt(0).toUpperCae() + _string.slice(1);
+	return _string.charAt(0).toUpperCase() + _string.slice(1);
 };

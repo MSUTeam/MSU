@@ -80,7 +80,7 @@
 	{
 		if (!this.Panels.contains(_modID))
 		{
-			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), ::MSU.System.Debug.MSUMainDebugFlag);
+			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), "debug");
 			return;
 		}
 		try
@@ -91,7 +91,7 @@
 		{
 			if (error == ::MSU.Exception.KeyNotFound)
 			{
-				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), ::MSU.System.Debug.MSUMainDebugFlag);
+				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
 				return;
 			}
 			throw error;

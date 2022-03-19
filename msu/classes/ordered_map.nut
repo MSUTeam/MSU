@@ -10,7 +10,7 @@
 
 	function _newslot( _key, _value )
 	{
-		if (!(_value in this.Table))
+		if (!(_key in this.Table))
 		{
 			this.Array.push(_key);
 		}
