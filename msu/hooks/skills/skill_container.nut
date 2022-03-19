@@ -148,9 +148,11 @@
 	// 	]);
 	// }
 
-	o.onUpdateLevel <- function()
+	o.onUpdateLevel <- function( _level )
 	{
-		this.doOnFunction("onUpdateLevel");
+		this.doOnFunction("onUpdateLevel", [
+			_level
+		]);
 	}
 
 	o.onNewMorning <- function()

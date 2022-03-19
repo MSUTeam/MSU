@@ -184,7 +184,7 @@
 	// {			
 	// }
 
-	o.onUpdateLevel <- function()
+	o.onUpdateLevel <- function( _level )
 	{
 	}
 

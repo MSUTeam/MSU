@@ -17,7 +17,7 @@
 				++this.m.PerkPoints;
 			}
 
-			this.m.Skills.onUpdateLevel();
+			this.m.Skills.onUpdateLevel(this.m.Level);
 
 			if (this.m.Level == 11)
 			{
