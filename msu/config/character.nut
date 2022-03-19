@@ -51,7 +51,7 @@
 		}
 
 		::Const.Damage.DamageTypeName.push(_damageTypeName);
-	};
+	}
 
 	function getDamageTypeName( _damageType )
 	{

@@ -241,9 +241,9 @@
 
 	o.removeDamageType <- function( _damageType )
 	{
-		foreach (i, damageType in this.m.DamageType)
+		for (local i = 0; i < this.m.DamageType.len(); i++)
 		{
-			if (damageType.DamageType == _damageType)
+			if (this.m.DamageType[i].DamageType == _damageType)
 			{
 				this.m.DamageType.remove(i);
 			}
