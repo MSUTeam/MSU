@@ -5,11 +5,11 @@
 		create();
 		this.resetBaseMovementSpeed();
 		this.setBaseMovementSpeedMult(1.05);
-		this.m.MovementSpeedMultFunctions["RosterMovementSpeedMult"] <- this.getRosterMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions["StashMovementSpeedMult"] <- this.getStashMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions["OriginMovementSpeedMult"] <- this.getOriginMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions["RetinueMovementSpeedMult"] <- this.getRetinueMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions["TerrainTypeSpeedMult"] <- this.getTerrainTypeSpeedMult;
+		this.m.MovementSpeedMultFunctions.RosterMovementSpeedMult <- this.getRosterMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions.StashMovementSpeedMult <- this.getStashMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions.OriginMovementSpeedMult <- this.getOriginMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions.RetinueMovementSpeedMult <- this.getRetinueMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions.TerrainTypeSpeedMult <- this.getTerrainTypeSpeedMult;
 	}
 
 	o.getRosterMovementSpeedMult <- function()
