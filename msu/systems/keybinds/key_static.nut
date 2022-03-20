@@ -2,25 +2,22 @@
 	Environment = {
 		SQ = 0,
 		JS = 1
-	}
-
+	},
 	State = {
 		World = 1,
 		Tactical = 2,
 		MainMenu = 4,
 		All = 1 + 2 + 4
-	}
-
+	},
 	Input = {
 		Keyboard = 0,
 		Mouse = 1
-	}
-
+	},
 	KeyState = {
 		Press = 1,
 		Release = 2,
 		Continuous = 4
-	}
+	},
 
 	function sortKeyString( _key )
 	{
@@ -72,8 +69,7 @@
 	MouseMapSQ = {
 		"1" : "leftclick",
 		"2" : "rightclick",
-	}
-
+	},
 	KeyMapSQ = {
 		"1" : "1",
 		"2" : "2",
