@@ -17,12 +17,12 @@
 
 		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
-		foreach (i in info)
+		foreach (entry in info)
 		{
-			if (i.Cost < cost)
+			if (entry.Cost < cost)
 			{
-				cost = i.Cost;
-				this.m.ActionSkill = i.Skill;
+				cost = entry.Cost;
+				this.m.ActionSkill = entry.Skill;
 			}
 		}
 
