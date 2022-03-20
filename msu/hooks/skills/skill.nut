@@ -16,7 +16,7 @@
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
 
-	o.m.DamageType <- [];
+	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	o.m.IsBaseValuesSaved <- false;
@@ -226,100 +226,6 @@
 		return ret;
 	}
 
-	o.removeDamageType <- function( _damageType )
-	{
-		for (local i = 0; i < this.m.DamageType.len(); i++)
-		{
-			if (this.m.DamageType[i].DamageType == _damageType)
-			{
-				this.m.DamageType.remove(i);
-			}
-		}
-	}
-
-	o.setDamageTypeWeight <- function( _damageType, _weight )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type == _damageType)
-			{
-				d.Weight = _weight;
-			}
-		}
-	}
-
-	o.addDamageType <- function( _damageType, _weight = null )
-	{
-		if (this.hasDamageType(_damageType))
-		{
-			return;
-		}
-
-		if (_weight == null)
-		{
-			if (this.m.DamageType.len() > 0)
-			{
-				local totalWeight = 0;
-				foreach (d in this.m.DamageType)
-				{
-					totalWeight += d.Weight;
-				}
-
-				_weight = totalWeight / this.m.DamageType.len();
-			}
-			else
-			{
-				_weight = 100;
-			}
-		}
-
-		this.m.DamageType.push({Type = _damageType, Weight = _weight});
-	}
-
-	o.hasDamageType <- function( _damageType, _only = false )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type == _damageType)
-			{
-				return _only ? this.m.DamageType.len() == 1 : true;
-			}
-		}
-
-		return false;
-	}
-
-	o.getDamageTypeWeight <- function( _damageType )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type = _damageType)
-			{
-				return d.Weight;
-			}
-		}
-
-		return null;
-	}
-
-	o.getDamageTypeProbability <- function ( _damageType )
-	{
-		local totalWeight = 0;
-		local weight = null;
-
-		foreach (d in this.m.DamageType)
-		{
-			totalWeight += d.Weight;
-
-			if (d.Type == _damageType)
-			{
-				weight = d.Weight;
-			}
-		}
-
-		return weight == null ? null : weight.tofloat() / totalWeight;
-	}
-
 	o.getDamageType <- function()
 	{
 		return this.m.DamageType;
@@ -327,23 +233,7 @@
 
 	o.getWeightedRandomDamageType <- function()
 	{
-		local totalWeight = 0;
-		foreach (d in this.m.DamageType)
-		{
-			totalWeight += d.Weight;
-		}
-
-		local roll = ::Math.rand(1, totalWeight);
-
-		foreach (d in this.m.DamageType)
-		{
-			if (roll <= d.Weight)
-			{
-				return d.Type;
-			}
-
-			roll -= d.Weight;
-		}
+		return this.m.DamageType.roll();
 	}
 
 	o.setupDamageType <- function()
@@ -399,7 +289,7 @@
 
 		foreach (d in this.m.DamageType)
 		{
-			local probability = ::Math.round(this.getDamageTypeProbability(d.Type) * 100);
+			local probability = ::Math.round(this.m.DamageType.getProbability(d.Type) * 100);
 
 			if (probability < 100)
 			{
