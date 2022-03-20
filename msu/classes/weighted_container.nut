@@ -10,7 +10,7 @@
 		this.Array = [];
 		foreach (pair in _array)
 		{
-			this.push(pair);
+			this.add(pair);
 		}
 	}
 
@@ -19,11 +19,11 @@
 		::MSU.requireArray(_array);
 		foreach (item in _array)
 		{
-			this.push(item);
+			this.add(item);
 		}
 	}
 
-	function push( _item )
+	function add( _item )
 	{
 		if (typeof _item != "array") _item = [1, _item];
 		else
