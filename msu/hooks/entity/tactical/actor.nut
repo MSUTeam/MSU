@@ -110,12 +110,7 @@
 	{
 		local actors = this.getActorsAtDistanceAsArray(_distance, _relation);
 
-		if (actors.len() == 0)
-		{
-			return null;
-		}
-
-		return actors[::Math.rand(0, actors.len()-1)];
+		return actors.len() == 0 ? null : ::MSU.Array.rand(actors);
 	}
 
 	o.getActorsWithinDistanceAsArray <- function ( _distance, _relation = ::Const.FactionRelation.Any )
@@ -150,7 +145,7 @@
 	{
 		local actors = this.getActorsWithinDistanceAsArray(_distance, _relation);
 
-		return actors.len() == 0 ? null : actors[::Math.rand(0, actors.len()-1)];
+		return actors.len() == 0 ? null : ::MSU.Array.rand(actors);
 	}
 
 	o.getMainhandItem <- function()
