@@ -19,10 +19,8 @@
 
 	o.removeItemType <- function( _t )
 	{
-		if (this.isAllItemTypes(_t))
-		{
-			this.m.ItemType -= _t;		
-		}
+		if (this.isAllItemTypes(_t)) this.m.ItemType -= _t;
+		else throw ::MSU.Exception.KeyNotFound;
 	}
 
 	o.getSkills <- function()
