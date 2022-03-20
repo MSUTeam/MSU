@@ -39,6 +39,19 @@
 		throw ::MSU.Exception.KeyNotFound;
 	}
 
+	function hasSetting( _settingID )
+	{
+		foreach (page in this.Pages)
+		{
+			if (page.getSettings().contains(_settingID))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	function hasPage( _pageID )
 	{
 		return this.getPages().contains(_pageID);
