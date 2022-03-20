@@ -22,8 +22,7 @@
 	{
 		if (_damageType in this.DamageType)
 		{
-			::logError("addNewDamageType: \'" + _damageType + "\' already exists.");
-			return;
+			throw ::MSU.Exception.DuplicateKey;
 		}
 
 		local n = 0;
@@ -60,10 +59,7 @@
 		{
 			return this.DamageTypeName[idx];
 		}
-
-		::logError("getDamageTypeName: _damageType \'" + _damageType + "\' does not exist");
-
-		return "";
+		throw ::MSU.Exception.KeyNotFound;
 	}
 
 	function getDamageTypeInjuries ( _damageType )
@@ -73,21 +69,12 @@
 		{
 			return this.DamageTypeInjuries[idx].Injuries;
 		}
-
-		::logError("getDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
-
-		return null;			
+		throw ::MSU.Exception.KeyNotFound;
 	}
 
 	function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )
 	{
 		local injuries = this.getDamageTypeInjuries(_damageType);
-
-		if (injuries == null)
-		{
-			::logError("setDamageTypeInjuries: _damageType \'" + _damageType + "\' does not exist");
-			return;
-		}
 
 		injuries.Injuries.Head = _injuriesOnHead;
 		injuries.Injuries.Body = _injuriesOnBody;
@@ -102,11 +89,8 @@
 			if (_damageType == d)
 			{
 				local inj = this.getDamageTypeInjuries(d);
-				if (inj != null)
-				{
-					injuries = _bodyPart == ::Const.BodyPart.Head ? inj.Head : inj.Body;
-					break;
-				}
+				injuries = clone (_bodyPart == ::Const.BodyPart.Head ? inj.Head : inj.Body);
+				break;
 			}
 		}
 
