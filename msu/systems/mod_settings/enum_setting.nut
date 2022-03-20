@@ -7,7 +7,7 @@
 	{
 		if (_array.find(_value) == null)
 		{
-			::logError("Value must be an element in the Array");
+			::logError("_value must be an element in _array");
 			throw ::MSU.Exception.KeyNotFound;
 		}
 		base.constructor(_id, _value, _name);
