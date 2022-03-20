@@ -36,6 +36,16 @@
 		this.Array.push(_item);
 	}
 
+	function contains( _item )
+	{
+		foreach (pair in this.Array)
+		{
+			if (pair[1] == _item) return true;
+		}
+
+		return false;
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
