@@ -1,5 +1,5 @@
 ::MSU.Array <- {
-	function getRandom( _array, _start = 0, _end = null )
+	function rand( _array, _start = 0, _end = null )
 	{
 		if (_array.len() == 0) return null;
 		local start = _start;
