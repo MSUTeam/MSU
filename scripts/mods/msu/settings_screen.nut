@@ -6,8 +6,7 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 	},
 	
 	function create()
-	{
-		
+	{		
 	}
 
 	function setOnSavePressedListener( _listener )

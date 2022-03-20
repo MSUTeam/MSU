@@ -74,17 +74,17 @@ local testSettingsSystem = function()
 		required = [
 			"NewCampaign"
 		]
-	}
+	},
 	World = {
 		excluded = [
 			"NewCampaignOnly"
 		]
-	}
+	},
 	Tactical = {
 		excluded = [
 			"NewCampaignOnly"
 		]
-	}
+	},
 	Main = {
 		excluded = [
 			"NewCampaignOnly"
@@ -111,7 +111,7 @@ logPage.add(logToggle);
 local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
 verboseModeToggle.addCallback(function(_data)
 {
-	::Const.AI.VerboseMode = _data
+	::Const.AI.VerboseMode = _data;
 })
 logPage.add(verboseModeToggle);
 

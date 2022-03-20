@@ -31,7 +31,8 @@
 	function printData( _data, _maxDepth = 1, _advanced = false )
 	{
 		local maxLen = 1;
-		if (typeof _data == "array" || typeof _data == "table"){
+		if (typeof _data == "array" || typeof _data == "table")
+		{
 			maxLen = _data.len();
 		}
 		::logInfo(this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced));
@@ -54,7 +55,7 @@
 		switch (typeof _value)
 		{
 			case "array":
-				arrayVsTable = ["[", true, "]"]
+				arrayVsTable = ["[", true, "]"];
 			case "table":
 				if (_value.len() <= _maxLen && _depth > 0)
 				{
