@@ -94,18 +94,18 @@ local testSettingsSystem = function()
 
 ::MSU.Mod.register(::MSU.System.ModSettings);
 
-local logPage = ::MSU.Class.SettingsPage("Logging");
-::MSU.Mod.ModSettings.addPage(logPage);
+local generalPage = ::MSU.Class.SettingsPage("General");
+::MSU.Mod.ModSettings.addPage(generalPage);
 
 local logToggle = ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
 logToggle.addCallback(function(_data)
 {
 	::MSU.System.Debug.FullDebug = _data;
 })
-logPage.add(logToggle);
+generalPage.add(logToggle);
 
 local expandedSkillDescriptions = ::MSU.Class.BooleanSetting("ExpandedSkillDescriptions", false, "Expanded Skill Descriptions");
-logPage.add(expandedSkillDescriptions);
+generalPage.add(expandedSkillDescriptions);
 
 // ::MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
 // 	::MSU.Debug.FullDebug = _data;
@@ -116,7 +116,7 @@ verboseModeToggle.addCallback(function(_data)
 {
 	::Const.AI.VerboseMode = _data;
 })
-logPage.add(verboseModeToggle);
+generalPage.add(verboseModeToggle);
 
 // ::MSU.System.ModSettings.importPersistentSettings()
 
