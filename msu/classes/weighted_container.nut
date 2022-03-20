@@ -8,7 +8,7 @@
 		if (_array == null) _array = [];
 		this.Total = 0;
 		this.Array = [];
-		this.extend(_array);
+		this.addArray(_array);
 	}
 
 	function toArray()
@@ -16,7 +16,7 @@
 		return this.Array;
 	}
 
-	function extend( _array )
+	function addArray( _array )
 	{
 		::MSU.requireArray(_array);
 		foreach (pair in _array)
