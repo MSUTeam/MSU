@@ -8,7 +8,10 @@
 		if (_array == null) _array = [];
 		this.Total = 0;
 		this.Array = [];
-		this.extend(_array);
+		foreach (pair in _array)
+		{
+			this.push(pair);
+		}
 	}
 
 	function extend( _array )
@@ -32,7 +35,7 @@
 		}
 
 		this.Total += _item[0];
-		this.Array.push(_item);
+		if (!this.contains(_item[1])) this.Array.push(_item);
 	}
 
 	function contains( _item )
