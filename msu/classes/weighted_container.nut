@@ -33,7 +33,7 @@
 		}
 
 		this.Total += _item[0];
-		this.Array.push(_item);
+		if (!this.contains(_item[1])) this.Array.push(_item);
 	}
 
 	function contains( _item )
