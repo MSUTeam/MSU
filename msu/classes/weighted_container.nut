@@ -14,6 +14,11 @@
 		}
 	}
 
+	function toArray()
+	{
+		return this.Array;
+	}
+
 	function extend( _array )
 	{
 		::MSU.requireArray(_array);
