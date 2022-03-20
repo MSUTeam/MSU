@@ -391,7 +391,7 @@
 	local getDescription = o.getDescription;
 	o.getDescription = function()
 	{
-		if (this.m.DamageType.len() == 0)
+		if (this.m.DamageType.len() == 0 || !::MSU.Mod.ModSettings.getSetting("ExpandedSkillDescriptions").getValue())
 		{
 			return getDescription();
 		}
