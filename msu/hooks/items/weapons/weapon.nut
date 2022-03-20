@@ -47,14 +47,7 @@
 		{
 			if (categories.find(k) != null)
 			{
-				if (this.m.WeaponType == ::Const.Items.WeaponType.None)
-				{
-					this.m.WeaponType = w;
-				}
-				else
-				{
-					this.m.WeaponType = this.m.WeaponType | w;
-				}
+				this.m.WeaponType = this.m.WeaponType | w;
 			}
 		}
 
