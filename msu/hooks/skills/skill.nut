@@ -212,9 +212,9 @@
 	local use = o.use;
 	o.use = function( _targetTile, _forFree = false )
 	{
-		# Save the container as a local variable because some skills delete
-		# themselves during use (e.g. Reload Bolt) causing this.m.Container
-		# to point to null.
+		// Save the container as a local variable because some skills delete
+		// themselves during use (e.g. Reload Bolt) causing this.m.Container
+		// to point to null.
 		local container = this.m.Container;
 		local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
 
