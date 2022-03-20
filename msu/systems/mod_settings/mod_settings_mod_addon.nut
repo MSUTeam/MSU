@@ -19,4 +19,9 @@
 	{
 		return ::MSU.System.ModSettings.get(this.Mod.getID()).getSetting(_settingID);
 	}
+
+	function hasSetting( _settingID )
+	{
+		return ::MSU.System.ModSettings.get(this.Mod.getID()).hasSetting(_settingID);
+	}
 }
