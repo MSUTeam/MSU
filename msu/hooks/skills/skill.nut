@@ -39,25 +39,9 @@
 			switch (typeof c.Change)
 			{
 				case "integer":
-					if (c.Set)
-					{
-						this.m[c.Field] = c.Change;
-					}
-					else
-					{
-						this.m[c.Field] += c.Change;
-					}
-					break;
-
 				case "string":
-					if (c.Set)
-					{
-						this.m[c.Field] = c.Change;
-					}
-					else
-					{
-						this.m[c.Field] += c.Change;
-					}
+					if (c.Set) this.m[c.Field] = c.Change;
+					else this.m[c.Field] += c.Change;
 					break;
 
 				default:
