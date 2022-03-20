@@ -31,10 +31,9 @@
 
 	function registerMod( _mod )
 	{
-		if (!(_mod.getID() in ::MSU.Mods))
+		if (typeof _mod != "instance" || !(_mod instanceof ::MSU.Class.Mod))
 		{
-			::logError("Register your mod with ::MSU.registerMod first before registering it with MSU systems, and use the same ID");
-			throw ::MSU.Exception.KeyNotFound;
+			throw ::MSU.Exception.InvalidType;
 		}
 	}
 }
