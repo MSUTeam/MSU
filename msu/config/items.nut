@@ -32,11 +32,7 @@ foreach (itemType in ::Const.Items.ItemType)
 
 ::Const.Items.addNewItemType <- function( _itemType, _name = "" )
 {
-	if (_itemType in ::Const.Items.ItemType)
-	{
-		::logError("addNewItemType: \'" + _itemType + "\' already exists.");
-		return;
-	}
+	if (_itemType in ::Const.Items.ItemType) throw ::MSU.Exception.DuplicateKey;
 
 	local max = 0;
 	foreach (w, value in ::Const.Items.ItemType)
@@ -58,8 +54,7 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.ItemTypeName[idx];
 	}
 
-	::logError("getItemTypeName: _itemType \'" + _itemType + "\' does not exist");
-	return "";
+	throw ::MSU.Exception.KeyNotFound;
 }
 
 ::Const.Items.WeaponType <- {
@@ -110,17 +105,12 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.WeaponTypeName[idx];
 	}
 
-	::logError("getWeaponTypeName: _weaponType \'" + _weaponType + "\' does not exist");
-	return "";
+	throw ::MSU.Exception.KeyNotFound;
 }
 
 ::Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
 {
-	if (_weaponType in ::Const.Items.WeaponType)
-	{
-		::logError("addNewWeaponType: \'" + _weaponType + "\' already exists.");
-		return;
-	}
+	if (_weaponType in ::Const.Items.WeaponType) throw ::MSU.Exception.DuplicateKey;
 
 	local max = 0;
 	foreach (w, value in ::Const.Items.WeaponType)
