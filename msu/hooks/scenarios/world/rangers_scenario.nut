@@ -11,6 +11,7 @@
 
 	o.getMovementSpeedMult <- function()
 	{
+		// Magic number is the result of dividing the rangers movementspeed (111) by the player party movement speed (105)
 		return 1.057;
 	}
 });
