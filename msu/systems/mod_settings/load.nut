@@ -104,6 +104,9 @@ logToggle.addCallback(function(_data)
 })
 logPage.add(logToggle);
 
+local expandedSkillDescriptions = ::MSU.Class.BooleanSetting("ExpandedSkillDescriptions", false, "Expanded Skill Descriptions");
+logPage.add(expandedSkillDescriptions);
+
 // ::MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
 // 	::MSU.Debug.FullDebug = _data;
 // }))
