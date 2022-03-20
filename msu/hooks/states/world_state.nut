@@ -244,7 +244,7 @@
 		}
 		else
 		{
-			::World.Assets.setLastDayMorningEventCalled(0);
+			::World.Assets.setLastDayMorningEventCalled(::World.getTime().Days);
 		}
 
 		::MSU.System.ModSettings.flagDeserialize();
