@@ -83,19 +83,12 @@
 			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), "debug");
 			return;
 		}
-		try
+		if (!this.get(_modID).hasSetting(_settingID))
 		{
-			this.get(_modID).getSetting(_settingID).set(_value, true, false);
+			::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
+			return;
 		}
-		catch (error)
-		{
-			if (error == ::MSU.Exception.KeyNotFound)
-			{
-				::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
-				return;
-			}
-			throw error;
-		}
+		this.get(_modID).getSetting(_settingID).set(_value, true, false);
 	}
 
 	function callPanelsFunction( _function, ... )
