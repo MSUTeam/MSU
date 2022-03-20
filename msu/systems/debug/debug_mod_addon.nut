@@ -27,16 +27,16 @@
 
 	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
 	{
-		this.print(_text, ::MSU.System.Debug.LogType.Info, _flagID);
+		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Info, _flagID);
 	}
 
 	function printWarning( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
 	{
-		this.print(_text, ::MSU.System.Debug.LogType.Warning, _flagID);
+		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Warning, _flagID);
 	}
 
 	function printError( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
 	{
-		this.print(_text, ::MSU.System.Debug.LogType.Error, _flagID);
+		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Error, _flagID);
 	}
 }
