@@ -29,7 +29,7 @@
 			{
 				throw ::MSU.Exception.InvalidType;
 			}
-			::MSU.requireOneOfType(["integer", "float"], _item[0]);
+			::MSU.requireInt(_item[0]);
 		}
 
 		this.Total += _item[0];
