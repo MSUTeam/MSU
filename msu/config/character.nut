@@ -59,7 +59,7 @@
 		{
 			return this.DamageTypeName[idx];
 		}
-		throw ::MSU.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound(_damageType);
 	}
 
 	function getDamageTypeInjuries ( _damageType )
@@ -69,7 +69,7 @@
 		{
 			return this.DamageTypeInjuries[idx].Injuries;
 		}
-		throw ::MSU.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound(_damageType);
 	}
 
 	function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )

@@ -54,7 +54,7 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.ItemTypeName[idx];
 	}
 
-	throw ::MSU.Exception.KeyNotFound;
+	throw ::MSU.Exception.KeyNotFound(_itemType);
 }
 
 ::Const.Items.WeaponType <- {
@@ -105,7 +105,7 @@ foreach (itemType in ::Const.Items.ItemType)
 		return ::Const.Items.WeaponTypeName[idx];
 	}
 
-	throw ::MSU.Exception.KeyNotFound;
+	throw ::MSU.Exception.KeyNotFound(_weaponType);
 }
 
 ::Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )

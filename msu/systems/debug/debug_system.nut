@@ -70,11 +70,11 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		if (!(_flagID in this.Mods[_modID]))
 		{
-			throw ::MSU.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound(_flagID);
 		}
 		return  this.isFullDebug() || this.isFullDebugForMod(_modID) || this.Mods[_modID][_flagID] == true;
 	}

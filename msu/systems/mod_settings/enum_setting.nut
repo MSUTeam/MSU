@@ -8,7 +8,7 @@
 		if (_array.find(_value) == null)
 		{
 			::logError("_value must be an element in _array");
-			throw ::MSU.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound(_value);
 		}
 		base.constructor(_id, _value, _name);
 		this.Array = _array;

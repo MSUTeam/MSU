@@ -12,7 +12,7 @@ local system = ::MSU.Class.RegistrySystem();
 {
 	if(!(_modID in this.Mods))
 	{
-		throw ::MSU.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound(_modID);
 	}
 	return this.Mods[_modID];
 }
