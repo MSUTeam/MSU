@@ -347,6 +347,11 @@
 		this.doOnFunction("onDeath", [_fatalityType]);
 	}
 
+	o.onDismiss = function()
+	{
+		this.doOnFunction("onDismiss");
+	}
+
 	//Vanilla Ovewrites End
 	
 	o.getItemActionCost <- function( _items )
