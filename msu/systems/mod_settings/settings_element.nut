@@ -7,7 +7,7 @@
 	Description = null;
 	Parent = null;
 
-	constructor(_id, _name = null)
+	constructor( _id, _name = null )
 	{
 		if (_id.find(" ") != null)
 		{
