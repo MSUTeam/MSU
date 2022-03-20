@@ -1,6 +1,6 @@
 ::MSU.Class.DebugModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function setFlags( _flagTable)
+	function setFlags( _flagTable )
 	{
 		::MSU.System.Debug.setFlags(this.Mod.getID(), _flagTable);
 	}
@@ -32,7 +32,7 @@
 
 	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
 	{
-		this.print(_text, ::MSU.System.Debug.LogType.Info, _flagID)
+		this.print(_text, ::MSU.System.Debug.LogType.Info, _flagID);
 	}
 
 	function printWarning( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
