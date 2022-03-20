@@ -23,7 +23,7 @@
 		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{
 			::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
-			throw ::MSU.Exception.KeyNotFound;
+			throw ::MSU.Exception.KeyNotFound(_mod.getID());
 		}
 
 		this.addMod(_mod);

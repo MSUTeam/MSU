@@ -36,7 +36,7 @@
 			}
 		}
 
-		throw ::MSU.Exception.KeyNotFound;
+		throw ::MSU.Exception.KeyNotFound(_settingID);
 	}
 
 	function hasSetting( _settingID )
