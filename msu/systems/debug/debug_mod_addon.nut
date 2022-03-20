@@ -25,11 +25,6 @@
 		::MSU.System.Debug.isEnabledForMod(this.Mod.getID(), _flagID);
 	}
 
-	function print( _text, _logType, _flagID = "default" )
-	{
-		::MSU.System.Debug.print(_text, this.Mod.getID(), _logType, _flagID);
-	}
-
 	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
 	{
 		this.print(_text, ::MSU.System.Debug.LogType.Info, _flagID);
