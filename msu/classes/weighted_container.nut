@@ -10,32 +10,25 @@
 		this.Array = [];
 		foreach (pair in _array)
 		{
-			this.add(pair);
+			this.add(pair[0], pair[1]);
 		}
 	}
 
 	function extend( _array )
 	{
 		::MSU.requireArray(_array);
-		foreach (item in _array)
+		foreach (pair in _array)
 		{
-			this.add(item);
+			this.add(pair[0], pair[1]);
 		}
 	}
 
-	function add( _item )
+	function add( _item, _weight = 1 )
 	{
-		if (typeof _item != "array") _item = [1, _item];
-		else
-		{
-			if (_item.len() != 2)
-			{
-				throw ::MSU.Exception.InvalidType;
-			}
-		}
+		::MSU.requireInt(_weight);
 
-		this.Total += _item[0];
-		if (!this.contains(_item[1])) this.Array.push(_item);
+		this.Total += _weight;
+		if !(this.contains(_item)) this.Array.push(_item);
 	}
 
 	function contains( _item )
