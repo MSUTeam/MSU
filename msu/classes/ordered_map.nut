@@ -19,16 +19,8 @@
 
 	function _delslot( _key )
 	{
-		for (local i = 0; i < this.Array; ++i)
-		{
-			if (this.Array[i] == _key)
-			{
-				this.Array.remove(i);
-				delete this.Table[_key];
-				return;
-			}
-		}
-		throw ::MSU.Exception.KeyNotFound;
+		this.Array.remove(this.Array.find(_key));
+		delete this.Table[_key];
 	}
 
 	function _set( _key, _value )

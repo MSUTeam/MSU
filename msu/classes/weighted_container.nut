@@ -29,6 +29,7 @@
 			{
 				throw ::MSU.Exception.InvalidType;
 			}
+			::MSU.requireOneOfType(["integer", "float"], _item[0]);
 		}
 
 		this.Total += _item[0];
@@ -38,10 +39,9 @@
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
-		local weight = 0;
 		foreach (pair in this.Array)
 		{
-			if (roll <= pair[0]) return pair;
+			if (roll <= pair[0]) return pair[1];
 			roll -= pair[0];
 		}
 
