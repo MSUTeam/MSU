@@ -34,7 +34,7 @@
 
 		if (_flagTable != null)
 		{
-			this.setFlags(_mod.getID(), _flagTable, _flagTableBool);
+			this.setFlags(_mod.getID(), _flagTable);
 		}
 	}
 
