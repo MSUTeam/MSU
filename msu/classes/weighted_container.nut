@@ -66,6 +66,30 @@
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
+	function addWeight( _weight, _function )
+	{
+		foreach (pair in this.Array)
+		{
+			if (_function(pair[1])) pair[0] += _weight;
+		}
+	}
+
+	function multiplyWeight( _multiplier, _function )
+	{
+		foreach (pair in this.Array)
+		{
+			if (_function(pair[1])) pair[0] *= _multiplier;
+		}
+	}
+
+	function setWeight( _weight, _function )
+	{
+		foreach (pair in this.Array)
+		{
+			if (_function(pair[1])) pair[0] = _weight;
+		}
+	}
+
 	function getWeight( _item )
 	{
 		foreach (pair in this.Array)
