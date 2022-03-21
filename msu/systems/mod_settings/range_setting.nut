@@ -7,7 +7,7 @@
 
 	constructor( _id, _value, _min, _max, _step, _name = null )
 	{
-		::MSU.requireOneOfType(["integer", "float"], _min, _max, _step);
+		::MSU.requireOneFromTypes(["integer", "float"], _min, _max, _step);
 		base.constructor(_id, _value, _name);
 
 		this.Min = _min;
