@@ -27,6 +27,11 @@
 		return this.ParseChange;
 	}
 
+	function printForParser()
+	{
+		::MSU.PersistentDataManager.writeToLog("ModSetting", ::MSU.ID, format("%s;%s", this.getID(), _value.tostring()));
+	}
+
 	function onChangedCallback( _newValue )
 	{
 		foreach (callback in this.Callbacks)
@@ -56,7 +61,7 @@
 			}
 			if (_updatePersistence && this.ParseChange == true)
 			{
-				::MSU.PersistentDataManager.writeToLog("ModSetting", "MSU",  format("%s;%s", this.getID(), _value.tostring()));
+				this.printForParser();
 			}
 			this.Value = _value;
 			if (_updateJS)
