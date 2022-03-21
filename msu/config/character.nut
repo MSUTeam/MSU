@@ -1,6 +1,3 @@
-::Const.Combat.DivertedAttackHitChancePenalty <- 15;
-::Const.Combat.DivertedAttackDamageMult <- 0.75;
-
 ::Const.ItemActionOrder <- {
 	First = 0,
 	Early = 1000,
