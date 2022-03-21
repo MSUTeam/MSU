@@ -33,7 +33,7 @@
 	{
 		if (_member == null)
 		{
-			_array.sort(function(_a, _b) { if (_a < _b) return -1; if (_a > _b) return 1; return 0 });
+			_array.sort(function(_a, _b) { if (_a > _b) return -1; if (_a < _b) return 1; return 0 });
 		}
 		else
 		{
