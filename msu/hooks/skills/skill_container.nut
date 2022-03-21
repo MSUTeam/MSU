@@ -1,6 +1,7 @@
 ::mods_hookNewObject("skills/skill_container", function(o) {
 	o.m.BeforeSkillExecutedTile <- null;
 	o.m.IsExecutingMoveSkill <- false;
+	o.m.LastLevelOnUpdateLevelCalled <- 0;
 
 	local update = o.update;
 	o.update = function()
@@ -150,7 +151,12 @@
 
 	o.onUpdateLevel <- function()
 	{
-		this.doOnFunction("onUpdateLevel");
+		local currLevel = this.getActor().getLevel();
+		if (currLevel > this.m.LastLevelOnUpdateLevelCalled)
+		{
+			this.m.LastLevelOnUpdateLevelCalled = currLevel;
+			this.doOnFunction("onUpdateLevel");
+		}
 	}
 
 	o.onNewMorning <- function()
