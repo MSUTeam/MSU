@@ -56,6 +56,16 @@
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
+	function getProbability( _item )
+	{
+		foreach (pair in this.Array)
+		{
+			if (pair[1] == _item) return pair[1].tofloat() / this.Total;
+		}
+		
+		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
