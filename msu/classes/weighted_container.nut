@@ -66,6 +66,16 @@
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
+	function getWeight( _item )
+	{
+		foreach (pair in this.Array)
+		{
+			if (pair[1] == _item) return pair[0];
+		}
+
+		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
