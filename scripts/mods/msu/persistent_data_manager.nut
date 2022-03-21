@@ -44,7 +44,8 @@ this.persistent_data_manager <- {
 	{
 		if (!this.hasMod(_modID))
 		{
-			throw ("Mod " + _modID + " not found in mods!");
+			::logError("Mod " + _modID + " not found in mods!");
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		return this.getMods()[_modID];
 	}
@@ -72,7 +73,8 @@ this.persistent_data_manager <- {
 	{
 		if (!this.hasMod(_modID))
 		{
-			throw ("Mod " + _modID + " not found in mods!");
+			::logError("Mod " + _modID + " not found in mods!");
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 
 		foreach (setting in this.getMod(_modID))
