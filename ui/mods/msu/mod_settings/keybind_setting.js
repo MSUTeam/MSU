@@ -173,10 +173,6 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 	row.append(destroyButtonLayout);
 	var destroyButton = destroyButtonLayout.createTextButton("Delete", function()
 	{
-		button.remove();
-		buttonLayout.remove();
-		$(this).remove();
-		destroyButtonLayout.remove();
 		row.remove();
 	}, 'delete-keybind-button', 2);
 };
