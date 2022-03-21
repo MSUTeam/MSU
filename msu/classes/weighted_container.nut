@@ -46,6 +46,16 @@
 		return false;
 	}
 
+	function remove( _item )
+	{
+		foreach (i, pair in this.Array)
+		{
+			if (pair[1] == _item) return this.Array.remove(i)[1];
+		}
+
+		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
