@@ -148,7 +148,8 @@
 	function onDeserialize( _in )
 	{
 		this.Total = _in.readU32();
-		for (local i = 0; i < _in.readU32(); ++i)
+		local size = _in.readU32();
+		for (local i = 0; i < size; ++i)
 		{
 			this.Array.push([_in.readU16(), _in.readString()]);
 		}
