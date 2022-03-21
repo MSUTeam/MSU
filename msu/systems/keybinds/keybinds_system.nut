@@ -30,7 +30,6 @@
 		this.KeybindsForJS[_mod.getID()] <- {};
 	}
 
-	// maybe add a Bind suffix to all these functions: eg addBind, updateBind etc
 	function add( _keybind, _makeSetting = true )
 	{
 		if (!(_keybind instanceof ::MSU.Class.Keybind))
@@ -69,7 +68,7 @@
 	// Private
 	function remove( _modID, _id )
 	{
-		::logInfo(this.KeybindsByMod[_modID][_id]);
+		::MSU.Debug.printWarning("Removing Keybind" + this.KeybindsByMod[_modID][_id]);
 		local keybind = this.KeybindsByMod[_modID].rawdelete(_id);
 		if (keybind instanceof ::MSU.Class.KeybindJS)
 		{
