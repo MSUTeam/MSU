@@ -1,21 +1,19 @@
 ::MSU.Class.DebugSystem <- class extends ::MSU.Class.System
 {
 	Mods = null;
-	LogType = null;
 	FullDebug = null;
-	DefaultFlag = null;
+	static LogType = {
+		Info = 1,
+		Warning = 2,
+		Error = 3
+	};
+	static DefaultFlag = "default";
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Log);
 		this.Mods = {};
-		this.LogType = {
-			Info = 1,
-			Warning = 2,
-			Error = 3
-		};
 		this.FullDebug = false;
-		this.DefaultFlag = "default";
 	}
 
 	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null )
