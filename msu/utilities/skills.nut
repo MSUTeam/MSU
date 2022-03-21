@@ -1,7 +1,7 @@
 ::MSU.Skills <- {
 	EventsToAdd = [],
 
-	function addEvent( _name, _isEmpty = true, _function = null, _update = false, _aliveOnly = false )
+	function addEvent( _name, _function = null, _update = false, _aliveOnly = false )
 	{
 		this.EventsToAdd.push({
 			Name = _name,
