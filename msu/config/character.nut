@@ -22,7 +22,7 @@
 	{
 		if (_damageType in this.DamageType)
 		{
-			throw ::MSU.Exception.DuplicateKey;
+			throw ::MSU.Exception.DuplicateKey(_damageType);
 		}
 
 		local n = 0;

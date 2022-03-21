@@ -18,7 +18,7 @@
 		if (_mod.getID() in this.Mods)
 		{
 			::logError("Duplicate Mod ID for mod: " + _mod.getID());
-			throw ::MSU.Exception.DuplicateKey;
+			throw ::MSU.Exception.DuplicateKey(_mod.getID());
 		}
 		else if (::mods_getRegisteredMod(_mod.getID()) == null && _mod.getID() != ::MSU.VanillaID)
 		{

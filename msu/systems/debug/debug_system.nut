@@ -23,7 +23,7 @@
 		base.registerMod(_mod);
 		if (_mod.getID() in this.Mods)
 		{
-			throw ::MSU.Exception.DuplicateKey;
+			throw ::MSU.Exception.DuplicateKey(_mod.getID());
 		}
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
