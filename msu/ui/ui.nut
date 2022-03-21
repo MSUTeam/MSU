@@ -22,7 +22,7 @@
 		this.Callbacks.clear();
 	}
 
-	function addAfterConnectionCallback( _function )
+	function addOnConnectCallback( _function )
 	{
 		::MSU.requireFunction(_function);
 		this.Callbacks.push(_function);
