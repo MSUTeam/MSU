@@ -14,26 +14,21 @@
 	function extend( _array )
 	{
 		::MSU.requireArray(_array);
-		foreach (item in _array)
+		foreach (pair in _array)
 		{
-			this.add(item);
+			::MSU.requireArray(pair);
+			if (array.len() != 2) throw ::MSU.Exception.InvalidType(_array);
+			
+			this.add(pair[0], pair[1]);
 		}
 	}
 
-	function add( _item )
+	function add( _item, _weight = 1 )
 	{
-		if (typeof _item != "array") _item = [1, _item];
-		else
-		{
-			if (_item.len() != 2)
-			{
-				throw ::MSU.Exception.InvalidType(_item);
-			}
-			::MSU.requireInt(_item[0]);
-		}
+		::MSU.requireOneOfType(["integer", "float"], _weight);
 
-		this.Total += _item[0];
-		if (!this.contains(_item[1])) this.Array.push(_item);
+		this.Total += _weight;
+		if !(this.contains(_item)) this.Array.push([_weight, _item]);
 	}
 
 	function contains( _item )
