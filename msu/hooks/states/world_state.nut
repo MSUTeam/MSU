@@ -229,14 +229,35 @@
 	o.onSerialize = function( _out )
 	{
 		::MSU.System.ModSettings.flagSerialize();
+
+		this.World.FactionManager.onSerializeWithFlags();
+		this.World.EntityManager.onSerializeWithFlags();
+		this.World.Assets.onSerializeWithFlags();
+		this.World.Combat.onSerializeWithFlags();
+		this.World.Contracts.onSerializeWithFlags();
+		this.World.Events.onSerializeWithFlags();
+		this.World.Ambitions.onSerializeWithFlags();
+		this.World.Crafting.onSerializeWithFlags();
+		this.World.Retinue.onSerializeWithFlags();
+		this.World.Statistics.onSerializeWithFlags();
+		foreach (obj in ::MSU.System.Serialization.getFlagBasedSerializationObjects())
+		{
+			if (!::MSU.isNull(obj)) obj.onSerializeWithFlags();
+		}
+
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
+
 		onSerialize(_out);
-		::MSU.System.ModSettings.resetFlags();
+
+		::MSU.System.Serialization.clearSerializationFlags();
+
+		::MSU.System.ModSettings.resetFlags();		
 	}
 
 	local onDeserialize = o.onDeserialize;
 	o.onDeserialize = function( _in )
 	{
+		::MSU.System.Serialization.getFlagBasedSerializationObjects();
 		onDeserialize(_in);
 		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{

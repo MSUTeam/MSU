@@ -31,4 +31,17 @@
 	{
 		this.m.LastDayMorningEventCalled = _day;
 	}
+
+	o.onSerializeWithFlags <- function()
+	{
+		::MSU.Mod.Serialization.writeInt("LastDayMorningEventCalled", this.m.LastDayMorningEventCalled);
+	}
+
+	local onDeserialize = o.onDeserialize;
+	o.onDeserialize = function( _in )
+	{
+		onDeserialize(_in);
+		local day = ::MSU.Mod.Serialization.readInt("LastDayMorningEventCalled");
+		this.m.LastDayMorningEventCalled = day == null ? 0 : day;
+	}
 });
