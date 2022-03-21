@@ -17,7 +17,7 @@
 		if (!(_element instanceof ::MSU.Class.SettingsElement))
 		{
 			::logError("Failed to add element: element needs to extend SettingsElement");
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(_element);
 		}
 		_element.setParent(this);
 		this.Settings[_element.getID()] <- _element;

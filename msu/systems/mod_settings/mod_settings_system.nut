@@ -29,7 +29,7 @@
 		{
 			if (!(_modPanel instanceof ::MSU.Class.SettingsPanel))
 			{
-				throw ::MSU.Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType(_modPanel);
 			}
 			this.Panels[_modPanel.getID()] <- _modPanel;
 		}

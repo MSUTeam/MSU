@@ -117,7 +117,7 @@
 			case "table":
 				return this.compareModVersions(_mod, _version);
 		}
-		throw ::MSU.Exception.InvalidType;
+		throw ::MSU.Exception.InvalidType(_version);
 	}
 
 	function compareModVersions( _mod1, _mod2 )

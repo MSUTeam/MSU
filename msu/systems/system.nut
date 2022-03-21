@@ -33,7 +33,7 @@
 	{
 		if (typeof _mod != "instance" || !(_mod instanceof ::MSU.Class.Mod))
 		{
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(_mod);
 		}
 	}
 }

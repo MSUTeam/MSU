@@ -27,7 +27,7 @@
 		{
 			if (_item.len() != 2)
 			{
-				throw ::MSU.Exception.InvalidType;
+				throw ::MSU.Exception.InvalidType(_item);
 			}
 			::MSU.requireInt(_item[0]);
 		}
