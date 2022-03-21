@@ -417,57 +417,53 @@
 		return ret;
 	}
 
-	local getDefaultTooltip = o.getDefaultTooltip;
-	o.getDefaultTooltip = function()
+	o.getRangedTooltip <- function()
 	{
-		local tooltip = getDefaultTooltip();
-
-		if (this.isRanged())
+		local tooltip = [];
+		
+		local rangeBonus = ", more";
+		if (this.m.MaxRangeBonus == 0)
 		{
-			local rangeBonus = ", more";
-			if (this.m.MaxRangeBonus == 0)
-			{
-				rangeBonus = " or"
-			}
-			else if (this.m.MaxRangeBonus < 0)
-			{
-				rangeBonus = ", less"
-			}
+			rangeBonus = " or"
+		}
+		else if (this.m.MaxRangeBonus < 0)
+		{
+			rangeBonus = ", less"
+		}
 
+		tooltip.push({
+			id = 6,
+			type = "text",
+			icon = "ui/icons/vision.png",
+			text = "Has a range of [color=" + ::Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground" + rangeBonus + " if shooting downhill"
+		});
+
+		local accuText = "";
+		if (this.m.AdditionalAccuracy != 0)
+		{
+			local color = this.m.AdditionalAccuracy > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue;
+			local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
+			accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
+		}
+
+		if (this.m.AdditionalHitChance != 0)
+		{
+			accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
+			local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
+			local sign = additionalHitChance > 0 ? "+" : "";
+			accuText += " [color=" + (additionalHitChance > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
+			accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
+			accuText += " per tile of distance";
+		}
+
+		if (accuText.len() != 0)
+		{
 			tooltip.push({
-				id = 6,
+				id = 7,
 				type = "text",
-				icon = "ui/icons/vision.png",
-				text = "Has a range of [color=" + ::Const.UI.Color.PositiveValue + "]" + this.getMaxRange() + "[/color] tiles on even ground" + rangeBonus + " if shooting downhill"
+				icon = "ui/icons/hitchance.png",
+				text = accuText
 			});
-
-			local accuText = "";
-			if (this.m.AdditionalAccuracy != 0)
-			{
-				local color = this.m.AdditionalAccuracy > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue;
-				local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
-				accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
-			}
-
-			if (this.m.AdditionalHitChance != 0)
-			{
-				accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
-				local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
-				local sign = additionalHitChance > 0 ? "+" : "";
-				accuText += " [color=" + (additionalHitChance > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
-				accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
-				accuText += " per tile of distance";
-			}
-
-			if (accuText.len() != 0)
-			{
-				tooltip.push({
-					id = 7,
-					type = "text",
-					icon = "ui/icons/hitchance.png",
-					text = accuText
-				});
-			}
 		}
 
 		return tooltip;
