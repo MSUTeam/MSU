@@ -55,7 +55,7 @@
 	}
 }
 
-::MSU.requireOneOfType <- function( _typeArray, ... )
+::MSU.requireOneFromTypes <- function( _typeArray, ... )
 {
 	foreach (value in vargv)
 	{
