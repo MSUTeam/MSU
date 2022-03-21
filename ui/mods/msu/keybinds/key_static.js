@@ -4,16 +4,11 @@ MSU.Key = {
 		var key = '';
 		var keyArray = _key.split('+');
 		var mainKey = keyArray.pop();
-		if (keyArray.length > 1)
+		if (keyArray.length > 0)
 		{
 			keyArray.sort();
 			key = keyArray.reduce(function(a, b) {return a + '+' + b;}) + '+';
 		}
-		else if (keyArray.length == 1)
-		{
-			key = keyArray[0] + '+';
-		}
-
 		key += mainKey;
 		return key;
 	},
