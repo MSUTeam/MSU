@@ -20,7 +20,7 @@
 	{
 		if (!(_page instanceof ::MSU.Class.SettingsPage))
 		{
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(_page);
 		}
 		_page.setParent(this);
 		this.Pages[_page.getID()] <- _page;

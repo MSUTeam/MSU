@@ -50,7 +50,7 @@
 	{
 		if (typeof value != _type)
 		{
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
 }
@@ -61,7 +61,7 @@
 	{
 		if (_typeArray.find(typeof value) == null)
 		{
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
 }

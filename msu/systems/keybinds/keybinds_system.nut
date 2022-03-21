@@ -35,7 +35,7 @@
 	{
 		if (!(_keybind instanceof ::MSU.Class.Keybind))
 		{
-			throw ::MSU.Exception.InvalidType;
+			throw ::MSU.Exception.InvalidType(_keybind);
 		}
 		if (_keybind instanceof ::MSU.Class.KeybindJS)
 		{
