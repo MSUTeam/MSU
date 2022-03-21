@@ -128,26 +128,7 @@
 			_forFree
 		]);
 	}
-
-	// o.onAttacked <- function( _skill, _attacker )
-	// {
-	// 	this.doOnFunction("onAttacked", [
-	// 		_skill,
-	// 		_attacker
-	// 	]);
-	// }
-
-	// o.onHit <- function( _skill, _attacker, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
-	// {
-	// 	this.doOnFunction("onHit", [
-	// 		_skill,
-	// 		_attacker,
-	// 		_bodyPart,
-	// 		_damageInflictedHitpoints,
-	// 		_damageInflictedArmor
-	// 	]);
-	// }
-
+	
 	o.onUpdateLevel <- function()
 	{
 		this.doOnFunction("onUpdateLevel");
