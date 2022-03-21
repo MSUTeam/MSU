@@ -37,7 +37,14 @@
 		}
 		else
 		{
-			_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return -1; if (_a[_member] < _b[_member]) return 1; return 0 });	
+			if (typeof _array[0][_member] == "function")
+			{
+				_array.sort(function(_a, _b) { if (_a[_member]() > _b[_member]()) return -1; if (_a[_member]() < _b[_member]()) return 1; return 0; });
+			}
+			else
+			{
+				_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return -1; if (_a[_member] < _b[_member]) return 1; return 0; });	
+			}
 		}
 	}
 
@@ -49,7 +56,14 @@
 		}
 		else
 		{
-			_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return 1; if (_a[_member] < _b[_member]) return -1; return 0 });	
+			if (typeof _array[0][_member] == "function")
+			{
+				_array.sort(function(_a, _b) { _a[_member]() <=> _b[_member]() });
+			}
+			else
+			{
+				_array.sort(function(_a, _b) { _a[_member] <=> _b[_member] });
+			}
 		}
 	}
 }
