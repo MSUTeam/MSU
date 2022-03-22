@@ -2,6 +2,7 @@
 {
 	Total = null;
 	Array = null;
+	ApplyIdx = null;
 
 	constructor( _array = null )
 	{
@@ -63,16 +64,31 @@
 
 	function getProbability( _item )
 	{
-		foreach (pair in this.Array)
+		local weight = null;
+		if (this.ApplyIdx != null)
 		{
-			if (pair[1] == _item) return pair[0].tofloat() / this.Total;
+			weight = this.Array[this.ApplyIdx][0];
 		}
+		else
+		{
+			foreach (pair in this.Array)
+			{
+				if (pair[1] == _item) weight = pair[0];
+			}
+		}
+
+		if (weight != null) return weight.tofloat() / this.Total;
 		
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
 	function getWeight( _item )
 	{
+		if (this.ApplyIdx != null)
+		{
+			return this.Array[this.ApplyIdx][0]);
+		}
+
 		foreach (pair in this.Array)
 		{
 			if (pair[1] == _item) return pair[0];
@@ -84,6 +100,13 @@
 	function setWeight( _item, _weight )
 	{
 		::MSU.requireOneOfType(["integer"], ["float"], _weight);
+
+		if (this.ApplyIdx != null)
+		{
+			this.Array[this.ApplyIdx][0] = _weight;
+			return;
+		}
+
 		foreach (pair in this.Array)
 		{
 			if (pair[1] == _item) pair[0] = _weight;
@@ -91,6 +114,17 @@
 		}
 
 		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
+	function apply( _function )
+	{
+		foreach (i, pair in this.Array)
+		{
+			this.ApplyIdx = i;
+			_function(pair[1]);
+		}
+
+		this.ApplyIdx = null;
 	}
 
 	function roll()
