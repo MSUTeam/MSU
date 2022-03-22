@@ -10,5 +10,6 @@ local function getInQuotes( _string )
 	InvalidType = function( _string = "" ) { return format("The variable%s is of the wrong type", getInQuotes(_string)); },
 	NotSemanticVersion = function( _string = "" ) { return format("Version%s not formatted according to Semantic Versioning guidelines (see https://semver.org/)", getInQuotes(_string)); },
 	DuplicateKey = function( _string ) { return format("The key%s is already present", getInQuotes(_string)); },
-	ModNotRegistered = function( _string = "" ) { return format("Register your mod%s with a system before trying to interact with it", getInQuotes(_string)); }
+	ModNotRegistered = function( _string = "" ) { return format("Register your mod%s with a system before trying to interact with it", getInQuotes(_string)); },
+	InvalidValue = function( _string = "" )  { return format("The value of the variable%s is not acceptable", getInQuotes(_string)); }
 };
