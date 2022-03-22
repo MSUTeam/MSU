@@ -161,6 +161,11 @@
 		return this.Array[_idx];
 	}
 
+	function _cloned()
+	{
+		return ::MSU.Class.OrderedMap(clone this.Array);
+	}
+
 	function len()
 	{
 		return this.Array.len();
