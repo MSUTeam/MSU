@@ -33,6 +33,11 @@
 		}
 
 		this.Total += _item[0];
+		foreach (pair in this.Array)
+		{
+			if (pair[1] == _item[1]) pair[0] += _item[0];
+			return;
+		}
 		this.Array.push(_item);
 	}
 
