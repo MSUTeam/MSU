@@ -81,6 +81,18 @@
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
+	function setWeight( _item, _weight )
+	{
+		::MSU.requireOneOfType(["integer"], ["float"], _weight);
+		foreach (pair in this.Array)
+		{
+			if (pair[1] == _item) pair[0] = _weight;
+			return;
+		}
+
+		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
