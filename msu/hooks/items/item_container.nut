@@ -39,6 +39,36 @@
 		this.m.Actor.getSkills().update();
 	}
 
+	o.getStaminaModifier <- function( _slots = null )
+	{
+		if (_slots == null)
+		{
+			 _slots = clone ::Const.ItemSlot;
+			 delete _slots.None;
+			 delete _slots.COUNT;
+		}
+		else
+		{
+			if (typeof _slots == "integer") _slots = [_slots];
+		}
+
+		local ret = 0;
+
+		foreach (slot in _slots)
+		{
+			local items = this.getAllItemsAtSlot(slot);
+			foreach (item in items)
+			{
+				// Avoid exceptions for items which don't have getStaminaModifier()
+				// This handles cases such as Quivers in ammo slot which don't have
+				// this function in vanilla but do in mods like Legends
+				if (::MSU.isIn("getStaminaModifier", item)) ret += item.getStaminaModifier();
+			}
+		}
+
+		return ret;
+	}
+
 	local onNewRound = o.onNewRound;
 	o.onNewRound = function()
 	{
