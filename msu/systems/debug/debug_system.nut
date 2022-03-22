@@ -48,7 +48,7 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.ModNotRegistered;
+			throw ::MSU.Exception.ModNotRegistered(_modID);
 		}
 		this.Mods[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
@@ -101,7 +101,7 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.ModNotRegistered;
+			throw ::MSU.Exception.ModNotRegistered(_modID);
 		}
 
 		if (this.isEnabledForMod(_modID, _flagID))
