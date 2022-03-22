@@ -11,22 +11,35 @@
 	return false;
 }
 
-::MSU.isIn <- function( _member, _object )
+::MSU.isIn <- function( _member, _object, _chain = false )
 {
-	switch (typeof _object)
+	local obj = _object;
+
+	switch (typeof obj)
 	{
 		case "instance":
-			if (_object instanceof ::WeakTableRef)
+			if (obj instanceof ::WeakTableRef)
 			{
-				if (_object.isNull())
+				if (obj.isNull())
 				{
 					::printError("The table inside the WeakTableRef instance is null");
 					throw ::MSU.Exception.KeyNotFound(_member);
 				}
-				return _member in _object.get();
+				obj = _object.get();
 			}
+			return _member in obj;
+
 		case "table":
-			return _member in _object;
+			if (!_chain) return _member in obj;
+			else
+			{
+				while(obj.getdelegate() != null)
+				{
+					local super = obj.getdelegate();
+					if (_key in super) return true;
+					obj = super;
+				}
+			}
 			break;
 
 		case "array":
