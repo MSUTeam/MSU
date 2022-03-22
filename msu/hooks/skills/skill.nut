@@ -94,7 +94,7 @@
 		return true;
 	}
 
-	o.hardReset <- function()
+	o.hardReset <- function( _exclude = null )
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
@@ -103,9 +103,15 @@
 			return false;
 		}
 
+		if (_exclude == null) _exclude = [];
+		::MSU.requireArray(_exclude);
+
+		local toExclude = ["IsNew", "Order", "Type"];
+		toExclude.extend(_exclude);
+
 		foreach (k, v in this.b)
 		{
-			this.m[k] = v;
+			if (toExclude.find(k) == null) this.m[k] = v;
 		}
 
 		return true;
