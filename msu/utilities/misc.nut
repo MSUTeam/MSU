@@ -37,3 +37,23 @@
 			throw ::MSU.Exception.InvalidType(_object);
 	}
 }
+
+::MSU.isKindOf <- function( _object, _className )
+{
+	local obj = _object;
+	if (typeof obj == "instance")
+	{
+		if (obj instanceof ::WeakTableRef)
+		{
+			if (obj.isNull())
+			{
+				::printError("The table inside the WeakTableRef instance is null");
+				throw ::MSU.Exception.KeyNotFound(_className);
+			}
+			obj = obj.get();
+		}
+		else throw ::MSU.Exception.InvalidType(_object);
+	}
+
+	return ::isKindOf(obj, _className);
+}
