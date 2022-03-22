@@ -1,6 +1,6 @@
 local function getInQuotes( _string )
 {
-	return typeof _string != "string" || _string.len() > 0 ? " \'" + _string.tostring() + "\'") : _string.tostring();
+	return _string != "" ? " \'" + _string.tostring() + "\'") : _string.tostring();
 }
 
 ::MSU.Exception <- {
