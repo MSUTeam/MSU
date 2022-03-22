@@ -127,6 +127,11 @@
 		this.ApplyIdx = null;
 	}
 
+	function map( _function )
+	{
+		return ::MSU.Class.OrderedMap(clone this.Array).apply(_function);
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
