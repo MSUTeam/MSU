@@ -2,6 +2,7 @@
 {
 	function _get( _key )
 	{
-		throw ::MSU.Exception.ModNotRegistered();
+		::logError(::MSU.Error.ModNotRegistered(_key));
+		throw ::MSU.Exception.KeyNotFound(_key);
 	}
 }
