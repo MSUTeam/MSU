@@ -65,7 +65,7 @@
 	function getProbability( _item )
 	{
 		local weight = null;
-		if (this.ApplyIdx != null)
+		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
 			weight = this.Array[this.ApplyIdx][0];
 		}
@@ -84,7 +84,7 @@
 
 	function getWeight( _item )
 	{
-		if (this.ApplyIdx != null)
+		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
 			return this.Array[this.ApplyIdx][0]);
 		}
@@ -101,7 +101,7 @@
 	{
 		::MSU.requireOneOfType(["integer"], ["float"], _weight);
 
-		if (this.ApplyIdx != null)
+		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
 			this.Array[this.ApplyIdx][0] = _weight;
 			return;
