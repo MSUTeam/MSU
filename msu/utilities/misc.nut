@@ -1,14 +1,6 @@
 ::MSU.isNull <- function( _object )
 {
-	if (_object == null)
-	{
-		return true;
-	}
-	if (typeof _object == "instance" && _object instanceof this.WeakTableRef)
-	{
-		return _object.isNull();
-	}
-	return false;
+	return _object == null || (typeof _object == "instance" && _object instanceof ::WeakTableRef && _object.isNull());
 }
 
 ::MSU.getField <- function( _object, _key )
