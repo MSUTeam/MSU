@@ -31,6 +31,11 @@
 	local getDescription = o.getDescription;
 	o.getDescription = function()
 	{
+		if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemDescriptions").getValue())
+		{
+			return getDescription();
+		}
+
 		local names = "";
 		foreach (itemType in ::Const.Items.ItemType)
 		{
