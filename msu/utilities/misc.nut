@@ -88,22 +88,14 @@
 
 ::MSU.isKindOf <- function( _object, _className )
 {
-	local obj = _object;
-	if (typeof obj == "instance")
+	if (_object == null || _className == null) return false;
+	if (typeof _object == "instance" && _object instanceof ::WeakTableRef)
 	{
-		if (obj instanceof ::WeakTableRef)
-		{
-			if (obj.isNull())
-			{
-				::printError("The table inside the WeakTableRef instance is null");
-				throw ::MSU.Exception.KeyNotFound(_className);
-			}
-			obj = obj.get();
-		}
-		else throw ::MSU.Exception.InvalidType(_object);
+		if (_object.isNull()) return false;
+		 _object = _object.get();
 	}
 
-	return ::isKindOf(obj, _className);
+	return ::isKindOf(_object, _className);
 }
 
 ::MSU.asWeakTableRef <- function( _object )
