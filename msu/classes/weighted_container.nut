@@ -12,9 +12,15 @@
 		this.addArray(_array);
 	}
 
-	function toArray()
+	function toArray( _itemsOnly = true )
 	{
-		return this.Array;
+		local ret = array(this.Array.len(), null);
+		foreach (i, pair in this.Array)
+		{
+			if (_itemsOnly) ret[i] = pair[1];
+			else ret[i] = [pair[0], pair[1]];
+		}
+		return ret;
 	}
 
 	function addArray( _array )
