@@ -151,6 +151,12 @@
 		return ret;
 	}
 
+	function clear()
+	{
+		this.Total = 0;
+		this.Array.clear();
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
