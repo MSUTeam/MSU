@@ -81,4 +81,17 @@
 	{
 		return _key in this.Table;
 	}
+
+	function filter( _function )
+	{
+		// _function (_key, _val)
+
+		local ret = ::MSU.Class.OrderedMap();
+		foreach (key in this.Array)
+		{
+			local val = this.Table[key];
+			if (_function(key, val)) ret[key] <- val;
+		}
+		return ret;
+	}
 }
