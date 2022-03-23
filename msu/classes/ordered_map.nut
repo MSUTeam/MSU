@@ -113,4 +113,19 @@
 		ret.apply(_function);
 		return ret;
 	}
+
+	function values()
+	{
+		local ret = array(this.Array.len(), null);
+		foreach (i, key in this.Array)
+		{
+			ret[i] = this.Table[key];
+		}
+		return ret;
+	}
+
+	function keys()
+	{
+		return clone this.Array;
+	}
 }
