@@ -132,6 +132,18 @@
 		return ::MSU.Class.OrderedMap(clone this.Array).apply(_function);
 	}
 
+	function filter( _function )
+	{
+		local ret = ::MSU.Class.OrderedMap();
+		foreach (i, pair in this.Array)
+		{
+			this.ApplyIdx = i;
+			if (_function(pair[1])) ret.add(pair[1], pair[0]);
+		}
+		this.ApplyIdx = null;
+		return ret;
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
