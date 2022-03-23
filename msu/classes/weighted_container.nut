@@ -134,14 +134,14 @@
 	{
 		// _function (_item, _weight)
 
-		return ::MSU.Class.OrderedMap(clone this.Array).apply(_function);
+		return ::MSU.Class.WeightedContainer(clone this.Array).apply(_function);
 	}
 
 	function filter( _function )
 	{
 		// _function (_item, _weight)
 
-		local ret = ::MSU.Class.OrderedMap();
+		local ret = ::MSU.Class.WeightedContainer();
 		foreach (i, pair in this.Array)
 		{
 			this.ApplyIdx = i;
@@ -182,7 +182,7 @@
 
 	function _cloned()
 	{
-		return ::MSU.Class.OrderedMap(clone this.Array);
+		return ::MSU.Class.WeightedContainer(clone this.Array);
 	}
 
 	function len()
