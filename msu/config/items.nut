@@ -1,5 +1,4 @@
-::Const.Items.ItemTypeName <- [];
-::Const.Items.ItemTypeName.resize(::Const.Items.ItemType.len(), "");
+::Const.Items.ItemTypeName <- array(::Const.Items.ItemType.len(), "");
 
 foreach (itemType in ::Const.Items.ItemType)
 {
