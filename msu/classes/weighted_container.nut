@@ -118,10 +118,12 @@
 
 	function apply( _function )
 	{
+		// _function (_item, _weight)
+
 		foreach (i, pair in this.Array)
 		{
 			this.ApplyIdx = i;
-			_function(pair[1]);
+			_function(pair[1], pair[0]);
 		}
 
 		this.ApplyIdx = null;
@@ -129,16 +131,20 @@
 
 	function map( _function )
 	{
+		// _function (_item, _weight)
+
 		return ::MSU.Class.OrderedMap(clone this.Array).apply(_function);
 	}
 
 	function filter( _function )
 	{
+		// _function (_item, _weight)
+
 		local ret = ::MSU.Class.OrderedMap();
 		foreach (i, pair in this.Array)
 		{
 			this.ApplyIdx = i;
-			if (_function(pair[1])) ret.add(pair[1], pair[0]);
+			if (_function(pair[1], pair[0])) ret.add(pair[1], pair[0]);
 		}
 		this.ApplyIdx = null;
 		return ret;
