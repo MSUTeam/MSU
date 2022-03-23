@@ -104,4 +104,13 @@
 		}
 		return ret;
 	}
+
+	function map( _function )
+	{
+		// _function (_key, _val, _idx)
+
+		local ret = this.filter(@(key, val) return true);
+		ret.apply(_function);
+		return ret;
+	}
 }
