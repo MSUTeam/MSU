@@ -48,7 +48,8 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.ModNotRegistered(_modID);
+			::logError(::MSU.Error.ModNotRegistered(_modID));
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		this.Mods[_modID][_flagID] <- _flagBool;
 		if (_flagBool == true)
@@ -68,6 +69,7 @@
 	{
 		if (!(_modID in this.Mods))
 		{
+			::logError(::MSU.Error.ModNotRegistered(_modID));
 			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		if (!(_flagID in this.Mods[_modID]))
@@ -101,7 +103,8 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			throw ::MSU.Exception.ModNotRegistered(_modID);
+			::logError(::MSU.Error.ModNotRegistered(_modID));
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 
 		if (this.isEnabledForMod(_modID, _flagID))

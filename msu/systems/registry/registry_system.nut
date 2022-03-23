@@ -41,14 +41,16 @@
 		local version = split(_version, "+");
 		if (version.len() > 2)
 		{
-			throw ::MSU.Exception.NotSemanticVersion(_version);
+			::logError(::MSU.Error.NotSemanticVersion(_version));
+			throw ::MSU.Exception.InvalidValue(_version);
 		}
 		local metadata = version.len() == 2 ? version[1] : null;
 		version = split(version[0], "-");
 
 		if (version.len() > 2)
 		{
-			throw ::MSU.Exception.NotSemanticVersion(_version);
+			::logError(::MSU.Error.NotSemanticVersion(_version));
+			throw ::MSU.Exception.InvalidValue(_version);
 		}
 
 		local prerelease = version.len() == 2 ? version[1] : null;
@@ -56,7 +58,8 @@
 
 		if (version.len() > 3)
 		{
-			throw ::MSU.Exception.NotSemanticVersion(_version);
+			::logError(::MSU.Error.NotSemanticVersion(_version));
+			throw ::MSU.Exception.InvalidValue(_version);
 		}
 		else if (version.len() < 3)
 		{
@@ -69,14 +72,16 @@
 			{
 				if (!::MSU.String.isInteger(version[i]))
 				{
-					throw ::MSU.Exception.NotSemanticVersion(_version);
+					::logError(::MSU.Error.NotSemanticVersion(_version));
+					throw ::MSU.Exception.InvalidValue(_version);
 				}
 				version[i] = version[i].tointeger();
 			}
 		}
 		catch (error)
 		{
-			throw ::MSU.Exception.NotSemanticVersion(_version);
+			::logError(::MSU.Error.NotSemanticVersion(_version));
+			throw ::MSU.Exception.InvalidValue(_version);
 		}
 
 		local ret = {
