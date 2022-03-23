@@ -157,6 +157,23 @@
 		this.Array.clear();
 	}
 
+	function top()
+	{
+		local weight = 0;
+		local ret;
+
+		foreach (pair in this.Array)
+		{
+			if (pair[0] > weight)
+			{
+				weight = pair[0];
+				ret = pair[1];
+			}
+		}
+
+		return ret;
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
