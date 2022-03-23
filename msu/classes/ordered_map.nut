@@ -40,6 +40,14 @@
 		return _prev == this.Array.len() ? null : this.Array[_prev];
 	}
 
+	function _cloned()
+	{
+		local ret = ::MSU.Class.OrderedMap();
+		ret.Array = clone this.Array;
+		ret.Table = clone this.Table;
+		return ret;
+	}
+
 	function sort( _function )
 	{
 		for (local i = 1; i < this.Array.len(); ++i)
