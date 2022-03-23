@@ -17,3 +17,6 @@ local function getInQuotes( _string )
 	ModNotRegistered = function( _string = "" ) { return format("Register your mod%s with a system before trying to interact with it", getInQuotes(_string)); },
 	InvalidValue = function( _string = "" )  { return format("The value of the variable%s is not acceptable", getInQuotes(_string)); }
 };
+
+::MSU.Error <- {
+};
