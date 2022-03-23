@@ -82,6 +82,16 @@
 		return _key in this.Table;
 	}
 
+	function apply( _function )
+	{
+		// _function (_key, _val, _idx)
+
+		foreach (i, key in this.Array)
+		{
+			_function(key, this.Table[key], i);
+		}
+	}
+
 	function filter( _function )
 	{
 		// _function (_key, _val)
