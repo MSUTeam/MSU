@@ -57,3 +57,8 @@
 
 	return ::isKindOf(obj, _className);
 }
+
+::MSU.asWeakTableRef <- function( _object )
+{
+	return typeof _object == "instance" ? _object : ::WeakTableRef(_object);
+}
