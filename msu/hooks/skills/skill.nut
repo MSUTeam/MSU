@@ -25,6 +25,7 @@
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
+		this.getContainer().m.ScheduledChangesSkills.push(this);
 	}
 
 	o.executeScheduledChanges <- function()

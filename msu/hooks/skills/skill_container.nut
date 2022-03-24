@@ -1,5 +1,6 @@
 ::mods_hookNewObject("skills/skill_container", function(o) {
 	o.m.LastLevelOnUpdateLevelCalled <- 0;
+	o.m.ScheduledChangesSkills <- [];
 
 	local update = o.update;
 	o.update = function()
@@ -16,10 +17,12 @@
 
 		update();
 
-		foreach (skill in this.m.Skills)
+		foreach (skill in this.m.ScheduledChangesSkills)
 		{
 			skill.executeScheduledChanges();
 		}
+
+		this.m.ScheduledChangesSkills.clear();
 	}
 
 	o.doOnFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
