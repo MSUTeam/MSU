@@ -62,7 +62,7 @@
 				// Avoid exceptions for items which don't have getStaminaModifier()
 				// This handles cases such as Quivers in ammo slot which don't have
 				// this function in vanilla but do in mods like Legends
-				if (::MSU.isIn("getStaminaModifier", item)) ret += item.getStaminaModifier();
+				if (::MSU.isIn("getStaminaModifier", item, true)) ret += item.getStaminaModifier();
 			}
 		}
 
