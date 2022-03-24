@@ -1,6 +1,4 @@
 ::mods_hookNewObject("skills/skill_container", function(o) {
-	o.m.BeforeSkillExecutedTile <- null;
-	o.m.IsExecutingMoveSkill <- false;
 	o.m.LastLevelOnUpdateLevelCalled <- 0;
 
 	local update = o.update;
@@ -103,25 +101,20 @@
 
 	o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
-		// Don't update if using a movement skill e.g. Rotation because this leads
+		// Don't update if using a skill that sets Tile to ID 0 e.g. Rotation because this leads
 		// to crashes if any skill tries to access the current tile in its onUpdate
 		// function as the tile at this point is not a valid tile.
-		this.m.IsExecutingMoveSkill = !this.getActor().getTile().isSameTileAs(this.m.BeforeSkillExecutedTile);
-		this.m.BeforeSkillExecutedTile = null;
 
 		this.doOnFunction("onAnySkillExecuted", [
 			_skill,
 			_targetTile,
 			_targetEntity,
 			_forFree
-		], !this.m.IsExecutingMoveSkill);
-
-		this.m.IsExecutingMoveSkill = false;
+		], this.getContainer().getActor().isPlacedOnMap());
 	}
 
 	o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
-		this.m.BeforeSkillExecutedTile = this.getActor().getTile();
 		this.doOnFunction("onBeforeAnySkillExecuted", [
 			_skill,
 			_targetTile,
