@@ -16,16 +16,10 @@
 		return count;
 	}
 
-	// Returns the frequency density of _x using normal distribution
-	function normalDistDensity( _x, _mean, _stdev )
+	// Returns the normalized value of the normal distribution at _x
+	function normalDistNorm( _x, _mean, _stdev )
 	{
-		local divider = _stdev * sqrt(2 * 3.14);
-
-		local val = exp(-0.5 * pow((_x - _mean)/(_stdev * 1.0), 2)) / divider;
-
-		local valAtMean = 1 / divider;
-
-		return val / valAtMean;
+		return exp(-0.5 * pow((_x - _mean)/_stdev.tofloat(), 2));
 	}
 
 	// Returns the value of the normal distribution at _x
