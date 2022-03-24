@@ -1,10 +1,10 @@
 ::MSU.String <- {
 	function capitalizeFirst( _string )
 	{
-		local string = _string.tostring();
-		local first = string.slice(0, 1);
+		if (_string == "") return _string;
+		local first = _string.slice(0, 1);
 		first = first.toupper();
-		return first + string.slice(1);
+		return first + _string.slice(1);
 	}
 
 	function replace( _string, _find, _replace )
