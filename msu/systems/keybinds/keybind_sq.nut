@@ -47,6 +47,6 @@
 
 	function tostring()
 	{
-		return base.tostring() + ", Keystate: " + this.getKeyState();
+		return base.tostring() + ", Keystate: " + this.getKeyState() + ", State: " + this.getState();
 	}
 }
