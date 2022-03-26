@@ -3,7 +3,7 @@
 	Name = null;
 	ID = null;
 	Settings = null;
-	Parent = null;
+	Panel = null;
 
 	constructor( _id, _name = null )
 	{
@@ -23,19 +23,19 @@
 		this.Settings[_element.getID()] <- _element;
 	}
 
-	function setParent( _parent )
+	function setPanel( _panel )
 	{
-		this.Parent = _parent.weakref();
+		this.Panel = _panel.weakref();
 	}
 
-	function getParent()
+	function getPanel()
 	{
-		return this.Parent;
+		return this.Panel;
 	}
 
 	function getPanelID()
 	{
-		return this.getParent().getID();
+		return this.getPanel().getID();
 	}
 
 	function getID()

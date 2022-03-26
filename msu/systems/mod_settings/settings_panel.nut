@@ -22,7 +22,7 @@
 		{
 			throw ::MSU.Exception.InvalidType(_page);
 		}
-		_page.setParent(this);
+		_page.setPanel(this);
 		this.Pages[_page.getID()] <- _page;
 	}
 
