@@ -23,9 +23,9 @@ this.persistent_data_manager <- {
 			local settingsType = components[2];
 			::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and settingstype '%s'.", modID, settingsType), "persistence");
 			this.setMod(modID);
-			if (!(settingsType in this.getMods()[modID]))
+			if (!(settingsType in this.m.Mods[modID]))
 			{
-				this.getMods()[modID][settingsType] <- file;
+				this.m.Mods[modID][settingsType] <- file;
 			}
 		}
 	}
@@ -47,7 +47,7 @@ this.persistent_data_manager <- {
 			::logError("Mod " + _modID + " not found in mods!");
 			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
-		return this.getMods()[_modID];
+		return this.m.Mods[_modID];
 	}
 
 	function loadSettingForMod( _modID, _settingID )
@@ -89,7 +89,7 @@ this.persistent_data_manager <- {
 		{
 			return;
 		}
-		this.getMods()[_modID] <- {};
+		this.m.Mods[_modID] <- {};
 	}
 
 	function writeToLog( _settingID, _modID, _value )
