@@ -121,8 +121,8 @@
 					::logError(string);
 					return;
 				default:
-					::MSU.Mod.Debug.printWarning("No log type defined for this log: " + string, "debug")
-					return;
+					::logError("No log type defined for this log: " + string);
+					throw ::MSU.Exception.KeyNotFound(_logType);
 			}
 		}
 	}
