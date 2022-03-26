@@ -60,9 +60,9 @@
 		return this.ID;
 	}
 
-	function addFlags( ... )
+	function addFlags( _flags )
 	{
-		this.Flags.extend(vargv);
+		this.Flags.extend(_flags);
 	}
 
 	function getFlags()
