@@ -174,11 +174,6 @@
 		return item != null && item.isItemType(::Const.Items.ItemType.OneHanded);
 	}
 
-	o.isArmedWithMeleeOrUnarmed <- function()
-	{
-		return this.isArmedWithMeleeWeapon() || this.getSkills().hasSkill("actives.hand_to_hand");
-	}
-
 	o.isArmedWithTwoHandedWeapon <- function()
 	{
 		local item = this.getMainhandItem();
