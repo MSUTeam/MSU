@@ -3,6 +3,7 @@
 	Pages = null;
 	ID = null;
 	Name = null;
+	Mod = null;
 
 	constructor( _id, _name = null )
 	{
@@ -82,6 +83,21 @@
 	function getID()
 	{
 		return this.ID;
+	}
+
+	function setMod( _mod )
+	{
+		this.Mod = _mod.weakref();
+	}
+
+	function getMod()
+	{
+		return this.Mod;
+	}
+
+	function getModID()
+	{
+		return this.Mod.getID();
 	}
 
 	function callSettingsFunction( _function, ... )
