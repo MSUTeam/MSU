@@ -5,7 +5,7 @@
 	static Type = "Element";
 	Flags = null;
 	Description = null;
-	Parent = null;
+	Page = null;
 
 	constructor( _id, _name = null )
 	{
@@ -25,19 +25,19 @@
 		return this.Type;
 	}
 
-	function setParent( _parent )
+	function setPage( _page )
 	{
-		this.Parent = _parent.weakref();
+		this.Page = _page.weakref();
 	}
 
-	function getParent()
+	function getPage()
 	{
-		return this.Parent;
+		return this.Page;
 	}
 
 	function getPanelID()
 	{
-		return this.getParent().getPanelID();
+		return this.getPage().getPanelID();
 	}
 
 	function setDescription( _description )

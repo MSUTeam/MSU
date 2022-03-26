@@ -19,7 +19,7 @@
 			::logError("Failed to add element: element needs to extend SettingsElement");
 			throw ::MSU.Exception.InvalidType(_element);
 		}
-		_element.setParent(this);
+		_element.setPage(this);
 		this.Settings[_element.getID()] <- _element;
 	}
 
