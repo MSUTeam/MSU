@@ -64,7 +64,7 @@
 		local idx = ::MSU.Math.log2int(_damageType) + 1;
 		if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
 		{
-			return this.DamageTypeInjuries[idx].Injuries;
+			return clone this.DamageTypeInjuries[idx].Injuries;
 		}
 		throw ::MSU.Exception.KeyNotFound(_damageType);
 	}
