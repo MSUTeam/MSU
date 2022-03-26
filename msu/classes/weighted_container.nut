@@ -86,7 +86,7 @@
 	{
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
-			return this.Array[this.ApplyIdx][0]);
+			return this.Array[this.ApplyIdx][0];
 		}
 
 		foreach (pair in this.Array)
