@@ -47,7 +47,7 @@
 		properties.Tile = tile;
 		properties.InCombatAlready = false;
 		properties.IsAttackingLocation = false;
-		local factions = array(256, 0);
+		local factions = array(256, 0); // This is the part that MSU changes
 
 		foreach (party in raw_parties)
 		{
