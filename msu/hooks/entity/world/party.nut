@@ -18,14 +18,14 @@
 		this.m.MovementSpeedMultFunctions.NotPlayerMovementSpeedMult <- this.getNotPlayerMovementSpeedMult;
 	}
 
-	o.setVanillaBaseMovementSpeed <- function( _speed )
-	{
-		this.m.VanillaBaseMovementSpeed = _speed;
-	}
-
 	o.getVanillaBaseMovementSpeed <- function()
 	{
 		return this.m.VanillaBaseMovementSpeed;
+	}
+
+	o.setVanillaBaseMovementSpeed <- function( _speed )
+	{
+		this.m.VanillaBaseMovementSpeed = _speed;
 	}
 
 	o.setBaseMovementSpeed <- function( _speed )
@@ -53,14 +53,14 @@
 		return this.m.MovementSpeedMult;
 	}
 
-	o.setMovementSpeed <- function( _speed )
-	{
-		this.setBaseMovementSpeedMult(_speed / 100.0);
-	}
-
 	o.setMovementSpeedMult <- function( _mult )
 	{
 		this.m.MovementSpeedMult = _mult;
+	}
+
+	o.setMovementSpeed <- function( _speed )
+	{
+		this.setBaseMovementSpeedMult(_speed / 100.0);
 	}
 
 	o.getFinalMovementSpeedMult <- function()
