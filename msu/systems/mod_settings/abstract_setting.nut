@@ -5,7 +5,7 @@
 	Locked = null;
 	LockReason = null;
 	Callbacks = null;
-	ParseChange = null; //if it should print change to log for further manipulation
+	ChangeLogging = null; //if it should print change to log for further manipulation
 
 	constructor( _id, _value, _name = null )
 	{
@@ -13,18 +13,18 @@
 		this.Value = _value; 
 		this.Locked = false;
 		this.LockReason = "";
-		this.ParseChange = true;
+		this.ChangeLogging = true;
 		this.Callbacks = [];
 	}
 
-	function setParseChange( _bool )
+	function setChangeLogging( _bool )
 	{
-		this.ParseChange = _bool;
+		this.ChangeLogging = _bool;
 	}
 
-	function getParseChange()
+	function getChangeLogging()
 	{
-		return this.ParseChange;
+		return this.ChangeLogging;
 	}
 
 	function printForParser()
@@ -59,7 +59,7 @@
 			{
 				this.onChangedCallback(_value);
 			}
-			if (_updatePersistence && this.ParseChange == true)
+			if (_updatePersistence && this.ChangeLogging == true)
 			{
 				this.printForParser();
 			}
