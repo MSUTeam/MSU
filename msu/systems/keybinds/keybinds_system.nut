@@ -68,7 +68,7 @@
 	// Private
 	function remove( _modID, _id )
 	{
-		::MSU.Debug.printWarning("Removing Keybind" + this.KeybindsByMod[_modID][_id]);
+		::MSU.Debug.printWarning("Removing Keybind" + this.KeybindsByMod[_modID][_id], "keybinds");
 		local keybind = this.KeybindsByMod[_modID].rawdelete(_id);
 		if (keybind instanceof ::MSU.Class.KeybindJS)
 		{
