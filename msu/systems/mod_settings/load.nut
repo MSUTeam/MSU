@@ -118,7 +118,8 @@ generalPage.add(expandedItemDescriptions);
 // 	::MSU.Debug.FullDebug = _data;
 // }))
 
-local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "Enable AI Verbose Debug Mode");
+local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "AI Verbose Debug Mode");
+verboseModeToggle.setDescription("If enabled, sets ::Const.AI.VerboseMode to true for AI related debugging.");
 verboseModeToggle.addCallback(function(_data)
 {
 	::Const.AI.VerboseMode = _data;
