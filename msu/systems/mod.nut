@@ -70,10 +70,9 @@
 	function register( _system, ... )
 	{
 		if (vargv == null) vargv = [];
-
-		vargv.insert(0, _system);
-		vargv.insert(1, this);
-		_system.registerMod.acall(vargv);
+		local args = [_system, this];
+		args.extend(vargv);
+		_system.registerMod.acall(args);
 	}
 
 	function tostring()
