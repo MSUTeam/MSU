@@ -68,6 +68,16 @@
 		return ::Math.floor(getActionPointsMax());
 	}
 
+	local setDirty = o.setDirty;
+	o.setDirty = function( _value )
+	{
+		if (_value)
+		{
+			this.getSkills().update();
+		}
+		setDirty(_value);
+	}
+
 	o.getActorsAtDistanceAsArray <- function( _distance, _relation = ::Const.FactionRelation.Any )
 	{
 		if (!this.isPlacedOnMap())

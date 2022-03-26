@@ -30,7 +30,7 @@
 		if (_argsArray == null) _argsArray = [null];
 		else _argsArray.insert(0, null);
 
-		this.m.IsUpdating = true;
+		local wasUpdating = this.m.IsUpdating;
 		this.m.IsBusy = false;
 		this.m.BusyStack = 0;
 
@@ -48,7 +48,7 @@
 			}
 		}
 
-		this.m.IsUpdating = false;
+		this.m.IsUpdating = wasUpdating;
 		
 		if (_update)
 		{
@@ -66,14 +66,14 @@
 		_argsArray.insert(0, null);
 		_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
 
-		this.m.IsUpdating = true;
+		local wasUpdating = this.m.IsUpdating;
 
 		foreach (skill in this.m.Skills)
 		{
 			_argsArray[0] = skill;
 			skill[_function].acall(_argsArray);
 		}
-		this.m.IsUpdating = false;
+		this.m.IsUpdating = wasUpdating;
 		return _argsArray[_argsArray.len() - 1];
 	}
 
