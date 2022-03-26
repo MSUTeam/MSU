@@ -160,25 +160,28 @@
 	}
 
 
-	function flagSerialize( _modID )
+	function flagSerialize()
 	{
-		this.setFlagForProperty("Value", _modID);
-		this.setFlagForProperty("Locked", _modID);
-		this.setFlagForProperty("LockReason"_modID);
+		local modID = this.getModID();
+		this.setFlagForProperty("Value", modID);
+		this.setFlagForProperty("Locked", modID);
+		this.setFlagForProperty("LockReason"modID);
 	}
 
-	function flagDeserialize( _modID )
+	function flagDeserialize()
 	{
-		this.setPropertyIfFlagExists("Value", _modID);
-		this.setPropertyIfFlagExists("Locked", _modID);
-		this.setPropertyIfFlagExists("LockReason", _modID);
+		local modID = this.getModID();
+		this.setPropertyIfFlagExists("Value", modID);
+		this.setPropertyIfFlagExists("Locked", modID);
+		this.setPropertyIfFlagExists("LockReason", modID);
 	}
 
-	function resetFlags( _modID )
+	function resetFlags()
 	{
-		this.clearFlagForProperty("Value", _modID);
-		this.clearFlagForProperty("Locked", _modID);
-		this.clearFlagForProperty("LockReason", _modID);
+		local modID = this.getModID();
+		this.clearFlagForProperty("Value", modID);
+		this.clearFlagForProperty("Locked", modID);
+		this.clearFlagForProperty("LockReason", modID);
 	}
 
 	function tostring()
