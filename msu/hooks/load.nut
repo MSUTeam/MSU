@@ -1,4 +1,3 @@
-::includeFiles(this.IO.enumerateFiles("msu/hooks/ai"));
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/entity"));
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/items"));
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/scenarios"));
