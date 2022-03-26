@@ -1,5 +1,5 @@
 ::mods_hookExactClass("entity/world/party", function(o) {
-	o.m.RealBaseMovementSpeed <- o.m.BaseMovementSpeed;
+	o.m.VanillaBaseMovementSpeed <- o.m.BaseMovementSpeed;
 	o.m.BaseMovementSpeedMult <- 1.0;
 	o.m.MovementSpeedMult <- 1.0;
 	o.m.MovementSpeedMultFunctions <- {};
@@ -8,6 +8,7 @@
 	o.create = function()
 	{
 		create();
+		this.resetBaseMovementSpeed();
 		this.m.MovementSpeedMultFunctions.BaseMovementSpeedMult <- this.getBaseMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RoadMovementSpeedMult <- this.getRoadMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.SlowdownPerUnitMovementSpeedMult <- this.getSlowdownPerUnitMovementSpeedMult;
@@ -17,14 +18,14 @@
 		this.m.MovementSpeedMultFunctions.NotPlayerMovementSpeedMult <- this.getNotPlayerMovementSpeedMult;
 	}
 
-	o.setRealBaseMovementSpeed <- function( _speed )
+	o.setVanillaBaseMovementSpeed <- function( _speed )
 	{
-		this.m.RealBaseMovementSpeed = _speed;
+		this.m.VanillaBaseMovementSpeed = _speed;
 	}
 
-	o.getRealBaseMovementSpeed <- function()
+	o.getVanillaBaseMovementSpeed <- function()
 	{
-		return this.m.RealBaseMovementSpeed;
+		return this.m.VanillaBaseMovementSpeed;
 	}
 
 	o.setBaseMovementSpeed <- function( _speed )
@@ -34,7 +35,7 @@
 
 	o.resetBaseMovementSpeed <- function()
 	{
-		this.setBaseMovementSpeed(this.getRealBaseMovementSpeed());
+		this.setBaseMovementSpeed(100);
 	}
 
 	o.getBaseMovementSpeedMult <- function()
@@ -64,11 +65,12 @@
 
 	o.getFinalMovementSpeedMult <- function()
 	{
+		::MSU.Mod.Debug.printLog("Checking Party: " + this.getName() + " Player Party: " + this.m.IsPlayer, "movement");
 		local mult = 1.0;
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
-			::MSU.Mod.Debug.printLog("Function " + key + " returned a mult of: " + funcResult, "movement");
+			::MSU.Mod.Debug.printLog("Function " + key + " returned a mult of: " + funcResult + " , mult is now: " + mult * funcResult, "movement");
 			mult *= funcResult;
 		}
 		return mult;
@@ -268,12 +270,66 @@
 			this.m.LastIdleSound = this.Time.getRealTimeF();
 			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][::Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
 		}
+
+		::MSU.Mod.Debug.isEnabled("movement")
+		{
+			this.testCompareMovementSpeeds()
+		}
+	}
+
+	o.testCompareMovementSpeeds <- function()
+	{
+		local moddedSpeed = this.getMovementSpeed(true);
+		local speed = this.getVanillaBaseMovementSpeed();
+		speed = speed * (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
+		speed = speed * this.Const.World.MovementSettings.GlobalMult;
+		local myTile = this.getTile();
+
+		if (!this.isIgnoringCollision())
+		{
+			if (myTile.HasRoad)
+			{
+				speed = speed * this.Math.maxf(this.Const.World.TerrainTypeSpeedMult[myTile.Type] * this.Const.World.MovementSettings.RoadMult, 1.0);
+			}
+			else
+			{
+				speed = speed * this.Const.World.TerrainTypeSpeedMult[myTile.Type];
+			}
+
+			if (this.m.IsPlayer)
+			{
+				speed = speed * this.World.Assets.getTerrainTypeSpeedMult(myTile.Type);
+			}
+		}
+
+		if (this.m.IsSlowerAtNight && !this.World.isDaytime())
+		{
+			speed = speed * this.Const.World.MovementSettings.NighttimeMult;
+		}
+
+		if (myTile.HasRiver)
+		{
+			speed = speed * this.Const.World.MovementSettings.RiverMult;
+		}
+
+		if (this.getFaction() != this.Const.Faction.Player)
+		{
+			speed = speed * this.Const.World.MovementSettings.NotPlayerMult;
+		}
+		if(this.Math.round(moddedSpeed) == this.Math.round(speed))
+		{
+			::MSU.Mod.Debug.printLog("Movement Speed for party " + this.getName() + " is correct.", "movement")
+		}
+		else
+		{
+			::MSU.Mod.Debug.printError("Movement Speed for party " + this.getName() + " is NOT correct. Expected: " + speed + " , actual: " + moddedSpeed, "movement")
+		}
 	}
 	
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		this.getFlags().set("RealBaseMovementSpeed", this.getRealBaseMovementSpeed());
+		this.getFlags().set("VanillaBaseMovementSpeed", this.getVanillaBaseMovementSpeed());
 		this.getFlags().set("BaseMovementSpeedMult", this.getBaseMovementSpeedMult());
 		onSerialize(_out);
 	}
@@ -282,9 +338,9 @@
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
-		if (this.getFlags().has("RealBaseMovementSpeed"))
+		if (this.getFlags().has("VanillaBaseMovementSpeed"))
 		{
-			this.setRealBaseMovementSpeed(this.getFlags().get("RealBaseMovementSpeed"));
+			this.setVanillaBaseMovementSpeed(this.getFlags().get("VanillaBaseMovementSpeed"));
 		}
 		if (this.getFlags().has("BaseMovementSpeedMult"))
 		{
