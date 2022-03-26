@@ -70,11 +70,6 @@
 		return _only ? this.m.WeaponType & t == this.m.WeaponType : this.m.WeaponType & _t == _t;
 	}
 
-	o.isAllWeaponTypes <- function( _t )
-	{
-		return this.m.WeaponType & _t == _t;
-	}
-
 	o.addWeaponType <- function( _weaponType, _setupCategories = true )
 	{
 		if (!this.isWeaponType(_weaponType))
@@ -101,7 +96,7 @@
 
 	o.removeWeaponType <- function( _weaponType, _setupCategories = true )
 	{
-		if (this.isAllWeaponTypes(_weaponType))
+		if (this.isWeaponType(_weaponType))
 		{
 			this.m.WeaponType -= _weaponType;
 
