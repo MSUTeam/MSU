@@ -1,10 +1,5 @@
 ::MSU.Class.KeybindsModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function add( _keybind )
-	{
-		::MSU.System.Keybinds.add(_keybind);
-	}
-
 	function update( _id, _keyCombinations )
 	{
 		::MSU.System.Keybinds.update(this.Mod.getID(), _id, _keyCombinations);
