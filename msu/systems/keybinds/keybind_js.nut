@@ -1,4 +1,4 @@
-::MSU.Class.KeybindJS <- class extends ::MSU.Class.Keybind
+::MSU.Class.KeybindJS <- class extends ::MSU.Class.AbstractKeybind
 {
 	function getUIData()
 	{

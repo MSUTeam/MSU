@@ -1,4 +1,4 @@
-::MSU.Class.Keybind <- class
+::MSU.Class.AbstractKeybind <- class
 {
 	KeyCombinations = null;
 	ModID = null;

@@ -1,4 +1,4 @@
-::MSU.Class.KeybindSQ <- class extends ::MSU.Class.Keybind
+::MSU.Class.KeybindSQ <- class extends ::MSU.Class.AbstractKeybind
 {
 	Function = null;
 	State = null;
