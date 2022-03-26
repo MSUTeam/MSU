@@ -16,6 +16,7 @@
 
 		_mod.ModSettings = ::MSU.Class.ModSettingsModAddon(_mod);
 		local panel = ::MSU.Class.SettingsPanel(_mod.getID(), _mod.getName());
+		panel.setMod(_mod);
 		this.Panels[_mod.getID()] <- panel;
 	}
 
