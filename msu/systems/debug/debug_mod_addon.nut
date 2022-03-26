@@ -22,7 +22,7 @@
 
 	function isEnabled( _flagID = "default" )
 	{
-		::MSU.System.Debug.isEnabledForMod(this.Mod.getID(), _flagID);
+		return ::MSU.System.Debug.isEnabledForMod(this.Mod.getID(), _flagID);
 	}
 
 	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
