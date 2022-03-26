@@ -59,7 +59,7 @@
 			{
 				this.onChangedCallback(_value);
 			}
-			if (_updatePersistence && this.ChangeLogging == true)
+			if (_updatePersistence && this.ChangeLogging)
 			{
 				this.printForParser();
 			}
