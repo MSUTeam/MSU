@@ -5,7 +5,8 @@
 		onInit();
 		if (::World.State.getPlayer() != null)
 		{
-			::World.State.getPlayer().setBaseMovementSpeed(100);
+			::World.State.getPlayer().setVanillaBaseMovementSpeed(111);
+			::World.State.getPlayer().resetBaseMovementSpeed();
 		}
 	}
 

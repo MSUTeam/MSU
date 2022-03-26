@@ -3,13 +3,20 @@
 	o.create = function()
 	{
 		create();
+		this.setVanillaBaseMovementSpeed(105);
 		this.resetBaseMovementSpeed();
-		this.setBaseMovementSpeedMult(1.05);
+		this.m.MovementSpeedMultFunctions.PlayerMovementSpeedMult <- this.getPlayerPartyMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RosterMovementSpeedMult <- this.getRosterMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.StashMovementSpeedMult <- this.getStashMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.OriginMovementSpeedMult <- this.getOriginMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RetinueMovementSpeedMult <- this.getRetinueMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.TerrainTypeSpeedMult <- this.getTerrainTypeSpeedMult;
+	}
+
+	//refers to the base 105 movement speed of the player
+	o.getPlayerPartyMovementSpeedMult <- function()
+	{
+		return 1.05;
 	}
 
 	o.getRosterMovementSpeedMult <- function()
