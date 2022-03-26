@@ -37,7 +37,7 @@
 
 	function getPanelID()
 	{
-		return this.getParent().getParent().getID();
+		return this.getParent().getPanelID();
 	}
 
 	function setDescription( _description )
