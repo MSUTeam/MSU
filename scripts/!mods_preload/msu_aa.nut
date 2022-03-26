@@ -1,6 +1,6 @@
 ::MSU <- {};
 ::MSU.Version <- "1.0.0-alpha";
-::MSU.ID <- "mod_MSU";
+::MSU.ID <- "msu";
 ::MSU.Name <- "Modding Standards & Utilities";
 
 ::MSU.VanillaID <- "vanilla";
