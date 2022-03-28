@@ -13,4 +13,3 @@ includeFile("string.nut");
 includeFile("array.nut");
 
 includeFile("skills.nut");
-includeFile("tile.nut");
