@@ -148,7 +148,8 @@
 	margin-bottom: 0.0rem;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .enum-container
+.msu-settings-screen .dialog .content .l-page-container .enum-container,
+.msu-settings-screen .dialog .content .l-page-container .button-container
 {
 	float: left;
 	margin: 0.9rem;
@@ -158,7 +159,8 @@
 	left: 0rem;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button
+.msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button,
+.msu-settings-screen .dialog .content .l-page-container .button-container .enum-button
 {
 	left: 0.5rem;
 	top: 2.8rem;
@@ -167,7 +169,8 @@
 	line-height: 3.0rem;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .enum-container .title
+.msu-settings-screen .dialog .content .l-page-container .enum-container .title,
+.msu-settings-screen .dialog .content .l-page-container .button-container .title
 {
 	left: 0.5rem;
 	position: absolute;
