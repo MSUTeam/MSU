@@ -22,6 +22,10 @@
 	o.m.IsBaseValuesSaved <- false;
 	o.m.ScheduledChanges <- [];
 
+	o.m.IsApplyingPreview <- false;
+	o.PreviewField <- {};
+	o.PreviewProperty <- {};
+
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
@@ -206,6 +210,20 @@
 
 	o.onEnterSettlement <- function( _settlement )
 	{		
+	}
+
+	o.onAffordablePreview <- function( _skill, _movementTile )
+	{
+	}
+
+	o.modifyPreviewField <- function( _field, _currChange, _newChange, _multiplicative )
+	{
+		::MSU.Skills.modifyPreview(this.m, this.PreviewField, _field, _currChange, _newChange, _multiplicative);
+	}
+
+	o.modifyPreviewProperty <- function( _field, _currChange, _newChange, _multiplicative )
+	{
+		::MSU.Skills.modifyPreview(this.getContainer().getActor().getCurrentProperties(), this.PreviewProperty, _field, _currChange, _newChange, _multiplicative);
 	}
 
 	local use = o.use;
@@ -475,4 +493,78 @@
 
 		return tooltip;
 	}
+});
+
+::MSU.EndQueue(function() {
+	::mods_hookBaseClass("skills/skill", function(o) {
+		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
+		{
+			local oldFunc = o[func];
+			o[func] = function()
+			{
+				if (!this.m.IsApplyingPreview) return oldFunc();
+
+				local temp = {};
+				foreach (k, v in this.PreviewField)
+				{
+					temp[k] <- this.m[k];
+					this.m[k] = v;
+				}
+
+				local properties = this.getContainer().getActor().getCurrentProperties();
+				foreach (k, v in this.PreviewProperty)
+				{
+					temp[k] <- properties[k];
+					properties[k] = v;
+				}
+
+				local ret = oldFunc();
+
+				if (temp.len() > 0)
+				{
+					foreach (k, v in this.PreviewField)
+					{
+						this.m[k] = temp[k];
+					}
+
+					local properties = this.getContainer().getActor().getCurrentProperties();
+					foreach (k, v in this.PreviewProperty)
+					{
+						properties[k] = temp[k];
+					}
+				}
+
+				return ret;
+			}
+		}
+
+		local isAffordablePreview = o.isAffordablePreview;
+		o.isAffordablePreview = function()
+		{
+			if (!this.getContainer().m.IsPreviewing) return isAffordablePreview();
+			this.m.IsApplyingPreview = true;
+			local ret = isAffordablePreview();
+			this.m.IsApplyingPreview = false;
+			return ret;
+		}
+
+		local getCostString = o.getCostString;
+		o.getCostString = function()
+		{
+			if (!this.getContainer().m.IsPreviewing) return getCostString();
+			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
+			if (preview != null && preview.id == this.getContainer().getActor().getID())
+			{
+				this.m.IsApplyingPreview = true;
+				local ret = getCostString();
+				this.m.IsApplyingPreview = false;
+				local skillID = this.getContainer().getActor().getPreviewSkillID();
+				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
+				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);
+				return ret;
+			}
+
+			return getCostString();
+		}
+	});
 });
