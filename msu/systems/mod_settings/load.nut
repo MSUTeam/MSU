@@ -74,10 +74,6 @@ expandedItemDescriptions.setChangeLogging(false);
 expandedItemDescriptions.setDescription("Show MSU-based information in item tooltips e.g. Item Type.");
 generalPage.add(expandedItemDescriptions);
 
-// ::MSU.System.ModSettings.addSetting("MSU", "Logging", "Boolean", "logall", false, "Enable all mod logging", function(_data){
-// 	::MSU.Debug.FullDebug = _data;
-// }))
-
 local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "AI Verbose Debug Mode");
 verboseModeToggle.setDescription("If enabled, sets ::Const.AI.VerboseMode to true for AI related debugging.");
 verboseModeToggle.addCallback(function(_data)
