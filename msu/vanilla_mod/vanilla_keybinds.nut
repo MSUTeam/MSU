@@ -1,4 +1,3 @@
-::MSU.Vanilla.register(::MSU.System.Keybinds);
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("character_closeCharacterScreen", "c/i/escape", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {

@@ -25,7 +25,6 @@ includeLoad("registry");
 includeLoad("debug");
 
 includeFile("mod");
-::MSU.Vanilla <- ::MSU.Class.Mod(::MSU.VanillaID, ::MSU.System.Registry.formatVanillaVersionString(::GameInfo.getVersionNumber()), "Vanilla");
 ::MSU.Mod <- ::MSU.Class.Mod(::MSU.ID, ::MSU.Version, ::MSU.Name)
 
 ::MSU.Mod.register(::MSU.System.Debug, true);
@@ -38,7 +37,6 @@ includeFile("mod");
 	"persistence" : true,
 	"modsettings" : true,
 })
-::MSU.Vanilla.register(::MSU.System.Debug, true);
 
 includeLoad("mod_settings");
 includeLoad("serialization");
