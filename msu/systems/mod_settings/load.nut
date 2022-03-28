@@ -126,11 +126,5 @@ verboseModeToggle.addCallback(function(_data)
 })
 generalPage.add(verboseModeToggle);
 
-// ::MSU.System.ModSettings.importPersistentSettings()
-
-// //this neeeds to be moved into a hook
-// ::MSU.PersistentDataManager.loadSettingForEveryMod("Keybind")
-// ::MSU.CustomKeybinds.parseForUI();
-
 // Testing Code
 // testSettingsSystem();
