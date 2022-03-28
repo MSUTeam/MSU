@@ -173,13 +173,7 @@
 
 	function onKeyInput( _key, _environment, _state )
 	{
-		local keyAsString = _key.getKey().tostring();
-		if (!(keyAsString in ::MSU.Key.KeyMapSQ))
-		{
-			::MSU.Mod.Debug.printWarning("Unknown key pressed: %s" + _key.getKey(), "keybinds");
-			return;
-		}
-		keyAsString = ::MSU.Key.KeyMapSQ[keyAsString];
+		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
 		local keyState;
 		if (this.isKeyStateContinuous(_key))
 		{
@@ -194,13 +188,7 @@
 
 	function onMouseInput( _mouse, _environment, _state )
 	{
-		local keyAsString = _mouse.getID().tostring();
-		if (!(keyAsString in ::MSU.Key.MouseMapSQ))
-		{
-			::MSU.Mod.Debug.printWarning("Unknown key pressed: %s" + _mouse.getID(), "keybinds");
-			return;
-		}
-		keyAsString = ::MSU.Key.MouseMapSQ[keyAsString];
+		local keyAsString = ::MSU.Key.MouseMapSQ[_mouse.getID().tostring()];
 		return this.onInput(_mouse, _environment, _state, keyAsString, _mouse.getState());
 	}
 
