@@ -132,10 +132,13 @@
 		"62" : "n7",
 		"63" : "n8",
 		"64" : "n9",
+/*
+		While technically present, these keys are unreliable
 		"66" : "*",
 		"67" : "+",
 		"68" : "-",
 		"70" : "/",
+*/
 		"71" : "f1",
 		"72" : "f2",
 		"73" : "f3",
