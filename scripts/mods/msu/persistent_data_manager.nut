@@ -92,8 +92,13 @@ this.persistent_data_manager <- {
 		this.m.Mods[_modID] <- {};
 	}
 
-	function writeToLog( _settingID, _modID, _value )
+	function writeToLog(_type, _modID, ... )
 	{
-		::logInfo(format("BBPARSER;%s;%s;%s", _settingID.tostring(), _modID.tostring(), _value.tostring()));
+		local result = format("BBPARSER;%s;%s", _type, _modID);
+		foreach (arg in vargv)
+		{
+			result += ";" + arg.tostring();
+		}
+		::logInfo(result);
 	}
 }
