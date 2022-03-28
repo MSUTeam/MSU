@@ -35,7 +35,8 @@ includeFile("mod");
 	"movement" : false,
 	"skills" : false,
 	"keybinds" : true,
-	"persistence" : true
+	"persistence" : true,
+	"modsettings" : true,
 })
 ::MSU.Vanilla.register(::MSU.System.Debug, true);
 
