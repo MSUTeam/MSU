@@ -76,6 +76,12 @@
 		}
 	}
 
+	function onSettingsButtonPressed( _data )
+	{
+		local setting = this.Panels[_data.modID].getSetting(_data.settingID);
+		setting.onPressedCallback();
+	}
+
 	function setSettingFromPersistence( _modID, _settingID, _value )
 	{
 		if (!this.Panels.contains(_modID))
@@ -101,6 +107,7 @@
 			panel[_function].acall(vargv);
 		}
 	}
+
 
 	function importPersistentSettings()
 	{

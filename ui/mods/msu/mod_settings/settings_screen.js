@@ -233,6 +233,11 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 			while (setting.title.width() >= 341)
 			{
 				setting.title.css('font-size', (parseInt(setting.title.css('font-size').slice(0, -2)) - 1) + 'px');
+				if (parseInt(setting.title.css('font-size').slice(0, -2)) <= 1)
+				{
+					console.error("Font size of title too small! Stopping font size adjustment.");
+					return;
+				}
 			}
 		}
 	});
@@ -266,6 +271,11 @@ ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 {
 	SQ.call(this.mSQHandle, 'onSaveButtonPressed', this.getChanges());
+};
+
+ModSettingsScreen.prototype.notifyBackendSettingButtonPressed = function (_data)
+{
+	SQ.call(this.mSQHandle, 'onSettingButtonPressed', _data);
 };
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());

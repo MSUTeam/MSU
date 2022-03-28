@@ -22,6 +22,12 @@ for (local i = 0; i < 5; ++i)
 
 		local test5 = ::MSU.Class.EnumSetting("TestEnum" + j + 2, "hi", ["hi", "hello", "goodbye"]);
 
+		local buttonName = "TestButton" + j
+		local buttonTest = ::MSU.Class.ButtonSetting(buttonName, null, "hello?");
+		buttonTest.addCallback(function(_data = null){
+			this.logInfo("Button " + buttonName + " was pressed");
+		})
+
 		testPage.add(test);
 		testPage.add(test1);
 		testPage.add(test2);
@@ -29,6 +35,7 @@ for (local i = 0; i < 5; ++i)
 		testPage.add(divider);
 		testPage.add(test4);
 		testPage.add(test5);
+		testPage.add(buttonTest);
 
 		modPanel.addPage(testPage);
 	}
