@@ -3,8 +3,6 @@ var ButtonSetting = function (_mod, _page, _setting, _parentDiv)
 	var self = this;
 	this.layout = $('<div class="button-container"/>');
 	_parentDiv.append(this.layout);
-	console.error("name?")
-	console.error(_setting.name)
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
 

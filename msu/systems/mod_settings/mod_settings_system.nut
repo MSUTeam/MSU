@@ -76,7 +76,7 @@
 		}
 	}
 
-	function onSettingsButtonPressed( _data )
+	function onSettingPressed( _data )
 	{
 		local setting = this.Panels[_data.modID].getSetting(_data.settingID);
 		setting.onPressedCallback();
@@ -107,7 +107,6 @@
 			panel[_function].acall(vargv);
 		}
 	}
-
 
 	function importPersistentSettings()
 	{
