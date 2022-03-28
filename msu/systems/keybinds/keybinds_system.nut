@@ -89,12 +89,22 @@
 		return keybind;
 	}
 
-	function update( _modID, _id, _keyCombinations )
+	function update( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true  )
 	{
 		local keybind = this.remove(_modID, _id);
 		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations),"/");
-		::getModSetting(_modID, _id).set(keybind.getKeyCombinations(), true, true, false);
+		::getModSetting(_modID, _id).set(keybind.getKeyCombinations(), _updateJS, _updatePersistence, _updateCallback);
 		this.add(keybind, false);
+	}
+
+	function updateFromPersistence( _modID, _id, _keyCombinations )
+	{
+		if(!(_modID in this.KeybindsByMod))
+		{
+			this.logError(format("Trying to update keybind %s for mod %s but mod does not exist!"), _id, _modID);
+			return;
+		}
+		this.update(_modID, _id, _keyCombinations, true, false, false);
 	}
 
 	function call( _key, _environment, _state, _keyState )
@@ -230,5 +240,10 @@
 			}
 		}
 		return false;
+	}
+
+	function importPersistentSettings()
+	{
+		::MSU.PersistentDataManager.loadSettingForEveryMod("Keybind");
 	}
 }
