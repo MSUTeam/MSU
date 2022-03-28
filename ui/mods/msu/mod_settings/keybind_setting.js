@@ -57,6 +57,7 @@ KeybindSetting.prototype.createPopup = function ()
 		}
 		result = result.slice(0, -1);
 		self.input.val(result);
+		self.setting.value = result;
 		self.parent.mPopupDialog = null;
 		_dialog.destroyPopupDialog();
 	});
