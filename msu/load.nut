@@ -28,4 +28,5 @@ includeLoad("ui");
 includeLoad("systems");
 includeLoad("config");
 includeLoad("hooks");
+includeLoad("vanilla_mod");
 includeLoad("test");
