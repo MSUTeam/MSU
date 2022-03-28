@@ -1,6 +1,7 @@
 ::mods_hookNewObject("skills/skill_container", function(o) {
 	o.m.LastLevelOnUpdateLevelCalled <- 0;
 	o.m.ScheduledChangesSkills <- [];
+	o.m.IsPreviewing <- false;
 
 	local update = o.update;
 	o.update = function()
@@ -186,6 +187,20 @@
 		]);
 	}
 
+	o.onAffordablePreview <- function( _skill, _movementTile )
+	{
+		foreach (skill in this.m.Skills)
+		{
+			skill.PreviewField.clear();
+			skill.PreviewProperty.clear();
+		}
+
+		this.callSkillsFunction("onAffordablePreview", [
+			_skill,
+			_movementTile,
+		], false);
+	}
+
 	//Vanilla Overwrites start
 	
 	o.onAfterDamageReceived = function()
@@ -242,11 +257,13 @@
 
 	o.onTurnEnd = function()
 	{
+		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	o.onWaitTurn = function()
 	{
+		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 

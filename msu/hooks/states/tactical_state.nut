@@ -1,4 +1,18 @@
 ::mods_hookExactClass("states/tactical_state", function(o) {
+	local executeEntityTravel = o.executeEntityTravel;
+	o.executeEntityTravel = function( _activeEntity, _mouseEvent )
+	{
+		_activeEntity.getSkills().m.IsPreviewing = false;
+		executeEntityTravel(_activeEntity, _mouseEvent);
+	}
+
+	local executeEntitySkill = o.executeEntitySkill;
+	o.executeEntitySkill = function( _activeEntity, _targetTile )
+	{
+		_activeEntity.getSkills().m.IsPreviewing = false;
+		executeEntitySkill(_activeEntity, _targetTile);
+	}
+
 	local onInitUI = o.onInitUI;
 	o.onInitUI = function()
 	{
