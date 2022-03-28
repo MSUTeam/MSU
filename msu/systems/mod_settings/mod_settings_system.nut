@@ -19,7 +19,7 @@
 		this.Panels[_mod.getID()] <- panel;
 	}
 
-	function add( _modPanel )
+	function addPanel( _modPanel )
 	{
 		if (this.Locked)
 		{
@@ -35,7 +35,7 @@
 		}
 	}
 
-	function get( _id )
+	function getPanel( _id )
 	{
 		return this.Panels[_id];
 	}
@@ -45,7 +45,7 @@
 		return this.Panels;
 	}
 
-	function has( _id )
+	function hasPanel( _id )
 	{
 		return this.Panels.contains(_id);
 	}

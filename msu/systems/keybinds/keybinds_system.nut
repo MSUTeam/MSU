@@ -17,14 +17,14 @@
 	function registerMod( _mod )
 	{
 		base.registerMod(_mod);
-		if (!::MSU.System.ModSettings.has(_mod.getID()))
+		if (!::MSU.System.ModSettings.hasPanel(_mod.getID()))
 		{
 			::MSU.System.ModSettings.registerMod(_mod);
 		}
 
 		_mod.Keybinds = ::MSU.Class.KeybindsModAddon(_mod);
 
-		::MSU.System.ModSettings.get(_mod.getID()).addPage(::MSU.Class.SettingsPage("Keybinds"));
+		::MSU.System.ModSettings.getPanel(_mod.getID()).addPage(::MSU.Class.SettingsPage("Keybinds"));
 
 		this.KeybindsByMod[_mod.getID()] <- {};
 		this.KeybindsForJS[_mod.getID()] <- {};
@@ -138,12 +138,12 @@
 
 	function addKeybindDivider( _modID, _id, _name )
 	{
-		::MSU.System.ModSettings.get(_modID).getPage("Keybinds").add(::MSU.Class.SettingsDivider(_id, _name));
+		::MSU.System.ModSettings.getPanel(_modID).getPage("Keybinds").add(::MSU.Class.SettingsDivider(_id, _name));
 	}
 
 	function addKeybindSetting( _keybind )
 	{
-		::MSU.System.ModSettings.get(_keybind.getModID()).getPage("Keybinds").add(_keybind.makeSetting());
+		::MSU.System.ModSettings.getPanel(_keybind.getModID()).getPage("Keybinds").add(_keybind.makeSetting());
 	}
 
 	function getJSKeybinds()

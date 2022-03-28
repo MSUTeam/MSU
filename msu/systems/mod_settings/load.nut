@@ -26,7 +26,7 @@ includeFile("mod_settings_mod_addon.nut");
 
 ::getModSetting <- function( _modID, _settingID )
 {
-	return ::MSU.System.ModSettings.get(_modID).getSetting(_settingID);
+	return ::MSU.System.ModSettings.getPanel(_modID).getSetting(_settingID);
 }
 
 ::MSU.SettingsFlags <- {
