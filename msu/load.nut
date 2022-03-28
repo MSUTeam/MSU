@@ -27,5 +27,5 @@ includeLoad("classes");
 includeLoad("ui");
 includeLoad("systems");
 includeLoad("config");
-
 includeLoad("hooks");
+includeLoad("test");
