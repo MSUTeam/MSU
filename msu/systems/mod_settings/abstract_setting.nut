@@ -29,7 +29,7 @@
 
 	function printForParser( _value )
 	{
-		::MSU.PersistentDataManager.writeToLog("ModSetting", ::MSU.ID, format("%s;%s", this.getID(), _value.tostring()));
+		::MSU.PersistentDataManager.writeToLog("ModSetting", ::MSU.ID, format("%s;%s", this.getID(), this.getValue().tostring()));
 	}
 
 	function onChangedCallback( _newValue )
@@ -59,11 +59,11 @@
 			{
 				this.onChangedCallback(_value);
 			}
+			this.Value = _value;
 			if (_updatePersistence && this.ChangeLogging)
 			{
 				this.printForParser();
 			}
-			this.Value = _value;
 			if (_updateJS)
 			{
 				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value);
