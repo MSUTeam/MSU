@@ -32,7 +32,7 @@
 
 	function add( _keybind, _makeSetting = true )
 	{
-		if (!(_keybind instanceof ::MSU.Class.Keybind))
+		if (!(_keybind instanceof ::MSU.Class.AbstractKeybind))
 		{
 			throw ::MSU.Exception.InvalidType(_keybind);
 		}

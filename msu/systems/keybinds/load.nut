@@ -4,7 +4,7 @@ function includeFile( _file )
 }
 
 includeFile("key_static");
-includeFile("keybind");
+includeFile("abstract_keybind");
 includeFile("keybind_sq");
 includeFile("keybind_js");
 includeFile("keybinds_system");
