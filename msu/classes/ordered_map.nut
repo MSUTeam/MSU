@@ -117,8 +117,11 @@
 	{
 		// _function (_key, _val, _idx)
 
-		local ret = this.filter(@(key, val) return true);
-		ret.apply(_function);
+		local ret = ::MSU.Class.OrderedMap();
+		foreach (i, key in this.Array)
+		{
+			ret[key] <- _function(key, this.Table[key], i);
+		}
 		return ret;
 	}
 
