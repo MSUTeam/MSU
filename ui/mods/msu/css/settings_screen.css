@@ -169,6 +169,10 @@
 	line-height: 3.0rem;
 }
 
+.enum-button:active {
+  transform: translateY(4px);
+}
+
 .msu-settings-screen .dialog .content .l-page-container .enum-container .title,
 .msu-settings-screen .dialog .content .l-page-container .button-container .title
 {
