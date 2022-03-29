@@ -8,20 +8,24 @@
 	local setActiveEntityCostsPreview = o.setActiveEntityCostsPreview;
 	o.setActiveEntityCostsPreview = function( _costsPreview )
 	{
-		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null)
+		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillDescriptions").getValue())
 		{
-			local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
-			local skill;
-			local movementTile;
-			if (skillID == "")
+			local activeEntity = this.getActiveEntity();
+			if (activeEntity != null)
 			{
-				local movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
-				movementTile = movement.End;
+				local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
+				local skill;
+				local movementTile;
+				if (skillID == "")
+				{
+					local movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
+					movementTile = movement.End;
+				}
+				else skill = activeEntity.getSkills().getSkillByID(skillID);
+
+				activeEntity.getSkills().m.IsPreviewing = true;
+				activeEntity.getSkills().onAffordablePreview(skill, movementTile);
 			}
-			else skill = activeEntity.getSkills().getSkillByID(skillID);
-			activeEntity.getSkills().m.IsPreviewing = true;
-			activeEntity.getSkills().onAffordablePreview(skill, movementTile);
 		}
 
 		setActiveEntityCostsPreview(_costsPreview);
