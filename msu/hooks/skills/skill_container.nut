@@ -111,7 +111,7 @@
 			_targetTile,
 			_targetEntity,
 			_forFree
-		], this.getContainer().getActor().isPlacedOnMap());
+		], this.getActor().isPlacedOnMap());
 	}
 
 	o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
