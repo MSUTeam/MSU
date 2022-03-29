@@ -134,7 +134,14 @@
 	{
 		// _function (_item, _weight)
 
-		return ::MSU.Class.WeightedContainer(clone this.Array).apply(_function);
+		local ret = ::MSU.Class.WeightedContainer();
+		foreach (i, pair in this.Array)
+		{
+			this.ApplyIdx = i;
+			ret.add(_function(pair[1], pair[0]));
+		}
+		this.ApplyIdx = null;
+		return ret;
 	}
 
 	function filter( _function )
