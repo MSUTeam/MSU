@@ -38,6 +38,11 @@
 		return this.getPanel().getID();
 	}
 
+	function getModID()
+	{
+		return this.getPanel().getModID();
+	}
+
 	function getID()
 	{
 		return this.ID;

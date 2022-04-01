@@ -40,6 +40,11 @@
 		return this.getPage().getPanelID();
 	}
 
+	function getModID()
+	{
+		return this.getPage().getModID();
+	}
+
 	function setDescription( _description )
 	{
 		this.Description = _description;
