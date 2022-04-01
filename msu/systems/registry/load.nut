@@ -16,3 +16,8 @@ local system = ::MSU.Class.RegistrySystem();
 	}
 	return this.Mods[_modID];
 }
+
+::MSU.hasMod <- function( _modID )
+{
+	return _modID in this.Mods;
+}
