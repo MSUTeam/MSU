@@ -27,7 +27,7 @@
 		return this.ChangeLogging;
 	}
 
-	function printForParser( _value )
+	function printForParser()
 	{
 		::MSU.PersistentDataManager.writeToLog("ModSetting", ::MSU.ID, format("%s;%s", this.getID(), this.getValue().tostring()));
 	}
