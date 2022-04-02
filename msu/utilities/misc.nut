@@ -11,7 +11,65 @@
 	return false;
 }
 
-::MSU.isIn <- function( _key, _object, _chain = false )
+::MSU.getField <- function( _object, _key )
+{
+	if (typeof _object == "instance")
+	{
+		if (_object instanceof ::WeakTableRef)
+		{
+			if (_object.isNull())
+			{
+				::printError("The table inside the WeakTableRef instance is null");
+				throw ::MSU.Exception.KeyNotFound(_object);
+			}
+			_object = _object.get();
+		}
+		else throw ::MSU.Exception.InvalidType(_object);
+	}
+
+	_object = _object.m;
+
+	if (_key in _object) return _object[_key];
+
+	do
+	{
+		_object = _object.getdelegate();
+		if (_key in _object) return _object[_key];
+	}
+	while(_object != null);
+
+	throw ::MSU.Exception.KeyNotFound(_key);
+}
+
+::MSU.getMember <- function( _object, _key )
+{
+	if (typeof _object == "instance")
+	{
+		if (_object instanceof ::WeakTableRef)
+		{
+			if (_object.isNull())
+			{
+				::printError("The table inside the WeakTableRef instance is null");
+				throw ::MSU.Exception.KeyNotFound(_object);
+			}
+			_object = _object.get();
+		}
+		else throw ::MSU.Exception.InvalidType(_object);
+	}
+
+	if (_key in _object) return _object[_key];
+
+	do
+	{
+		_object = _object.getdelegate();
+		if (_key in _object) return _object[_key];
+	}
+	while(_object != null);
+
+	throw ::MSU.Exception.KeyNotFound(_key);
+}
+
+::MSU.isIn <- function( _member, _object, _chain = false )
 {
 	local obj = _object;
 
@@ -23,14 +81,14 @@
 				if (obj.isNull())
 				{
 					::printError("The table inside the WeakTableRef instance is null");
-					throw ::MSU.Exception.KeyNotFound(_key);
+					throw ::MSU.Exception.KeyNotFound(_member);
 				}
 				obj = _object.get();
 			}
-			return _key in obj;
+			return _member in obj;
 
 		case "table":
-			if (!_chain) return _key in obj;
+			if (!_chain) return _member in obj;
 			else
 			{
 				while(obj.getdelegate() != null)
@@ -43,7 +101,7 @@
 			break;
 
 		case "array":
-			return _object.find(_key) != null;
+			return _object.find(_member) != null;
 			break;
 
 		default:
