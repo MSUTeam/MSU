@@ -27,9 +27,9 @@
 		return this.ChangeLogging;
 	}
 
-	function printForParser()
+	function printForParser( _tag = "ModSetting" )
 	{
-		::MSU.PersistentDataManager.writeToLog("ModSetting", this.getModID(), format("%s;%s", this.getID(), this.getValue().tostring()));
+		::MSU.PersistentDataManager.writeToLog(_tag, this.getModID(), format("%s;%s", this.getID(), this.getValue().tostring()));
 	}
 
 	function onChangedCallback( _newValue )

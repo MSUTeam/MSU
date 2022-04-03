@@ -5,6 +5,6 @@
 
 	function printForParser()
 	{
-		::MSU.PersistentDataManager.writeToLog("Keybind", this.getModID(), format("%s;%s", this.getID(), this.getValue().tostring()));
+		base.printForParser(this.Type);
 	}
 }
