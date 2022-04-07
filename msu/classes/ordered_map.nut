@@ -128,4 +128,16 @@
 	{
 		return clone this.Array;
 	}
+
+	function onSerialize( _out )
+	{
+		::MSU.System.Serialization.serializeObject(this.Array, _out);
+		::MSU.System.Serialization.serializeObject(this.Table, _out);
+	}
+
+	function onDeserialize( _in )
+	{
+		this.Array = ::MSU.System.Serialization.deserializeObject(_in);
+		this.Table = ::MSU.System.Serialization.deserializeObject(_in);
+	}
 }
