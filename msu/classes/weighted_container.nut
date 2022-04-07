@@ -223,62 +223,12 @@
 	function onSerialize( _out )
 	{
 		_out.writeU32(this.Total);
-		_out.writeU32(this.len());
-		foreach (pair in this.Array)
-		{
-			_out.writeU16(pair[0]);
-			switch (typeof pair[1])
-			{
-				case "integer":
-					_out.writeString("integer");
-					_out.writeI32(pair[1]);
-					break;
-
-				case "string":
-					_out.writeString("string");
-					_out.writeString(pair[1]);
-					break;
-
-				case "boolean":
-					_out.writeString("boolean");
-					_out.writeBool(pair[1]);
-					break;
-
-				default:
-					throw ::MSU.Exception.InvalidType(pair[1]);
-			}
-		}
+		::MSU.System.Serialization.serializeObject(this.Array, _out);
 	}
 
 	function onDeserialize( _in )
 	{
 		this.Total = _in.readU32();
-		local size = _in.readU32();
-		for (local i = 0; i < size; ++i)
-		{
-			local weight = _in.readU16();
-			local val;
-			local type = _in.readString();
-			switch (type)
-			{
-				case "integer":
-					val = _in.readI32();
-					break;
-
-				case "string":
-					val = _in.readString();
-					break;
-
-				case "boolean":
-					val = _in.readBool();
-					break;
-
-				default:
-					::logError("The WeightedContainer contents were not (de)serialized properly");
-					throw ::MSU.Exception.InvalidType(type);
-			}
-
-			this.Array.push([weight, val]);
-		}
+		this.Array = ::MSU.System.Serialization.deserializeObject(_in);
 	}
 }
