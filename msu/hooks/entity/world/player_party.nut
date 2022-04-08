@@ -10,7 +10,6 @@
 		this.m.MovementSpeedMultFunctions.StashMovementSpeedMult <- this.getStashMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.OriginMovementSpeedMult <- this.getOriginMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RetinueMovementSpeedMult <- this.getRetinueMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.TerrainTypeSpeedMult <- this.getTerrainTypeSpeedMult;
 	}
 
 	//refers to the base 105 movement speed of the player
@@ -70,10 +69,5 @@
 			}
 		}
 		return mult;
-	}
-
-	o.getTerrainTypeSpeedMult <- function()
-	{
-		return ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type);
 	}
 });

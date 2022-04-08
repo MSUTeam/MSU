@@ -144,14 +144,13 @@
 		return ::Const.World.MovementSettings.RiverMult;
 	}
 
-	//could be baseMovementSpeedMult for all parties that player_party overrides anyways
 	o.getNotPlayerMovementSpeedMult <- function()
 	{
-		if (this.getFaction() == ::Const.Faction.Player)
+		if (this.m.IsPlayer)
 		{
 			return 1.0;
 		}
-		return ::Const.World.MovementSettings.NotPlayerMult;
+		return this.m.IsPlayer ? 1.0 :  ::Const.World.MovementSettings.NotPlayerMult;
 	}
 
 	o.onUpdate = function()
