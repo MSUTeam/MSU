@@ -257,11 +257,13 @@
 
 	o.onTurnEnd = function()
 	{
+		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	o.onWaitTurn = function()
 	{
+		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
