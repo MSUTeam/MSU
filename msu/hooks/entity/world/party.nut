@@ -150,7 +150,7 @@
 		{
 			return 1.0;
 		}
-		return this.m.IsPlayer ? 1.0 :  ::Const.World.MovementSettings.NotPlayerMult;
+		return ::Const.World.MovementSettings.NotPlayerMult;
 	}
 
 	o.onUpdate = function()
