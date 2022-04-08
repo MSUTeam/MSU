@@ -6,7 +6,7 @@
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.ModSettings);
-		Locked = false;
+		this.Locked = false;
 		this.Panels = ::MSU.Class.OrderedMap();
 	}
 
