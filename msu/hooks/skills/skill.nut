@@ -233,7 +233,7 @@
 
 	o.setDamageTypeWeight <- function( _damageType, _weight )
 	{
-		this.m.DamageType.setWeight(_weight, @(a) a == _damageType);
+		this.m.DamageType.setWeight(_damageType, _weight);
 	}
 
 	o.addDamageType <- function( _damageType, _weight = 1 )
@@ -243,7 +243,7 @@
 
 	o.hasDamageType <- function( _damageType, _only = false )
 	{
-		return this.m.DamageType.contains(_damageType) && (!_only || (_only && this.m.DamageType.len() == 1);
+		return this.m.DamageType.contains(_damageType) && (!_only || this.m.DamageType.len() == 1);
 	}
 
 	o.getDamageTypeWeight <- function( _damageType )
