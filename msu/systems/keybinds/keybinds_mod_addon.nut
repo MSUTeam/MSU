@@ -19,7 +19,7 @@
 		::MSU.System.Keybinds.add(keybind);
 	}
 
-	function addDivider( _id, _name )
+	function addDivider( _id, _name = "" )
 	{
 		::MSU.System.Keybinds.addKeybindDivider(this.Mod.getID(), _id, _name);
 	}
