@@ -12,14 +12,14 @@
 
 		foreach (skill in this.m.Skills)
 		{
-			skill.softReset();
+			if (!skill.isGarbage()) skill.softReset();
 		}
 
 		update();
 
 		foreach (skill in this.m.ScheduledChangesSkills)
 		{
-			skill.executeScheduledChanges();
+			if (!skill.isGarbage()) skill.executeScheduledChanges();
 		}
 
 		this.m.ScheduledChangesSkills.clear();
