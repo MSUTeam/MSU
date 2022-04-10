@@ -16,7 +16,7 @@
 		this.FullDebug = false;
 	}
 
-	function registerMod( _mod, _defaultFlagBool = false, _flagTable = null )
+	function registerMod( _mod)
 	{
 		base.registerMod(_mod);
 		if (_mod.getID() in this.Mods)
@@ -26,14 +26,9 @@
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
 		this.Mods[_mod.getID()] <- {
-			FullDebug = false,
+			FullDebug = false
 		};
-		this.setFlag(_mod.getID(), this.DefaultFlag, _defaultFlagBool);
-
-		if (_flagTable != null)
-		{
-			this.setFlags(_mod.getID(), _flagTable);
-		}
+		this.setFlag(_mod.getID(), this.DefaultFlag, false);
 	}
 
 	function setFlags( _modID, _flagTable )
