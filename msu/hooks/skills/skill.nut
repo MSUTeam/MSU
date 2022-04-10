@@ -495,7 +495,7 @@
 	}
 });
 
-::MSU.EndQueue(function() {
+::MSU.EndQueue.add(function() {
 	::mods_hookBaseClass("skills/skill", function(o) {
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
