@@ -65,7 +65,7 @@
 		local self = this.weakref();
 		setting.addCallback(function(_data)
 		{
-			::MSU.System.Keybinds.update(self.ref().getModID(), self.ref().getID(), _data);
+			::MSU.System.Keybinds.update(self.ref().getModID(), self.ref().getID(), _data, true, false, false);
 		});
 		return setting;
 	}
