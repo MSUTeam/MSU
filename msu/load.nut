@@ -28,5 +28,6 @@ includeLoad("ui");
 includeLoad("systems");
 includeLoad("config");
 includeLoad("hooks");
+includeLoad("msu_mod");
 includeLoad("vanilla_mod");
 includeLoad("test");

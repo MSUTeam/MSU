@@ -19,25 +19,10 @@ local function includeFile( _file )
 
 includeFile("system");
 includeFile("system_mod_addon");
-includeFile("empty_mod_addon");
-::MSU.EmptyModAddon <- ::MSU.Class.EmptyModAddon();
 includeLoad("registry");
 includeLoad("debug");
-
-includeFile("mod");
-::MSU.Mod <- ::MSU.Class.Mod(::MSU.ID, ::MSU.Version, ::MSU.Name)
-
-::MSU.Mod.register(::MSU.System.Debug, true);
-//need to set this first to print the others
-::MSU.Mod.Debug.setFlag("debug", true);
-::MSU.Mod.Debug.setFlags({
-	"movement" : false,
-	"skills" : false,
-	"keybinds" : true,
-	"persistence" : true,
-	"modsettings" : true,
-})
-
 includeLoad("mod_settings");
 includeLoad("serialization");
 includeLoad("keybinds");
+
+includeFile("mod");
