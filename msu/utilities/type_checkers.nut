@@ -65,3 +65,14 @@
 		}
 	}
 }
+
+::MSU.requireAllButTypes <- function( _typeArray, ... )
+{
+	foreach (value in vargv)
+	{
+		if (_typeArray.find(typeof value) != null)
+		{
+			throw ::MSU.Exception.InvalidType(value);
+		}
+	}
+}
