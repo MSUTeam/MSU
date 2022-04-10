@@ -10,7 +10,7 @@
 		::MSU.System.PersistentData.loadAllSettingsForMod(this.Mod.getID());
 	}
 
-	function writeToLog( _settingID, _payload)
+	function writeToLog( _settingID, _payload )
 	{
 		::MSU.System.PersistentData.writeToLog(_settingID, this.Mod.getID(), _payload);
 	}

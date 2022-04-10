@@ -14,7 +14,7 @@
 		base.registerMod(_mod);
 
 		_mod.PersistentData = ::MSU.Class.PersistentDataModAddon(_mod);
-		this.setMod(_mod.getID());
+		this.addMod(_mod.getID());
 		this.importModConfigFiles(_mod.getID());
 	}
 
@@ -33,6 +33,15 @@
 			::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and settingstype '%s'.", modID, settingsType), "persistence");
 			this.Mods[_modID][settingsType] <- file;
 		}
+	}
+
+	function addMod( _modID, _reset = false )
+	{
+		if (this.hasMod(_modID) && _reset == false)
+		{
+			return;
+		}
+		this.Mods[_modID] <- {};
 	}
 
 	function hasMod( _modID )
@@ -83,16 +92,7 @@
 		}
 	}
 
-	function setMod( _modID, _reset = false )
-	{
-		if (this.hasMod(_modID) && _reset == false)
-		{
-			return;
-		}
-		this.Mods[_modID] <- {};
-	}
-
-	function writeToLog(_type, _modID, _payload )
+	function writeToLog( _type, _modID, _payload )
 	{
 		local result = format("BBPARSER;%s;%s", _type, _modID);
 		if (typeof _payload != "array")
