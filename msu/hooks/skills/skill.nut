@@ -261,46 +261,10 @@
 		return ret;
 	}
 
-	o.removeDamageType <- function( _damageType )
-	{
-		this.m.DamageType.remove(_damageType);
-	}
-
-	o.setDamageTypeWeight <- function( _damageType, _weight )
-	{
-		this.m.DamageType.setWeight(_damageType, _weight);
-	}
-
-	o.addDamageType <- function( _damageType, _weight = 1 )
-	{
-		this.m.DamageType.add(_damageType, _weight);
-	}
-
-	o.hasDamageType <- function( _damageType, _only = false )
-	{
-		return this.m.DamageType.contains(_damageType) && (!_only || this.m.DamageType.len() == 1);
-	}
-
-	o.getDamageTypeWeight <- function( _damageType )
-	{
-		return this.m.DamageType.getWeight(_damageType);
-	}
-
-	o.getDamageTypeProbability <- function ( _damageType )
-	{
-		return this.m.DamageType.getProbability(_damageType);
-	}
-
 	o.getDamageType <- function()
 	{
 		return this.m.DamageType;
 	}
-
-	o.getWeightedRandomDamageType <- function()
-	{
-		return this.m.DamageType.roll();
-	}
-
 
 	o.verifyTargetAndRange <- function( _targetTile, _origin = null )
 	{
@@ -324,7 +288,7 @@
 
 		foreach (d in this.m.DamageType)
 		{
-			local probability = ::Math.round(this.getDamageTypeProbability(d.Type) * 100);
+			local probability = ::Math.round(this.m.DamageType.getProbability(d.Type) * 100);
 
 			if (probability < 100)
 			{
