@@ -22,7 +22,6 @@ includeFile("mod_settings_system.nut");
 includeFile("mod_settings_mod_addon.nut");
 
 ::MSU.SettingsScreen <- ::new("scripts/mods/msu/settings_screen");
-::MSU.PersistentDataManager <- ::new("scripts/mods/msu/persistent_data_manager");
 ::MSU.UI.registerConnection(::MSU.SettingsScreen);
 
 ::getModSetting <- function( _modID, _settingID )

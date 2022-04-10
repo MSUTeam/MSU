@@ -12,6 +12,7 @@
 	ModSettings = null;
 	Registry = null;
 	Serialization = null;
+	PersistentData = null;
 
 	constructor( _id, _version, _name = null )
 	{
@@ -31,6 +32,7 @@
 		ModSettings = ::MSU.EmptyModAddon;
 		Registry = ::MSU.EmptyModAddon;
 		Serialization = ::MSU.EmptyModAddon;
+		PersistentData = ::MSU.EmptyModAddon;
 
 		::MSU.System.Registry.registerMod(this);
 	}
