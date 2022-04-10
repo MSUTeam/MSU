@@ -25,7 +25,7 @@
 
 	function serializeObject( _object, _out )
 	{
-		::MSU.requireOneOfType(["array", "table"], _object);
+		::MSU.requireOneFromTypes(["array", "table"], _object);
 
 		local type = typeof _object;
 		local isTable = type == "table";
