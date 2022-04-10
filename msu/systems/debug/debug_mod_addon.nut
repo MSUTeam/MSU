@@ -20,6 +20,16 @@
 		return ::MSU.System.Debug.isFullDebugForMod(this.Mod.getID());
 	}
 
+	function enable()
+	{
+		::MSU.System.Debug.setFlag(this.Mod.getID(), "default", true);
+	}
+
+	function disable()
+	{
+		::MSU.System.Debug.setFlag(this.Mod.getID(), "default", false);
+	}
+
 	function isEnabled( _flagID = "default" )
 	{
 		return ::MSU.System.Debug.isEnabledForMod(this.Mod.getID(), _flagID);

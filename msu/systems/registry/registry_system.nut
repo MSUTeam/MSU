@@ -29,6 +29,21 @@
 		this.addMod(_mod);
 	}
 
+	function getMod( _modID )
+	{
+		if (_mod.getID() in this.Mods)
+		{
+			::logError("Mod " + _mod.getID() + " not found in MSU! Did you forget to use ::MSU.registerMod()?");
+			throw ::MSU.Exception.KeyNotFound(_mod.getID());
+		}
+		return this.Mods[_modID];
+	}
+
+	function hasMod( _modID )
+	{
+		return (_modID in this.Mods);
+	}
+
 	function formatVanillaVersionString( _vanillaVersion )
 	{
 		local versionArray = split(_vanillaVersion, ".");

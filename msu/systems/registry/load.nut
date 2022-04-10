@@ -7,17 +7,18 @@ includeFile("registry_system.nut");
 local system = ::MSU.Class.RegistrySystem();
 
 ::MSU.System.Registry <- system;
-::MSU.Mods <- system.Mods;
+
+::MSU.registerMod <- function( _id, _version, _name = null )
+{
+	return ::MSU.Class.Mod(_id, _version, _name);
+}
+
 ::MSU.getMod <- function( _modID )
 {
-	if(!(_modID in this.Mods))
-	{
-		throw ::MSU.Exception.KeyNotFound(_modID);
-	}
-	return this.Mods[_modID];
+	return ::MSU.System.Registry.getMod( _modID )
 }
 
 ::MSU.hasMod <- function( _modID )
 {
-	return _modID in this.Mods;
+	return ::MSU.System.Registry.hasMod( _modID )
 }
