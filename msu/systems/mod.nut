@@ -66,7 +66,7 @@
 
 	function tostring()
 	{
-		return format("Mod %s, Versions %s\n", this.getID(), this.getVersionString())
+		return format("Mod %s, Versions %s\n", this.getID(), this.getVersionString());
 	}
 
 	function _tostring()
