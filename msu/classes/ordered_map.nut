@@ -142,13 +142,13 @@
 
 	function onSerialize( _out )
 	{
-		::MSU.System.Serialization.serializeObject(this.Array, _out);
-		::MSU.System.Serialization.serializeObject(this.Table, _out);
+		::MSU.SerDe.serialize(this.Array, _out);
+		::MSU.SerDe.serialize(this.Table, _out);
 	}
 
 	function onDeserialize( _in )
 	{
-		this.Array = ::MSU.System.Serialization.deserializeObject(_in);
-		this.Table = ::MSU.System.Serialization.deserializeObject(_in);
+		this.Array = ::MSU.SerDe.deserialize(_in);
+		this.Table = ::MSU.SerDe.deserialize(_in);
 	}
 }
