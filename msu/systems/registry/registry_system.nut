@@ -31,10 +31,10 @@
 
 	function getMod( _modID )
 	{
-		if (_mod.getID() in this.Mods)
+		if (_modID in this.Mods)
 		{
-			::logError("Mod " + _mod.getID() + " not found in MSU! Did you forget to use ::MSU.registerMod()?");
-			throw ::MSU.Exception.KeyNotFound(_mod.getID());
+			::logError("Mod " + _modID + " not found in MSU! Did you forget to use ::MSU.registerMod()?");
+			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		return this.Mods[_modID];
 	}
