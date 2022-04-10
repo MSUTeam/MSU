@@ -5,9 +5,44 @@
 		o.create = function()
 		{
 			create();
-			if (this.m.InjuriesOnBody != null)
+			if (this.m.DamageType.len() == 0)
 			{
-				this.setupDamageType();
+				switch (this.m.InjuriesOnBody)
+				{
+					case null:
+						return;
+
+					case ::Const.Injury.BluntBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Blunt);
+						break;
+
+					case ::Const.Injury.PiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+						break;
+
+					case ::Const.Injury.CuttingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+						break;
+
+					case ::Const.Injury.BurningBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Burning);
+						break;
+
+					case ::Const.Injury.BluntAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Blunt, 55);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 45);
+						break;
+
+					case ::Const.Injury.BurningAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Burning, 25);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 75);
+						break;
+
+					case ::Const.Injury.CuttingAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+						break;
+				}
 			}
 		}
 	}
@@ -236,36 +271,6 @@
 		return this.m.DamageType.roll();
 	}
 
-	o.setupDamageType <- function()
-	{
-		switch (this.m.InjuriesOnBody)
-		{
-			case ::Const.Injury.BluntBody:
-				this.addDamageType(::Const.Damage.DamageType.Blunt);
-				break;
-			case ::Const.Injury.PiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Piercing);
-				break;
-			case ::Const.Injury.CuttingBody:
-				this.addDamageType(::Const.Damage.DamageType.Cutting);
-				break;
-			case ::Const.Injury.BurningBody:
-				this.addDamageType(::Const.Damage.DamageType.Burning);
-				break;
-			case ::Const.Injury.BluntAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Blunt, 55);
-				this.addDamageType(::Const.Damage.DamageType.Piercing, 45);
-				break;
-			case ::Const.Injury.BurningAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Burning, 25);
-				this.addDamageType(::Const.Damage.DamageType.Piercing, 75);
-				break;
-			case ::Const.Injury.CuttingAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Cutting);
-				this.addDamageType(::Const.Damage.DamageType.Piercing);
-				break;
-		}
-	}
 
 	o.verifyTargetAndRange <- function( _targetTile, _origin = null )
 	{
