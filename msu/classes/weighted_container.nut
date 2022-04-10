@@ -39,13 +39,13 @@
 	{
 		::MSU.requrieOneFromTypes(["integer", "float"], _weight);
 
-		this.Total += _item[0];
+		this.Total += _weight;
 		foreach (pair in this.Array)
 		{
-			if (pair[1] == _item[1]) pair[0] += _item[0];
+			if (pair[1] == _item) pair[0] += _weight;
 			return;
 		}
-		this.Array.push(_item);
+		this.Array.push([_weight, _item]);
 	}
 
 	function contains( _item )
