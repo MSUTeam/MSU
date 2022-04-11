@@ -195,21 +195,24 @@
 		return ::MSU.Array.rand(this.Array)[1];
 	}
 
-	function roll()
+	function roll( _exclude = null )
 	{
 		local roll = ::Math.rand(1, this.Total);
 		foreach (pair in this.Array)
 		{
-			if (roll <= pair[0]) return pair[1];
+			if (roll <= pair[0] && (_exclude == null || _exclude.find(pair[1]) == null))
+			{
+				return pair[1];
+			}
 			roll -= pair[0];
 		}
 
 		return null;
 	}
 
-	function rollChance( _chance )
+	function rollChance( _chance, _exclude = null )
 	{
-		return _chance < ::Math.rand(1, 100) ? this.roll() : null;
+		return _chance < ::Math.rand(1, 100) ? this.roll(_exclude) : null;
 	}
 
 	function _nexti( _idx )
