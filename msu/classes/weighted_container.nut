@@ -62,7 +62,11 @@
 	{
 		foreach (i, pair in this.Array)
 		{
-			if (pair[1] == _item) return this.Array.remove(i)[1];
+			if (pair[1] == _item)
+			{
+				this.Total -= pair[0];
+				return this.Array.remove(i)[1];
+			}
 		}
 
 		throw ::MSU.Exception.KeyNotFound(_item);
@@ -104,14 +108,19 @@
 
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
+			this.Total += _weight - this.Array[this.ApplyIdx][0];
 			this.Array[this.ApplyIdx][0] = _weight;
 			return;
 		}
 
 		foreach (pair in this.Array)
 		{
-			if (pair[1] == _item) pair[0] = _weight;
-			return;
+			if (pair[1] == _item)
+			{
+				this.Total += _weight - pair[0];
+				pair[0] = _weight;
+				return;
+			}
 		}
 
 		throw ::MSU.Exception.KeyNotFound(_item);
