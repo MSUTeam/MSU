@@ -182,6 +182,13 @@
 		setContainer(_c);
 	}
 
+	local setFatigueCost = o.setFatigueCost;
+	o.setFatigueCost = function( _f )
+	{
+		this.setBaseValue("FatigueCost", _f);
+		setFatigueCost(_f);
+	}
+
 	o.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
