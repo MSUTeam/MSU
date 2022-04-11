@@ -1,5 +1,4 @@
 ::mods_hookBaseClass("items/item", function(o) {
-	local child = o;
 	o = o[o.SuperName];
 
 	o.addItemType <- function ( _t )
@@ -50,17 +49,6 @@
 		}
 
 		return names.len() > 1 ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
-	}
-
-	local addSkill = o.addSkill;
-	o.addSkill = function( _skill )
-	{
-		if (_skill.isType(::Const.SkillType.Active) && ("FatigueOnSkillUse" in child.m))
-		{
-			_skill.setFatigueCost(::Math.max(0, _skill.getFatigueCostRaw() + this.m.FatigueOnSkillUse));
-		}
-
-		addSkill(_skill);
 	}
 
 	o.onAfterUpdateProperties <- function( _properties )
