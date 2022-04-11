@@ -212,7 +212,7 @@
 
 	function rollChance( _chance, _exclude = null )
 	{
-		return _chance < ::Math.rand(1, 100) ? this.roll(_exclude) : null;
+		return ::Math.rand(1, 100) <= _chance ? this.roll(_exclude) : null;
 	}
 
 	function _nexti( _idx )
