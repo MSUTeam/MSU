@@ -3,12 +3,14 @@
 	Total = null;
 	Array = null;
 	ApplyIdx = null;
+	Forced = null;
 
 	constructor( _array = null )
 	{
 		if (_array == null) _array = [];
 		this.Total = 0;
 		this.Array = [];
+		this.Forced = [];
 		this.addArray(_array);
 	}
 
@@ -44,7 +46,8 @@
 		{
 			if (pair[1] == _item)
 			{
-				pair[0] += _weight;
+				local newWeight = pair[0] < 0 ? _weight : pair[0] + _weight;
+				this.updateWeight(pair, newWeight);
 				return;
 			}
 		}
@@ -67,7 +70,7 @@
 		{
 			if (pair[1] == _item)
 			{
-				this.Total -= pair[0];
+				this.updateWeight(pair[0], 0);
 				return this.Array.remove(i)[1];
 			}
 		}
@@ -77,6 +80,11 @@
 
 	function getProbability( _item )
 	{
+		foreach (pair in this.Forced)
+		{
+			if (pair[1] == _item) return 1.0 / this.Forced.len();
+		}
+
 		local weight = null;
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
@@ -111,8 +119,7 @@
 
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
-			this.Total += _weight - this.Array[this.ApplyIdx][0];
-			this.Array[this.ApplyIdx][0] = _weight;
+			this.updateWeight(this.Array[this.ApplyIdx], _weight);
 			return;
 		}
 
@@ -120,13 +127,30 @@
 		{
 			if (pair[1] == _item)
 			{
-				this.Total += _weight - pair[0];
-				pair[0] = _weight;
+				this.updateWeight(pair, _weight);
 				return;
 			}
 		}
 
 		throw ::MSU.Exception.KeyNotFound(_item);
+	}
+
+	// Private
+	function updateWeight( _pair, _newWeight )
+	{
+		if (_pair[0] >= 0)
+		{
+			this.Total -= _pair[0];
+			if (_newWeight < 0) this.Forced.push(_pair);
+		}
+
+		if (_newWeight >= 0)
+		{
+			this.Total += _newWeight;
+			if (_pair[0] < 0) this.Forced.remove(this.Forced.find(_pair));
+		}
+
+		_pair[0] = _newWeight;
 	}
 
 	function apply( _function )
@@ -174,6 +198,7 @@
 	{
 		this.Total = 0;
 		this.Array.clear();
+		this.Forced.clear();
 	}
 
 	function top()
@@ -200,10 +225,18 @@
 
 	function roll( _exclude = null )
 	{
+		if (_exclude != null) ::MSU.requireArray(_exclude);
+
+		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, pair) _exclude.find(pair[1]) == null);
+		if (forced.len() > 0)
+		{
+			return ::MSU.Array.rand(forced)[1];
+		}
+
 		local roll = ::Math.rand(1, this.Total);
 		foreach (pair in this.Array)
 		{
-			if (roll <= pair[0] && (_exclude == null || _exclude.find(pair[1]) == null))
+			if (pair[0] >= 0 && roll <= pair[0] && (_exclude == null || _exclude.find(pair[1]) == null))
 			{
 				return pair[1];
 			}
