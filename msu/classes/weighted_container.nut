@@ -37,7 +37,7 @@
 
 	function add( _item, _weight = 1 )
 	{
-		::MSU.requrieOneFromTypes(["integer", "float"], _weight);
+		::MSU.requireOneFromTypes(["integer", "float"], _weight);
 
 		this.Total += _weight;
 		foreach (pair in this.Array)
@@ -107,7 +107,7 @@
 
 	function setWeight( _item, _weight )
 	{
-		::MSU.requrieOneFromTypes(["integer"], ["float"], _weight);
+		::MSU.requireOneFromTypes(["integer", "float"], _weight);
 
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
 		{
