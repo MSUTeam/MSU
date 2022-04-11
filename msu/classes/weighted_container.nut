@@ -31,7 +31,7 @@
 			::MSU.requireArray(pair);
 			if (pair.len() != 2) throw ::MSU.Exception.InvalidType(pair);
 			
-			this.add(pair[0], pair[1]);
+			this.add(pair[1], pair[0]);
 		}
 	}
 
