@@ -42,8 +42,11 @@
 		this.Total += _weight;
 		foreach (pair in this.Array)
 		{
-			if (pair[1] == _item) pair[0] += _weight;
-			return;
+			if (pair[1] == _item)
+			{
+				pair[0] += _weight;
+				return;
+			}
 		}
 		this.Array.push([_weight, _item]);
 	}
