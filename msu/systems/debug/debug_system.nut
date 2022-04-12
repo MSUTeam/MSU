@@ -26,17 +26,8 @@
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
 		this.Mods[_mod.getID()] <- {
-			FullDebug = false
 		};
 		this.setFlag(_mod.getID(), this.DefaultFlag, false);
-	}
-
-	function setFlags( _modID, _flagTable )
-	{
-		foreach (flagID, flagBool in _flagTable)
-		{
-			this.setFlag(_modID, flagID, flagBool);
-		}
 	}
 
 	function setFlag( _modID, _flagID, _flagBool )
@@ -60,6 +51,22 @@
 		}
 	}
 
+	function setFlags( _modID, _flagTable )
+	{
+		foreach (flagID, flagBool in _flagTable)
+		{
+			this.setFlag(_modID, flagID, flagBool);
+		}
+	}
+
+	function setAllFlags( _modID, _bool)
+	{
+		foreach (flagID, _ in this.Mods[_modID])
+		{
+			this.setFlag(_modID, flagID, _bool);
+		}
+	}
+
 	function isEnabledForMod( _modID, _flagID = "default" )
 	{
 		if (!(_modID in this.Mods))
@@ -71,7 +78,7 @@
 		{
 			throw ::MSU.Exception.KeyNotFound(_flagID);
 		}
-		return  this.isFullDebug() || this.isFullDebugForMod(_modID) || this.Mods[_modID][_flagID] == true;
+		return  this.isFullDebug() || this.Mods[_modID][_flagID] == true;
 	}
 
 	function isFullDebug()
@@ -82,16 +89,6 @@
 	function setFullDebug( _bool )
 	{
 		this.FullDebug = _bool;
-	}
-
-	function setFullDebugForMod( _modID, _bool )
-	{
-		this.Mods[_modID].FullDebug = _bool;
-	}
-
-	function isFullDebugForMod( _modID )
-	{
-		return this.Mods[_modID].FullDebug;
 	}
 
 	function print( _printText, _modID, _logType, _flagID = "default" )
