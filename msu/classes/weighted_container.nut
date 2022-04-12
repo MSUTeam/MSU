@@ -78,11 +78,18 @@
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
-	function getProbability( _item )
+	function getProbability( _item, _exclude = null )
 	{
-		foreach (pair in this.Forced)
+		if (_exclude != null)
 		{
-			if (pair[1] == _item) return 1.0 / this.Forced.len();
+			::MSU.requireArray(_exclude);
+			if (_exclude.find(_item) != null) return 0.0;
+		}
+
+		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, pair) _exclude.find(pair[1]) == null);
+		foreach (pair in forced)
+		{
+			if (pair[1] == _item) return 1.0 / forced.len();
 		}
 
 		local weight = null;
@@ -94,11 +101,12 @@
 		{
 			foreach (pair in this.Array)
 			{
-				if (pair[1] == _item) weight = pair[0];
+				if (pair[0] >= 0 && pair[1] == _item) weight = pair[0];
 			}
 		}
 
-		if (weight != null) return weight.tofloat() / this.Total;
+		// TODO: Need to account for a situation where total might be 0
+		if (weight != null) return weight.tofloat() / this.getTotal(_exclude);
 		
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
@@ -151,6 +159,20 @@
 		}
 
 		_pair[0] = _newWeight;
+	}
+
+	// Private
+	function getTotal( _exclude = null )
+	{
+		if (_exclude == null) return this.Total;
+
+		local ret = 0;
+		foreach (pair in this.Array)
+		{
+			if (pair[0] >= 0 && _exclude.find(pair[1]) == null) ret += pair[0];
+		}
+
+		return ret;
 	}
 
 	function apply( _function )
@@ -233,13 +255,13 @@
 			return ::MSU.Array.rand(forced)[1];
 		}
 
-		local roll = ::Math.rand(1, this.Total);
+		local roll = ::Math.rand(1, this.getTotal(_exclude));
 		foreach (pair in this.Array)
 		{
-			if (pair[0] >= 0 && roll <= pair[0] && (_exclude == null || _exclude.find(pair[1]) == null))
-			{
-				return pair[1];
-			}
+			if (pair[0] < 0 || (_exclude != null && _exclude.find(pair[1]) != null)) continue;
+
+			if (roll <= pair[0]) return pair[1];
+
 			roll -= pair[0];
 		}
 
