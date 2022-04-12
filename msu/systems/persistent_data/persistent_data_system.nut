@@ -101,7 +101,7 @@
 		}
 		foreach (arg in _payload)
 		{
-			::MSU.requireAllButTypes(["array", "table"], arg)
+			::MSU.requireAnyTypeExcept(["array", "table"], arg)
 			result += ";" + arg.tostring();
 		}
 		::logInfo(result);
