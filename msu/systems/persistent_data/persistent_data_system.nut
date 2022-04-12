@@ -46,7 +46,7 @@
 
 	function hasMod( _modID )
 	{
-		return (_modID in this.Mods);
+		return _modID in this.Mods;
 	}
 
 	function getMod( _modID )
