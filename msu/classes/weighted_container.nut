@@ -7,11 +7,10 @@
 
 	constructor( _array = null )
 	{
-		if (_array == null) _array = [];
 		this.Total = 0;
 		this.Array = [];
 		this.Forced = [];
-		this.addArray(_array);
+		if (_array != null) this.addArray(_array);
 	}
 
 	function toArray( _itemsOnly = true )
