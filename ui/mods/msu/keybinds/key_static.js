@@ -18,7 +18,10 @@ MSU.Key = {
 	},
 	MouseMapJS : {
 		0 : "leftclick",
-		2 : "rightclick",
+		// 1 : "middleclick", these are not handled properly by JS
+		2 : "rightclick"
+		// 3 : "sidebackward",
+		// 4 : "sideforward"
 	},
 	KeyMapJS : {
 		8 :"backspace",
