@@ -118,17 +118,17 @@
 
 	function flagSerialize()
 	{
-		this.callSettingsFunction("flagSerialize", this.getID());
+		this.callSettingsFunction("flagSerialize");
 	}
 
 	function flagDeserialize()
 	{
-		this.callSettingsFunction("flagDeserialize", this.getID());
+		this.callSettingsFunction("flagDeserialize");
 	}
 
 	function resetFlags()
 	{
-		this.callSettingsFunction("resetFlags", this.getID());
+		this.callSettingsFunction("resetFlags");
 	}
 
 	function getUIData( _flags )
