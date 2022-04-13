@@ -399,6 +399,7 @@
 
 ::MSU.EndQueue.add(function() {
 	::mods_hookBaseClass("skills/skill", function(o) {
+		o = o[o.SuperName];
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
 			local oldFunc = o[func];
