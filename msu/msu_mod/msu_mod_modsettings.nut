@@ -25,3 +25,21 @@ verboseModeToggle.addCallback(function(_data)
 	::Const.AI.VerboseMode = _data;
 })
 generalPage.add(verboseModeToggle);
+
+local logPage = ::MSU.Class.SettingsPage("Logging");
+::MSU.Mod.ModSettings.addPage(logPage);
+
+local function addLogBool(_flagID)
+{
+	local boolSetting = ::MSU.Class.BooleanSetting(_flagID + "Log", ::MSU.Mod.Debug.isEnabled(_flagID), ::MSU.String.capitalizeFirst(_flagID) + " Logging");
+	boolSetting.addCallback(function(_value)
+	{
+		::MSU.Mod.Debug.setFlag(_flagID, _value);
+	});
+	logPage.add(boolSetting);
+}
+
+foreach (flag, value in ::MSU.System.Debug.Mods[::MSU.ID])
+{
+	addLogBool(flag);
+}
