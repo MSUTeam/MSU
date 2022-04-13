@@ -24,7 +24,23 @@
 			throw ::MSU.Exception.InvalidType(_page);
 		}
 		_page.setPanel(this);
+		local hasKeybinds = this.Pages.contains("Keybinds")
 		this.Pages[_page.getID()] <- _page;
+		if (hasKeybinds)
+		{
+			this.Pages.sort(function(_id1, _page1, _id2, _page2)
+			{
+				if (_id1 == "Keybinds")
+				{
+					return -1;
+				}
+				if (_id2 == "Keybinds")
+				{
+					return 1;
+				}
+				return 0;
+			});
+		}
 	}
 
 	function getSetting( _settingID )
