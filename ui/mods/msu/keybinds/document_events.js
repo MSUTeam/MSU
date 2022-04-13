@@ -17,9 +17,3 @@ document.addEventListener('keyup', function( _event )
 	}
 	MSU.Keybinds.updatePressedKeys(key, true);
 });
-
-
-// MSU.Keybinds.addKeybindFunction('mod_MSU', 'testkb', function()
-// {
-// 	console.error("testkb")
-// })

@@ -142,8 +142,8 @@
 
 	function onSerialize( _out )
 	{
-		::MSU.SerDe.serialize(this.Array, _out);
-		::MSU.SerDe.serialize(this.Table, _out);
+		::MSU.Utils.serialize(this.Array, _out);
+		::MSU.Utils.serialize(this.Table, _out);
 	}
 
 	function onDeserialize( _in )
