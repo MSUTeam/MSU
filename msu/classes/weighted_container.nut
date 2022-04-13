@@ -90,6 +90,7 @@
 		{
 			if (pair[1] == _item) return 1.0 / forced.len();
 		}
+		if (forced.len() != 0) return 0.0;
 
 		local weight = null;
 		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
