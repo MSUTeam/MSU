@@ -101,7 +101,7 @@
 		{
 			foreach (pair in this.Array)
 			{
-				if (pair[0] >= 0 && pair[1] == _item) weight = pair[0];
+				if (pair[0] > 0 && pair[1] == _item) weight = pair[0];
 			}
 		}
 
@@ -258,7 +258,7 @@
 		local roll = ::Math.rand(1, this.getTotal(_exclude));
 		foreach (pair in this.Array)
 		{
-			if (pair[0] < 0 || (_exclude != null && _exclude.find(pair[1]) != null)) continue;
+			if (_exclude != null && _exclude.find(pair[1]) != null) continue;
 
 			if (roll <= pair[0]) return pair[1];
 
