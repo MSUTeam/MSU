@@ -66,9 +66,14 @@
 		return _mouse.getID().tostring() in this.MouseMapSQ;
 	}
 
+	// id 7 is scroll wheel, with state 3 being scroll up and 4 being scroll down
+	// id 6 is any mouse movement
 	MouseMapSQ = {
 		"1" : "leftclick",
 		"2" : "rightclick",
+		// "3" : "middleclick", these are detected by squirrel, but not by JS, which means our current system can't handle setting these keybinds
+		// "4" : "sidebackward",
+		// "5" : "sideforward"
 	},
 	KeyMapSQ = {
 		"1" : "1",
