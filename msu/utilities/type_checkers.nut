@@ -66,7 +66,7 @@
 	}
 }
 
-::MSU.requireAllButTypes <- function( _typeArray, ... )
+::MSU.requireAnyTypeExcept <- function( _typeArray, ... )
 {
 	foreach (value in vargv)
 	{
