@@ -31,12 +31,12 @@
 		return ret;
 	}
 
-	function flagDeserialize( _modID )
+	function flagDeserialize()
 	{
-		base.flagDeserialize(_modID);
+		base.flagDeserialize();
 		if (this.Array.find(this.Value) == null)
 		{
-			::logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + _modID);
+			::logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + this.getModID());
 			this.Value = this.Array[0];
 		}
 	}
