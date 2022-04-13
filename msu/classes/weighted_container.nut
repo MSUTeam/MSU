@@ -105,9 +105,11 @@
 			}
 		}
 
-		// TODO: Need to account for a situation where total might be 0
-		if (weight != null) return weight.tofloat() / this.getTotal(_exclude);
-		
+		if (weight != null)
+		{
+			if (weight == 0) return 0.0;
+			return weight.tofloat() / this.getTotal(_exclude);
+		}
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
