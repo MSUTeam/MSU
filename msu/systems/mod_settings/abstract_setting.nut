@@ -109,7 +109,7 @@
 	function lock( _lockReason = "" )
 	{
 		this.Locked = true;
-		this.LockReason = _lockReason;
+		if (_lockReason != "") this.LockReason = _lockReason;
 	}
 
 	function unlock()
