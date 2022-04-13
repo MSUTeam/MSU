@@ -1,1 +1,1 @@
-::MSU.Mod <- ::MSU.registerMod(::MSU.ID, ::MSU.Version, ::MSU.Name);
+::MSU.Mod <- ::MSU.Class.Mod(::MSU.ID, ::MSU.Version, ::MSU.Name);
