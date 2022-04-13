@@ -113,7 +113,7 @@
 
 	o.setBaseValue <- function( _field, _value )
 	{
-		this.b[_field] = _value;
+		if (this.m.IsBaseValuesSaved) this.b[_field] = _value;
 	}
 
 	o.softReset <- function()
