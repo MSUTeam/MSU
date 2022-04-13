@@ -18,13 +18,13 @@ this.msu_injuries_handler_effect <- this.inherit("scripts/skills/skill", {
 			return;
 		}
 
-		_hitInfo.DamageType = _skill.getWeightedRandomDamageType();
+		_hitInfo.DamageType = _skill.getDamageType().roll();
 
 		// Can also pull the Damage Weight of that Damage Type in this skill and do cool things with
 		// that e.g. make some perks which only work if the used skill has 60% or more Blunt damage
 		// and here we can pull the Damage Weight of the Damage Type that was rolled and use it!
 		
-		_hitInfo.DamageTypeProbability = _skill.getDamageTypeProbability(_hitInfo.DamageType);
+		_hitInfo.DamageTypeProbability = _skill.getDamageType().getProbability(_hitInfo.DamageType);
 
 		if (::MSU.hasField(_targetEntity, "IsHeadless") && _targetEntity.m.IsHeadless)
 		{

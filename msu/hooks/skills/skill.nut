@@ -5,9 +5,44 @@
 		o.create = function()
 		{
 			create();
-			if (this.m.InjuriesOnBody != null)
+			if (this.m.DamageType.len() == 0)
 			{
-				this.setupDamageType();
+				switch (this.m.InjuriesOnBody)
+				{
+					case null:
+						return;
+
+					case ::Const.Injury.BluntBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Blunt);
+						break;
+
+					case ::Const.Injury.PiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+						break;
+
+					case ::Const.Injury.CuttingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+						break;
+
+					case ::Const.Injury.BurningBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Burning);
+						break;
+
+					case ::Const.Injury.BluntAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Blunt, 55);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 45);
+						break;
+
+					case ::Const.Injury.BurningAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Burning, 25);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 75);
+						break;
+
+					case ::Const.Injury.CuttingAndPiercingBody:
+						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+						break;
+				}
 			}
 		}
 	}
@@ -16,11 +51,15 @@
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
 
-	o.m.DamageType <- [];
+	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	o.m.IsBaseValuesSaved <- false;
 	o.m.ScheduledChanges <- [];
+
+	o.m.IsApplyingPreview <- false;
+	o.PreviewField <- {};
+	o.PreviewProperty <- {};
 
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
@@ -143,6 +182,13 @@
 		setContainer(_c);
 	}
 
+	local setFatigueCost = o.setFatigueCost;
+	o.setFatigueCost = function( _f )
+	{
+		this.setBaseValue("FatigueCost", _f);
+		setFatigueCost(_f);
+	}
+
 	o.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
@@ -208,6 +254,20 @@
 	{		
 	}
 
+	o.onAffordablePreview <- function( _skill, _movementTile )
+	{
+	}
+
+	o.modifyPreviewField <- function( _field, _currChange, _newChange, _multiplicative )
+	{
+		::MSU.Skills.modifyPreview(this.m, this.PreviewField, _field, _currChange, _newChange, _multiplicative);
+	}
+
+	o.modifyPreviewProperty <- function( _field, _currChange, _newChange, _multiplicative )
+	{
+		::MSU.Skills.modifyPreview(this.getContainer().getActor().getCurrentProperties(), this.PreviewProperty, _field, _currChange, _newChange, _multiplicative);
+	}
+
 	local use = o.use;
 	o.use = function( _targetTile, _forFree = false )
 	{
@@ -226,100 +286,6 @@
 		return ret;
 	}
 
-	o.removeDamageType <- function( _damageType )
-	{
-		for (local i = 0; i < this.m.DamageType.len(); i++)
-		{
-			if (this.m.DamageType[i].DamageType == _damageType)
-			{
-				this.m.DamageType.remove(i);
-			}
-		}
-	}
-
-	o.setDamageTypeWeight <- function( _damageType, _weight )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type == _damageType)
-			{
-				d.Weight = _weight;
-			}
-		}
-	}
-
-	o.addDamageType <- function( _damageType, _weight = null )
-	{
-		if (this.hasDamageType(_damageType))
-		{
-			return;
-		}
-
-		if (_weight == null)
-		{
-			if (this.m.DamageType.len() > 0)
-			{
-				local totalWeight = 0;
-				foreach (d in this.m.DamageType)
-				{
-					totalWeight += d.Weight;
-				}
-
-				_weight = totalWeight / this.m.DamageType.len();
-			}
-			else
-			{
-				_weight = 100;
-			}
-		}
-
-		this.m.DamageType.push({Type = _damageType, Weight = _weight});
-	}
-
-	o.hasDamageType <- function( _damageType, _only = false )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type == _damageType)
-			{
-				return _only ? this.m.DamageType.len() == 1 : true;
-			}
-		}
-
-		return false;
-	}
-
-	o.getDamageTypeWeight <- function( _damageType )
-	{
-		foreach (d in this.m.DamageType)
-		{
-			if (d.Type = _damageType)
-			{
-				return d.Weight;
-			}
-		}
-
-		return null;
-	}
-
-	o.getDamageTypeProbability <- function ( _damageType )
-	{
-		local totalWeight = 0;
-		local weight = null;
-
-		foreach (d in this.m.DamageType)
-		{
-			totalWeight += d.Weight;
-
-			if (d.Type == _damageType)
-			{
-				weight = d.Weight;
-			}
-		}
-
-		return weight == null ? null : weight.tofloat() / totalWeight;
-	}
-
 	o.getDamageType <- function()
 	{
 		return this.m.DamageType;
@@ -327,55 +293,9 @@
 
 	o.getWeightedRandomDamageType <- function()
 	{
-		local totalWeight = 0;
-		foreach (d in this.m.DamageType)
-		{
-			totalWeight += d.Weight;
-		}
-
-		local roll = ::Math.rand(1, totalWeight);
-
-		foreach (d in this.m.DamageType)
-		{
-			if (roll <= d.Weight)
-			{
-				return d.Type;
-			}
-
-			roll -= d.Weight;
-		}
+		return this.m.DamageType.roll();
 	}
 
-	o.setupDamageType <- function()
-	{
-		switch (this.m.InjuriesOnBody)
-		{
-			case ::Const.Injury.BluntBody:
-				this.addDamageType(::Const.Damage.DamageType.Blunt);
-				break;
-			case ::Const.Injury.PiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Piercing);
-				break;
-			case ::Const.Injury.CuttingBody:
-				this.addDamageType(::Const.Damage.DamageType.Cutting);
-				break;
-			case ::Const.Injury.BurningBody:
-				this.addDamageType(::Const.Damage.DamageType.Burning);
-				break;
-			case ::Const.Injury.BluntAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Blunt, 55);
-				this.addDamageType(::Const.Damage.DamageType.Piercing, 45);
-				break;
-			case ::Const.Injury.BurningAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Burning, 25);
-				this.addDamageType(::Const.Damage.DamageType.Piercing, 75);
-				break;
-			case ::Const.Injury.CuttingAndPiercingBody:
-				this.addDamageType(::Const.Damage.DamageType.Cutting);
-				this.addDamageType(::Const.Damage.DamageType.Piercing);
-				break;
-		}
-	}
 
 	o.verifyTargetAndRange <- function( _targetTile, _origin = null )
 	{
@@ -399,7 +319,7 @@
 
 		foreach (d in this.m.DamageType)
 		{
-			local probability = ::Math.round(this.getDamageTypeProbability(d.Type) * 100);
+			local probability = ::Math.round(this.m.DamageType.getProbability(d.Type) * 100);
 
 			if (probability < 100)
 			{
@@ -475,4 +395,78 @@
 
 		return tooltip;
 	}
+});
+
+::MSU.EndQueue.add(function() {
+	::mods_hookBaseClass("skills/skill", function(o) {
+		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
+		{
+			local oldFunc = o[func];
+			o[func] = function()
+			{
+				if (!this.m.IsApplyingPreview) return oldFunc();
+
+				local temp = {};
+				foreach (k, v in this.PreviewField)
+				{
+					temp[k] <- this.m[k];
+					this.m[k] = v;
+				}
+
+				local properties = this.getContainer().getActor().getCurrentProperties();
+				foreach (k, v in this.PreviewProperty)
+				{
+					temp[k] <- properties[k];
+					properties[k] = v;
+				}
+
+				local ret = oldFunc();
+
+				if (temp.len() > 0)
+				{
+					foreach (k, v in this.PreviewField)
+					{
+						this.m[k] = temp[k];
+					}
+
+					local properties = this.getContainer().getActor().getCurrentProperties();
+					foreach (k, v in this.PreviewProperty)
+					{
+						properties[k] = temp[k];
+					}
+				}
+
+				return ret;
+			}
+		}
+
+		local isAffordablePreview = o.isAffordablePreview;
+		o.isAffordablePreview = function()
+		{
+			if (!this.getContainer().m.IsPreviewing) return isAffordablePreview();
+			this.m.IsApplyingPreview = true;
+			local ret = isAffordablePreview();
+			this.m.IsApplyingPreview = false;
+			return ret;
+		}
+
+		local getCostString = o.getCostString;
+		o.getCostString = function()
+		{
+			if (!this.getContainer().m.IsPreviewing) return getCostString();
+			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
+			if (preview != null && preview.id == this.getContainer().getActor().getID())
+			{
+				this.m.IsApplyingPreview = true;
+				local ret = getCostString();
+				this.m.IsApplyingPreview = false;
+				local skillID = this.getContainer().getActor().getPreviewSkillID();
+				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
+				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);
+				return ret;
+			}
+
+			return getCostString();
+		}
+	});
 });

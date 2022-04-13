@@ -181,6 +181,11 @@
 		return ret;
 	}
 
+	function rand()
+	{
+		return ::MSU.Array.rand(this.Array)[1];
+	}
+
 	function roll()
 	{
 		local roll = ::Math.rand(1, this.Total);
