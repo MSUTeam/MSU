@@ -225,7 +225,7 @@
 		this.Forced.clear();
 	}
 
-	function top()
+	function max()
 	{
 		local weight = 0;
 		local ret;
