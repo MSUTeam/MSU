@@ -64,7 +64,7 @@
 		setting.setDescription(this.getDescription());
 		setting.addCallback(function(_data)
 		{
-			::MSU.System.Keybinds.update(self.ref().getModID(), self.ref().getID(), _data, true, false, false);
+			::MSU.System.Keybinds.update(this.getModID(), this.getID(), _data, true, false, false);
 		});
 		return setting;
 	}
