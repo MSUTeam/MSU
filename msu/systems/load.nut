@@ -4,7 +4,8 @@
 	ModSettings = 1,
 	Registry = 2,
 	Log = 3,
-	Keybinds = 4
+	Keybinds = 4,
+	PersistentData = 5,
 };
 
 local function includeLoad( _folder )
@@ -24,5 +25,6 @@ includeLoad("debug");
 includeLoad("mod_settings");
 includeLoad("serialization");
 includeLoad("keybinds");
+includeLoad("persistent_data");
 
 includeFile("mod");

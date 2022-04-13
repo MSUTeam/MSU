@@ -232,6 +232,6 @@
 
 	function importPersistentSettings()
 	{
-		::MSU.PersistentDataManager.loadSettingForEveryMod("Keybind");
+		::MSU.System.PersistentData.loadSettingForEveryMod("Keybind");
 	}
 }

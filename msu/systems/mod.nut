@@ -12,6 +12,7 @@
 	ModSettings = null;
 	Registry = null;
 	Serialization = null;
+	PersistentData = null;
 
 	constructor( _id, _version, _name = null )
 	{
@@ -30,6 +31,7 @@
 		::MSU.System.ModSettings.registerMod(this);
 		::MSU.System.Keybinds.registerMod(this);
 		::MSU.System.Serialization.registerMod(this);
+		::MSU.System.PersistentData.registerMod(this);
 	}
 
 	function getName()

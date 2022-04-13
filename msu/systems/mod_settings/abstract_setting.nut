@@ -29,7 +29,7 @@
 
 	function printForParser( _tag = "ModSetting" )
 	{
-		::MSU.PersistentDataManager.writeToLog(_tag, this.getModID(), format("%s;%s", this.getID(), this.getValue().tostring()));
+		::MSU.System.PersistentData.writeToLog(_tag, this.getModID(), format("%s;%s", this.getID(), this.getValue().tostring()));
 	}
 
 	function onChangedCallback( _newValue )

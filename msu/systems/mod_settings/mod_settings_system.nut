@@ -90,12 +90,12 @@
 			::MSU.Mod.Debug.printWarning(format("The mod %s has been removed", _modID), "debug");
 			return;
 		}
-		if (!this.get(_modID).hasSetting(_settingID))
+		if (!this.getPanel(_modID).hasSetting(_settingID))
 		{
 			::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
 			return;
 		}
-		this.get(_modID).getSetting(_settingID).set(_value, true, false);
+		this.getPanel(_modID).getSetting(_settingID).set(_value, true, false);
 	}
 
 	function callPanelsFunction( _function, ... )
@@ -111,7 +111,7 @@
 
 	function importPersistentSettings()
 	{
-		::MSU.PersistentDataManager.loadSettingForEveryMod("ModSetting");
+		::MSU.System.PersistentData.loadSettingForEveryMod("ModSetting");
 	}
 
 	function flagSerialize()
