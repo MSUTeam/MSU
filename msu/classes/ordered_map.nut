@@ -148,7 +148,7 @@
 
 	function onDeserialize( _in )
 	{
-		this.Array = ::MSU.SerDe.deserialize(_in);
-		this.Table = ::MSU.SerDe.deserialize(_in);
+		this.Array = ::MSU.Utils.deserialize(_in);
+		this.Table = ::MSU.Utils.deserialize(_in);
 	}
 }

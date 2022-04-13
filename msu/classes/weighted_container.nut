@@ -298,12 +298,12 @@
 	function onSerialize( _out )
 	{
 		_out.writeU32(this.Total);
-		::MSU.SerDe.serialize(this.Array, _out);
+		::MSU.Utils.serialize(this.Array, _out);
 	}
 
 	function onDeserialize( _in )
 	{
 		this.Total = _in.readU32();
-		this.Array = ::MSU.SerDe.deserialize(_in);
+		this.Array = ::MSU.Utils.deserialize(_in);
 	}
 }

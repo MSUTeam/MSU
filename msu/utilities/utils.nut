@@ -1,4 +1,4 @@
-::MSU.SerDe <- {
+::MSU.Utils <- {
 	DataType = {
 		Integer = 0,
 		Float = 1,
