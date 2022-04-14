@@ -105,5 +105,5 @@
 		if (_object instanceof ::WeakTableRef) return _object;
 		throw ::MSU.Exception.InvalidType(_object);
 	}
-	return ::WeakTableRef(_object)
+	return ::WeakTableRef(_object);
 }
