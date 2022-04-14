@@ -67,7 +67,7 @@
 
 	o.isWeaponType <- function( _t, _only = false )
 	{
-		return _only ? this.m.WeaponType & t == this.m.WeaponType : this.m.WeaponType & _t == _t;
+		return _only ? this.m.WeaponType & _t == this.m.WeaponType : this.m.WeaponType & _t == _t;
 	}
 
 	o.addWeaponType <- function( _weaponType, _setupCategories = true )
