@@ -1,23 +1,23 @@
 var MSU = {};
-MSU.printData = function( _obj, _depth, _maxLen )
+MSU.printData = function( _data, _depth, _maxLen )
 {
 	if (_depth === undefined) _depth = 1;
 	if (_maxLen === undefined) _maxLen = 0;
 	var length = 1;
 	var isArray = false;
-	if (typeof _obj == "object" && _obj !== null)
+	if (typeof _data == "object" && _data !== null)
 	{
-		if (Array.isArray(_obj))
+		if (Array.isArray(_data))
 		{
 			isArray = true;
-			length = _obj.length;
+			length = _data.length;
 		}
 		else
 		{
-			length = Object.keys(_obj).length;
+			length = Object.keys(_data).length;
 		}
 	}
-	var string = MSU.getLocalString("Data: ", _obj, Math.max(length, _maxLen), _depth, isArray);
+	var string = MSU.getLocalString("Data: ", _data, Math.max(length, _maxLen), _depth, isArray);
 	for (var i = 0; i < string.length; i = i + 900)
 	{
 		console.error(string.slice(i, Math.min(i + 900, string.length)));
