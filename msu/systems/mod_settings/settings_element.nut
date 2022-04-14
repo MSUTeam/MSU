@@ -12,7 +12,7 @@
 		if (_id.find(" ") != null)
 		{
 			::logError("The ID of a Settings Element should not have spaces");
-			throw ::MSU.Exception.InvalidType(_id);
+			throw ::MSU.Exception.InvalidValue(_id);
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
