@@ -7,7 +7,7 @@
 
 	constructor( _array = null )
 	{
-		this.Total = 0;
+		this.Total = 0.0;
 		this.Array = [];
 		this.Forced = [];
 		if (_array != null) this.addArray(_array);
@@ -107,8 +107,7 @@
 
 		if (weight != null)
 		{
-			if (weight == 0) return 0.0;
-			return weight.tofloat() / this.getTotal(_exclude);
+			return weight == 0 ? 0.0 : weight / this.getTotal();
 		}
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
@@ -168,7 +167,7 @@
 	{
 		if (_exclude == null) return this.Total;
 
-		local ret = 0;
+		local ret = 0.0;
 		foreach (pair in this.Array)
 		{
 			if (pair[0] >= 0 && _exclude.find(pair[1]) == null) ret += pair[0];
