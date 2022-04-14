@@ -65,21 +65,25 @@
 		}
 	}
 
-	o.isWeaponType <- function( _t, _only = false )
+	o.isWeaponType <- function( _t, _any = true, _only = false )
 	{
-		return _only ? this.m.WeaponType & _t == this.m.WeaponType : this.m.WeaponType & _t == _t;
+		if (_any)
+		{
+			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
+		}
+		else
+		{
+			return _only ? (this.m.WeaponType & _t) == this.m.WeaponType : (this.m.WeaponType & _t) == _t;
+		}
 	}
 
 	o.addWeaponType <- function( _weaponType, _setupCategories = true )
 	{
-		if (!this.isWeaponType(_weaponType))
-		{
-			this.m.WeaponType = this.m.WeaponType | _weaponType;
+		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
-			if (_setupCategories)
-			{
-				this.setupCategories();
-			}
+		if (_setupCategories)
+		{
+			this.setupCategories();
 		}
 	}
 
@@ -91,12 +95,11 @@
 		{
 			this.setupCategories();
 		}
-		
 	}
 
 	o.removeWeaponType <- function( _weaponType, _setupCategories = true )
 	{
-		if (this.isWeaponType(_weaponType))
+		if (this.isWeaponType(_weaponType, false))
 		{
 			this.m.WeaponType -= _weaponType;
 

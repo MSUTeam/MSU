@@ -1,6 +1,18 @@
 ::mods_hookBaseClass("items/item", function(o) {
 	o = o[o.SuperName];
 
+	o.isItemType = function( _t, _any = true, _only = false )
+	{
+		if (_any)
+		{
+			return _only ? this.m.ItemType - (this.m.ItemType & _t) == 0 : (this.m.ItemType & _t) != 0;
+		}
+		else
+		{
+			return _only ? (this.m.ItemType & _t) == this.m.ItemType : (this.m.ItemType & _t) == _t;
+		}
+	}
+
 	o.addItemType <- function ( _t )
 	{
 		this.m.ItemType = this.m.ItemType | _t;
@@ -11,14 +23,9 @@
 		this.m.ItemType = _t;
 	}
 
-	o.isAllItemTypes <- function( _t )
-	{
-		return this.m.ItemType & _t == _t;
-	}
-
 	o.removeItemType <- function( _t )
 	{
-		if (this.isAllItemTypes(_t)) this.m.ItemType -= _t;
+		if (this.isItemType(_t, false)) this.m.ItemType -= _t;
 		else throw ::MSU.Exception.KeyNotFound(_t);
 	}
 
