@@ -40,7 +40,6 @@
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
 
-		this.Total += _weight;
 		foreach (pair in this.Array)
 		{
 			if (pair[1] == _item)
@@ -50,6 +49,8 @@
 				return;
 			}
 		}
+
+		if (_weight > 0) this.Total += _weight;
 		this.Array.push([_weight, _item]);
 	}
 
