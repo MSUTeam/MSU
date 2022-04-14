@@ -7,14 +7,15 @@
 		return first + _string.slice(1);
 	}
 
-	function replace( _string, _find, _replace )
+	function replace( _string, _find, _replace, _all = false )
 	{
-		local idx = _string.find(_find);
-		if (idx != null)
+		local idx;
+		do
 		{
-			return _string.slice(0, idx) + _replace + _string.slice(idx + _find.len());
+			idx = _string.find(_find);
+			_string = idx == null ? _string : _string.slice(0, idx) + _replace + _string.slice(idx + _find.len());
 		}
-		
+		while(idx != null && _all)
 		return _string;
 	}
 
