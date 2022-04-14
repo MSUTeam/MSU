@@ -60,17 +60,16 @@
 
 	o.setMovementSpeed <- function( _speed )
 	{
+		this.setVanillaBaseMovementSpeed(_speed);
 		this.setBaseMovementSpeedMult(_speed / 100.0);
 	}
 
 	o.getFinalMovementSpeedMult <- function()
 	{
-		::MSU.Mod.Debug.printLog("Checking Party: " + this.getName() + " Player Party: " + this.m.IsPlayer, "movement");
 		local mult = 1.0;
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
-			::MSU.Mod.Debug.printLog("Function " + key + " returned a mult of: " + funcResult + " , mult is now: " + mult * funcResult, "movement");
 			mult *= funcResult;
 		}
 		return mult;
@@ -279,49 +278,73 @@
 	o.testCompareMovementSpeeds <- function()
 	{
 		local moddedSpeed = this.getMovementSpeed(true);
-		local speed = this.getVanillaBaseMovementSpeed();
-		speed = speed * (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
-		speed = speed * this.Const.World.MovementSettings.GlobalMult;
+		local vanillaMovementSpeed = 1.0
+		local slowDownPartyPerTroop = 1.0
+		local GlobalMult = 1.0
+		local TerrainTypeSpeedMult = 1.0
+		local getTerrainTypeSpeedMultPlayer = 1.0
+		local NighttimeMult = 1.0
+		local RiverMult = 1.0
+		local NotPlayerMult = 1.0
+
+
+		local vanillaMovementSpeed = this.getVanillaBaseMovementSpeed();
+		local speed = vanillaMovementSpeed;
+		slowDownPartyPerTroop = (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
+		speed *= slowDownPartyPerTroop
+		GlobalMult = this.Const.World.MovementSettings.GlobalMult;
+		speed *= GlobalMult
 		local myTile = this.getTile();
 
 		if (!this.isIgnoringCollision())
 		{
 			if (myTile.HasRoad)
 			{
-				speed = speed * this.Math.maxf(this.Const.World.TerrainTypeSpeedMult[myTile.Type] * this.Const.World.MovementSettings.RoadMult, 1.0);
+				TerrainTypeSpeedMult = this.Math.maxf(this.Const.World.TerrainTypeSpeedMult[myTile.Type] * this.Const.World.MovementSettings.RoadMult, 1.0);
 			}
 			else
 			{
-				speed = speed * this.Const.World.TerrainTypeSpeedMult[myTile.Type];
+				TerrainTypeSpeedMult = this.Const.World.TerrainTypeSpeedMult[myTile.Type];
 			}
+			speed *= TerrainTypeSpeedMult
 
 			if (this.m.IsPlayer)
 			{
-				speed = speed * this.World.Assets.getTerrainTypeSpeedMult(myTile.Type);
+				getTerrainTypeSpeedMultPlayer = this.World.Assets.getTerrainTypeSpeedMult(myTile.Type);
 			}
+			speed *= getTerrainTypeSpeedMultPlayer
 		}
 
 		if (this.m.IsSlowerAtNight && !this.World.isDaytime())
 		{
-			speed = speed * this.Const.World.MovementSettings.NighttimeMult;
+			NighttimeMult = this.Const.World.MovementSettings.NighttimeMult;
 		}
+		speed *= NighttimeMult
 
 		if (myTile.HasRiver)
 		{
-			speed = speed * this.Const.World.MovementSettings.RiverMult;
+			RiverMult = this.Const.World.MovementSettings.RiverMult;
 		}
-
+		speed *= RiverMult
 		if (this.getFaction() != this.Const.Faction.Player)
 		{
-			speed = speed * this.Const.World.MovementSettings.NotPlayerMult;
+			NotPlayerMult = this.Const.World.MovementSettings.NotPlayerMult;
 		}
-		if(this.Math.round(moddedSpeed) == this.Math.round(speed))
-		{
-			::MSU.Mod.Debug.printLog("Movement Speed for party " + this.getName() + " is correct.", "movement")
-		}
-		else
+		speed *= NotPlayerMult
+
+		if(this.Math.round(moddedSpeed) != this.Math.round(speed))
 		{
 			::MSU.Mod.Debug.printError("Movement Speed for party " + this.getName() + " is NOT correct. Expected: " + speed + " , actual: " + moddedSpeed, "movement")
+			::MSU.Mod.Debug.printError("COMPARING VANILLA AND MSU", "movement")
+			::MSU.Mod.Debug.printError("vanillaMovementSpeed " + vanillaMovementSpeed + " " + this.getBaseMovementSpeedMult() * 100, "movement")
+			::MSU.Mod.Debug.printError("GlobalMult" + GlobalMult + " " + this.getGlobalMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("slowDownPartyPerTroop" + slowDownPartyPerTroop + " " + this.getSlowdownPerUnitMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("NotPlayerMult " + NotPlayerMult + " " + this.getNotPlayerMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("RiverMult " + RiverMult + " " + this.getRiverMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("NighttimeMult " + NighttimeMult + " " + this.getNightTimeMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("TerrainTypeSpeedMult " + TerrainTypeSpeedMult + " " + this.getRoadMovementSpeedMult(), "movement")
+			::MSU.Mod.Debug.printError("getTerrainTypeSpeedMultPlayer " + getTerrainTypeSpeedMultPlayer + " " + this.getRoadMovementSpeedMult(), "movement")
+
 		}
 	}
 	
