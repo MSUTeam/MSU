@@ -30,7 +30,7 @@
 			local components = split(file, "/");
 			local modID = components[1];
 			local fileType = components[2];
-			::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and fileType '%s'.", modID, fileType), "persistence");
+			# ::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and fileType '%s'.", modID, fileType), "persistence");
 			this.Mods[_modID][fileType] <- file;
 		}
 	}
