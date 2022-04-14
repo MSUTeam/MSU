@@ -100,5 +100,10 @@
 
 ::MSU.asWeakTableRef <- function( _object )
 {
-	return typeof _object == "instance" ? _object : ::WeakTableRef(_object);
+	if (typeof _object == "instance")
+	{
+		if (_object instanceof ::WeakTableRef) return _object;
+		throw ::MSU.Exception.InvalidType(_object);
+	}
+	return ::WeakTableRef(_object)
 }
