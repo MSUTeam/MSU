@@ -45,12 +45,12 @@ MSUConnection.prototype.updateSetting = function (_setting)
 	this.mModSettings[_setting.mod][_setting.setting] = _setting.value;
 };
 
-var getModSettingValue = function (_modID, _settingID)
+MSU.getSettingValue = function (_modID, _settingID)
 {
 	return Screens.MSUConnection.mModSettings[_modID][_settingID];
 };
 
-var setModSettingValue = function (_modID, _settingID, _value)
+MSU.setSettingValue = function (_modID, _settingID, _value)
 {
 	Screens.MSUConnection.setModSettingValue(_modID, _settingID, _value);
 };
