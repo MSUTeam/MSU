@@ -4,5 +4,5 @@
 	"skills" : false,
 	"keybinds" : true,
 	"persistence" : true,
-	"modsettings" : true,
+	"modsettings" : false,
 })
