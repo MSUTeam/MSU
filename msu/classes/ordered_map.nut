@@ -102,13 +102,13 @@
 
 	function filter( _function )
 	{
-		// _function (_key, _val)
+		// _function (_key, _val, _idx)
 
 		local ret = ::MSU.Class.OrderedMap();
-		foreach (key in this.Array)
+		foreach (i, key in this.Array)
 		{
 			local val = this.Table[key];
-			if (_function(key, val)) ret[key] <- val;
+			if (_function(key, val, i)) ret[key] <- val;
 		}
 		return ret;
 	}
