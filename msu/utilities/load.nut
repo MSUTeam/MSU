@@ -14,3 +14,4 @@ includeFile("array.nut");
 
 includeFile("utils.nut");
 includeFile("skills.nut");
+includeFile("tile.nut");
