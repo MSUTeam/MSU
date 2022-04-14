@@ -1,17 +1,17 @@
 ::MSU.Class.PersistentDataModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function loadSetting( _settingID )
+	function loadFile( _fileID )
 	{
-		::MSU.System.PersistentData.loadSettingForMod(_settingID, this.Mod.getID());
+		::MSU.System.PersistentData.loadFileForMod(_fileID, this.Mod.getID());
 	}
 
-	function loadAllSettings()
+	function loadAllFiles()
 	{
-		::MSU.System.PersistentData.loadAllSettingsForMod(this.Mod.getID());
+		::MSU.System.PersistentData.loadAllFilesForMod(this.Mod.getID());
 	}
 
-	function writeToLog( _settingID, _payload )
+	function writeToLog( _fileID, _payload )
 	{
-		::MSU.System.PersistentData.writeToLog(_settingID, this.Mod.getID(), _payload);
+		::MSU.System.PersistentData.writeToLog(_fileID, this.Mod.getID(), _payload);
 	}
 }

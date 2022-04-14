@@ -15,10 +15,10 @@
 
 		_mod.PersistentData = ::MSU.Class.PersistentDataModAddon(_mod);
 		this.addMod(_mod.getID());
-		this.importModConfigFiles(_mod.getID());
+		this.importModFiles(_mod.getID());
 	}
 
-	function importModConfigFiles( _modID )
+	function importModFiles( _modID )
 	{
 		local persistentDirectory = this.IO.enumerateFiles(this.ModConfigPath + _modID);
 		if (persistentDirectory == null)
@@ -29,9 +29,9 @@
 		{
 			local components = split(file, "/");
 			local modID = components[1];
-			local settingsType = components[2];
-			::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and settingstype '%s'.", modID, settingsType), "persistence");
-			this.Mods[_modID][settingsType] <- file;
+			local fileType = components[2];
+			::MSU.Mod.Debug.printWarning(format("Checking file, potential modID: '%s' and fileType '%s'.", modID, fileType), "persistence");
+			this.Mods[_modID][fileType] <- file;
 		}
 	}
 
@@ -59,26 +59,26 @@
 		return this.Mods[_modID];
 	}
 
-	function loadSettingForMod( _modID, _settingID )
+	function loadFileForMod( _modID, _fileID )
 	{
-		::MSU.Mod.Debug.printWarning(format("Loading setting '%s' for mod '%s'.", _settingID, _modID), "persistence");
-		if (_settingID in this.getMod(_modID))
+		::MSU.Mod.Debug.printWarning(format("Loading file '%s' for mod '%s'.", _fileID, _modID), "persistence");
+		if (_fileID in this.getMod(_modID))
 		{
-			::include(this.getMod(_modID)[_settingID]);
+			::include(this.getMod(_modID)[_fileID]);
 			return true;
 		}
 		return false;
 	}
 
-	function loadSettingForEveryMod( _settingID )
+	function loadFileForEveryMod( _fileID )
 	{
 		foreach (modID, modValue in this.Mods)
 		{
-			this.loadSettingForMod(modID, _settingID);
+			this.loadFileForMod(modID, _fileID);
 		}
 	}
 
-	function loadAllSettingsForMod( _modID )
+	function loadAllFilesForMod( _modID )
 	{
 		if (!this.hasMod(_modID))
 		{
@@ -86,22 +86,22 @@
 			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 
-		foreach (setting in this.getMod(_modID))
+		foreach (file in this.getMod(_modID))
 		{
-			this.loadSettingForMod(_modID, setting);
+			this.loadFileForMod(_modID, file);
 		}
 	}
 
-	function writeToLog( _type, _modID, _payload )
+	function writeToLog( _fileID, _modID, _payload )
 	{
-		local result = format("BBPARSER;%s;%s", _type, _modID);
+		local result = format("BBPARSER;%s;%s", _fileID, _modID);
 		if (typeof _payload != "array")
 		{
 			_payload = [_payload];
 		}
 		foreach (arg in _payload)
 		{
-			::MSU.requireAnyTypeExcept(["array", "table"], arg)
+			::MSU.requireAnyTypeExcept(["array", "table", "class"], arg)
 			result += ";" + arg.tostring();
 		}
 		::logInfo(result);

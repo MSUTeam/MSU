@@ -111,7 +111,7 @@
 
 	function importPersistentSettings()
 	{
-		::MSU.System.PersistentData.loadSettingForEveryMod("ModSetting");
+		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 	}
 
 	function flagSerialize()
