@@ -2,10 +2,11 @@
 {
 	Array = null;
 	Table = null;
-	constructor()
+	constructor( _table = null )
 	{
 		this.Array = [];
 		this.Table = {};
+		if (_table != null) this.addTable(_table);
 	}
 
 	function _newslot( _key, _value )
