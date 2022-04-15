@@ -9,12 +9,12 @@ logToggle.addCallback(function(_data)
 generalPage.add(logToggle);
 
 local ExpandedSkillTooltips = ::MSU.Class.BooleanSetting("ExpandedSkillTooltips", false, "Expanded Skill Tooltips");
-ExpandedSkillTooltips.setChangeLogging(false);
+ExpandedSkillTooltips.setPersistence(false);
 ExpandedSkillTooltips.setDescription("Show MSU-based information in skill tooltips e.g. Damage Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
 generalPage.add(ExpandedSkillTooltips);
 
 local ExpandedItemTooltips = ::MSU.Class.BooleanSetting("ExpandedItemTooltips", false, "Expanded Item Tooltips");
-ExpandedItemTooltips.setChangeLogging(false);
+ExpandedItemTooltips.setPersistence(false);
 ExpandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
 generalPage.add(ExpandedItemTooltips);
 

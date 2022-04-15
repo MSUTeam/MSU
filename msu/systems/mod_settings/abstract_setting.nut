@@ -5,7 +5,7 @@
 	Locked = null;
 	LockReason = null;
 	Callbacks = null;
-	ChangeLogging = null; //if it should print change to log for further manipulation
+	Persistence = null; //if it should print change to log for further manipulation
 
 	constructor( _id, _value, _name = null )
 	{
@@ -13,18 +13,18 @@
 		this.Value = _value; 
 		this.Locked = false;
 		this.LockReason = "";
-		this.ChangeLogging = true;
+		this.Persistence = true;
 		this.Callbacks = [];
 	}
 
-	function setChangeLogging( _bool )
+	function setPersistence( _bool )
 	{
-		this.ChangeLogging = _bool;
+		this.Persistence = _bool;
 	}
 
-	function getChangeLogging()
+	function getPersistence()
 	{
-		return this.ChangeLogging;
+		return this.Persistence;
 	}
 
 	function printForParser( _tag = "ModSetting" )
@@ -60,7 +60,7 @@
 				this.onChangedCallback(_value);
 			}
 			this.Value = _value;
-			if (_updatePersistence && this.ChangeLogging)
+			if (_updatePersistence && this.Persistence)
 			{
 				this.printForParser();
 			}
