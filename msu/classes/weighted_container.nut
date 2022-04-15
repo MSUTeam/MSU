@@ -242,8 +242,14 @@
 		return ret;
 	}
 
-	function rand()
+	function rand( _exclude = null )
 	{
+		if (_exclude != null)
+		{
+			::MSU.requireArray(_exclude);
+			return ::MSU.Array.rand(this.Array.filter(@(idx, pair) _exclude.find(pair[1]) == null));
+		}
+
 		return ::MSU.Array.rand(this.Array)[1];
 	}
 
