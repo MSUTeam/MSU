@@ -48,6 +48,11 @@
 		return ret;
 	}
 
+	function toTable()
+	{
+		return clone this.Table;
+	}
+
 	function addTable( _table, _overwrite = true )
 	{
 		::MSU.requireTable(_table);
