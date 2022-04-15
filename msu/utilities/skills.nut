@@ -5,7 +5,7 @@
 		"getFatigueCost"
 	],
 
-	function addEvent( _name, _function = null, _update = false, _aliveOnly = false )
+	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
 		this.EventsToAdd.push({
 			Name = _name,
