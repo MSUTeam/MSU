@@ -4,7 +4,7 @@ allowing for significantly better mod compatibility
 and providing common functions for mods.
 
 ## Links
-[GitHub Repository](https://github.com/Battle-Brothers-Legends/mod_MSU)\
+[GitHub Repository](https://github.com/MSUTeam/mod_MSU)\
 [Nexusmods](https://www.nexusmods.com/battlebrothers/mods/526)
 
 ## Authors:
