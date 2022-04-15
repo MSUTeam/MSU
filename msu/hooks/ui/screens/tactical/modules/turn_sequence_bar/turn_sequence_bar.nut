@@ -8,7 +8,7 @@
 	local setActiveEntityCostsPreview = o.setActiveEntityCostsPreview;
 	o.setActiveEntityCostsPreview = function( _costsPreview )
 	{
-		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillDescriptions").getValue())
+		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
 		{
 			local activeEntity = this.getActiveEntity();
 			if (activeEntity != null)

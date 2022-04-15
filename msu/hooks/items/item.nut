@@ -37,7 +37,7 @@
 	local getDescription = o.getDescription;
 	o.getDescription = function()
 	{
-		if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemDescriptions").getValue())
+		if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemTooltips").getValue())
 		{
 			return getDescription();
 		}
