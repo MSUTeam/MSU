@@ -95,7 +95,7 @@
 			::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
 			return;
 		}
-		this.getPanel(_modID).getSetting(_settingID).set(_value, true, false);
+		this.getPanel(_modID).getSetting(_settingID).set(_value, true, false, true);
 	}
 
 	function callPanelsFunction( _function, ... )
