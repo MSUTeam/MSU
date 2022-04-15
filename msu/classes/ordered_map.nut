@@ -48,6 +48,17 @@
 		return ret;
 	}
 
+	function addTable( _table, _overwrite = true )
+	{
+		::MSU.requireTable(_table);
+		
+		foreach (key, value in _table)
+		{
+			if (!_overwrite && this.contains(key)) throw ::MSU.Exception.DuplicateKey(key);
+			this[key] <- value;
+		}
+	}
+
 	function sort( _function )
 	{
 		for (local i = 1; i < this.Array.len(); ++i)
