@@ -11,9 +11,4 @@
 	{
 		this.m.OnModOptionsPressedListener();
 	}
-
-	o.connectBackend <- function()
-	{
-		::MSU.UI.connect();
-	}
 });

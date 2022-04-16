@@ -46,7 +46,8 @@ ModSettingsScreen.prototype = Object.create(MSUUIScreen.prototype);
 Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
 	value: ModSettingsScreen,
 	enumerable: false,
-	writable: true });
+	writable: true
+});
 
 ModSettingsScreen.prototype.onConnection = function (_handle)
 {

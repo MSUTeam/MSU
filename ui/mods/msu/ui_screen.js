@@ -11,7 +11,8 @@ MSUUIScreen.prototype = Object.create(MSUBackendConnection.prototype);
 Object.defineProperty(MSUUIScreen.prototype, 'constructor', {
 	value: MSUUIScreen,
 	enumerable: false,
-	writable: true });
+	writable: true
+});
 
 MSUUIScreen.prototype.registerEventListener = function (_listener)
 {

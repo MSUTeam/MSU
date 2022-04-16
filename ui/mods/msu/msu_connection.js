@@ -8,7 +8,8 @@ MSUConnection.prototype = Object.create(MSUBackendConnection.prototype);
 Object.defineProperty(MSUConnection.prototype, 'constructor', {
 	value: MSUConnection,
 	enumerable: false,
-	writable: true });
+	writable: true
+});
 
 MSUConnection.prototype.queryData = function (_data)
 {
