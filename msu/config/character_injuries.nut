@@ -11,8 +11,10 @@
 		return ret;
 	}
 
-	function add( _name, _injuries, _include = [] )
+	function add( _name, _injuries, _include = null )
 	{
+		if (_include == null) _include = [];
+		
 		if (_name in this)
 		{
 			foreach (injury in _injuries)
