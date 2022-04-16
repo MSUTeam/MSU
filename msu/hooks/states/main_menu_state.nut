@@ -1,13 +1,13 @@
-::mods_hookNewObjectOnce("states/main_menu_state", function(o) {
+::mods_hookExactClass("states/main_menu_state", function(o) {
 	o.m.ModSettingsShown <- false;
 	o.m.TempSettings <- null;
 
-	local show = o.show; //Not the best hook but can't hook onInit directly
-	o.show = function()
+	local onInit = o.onInit;
+	o.onInit = function()
 	{
+		onInit();
 		local mainMenuModule = this.m.MainMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
-		show();
 	}
 
 	o.main_menu_module_onModOptionsPressed <- function()
