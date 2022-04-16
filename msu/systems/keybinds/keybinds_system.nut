@@ -4,6 +4,7 @@
 	KeybindsByMod = null;
 	KeybindsForJS = null;
 	PressedKeys = null;
+	KeysChanged = false;
 
 	constructor()
 	{
@@ -173,6 +174,7 @@
 
 	function onKeyInput( _key, _environment, _state )
 	{
+		this.KeysChanged = true;
 		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
 		local keyState;
 		if (this.isKeyStateContinuous(_key))
@@ -184,6 +186,17 @@
 			keyState = ::MSU.Key.getKeyState(_key.getState())
 		}
 		return this.onInput(_key, _environment, _state, keyAsString, keyState);
+	}
+
+	function frameUpdate( _ = null) # needs an empty default parameter since scheduleEvent uses .call(_env)
+	{
+		if (!this.KeysChanged && this.PressedKeys.len() != 0)
+		{
+			::MSU.UI.JSConnection.clearKeys();
+			this.PressedKeys = {};
+		}
+		this.KeysChanged = false;
+		::Time.scheduleEvent(::TimeUnit.Real, 1, this.frameUpdate.bindenv(this), null);
 	}
 
 	function onMouseInput( _mouse, _environment, _state )

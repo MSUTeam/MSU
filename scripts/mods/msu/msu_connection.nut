@@ -43,4 +43,9 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 	{
 		::getModSetting(_data.mod, _data.setting).set(_data.value, false);
 	}
+
+	function clearKeys()
+	{
+		this.m.JSHandle.asyncCall("clearKeys", null);
+	}
 });

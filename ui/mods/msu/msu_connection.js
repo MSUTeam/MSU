@@ -71,4 +71,9 @@ MSUConnection.prototype.notifyBackendUpdateSetting = function(_data)
 	SQ.call(this.mSQHandle, "updateSettingJS", _data);
 };
 
+MSUConnection.prototype.clearKeys = function ()
+{
+	MSU.Keybinds.PressedKeys = {};
+}
+
 registerScreen("MSUConnection", new MSUConnection());
