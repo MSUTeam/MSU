@@ -32,11 +32,11 @@
 			{
 				if (_id1 == "Keybinds")
 				{
-					return -1;
+					return 1;
 				}
 				if (_id2 == "Keybinds")
 				{
-					return 1;
+					return -1;
 				}
 				return 0;
 			});
