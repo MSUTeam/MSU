@@ -24,7 +24,6 @@
 ::mods_registerJS("msu/keybinds/keybinds_system.js");
 ::mods_registerJS("msu/keybinds/document_events.js");
 
-::mods_registerJS("msu/~~connect_screens.js");
 
 ::includeFile("msu/ui/", "ui.nut");
 
