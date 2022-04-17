@@ -17,6 +17,20 @@
 		return _array[::Math.rand(start, end - 1)];
 	}
 
+	function remove( _array, _item, _ignoreMissing = true )
+	{
+		local idx = _array.find(_item);
+		if (_item == null)
+		{
+			if (!_ignoreMissing) throw ::MSU.Exception.KeyNotFound(_item);
+			return null;
+		}
+		else
+		{
+			return _array.remove(idx);
+		}
+	}
+
 	function shuffle( _array )
 	{
 		for (local i = _array.len() - 1; i > 0; i--)
