@@ -180,11 +180,12 @@
 	function apply( _function )
 	{
 		// _function (_item, _weight)
+		// must return new weight for _item
 
 		foreach (i, pair in this.Array)
 		{
 			this.ApplyIdx = i;
-			_function(pair[1], pair[0]);
+			pair[0] = _function(pair[1], pair[0]);
 		}
 
 		this.ApplyIdx = null;
@@ -193,12 +194,14 @@
 	function map( _function )
 	{
 		// _function (_item, _weight)
+		// must return a len 2 array with weight, item as elements
 
 		local ret = ::MSU.Class.WeightedContainer();
 		foreach (i, pair in this.Array)
 		{
 			this.ApplyIdx = i;
-			ret.add(_function(pair[1], pair[0]));
+			local newPair = _function(pair[1], pair[0]);
+			ret.add(newPair[0], newPair[1]);
 		}
 		this.ApplyIdx = null;
 		return ret;
@@ -207,6 +210,7 @@
 	function filter( _function )
 	{
 		// _function (_item, _weight)
+		// must return a boolean
 
 		local ret = ::MSU.Class.WeightedContainer();
 		foreach (i, pair in this.Array)
