@@ -5,7 +5,7 @@ and providing common functions for mods.
 
 ## Links
 [GitHub Repository](https://github.com/MSUTeam/mod_MSU)\
-[Nexusmods](https://www.nexusmods.com/battlebrothers/mods/526)
+[Nexusmods](https://www.nexusmods.com/battlebrothers/mods/479)
 
 ## Authors:
 LordMidas ([GitHub](https://github.com/LordMidas), [NexusMods](https://www.nexusmods.com/battlebrothers/users/112721473?tab=user+files))\
