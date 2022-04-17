@@ -125,11 +125,10 @@
 			return false;
 		}
 
-		this.m.ActionPointCost = this.b.ActionPointCost;
-		this.m.FatigueCost = this.b.FatigueCost;
-		this.m.FatigueCostMult = this.b.FatigueCostMult;
-		this.m.MinRange = this.b.MinRange;
-		this.m.MaxRange = this.b.MaxRange;
+		foreach (fieldName in ::MSU.Skills.SoftResetFields)
+		{
+			this.m[fieldName] = this.b[fieldName]
+		}
 
 		return true;
 	}
