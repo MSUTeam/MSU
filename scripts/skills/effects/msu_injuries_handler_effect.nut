@@ -26,7 +26,7 @@ this.msu_injuries_handler_effect <- this.inherit("scripts/skills/skill", {
 		
 		_hitInfo.DamageTypeProbability = _skill.getDamageType().getProbability(_hitInfo.DamageType);
 
-		if (::MSU.hasField(_targetEntity, "IsHeadless") && _targetEntity.m.IsHeadless)
+		if (::MSU.isIn(_targetEntity.m, "IsHeadless") && _targetEntity.m.IsHeadless)
 		{
 			_hitInfo.BodyPart = ::Const.BodyPart.Body;
 		}
