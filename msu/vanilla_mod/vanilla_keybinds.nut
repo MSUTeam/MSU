@@ -14,13 +14,13 @@
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("character_openCharacterScreen", "c/i", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
-	if (::mods_isClass(this, "tactical_state"))
+	if (::MSU.isKindOf(this, "tactical_state"))
 	{
 		if (this.m.MenuStack.hasBacksteps() || this.isInputLocked() || this.isInCharacterScreen()) return;
 		this.showCharacterScreen();
 		return false;
 	}
-	else if (::mods_isClass(this, "world_state"))
+	else
 	{
 		if (!this.m.MenuStack.hasBacksteps() || this.m.CharacterScreen.isVisible() || this.m.WorldTownScreen.isVisible() && !this.m.EventScreen.isVisible())
 		{
@@ -54,7 +54,7 @@ local function isCampfireScreen()
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("toggleMenuScreen", "escape", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
-	if (::mods_isClass(this, "world_state"))
+	if (::MSU.isKindOf(this, "world_state"))
 	{
 		if (isCampfireScreen.call(this)) return;
 		if (this.toggleMenuScreen())
@@ -62,7 +62,7 @@ local function isCampfireScreen()
 			return false;
 		}
 	}
-	else if (::mods_isClass(this, "tactical_state"))
+	else
 	{
 		if (!this.m.MenuStack.hasBacksteps() || this.m.TacticalMenuScreen.isVisible())
 		{
