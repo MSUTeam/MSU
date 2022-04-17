@@ -108,7 +108,7 @@
 
 		if (weight != null)
 		{
-			return weight == 0 ? 0.0 : weight / this.getTotal();
+			return weight == 0 ? 0.0 : weight / this.getTotal(_exclude);
 		}
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
