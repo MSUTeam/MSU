@@ -1,25 +1,24 @@
 ::MSU.Class.WeightedContainer <- class
 {
 	Total = null;
-	Array = null;
-	ApplyIdx = null;
+	Table = null;
 	Forced = null;
 
 	constructor( _array = null )
 	{
 		this.Total = 0.0;
-		this.Array = [];
+		this.Table = {};
 		this.Forced = [];
 		if (_array != null) this.addArray(_array);
 	}
 
 	function toArray( _itemsOnly = true )
 	{
-		local ret = array(this.Array.len(), null);
-		foreach (i, pair in this.Array)
+		local ret = array(this.Table.len());
+		foreach (item, weight in this.Table)
 		{
-			if (_itemsOnly) ret[i] = pair[1];
-			else ret[i] = [pair[0], pair[1]];
+			if (_itemsOnly) ret[i] = item;
+			else ret[i] = [weight, item];
 		}
 		return ret;
 	}
@@ -39,43 +38,30 @@
 	function add( _item, _weight = 1 )
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
+		_weight = _weight.tofloat();
 
-		foreach (pair in this.Array)
+		if (_item in this.Table)
 		{
-			if (pair[1] == _item)
-			{
-				local newWeight = pair[0] < 0 ? _weight : pair[0] + _weight;
-				this.updateWeight(pair, newWeight);
-				return;
-			}
+			local newWeight = this.Table[_item] < 0 ? _weight : this.Table[_item] + _weight;
+			this.updateWeight(_item, newWeight);
 		}
-
-		if (_weight > 0) this.Total += _weight;
-		this.Array.push([_weight, _item]);
+		else
+		{
+			if (_weight > 0) this.Total += _weight;
+			this.Table[_item] <- _weight;
+		}
 	}
 
 	function contains( _item )
 	{
-		foreach (pair in this.Array)
-		{
-			if (pair[1] == _item) return true;
-		}
-
-		return false;
+		return _item in this.Table;
 	}
 
 	function remove( _item )
 	{
-		foreach (i, pair in this.Array)
-		{
-			if (pair[1] == _item)
-			{
-				this.updateWeight(pair[0], 0);
-				return this.Array.remove(i)[1];
-			}
-		}
-
-		throw ::MSU.Exception.KeyNotFound(_item);
+		if (this.Table[_item] < 0) delete this.Forced[_item];
+		else this.Total -= this.Table[_item];
+		delete this.Table[_item];
 	}
 
 	function getProbability( _item, _exclude = null )
@@ -86,81 +72,48 @@
 			if (_exclude.find(_item) != null) return 0.0;
 		}
 
-		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, pair) _exclude.find(pair[1]) == null);
-		foreach (pair in forced)
+		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
+		foreach (item in forced)
 		{
-			if (pair[1] == _item) return 1.0 / forced.len();
+			if (item == _item) return 1.0 / forced.len();
 		}
+		
 		if (forced.len() != 0) return 0.0;
 
-		local weight = null;
-		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
-		{
-			weight = this.Array[this.ApplyIdx][0];
-		}
-		else
-		{
-			foreach (pair in this.Array)
-			{
-				if (pair[0] > 0 && pair[1] == _item) weight = pair[0];
-			}
-		}
+		return this.Table[_item] == 0 ? 0.0 : this.Table[_item] / this.getTotal(_exclude);
 
-		if (weight != null)
-		{
-			return weight == 0 ? 0.0 : weight / this.getTotal(_exclude);
-		}
 		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
 	function getWeight( _item )
 	{
-		foreach (pair in this.Array)
-		{
-			if (pair[1] == _item) return pair[0];
-		}
-
-		throw ::MSU.Exception.KeyNotFound(_item);
+		return this.Table[_item];
 	}
 
 	function setWeight( _item, _weight )
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
-
-		if (this.ApplyIdx != null && this.Array[this.ApplyIdx][1] == _item)
-		{
-			this.updateWeight(this.Array[this.ApplyIdx], _weight);
-			return;
-		}
-
-		foreach (pair in this.Array)
-		{
-			if (pair[1] == _item)
-			{
-				this.updateWeight(pair, _weight);
-				return;
-			}
-		}
-
-		throw ::MSU.Exception.KeyNotFound(_item);
+		this.updateWeight(_item, _weight);
 	}
 
 	// Private
-	function updateWeight( _pair, _newWeight )
+	function updateWeight( _item, _newWeight )
 	{
-		if (_pair[0] >= 0)
+		_newWeight = _newWeight.tofloat();
+
+		if (this.Table[_item] >= 0)
 		{
-			this.Total -= _pair[0];
-			if (_newWeight < 0) this.Forced.push(_pair);
+			this.Total -= this.Table[_item];
+			if (_newWeight < 0) this.Forced.push(_item);
 		}
 
 		if (_newWeight >= 0)
 		{
 			this.Total += _newWeight;
-			if (_pair[0] < 0) this.Forced.remove(this.Forced.find(_pair));
+			if (this.Table[_item] < 0) this.Forced.remove(this.Forced.find(_item));
 		}
 
-		_pair[0] = _newWeight;
+		this.Table[_item] = _newWeight;
 	}
 
 	// Private
@@ -168,10 +121,10 @@
 	{
 		if (_exclude == null) return this.Total;
 
-		local ret = 0.0;
-		foreach (pair in this.Array)
+		local ret = this.Total;
+		foreach (item in _exclude)
 		{
-			if (pair[0] >= 0 && _exclude.find(pair[1]) == null) ret += pair[0];
+			if (this.Table[item] > 0) ret -= this.Table[item];
 		}
 
 		return ret;
@@ -182,13 +135,10 @@
 		// _function (_item, _weight)
 		// must return new weight for _item
 
-		foreach (i, pair in this.Array)
+		foreach (item, weight in this.Table)
 		{
-			this.ApplyIdx = i;
-			pair[0] = _function(pair[1], pair[0]);
+			this.Table[item] = _function(item, weight);
 		}
-
-		this.ApplyIdx = null;
 	}
 
 	function map( _function )
@@ -197,13 +147,11 @@
 		// must return a len 2 array with weight, item as elements
 
 		local ret = ::MSU.Class.WeightedContainer();
-		foreach (i, pair in this.Array)
+		foreach (item, weight in this.Table)
 		{
-			this.ApplyIdx = i;
-			local newPair = _function(pair[1], pair[0]);
-			ret.add(newPair[0], newPair[1]);
+			local pair = _function(item, weight); 
+			ret.add(pair[1], pair[0]);
 		}
-		this.ApplyIdx = null;
 		return ret;
 	}
 
@@ -213,33 +161,31 @@
 		// must return a boolean
 
 		local ret = ::MSU.Class.WeightedContainer();
-		foreach (i, pair in this.Array)
+		foreach (item, weight in this.Table)
 		{
-			this.ApplyIdx = i;
-			if (_function(pair[1], pair[0])) ret.add(pair[1], pair[0]);
+			if (_function(item, weight)) ret.add(item, weight);
 		}
-		this.ApplyIdx = null;
 		return ret;
 	}
 
 	function clear()
 	{
-		this.Total = 0;
-		this.Array.clear();
+		this.Total = 0.0;
+		this.Table.clear();
 		this.Forced.clear();
 	}
 
 	function max()
 	{
-		local weight = 0;
+		local maxWeight = 0.0;
 		local ret;
 
-		foreach (pair in this.Array)
+		foreach (item, weight in this.Table)
 		{
-			if (pair[0] > weight)
+			if (weight > maxWeight)
 			{
-				weight = pair[0];
-				ret = pair[1];
+				maxWeight = weight;
+				ret = item;
 			}
 		}
 
@@ -248,33 +194,38 @@
 
 	function rand( _exclude = null )
 	{
-		if (_exclude != null)
-		{
-			::MSU.requireArray(_exclude);
-			return ::MSU.Array.rand(this.Array.filter(@(idx, pair) _exclude.find(pair[1]) == null));
-		}
+		if (_exclude != null) ::MSU.requireArray(_exclude);
 
-		return ::MSU.Array.rand(this.Array)[1];
+		local rand = ::Math.rand(0, (this.Table.len() - _exclude == null ? 0 : _exclude.len()) - 1)
+		local i = 0;
+		foreach (item, weight in this.Table)
+		{
+			if (_exclude == null || _exclude.find(item) == null)
+			{
+				if (rand == i++) return item;
+			}
+		}
+		return null;
 	}
 
 	function roll( _exclude = null )
 	{
 		if (_exclude != null) ::MSU.requireArray(_exclude);
 
-		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, pair) _exclude.find(pair[1]) == null);
+		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
 		if (forced.len() > 0)
 		{
-			return ::MSU.Array.rand(forced)[1];
+			return ::MSU.Array.rand(forced);
 		}
 
 		local roll = ::Math.rand(1, this.getTotal(_exclude));
-		foreach (pair in this.Array)
+		foreach (item, weight in this.Table)
 		{
-			if (_exclude != null && _exclude.find(pair[1]) != null) continue;
+			if (_exclude != null && _exclude.find(item) != null) continue;
 
-			if (roll <= pair[0]) return pair[1];
+			if (roll <= weight) return item;
 
-			roll -= pair[0];
+			roll -= weight;
 		}
 
 		return null;
@@ -285,37 +236,30 @@
 		return ::Math.rand(1, 100) <= _chance ? this.roll(_exclude) : null;
 	}
 
-	function _nexti( _idx )
+	function _get( _item )
 	{
-		if (_idx == null) _idx = -1;
-
-		return ++_idx == this.len() ? _idx : null;
-	}
-
-	function _get( _idx )
-	{
-		return this.Array[_idx];
+		return this.Table[_item];
 	}
 
 	function _cloned()
 	{
-		return ::MSU.Class.WeightedContainer(clone this.Array);
+		return ::MSU.Class.WeightedContainer(this.toArray(false));
 	}
 
 	function len()
 	{
-		return this.Array.len();
+		return this.Table.len();
 	}
 
 	function onSerialize( _out )
 	{
 		_out.writeU32(this.Total);
-		::MSU.Utils.serialize(this.Array, _out);
+		::MSU.Utils.serialize(this.Table, _out);
 	}
 
 	function onDeserialize( _in )
 	{
 		this.Total = _in.readU32();
-		this.Array = ::MSU.Utils.deserialize(_in);
+		this.Table = ::MSU.Utils.deserialize(_in);
 	}
 }
