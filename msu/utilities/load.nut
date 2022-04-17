@@ -11,6 +11,7 @@ includeFile("math.nut");
 
 includeFile("string.nut");
 includeFile("array.nut");
+includeFile("table.nut");
 
 includeFile("utils.nut");
 includeFile("skills.nut");
