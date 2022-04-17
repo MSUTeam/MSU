@@ -33,17 +33,17 @@
 	{
 		if (_member == null)
 		{
-			_array.sort(function(_a, _b) { if (_a > _b) return -1; if (_a < _b) return 1; return 0 });
+			_array.sort(@(a, b) -1 * (a <=> b));
 		}
 		else
 		{
 			if (typeof _array[0][_member] == "function")
 			{
-				_array.sort(function(_a, _b) { if (_a[_member]() > _b[_member]()) return -1; if (_a[_member]() < _b[_member]()) return 1; return 0; });
+				_array.sort(@(a, b) -1 * (a[_member]() <=> b[_member]()));
 			}
 			else
 			{
-				_array.sort(function(_a, _b) { if (_a[_member] > _b[_member]) return -1; if (_a[_member] < _b[_member]) return 1; return 0; });	
+				_array.sort(@(a, b) -1 * (a[_member] <=> b[_member]));
 			}
 		}
 	}
