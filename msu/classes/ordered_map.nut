@@ -110,16 +110,18 @@
 	function apply( _function )
 	{
 		// _function (_key, _val, _idx)
+		// must return new value for _key
 
 		foreach (i, key in this.Array)
 		{
-			_function(key, this.Table[key], i);
+			this.Table[key] = _function(key, this.Table[key], i);
 		}
 	}
 
 	function filter( _function )
 	{
 		// _function (_key, _val, _idx)
+		// must return a boolean
 
 		local ret = ::MSU.Class.OrderedMap();
 		foreach (i, key in this.Array)
@@ -133,11 +135,13 @@
 	function map( _function )
 	{
 		// _function (_key, _val, _idx)
+		// must return a length 2 array with index 0 being new key and index 1 being new value
 
 		local ret = ::MSU.Class.OrderedMap();
 		foreach (i, key in this.Array)
 		{
-			ret[key] <- _function(key, this.Table[key], i);
+			local pair = _function(key, this.Table[key], i);
+			ret[pair[0]] <- ret[pair[1]];
 		}
 		return ret;
 	}
