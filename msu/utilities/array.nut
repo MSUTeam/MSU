@@ -58,11 +58,11 @@
 		{
 			if (typeof _array[0][_member] == "function")
 			{
-				_array.sort(function(_a, _b) { _a[_member]() <=> _b[_member]() });
+				_array.sort(@(a, b) a[_member]() <=> b[_member]());
 			}
 			else
 			{
-				_array.sort(function(_a, _b) { _a[_member] <=> _b[_member] });
+				_array.sort(@(a, b) a[_member] <=> b[_member]);
 			}
 		}
 	}
