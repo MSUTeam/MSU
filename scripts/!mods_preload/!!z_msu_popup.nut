@@ -8,7 +8,6 @@
 {
 	o.connectBackend <- function()
 	{
-		this.logInfo("connectBackend");
 		::MSU.Popup.connect();
 		if ("UI" in ::MSU)
 		{
