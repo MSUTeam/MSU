@@ -52,7 +52,7 @@ local function isCampfireScreen()
 	return this.m.CampfireScreen != null && this.m.CampfireScreen.isVisible();
 }
 
-::MSU.Vanilla.Keybinds.addSQKeybind("world_toggleMenuScreen", "escape", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("toggleMenuScreen", "escape", ::MSU.Key.State.World | ::MSU.Key.State.Tactical, function()
 {
 	if (::mods_isClass(this, "world_state"))
 	{
