@@ -119,4 +119,55 @@
 
 		return ret;
 	}
+
+	function getDistanceOnRoads( _start, _dest )
+	{
+		local navSettings = this.World.getNavigator().createSettings();
+		navSettings.ActionPointCosts = this.Const.World.TerrainTypeNavCost;
+		navSettings.RoadMult = 0.2;
+		navSettings.RoadOnly = true;
+		local path = this.World.getNavigator().findPath(_start, _dest, navSettings, 0);
+
+		return path.isEmpty() ? null : path.getSize();
+		// returns null if path doesn't exist
+	}
+
+	function getNeighboringSettlements( _settlement )
+	{
+		local start = ::Time.getExactTime()
+		local settlements = ::World.EntityManager.getSettlements();
+		local neighbors = [];
+		local distances = {};
+		// get distances to start
+		foreach (settlement in settlements)
+		{
+			distances[settlement] <- ::MSU.Utils.getDistanceOnRoads(_settlement.getTile(), settlement.getTile());
+		}
+
+		foreach (current in settlements)
+		{
+			local isNeighbor = true;
+			if (distances[current] == null) continue;
+			foreach (settlement in settlements)
+			{
+				if (settlement == current || settlement == _settlement)
+				{
+					continue;
+				}
+				local distanceToSettlement = ::MSU.Utils.getDistanceOnRoads(current.getTile(), settlement.getTile())
+				if (distanceToSettlement != null && (::Math.abs(distanceToSettlement + distances[settlement] - distances[current]) < 3))
+				{
+					isNeighbor = false;
+					break;
+				}
+			}
+			if (isNeighbor) neighbors.push(current);
+		}
+		foreach (neighbor in neighbors)
+		{
+			::logInfo("neighbor: " + neighbor.getName())
+		}
+		::logInfo("that took " + (::Time.getExactTime() - start));
+		return neighbors;
+	}
 }
