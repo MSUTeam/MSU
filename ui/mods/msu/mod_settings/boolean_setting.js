@@ -2,9 +2,9 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.layout = $('<div class="boolean-container"/>');
 	_parentDiv.append(this.layout);
-	this.checkbox = $('<input type="checkbox" id= "' + _setting.id + '-id" name="' + _setting.id +'-name" />');
+	this.checkbox = $('<input type="checkbox" id= "' + _mod.id + _setting.id + '-id" name="' + _setting.id +'-name" />');
 	this.layout.append(this.checkbox);
-	this.label = $('<label class="text-font-normal font-color-subtitle">' + _setting.name + '</label>');
+	this.label = $('<label class="text-font-normal font-color-subtitle" for="' + _mod.id + _setting.id + '-id">' + _setting.name + '</label>');
 	this.layout.append(this.label);
 	this.checkbox.iCheck({
 		checkboxClass: 'icheckbox_flat-orange',

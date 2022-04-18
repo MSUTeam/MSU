@@ -160,7 +160,6 @@ ModSettingsScreen.prototype.show = function (_data)
 	MSUUIScreen.prototype.show.call(this,_data);
 	if(_data.length != 0)
 	{
-		MSU.printData(this.mListScrollContainer[0].firstElementChild)
 		this.mListScrollContainer[0].firstElementChild.click();
 	}
 };
