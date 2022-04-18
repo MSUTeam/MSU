@@ -343,9 +343,9 @@
 		return ret;
 	}
 
-	o.getRangedTooltip <- function()
+	o.getRangedTooltip <- function( _tooltip = null )
 	{
-		local tooltip = [];
+		if (_tooltip == null) _tooltip = [];
 		
 		local rangeBonus = ", more";
 		if (this.m.MaxRangeBonus == 0)
@@ -357,7 +357,7 @@
 			rangeBonus = ", less"
 		}
 
-		tooltip.push({
+		_tooltip.push({
 			id = 6,
 			type = "text",
 			icon = "ui/icons/vision.png",
@@ -384,7 +384,7 @@
 
 		if (accuText.len() != 0)
 		{
-			tooltip.push({
+			_tooltip.push({
 				id = 7,
 				type = "text",
 				icon = "ui/icons/hitchance.png",
@@ -392,7 +392,7 @@
 			});
 		}
 
-		return tooltip;
+		return _tooltip;
 	}
 });
 
