@@ -1,4 +1,4 @@
-this.popup <- ::inherit("scripts/mods/msu/ui_screen", {
+this.popup <- {
 	m = {
 		JSHandle = null,
 		TextCache = ""
@@ -26,4 +26,4 @@ this.popup <- ::inherit("scripts/mods/msu/ui_screen", {
 			this.m.TextCache = "";
 		}
 	}
-});
+};
