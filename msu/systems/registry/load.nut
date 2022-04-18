@@ -10,10 +10,10 @@ local system = ::MSU.Class.RegistrySystem();
 
 ::MSU.getMod <- function( _modID )
 {
-	return ::MSU.System.Registry.getMod( _modID )
+	return ::MSU.System.Registry.getMod(_modID);
 }
 
 ::MSU.hasMod <- function( _modID )
 {
-	return ::MSU.System.Registry.hasMod( _modID )
+	return ::MSU.System.Registry.hasMod(_modID);
 }
