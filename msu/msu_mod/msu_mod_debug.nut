@@ -1,8 +1,8 @@
-::MSU.Mod.Debug.setFlag("debug", true);
+::MSU.Mod.Debug.setFlag("debug", false);
 ::MSU.Mod.Debug.setFlags({
 	"movement" : false,
 	"skills" : false,
-	"keybinds" : true,
-	"persistence" : true,
+	"keybinds" : false,
+	"persistence" : false,
 	"modsettings" : false,
 })
