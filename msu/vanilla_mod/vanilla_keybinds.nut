@@ -68,7 +68,7 @@ local function isCampfireScreen()
 		{
 			if (this.toggleMenuScreen())
 			{
-				return true;
+				return false;
 			}
 		}
 	}
