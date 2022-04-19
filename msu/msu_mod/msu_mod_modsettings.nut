@@ -1,45 +1,39 @@
-local generalPage = ::MSU.Class.SettingsPage("General");
-::MSU.Mod.ModSettings.addPage(generalPage);
+::MSU.Mod.ModSettings.addPage("General");
 
-local logToggle = ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging");
-logToggle.addCallback(function(_data)
+local expandedSkillTooltips = ::MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting("ExpandedSkillTooltips", false, "Expanded Skill Tooltips"));
+expandedSkillTooltips.setPersistence(false);
+expandedSkillTooltips.setDescription("Show MSU-based information in skill tooltips e.g. Damage Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
+
+local expandedItemTooltips = :MSU.Mod.ModSettings.addElementToPage("General", ::MSU.Class.BooleanSetting("ExpandedItemTooltips", false, "Expanded Item Tooltips"));
+expandedItemTooltips.setPersistence(false);
+expandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
+
+
+::MSU.Mod.ModSettings.addPage("Logging");
+
+foreach (flagID, value in ::MSU.System.Debug.Mods[::MSU.ID])
 {
-	::MSU.System.Debug.FullDebug = _data;
-})
-generalPage.add(logToggle);
+	local boolSetting = :MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting(flagID + "Log", value, ::MSU.String.capitalizeFirst(flagID) + " Logging"));
+	boolSetting.getFlags().set("FlagID", flagID);
+	boolSetting.addCallback(function(_value)
+	{
+		::MSU.Mod.Debug.setFlag(this.getFlags().get("FlagID"), _value);
+	});
+}
 
-local ExpandedSkillTooltips = ::MSU.Class.BooleanSetting("ExpandedSkillTooltips", false, "Expanded Skill Tooltips");
-ExpandedSkillTooltips.setPersistence(false);
-ExpandedSkillTooltips.setDescription("Show MSU-based information in skill tooltips e.g. Damage Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
-generalPage.add(ExpandedSkillTooltips);
+::MSU.Mod.ModSettings.addDividerToPage("Logging");
 
-local ExpandedItemTooltips = ::MSU.Class.BooleanSetting("ExpandedItemTooltips", false, "Expanded Item Tooltips");
-ExpandedItemTooltips.setPersistence(false);
-ExpandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
-generalPage.add(ExpandedItemTooltips);
-
-local verboseModeToggle = ::MSU.Class.BooleanSetting("verbose", false, "AI Verbose Debug Mode");
+local verboseModeToggle = ::MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting("verbose", false, "AI Behavior logging"));
 verboseModeToggle.setDescription("If enabled, sets ::Const.AI.VerboseMode to true for AI related debugging.");
 verboseModeToggle.addCallback(function(_data)
 {
 	::Const.AI.VerboseMode = _data;
 })
-generalPage.add(verboseModeToggle);
 
-local logPage = ::MSU.Class.SettingsPage("Logging");
-::MSU.Mod.ModSettings.addPage(logPage);
-
-local function addLogBool(_flagID)
+local logToggle = ::MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging"));
+logToggle.setDescription("If enabled, enables every debug flag for every mod.");
+logToggle.addCallback(function(_data)
 {
-	local boolSetting = ::MSU.Class.BooleanSetting(_flagID + "Log", ::MSU.Mod.Debug.isEnabled(_flagID), ::MSU.String.capitalizeFirst(_flagID) + " Logging");
-	boolSetting.addCallback(function(_value)
-	{
-		::MSU.Mod.Debug.setFlag(_flagID, _value);
-	});
-	logPage.add(boolSetting);
-}
+	::MSU.System.Debug.FullDebug = _data;
+})
 
-foreach (flag, value in ::MSU.System.Debug.Mods[::MSU.ID])
-{
-	addLogBool(flag);
-}
