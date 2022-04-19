@@ -69,6 +69,10 @@ MSU.Keybinds = {
 		var keyCombinations = this.KeybindsByMod[_modID][_id].getRawKeyCombinations();
 		var currentKeyCombination = this.getPressedKeysAsString(_key);
 		currentKeyCombination = MSU.Key.sortKeyString(currentKeyCombination) + _key;
+		if (MSU.getSettingValue("mod_msu", "keybindsLog"))
+		{
+			console.error("Checking Key combination: " + currentKeyCombination)
+		}
 		for (var i = 0; i < keyCombinations.length; i++)
 		{
 			if (keyCombinations[i] == currentKeyCombination)
