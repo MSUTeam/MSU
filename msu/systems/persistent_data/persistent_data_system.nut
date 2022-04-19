@@ -2,6 +2,7 @@
 {
 	Mods = null;
 	ModConfigPath = "mod_config/";
+	Separator = "@"
 
 	constructor()
 	{
@@ -94,7 +95,7 @@
 
 	function writeToLog( _fileID, _modID, _payload )
 	{
-		local result = format("BBPARSER;%s;%s", _fileID, _modID);
+		local result = format("%sBBPARSER%s%s%s%s", this.Separator, this.Separator, _fileID, this.Separator, _modID);
 		if (typeof _payload != "array")
 		{
 			_payload = [_payload];
@@ -102,8 +103,9 @@
 		foreach (arg in _payload)
 		{
 			::MSU.requireAnyTypeExcept(["array", "table", "class"], arg)
-			result += ";" + arg.tostring();
+			result += this.Separator + arg.tostring();
 		}
+		result += this.Separator
 		::logInfo(result);
 	}
 }
