@@ -1,5 +1,6 @@
 var MSUPopup = function ()
 {
+	this.mSQHandle = null
 	this.mContainer = null;
 	this.mID = "MSUPopup";
 
@@ -10,7 +11,8 @@ var MSUPopup = function ()
 
 MSUPopup.prototype.onConnection = function (_handle)
 {
-	this.register($('.root-screen'))
+	this.register($('.root-screen'));
+	this.mSQHandle = _handle;
 }
 
 MSUPopup.prototype.createDIV = function (_parentDiv)
@@ -35,6 +37,15 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	{
 		self.hide();
 	}, "ok-button", 1);
+
+	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
+	{
+		$(this).findButtonText().html("Quit Game");
+		$(this).on("click", function()
+		{
+			self.quitGame();
+		})
+	})
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -49,7 +60,6 @@ MSUPopup.prototype.destroy = function ()
 
 MSUPopup.prototype.show = function ()
 {
-	console.error("showing this")
 	var self = this;
 
 	// MSUUIScreen.show
@@ -82,15 +92,19 @@ MSUPopup.prototype.isVisible = function ()
 	return this.mContainer.hasClass('display-block');
 }
 
-MSUPopup.prototype.showRawText = function (_text)
+MSUPopup.prototype.showRawText = function (_data)
 {
+	if (_data.forceQuit)
+	{
+		this.mFooterContainer.find(".ok-button:first").trigger('force-quit')
+	}
 	if (this.isVisible())
 	{
-		this.mTextContainer.html(this.mTextContainer.html() + "<br>" + _text);
+		this.mTextContainer.html(this.mTextContainer.html() + "<br>" + _data.text);
 	}
 	else
 	{
-		this.mTextContainer.html(_text);
+		this.mTextContainer.html(_data.text);
 		this.show();
 	}
 }
@@ -126,6 +140,11 @@ MSUPopup.prototype.unregister = function ()
 {
 	console.log('MSUPopup::UNREGISTER');
 	this.destroy();
+}
+
+MSUPopup.prototype.quitGame = function ()
+{
+	SQ.call(this.mSQHandle, "quitGame");
 }
 
 registerScreen("MSUPopup", new MSUPopup());

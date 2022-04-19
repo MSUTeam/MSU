@@ -1,7 +1,8 @@
 this.popup <- {
 	m = {
 		JSHandle = null,
-		TextCache = ""
+		TextCache = "",
+		ForceQuit = false
 	}
 
 	function showRawText( _text )
@@ -13,8 +14,17 @@ this.popup <- {
 		}
 		else
 		{
-			this.m.JSHandle.asyncCall("showRawText", _text);
+			local data = {
+				forceQuit = this.m.ForceQuit,
+				text = _text
+			}
+			this.m.JSHandle.asyncCall("showRawText", data);
 		}
+	}
+
+	function forceQuit( _bool )
+	{
+		this.m.ForceQuit = _bool;
 	}
 
 	function connect()
@@ -25,5 +35,10 @@ this.popup <- {
 			this.showRawText(this.m.TextCache)
 			this.m.TextCache = "";
 		}
+	}
+
+	function quitGame()
+	{
+		// overwritten by mainMenuScreen hook, closes the game
 	}
 };
