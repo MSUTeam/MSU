@@ -5,14 +5,27 @@
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID());
 	}
 
-	function addPage( _page )
+	function getPage( _pageID )
 	{
-		::MSU.System.ModSettings.getPanel(this.Mod.getID()).addPage(_page);
+		return ::this.getPanel(_pageID).getPage(_pageID);
 	}
 
-	function addPageElement( _pageID, _element )
+	function addPage( _pageID )
 	{
-		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getPage(_page).add(_element);
+		local page = ::MSU.Class.SettingsPage(_pageID);
+		this.getPanel().addPage(page);
+		return page;
+	}
+
+	function addElementToPage( _pageID, _element )
+	{
+		this.getPage(_pageID).add(_element);
+		return _element;
+	}
+
+	function addDividerToPage( _pageID)
+	{
+		return this.addElementoPage(_pageID, ::MSU.Class.SettingsDivider("divider"));
 	}
 
 	function getSetting( _settingID )
