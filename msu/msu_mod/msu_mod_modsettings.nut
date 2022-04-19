@@ -10,7 +10,7 @@ expandedItemTooltips.setDescription("Show MSU-based information in item tooltips
 
 
 ::MSU.Mod.ModSettings.addPage("Logging");
-::MSU.Mod.ModSettings.addDividerToPage("Logging");
+::MSU.Mod.ModSettings.addDividerToPage("Logging", "msu_logging", "MSU Logging");
 
 foreach (flagID, value in ::MSU.System.Debug.Mods[::MSU.ID])
 {
@@ -22,7 +22,7 @@ foreach (flagID, value in ::MSU.System.Debug.Mods[::MSU.ID])
 	});
 }
 
-::MSU.Mod.ModSettings.addDividerToPage("Logging");
+::MSU.Mod.ModSettings.addDividerToPage("Logging", "global_logging", "Global Logging");
 
 local verboseModeToggle = ::MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting("verbose", false, "AI Behavior logging"));
 verboseModeToggle.setDescription("If enabled, sets ::Const.AI.VerboseMode to true for AI related debugging.");
@@ -32,7 +32,7 @@ verboseModeToggle.addCallback(function(_data)
 })
 
 local logToggle = ::MSU.Mod.ModSettings.addElementToPage("Logging", ::MSU.Class.BooleanSetting("logall", false, "Enable all mod logging"));
-logToggle.setDescription("If enabled, enables every debug flag for every mod.");
+logToggle.setDescription("If enabled, considers every debug flag for every mod enabled, regardless of flag status.");
 logToggle.addCallback(function(_data)
 {
 	::MSU.System.Debug.FullDebug = _data;
