@@ -171,9 +171,14 @@
 	function flagDeserialize()
 	{
 		local modID = this.getModID();
-		this.setPropertyIfFlagExists("Value", modID);
 		this.setPropertyIfFlagExists("Locked", modID);
 		this.setPropertyIfFlagExists("LockReason", modID);
+
+		local valueFlag = this.getPropertyFlag(modID, "Value");
+		if (::World.Flags.has(valueFlag))
+		{
+			this.set(::World.Flags.get(valueFlag), true, false, true);
+		}
 	}
 
 	function resetFlags()
