@@ -14,7 +14,8 @@ for (local i = 0; i < 5; ++i)
 		})
 		// test1.lock()
 		local test2 = ::MSU.Class.BooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
-		test2.addFlags(["NewCampaign", "NewCampaignOnly"]);
+		test2.Flags.set("NewCampaign", true);
+		test2.Flags.set("NewCampaignOnly", true);
 		local test3 = ::MSU.Class.EnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
 		test3.lock();
 		local test4 = ::MSU.Class.EnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
