@@ -7,7 +7,7 @@
 
 	function getPage( _pageID )
 	{
-		return ::this.getPanel(_pageID).getPage(_pageID);
+		return this.getPanel().getPage(_pageID);
 	}
 
 	function addPage( _pageID )
@@ -23,9 +23,9 @@
 		return _element;
 	}
 
-	function addDividerToPage( _pageID)
+	function addDividerToPage( _pageID, _title = "")
 	{
-		return this.addElementoPage(_pageID, ::MSU.Class.SettingsDivider("divider"));
+		return this.addElementToPage(_pageID, ::MSU.Class.SettingsDivider("divider", _title));
 	}
 
 	function getSetting( _settingID )

@@ -16,7 +16,7 @@
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
-		this.Flags = [];
+		this.Flags = this.new("scripts/tools/tag_collection");;
 		this.Description = "";
 	}
 
@@ -65,11 +65,6 @@
 		return this.ID;
 	}
 
-	function addFlags( _flags )
-	{
-		this.Flags.extend(_flags);
-	}
-
 	function getFlags()
 	{
 		return this.Flags;
@@ -83,7 +78,7 @@
 			{
 				foreach (required in _flags.required)
 				{
-					if (this.Flags.find(required) == null)
+					if (!this.Flags.has(required))
 					{
 						return false;
 					}
@@ -93,7 +88,7 @@
 			{
 				foreach (excluded in _flags.excluded)
 				{
-					if (this.Flags.find(excluded) != null)
+					if (this.Flags.has(excluded))
 					{
 						return false;
 					}
