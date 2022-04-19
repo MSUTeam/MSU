@@ -23,9 +23,9 @@
 		return _element;
 	}
 
-	function addDividerToPage( _pageID, _title = "")
+	function addDividerToPage( _pageID, _id, _title = "")
 	{
-		return this.addElementToPage(_pageID, ::MSU.Class.SettingsDivider("divider", _title));
+		return this.addElementToPage(_pageID, ::MSU.Class.SettingsDivider(_id, _title));
 	}
 
 	function getSetting( _settingID )
