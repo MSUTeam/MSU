@@ -257,7 +257,7 @@ ModSettingsScreen.prototype.getChanges = function () // Could still be significa
 		{
 			page.settings.forEach(function(element)
 			{
-				if (element.flags.IsSetting && !element.locked)
+				if (element.data.IsSetting && !element.locked)
 				{
 					changes[modPanel.id][element.id] = element.value;
 				}
