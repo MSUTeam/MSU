@@ -3,7 +3,7 @@
 	Name = null;
 	ID = null;
 	static Type = "Element";
-	Flags = null;
+	Data = null;
 	Description = null;
 	Page = null;
 
@@ -16,8 +16,10 @@
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
-		this.Flags = this.new("scripts/tools/tag_collection");
-		this.Flags.set("IsSetting", false);
+		this.Data = {};
+		this.Data.IsSetting <- false;
+		this.Data.NewCampaign <- false;
+		this.Data.NewCampaignOnly <- false;
 		this.Description = "";
 	}
 
@@ -79,7 +81,7 @@
 			{
 				foreach (required in _flags.required)
 				{
-					if (!this.Flags.has(required))
+					if (!this.Data[required])
 					{
 						return false;
 					}
@@ -89,7 +91,7 @@
 			{
 				foreach (excluded in _flags.excluded)
 				{
-					if (this.Flags.has(excluded))
+					if (this.Data[excluded])
 					{
 						return false;
 					}
@@ -105,11 +107,7 @@
 			type = this.getType(),
 			id = this.getID(),
 			name = this.getName(),
-			flags = {},
-		}
-		foreach(_, flag in this.Flags.m)
-		{
-			ret.flags[flag.Key] <- flag.Value;
+			data = this.Data,
 		}
 		return ret;
 	}

@@ -17,10 +17,10 @@ logPage.addDivider("msu_divider");
 foreach (flagID, value in ::MSU.System.Debug.Mods[::MSU.ID])
 {
 	local boolSetting = logPage.addBooleanSetting(flagID + "Log", value, ::MSU.String.capitalizeFirst(flagID) + " Logging");
-	boolSetting.Flags.set("FlagID", flagID);
+	boolSetting.Data.FlagID <- flagID;
 	boolSetting.addCallback(function(_value)
 	{
-		::MSU.Mod.Debug.setFlag(this.Flags.get("FlagID"), _value);
+		::MSU.Mod.Debug.setFlag(this.Data.FlagID, _value);
 	});
 }
 
