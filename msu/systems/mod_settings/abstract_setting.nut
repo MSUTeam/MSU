@@ -15,6 +15,7 @@
 		this.LockReason = "";
 		this.Persistence = true;
 		this.Callbacks = [];
+		this.Flags.set("IsSetting", true);
 	}
 
 	function setPersistence( _bool )

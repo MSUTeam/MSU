@@ -13,6 +13,7 @@
 ::mods_registerJS("msu/mod_settings/boolean_setting.js");
 ::mods_registerJS("msu/mod_settings/button_setting.js");
 ::mods_registerJS("msu/mod_settings/divider_setting.js");
+::mods_registerJS("msu/mod_settings/title_setting.js");
 ::mods_registerJS("msu/mod_settings/enum_setting.js");
 ::mods_registerJS("msu/mod_settings/keybind_setting.js");
 ::mods_registerJS("msu/mod_settings/range_setting.js");

@@ -10,9 +10,9 @@
 		return this.getPanel().getPage(_pageID);
 	}
 
-	function addPage( _pageID )
+	function addPage( _pageID, _pageName = null )
 	{
-		local page = ::MSU.Class.SettingsPage(_pageID);
+		local page = ::MSU.Class.SettingsPage(_pageID, _pageName);
 		this.getPanel().addPage(page);
 		return page;
 	}

@@ -16,7 +16,8 @@
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
-		this.Flags = this.new("scripts/tools/tag_collection");;
+		this.Flags = this.new("scripts/tools/tag_collection");
+		this.Flags.set("IsSetting", false);
 		this.Description = "";
 	}
 
@@ -100,10 +101,16 @@
 
 	function getUIData()
 	{
-		return {
+		local ret = {
 			type = this.getType(),
 			id = this.getID(),
-			name = this.getName()
-		};
+			name = this.getName(),
+			flags = {},
+		}
+		foreach(_, flag in this.Flags.m)
+		{
+			ret.flags[flag.Key] <- flag.Value;
+		}
+		return ret;
 	}
 }

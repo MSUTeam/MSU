@@ -1,7 +1,7 @@
 var EnumSetting = function (_mod, _page, _setting, _parentDiv)
 {
+	this.data = _setting;
 	var self = this;
-	this.setting = _setting;
 	this.idx = _setting.array.indexOf(_setting.value);
 	if (this.idx == -1)
 	{
@@ -42,14 +42,14 @@ EnumSetting.prototype.cycle = function (_forward)
 	this.idx += _forward ? 1 : -1;
 	if (this.idx == -1)
 	{
-		this.idx = this.setting.array.length - 1;
+		this.idx = this.data.array.length - 1;
 	}
-	else if (this.idx == this.setting.array.length)
+	else if (this.idx == this.data.array.length)
 	{
 		this.idx = 0;
 	}
-	this.setting.value = this.setting.array[this.idx];
-	this.button.changeButtonText(this.setting.value);
+	this.data.value = this.data.array[this.idx];
+	this.button.changeButtonText(this.data.value);
 };
 
 EnumSetting.prototype.unbindTooltip = function ()

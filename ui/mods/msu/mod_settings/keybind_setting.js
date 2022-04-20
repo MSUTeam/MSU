@@ -1,8 +1,9 @@
 var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 {
+	this.data = _setting;
 	var self = this;
 	this.layout = $('<div class="string-container outline"/>');
-	this.setting = _setting;
+	this.data = _setting;
 	this.parent = _parentDiv;
 	_parentDiv.append(this.layout);
 
@@ -12,7 +13,7 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 	this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
 	this.input.val(_setting.value);
 	this.input.on("change", function(){
-		self.setting.value = self.input.val();
+		self.data.value = self.input.val();
 	});
 
 	this.input.on("click", function(){
@@ -31,7 +32,7 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 KeybindSetting.prototype.createPopup = function ()
 {
 	var self = this;
-	this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.setting.name, null, 'change-keybind-popup');
+	this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.data.name, null, 'change-keybind-popup');
 	var result = this.parent.mPopupDialog.addPopupDialogContent($('<div class="change-keybind-container"/>'));
 	//need to do this separately or the list won't render
 	this.createChangeKeybindScrollContainer(result);
@@ -57,7 +58,7 @@ KeybindSetting.prototype.createPopup = function ()
 		}
 		result = result.slice(0, -1);
 		self.input.val(result);
-		self.setting.value = result;
+		self.data.value = result;
 		self.parent.mPopupDialog = null;
 		_dialog.destroyPopupDialog();
 	});
@@ -72,7 +73,7 @@ KeybindSetting.prototype.createPopup = function ()
 KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 {
 	this.mButtonContainer = _dialog.createList(2);
-	var keybindArray = this.setting.value.split("/");
+	var keybindArray = this.data.value.split("/");
 	for (var x = 0; x < keybindArray.length; x++)
 	{
 		this.createChangeKeybindRow(keybindArray[x]);
