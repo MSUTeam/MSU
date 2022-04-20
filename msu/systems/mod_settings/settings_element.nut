@@ -17,9 +17,6 @@
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
 		this.Data = {};
-		this.Data.IsSetting <- false;
-		this.Data.NewCampaign <- false;
-		this.Data.NewCampaignOnly <- false;
 		this.Description = "";
 	}
 
@@ -81,7 +78,7 @@
 			{
 				foreach (required in _flags.required)
 				{
-					if (!this.Data[required])
+					if (!(required in this.Data))
 					{
 						return false;
 					}
@@ -91,7 +88,7 @@
 			{
 				foreach (excluded in _flags.excluded)
 				{
-					if (this.Data[excluded])
+					if (excluded in this.Data)
 					{
 						return false;
 					}

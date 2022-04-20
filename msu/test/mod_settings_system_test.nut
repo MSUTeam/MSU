@@ -14,8 +14,8 @@ for (local i = 0; i < 5; ++i)
 		})
 		// test1.lock()
 		local test2 = testPage.addBooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
-		test2.Data.NewCampaign =  true;
-		test2.Data.NewCampaignOnly =  true;
+		test2.Data.NewCampaign <- true;
+		test2.Data.NewCampaignOnly <- true;
 		local test3 = testPage.addEnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
 		test3.lock();
 		local test4 = testPage.addEnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);

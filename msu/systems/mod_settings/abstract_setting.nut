@@ -15,7 +15,7 @@
 		this.LockReason = "";
 		this.Persistence = true;
 		this.Callbacks = [];
-		this.Data.IsSetting = true;
+		this.Data.IsSetting <- true;
 	}
 
 	function setPersistence( _bool )
