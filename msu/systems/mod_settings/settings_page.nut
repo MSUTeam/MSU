@@ -21,6 +21,7 @@
 		}
 		_element.setPage(this);
 		this.Settings[_element.getID()] <- _element;
+		return _element
 	}
 
 	function setPanel( _panel )
