@@ -5,6 +5,7 @@ local function includeFile( _file )
 
 includeFile("settings_element.nut");
 includeFile("settings_divider.nut");
+includeFile("settings_title.nut");
 
 includeFile("abstract_setting.nut");
 includeFile("boolean_setting.nut");

@@ -137,14 +137,9 @@
 		}
 	}
 
-	function addKeybindDivider( _modID, _id, _name )
-	{
-		::MSU.System.ModSettings.getPanel(_modID).getPage("Keybinds").add(::MSU.Class.SettingsDivider(_id, _name));
-	}
-
 	function addKeybindSetting( _keybind )
 	{
-		::MSU.System.ModSettings.getPanel(_keybind.getModID()).getPage("Keybinds").add(_keybind.makeSetting());
+		::MSU.System.ModSettings.getPanel(_keybind.getModID()).getPage("Keybinds").addElement(_keybind.makeSetting());
 	}
 
 	function getJSKeybinds()

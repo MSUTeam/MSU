@@ -219,27 +219,27 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 
 ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 {
-	this.mActiveSettings.forEach(function(setting)
+	this.mActiveSettings.forEach(function(element)
 	{
-		setting.unbindTooltip();
+		element.unbindTooltip();
 	});
 	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty();
 	var self = this;
-	_page.settings.forEach(function(setting)
+	_page.settings.forEach(function(element)
 	{
-		self.mActiveSettings.push(new window[setting.type + "Setting"](_mod, _page, setting, self.mModPageScrollContainer));
+		self.mActiveSettings.push(new window[element.type + "Setting"](_mod, _page, element, self.mModPageScrollContainer));
 	});
-	this.mActiveSettings.forEach(function(setting)
+	this.mActiveSettings.forEach(function(element)
 	{
-		if ('title' in setting)
+		if ('title' in element)
 		{
-			while (setting.title.width() >= 341)
+			while (element.title.width() >= 341)
 			{
-				setting.title.css('font-size', (parseInt(setting.title.css('font-size').slice(0, -2)) - 1) + 'px');
-				if (parseInt(setting.title.css('font-size').slice(0, -2)) <= 1)
+				element.title.css('font-size', (parseInt(element.title.css('font-size').slice(0, -2)) - 1) + 'px');
+				if (parseInt(element.title.css('font-size').slice(0, -2)) <= 1)
 				{
-					console.error("Setting with ID " + setting.id + ": Font size of title too small! Stopping font size adjustment.");
+					console.error("Setting with ID " + element.data.id + ": Font size of title too small! Stopping font size adjustment.");
 					return;
 				}
 			}
@@ -255,11 +255,11 @@ ModSettingsScreen.prototype.getChanges = function () // Could still be significa
 		changes[modPanel.id] = {};
 		modPanel.pages.forEach(function(page)
 		{
-			page.settings.forEach(function(setting)
+			page.settings.forEach(function(element)
 			{
-				if (setting.type != "Divider" && !setting.locked)
+				if (element.flags.IsSetting && !element.locked)
 				{
-					changes[modPanel.id][setting.id] = setting.value;
+					changes[modPanel.id][element.id] = element.value;
 				}
 			});
 		});

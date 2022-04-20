@@ -1,5 +1,6 @@
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
+	this.data = _setting;
 	var self = this;
 	this.layout = $('<div class="range-container"/>');
 	_parentDiv.append(this.layout);

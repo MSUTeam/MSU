@@ -77,7 +77,8 @@ local function isCampfireScreen()
 
 //-------------------------------------------WORLD ONLY---------------------------------------------------------------------------------
 
-::MSU.Vanilla.Keybinds.addDivider("world", "World Keybinds");
+::MSU.Vanilla.Keybinds.addDivider("world_divider");
+::MSU.Vanilla.Keybinds.addTitle("world_title", "World Keybinds");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_closeCampfireScreen", "p/escape", ::MSU.Key.State.World, function()
 {
@@ -285,7 +286,8 @@ local function isCampfireScreen()
 
 //-------------------------------------------TACTICAL ONLY---------------------------------------------------------------------------------
 
-::MSU.Vanilla.Keybinds.addDivider("tactical", "Combat Keybinds");
+::MSU.Vanilla.Keybinds.addDivider("tactical_divider");
+::MSU.Vanilla.Keybinds.addTitle("tactical_title", "Combat Keybinds");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("tactical_hideCharacterScreen", "enter", ::MSU.Key.State.Tactical, function()
 {

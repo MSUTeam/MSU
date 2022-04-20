@@ -1,5 +1,6 @@
 var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 {
+	this.data = _setting;
 	this.layout = $('<div class="boolean-container"/>');
 	_parentDiv.append(this.layout);
 	this.checkbox = $('<input type="checkbox" id= "' + _mod.id + _setting.id + '-id" name="' + _setting.id +'-name" />');

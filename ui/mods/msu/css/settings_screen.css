@@ -191,13 +191,6 @@
 	margin-bottom: 1.0rem;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .divider .title
-{
-	position: absolute;
-	left: 2.0rem;
-	height: 4rem;
-}
-
 .msu-settings-screen .dialog .content .l-page-container .divider .gold-line
 {
 	position: absolute;
@@ -208,6 +201,18 @@
 	background-size: 72rem 0.3rem;
 }
 
+.msu-settings-screen .dialog .content .l-page-container .title-container
+{
+	float: left;
+	position: relative;
+	width: 72rem;
+	height: 4rem;
+	margin-top: 0.0rem;
+	margin-bottom: 1.0rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 .msu-settings-screen .dialog .content .l-list-container
 {

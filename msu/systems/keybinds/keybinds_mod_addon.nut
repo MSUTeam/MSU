@@ -19,8 +19,13 @@
 		::MSU.System.Keybinds.add(keybind);
 	}
 
-	function addDivider( _id, _name = "" )
+	function addDivider( _id )
 	{
-		::MSU.System.Keybinds.addKeybindDivider(this.Mod.getID(), _id, _name);
+		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getPage("Keybinds").addDivider(_id);
+	}
+
+	function addTitle( _id, _name )
+	{
+		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getPage("Keybinds").addTitle(_id, _name);
 	}
 }

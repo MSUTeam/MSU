@@ -1,8 +1,8 @@
 var StringSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	var self = this;
+	this.data = _setting;
 	this.layout = $('<div class="string-container"/>');
-	this.setting = _setting;
 	_parentDiv.append(this.layout);
 
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
@@ -11,7 +11,7 @@ var StringSetting = function (_mod, _page, _setting, _parentDiv)
 	this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
 	this.input.val(_setting.value);
 	this.input.on("change", function(){
-		self.setting.value = self.input.val();
+		self.data.value = self.input.val();
 	});
 
 

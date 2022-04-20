@@ -12,7 +12,7 @@
 		this.Settings = ::MSU.Class.OrderedMap();
 	}
 
-	function add( _element )
+	function addElement( _element )
 	{
 		if (!(_element instanceof ::MSU.Class.SettingsElement))
 		{
@@ -22,6 +22,41 @@
 		_element.setPage(this);
 		this.Settings[_element.getID()] <- _element;
 		return _element
+	}
+
+	function addDivider( _id )
+	{
+		return this.addElement(::MSU.Class.SettingsDivider(_id));
+	}
+
+	function addTitle( _id, _name )
+	{
+		return this.addElement(::MSU.Class.SettingsTitle(_id, _name));
+	}
+
+	function addBooleanSetting( _id, _value, _name = null )
+	{
+		return this.addElement(::MSU.Class.BooleanSetting(_id, _value, _name));
+	}
+
+	function addButtonSetting( _id, _value, _name = null )
+	{
+		return this.addElement(::MSU.Class.ButtonSetting(_id, _value, _name));
+	}
+
+	function addEnumSetting( _id, _value, _array, _name = null )
+	{
+		return this.addElement(::MSU.Class.EnumSetting(_id, _value, _array, _name));
+	}
+
+	function addRangeSetting( _id, _value, _min, _max, _step, _name = null )
+	{
+		return this.addElement(::MSU.Class.RangeSetting(_id, _value, _min, _max, _step, _name));
+	}
+
+	function addStringSetting( _id, _value, _name = null )
+	{
+		return this.addElement(::MSU.Class.StringSetting(_id, _value, _name));
 	}
 
 	function setPanel( _panel )
