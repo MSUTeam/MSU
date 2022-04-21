@@ -1,17 +1,19 @@
 for (local i = 0; i < 5; ++i)
 {
-	local numPages = rand() % 5 + 1;
+	local numPages = 3;
 	for (local j = 0; j < numPages; ++j)
 	{
 		local testPage = ::MSU.Mod.ModSettings.addPage("Page" + j, "Page Name " + j);
 		testPage.addDivider("dividertest");
 		testPage.addTitle("titleTest", "Test Title");
-		local test = testPage.addRangeSetting("TestRange" + j, 100, 10, 300, 10);
 		local test1 = testPage.addBooleanSetting("TestBool" + j, rand() % 2 == 0, "Test Bool Taro");
 		test1.addCallback(function(_data = null)
 		{
-			::logInfo("worked?")
+			::logInfo("TestBool worked")
 		})
+		testPage.addBooleanSetting("TestBool1" + j, rand() % 2 == 0, "Test Bool Taro");
+		local test = testPage.addRangeSetting("TestRange" + j, 100, 10, 300, 10);
+
 		// test1.lock()
 		local test2 = testPage.addBooleanSetting("TestBool" + j + 1, rand() % 2 == 0);
 		test2.Data.NewCampaign <- true;
@@ -27,6 +29,7 @@ for (local i = 0; i < 5; ++i)
 		buttonTest.addCallback(function(_data = null){
 			this.logInfo("Button " + buttonName + " was pressed");
 		})
-		local stringTest = testPage.addStringSetting("teststring", "string work?", "hello?");
+		local stringTest = testPage.addStringSetting("teststring"+ j, "string work?", "hello?");
+		local colorPickerTest = testPage.addColorPickerSetting("testRBGA"+ j, "20,40,60,1");
 	}
 }

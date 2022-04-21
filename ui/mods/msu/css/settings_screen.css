@@ -59,126 +59,12 @@
 	position: absolute;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .boolean-container
+.msu-settings-screen .dialog .content .l-page-container .scroll-container
 {
-	height: 2.2rem;
-	float: left;
-	width: 35rem;
-	position: relative;
-	margin-left: 0.9rem;
-	margin-right: 0.9rem;
-	margin-top: 1.3rem;
-	margin-bottom: 1.4rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .boolean-container > label
-{
-	height: 2.0rem;
-	position: absolute;
-	margin: auto;
-	margin-left: 1.4rem;
-
-	white-space: nowrap;
-	line-height: 2.0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .string-container
-{
-	float: left;
-	margin: 0.9rem;
-	position: relative;
-	width: 35rem;
-	height: 8.0rem;
-	left: 0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
-{
-	left: 0.5rem;
-	top: 3.5rem;
-	width: 30rem;
-	height: 4rem;
-	line-height: 3.0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .string-container .title
-{
-	left: 0.5rem;
-	position: absolute;
-	height: 4rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .range-container
-{
-	height:  8.0rem;
-	width: 35rem;
-	float: left;
-	position: relative;
-	margin: 0.9rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .range-container .title
-{
-	left: 0.5rem;
-	position: absolute;
-	height: 4rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .range-container .scale-control
-{
-	width: 33.0rem;
-	height: 3.0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .range-container .scale-label
-{
-	top: 3.9rem;
-	left: 30.5rem;
-	position: absolute;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .range-container .scale-slider
-{
-	top: 2.5rem;
-	height: 2.0rem;
-	width: 30.0rem;
-	position: absolute;
-	float: left;
-
-	margin-bottom: 0.0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .enum-container,
-.msu-settings-screen .dialog .content .l-page-container .button-container
-{
-	float: left;
-	margin: 0.9rem;
-	position: relative;
-	width: 35rem;
-	height: 8.0rem;
-	left: 0rem;
-}
-
-.msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button,
-.msu-settings-screen .dialog .content .l-page-container .button-container .enum-button
-{
-	left: 0.5rem;
-	top: 2.8rem;
-	width: 23rem;
-	height: 4rem;
-	line-height: 3.0rem;
-}
-
-.enum-button:active {
-  transform: translateY(4px);
-}
-
-.msu-settings-screen .dialog .content .l-page-container .enum-container .title,
-.msu-settings-screen .dialog .content .l-page-container .button-container .title
-{
-	left: 0.5rem;
-	position: absolute;
-	height: 4rem;
+	display: flex;
+	flex-wrap: wrap;
+	height: 8rem;
+	width: 100%;
 }
 
 .msu-settings-screen .dialog .content .l-page-container .divider
@@ -212,6 +98,130 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .setting-container
+{
+	width: 35rem;
+	height: 8.0rem;
+	position: relative;
+	float: left;
+	margin: 0.9rem;
+	left: 0rem;
+	display: flex;
+	flex-wrap: wrap;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 1);
+}
+
+.msu-settings-screen .dialog .content .l-page-container .setting-container .setting-title-container
+{
+	width: 100%;
+	height: 3rem;
+	display: flex;
+	align-items: center;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .setting-container .setting-title-container .title
+{
+	height: 2rem;
+	font-size: 1.8rem;
+	padding-left: 0.5rem;
+	color: #dda21f !important;
+	font-weight: bold !important;
+	text-shadow: 1px 1px rgba(0, 0, 0, 128), -1px -1px #000;
+	overflow: visible;
+	white-space: nowrap;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .setting-container .setting-content-container
+{
+	width: 100%;
+	padding-left: 1rem;
+	height: 4rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .boolean-container
+{
+	height: 4.0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .boolean-container .setting-title-container
+{
+	display: flex;
+	align-items: center;
+	padding-left: 1rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .boolean-container .setting-title-container .bool-checkbox-label
+{
+	padding-left: 2rem;
+	font-size: 1.8rem;
+	color: #dda21f !important;
+	font-weight: bold !important;
+	text-shadow: 1px 1px rgba(0, 0, 0, 128), -1px -1px #000;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button,
+.msu-settings-screen .dialog .content .l-page-container .button-container .button-setting-button,
+.msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button,
+.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
+{
+	width: 23rem;
+	height: 4rem;
+	line-height: 3.6rem;
+}
+
+.enum-button:active,
+.color-picker-button:active,
+.button-setting-button:active
+{
+    transform: translateY(4px);
+}
+
+.msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button
+{
+	box-shadow: inset 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button-label
+{
+	padding-left: 1rem;
+	width: 5rem;
+}
+
+
+.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
+{
+	width: 30rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .range-container
+{
+	margin: 0.9rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .range-container .scale-control
+{
+	width: 33.0rem;
+	height: 3.0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .range-container .scale-label
+{
+	top: 3.9rem;
+	left: 31.5rem;
+	position: absolute;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .range-container .scale-slider
+{
+	top: 2.5rem;
+	height: 2.0rem;
+	width: 30.0rem;
+	position: absolute;
+	float: left;
+
+	margin-bottom: 0.0rem;
 }
 
 .msu-settings-screen .dialog .content .l-list-container
@@ -302,3 +312,72 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+.color-picker-popup
+{
+	width: 60rem;
+	height: 50rem;
+
+	background-image: url("coui://gfx/mods/skin/color-picker-popup.png");
+	background-size: 58.5rem 50.2rem;
+	background-repeat: no-repeat;
+}
+
+.color-picker-popup .pick-color-content-container
+{
+	width: 100%;
+	height: 75%;
+	position: relative;
+	float: left;
+
+}
+
+.color-picker-popup .pick-color-content-container .current-color-display
+{
+	width: 70%;
+	height: 12rem;
+	margin: auto;
+	margin-bottom: 2rem;
+	box-shadow: inset 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.color-picker-popup .pick-color-content-container .row
+{
+	width: 100%;
+	height: 6rem;
+	position: relative;
+	float: left;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.color-picker-popup .pick-color-content-container .row .title
+{
+	text-align: center;
+	height: 3rem;
+	width: 10rem;
+}
+
+.color-picker-popup .pick-color-content-container .row .scale-label
+{
+	text-align: center;
+	height: 3.0rem;
+	width: 10rem;
+}
+
+
+.color-picker-popup .pick-color-content-container .row .scale-control
+{
+	height: 4.0rem;
+	width: 32.0rem;
+	display: flex;
+	align-items: center;
+}
+
+.color-picker-popup .pick-color-content-container .row .scale-slider
+{
+	height: 2.0rem;
+	width: 30.0rem;
+}
+

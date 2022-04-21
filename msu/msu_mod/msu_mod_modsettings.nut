@@ -16,7 +16,7 @@ logPage.addDivider("msu_divider");
 
 foreach (flagID, value in ::MSU.System.Debug.Mods[::MSU.ID])
 {
-	local boolSetting = logPage.addBooleanSetting(flagID + "Log", value, ::MSU.String.capitalizeFirst(flagID) + " Logging");
+	local boolSetting = logPage.addBooleanSetting(flagID + "Log", value, ::MSU.String.capitalizeFirst(flagID));
 	boolSetting.Data.FlagID <- flagID;
 	boolSetting.addCallback(function(_value)
 	{
@@ -34,7 +34,7 @@ verboseModeToggle.addCallback(function(_data)
 	::Const.AI.VerboseMode = _data;
 })
 
-local logToggle = logPage.addBooleanSetting("logall", false, "Enable all mod logging");
+local logToggle = logPage.addBooleanSetting("logall", false, "All mod logging");
 logToggle.setDescription("If enabled, considers every debug flag for every mod enabled, regardless of flag status.");
 logToggle.addCallback(function(_data)
 {

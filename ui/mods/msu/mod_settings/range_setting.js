@@ -2,14 +2,20 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.data = _setting;
 	var self = this;
-	this.layout = $('<div class="range-container"/>');
+	this.layout = $('<div class="setting-container range-container"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
-	this.layout.append(this.title);
+	this.titleContainer = $('<div class="setting-title-container"/>');
+	this.layout.append(this.titleContainer);
+
+	this.title = $('<div class="title">' + _setting.name + '</div>');
+	this.titleContainer.append(this.title);
+
+	this.contentContainer = $('<div class="setting-content-container"/>');
+	this.layout.append(this.contentContainer);
 
 	this.control = $('<div class="scale-control"/>');
-	this.layout.append(this.control);
+	this.contentContainer.append(this.control);
 
 	this.slider = $('<input class="scale-slider" type="range"/>');
 	this.slider.attr({

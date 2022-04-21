@@ -2,7 +2,7 @@
 {
 	function loadFile( _fileID )
 	{
-		::MSU.System.PersistentData.loadFileForMod(_fileID, this.Mod.getID());
+		::MSU.System.PersistentData.loadFileForMod(this.Mod.getID(), _fileID);
 	}
 
 	function loadAllFiles()
