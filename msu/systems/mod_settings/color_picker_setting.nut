@@ -57,7 +57,6 @@
 
 	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
 	{
-		this.logInfo("colorpicker set called " + _value)
 		base.set(_value, _updateJS, _updatePersistence, _updateCallback);
 		this.convertValue();
 	}
