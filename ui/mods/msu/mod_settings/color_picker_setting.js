@@ -1,6 +1,5 @@
 var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 {
-
 	this.data = _setting;
 	this.values = this.data.values;
 	this.parent = _parentDiv;
@@ -50,13 +49,12 @@ ColorPickerSetting.prototype.createColorPickerPopup = function ()
 		self.cloneSettingsToFrom(self.values, self.popup.values);
 		self.updateColor();
 		Screens.ModSettingsScreen.destroyPopupDialog();
-	})
+	});
 	this.popup.addPopupDialogCancelButton(function (_dialog){
 		Screens.ModSettingsScreen.destroyPopupDialog();
-	})
-	this.popup.addPopupDialogContent(this.createPopupContent())
+	});
+	this.popup.addPopupDialogContent(this.createPopupContent());
 	this.updateColorInPopup();
-
 };
 
 ColorPickerSetting.prototype.createPopupContent = function ()
@@ -68,7 +66,7 @@ ColorPickerSetting.prototype.createPopupContent = function ()
 	this.createColorRowContent(result, "Green");
 	this.createColorRowContent(result, "Blue");
 	this.createColorRowContent(result, "Alpha");
-	return result
+	return result;
 }
 
 ColorPickerSetting.prototype.createColorRowContent = function(_parentDiv, _name )
@@ -107,7 +105,7 @@ ColorPickerSetting.prototype.createColorRowContent = function(_parentDiv, _name 
 	{
 		self.popup.values[_name] = parseFloat(result.slider.val());
 		result.label.text('' + self.popup.values[_name]);
-		self.updateColorInPopup()
+		self.updateColorInPopup();
 	});
 }
 
@@ -126,14 +124,14 @@ ColorPickerSetting.prototype.getRGBA = function( _values )
 	result += _values.Green + ", ";
 	result += _values.Blue + ", ";
 	result += _values.Alpha + ");";
-	return result
+	return result;
 }
 
 ColorPickerSetting.prototype.updateColor = function()
 {
 	this.button.css("background-color", this.getRGBA(this.values));
 	this.buttonLabel.text('' + this.getRGBA(this.values));
-	var valueAsString = this.values.Red.toString() + "," + this.values.Green.toString() + "," + this.values.Blue.toString() + "," + this.values.Alpha
+	var valueAsString = this.values.Red.toString() + "," + this.values.Green.toString() + "," + this.values.Blue.toString() + "," + this.values.Alpha;
 	this.data.value = valueAsString;
 }
 
@@ -141,7 +139,7 @@ ColorPickerSetting.prototype.updateColorInPopup = function()
 {
 	if (this.popup !== undefined)
 	{
-		this.popup.currentColorDisplay.css("background-color", this.getRGBA(this.popup.values))
+		this.popup.currentColorDisplay.css("background-color", this.getRGBA(this.popup.values));
 	}
 }
 
