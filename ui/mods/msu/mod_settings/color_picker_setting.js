@@ -37,7 +37,7 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 ColorPickerSetting.prototype.createColorPickerPopup = function ()
 {
 	var self = this;
-	this.popup = this.parent.createPopupDialog('Color Picker', null, null, 'color-picker-popup', false);
+	this.popup = $('.msu-settings-screen').createPopupDialog('Color Picker', null, null, 'color-picker-popup', false);
 	Screens.ModSettingsScreen.setPopupDialog(this.popup);
 	this.popup.values = {
 		"Red" : 0,
