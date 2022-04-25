@@ -155,6 +155,7 @@ ModSettingsScreen.prototype.hide = function()
 
 ModSettingsScreen.prototype.show = function (_data)
 {
+	this.mIsFirstShow = true;
 	this.mModPanels = _data;
 	this.createModPanelList();
 	MSUUIScreen.prototype.show.call(this,_data);
@@ -162,6 +163,7 @@ ModSettingsScreen.prototype.show = function (_data)
 	{
 		this.mListScrollContainer[0].firstElementChild.click();
 	}
+	this.mIsFirstShow = false;
 };
 
 ModSettingsScreen.prototype.createModPanelList = function ()
@@ -230,11 +232,18 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 	{
 		self.mActiveSettings.push(new window[element.type + "Setting"](_mod, _page, element, self.mModPageScrollContainer));
 	});
-	this.mActiveSettings.forEach(function(element)
+	// if called from show(), the elements need to be added to the dom first or something so need to add it on a delay
+	if (this.mIsFirstShow) setTimeout(this.adjustTitles, 300, this);
+	else this.adjustTitles(this)
+};
+
+ModSettingsScreen.prototype.adjustTitles = function (self)
+{
+	self.mActiveSettings.forEach(function(element)
 	{
-		if ('title' in element)
+		if ('title' in element && 'titleContainer' in element)
 		{
-			while (element.title.width() >= 341)
+			while (element.title[0].scrollWidth > element.title.innerWidth())
 			{
 				element.title.css('font-size', (parseInt(element.title.css('font-size').slice(0, -2)) - 1) + 'px');
 				if (parseInt(element.title.css('font-size').slice(0, -2)) <= 1)
@@ -245,7 +254,7 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 			}
 		}
 	});
-};
+}
 
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {

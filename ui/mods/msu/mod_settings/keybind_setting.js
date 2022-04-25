@@ -2,15 +2,22 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.data = _setting;
 	var self = this;
-	this.layout = $('<div class="string-container outline"/>');
+	this.layout = $('<div class="setting-container string-container outline"/>');
 	this.data = _setting;
 	this.parent = _parentDiv;
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title outline">' + _setting.name + '</div>');
-	this.layout.append(this.title);
+	this.titleContainer = $('<div class="setting-title-container"/>');
+	this.layout.append(this.titleContainer);
 
-	this.input = $('<input type="text" class="title-font-big font-bold font-color-brother-name string-input"/>');
+	this.title = $('<div class="title">' + _setting.name + '</div>');
+	this.titleContainer.append(this.title);
+
+	this.contentContainer = $('<div class="setting-content-container"/>');
+	this.layout.append(this.contentContainer);
+
+	this.input = $('<input type="text" class="title-font-normal font-color-brother-name string-input"/>');
+	this.contentContainer.append(this.input);
 	this.input.val(_setting.value);
 	this.input.on("change", function(){
 		self.data.value = self.input.val();
@@ -21,9 +28,6 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 		self.createPopup(_parentDiv);
 	});
 
-
-	this.layout.append(this.input);
-
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.input.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
@@ -32,19 +36,20 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 KeybindSetting.prototype.createPopup = function ()
 {
 	var self = this;
-	this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.data.name, null, 'change-keybind-popup');
-	var result = this.parent.mPopupDialog.addPopupDialogContent($('<div class="change-keybind-container"/>'));
+	this.popup = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.data.name, null, 'change-keybind-popup');
+	Screens.ModSettingsScreen.setPopupDialog(this.popup);
+	var result = this.popup.addPopupDialogContent($('<div class="change-keybind-container"/>'));
 	//need to do this separately or the list won't render
 	this.createChangeKeybindScrollContainer(result);
-	this.parent.mPopupDialog.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
 	{
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
-	this.parent.mPopupDialog.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
 	{
 		self.createChangeKeybindRow("");
 	});
-	this.parent.mPopupDialog.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
 	{
 		var buttons = $(".change-keybind-button");
 		var result = "";
@@ -59,15 +64,8 @@ KeybindSetting.prototype.createPopup = function ()
 		result = result.slice(0, -1);
 		self.input.val(result);
 		self.data.value = result;
-		self.parent.mPopupDialog = null;
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
-
-	 this.parent.mPopupDialog.addPopupDialogCancelButton(function (_dialog)
-	 {
-		self.parent.mPopupDialog = null;
-		_dialog.destroyPopupDialog();
-	 });
 };
 
 KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)

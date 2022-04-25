@@ -1,12 +1,15 @@
 var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.data = _setting;
-	this.layout = $('<div class="boolean-container"/>');
+	this.layout = $('<div class="setting-container boolean-container"/>');
 	_parentDiv.append(this.layout);
-	this.checkbox = $('<input type="checkbox" id= "' + _mod.id + _setting.id + '-id" name="' + _setting.id +'-name" />');
-	this.layout.append(this.checkbox);
-	this.label = $('<label class="text-font-normal font-color-subtitle" for="' + _mod.id + _setting.id + '-id">' + _setting.name + '</label>');
-	this.layout.append(this.label);
+
+	this.titleContainer = $('<div class="setting-title-container"/>');
+	this.layout.append(this.titleContainer);
+
+	var id = _mod.id + _setting.id + "-id"
+	this.checkbox = $('<input type="checkbox" id= "' + id + '" name="' + _setting.id +'-name" />');
+	this.titleContainer.append(this.checkbox);
 	this.checkbox.iCheck({
 		checkboxClass: 'icheckbox_flat-orange',
 		radioClass: 'iradio_flat-orange',
@@ -23,11 +26,14 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 		this.checkbox.attr('disabled', true);
 	}
 
+	this.title = $('<label class="bool-checkbox-label" for="' + id + '">' + _setting.name + '</label>');
+	this.titleContainer.append(this.title);
+
 	// Tooltip
-	this.label.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
 
 BooleanSetting.prototype.unbindTooltip = function ()
 {
-	this.label.unbindTooltip();
+	this.title.unbindTooltip();
 };

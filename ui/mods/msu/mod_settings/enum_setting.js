@@ -8,13 +8,19 @@ var EnumSetting = function (_mod, _page, _setting, _parentDiv)
 		console.error("EnumSetting Error");
 	}
 
-	this.layout = $('<div class="enum-container"/>');
+	this.layout = $('<div class="setting-container enum-container"/>');
 	_parentDiv.append(this.layout);
 
-	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
-	this.layout.append(this.title);
+	this.titleContainer = $('<div class="setting-title-container"/>');
+	this.layout.append(this.titleContainer);
 
-	this.button = this.layout.createTextButton(_setting.value, function ()
+	this.title = $('<div class="title">' + _setting.name + '</div>');
+	this.titleContainer.append(this.title);
+
+	this.contentContainer = $('<div class="setting-content-container"/>');
+	this.layout.append(this.contentContainer);
+
+	this.button = this.contentContainer.createTextButton(_setting.value, function ()
 	{
 		self.cycle(true);
 	}, 'enum-button', 4);

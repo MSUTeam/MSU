@@ -1,19 +1,26 @@
 var ButtonSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.data = _setting;
-	this.layout = $('<div class="button-container"/>');
+	this.layout = $('<div class="setting-container button-container"/>');
 	_parentDiv.append(this.layout);
-	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
-	this.layout.append(this.title);
 
-	this.button = this.layout.createTextButton(_setting.value, function ()
+	this.titleContainer = $('<div class="setting-title-container"/>');
+	this.layout.append(this.titleContainer);
+
+	this.title = $('<div class="title">' + _setting.name + '</div>');
+	this.titleContainer.append(this.title);
+
+	this.contentContainer = $('<div class="setting-content-container"/>');
+	this.layout.append(this.contentContainer);
+
+	this.button = this.contentContainer.createTextButton(_setting.value, function ()
 	{
 		var ret = {
 			"modID" : _mod.id,
 			"settingID" : _setting.id
 		}
-		Screens["ModSettingsScreen"].notifyBackendSettingButtonPressed(ret);
-	}, 'enum-button', 4);
+		Screens.ModSettingsScreen.notifyBackendSettingButtonPressed(ret);
+	}, 'button-setting-button', 4);
 
 	if (_setting.locked)
 	{
