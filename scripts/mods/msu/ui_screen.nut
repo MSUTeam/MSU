@@ -5,7 +5,8 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 		OnDisconnectedListener = null,
 		OnScreenShownListener = null,
 		OnScreenHiddenListener = null,
-		OnClosePressedListener = null
+		OnClosePressedListener = null,
+		PopupVisible = false,
 	},
 
 	function isVisible()
@@ -16,6 +17,11 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 	function isAnimating()
 	{
 		return this.m.Animating;
+	}
+
+	function isPopupVisible()
+	{
+		return this.m.PopupVisible;
 	}
 
 	function setOnConnectedListener( _listener )
@@ -31,6 +37,11 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 	function setOnClosePressedListener( _listener )
 	{
 		this.m.OnClosePressedListener = _listener;
+	}
+
+	function onPopupVisible( _data )
+	{
+		this.m.PopupVisible = _data;
 	}
 
 	function onOkButtonPressed()
