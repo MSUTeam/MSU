@@ -18,7 +18,9 @@
 ::mods_registerJS("msu/mod_settings/keybind_setting.js");
 ::mods_registerJS("msu/mod_settings/range_setting.js");
 ::mods_registerJS("msu/mod_settings/string_setting.js");
+::mods_registerJS("msu/mod_settings/color_picker_setting.js");
 ::mods_registerJS("msu/mod_settings/settings_screen.js");
+
 
 ::mods_registerJS("msu/keybinds/key_static.js");
 ::mods_registerJS("msu/keybinds/keybind.js");

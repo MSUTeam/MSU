@@ -14,6 +14,7 @@ includeFile("enum_setting.nut");
 includeFile("string_setting.nut");
 includeFile("keybind_setting.nut");
 includeFile("range_setting.nut");
+includeFile("color_picker_setting.nut");
 
 includeFile("settings_page.nut");
 includeFile("settings_panel.nut");
