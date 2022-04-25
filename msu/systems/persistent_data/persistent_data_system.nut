@@ -103,7 +103,7 @@
 		foreach (arg in _payload)
 		{
 			::MSU.requireAnyTypeExcept(["array", "table", "class"], arg)
-			result += this.Separator + arg.tostring();
+			result += this.Separator + arg;
 		}
 		result += this.Separator
 		::logInfo(result);
