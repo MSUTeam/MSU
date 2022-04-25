@@ -41,19 +41,21 @@ MSUUIScreen.prototype.unbindTooltips = function ()
 
 };
 
-MSUUIScreen.prototype.show = function ()
+MSUUIScreen.prototype.show = function (_moveLeftRight, _considerParent)
 {
 	var self = this;
-	var moveTo = { opacity: 1, right: '10.0rem' };
+	var moveTo = { opacity: 1};
 	var offset = -this.mContainer.width();
-	if (self.mContainer.hasClass('is-center') === true)
+	if (_moveLeftRight === true)
 	{
 		moveTo = { opacity: 1, left: '0', right: '0' };
-		offset = -(this.mContainer.parent().width() + this.mContainer.width());
-		this.mContainer.css({ 'left': '0' });
+		var offset = -(this.mContainer.width());
+		if (_considerParent === true && this.mContainer.parent() !== null && this.mContainer.parent() !== undefined)
+		{
+			offset -= this.mContainer.parent().width()
+		}
+		this.mContainer.css('left', offset);
 	}
-
-	this.mContainer.css({ 'right': offset });
 	this.mContainer.velocity("finish", true).velocity(moveTo,
 	{
 		duration: Constants.SCREEN_SLIDE_IN_OUT_DELAY,
@@ -71,10 +73,21 @@ MSUUIScreen.prototype.show = function ()
 	});
 };
 
-MSUUIScreen.prototype.hide = function ()
+MSUUIScreen.prototype.hide = function (_moveLeftRight, _considerParent)
 {
 	var self = this;
-	this.mContainer.velocity("finish", true).velocity({ opacity: 0 },
+	var moveTo = { opacity: 0};
+	var offset = -this.mContainer.width();
+	if (_moveLeftRight === true)
+	{
+		var offset = -(this.mContainer.width());
+		if (_considerParent === true && this.mContainer.parent() !== null && this.mContainer.parent() !== undefined)
+		{
+			offset -= this.mContainer.parent().width()
+		}
+		moveTo["left"] = offset;
+	}
+	this.mContainer.velocity("finish", true).velocity(moveTo,
 	{
 		duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
 		easing: 'swing',
@@ -84,7 +97,6 @@ MSUUIScreen.prototype.hide = function ()
 		},
 		complete: function()
 		{
-			$(this).css({ opacity: 0 });
 			$(this).removeClass('display-block').addClass('display-none');
 			self.notifyBackendOnHidden();
 		}
