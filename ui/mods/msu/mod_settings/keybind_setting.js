@@ -36,19 +36,20 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 KeybindSetting.prototype.createPopup = function ()
 {
 	var self = this;
-	this.parent.mPopupDialog = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.data.name, null, 'change-keybind-popup');
-	var result = this.parent.mPopupDialog.addPopupDialogContent($('<div class="change-keybind-container"/>'));
+	this.popup = $('.msu-settings-screen').createPopupDialog('Change Keybind', this.data.name, null, 'change-keybind-popup');
+	Screens.ModSettingsScreen.setPopupDialog(this.popup);
+	var result = this.popup.addPopupDialogContent($('<div class="change-keybind-container"/>'));
 	//need to do this separately or the list won't render
 	this.createChangeKeybindScrollContainer(result);
-	this.parent.mPopupDialog.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('Cancel', 'l-cancel-keybind-button', function (_dialog)
 	{
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
-	this.parent.mPopupDialog.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
 	{
 		self.createChangeKeybindRow("");
 	});
-	this.parent.mPopupDialog.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
+	this.popup.addPopupDialogButton('OK', 'l-ok-keybind-button', function (_dialog)
 	{
 		var buttons = $(".change-keybind-button");
 		var result = "";
@@ -63,15 +64,8 @@ KeybindSetting.prototype.createPopup = function ()
 		result = result.slice(0, -1);
 		self.input.val(result);
 		self.data.value = result;
-		self.parent.mPopupDialog = null;
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
-
-	 this.parent.mPopupDialog.addPopupDialogCancelButton(function (_dialog)
-	 {
-		self.parent.mPopupDialog = null;
-		_dialog.destroyPopupDialog();
-	 });
 };
 
 KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)

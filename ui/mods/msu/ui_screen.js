@@ -3,7 +3,7 @@ var MSUUIScreen = function ()
 	MSUBackendConnection.call(this);
 	this.mEventListener = null;
 	this.mContainer = null;
-
+	this.mPopupDialog = null;
 	this.mID = "MSUUIScreen";
 };
 
@@ -147,6 +147,27 @@ MSUUIScreen.prototype.isRegistered = function ()
 MSUUIScreen.prototype.showBackgroundImage = function ()
 {
 
+};
+
+MSUUIScreen.prototype.setPopupDialog = function ( _dialog )
+{
+	this.mPopupDialog = _dialog;
+	this.notifyBackendPopupVisible(true);
+};
+
+MSUUIScreen.prototype.destroyPopupDialog = function ()
+{
+	if(this.mPopupDialog !== null)
+	{
+		this.mPopupDialog.destroyPopupDialog();
+		this.mPopupDialog = null;
+	}
+	this.notifyBackendPopupVisible(false);
+};
+
+MSUUIScreen.prototype.notifyBackendPopupVisible = function ( _data )
+{
+	SQ.call(this.mSQHandle, 'onPopupVisible', _data);
 };
 
 //Notify backend Functions

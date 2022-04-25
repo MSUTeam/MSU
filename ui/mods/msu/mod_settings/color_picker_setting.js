@@ -38,6 +38,7 @@ ColorPickerSetting.prototype.createColorPickerPopup = function ()
 {
 	var self = this;
 	this.popup = this.parent.createPopupDialog('Color Picker', null, null, 'color-picker-popup', false);
+	Screens.ModSettingsScreen.setPopupDialog(this.popup);
 	this.popup.values = {
 		"Red" : 0,
 		"Green" : 0,
@@ -48,10 +49,10 @@ ColorPickerSetting.prototype.createColorPickerPopup = function ()
 	this.popup.addPopupDialogOkButton(function (_dialog){
 		self.cloneSettingsToFrom(self.values, self.popup.values);
 		self.updateColor();
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	})
 	this.popup.addPopupDialogCancelButton(function (_dialog){
-		_dialog.destroyPopupDialog();
+		Screens.ModSettingsScreen.destroyPopupDialog();
 	})
 	this.popup.addPopupDialogContent(this.createPopupContent())
 	this.updateColorInPopup();
