@@ -19,7 +19,7 @@ var ButtonSetting = function (_mod, _page, _setting, _parentDiv)
 			"modID" : _mod.id,
 			"settingID" : _setting.id
 		}
-		Screens["ModSettingsScreen"].notifyBackendSettingButtonPressed(ret);
+		Screens.ModSettingsScreen.notifyBackendSettingButtonPressed(ret);
 	}, 'button-setting-button', 4);
 
 	if (_setting.locked)
