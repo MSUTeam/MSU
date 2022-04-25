@@ -35,7 +35,6 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("ModSettingsScreen", this);
-		this.m.JSHandle.asyncCall("setupJSSettings", ::MSU.System.ModSettings.getUIData(null));
 	}
 
 	function linkMenuStack( _menuStack )

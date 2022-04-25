@@ -1,4 +1,3 @@
-var ModSettings = {};
 var ModSettingsScreen = function ()
 {
 	MSUUIScreen.call(this);
@@ -274,21 +273,8 @@ ModSettingsScreen.prototype.getChanges = function () // Could still be significa
 			});
 		});
 	});
-	ModSettings = changes;
 	return changes;
 };
-
-ModSettingsScreen.prototype.setupJSSettings = function ( _data )
-{
-	this.mModPanels = _data;
-	this.createModPanelList();
-	this.getChanges();
-	this.mActiveButton = null;
-	this.mPageTabContainer.empty();
-	this.mModPageScrollContainer.empty();
-	this.mListScrollContainer.empty();
-};
-
 
 ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
