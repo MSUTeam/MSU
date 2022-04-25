@@ -30,7 +30,12 @@
 
 	function printForParser( _tag = "ModSetting" )
 	{
-		::MSU.System.PersistentData.writeToLog(_tag, this.getModID(), [this.getID(), this.getValue().tostring()]);
+		local payload = this.getValue();
+		if (typeof payload == "string")
+		{
+			payload = "\"" + payload + "\"";
+		}
+		::MSU.System.PersistentData.writeToLog(_tag, this.getModID(), [this.getID(), payload]);
 	}
 
 	function onChangedCallback( _newValue )
