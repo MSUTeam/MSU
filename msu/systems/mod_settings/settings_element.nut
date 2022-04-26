@@ -65,9 +65,9 @@
 		return this.ID;
 	}
 
-	function getFlags()
+	function getData()
 	{
-		return this.Flags;
+		return this.Data;
 	}
 
 	function verifyFlags( _flags )
