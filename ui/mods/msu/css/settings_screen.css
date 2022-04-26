@@ -319,3 +319,72 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+.color-picker-popup
+{
+	width: 60rem;
+	height: 50rem;
+
+	background-image: url("coui://gfx/mods/skin/color-picker-popup.png");
+	background-size: 58.5rem 50.2rem;
+	background-repeat: no-repeat;
+}
+
+.color-picker-popup .pick-color-content-container
+{
+	width: 100%;
+	height: 75%;
+	position: relative;
+	float: left;
+
+}
+
+.color-picker-popup .pick-color-content-container .current-color-display
+{
+	width: 70%;
+	height: 12rem;
+	margin: auto;
+	margin-bottom: 2rem;
+	box-shadow: inset 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.color-picker-popup .pick-color-content-container .row
+{
+	width: 100%;
+	height: 6rem;
+	position: relative;
+	float: left;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.color-picker-popup .pick-color-content-container .row .title
+{
+	text-align: center;
+	height: 3rem;
+	width: 10rem;
+}
+
+.color-picker-popup .pick-color-content-container .row .scale-label
+{
+	text-align: center;
+	height: 3.0rem;
+	width: 10rem;
+}
+
+
+.color-picker-popup .pick-color-content-container .row .scale-control
+{
+	height: 4.0rem;
+	width: 32.0rem;
+	display: flex;
+	align-items: center;
+}
+
+.color-picker-popup .pick-color-content-container .row .scale-slider
+{
+	height: 2.0rem;
+	width: 30.0rem;
+}
+
