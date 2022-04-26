@@ -1,6 +1,6 @@
 ::MSU.SemVer <- {
 	// Slightly modified semver regex (https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string)
-	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
+	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"),
 
 	function isSemVer( _string )
 	{
@@ -29,7 +29,7 @@
 		}
 	}
 
-	function formatVanillaVersion( _version )
+	function formatVanillaVersion( _vanillaVersion )
 	{
 		local versionArray = split(_vanillaVersion, ".");
 		local preRelease = versionArray.pop();
