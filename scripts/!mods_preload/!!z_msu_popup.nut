@@ -25,6 +25,6 @@
 
 if (::Const.DLC.Lindwurm) ::mods_registerMod("dlc_lindwurm", 1, "Lindwurm");
 if (::Const.DLC.Unhold) ::mods_registerMod("dlc_unhold", 1, "Beasts & Exploration");
-if (::Const.DLC.Wildmen) ::mods_registerMod("dlc_lindwurm", 1, "Warriors of the North");
+if (::Const.DLC.Wildmen) ::mods_registerMod("dlc_wildmen", 1, "Warriors of the North");
 if (::Const.DLC.Desert) ::mods_registerMod("dlc_desert", 1, "Blazing Deserts");
 if (::Const.DLC.Paladins) ::mods_registerMod("dlc_paladins", 1, "Of Flesh and Faith");
