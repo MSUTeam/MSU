@@ -1,8 +1,3 @@
-::MSU.Version <- "1.0.0-alpha.2";
-::MSU.ID <- "mod_msu";
-::MSU.Name <- "Modding Standards & Utilities";
-::MSU.VanillaID <- "vanilla";
-
 ::MSU.EndQueue <- {
 	Queue = [],
 

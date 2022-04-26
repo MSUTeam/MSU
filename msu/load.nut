@@ -22,7 +22,6 @@ local function includeLoad( _folder )
 	::includeLoad("msu/", _folder);
 }
 
-includeLoad("utilities");
 includeLoad("classes");
 includeLoad("ui");
 includeLoad("systems");

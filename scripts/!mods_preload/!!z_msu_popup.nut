@@ -1,4 +1,3 @@
-::MSU <- {};
 ::MSU.Popup <- ::new("scripts/mods/msu/popup");
 
 ::mods_registerJS("msu/popup.js");
