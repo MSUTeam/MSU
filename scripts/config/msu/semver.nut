@@ -1,29 +1,35 @@
 ::MSU.SemVer <- {
 	// Slightly modified semver regex (https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string)
-	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"),
+	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
 
 	function isSemVer( _string )
 	{
-		if (typeof _string != "string") return false;
+		::MSU.requireString(_string);
 		return this.Regex.capture(_string) != null;
+	}
+
+	function match( _capture, _string, _group )
+	{
+		return _capture[_group].end > 0 && _capture[_group].begin < _string.len() ? _string.slice(_capture[_group].begin, _capture[_group].end) : null;
 	}
 
 	function getTable( _version )
 	{
-		local version = ::MSU.SemVer.Regex.capture(_version);
+		local version = ::MSU.SemVerRegex.capture(_version);
 		if (version == null)
 		{
-			::logError(::MSU.Error.NotSemanticVersion(_version));
+			if (!_noError) ::logError(::MSU.Error.NotSemanticVersion(_version));
 			throw ::MSU.Exception.InvalidValue(_version);
 		}
+
 		return {
-			Version = split(::MSU.regexMatch(version, _version, 1), "."),
-			PreRelease = ::MSU.regexMatch(version, _version, 2) == null ? null : split(::MSU.regexMatch(version, _version, 2), "."),
-			Metadata = ::MSU.regexMatch(version, _version, 3) == null ? null : split(::MSU.regexMatch(version, _version, 3), ".")
+			Version = split(::MSU.SemVer.match(version, _version, 1), "."),
+			PreRelease = split(::MSU.SemVer.match(version, _version, 2), "."),
+			Metadata = split(::MSU.SemVer.match(version, _version, 3), ".")
 		}
 	}
 
-	function formatVanillaVersion( _vanillaVersion )
+	function formatVanillaVersion( _version )
 	{
 		local versionArray = split(_vanillaVersion, ".");
 		local preRelease = versionArray.pop();
