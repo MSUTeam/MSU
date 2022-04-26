@@ -34,6 +34,11 @@
 		return this.addElement(::MSU.Class.SettingsTitle(_id, _name));
 	}
 
+	function addSpacer( _id, _width, _height )
+	{
+		return this.addElement(::MSU.Class.SettingsSpacer(_id, _width, _height));
+	}
+
 	function addBooleanSetting( _id, _value, _name = null )
 	{
 		return this.addElement(::MSU.Class.BooleanSetting(_id, _value, _name));

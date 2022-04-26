@@ -21,9 +21,11 @@ for (local i = 0; i < 5; ++i)
 		local test3 = testPage.addEnumSetting("TestEnum" + j, "goodbye", ["hi", "hello", "goodbye"]);
 		test3.lock();
 		local test4 = testPage.addEnumSetting("TestEnum" + j + 1,"hi", ["hi", "hello", "goodbye"]);
+		local spacertest = testPage.addSpacer("TestSpacer1" + j + 1, "50%", "8rem");
+
 
 		local test5 = testPage.addEnumSetting("TestEnum" + j + 2, "hi", ["hi", "hello", "goodbye"]);
-
+		local spacertest2 = testPage.addSpacer("TestSpacer2" + j + 1, "100%", "4rem");
 		local buttonName = "TestButton" + j
 		local buttonTest = testPage.addButtonSetting(buttonName, null, "hello?");
 		buttonTest.addCallback(function(_data = null){

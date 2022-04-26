@@ -65,8 +65,12 @@
 }
 
 
-
 /*-----------------------------------------VISUAL ELEMENTS-----------------------------------------------------------------------*/
+.msu-settings-screen .dialog .content .l-page-container .spacer
+{
+	position: relative;
+	float: left;
+} 
 .msu-settings-screen .dialog .content .l-page-container .divider
 {
 	float: left;
