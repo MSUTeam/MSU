@@ -12,6 +12,7 @@ var ModSettingsScreen = function ()
 	this.mActiveSettings = [];
 	this.mPageTabContainer = null;
 	this.mActivePanelButton = null;
+	this.mIsFirstShow = null;
 	/*
 
 	this.mModPanels = 
