@@ -23,11 +23,11 @@
 	function getValueAsRGBA()
 	{
 		local asRGBA = "rgba(";
-		local asTable = this.getValueAsTable();
-		asRGBA += asTable.Red + ", ";
-		asRGBA += asTable.Green + ", ";
-		asRGBA += asTable.Blue + ", ";
-		asRGBA += asTable.Alpha + ");";
+		local asArray = split(this.Value, ",");
+		asRGBA += asArray[0] + ", ";
+		asRGBA += asArray[1] + ", ";
+		asRGBA += asArray[2] + ", ";
+		asRGBA += asArray[3] + ");";
 		return asRGBA;
 	}
 
