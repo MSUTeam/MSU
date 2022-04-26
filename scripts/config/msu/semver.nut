@@ -23,9 +23,9 @@
 		}
 
 		return {
-			Version = split(::MSU.SemVer.match(version, _version, 1), "."),
-			PreRelease = split(::MSU.SemVer.match(version, _version, 2), "."),
-			Metadata = split(::MSU.SemVer.match(version, _version, 3), ".")
+			Version = split(::MSU.regexMatch(version, _version, 1), "."),
+			PreRelease = split(::MSU.regexMatch(version, _version, 2), "."),
+			Metadata = split(::MSU.regexMatch(version, _version, 3), ".")
 		}
 	}
 
