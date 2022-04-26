@@ -4,7 +4,7 @@
 
 	function isSemVer( _string )
 	{
-		::MSU.requireString(_string);
+		if (typeof _string != "string") return false;
 		return this.Regex.capture(_string) != null;
 	}
 
@@ -18,14 +18,13 @@
 		local version = ::MSU.SemVerRegex.capture(_version);
 		if (version == null)
 		{
-			if (!_noError) ::logError(::MSU.Error.NotSemanticVersion(_version));
+			::logError(::MSU.Error.NotSemanticVersion(_version));
 			throw ::MSU.Exception.InvalidValue(_version);
 		}
-
 		return {
 			Version = split(::MSU.regexMatch(version, _version, 1), "."),
-			PreRelease = split(::MSU.regexMatch(version, _version, 2), "."),
-			Metadata = split(::MSU.regexMatch(version, _version, 3), ".")
+			PreRelease = ::MSU.regexMatch(version, _version, 2) == null ? null : split(::MSU.regexMatch(version, _version, 2), "."),
+			Metadata = ::MSU.regexMatch(version, _version, 3) == null ? null : split(::MSU.regexMatch(version, _version, 3), ".")
 		}
 	}
 
