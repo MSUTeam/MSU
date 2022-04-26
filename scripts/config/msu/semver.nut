@@ -44,26 +44,14 @@
 	{
 		for (local i = 0; i < 3; ++i)
 		{
-			if (_version1.Version[i] > _version2.Version[i])
-			{
-				return 1;
-			}
-			else if (_version1.Version[i] < _version2.Version[i])
-			{
-				return -1;
-			}
+			if (_version1.Version[i] > _version2.Version[i]) return 1;
+			else if (_version1.Version[i] < _version2.Version[i]) return -1;
 		}
 
 		if (_version1.PreRelease == null || _version2.PreRelease == null)
 		{
-			if (_version1.PreRelease == null && _version2.PreRelease != null)
-			{
-				return 1;
-			}
-			else if (_version1.PreRelease != null && _version2.PreRelease == null)
-			{
-				return -1;
-			}
+			if (_version1.PreRelease == null && _version2.PreRelease != null) return 1;
+			else if (_version1.PreRelease != null && _version2.PreRelease == null) return -1;
 			return 0;
 		}
 
@@ -78,48 +66,24 @@
 				{
 					local int1 = _version1.PreRelease[i].tointeger();
 					local int2 = _version2.PreRelease[i].tointeger();
-					if (int1 < int2)
-					{
-						return -1;
-					}
-					else if (int1 > int2)
-					{
-						return 1;
-					}
+					if (int1 < int2) return -1;
+					else if (int1 > int2) return 1;
 				}
 				else
 				{
-					if (isInt1)
-					{
-						return -1;
-					}
-					else
-					{
-						return 1;
-					}
+					if (isInt1) return -1;
+					else return 1;
 				}
 			}
 			else
 			{
-				if (_version1.PreRelease[i] > _version2.PreRelease[i])
-				{
-					return 1;
-				}
-				else if (_version1.PreRelease[i] < _version2.PreRelease[i])
-				{
-					return -1;
-				}
+				if (_version1.PreRelease[i] > _version2.PreRelease[i]) return 1;
+				else if (_version1.PreRelease[i] < _version2.PreRelease[i]) return -1;
 			}
 		}
 
-		if (_version1.PreRelease.len() > _version2.PreRelease.len())
-		{
-			return 1;
-		}
-		else if (_version1.PreRelease.len() < _version2.PreRelease.len())
-		{
-			return -1;
-		}
+		if (_version1.PreRelease.len() > _version2.PreRelease.len()) return 1;
+		else if (_version1.PreRelease.len() < _version2.PreRelease.len()) return -1;
 		return 0;
 	}
 
