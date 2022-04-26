@@ -1,6 +1,6 @@
 ::MSU.SemVer <- {
 	// Slightly modified semver regex (https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string)
-	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
+	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"),
 
 	function isSemVer( _string )
 	{
@@ -8,7 +8,7 @@
 		return this.Regex.capture(_string) != null;
 	}
 
-	function getTable( _version, _allowNumbers = false; )
+	function getTable( _version, _allowNumbers = false )
 	{
 		if (_allowNumbers)
 		{
@@ -16,7 +16,7 @@
 			else if (typeof _version == "float") _version = _version + ".0";
 		}
 
-		local version = ::MSU.SemVerRegex.capture(_version);
+		local version = ::MSU.SemVer.Regex.capture(_version);
 		if (version == null)
 		{
 			if (!_noError) ::logError(::MSU.Error.NotSemanticVersion(_version));
@@ -30,7 +30,7 @@
 		}
 	}
 
-	function formatVanillaVersion( _version )
+	function formatVanillaVersion( _vanillaVersion )
 	{
 		local versionArray = split(_vanillaVersion, ".");
 		local preRelease = versionArray.pop();
