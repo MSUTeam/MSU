@@ -8,11 +8,6 @@
 		return this.Regex.capture(_string) != null;
 	}
 
-	function match( _capture, _string, _group )
-	{
-		return _capture[_group].end > 0 && _capture[_group].begin < _string.len() ? _string.slice(_capture[_group].begin, _capture[_group].end) : null;
-	}
-
 	function getTable( _version, _allowNumbers = false; )
 	{
 		if (_allowNumbers)
@@ -29,9 +24,9 @@
 		}
 
 		return {
-			Version = split(::MSU.SemVer.match(version, _version, 1), "."),
-			PreRelease = split(::MSU.SemVer.match(version, _version, 2), "."),
-			Metadata = split(::MSU.SemVer.match(version, _version, 3), ".")
+			Version = split(::MSU.regexMatch(version, _version, 1), "."),
+			PreRelease = split(::MSU.regexMatch(version, _version, 2), "."),
+			Metadata = split(::MSU.regexMatch(version, _version, 3), ".")
 		}
 	}
 
