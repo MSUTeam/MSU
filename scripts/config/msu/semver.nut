@@ -152,4 +152,26 @@
 	{
 		return this.compareWithOperator(this.getTable(_version1), _operator, this.getTable(_version2));
 	}
+
+	function getShortVersionString( _version )
+	{
+		return _version.Version.reduce(@(_a, _b) _a + "." + _b);
+	}
+
+	function getVersionString( _version )
+	{
+		local ret = this.getShortVersionString(_version);
+
+		if (_version.PreRelease != null)
+		{
+			ret += "-" + _version.PreRelease.reduce(@(_a, _b) _a + "." + _b);
+		}
+
+		if (_version.Metadata != null)
+		{
+			ret += "+" + _version.Metadata.reduce(@(_a, _b) _a + "." + _b);
+		}
+
+		return ret;
+	}
 }
