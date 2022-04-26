@@ -22,7 +22,7 @@
 		this.ID = _id;
 		this.Name = _name;
 
-		local table = ::MSU.System.Registry.getVersionTable(_version);
+		local table = ::MSU.SemVer.getTable(_version);
 		this.Version = table.Version;
 		this.PreRelease = table.PreRelease;
 		this.Metadata = table.Metadata;

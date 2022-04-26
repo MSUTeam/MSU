@@ -1,1 +1,1 @@
-::MSU.Vanilla <- ::MSU.Class.Mod(::MSU.VanillaID, ::MSU.System.Registry.formatVanillaVersionString(::GameInfo.getVersionNumber()), "Vanilla");
+::MSU.Vanilla <- ::MSU.Class.Mod(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
