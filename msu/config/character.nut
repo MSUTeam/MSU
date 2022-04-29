@@ -7,13 +7,6 @@
 	VeryLast = 80000
 };
 
-::Const.FactionRelation <- {
-	Any = 0,
-	SameFaction = 1,
-	Allied = 2,
-	Enemy = 3
-};
-
 ::Const.Damage <- {
 	function addNewDamageType ( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
 	{
