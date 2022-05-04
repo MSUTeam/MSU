@@ -76,13 +76,11 @@ local mods_queue = ::mods_queue;
 				continue;
 			}
 
-			local semVersion = ::MSU.SemVer.getTable(expressions[i].Version);
-
 			mod.SemVerDependencies.push({
 				Name = expressions[i].Name,
 				Operator = expressions[i].Operator,
 				VersionOperator = expressions[i].VersionOperator,
-				Version = semVersion
+				Version = ::MSU.SemVer.getTable(expressions[i].Version)
 			});
 			// then we recreate the expression without the semver info
 			_expressions += (expressions[i].Operator == null ? "" : expressions[i].Operator) + expressions[i].Name + ",";
