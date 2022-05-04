@@ -78,7 +78,7 @@
 		local isTable = type == this.DataType.Table;
 		local size = _in.readU32();
 
-		local ret = isTable ? {} : array(size, null);
+		local ret = isTable ? {} : array(size);
 
 		for (local i = 0; i < size; i++)
 		{

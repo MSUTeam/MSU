@@ -148,7 +148,7 @@
 
 	function values()
 	{
-		local ret = array(this.Array.len(), null);
+		local ret = array(this.Array.len());
 		foreach (i, key in this.Array)
 		{
 			ret[i] = this.Table[key];
