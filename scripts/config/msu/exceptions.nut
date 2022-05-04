@@ -4,7 +4,7 @@ local function getInQuotes( _string )
 	{
 		return _string;
 	}
-	return format(" \'%s\'", _string.tostring());
+	return format(" \'%s\'", _string == null ? "null" : _string.tostring());
 }
 
 ::MSU.Exception <- {
