@@ -5,8 +5,9 @@ this.popup <- {
 		ForceQuit = false
 	}
 
-	function showRawText( _text )
+	function showRawText( _text, _forceQuit = false )
 	{
+		if (_forceQuit) this.m.ForceQuit = true;
 		if (this.m.JSHandle == null)
 		{
 			if (this.m.TextCache != "") this.m.TextCache += "<br>";

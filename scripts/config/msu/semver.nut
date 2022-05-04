@@ -8,6 +8,11 @@
 		return this.Regex.capture(_string) != null;
 	}
 
+	function match( _capture, _string, _group )
+	{
+		return _capture[_group].end > 0 && _capture[_group].begin < _string.len() ? _string.slice(_capture[_group].begin, _capture[_group].end) : null;
+	}
+
 	function getTable( _version )
 	{
 		local version = ::MSU.SemVer.Regex.capture(_version);
@@ -20,7 +25,7 @@
 			Version = split(::MSU.regexMatch(version, _version, 1), "."),
 			PreRelease = ::MSU.regexMatch(version, _version, 2) == null ? null : split(::MSU.regexMatch(version, _version, 2), "."),
 			Metadata = ::MSU.regexMatch(version, _version, 3) == null ? null : split(::MSU.regexMatch(version, _version, 3), ".")
-		}
+		};
 	}
 
 	function formatVanillaVersion( _vanillaVersion )
@@ -84,7 +89,20 @@
 
 	function compareWithOperator( _version1, _operator, _version2 )
 	{
-		switch (this.compare(_version1, _version2))
+		local ret;
+		if (_version1 == null)
+		{
+			ret = -1;
+		}
+		else if (_version2 == null)
+		{
+			ret = 1;
+		}
+		else
+		{
+			ret = this.compare(_version1, _version2)
+		}
+		switch (ret)
 		{
 			case -1:
 				if (["<", "<="].find(_operator) != null) return true;
