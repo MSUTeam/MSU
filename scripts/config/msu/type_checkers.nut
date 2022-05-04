@@ -33,6 +33,17 @@
 	::MSU.requireTypeArray("instance", vargv);
 }
 
+::MSU.requireInstanceOf <- function( _class, ... )
+{
+	foreach (value in vargv)
+	{
+		if (typeof value != "instance" || !(value instanceof _class))
+		{
+			throw ::MSU.Exception.InvalidType(value);
+		}
+	}
+}
+
 ::MSU.requireFunction <- function( ... )
 {
 	::MSU.requireTypeArray("function", vargv);
