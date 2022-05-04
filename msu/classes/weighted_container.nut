@@ -12,6 +12,16 @@
 		if (_array != null) this.addArray(_array);
 	}
 
+	function _get( _item )
+	{
+		return this.Table[_item];
+	}
+
+	function _cloned()
+	{
+		return ::MSU.Class.WeightedContainer().merge(this);
+	}
+
 	function toArray( _itemsOnly = true )
 	{
 		local ret = array(this.Table.len());
@@ -23,15 +33,6 @@
 		return ret;
 	}
 
-	function merge( _otherContainer )
-	{
-		::MSU.requireInstanceOf(::MSU.Class.WeightedContainer, _otherContainer);
-		foreach (item, weight in _otherContainer.Table)
-		{
-			this.add(item, weight);
-		}
-	}
-
 	function addArray( _array )
 	{
 		::MSU.requireArray(_array);
@@ -41,6 +42,15 @@
 			if (pair.len() != 2) throw ::MSU.Exception.InvalidType(pair);
 			
 			this.add(pair[1], pair[0]);
+		}
+	}
+
+	function merge( _otherContainer )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.WeightedContainer, _otherContainer);
+		foreach (item, weight in _otherContainer.Table)
+		{
+			this.add(item, weight);
 		}
 	}
 
@@ -61,16 +71,16 @@
 		}
 	}
 
-	function contains( _item )
-	{
-		return _item in this.Table;
-	}
-
 	function remove( _item )
 	{
 		if (this.Table[_item] < 0) delete this.Forced[_item];
 		else this.Total -= this.Table[_item];
 		delete this.Table[_item];
+	}
+
+	function contains( _item )
+	{
+		return _item in this.Table;
 	}
 
 	function getProbability( _item, _exclude = null )
@@ -103,40 +113,6 @@
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
 		this.updateWeight(_item, _weight);
-	}
-
-	// Private
-	function updateWeight( _item, _newWeight )
-	{
-		_newWeight = _newWeight.tofloat();
-
-		if (this.Table[_item] >= 0)
-		{
-			this.Total -= this.Table[_item];
-			if (_newWeight < 0) this.Forced.push(_item);
-		}
-
-		if (_newWeight >= 0)
-		{
-			this.Total += _newWeight;
-			if (this.Table[_item] < 0) this.Forced.remove(this.Forced.find(_item));
-		}
-
-		this.Table[_item] = _newWeight;
-	}
-
-	// Private
-	function getTotal( _exclude = null )
-	{
-		if (_exclude == null) return this.Total;
-
-		local ret = this.Total;
-		foreach (item in _exclude)
-		{
-			if (this.Table[item] > 0) ret -= this.Table[item];
-		}
-
-		return ret;
 	}
 
 	function apply( _function )
@@ -245,16 +221,6 @@
 		return ::Math.rand(1, 100) <= _chance ? this.roll(_exclude) : null;
 	}
 
-	function _get( _item )
-	{
-		return this.Table[_item];
-	}
-
-	function _cloned()
-	{
-		return ::MSU.Class.WeightedContainer().merge(this);
-	}
-
 	function len()
 	{
 		return this.Table.len();
@@ -270,5 +236,39 @@
 	{
 		this.Total = _in.readU32();
 		this.Table = ::MSU.Utils.deserialize(_in);
+	}
+
+	// Private
+	function updateWeight( _item, _newWeight )
+	{
+		_newWeight = _newWeight.tofloat();
+
+		if (this.Table[_item] >= 0)
+		{
+			this.Total -= this.Table[_item];
+			if (_newWeight < 0) this.Forced.push(_item);
+		}
+
+		if (_newWeight >= 0)
+		{
+			this.Total += _newWeight;
+			if (this.Table[_item] < 0) this.Forced.remove(this.Forced.find(_item));
+		}
+
+		this.Table[_item] = _newWeight;
+	}
+
+	// Private
+	function getTotal( _exclude = null )
+	{
+		if (_exclude == null) return this.Total;
+
+		local ret = this.Total;
+		foreach (item in _exclude)
+		{
+			if (this.Table[item] > 0) ret -= this.Table[item];
+		}
+
+		return ret;
 	}
 }
