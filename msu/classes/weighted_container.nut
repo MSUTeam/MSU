@@ -23,6 +23,15 @@
 		return ret;
 	}
 
+	function merge( _otherContainer )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.WeightedContainer, _otherContainer);
+		foreach (item, weight in _otherContainer.Table)
+		{
+			this.add(item, weight);
+		}
+	}
+
 	function addArray( _array )
 	{
 		::MSU.requireArray(_array);
