@@ -15,7 +15,7 @@
 
 	function getTable( _version )
 	{
-		local version = ::MSU.SemVerRegex.capture(_version);
+		local version = ::MSU.SemVer.Regex.capture(_version);
 		if (version == null)
 		{
 			::logError(::MSU.Error.NotSemanticVersion(_version));

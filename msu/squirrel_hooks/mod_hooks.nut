@@ -17,7 +17,7 @@ local mods_registerMod = ::mods_registerMod;
 		_extra.SemVer <- ::MSU.SemVer.getTable(_version);
 		_version = 2147483647; // 2^31-1 to make sure a semver version is always greater than an int/float one
 	}
-	else if (typeof _version == "string" || typeof _version == "integer")
+	else if (typeof _version == "float" || typeof _version == "integer")
 	{
 		_extra.SemVer <- null;
 	}
