@@ -53,6 +53,7 @@
 
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
+	o.m.HitChanceBonusPerTile <- 0;
 
 	o.m.IsBaseValuesSaved <- false;
 	o.m.ScheduledChanges <- [];
@@ -338,7 +339,20 @@
 	local getHitFactors = o.getHitFactors;
 	o.getHitFactors = function( _targetTile )
 	{
-		local ret = getHitFactors(_targetTile);			
+		local ret = getHitFactors(_targetTile);
+		if (this.m.HitChanceBonusPerTile > 0)
+		{
+			local text = "Distance of " + _targetTile.getDistanceTo(this.getContainer().getActor().getTile());
+			foreach (item in ret)
+			{
+				if (item.text == text)
+				{
+					item.icon = "ui/tooltips/positive.png";
+					break;
+				}
+			}
+		}
+		
 		this.getContainer().onGetHitFactors(this, _targetTile, ret);
 		return ret;
 	}
@@ -365,20 +379,20 @@
 		});
 
 		local accuText = "";
-		if (this.m.AdditionalAccuracy != 0)
+		if (this.m.HitChanceBonus != 0)
 		{
-			local color = this.m.AdditionalAccuracy > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue;
-			local sign = this.m.AdditionalAccuracy > 0 ? "+" : "";
-			accuText = "Has [color=" + color + "]" + sign + this.m.AdditionalAccuracy + "%[/color] chance to hit";
+			local color = this.m.HitChanceBonus > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue;
+			local sign = this.m.HitChanceBonus > 0 ? "+" : "";
+			accuText = "Has [color=" + color + "]" + sign + this.m.HitChanceBonus + "%[/color] chance to hit";
 		}
 
-		if (this.m.AdditionalHitChance != 0)
+		if (this.m.HitChanceBonusPerTile != 0)
 		{
-			accuText += this.m.AdditionalAccuracy == 0 ? "Has" : ", and";
-			local additionalHitChance = this.m.AdditionalHitChance + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
+			accuText += this.m.HitChanceBonus == 0 ? "Has" : ", and";
+			local additionalHitChance = this.m.HitChanceBonusPerTile + this.getContainer().getActor().getCurrentProperties().HitChanceAdditionalWithEachTile;
 			local sign = additionalHitChance > 0 ? "+" : "";
 			accuText += " [color=" + (additionalHitChance > 0 ? ::Const.UI.Color.PositiveValue : ::Const.UI.Color.NegativeValue) + "]" + sign + additionalHitChance + "%[/color]";
-			accuText += this.m.AdditionalAccuracy == 0 ? " chance to hit " : "";
+			accuText += this.m.HitChanceBonus == 0 ? " chance to hit " : "";
 			accuText += " per tile of distance";
 		}
 
