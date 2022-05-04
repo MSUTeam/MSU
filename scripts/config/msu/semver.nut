@@ -8,18 +8,8 @@
 		return this.Regex.capture(_string) != null;
 	}
 
-	function getTable( _version, _allowNumbers = false )
+	function getTable( _version )
 	{
-		if (_allowNumbers)
-		{
-			if (typeof _version == "integer") _version += ".0.0";
-			else if (typeof _version == "float")
-			{
-				_version += ".0";
-				if (split(_version, ".").len() == 2) _version += ".0"
-			}
-		}
-
 		local version = ::MSU.SemVer.Regex.capture(_version);
 		if (version == null)
 		{
