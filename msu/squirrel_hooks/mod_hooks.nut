@@ -2,10 +2,7 @@ local function getRegisteredModRef( _modID )
 {
 	foreach (mod in ::mods_getRegisteredMods())
 	{
-		if (mod.Name == _modID)
-		{
-			return mod;
-		}
+		if (mod.Name == _modID) return mod;
 	}
 }
 local lastRegistered = null;
@@ -15,11 +12,10 @@ local mods_registerMod = ::mods_registerMod;
 {
 	lastRegistered = _id;
 	if (_extra == null) _extra = {};
-	local version;
 	if (typeof _version == "string")
 	{
 		_extra.SemVer <- ::MSU.SemVer.getTable(_version);
-		version = 2147483647; // 2^31-1 to make sure a semver version is always greater than an int/float one
+		_version = 2147483647; // 2^31-1 to make sure a semver version is always greater than an int/float one
 	}
 	else if (typeof _version == "string" || typeof _version == "integer")
 	{
@@ -31,7 +27,7 @@ local mods_registerMod = ::mods_registerMod;
 	}
 
 	_extra.SemVerDependencies <- [];
-	mods_registerMod(_id, version, _name, _extra);
+	mods_registerMod(_id, _version, _name, _extra);
 }
 
 local hooks = getRegisteredModRef("mod_hooks");
@@ -45,8 +41,7 @@ local mods_queue = ::mods_queue;
 	local mod = getRegisteredModRef(_id);
 	if (mod == null)
 	{
-		local error = "Mod " + _id  + " not registered.";
-		throw error;
+		throw "Mod " + _id  + " not registered.";
 	}
 	if (_expressions != null && _expressions != "")
 	{
@@ -68,7 +63,6 @@ local mods_queue = ::mods_queue;
 				VersionOperator = ::MSU.regexMatch(capture, expression, 3),
 				Version = ::MSU.regexMatch(capture, expression, 4)
 			}
-
 
 			if (!::MSU.SemVer.isSemVer(expressions[i].Version))
 			{

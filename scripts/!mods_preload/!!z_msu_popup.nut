@@ -21,7 +21,7 @@
 	}
 });
 
-::include("msu/squirrel_hooks/mod_hooks"); // patches mod_hooks to accept semver strings and
+::include("msu/squirrel_hooks/mod_hooks"); // patches mod_hooks to accept semver strings
 
 if (::Const.DLC.Lindwurm) ::mods_registerMod("dlc_lindwurm", 1, "Lindwurm");
 if (::Const.DLC.Unhold) ::mods_registerMod("dlc_unhold", 1, "Beasts & Exploration");
