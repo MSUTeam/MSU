@@ -1,0 +1,27 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Project automation
+
+on:
+  issues:
+    types: [labeled, unlabeled]
+
+jobs:
+  automate-project-columns:
+    if: github.event.label.name == 'postponed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: add-to-todo
+        if: github.event.action == 'unlabeled'
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Job Board
+          column: To do
+          repo-token: ${{ secrets.MSU_AUTOMATION_PAT }}
+      - name: add-to-postponed
+        if: github.event.action == 'labeled'
+        uses: alex-page/github-project-automation-plus@v0.8.1
+        with:
+          project: Job Board
+          column: Postponed
+          repo-token: ${{ secrets.MSU_AUTOMATION_PAT }}
