@@ -107,3 +107,8 @@
 	}
 	return ::WeakTableRef(_object);
 }
+
+::MSU.regexMatch <- function( _capture, _string, _group )
+{
+	return _capture[_group].end > 0 && _capture[_group].begin < _string.len() ? _string.slice(_capture[_group].begin, _capture[_group].end) : null;
+}

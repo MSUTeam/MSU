@@ -22,7 +22,7 @@
 		this.ID = _id;
 		this.Name = _name;
 
-		local table = ::MSU.System.Registry.getVersionTable(_version);
+		local table = ::MSU.SemVer.getTable(_version);
 		this.Version = table.Version;
 		this.PreRelease = table.PreRelease;
 		this.Metadata = table.Metadata;
@@ -46,24 +46,12 @@
 
 	function getShortVersionString()
 	{
-		return this.Version.reduce(@(_a, _b) _a + "." + _b);
+		return ::MSU.SemVer.getShortVersionString(this);
 	}
 
 	function getVersionString()
 	{
-		local ret = this.getShortVersionString();
-
-		if (this.PreRelease != null)
-		{
-			ret += "-" + this.PreRelease.reduce(@(_a, _b) _a + "." + _b);
-		}
-
-		if (this.Metadata != null)
-		{
-			ret += "+" + this.Metadata.reduce(@(_a, _b) _a + "." + _b);
-		}
-
-		return ret;
+		return ::MSU.SemVer.getVersionString(this);
 	}
 
 	function tostring()
