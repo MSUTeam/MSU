@@ -252,7 +252,7 @@
 
 	function _cloned()
 	{
-		return ::MSU.Class.WeightedContainer(this.toArray(false));
+		return ::MSU.Class.WeightedContainer().merge(this);
 	}
 
 	function len()
