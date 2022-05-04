@@ -44,7 +44,7 @@
 		local ret = base.tostring() + " | Values: \n";
 		foreach (key, value in this.getValueAsTable())
 		{
-			ret += key + " : " +  value + "\n";
+			ret += key + " : " + value + "\n";
 		}
 		return ret;
 	}

@@ -42,7 +42,7 @@ local mods_queue = ::mods_queue;
 	local mod = getRegisteredModRef(_id);
 	if (mod == null)
 	{
-		::logError("Mod " + _id  + " not registered.");
+		::logError("Mod " + _id + " not registered.");
 		throw ::MSU.Exception.KeyNotFound(_id);
 	}
 	if (_expressions != null && _expressions != "")

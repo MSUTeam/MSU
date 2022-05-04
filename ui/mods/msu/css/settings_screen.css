@@ -114,7 +114,7 @@
 	height: 2rem;
 	font-size: 1.8rem;
 	color: #dda21f !important;
-    text-shadow: 1px 1px rgba(0, 0, 0, 128), -1px -1px #000;
+	text-shadow: 1px 1px rgba(0, 0, 0, 128), -1px -1px #000;
 	font-weight: normal;
 	font-style : normal;
 	font-family: 'FreeUniversal-Regular';
@@ -171,7 +171,7 @@
 .color-picker-button:active,
 .button-setting-button:active
 {
-    transform: translateY(4px);
+	transform: translateY(4px);
 }
 
 .msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button

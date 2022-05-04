@@ -39,7 +39,7 @@
 
 			local temp = _array[i];
 			_array[i] = _array[j];
-			_array[j]  = temp;
+			_array[j] = temp;
 		}
 	}
 

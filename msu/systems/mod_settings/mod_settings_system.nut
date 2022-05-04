@@ -57,7 +57,7 @@
 		this.Panels.sort(this.sortPanelsByName);
 	}
 
-	function updateSettings( _data, _informChange = true  )
+	function updateSettings( _data, _informChange = true )
 	{
 		/*
 		_data = {

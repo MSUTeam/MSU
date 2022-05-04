@@ -32,7 +32,7 @@
 	{
 		local versionArray = split(_vanillaVersion, ".");
 		local preRelease = versionArray.pop();
-		return versionArray.reduce(@(_a, _b) _a + "." + _b) + "-" +  preRelease;
+		return versionArray.reduce(@(_a, _b) _a + "." + _b) + "-" + preRelease;
 	}
 
 	function compare( _version1, _version2 )

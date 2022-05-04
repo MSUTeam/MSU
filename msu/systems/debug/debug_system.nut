@@ -78,7 +78,7 @@
 		{
 			throw ::MSU.Exception.KeyNotFound(_flagID);
 		}
-		return  this.isFullDebug() || this.Mods[_modID][_flagID] == true;
+		return this.isFullDebug() || this.Mods[_modID][_flagID] == true;
 	}
 
 	function isFullDebug()

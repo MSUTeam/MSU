@@ -90,7 +90,7 @@
 		return keybind;
 	}
 
-	function update( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true  )
+	function update( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true )
 	{
 		local keybind = this.remove(_modID, _id);
 		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations),"/");

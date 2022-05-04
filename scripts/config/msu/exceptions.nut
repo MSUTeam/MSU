@@ -13,7 +13,7 @@ local function getInQuotes( _string )
 	AlreadyInState = function( _string = "" ) { return format("Trying to show already visible screen%s or hide an invisible one", getinQuotes(_string)); },
 	InvalidType = function( _string = "" ) { return format("The variable%s is of the wrong type", getInQuotes(_string)); },
 	DuplicateKey = function( _string ) { return format("The key%s is already present", getInQuotes(_string)); },
-	InvalidValue = function( _string = "" )  { return format("The value of the variable%s is not acceptable", getInQuotes(_string)); }
+	InvalidValue = function( _string = "" ) { return format("The value of the variable%s is not acceptable", getInQuotes(_string)); }
 };
 
 ::MSU.Error <- {

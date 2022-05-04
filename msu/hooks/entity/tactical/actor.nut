@@ -1,5 +1,5 @@
 ::mods_hookExactClass("entity/tactical/actor", function(o) {
-	local onInit =  o.onInit;
+	local onInit = o.onInit;
 	o.onInit = function()
 	{
 		onInit();
@@ -25,7 +25,7 @@
 	}
 
 	local onMovementStep = o.onMovementStep;
-	o.onMovementStep  = function( _tile, _levelDifference )
+	o.onMovementStep = function( _tile, _levelDifference )
 	{
 		local ret = onMovementStep(_tile, _levelDifference);
 
