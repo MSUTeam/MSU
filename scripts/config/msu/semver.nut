@@ -25,7 +25,7 @@
 			Version = split(::MSU.regexMatch(version, _version, 1), "."),
 			PreRelease = ::MSU.regexMatch(version, _version, 2) == null ? null : split(::MSU.regexMatch(version, _version, 2), "."),
 			Metadata = ::MSU.regexMatch(version, _version, 3) == null ? null : split(::MSU.regexMatch(version, _version, 3), ".")
-		}
+		};
 	}
 
 	function formatVanillaVersion( _vanillaVersion )
@@ -89,7 +89,20 @@
 
 	function compareWithOperator( _version1, _operator, _version2 )
 	{
-		switch (this.compare(_version1, _version2))
+		local ret;
+		if (_version1 == null)
+		{
+			ret = -1;
+		}
+		else if (_version2 == null)
+		{
+			ret = 1;
+		}
+		else
+		{
+			ret = this.compare(_version1, _version2)
+		}
+		switch (ret)
 		{
 			case -1:
 				if (["<", "<="].find(_operator) != null) return true;

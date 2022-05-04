@@ -16,26 +16,26 @@ local mods_registerMod = ::mods_registerMod;
 	lastRegistered = _id;
 	if (_extra == null) _extra = {};
 	local version;
-	switch (typeof _version)
+	if (typeof _version == "string")
 	{
-		case "float":
-		case "integer":
-			version = _version;
-			_extra.SemVer <- ::MSU.SemVer.getTable(_version, true);
-			break;
-		case "string":
-			_extra.SemVer <- ::MSU.SemVer.getTable(_version);
-			version = 1;
-			break;
-		default:
-			throw "Mod \"" + _id + "\" is using an invalid version format. Mod versions must be ints, floats or semver strings.";
+		_extra.SemVer <- ::MSU.SemVer.getTable(_version);
+		version = 2147483647; // 2^31-1 to make sure a semver version is always greater than an int/float one
 	}
+	else if (typeof _version == "string" || typeof _version == "integer")
+	{
+		_extra.SemVer <- null;
+	}
+	else
+	{
+		throw "Mod \"" + _id + "\" is using an invalid version format. Mod versions must be ints, floats or semver strings.";
+	}
+
 	_extra.SemVerDependencies <- [];
 	mods_registerMod(_id, version, _name, _extra);
 }
 
 local hooks = getRegisteredModRef("mod_hooks");
-hooks.SemVer <- ::MSU.SemVer.getTable(hooks.Version, true);
+hooks.SemVer <- null;
 hooks.SemVerDependencies <- [];
 
 local mods_queue = ::mods_queue;
