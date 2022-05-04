@@ -7,9 +7,9 @@
 	Callbacks = null;
 	Persistence = null; //if it should print change to log for further manipulation
 
-	constructor( _id, _value, _name = null )
+	constructor( _id, _value, _name = null, _description = null )
 	{
-		base.constructor(_id, _name)
+		base.constructor(_id, _name, _description)
 		this.Value = _value; 
 		this.Locked = false;
 		this.LockReason = "";

@@ -2,7 +2,7 @@
 {
 	static Type = "Boolean";
 
-	constructor( _id, _value, _name = null)
+	constructor( _id, _value, _name = null, _description = null )
 	{
 		::MSU.requireBool(_value);
 		base.constructor(_id, _value, _name);

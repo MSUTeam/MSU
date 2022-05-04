@@ -7,17 +7,17 @@
 	Description = null;
 	Page = null;
 
-	constructor( _id, _name = null )
+	constructor( _id, _name = null, _description = null )
 	{
 		if (_id.find(" ") != null)
 		{
-			::logError("The ID of a Settings Element should not have spaces");
+			::logError("The ID of a Settings Element must not have spaces");
 			throw ::MSU.Exception.InvalidValue(_id);
 		}
 		this.Name = _name == null ? _id : _name;
 		this.ID = _id;
 		this.Data = {};
-		this.Description = "";
+		this.Description = _description == null ? "" : _description;
 	}
 
 	function getType()

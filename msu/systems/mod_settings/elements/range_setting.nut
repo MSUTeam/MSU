@@ -5,7 +5,7 @@
 	Step = null;
 	static Type = "Range";
 
-	constructor( _id, _value, _min, _max, _step, _name = null )
+	constructor( _id, _value, _min, _max, _step, _name = null, _description = null )
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _min, _max, _step);
 		base.constructor(_id, _value, _name);

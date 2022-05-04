@@ -3,7 +3,7 @@
 	Array = null;
 	static Type = "Enum";
 
-	constructor( _id, _value, _array, _name = null )
+	constructor( _id, _value, _array, _name = null, _description = null )
 	{
 		if (_array.find(_value) == null)
 		{

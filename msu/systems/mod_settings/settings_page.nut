@@ -29,9 +29,9 @@
 		return this.addElement(::MSU.Class.SettingsDivider(_id));
 	}
 
-	function addTitle( _id, _name )
+	function addTitle( _id, _name, _description = null )
 	{
-		return this.addElement(::MSU.Class.SettingsTitle(_id, _name));
+		return this.addElement(::MSU.Class.SettingsTitle(_id, _name, _description));
 	}
 
 	function addSpacer( _id, _width, _height )
@@ -39,34 +39,34 @@
 		return this.addElement(::MSU.Class.SettingsSpacer(_id, _width, _height));
 	}
 
-	function addBooleanSetting( _id, _value, _name = null )
+	function addBooleanSetting( _id, _value, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.BooleanSetting(_id, _value, _name));
+		return this.addElement(::MSU.Class.BooleanSetting(_id, _value, _name, _description));
 	}
 
-	function addButtonSetting( _id, _value, _name = null )
+	function addButtonSetting( _id, _value, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.ButtonSetting(_id, _value, _name));
+		return this.addElement(::MSU.Class.ButtonSetting(_id, _value, _name, _description));
 	}
 
-	function addEnumSetting( _id, _value, _array, _name = null )
+	function addEnumSetting( _id, _value, _array, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.EnumSetting(_id, _value, _array, _name));
+		return this.addElement(::MSU.Class.EnumSetting(_id, _value, _array, _name, _description));
 	}
 
-	function addRangeSetting( _id, _value, _min, _max, _step, _name = null )
+	function addRangeSetting( _id, _value, _min, _max, _step, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.RangeSetting(_id, _value, _min, _max, _step, _name));
+		return this.addElement(::MSU.Class.RangeSetting(_id, _value, _min, _max, _step, _name, _description));
 	}
 
-	function addStringSetting( _id, _value, _name = null )
+	function addStringSetting( _id, _value, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.StringSetting(_id, _value, _name));
+		return this.addElement(::MSU.Class.StringSetting(_id, _value, _name, _description));
 	}
 
-	function addColorPickerSetting( _id, _value, _name = null )
+	function addColorPickerSetting( _id, _value, _name = null, _description = null )
 	{
-		return this.addElement(::MSU.Class.ColorPickerSetting(_id, _value, _name));
+		return this.addElement(::MSU.Class.ColorPickerSetting(_id, _value, _name, _description));
 	}
 
 	function setPanel( _panel )
