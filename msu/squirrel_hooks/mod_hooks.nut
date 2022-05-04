@@ -23,7 +23,8 @@ local mods_registerMod = ::mods_registerMod;
 	}
 	else
 	{
-		throw "Mod \"" + _id + "\" is using an invalid version format. Mod versions must be ints, floats or semver strings.";
+		::logError("Mod \"" + _id + "\" is using an invalid version format. Mod version must be an integer, float or Semantic Version string.");
+		throw ::MSU.Exception.InvalidValue(_version);
 	}
 
 	_extra.SemVerDependencies <- [];
@@ -41,7 +42,8 @@ local mods_queue = ::mods_queue;
 	local mod = getRegisteredModRef(_id);
 	if (mod == null)
 	{
-		throw "Mod " + _id  + " not registered.";
+		::logError("Mod " + _id  + " not registered.");
+		throw ::MSU.Exception.KeyNotFound(_id);
 	}
 	if (_expressions != null && _expressions != "")
 	{
@@ -55,7 +57,8 @@ local mods_queue = ::mods_queue;
 			local capture = queueRegex.capture(expression);
 			if (capture == null)
 			{
-				throw "Mod \"" + _id + "\" is using an invalid queue expression: " + expression;
+				::logError("Mod \"" + _id + "\" is using an invalid queue expression.");
+				throw ::MSU.Exception.InvalidValue(expression);
 			}
 			expressions[i] = {
 				Operator = ::MSU.regexMatch(capture, expression, 1),
