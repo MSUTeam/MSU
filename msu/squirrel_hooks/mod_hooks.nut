@@ -103,7 +103,7 @@ local _mods_runQueue = ::_mods_runQueue;
 			local depMod = ::mods_getRegisteredMod(dep.Name);
 			if (dep.Operator == "!")
 			{
-				if (depMod != null && ::MSU.compareSemVersionWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
+				if (depMod != null && ::MSU.Semver.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
 				{
 					errors += "Mod " + mod.Name + " is not compatible with mod " + depMod.Name + " version " + ::MSU.SemVer.getVersionString(depMod.SemVer) + ", requires versions other than " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + ".\n\n";
 				}
