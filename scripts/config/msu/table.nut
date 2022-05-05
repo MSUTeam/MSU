@@ -32,6 +32,15 @@
 		}
 	}
 
+	function merge( _table1, _table2, _overwrite = true )
+	{
+		foreach (key, value in _table2)
+		{
+			if (!_overwrite && (key in _table1)) throw ::MSU.Exception.DuplicateKey(key);
+			_table1[key] <- value;
+		}
+	}
+
 	function keys( _table )
 	{
 		local ret = array(_table.len());
