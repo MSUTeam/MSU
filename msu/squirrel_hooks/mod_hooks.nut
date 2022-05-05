@@ -96,6 +96,7 @@ local _mods_runQueue = ::_mods_runQueue;
 		foreach (dep in mod.SemVerDependencies) // stuff only exists in here if it has a semver array
 		{
 			local depMod = ::mods_getRegisteredMod(dep.Name);
+			if (depMod == null) continue;
 			if (dep.Operator == "!")
 			{
 				if (depMod != null && ::MSU.Semver.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
@@ -104,9 +105,10 @@ local _mods_runQueue = ::_mods_runQueue;
 				}
 				continue;
 			}
-			if (depMod == null || !::MSU.SemVer.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
+			else if (!::MSU.SemVer.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
 			{
-				errors += "Mod " + mod.Name + " is not compatible with mod " + depMod.Name + " version " + ::MSU.SemVer.getVersionString(depMod.SemVer) + ", requires version " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + ".\n\n";
+				local version = depMod.SemVer == null ? depMod.Version : ::MSU.getVersionString(depMod.SemVer);
+				errors += "Mod " + mod.Name + " is not compatible with mod " + dep.Name + " version " + version + ", requires version " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + ".\n\n";
 			}
 		}
 	}
