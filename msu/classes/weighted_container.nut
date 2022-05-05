@@ -200,15 +200,15 @@
 		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
 		if (forced.len() > 0)
 		{
-			return ::MSU.Array.rand(forced);
+			return ::Math.randArray(forced);
 		}
 
-		local roll = ::Math.rand(1, this.getTotal(_exclude));
+		local roll = ::MSU.Math.randf(0.0, this.getTotal(_exclude));
 		foreach (item, weight in this.Table)
 		{
 			if (_exclude != null && _exclude.find(item) != null) continue;
 
-			if (roll <= weight) return item;
+			if (roll <= weight && weight != 0.0) return item;
 
 			roll -= weight;
 		}
