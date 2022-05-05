@@ -122,7 +122,7 @@
 
 		foreach (item, weight in this.Table)
 		{
-			this.Table[item] = _function(item, weight);
+			this.setWeight(item, _function(item, weight))
 		}
 	}
 
