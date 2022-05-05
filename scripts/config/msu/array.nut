@@ -2,19 +2,16 @@
 	function rand( _array, _start = 0, _end = null )
 	{
 		if (_array.len() == 0) return null;
-		local start = _start;
-		local end = _end;
-
-		if (end == null) end = _array.len();
-		if (end < 0) end = _array.len() - end;
-		if (start < 0) start = _array.len() - start;
+		if (_end == null) _end = _array.len();
+		if (_end < 0) _end = _array.len() - _end;
+		if (_start < 0) _start = _array.len() - _start;
 		
-		if (start < 0 || end < start)
+		if (_start < 0 || _end < _start)
 		{
 			throw "Invalid indices. _array.len() = " + _array.len();
 		}
 
-		return _array[::Math.rand(start, end - 1)];
+		return _array[::Math.rand(_start, _end - 1)];
 	}
 
 	function remove( _array, _item, _ignoreMissing = true )
