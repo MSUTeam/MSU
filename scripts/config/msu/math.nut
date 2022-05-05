@@ -1,9 +1,4 @@
 ::MSU.Math <- {
-	function pi()
-	{
-		return 3.14159;
-	}
-
 	// returns log2 of _num, floored (as an int)
 	function log2int( _num )
 	{
