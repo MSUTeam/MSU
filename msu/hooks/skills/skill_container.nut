@@ -211,7 +211,8 @@
 	o.buildPropertiesForUse = function( _caller, _targetEntity )
 	{
 		_caller.resetField("HitChanceBonus");
-		_caller.resetField("HitChanceBonusPerTile");
+		if ("AdditionalAccuracy" in _caller.m) _caller.resetField("AdditionalAccuracy");
+		if ("AdditionalHitChance" in _caller.m) _caller.resetField("AdditionalHitChance");
 
 		return this.buildProperties("onAnySkillUsed", [
 			_caller,
