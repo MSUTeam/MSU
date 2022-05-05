@@ -6,7 +6,7 @@
 
 		if (ret)
 		{
-			local roster = this.World.getPlayerRoster().getAll();
+			local roster = ::World.getPlayerRoster().getAll();
 			foreach (bro in roster)
 			{
 				bro.getSkills().onEnterSettlement(this);

@@ -39,7 +39,7 @@
 		// create a button setting with a callback to print out the ID when clicked
 		local buttonTest = testPage.addButtonSetting("TestButton", "Click Me", null);
 		buttonTest.addCallback(function(_data = null){
-			this.logInfo("Button " + this.ID + " was pressed");
+			::logInfo("Button " + this.ID + " was pressed");
 		})
 
 		// create a spacer that spans the page at half height

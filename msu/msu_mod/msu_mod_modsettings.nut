@@ -2,11 +2,11 @@ local generalPage = ::MSU.Mod.ModSettings.addPage("General");
 
 local expandedSkillTooltips = generalPage.addBooleanSetting("ExpandedSkillTooltips", false, "Expanded Skill Tooltips");
 expandedSkillTooltips.setPersistence(false);
-expandedSkillTooltips.setDescription("Show MSU-based information in skill tooltips e.g. Damage Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
+expandedSkillTooltips.setDescription("Show MSU-based information in skill tooltips e.g. Damage Type.\n\n[color=" + ::Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
 
 local expandedItemTooltips = generalPage.addBooleanSetting("ExpandedItemTooltips", false, "Expanded Item Tooltips");
 expandedItemTooltips.setPersistence(false);
-expandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.\n\n[color=" + this.Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
+expandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.\n\n[color=" + ::Const.UI.Color.NegativeValue + "]IMPORTANT: [/color]If this setting is enabled automatically, DO NOT disable it as it has been enabled by a mod you are using and is required by that mod.");
 
 
 local logPage = ::MSU.Mod.ModSettings.addPage("Logging");

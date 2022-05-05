@@ -92,7 +92,7 @@
 
 	o.getTimeDelta <- function() 
 	{
-		local delta = ::Math.maxf(0.0, this.Time.getVirtualTimeF() - this.m.LastUpdateTime);
+		local delta = ::Math.maxf(0.0, ::Time.getVirtualTimeF() - this.m.LastUpdateTime);
 		return delta;
 	}
 
@@ -156,7 +156,7 @@
 	{
 		this.world_entity.onUpdate();
 		local delta = this.getTimeDelta();
-		this.m.LastUpdateTime = this.Time.getVirtualTimeF();
+		this.m.LastUpdateTime = ::Time.getVirtualTimeF();
 		
 		if (this.isInCombat())
 		{
@@ -164,7 +164,7 @@
 			return;
 		}
 
-		if (this.m.StunTime > this.Time.getVirtualTimeF())
+		if (this.m.StunTime > ::Time.getVirtualTimeF())
 		{
 			return;
 		}
@@ -238,7 +238,7 @@
 
 			if (this.m.IsLeavingFootprints && !myTile.IsOccupied)
 			{
-				if (this.Time.getVirtualTimeF() - this.m.LastFootprintTime >= 1.0)
+				if (::Time.getVirtualTimeF() - this.m.LastFootprintTime >= 1.0)
 				{
 					local scale;
 
@@ -252,7 +252,7 @@
 					}
 
 					::World.spawnFootprint(this.createVec(this.getPos().X - 5, this.getPos().Y - 15), this.m.Footprints[this.getDirection8To(this.m.Destination)] + "_0" + this.m.LastFootprintType, scale, this.m.FootprintSizeOverride != 0.0 ? 30.0 : 0.0, ::World.Assets.getFootprintVision(), this.m.FootprintType);
-					this.m.LastFootprintTime = this.Time.getVirtualTimeF();
+					this.m.LastFootprintTime = ::Time.getVirtualTimeF();
 					this.m.LastFootprintType = this.m.LastFootprintType == 1 ? 2 : 1;
 				}
 			}
@@ -263,9 +263,9 @@
 			}
 		}
 
-		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < this.Time.getRealTimeF() && ::Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
+		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < ::Time.getRealTimeF() && ::Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
 		{
-			this.m.LastIdleSound = this.Time.getRealTimeF();
+			this.m.LastIdleSound = ::Time.getRealTimeF();
 			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][::Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
 		}
 
@@ -290,9 +290,9 @@
 
 		local vanillaMovementSpeed = this.getVanillaBaseMovementSpeed();
 		local speed = vanillaMovementSpeed;
-		slowDownPartyPerTroop = (1.0 - this.Math.minf(0.5, this.m.Troops.len() * this.Const.World.MovementSettings.SlowDownPartyPerTroop));
+		slowDownPartyPerTroop = (1.0 - ::Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
 		speed *= slowDownPartyPerTroop
-		GlobalMult = this.Const.World.MovementSettings.GlobalMult;
+		GlobalMult = ::Const.World.MovementSettings.GlobalMult;
 		speed *= GlobalMult
 		local myTile = this.getTile();
 
@@ -300,39 +300,39 @@
 		{
 			if (myTile.HasRoad)
 			{
-				TerrainTypeSpeedMult = this.Math.maxf(this.Const.World.TerrainTypeSpeedMult[myTile.Type] * this.Const.World.MovementSettings.RoadMult, 1.0);
+				TerrainTypeSpeedMult = ::Math.maxf(::Const.World.TerrainTypeSpeedMult[myTile.Type] * ::Const.World.MovementSettings.RoadMult, 1.0);
 			}
 			else
 			{
-				TerrainTypeSpeedMult = this.Const.World.TerrainTypeSpeedMult[myTile.Type];
+				TerrainTypeSpeedMult = ::Const.World.TerrainTypeSpeedMult[myTile.Type];
 			}
 			speed *= TerrainTypeSpeedMult
 
 			if (this.m.IsPlayer)
 			{
-				getTerrainTypeSpeedMultPlayer = this.World.Assets.getTerrainTypeSpeedMult(myTile.Type);
+				getTerrainTypeSpeedMultPlayer = ::World.Assets.getTerrainTypeSpeedMult(myTile.Type);
 			}
 			speed *= getTerrainTypeSpeedMultPlayer
 		}
 
-		if (this.m.IsSlowerAtNight && !this.World.isDaytime())
+		if (this.m.IsSlowerAtNight && !::World.isDaytime())
 		{
-			NighttimeMult = this.Const.World.MovementSettings.NighttimeMult;
+			NighttimeMult = ::Const.World.MovementSettings.NighttimeMult;
 		}
 		speed *= NighttimeMult
 
 		if (myTile.HasRiver)
 		{
-			RiverMult = this.Const.World.MovementSettings.RiverMult;
+			RiverMult = ::Const.World.MovementSettings.RiverMult;
 		}
 		speed *= RiverMult
-		if (this.getFaction() != this.Const.Faction.Player)
+		if (this.getFaction() != ::Const.Faction.Player)
 		{
-			NotPlayerMult = this.Const.World.MovementSettings.NotPlayerMult;
+			NotPlayerMult = ::Const.World.MovementSettings.NotPlayerMult;
 		}
 		speed *= NotPlayerMult
 
-		if(this.Math.round(moddedSpeed) != this.Math.round(speed))
+		if(::Math.round(moddedSpeed) != ::Math.round(speed))
 		{
 			::MSU.Mod.Debug.printError("Movement Speed for party " + this.getName() + " is NOT correct. Expected: " + speed + " , actual: " + moddedSpeed, "movement")
 			::MSU.Mod.Debug.printError("COMPARING VANILLA AND MSU", "movement")

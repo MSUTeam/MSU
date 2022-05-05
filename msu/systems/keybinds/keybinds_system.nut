@@ -102,7 +102,7 @@
 	{
 		if(!(_modID in this.KeybindsByMod))
 		{
-			this.logError(format("Trying to update keybind %s for mod %s but mod does not exist!"), _id, _modID);
+			::logError(format("Trying to update keybind %s for mod %s but mod does not exist!"), _id, _modID);
 			return;
 		}
 		this.update(_modID, _id, _keyCombinations, true, false, false);
