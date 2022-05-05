@@ -338,7 +338,17 @@
 	local getHitFactors = o.getHitFactors;
 	o.getHitFactors = function( _targetTile )
 	{
-		local ret = getHitFactors(_targetTile);			
+		local ret = getHitFactors(_targetTile);
+		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue() && ::MSU.isIn("AdditionalAccuracy", this.m, true) && this.m.AdditionalAccuracy != 0)
+		{
+			local payload = {
+				icon = this.m.AdditionalAccuracy > 0 ? "ui/tooltips/positive.png" : "ui/tooltips/negative.png",
+				text = this.getName()
+			};
+
+			if (this.m.AdditionalAccuracy > 0) ret.insert(0, payload);
+			else ret.push(payload);
+		}
 		this.getContainer().onGetHitFactors(this, _targetTile, ret);
 		return ret;
 	}
