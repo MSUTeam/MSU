@@ -27,4 +27,10 @@
 	{
 		return exp(-0.5 * pow((_x - _mean)/(_std * 1.0), 2)) / (_std * sqrt(2 * 3.14));			
 	}
+
+	function randf( _min, _max )
+	{
+		::MSU.requireFloat(_min, _max);
+		return _min + (::Math.rand(0, 2147483647) / 2147483647.0) * (_max - _min);
+	}
 };
