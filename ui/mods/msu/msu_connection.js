@@ -67,6 +67,23 @@ MSUConnection.prototype.setModSettingValue = function (_modID, _settingID, _valu
 	this.notifyBackendUpdateSetting(out);
 };
 
+MSUConnection.prototype.checkMSUGithubVersion = function ()
+{
+	var checkMSUUpdate = new XMLHttpRequest();
+	var self = this;
+	checkMSUUpdate.addEventListener("load", function()
+	{
+		jQuery.proxy(self.notifyBackendGetMSUGithubVersion(JSON.parse(this.responseText).tag_name), self)
+	});
+	checkMSUUpdate.open("GET", 'https://api.github.com/repos/MSUTeam/mod_MSU/releases/latest');
+	checkMSUUpdate.send();
+}
+
+MSUConnection.prototype.notifyBackendGetMSUGithubVersion = function (_version)
+{
+	SQ.call(this.mSQHandle, "getMSUGithubVersion", _version);
+}
+
 MSUConnection.prototype.notifyBackendUpdateSetting = function(_data)
 {
 	SQ.call(this.mSQHandle, "updateSettingJS", _data);
