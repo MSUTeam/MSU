@@ -12,12 +12,14 @@
 		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
 		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
 		this.toggleMenuScreen();
+		this.setAutoPause(true);
 		this.m.WorldScreen.hide();
 		::MSU.SettingsScreen.show(::MSU.SettingsFlags.World);
 		this.m.MenuStack.push(function ()
 		{
 			::MSU.SettingsScreen.hide();
 			this.m.WorldScreen.show();
+			this.setAutoPause(false);
 			this.toggleMenuScreen();
 		}, function ()
 		{
