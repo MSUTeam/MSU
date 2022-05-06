@@ -91,6 +91,12 @@ local _mods_runQueue = ::_mods_runQueue;
 ::_mods_runQueue = function()
 {
 	local errors = "";
+	local function compareWithNulls(_version1, _operator, _version2)
+	{
+		local ret = _version1 == null ? -1 : _version2 == null ? 1 : null;
+		if (ret != null) return ::MSU.Utils.operatorCompare(ret, _operator)
+		else return ::MSU.SemVer.compareVersionWithOperator(_version1, _operator, _version2);
+	}
 	foreach (mod in ::mods_getRegisteredMods())
 	{
 		foreach (dep in mod.SemVerDependencies) // stuff only exists in here if it has a semver array
@@ -99,16 +105,16 @@ local _mods_runQueue = ::_mods_runQueue;
 			if (depMod == null) continue;
 			if (dep.Operator == "!")
 			{
-				if (depMod != null && ::MSU.Semver.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
+				if (depMod != null && compareWithNulls(depMod.SemVer, dep.VersionOperator, dep.Version))
 				{
-					errors += "Mod " + mod.Name + " is not compatible with mod " + depMod.Name + " version " + ::MSU.SemVer.getVersionString(depMod.SemVer) + ", requires versions other than " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + ".\n\n";
+					errors += "Mod " + mod.Name + " is not compatible with mod " + depMod.Name + " version " + ::MSU.SemVer.getVersionString(depMod.SemVer) + ", requires versions other than " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + "<br><br>";
 				}
 				continue;
 			}
-			else if (!::MSU.SemVer.compareWithOperator(depMod.SemVer, dep.VersionOperator, dep.Version))
+			else if (!compareWithNulls(depMod.SemVer, dep.VersionOperator, dep.Version))
 			{
-				local version = depMod.SemVer == null ? depMod.Version : ::MSU.getVersionString(depMod.SemVer);
-				errors += "Mod " + mod.Name + " is not compatible with mod " + dep.Name + " version " + version + ", requires version " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + ".\n\n";
+				local version = depMod.SemVer == null ? depMod.Version : ::MSU.SemVer.getVersionString(depMod.SemVer);
+				errors += "Mod " + mod.Name + " is not compatible with mod " + dep.Name + " version " + version + ", requires version " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + "<br><br>";
 			}
 		}
 	}
@@ -118,7 +124,7 @@ local _mods_runQueue = ::_mods_runQueue;
 	}
 	catch (error)
 	{
-		errors += "\n\n" + error;
+		errors += "<br><br>" + error;
 	}
 
 	if (errors != "")

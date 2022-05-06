@@ -3,6 +3,6 @@
 	function isSavedVersionAtLeast( _version, _metaData )
 	{
 		local savedVersion = _metaData.getString(this.Mod.getID() + "Version");
-		return savedVersion != "" && ::MSU.SemVer.compareStringsWithOperator(savedVersion, ">=", _version);
+		return savedVersion != "" && ::MSU.SemVer.compareVersionWithOperator(savedVersion, ">=", _version);
 	}
 }

@@ -77,47 +77,6 @@
 		return 0;
 	}
 
-	function compareStrings( _version1, _version2 )
-	{
-		return this.compare(this.getTable(_version1), this.getTable(_version2));
-	}
-
-	function compareWithOperator( _version1, _operator, _version2 )
-	{
-		local ret;
-		if (_version1 == null)
-		{
-			ret = -1;
-		}
-		else if (_version2 == null)
-		{
-			ret = 1;
-		}
-		else
-		{
-			ret = this.compare(_version1, _version2)
-		}
-		switch (ret)
-		{
-			case -1:
-				if (["<", "<="].find(_operator) != null) return true;
-				return false;
-
-			case 0:
-				if (["<=", "=", null, ">="].find(_operator) != null) return true;
-				return false;
-
-			case 1:
-				if ([">", ">="].find(_operator) != null) return true;
-				return false;
-		}
-	}
-
-	function compareStringsWithOperator( _version1, _operator, _version2 )
-	{
-		return this.compareWithOperator(this.getTable(_version1), _operator, this.getTable(_version2));
-	}
-
 	function getShortVersionString( _version )
 	{
 		return _version.Version.reduce(@(_a, _b) _a + "." + _b);
@@ -138,5 +97,33 @@
 		}
 
 		return ret;
+	}
+
+	function compareVersionWithOperator( _version1, _operator, _version2 )
+	{
+		::MSU.requireOneFromTypes(["string", "table"], _version1, _version2);
+		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
+		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
+		return ::MSU.Utils.operatorCompare(this.compare(_version1, _version2), _operator)
+	}
+
+	function compareMajorVersionWithOperator( _version1, _operator, _version2 )
+	{
+		::MSU.requireOneFromTypes(["string", "table"], _version1, _version2);
+		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
+		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
+		return ::MSU.Utils.operatorCompare( _version1.Version[0] <=> _version2.Version[0], _operator);
+	}
+
+	function compareMinorVersionWithOperator( _version1, _operator, _version2 )
+	{
+		::MSU.requireOneFromTypes(["string", "table"], _version1, _version2);
+		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
+		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
+
+		local majorCompare = _version1.Version[0] <=> _version2.Version[0];
+		if (majorCompare != 0) return ::MSU.Utils.operatorCompare(majorCompare, _operator)
+
+		return ::MSU.Utils.operatorCompare(_version1.Version[1] <=> _version2.Version[1], _operator);
 	}
 }

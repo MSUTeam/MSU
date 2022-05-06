@@ -119,4 +119,23 @@
 
 		return ret;
 	}
+
+	function operatorCompare( _compareResult, _operator )
+	{
+		switch (_compareResult)
+		{
+			case -1:
+				if (["<", "<="].find(_operator) != null) return true;
+				return false;
+
+			case 0:
+				if (["<=", "=", null, ">="].find(_operator) != null) return true;
+				return false;
+
+			case 1:
+				if ([">", ">="].find(_operator) != null) return true;
+				return false;
+		}
+		throw ::MSU.InvalidValue(_compareResult);
+	}
 }
