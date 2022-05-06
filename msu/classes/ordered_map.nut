@@ -71,7 +71,7 @@
 		{
 			local key = this.Array[i];
 			local j = i - 1;
-			while (j >= 0 && _function(key, this.Table[key], this.Array[j], this.Table[this.Array[j]]) <= 0)
+			while (j >= 0 && _function(key, this.Table[key], this.Array[j], this.Table[this.Array[j]]) < 0)
 			{
 				this.Array[j+1] = this.Array[j];
 				--j;
