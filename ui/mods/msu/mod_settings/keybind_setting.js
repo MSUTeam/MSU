@@ -18,9 +18,9 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 
 	this.input = $('<input type="text" class="title-font-normal font-color-brother-name string-input"/>');
 	this.contentContainer.append(this.input);
-	this.input.val(_setting.value);
+	this.input.val(MSU.Key.capitalizeKeyString(_setting.value));
 	this.input.on("change", function(){
-		self.data.value = self.input.val();
+		self.data.value = self.input.val().toLowerCase();
 	});
 
 	this.input.on("click", function(){
@@ -63,7 +63,7 @@ KeybindSetting.prototype.createPopup = function ()
 		}
 		result = result.slice(0, -1);
 		self.input.val(result);
-		self.data.value = result;
+		self.data.value = result.toLowerCase();
 		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
 };
@@ -85,7 +85,7 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 
 	var buttonLayout = $('<div class="keybind-button-container"/>');
 	row.append(buttonLayout);
-	var button = buttonLayout.createTextButton(_name, null, 'change-keybind-button', 4);
+	var button = buttonLayout.createTextButton(MSU.Key.capitalizeKeyString(_name), null, 'change-keybind-button', 4);
 	button.css('margin-top', '-0.4rem'); // not sure why this is necessary but apparently it is for alignment
 	button.findButtonText().css('margin-top', '0.8rem');
 
@@ -114,7 +114,7 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 	var setButton = function(_key)
 	{
 		var pressedKeys = MSU.Keybinds.getPressedKeysAsString(_key) + _key;
-		selectedButton.changeButtonText(MSU.Key.sortKeyString(pressedKeys));
+		selectedButton.changeButtonText(MSU.Key.capitalizeKeyString(MSU.Key.sortKeyString(pressedKeys)));
 		toggle(selectedButton, true);
 	};
 
