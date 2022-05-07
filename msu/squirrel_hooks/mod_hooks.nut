@@ -126,7 +126,8 @@ local _mods_runQueue = ::_mods_runQueue;
 					}
 					else if (compareVersions(dependencyTable, dependencyMod))
 					{
-						errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + dependencyTable.Version + "<br><br>";
+						local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
+						errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + "<br><br>";
 						continue; // Incompatible mod version present
 					}
 					else
