@@ -93,11 +93,20 @@ local _mods_runQueue = ::_mods_runQueue;
 ::_mods_runQueue = function()
 {
 	local errors = "";
-	local function compareWithNulls(_version1, _operator, _version2)
+	local function compareSemVerVersionsWithNulls(_version1, _operator, _version2)
 	{
 		local ret = _version1 == null ? -1 : _version2 == null ? 1 : null;
 		if (ret != null) return ::MSU.Utils.operatorCompare(ret, _operator)
 		return ::MSU.SemVer.compareVersionWithOperator(_version1, _operator, _version2);
+	}
+
+	local function compareVersions( _dependencyTable, _modTable )
+	{
+		if (_dependencyTable.SemVer == null && _modTable.SemVer == null) // both the mod and the depency are not SemVer
+		{
+			return ::MSU.Utils.operatorCompare(_modTable.Version, _dependencyTable.VersionOperator, _dependencyTable.Version);
+		}
+		return compareSemVerVersionsWithNulls(_modTable.SemVer, _dependencyTable.VersionOperator, _dependencyTable.SemVer);
 	}
 
 	foreach (mod in ::mods_getRegisteredMods())
@@ -110,9 +119,22 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				if (dependencyMod != null)
 				{
-					errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + "<br><br>";
-					continue; // Incompatible mod present
+					if (dependencyTable.Version == null)
+					{
+						errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + "<br><br>";
+						continue; // Incompatible mod present
+					}
+					else if (compareVersions(dependencyTable, dependencyMod))
+					{
+						errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + dependencyTable.Version + "<br><br>";
+						continue; // Incompatible mod version present
+					}
+					else
+					{
+						continue; // Incompatible mod version is acceptable
+					}
 				}
+				continue; // Incompatible mod missing
 			}
 			else if (dependencyTable.Operator == null)
 			{
@@ -132,28 +154,16 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				continue; // Doesn't require a specific version
 			}
-			else if (dependencyTable.SemVer == null && dependencyMod.SemVer == null) // both the mod and the depency are not SemVer
-			{
-				if(::MSU.Utils.operatorCompare(dependencyMod.Version, dependencyTable.VersionOperator, dependencyTable.Version))
-				{
-					continue; // Mod hooks comparison successful
-				}
-				else
-				{
-					errors += mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + dependencyTable.Version + " but version " + dependencyMod.Version + " was found<br><br>";
-					continue; // Mod hooks comparison failed
-				}
-			}
-			else if (compareWithNulls(dependencyMod.SemVer, dependencyTable.VersionOperator, dependencyTable.SemVer))
-			{
-				continue; // SemVer comparison successful
-			}
-			else
+			else if (!compareVersions(dependencyTable, dependencyMod))
 			{
 				local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
 				local modVersion = dependencyMod.SemVer == null ? dependencyMod.Version : ::MSU.SemVer.getVersionString(dependencyMod.SemVer);
 				errors += mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + " but version " + modVersion + " was found<br><br>";
-				continue; // SemVer comparison failed
+				continue; // Incompatible mod version
+			}
+			else
+			{
+				continue; // Compatible mod version
 			}
 		}
 	}
