@@ -377,12 +377,12 @@
 		]);
 	}
 
-	o.getSkillsByFunction <- function( _self, _function )
+	o.getSkillsByFunction <- function( _function )
 	{
 		local ret = [];
 		foreach (skill in this.m.Skills)
 		{
-			if (!skill.isGarbage() && _function.call(_self, skill))
+			if (!skill.isGarbage() && _function(skill))
 			{
 				ret.push(skill);
 			}
