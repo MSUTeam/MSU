@@ -73,7 +73,7 @@ MSUConnection.prototype.checkMSUGithubVersion = function ()
 	var self = this;
 	checkMSUUpdate.addEventListener("load", function()
 	{
-		jQuery.proxy(self.notifyBackendGetMSUGithubVersion(JSON.parse(this.responseText).tag_name), self)
+		self.notifyBackendGetMSUGithubVersion(JSON.parse(this.responseText).tag_name);
 	});
 	checkMSUUpdate.open("GET", 'https://api.github.com/repos/MSUTeam/mod_MSU/releases/latest');
 	checkMSUUpdate.send();
