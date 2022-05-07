@@ -27,7 +27,7 @@
 				::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.KeyNotFound(_mod.getID());
 			}
-			if (::MSU.SemVer.getVersionString(::mods_getRegisteredMod(_mod.getID()).SemVer) != _mod.getVersionString())
+			if (::mods_getRegisteredMod(_mod.getID()).SemVer == null || ::MSU.SemVer.getVersionString(::mods_getRegisteredMod(_mod.getID()).SemVer) != _mod.getVersionString())
 			{
 				::logError("Register your mod using the same version with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.InvalidValue(_mod.getVersionString());
