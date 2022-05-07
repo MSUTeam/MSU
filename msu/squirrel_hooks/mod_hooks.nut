@@ -27,13 +27,13 @@ local mods_registerMod = ::mods_registerMod;
 		throw ::MSU.Exception.InvalidValue(_version);
 	}
 
-	_extra.SemVerDependencies <- [];
+	_extra.Dependencies <- [];
 	mods_registerMod(_id, _version, _name, _extra);
 }
 
 local hooks = getRegisteredModRef("mod_hooks");
 hooks.SemVer <- null;
-hooks.SemVerDependencies <- [];
+hooks.Dependencies <- [];
 
 local mods_queue = ::mods_queue;
 ::mods_queue = function( _id, _expressions, _function )
@@ -64,23 +64,25 @@ local mods_queue = ::mods_queue;
 				Operator = ::MSU.regexMatch(capture, expression, 1),
 				Name = ::MSU.regexMatch(capture, expression, 2),
 				VersionOperator = ::MSU.regexMatch(capture, expression, 3),
-				Version = ::MSU.regexMatch(capture, expression, 4)
+				Version = ::MSU.regexMatch(capture, expression, 4),
+				SemVer = null
 			}
 
-			if (!::MSU.SemVer.isSemVer(expressions[i].Version))
+
+			if (::MSU.SemVer.isSemVer(expressions[i].Version))
 			{
-				_expressions += expression + ",";
-				continue;
+				expressions[i].SemVer = ::MSU.SemVer.getTable(expressions[i].Version);
+				expressions[i].Version = 2147483647;
+			}
+			else if (expressions[i].Version != null)
+			{
+				expressions[i].Version = expressions[i].Version.tofloat();
 			}
 
-			mod.SemVerDependencies.push({
-				Name = expressions[i].Name,
-				Operator = expressions[i].Operator,
-				VersionOperator = expressions[i].VersionOperator,
-				Version = ::MSU.SemVer.getTable(expressions[i].Version)
-			});
-			// then we recreate the expression without the semver info
-			_expressions += (expressions[i].Operator == null ? "" : expressions[i].Operator) + expressions[i].Name + ",";
+			mod.Dependencies.push(expressions[i])
+			_expressions += (expressions[i].Operator == null ? "" : expressions[i].Operator) + expressions[i].Name + ","
+			// then we recreate the expression without the version info
+			// we do this for both semver and normal dependencies, because normal mod hooks doesn't handle ordering operations with version numbers, but we do
 		}
 		_expressions = _expressions.slice(0,-1);
 	}
@@ -95,36 +97,65 @@ local _mods_runQueue = ::_mods_runQueue;
 	{
 		local ret = _version1 == null ? -1 : _version2 == null ? 1 : null;
 		if (ret != null) return ::MSU.Utils.operatorCompare(ret, _operator)
-		else return ::MSU.SemVer.compareVersionWithOperator(_version1, _operator, _version2);
+		return ::MSU.SemVer.compareVersionWithOperator(_version1, _operator, _version2);
 	}
+
 	foreach (mod in ::mods_getRegisteredMods())
 	{
-		foreach (dep in mod.SemVerDependencies) // stuff only exists in here if it has a semver array
+		foreach (dependencyTable in mod.Dependencies)
 		{
-			local depMod = ::mods_getRegisteredMod(dep.Name);
-			if (depMod == null) continue;
-			if (dep.Operator == "!")
+			local dependencyMod = ::mods_getRegisteredMod(dependencyTable.Name);
+			// First check mod presence
+			if (dependencyTable.Operator == "!")
 			{
-				if (depMod != null && compareWithNulls(depMod.SemVer, dep.VersionOperator, dep.Version))
+				if (dependencyMod != null)
 				{
-					errors += "Mod " + mod.Name + " is not compatible with mod " + depMod.Name + " version " + ::MSU.SemVer.getVersionString(depMod.SemVer) + ", requires versions other than " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + "<br><br>";
+					errors += mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + "<br><br>";
+					continue; // Incompatible mod present
 				}
-				continue;
 			}
-			else if (!compareWithNulls(depMod.SemVer, dep.VersionOperator, dep.Version))
+			else if (dependencyTable.Operator == null)
 			{
-				local version = depMod.SemVer == null ? depMod.Version : ::MSU.SemVer.getVersionString(depMod.SemVer);
-				errors += "Mod " + mod.Name + " is not compatible with mod " + dep.Name + " version " + version + ", requires version " + dep.VersionOperator + ::MSU.SemVer.getVersionString(dep.Version) + "<br><br>";
+				if (dependencyMod == null)
+				{
+					errors +=  mod.FriendlyName + " requires " + dependencyTable.Name + "<br><br>";
+					continue; // Required mod missing
+				}
+			}
+			else if (dependencyMod == null)
+			{
+				continue; // Non-required mod missing
+			}
+
+			// Then check version
+			if (dependencyTable.Version == null)
+			{
+				continue; // Doesn't require a specific version
+			}
+			else if (dependencyTable.SemVer == null && dependencyMod.SemVer == null) // both the mod and the depency are not SemVer
+			{
+				if(::MSU.Utils.operatorCompare(dependencyMod.Version, dependencyTable.VersionOperator, dependencyTable.Version))
+				{
+					continue; // Mod hooks comparison successful
+				}
+				else
+				{
+					errors += mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + dependencyTable.Version + " but version " + dependencyMod.Version + " was found<br><br>";
+					continue; // Mod hooks comparison failed
+				}
+			}
+			else if (compareWithNulls(dependencyMod.SemVer, dependencyTable.VersionOperator, dependencyTable.SemVer))
+			{
+				continue; // SemVer comparison successful
+			}
+			else
+			{
+				local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
+				local modVersion = dependencyMod.SemVer == null ? dependencyMod.Version : ::MSU.SemVer.getVersionString(dependencyMod.SemVer);
+				errors += mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + " but version " + modVersion + " was found<br><br>";
+				continue; // SemVer comparison failed
 			}
 		}
-	}
-	try
-	{
-		_mods_runQueue();
-	}
-	catch (error)
-	{
-		errors += "<br><br>" + error;
 	}
 
 	if (errors != "")
@@ -132,4 +163,6 @@ local _mods_runQueue = ::_mods_runQueue;
 		::MSU.Popup.showRawText(errors, true);
 		throw errors;
 	}
+
+	_mods_runQueue();
 }
