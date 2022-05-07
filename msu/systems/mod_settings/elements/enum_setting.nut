@@ -10,7 +10,7 @@
 			::logError("_value must be an element in _array");
 			throw ::MSU.Exception.KeyNotFound(_value);
 		}
-		base.constructor(_id, _value, _name);
+		base.constructor(_id, _value, _name, _description);
 		this.Array = _array;
 	}
 

@@ -5,7 +5,7 @@
 	constructor( _id, _value, _name = null, _description = null )
 	{
 		_value = ::MSU.String.replace(_value, " ", "", true);
-		base.constructor(_id, _value, _name);
+		base.constructor(_id, _value, _name, _description);
 	}
 
 	function getValueAsTable()
