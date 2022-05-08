@@ -63,7 +63,6 @@
 
 	o.m.IsApplyingPreview <- false;
 	o.PreviewField <- {};
-	o.PreviewProperty <- {};
 
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
@@ -261,14 +260,14 @@
 	{
 	}
 
-	o.modifyPreviewField <- function( _field, _currChange, _newChange, _multiplicative )
+	o.modifyPreviewField <- function( _skill, _field, _newChange, _multiplicative )
 	{
-		::MSU.Skills.modifyPreview(this.m, this.PreviewField, _field, _currChange, _newChange, _multiplicative);
+		::MSU.Skills.modifyPreview(this, _skill, _field, _newChange, _multiplicative);
 	}
 
-	o.modifyPreviewProperty <- function( _field, _currChange, _newChange, _multiplicative )
+	o.modifyPreviewProperty <- function( _skill, _field, _newChange, _multiplicative )
 	{
-		::MSU.Skills.modifyPreview(this.getContainer().getActor().getCurrentProperties(), this.PreviewProperty, _field, _currChange, _newChange, _multiplicative);
+		::MSU.Skills.modifyPreview(this, null, _field, _newChange, _multiplicative);
 	}
 
 	local use = o.use;
@@ -420,32 +419,53 @@
 				if (!this.m.IsApplyingPreview) return oldFunc();
 
 				local temp = {};
-				foreach (k, v in this.PreviewField)
+				foreach (field, change in this.PreviewField)
 				{
-					temp[k] <- this.m[k];
-					this.m[k] = v;
+					temp[field] <- this.m[field];
+					if (change.Multiplicative)
+					{
+						this.m[field] *= change.Change;
+					}
+					else if (typeof change.Change == "boolean")
+					{
+						this.m[field] = change.Change;
+					}
+					else
+					{
+						this.m[field] += change.Change;
+					}
 				}
 
 				local properties = this.getContainer().getActor().getCurrentProperties();
-				foreach (k, v in this.PreviewProperty)
+				foreach (field, change in this.getContainer().PreviewProperty)
 				{
-					temp[k] <- properties[k];
-					properties[k] = v;
+					temp[field] <- properties[field];
+					if (change.Multiplicative)
+					{
+						properties[field] *= change.Change;
+					}
+					else if (typeof change.Change == "boolean")
+					{
+						properties[field] = change.Change;
+					}
+					else
+					{
+						properties[field] += change.Change;
+					}
 				}
 
 				local ret = oldFunc();
 
 				if (temp.len() > 0)
 				{
-					foreach (k, v in this.PreviewField)
+					foreach (field, change in this.PreviewField)
 					{
-						this.m[k] = temp[k];
+						this.m[field] = temp[field];
 					}
 
-					local properties = this.getContainer().getActor().getCurrentProperties();
-					foreach (k, v in this.PreviewProperty)
+					foreach (field, change in this.getContainer().PreviewProperty)
 					{
-						properties[k] = temp[k];
+						properties[field] = temp[field];
 					}
 				}
 

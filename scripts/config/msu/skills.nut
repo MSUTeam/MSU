@@ -4,6 +4,7 @@
 		"getActionPointCost",
 		"getFatigueCost"
 	],
+	QueuedPreviewChanges = {},
 	SoftResetFields = [
 		"ActionPointCost",
 		"FatigueCost",
@@ -44,23 +45,16 @@
 	}
 
 	// Private
-	function modifyPreview( _sourceTable, _previewTable, _field, _currChange, _newChange, _multiplicative )
+	function modifyPreview( _caller, _targetSkill, _field, _newChange, _multiplicative )
 	{
-		_previewTable[_field] <- _sourceTable[_field];
-
-		if (_multiplicative)
-		{
-			_previewTable[_field] /= _currChange;
-			_previewTable[_field] *= _newChange;
-		}
-		else if (typeof _newChange == "boolean")
-		{
-			_previewTable[_field] = _newChange;
-		}
-		else
-		{
-			_previewTable[_field] -= _currChange;
-			_previewTable[_field] += _newChange;
-		}
+		if (!(_caller in this.QueuedPreviewChanges)) this.QueuedPreviewChanges[_caller] <- [];
+		this.QueuedPreviewChanges[_caller].push({
+			TargetSkill = _targetSkill,
+			Field = _field,
+			ValueBefore = 0,
+			CurrChange = _multiplicative ? 1 : 0,
+			NewChange = _newChange,
+			Multiplicative = _multiplicative
+		});
 	}
 }
