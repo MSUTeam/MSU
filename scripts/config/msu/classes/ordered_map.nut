@@ -41,12 +41,10 @@
 		return _prev == this.Array.len() ? null : this.Array[_prev];
 	}
 
-	function _cloned()
+	function _cloned( _original )
 	{
-		local ret = ::MSU.Class.OrderedMap();
-		ret.Array = clone this.Array;
-		ret.Table = clone this.Table;
-		return ret;
+		this.Array = clone _original.Array;
+		this.Table = clone _original.Table;
 	}
 
 	function toTable()

@@ -17,9 +17,12 @@
 		return this.Table[_item];
 	}
 
-	function _cloned()
+	function _cloned( _original )
 	{
-		return ::MSU.Class.WeightedContainer().merge(this);
+		this.Total = 0.0;
+		this.Table = {};
+		this.Forced = [];
+		this.merge(_original);
 	}
 
 	function toArray( _itemsOnly = true )
