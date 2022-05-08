@@ -2,6 +2,8 @@
 {
 	Array = null;
 	Table = null;
+	NextICache = null;
+
 	constructor( _table = null )
 	{
 		this.Array = [];
@@ -36,7 +38,8 @@
 
 	function _nexti( _prev )
 	{
-		_prev = _prev == null ? 0 : this.Array.find(_prev) + 1;
+		if (_prev == null) this.NextICache = 0;
+		_prev = this.NextICache++;
 
 		return _prev == this.Array.len() ? null : this.Array[_prev];
 	}
