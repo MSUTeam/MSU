@@ -66,6 +66,8 @@ MSU.Keybinds = {
 
 	isPressed : function( _modID, _id, _key )
 	{
+		if (!(_modID in this.KeybindsByMod)) console.error("Unknown Mod ID: " + _modID);
+		if (!(_id in this.KeybindsByMod[_modID])) console.error("Unknown Keybind ID: " + _id);
 		var keyCombinations = this.KeybindsByMod[_modID][_id].getRawKeyCombinations();
 		var currentKeyCombination = this.getPressedKeysAsString(_key);
 		currentKeyCombination = MSU.Key.sortKeyString(currentKeyCombination) + _key;
