@@ -21,7 +21,7 @@
 		}
 		_element.setPage(this);
 		this.Settings[_element.getID()] <- _element;
-		return _element
+		return _element;
 	}
 
 	function addDivider( _id )
