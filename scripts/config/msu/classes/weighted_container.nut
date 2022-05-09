@@ -203,7 +203,7 @@
 		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
 		if (forced.len() > 0)
 		{
-			return ::Math.randArray(forced);
+			return ::MSU.Array.rand(forced);
 		}
 
 		local roll = ::MSU.Math.randf(0.0, this.getTotal(_exclude));
