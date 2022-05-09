@@ -260,7 +260,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World) == false)
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World))
 		{
 			return false;
 		}
@@ -274,7 +274,7 @@
 		{
 			return onMouseInput(_mouse);
 		}
-		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.World) == false)
+		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.World))
 		{
 			return false;
 		}
