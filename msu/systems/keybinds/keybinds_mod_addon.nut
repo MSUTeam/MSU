@@ -2,7 +2,7 @@
 {
 	function update( _id, _keyCombinations )
 	{
-		::MSU.System.Keybinds.update(this.Mod.getID(), _id, _keyCombinations);
+		::MSU.System.Keybinds.update(this.Mod.getID(), _id, _keyCombinations, true, false, false);
 	}
 
 	function addSQKeybind( _id, _keyCombinations, _state, _function, _name = null, _keyState = null, _description = "" )
