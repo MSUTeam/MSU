@@ -41,6 +41,18 @@ this.popup <- {
 
 	function quitGame()
 	{
-		this.finish();
+		local activeState = ::MSU.Utils.getActiveState();
+		switch(activeState.ClassName)
+		{
+			case "tactical_state":
+				activeState.onQuitToMainMenu();
+				break;
+			case "world_state":
+				activeState.exitGame();
+				break;
+			case "main_menu_state":
+				activeState.main_menu_module_onQuitPressed();
+				break;
+		}
 	}
 };
