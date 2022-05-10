@@ -19,6 +19,19 @@ MSUUIScreen.prototype.registerEventListener = function (_listener)
 	this.mEventListener = _listener;
 };
 
+MSUUIScreen.prototype.onConnection = function (_handle, _parentDiv)
+{
+	_parentDiv = _parentDiv || $('.root-screen');
+    this.mSQHandle = _handle;
+    this.register(_parentDiv);
+};
+
+MSUUIScreen.prototype.onDisconnection = function ()
+{
+    this.mSQHandle = null;
+    this.unregister();
+};
+
 MSUUIScreen.prototype.createDIV = function (_parentDiv)
 {
 

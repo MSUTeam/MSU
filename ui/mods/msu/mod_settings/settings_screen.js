@@ -50,12 +50,6 @@ Object.defineProperty(ModSettingsScreen.prototype, 'constructor', {
 	writable: true
 });
 
-ModSettingsScreen.prototype.onConnection = function (_handle)
-{
-	MSUUIScreen.prototype.onConnection.call(this, _handle);
-	this.register($('.root-screen'));
-};
-
 ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
