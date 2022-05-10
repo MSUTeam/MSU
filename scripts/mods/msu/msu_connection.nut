@@ -19,12 +19,18 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 
 	function removeKeybind( _keybind )
 	{
-		this.m.JSHandle.asyncCall("removeKeybind", _keybind.getUIData())
+		if (this.m.JSHandle != null)
+		{
+			this.m.JSHandle.asyncCall("removeKeybind", _keybind.getUIData())
+		}
 	}
 
 	function addKeybind( _keybind )
 	{
-		this.m.JSHandle.asyncCall("addKeybind", _keybind.getUIData())
+		if (this.m.JSHandle != null)
+		{
+			this.m.JSHandle.asyncCall("addKeybind", _keybind.getUIData())
+		}
 	}
 
 	function updateSetting( _modID, _settingID, _value )
