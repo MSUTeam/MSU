@@ -1,45 +1,46 @@
 this.popup <- {
 	m = {
 		JSHandle = null,
-		TextCache = "",
-		ForceQuit = false
+		TextCache = [],
 	}
 
-	function showRawText( _text, _forceQuit = false )
+	function addLine(_text)
 	{
-		if (_forceQuit) this.m.ForceQuit = true;
-		if (this.m.JSHandle == null)
-		{
-			if (this.m.TextCache != "") this.m.TextCache += "<br>";
-			this.m.TextCache += _text;
-		}
-		else
-		{
-			local data = {
-				forceQuit = this.m.ForceQuit,
-				text = _text
-			}
-			this.m.JSHandle.asyncCall("showRawText", data);
-		}
+		this.m.JSHandle.asyncCall("addLine", _text);
 	}
 
-	function forceQuit( _bool )
+	function addLines(_textArray)
 	{
-		this.m.ForceQuit = _bool;
+		this.m.JSHandle.asyncCall("addLines", _textArray);
+	}
+
+	function clearText(_text)
+	{
+		this.m.JSHandle.asyncCall("clearText", null);
+	}
+
+	function show( _useCache = false)
+	{
+		if(_useCache && this.m.TextCache.len() > 0)
+		{
+			this.addLines(this.m.TextCache);
+			this.m.TextCache = [];
+		}
+		this.m.JSHandle.asyncCall("show", null);
+	}
+
+	function setForceQuit( _forceQuit )
+	{
+		this.m.JSHandle.asyncCall("setForceQuit", _forceQuit);
 	}
 
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
-		if (this.m.TextCache != "")
-		{
-			this.showRawText(this.m.TextCache)
-			this.m.TextCache = "";
-		}
 	}
 
 	function quitGame()
 	{
-		// overwritten by mainMenuScreen hook, closes the game
+		this.finish();
 	}
 };
