@@ -57,7 +57,7 @@ local function isCampfireScreen()
 	if (::MSU.isKindOf(this, "world_state"))
 	{
 		if (isCampfireScreen.call(this)) return;
-		if (this.toggleMenuScreen())
+		if (!this.m.WorldMenuScreen.isAnimating() && this.toggleMenuScreen())
 		{
 			return true;
 		}

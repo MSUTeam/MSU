@@ -77,4 +77,11 @@
 		}
 		return onMouseInput(_mouse);
 	}
+
+	local toggleMenuScreen = o.toggleMenuScreen; // VANILLAFIX https://steamcommunity.com/app/365360/discussions/1/3276942370896011321/
+	o.toggleMenuScreen = function()
+	{
+		if (this.m.TacticalMenuScreen.isAnimating()) return false;
+		return toggleMenuScreen();
+	}
 });
