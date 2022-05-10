@@ -181,7 +181,7 @@
 		this.setPropertyIfFlagExists("LockReason", modID);
 
 		local valueFlag = this.getPropertyFlag(modID, "Value");
-		if (::World.Flags.has(valueFlag))
+		if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != "(null : 0x00000000)")
 		{
 			this.set(::World.Flags.get(valueFlag), true, false, true);
 		}
