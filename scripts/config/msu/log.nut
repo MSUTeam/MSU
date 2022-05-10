@@ -28,14 +28,13 @@
 		::logInfo(string);
 	}
 
-	function printData( _data, _maxDepth = 1, _advanced = false )
+	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1 )
 	{
-		local maxLen = 1;
-		if (typeof _data == "array" || typeof _data == "table")
+		if ((typeof _data == "array" || typeof _data == "table") && _data.len() > _maxLenMin)
 		{
-			maxLen = _data.len();
+			_maxLenMin = _data.len();
 		}
-		::logInfo(this.getLocalString("Printing Data", _data, maxLen, _maxDepth, _advanced));
+		::logInfo(this.getLocalString("Printing Data", _data, _maxLenMin, _maxDepth, _advanced));
 	}
 
 	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
