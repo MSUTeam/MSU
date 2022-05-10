@@ -40,6 +40,7 @@
 
 	function sortKeyCombinationsString( _keyCombinations )
 	{
+		if (_keyCombinations == "") return "";
 		local array = split(_keyCombinations, "/");
 		array.apply(this.sortKeyString);
 		return array.reduce(@(_a, _b) _a + "/" + _b);

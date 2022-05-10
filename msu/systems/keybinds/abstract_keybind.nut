@@ -35,6 +35,7 @@
 
 	function getKeyCombinations()
 	{
+		if (this.KeyCombinations.len() == 0) return "";
 		return this.KeyCombinations.reduce(@(_a, _b) _a + "/" + _b);
 	}
 
