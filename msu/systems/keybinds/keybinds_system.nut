@@ -129,10 +129,10 @@
 			}
 
 			::MSU.Mod.Debug.printWarning("Calling keybind", "keybinds");
-			if (keybind.call(_environment) == false)
+			if (keybind.call(_environment) == true)
 			{
-				::MSU.Mod.Debug.printWarning("Returning after keybind call returned false.", "keybinds");
-				return false;
+				::MSU.Mod.Debug.printWarning("Returning after keybind call returned true.", "keybinds");
+				return true;
 			}
 		}
 	}
