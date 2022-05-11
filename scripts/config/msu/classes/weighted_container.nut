@@ -103,8 +103,6 @@
 		if (forced.len() != 0) return 0.0;
 
 		return this.Table[_item] == 0 ? 0.0 : this.Table[_item] / this.getTotal(_exclude);
-
-		throw ::MSU.Exception.KeyNotFound(_item);
 	}
 
 	function getWeight( _item )
