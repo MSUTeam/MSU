@@ -8,7 +8,7 @@
 };
 
 ::Const.Damage <- {
-	function addNewDamageType ( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
+	function addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
 	{
 		if (_damageType in this.DamageType)
 		{
@@ -33,12 +33,12 @@
 		return this.DamageTypeName[_damageType];
 	}
 
-	function getDamageTypeInjuries ( _damageType )
+	function getDamageTypeInjuries( _damageType )
 	{
 		return this.DamageTypeInjuries[_damageType];
 	}
 
-	function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )
+	function setDamageTypeInjuries( _damageType, _injuriesOnHead, _injuriesOnBody )
 	{
 		local injuries = this.getDamageTypeInjuries(_damageType);
 
@@ -46,7 +46,7 @@
 		injuries.Body = _injuriesOnBody;
 	}
 
-	function getApplicableInjuries ( _damageType, _bodyPart, _targetEntity = null )
+	function getApplicableInjuries( _damageType, _bodyPart, _targetEntity = null )
 	{
 		local injuries = clone (_bodyPart == ::Const.BodyPart.Head ? this.getDamageTypeInjuries(_damageType).Head : this.getDamageTypeInjuries(_damageType).Body);
 
