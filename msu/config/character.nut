@@ -15,74 +15,40 @@
 			throw ::MSU.Exception.DuplicateKey(_damageType);
 		}
 
-		local n = 0;
-		foreach (d in this.DamageType)
-		{
-			if (d > n)
-			{
-				n = d;
-			}
-		}
-
-		this.DamageType[_damageType] <- n << 1;
+		this.DamageType[_damageType] <- this.DamageType.COUNT + 1;
+		this.DamageType.COUNT += 1;
 
 		this.DamageTypeInjuries.push({
-			DamageType = this.DamageType[_damageType],
-			Injuries = {
-				Head = _injuriesOnHead,
-				Body = _injuriesOnBody
-			}
+			Head = _injuriesOnHead,
+			Body = _injuriesOnBody
 		});
 
-		if (_damageTypeName = "")
-		{
-			_damageTypeName = _damageType;
-		}
+		if (_damageTypeName = "") _damageTypeName = _damageType;
 
-		::Const.Damage.DamageTypeName.push(_damageTypeName);
+		this.DamageTypeName.push(_damageTypeName);
 	}
 
 	function getDamageTypeName( _damageType )
 	{
-		local idx = ::MSU.Math.log2int(_damageType) + 1;
-		if (idx == idx.tointeger() && idx < this.DamageTypeName.len())
-		{
-			return this.DamageTypeName[idx];
-		}
-		throw ::MSU.Exception.KeyNotFound(_damageType);
+		return this.DamageTypeName[_damageType];
 	}
 
 	function getDamageTypeInjuries ( _damageType )
-	{	
-		local idx = ::MSU.Math.log2int(_damageType) + 1;
-		if (idx == idx.tointeger() && idx < this.DamageTypeInjuries.len())
-		{
-			return clone this.DamageTypeInjuries[idx].Injuries;
-		}
-		throw ::MSU.Exception.KeyNotFound(_damageType);
+	{
+		return this.DamageTypeInjuries[_damageType];
 	}
 
 	function setDamageTypeInjuries ( _damageType, _injuriesOnHead, _injuriesOnBody )
 	{
 		local injuries = this.getDamageTypeInjuries(_damageType);
 
-		injuries.Injuries.Head = _injuriesOnHead;
-		injuries.Injuries.Body = _injuriesOnBody;
+		injuries.Head = _injuriesOnHead;
+		injuries.Body = _injuriesOnBody;
 	}
 
 	function getApplicableInjuries ( _damageType, _bodyPart, _targetEntity = null )
 	{
-		local injuries = [];
-
-		foreach (d in this.DamageType)
-		{
-			if (_damageType == d)
-			{
-				local inj = this.getDamageTypeInjuries(d);
-				injuries = clone (_bodyPart == ::Const.BodyPart.Head ? inj.Head : inj.Body);
-				break;
-			}
-		}
+		local injuries = clone (_bodyPart == ::Const.BodyPart.Head ? this.getDamageTypeInjuries(_damageType).Head : this.getDamageTypeInjuries(_damageType).Body);
 
 		if (_targetEntity != null && injuries.len() > 0)
 		{
@@ -103,9 +69,10 @@
 		None = 0,
 		Unknown = 1,
 		Blunt = 2,
-		Piercing = 4
-		Cutting = 8,
-		Burning = 16
+		Piercing = 3,
+		Cutting = 4,
+		Burning = 5,
+		COUNT = 6
 };
 
 ::Const.Damage.DamageTypeName <- [
@@ -119,45 +86,27 @@
 
 ::Const.Damage.DamageTypeInjuries <- [
 	{
-		DamageType = ::Const.Damage.DamageType.None,
-		Injuries = {
-			Head = [],
-			Body = []
-		}
+		Head = [],
+		Body = []
 	},
 	{
-		DamageType = ::Const.Damage.DamageType.Unknown,
-		Injuries = {
-			Head = [],
-			Body = []
-		}
+		Head = [],
+		Body = []
 	},
 	{
-		DamageType = ::Const.Damage.DamageType.Blunt,
-		Injuries = {
-			Head = ::Const.Injury.BluntHead,
-			Body = ::Const.Injury.BluntBody
-		}
+		Head = ::Const.Injury.BluntHead,
+		Body = ::Const.Injury.BluntBody
 	},
 	{
-		DamageType = ::Const.Damage.DamageType.Piercing,
-		Injuries = {
-			Head = ::Const.Injury.PiercingHead,
-			Body = ::Const.Injury.PiercingBody
-		}
+		Head = ::Const.Injury.PiercingHead,
+		Body = ::Const.Injury.PiercingBody
 	},
 	{
-		DamageType = ::Const.Damage.DamageType.Cutting,
-		Injuries = {
-			Head = ::Const.Injury.CuttingHead,
-			Body = ::Const.Injury.CuttingBody
-		}
+		Head = ::Const.Injury.CuttingHead,
+		Body = ::Const.Injury.CuttingBody
 	},
 	{
-		DamageType = ::Const.Damage.DamageType.Burning,
-		Injuries = {
-			Head = ::Const.Injury.BurningHead,
-			Body = ::Const.Injury.BurningBody
-		}
+		Head = ::Const.Injury.BurningHead,
+		Body = ::Const.Injury.BurningBody
 	}
 ];
