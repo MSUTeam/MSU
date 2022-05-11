@@ -5,12 +5,13 @@
 		o.create = function()
 		{
 			create();
-			if (this.m.DamageType.len() == 0)
+			if (this.m.IsAttack && this.m.DamageType.len() == 0)
 			{
 				switch (this.m.InjuriesOnBody)
 				{
 					case null:
-						return;
+						this.m.DamageType.add(::Const.Damage.DamageType.None);
+						break;
 
 					case ::Const.Injury.BluntBody:
 						this.m.DamageType.add(::Const.Damage.DamageType.Blunt);

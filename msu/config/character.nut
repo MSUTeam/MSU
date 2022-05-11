@@ -108,7 +108,7 @@
 };
 
 ::Const.Damage.DamageTypeName <- [
-	"No Damage Type",
+	"No Injuries",
 	"Blunt",
 	"Piercing",
 	"Cutting",
