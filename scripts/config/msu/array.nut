@@ -48,7 +48,7 @@
 		}
 		else
 		{
-			if (typeof _array[0][_member] == "function")
+			if (_array.len() != 0 && typeof _array[0][_member] == "function")
 			{
 				_array.sort(@(a, b) -1 * (a[_member]() <=> b[_member]()));
 			}
@@ -67,7 +67,7 @@
 		}
 		else
 		{
-			if (typeof _array[0][_member] == "function")
+			if (_array.len() != 0 && typeof _array[0][_member] == "function")
 			{
 				_array.sort(@(a, b) a[_member]() <=> b[_member]());
 			}
