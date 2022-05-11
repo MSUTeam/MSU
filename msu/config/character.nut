@@ -101,14 +101,16 @@
 
 ::Const.Damage.DamageType <- {
 		None = 0,
-		Blunt = 1,
-		Piercing = 2
-		Cutting = 4,
-		Burning = 8
+		Unknown = 1,
+		Blunt = 2,
+		Piercing = 4
+		Cutting = 8,
+		Burning = 16
 };
 
 ::Const.Damage.DamageTypeName <- [
 	"No Injuries",
+	"Unknown",
 	"Blunt",
 	"Piercing",
 	"Cutting",
@@ -118,6 +120,13 @@
 ::Const.Damage.DamageTypeInjuries <- [
 	{
 		DamageType = ::Const.Damage.DamageType.None,
+		Injuries = {
+			Head = [],
+			Body = []
+		}
+	},
+	{
+		DamageType = ::Const.Damage.DamageType.Unknown,
 		Injuries = {
 			Head = [],
 			Body = []

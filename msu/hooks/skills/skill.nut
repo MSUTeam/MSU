@@ -43,6 +43,9 @@
 						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
 						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
 						break;
+
+					default:
+						this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
 				}
 			}
 		}
