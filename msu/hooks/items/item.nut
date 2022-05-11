@@ -31,7 +31,7 @@
 
 	o.getSkills <- function()
 	{
-		return this.m.SkillPtrs;
+		return this.m.SkillPtrs.filter(@(idx, skill) skill.getID() != "items.generic");
 	}
 
 	local getDescription = o.getDescription;
