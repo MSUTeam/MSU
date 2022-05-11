@@ -8,6 +8,49 @@
 };
 
 ::Const.Damage <- {
+	DamageType = {
+		None = 0,
+		Unknown = 1,
+		Blunt = 2,
+		Piercing = 3,
+		Cutting = 4,
+		Burning = 5
+	},
+	DamageTypeName = [
+		"No Injuries",
+		"Unknown",
+		"Blunt",
+		"Piercing",
+		"Cutting",
+		"Burning"
+	],
+	DamageTypeInjuries = [
+		{
+			Head = [],
+			Body = []
+		},
+		{
+			Head = [],
+			Body = []
+		},
+		{
+			Head = ::Const.Injury.BluntHead,
+			Body = ::Const.Injury.BluntBody
+		},
+		{
+			Head = ::Const.Injury.PiercingHead,
+			Body = ::Const.Injury.PiercingBody
+		},
+		{
+			Head = ::Const.Injury.CuttingHead,
+			Body = ::Const.Injury.CuttingBody
+		},
+		{
+			Head = ::Const.Injury.BurningHead,
+			Body = ::Const.Injury.BurningBody
+		}
+	],
+
 	function addNewDamageType( _damageType, _injuriesOnHead, _injuriesOnBody, _damageTypeName = "" )
 	{
 		if (_damageType in this.DamageType)
@@ -15,8 +58,7 @@
 			throw ::MSU.Exception.DuplicateKey(_damageType);
 		}
 
-		this.DamageType[_damageType] <- this.DamageType.COUNT + 1;
-		this.DamageType.COUNT += 1;
+		this.DamageType[_damageType] <- this.DamageType.len();
 
 		this.DamageTypeInjuries.push({
 			Head = _injuriesOnHead,
@@ -64,49 +106,3 @@
 		return injuries;
 	}
 };
-
-::Const.Damage.DamageType <- {
-		None = 0,
-		Unknown = 1,
-		Blunt = 2,
-		Piercing = 3,
-		Cutting = 4,
-		Burning = 5,
-		COUNT = 6
-};
-
-::Const.Damage.DamageTypeName <- [
-	"No Injuries",
-	"Unknown",
-	"Blunt",
-	"Piercing",
-	"Cutting",
-	"Burning"
-];
-
-::Const.Damage.DamageTypeInjuries <- [
-	{
-		Head = [],
-		Body = []
-	},
-	{
-		Head = [],
-		Body = []
-	},
-	{
-		Head = ::Const.Injury.BluntHead,
-		Body = ::Const.Injury.BluntBody
-	},
-	{
-		Head = ::Const.Injury.PiercingHead,
-		Body = ::Const.Injury.PiercingBody
-	},
-	{
-		Head = ::Const.Injury.CuttingHead,
-		Body = ::Const.Injury.CuttingBody
-	},
-	{
-		Head = ::Const.Injury.BurningHead,
-		Body = ::Const.Injury.BurningBody
-	}
-];
