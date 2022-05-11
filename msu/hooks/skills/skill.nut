@@ -299,7 +299,6 @@
 		return this.m.DamageType.roll();
 	}
 
-
 	o.verifyTargetAndRange <- function( _targetTile, _origin = null )
 	{
 		if (_origin == null)

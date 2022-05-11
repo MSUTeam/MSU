@@ -5,36 +5,42 @@
 	function printStackTrace( _maxDepth = 0, _maxLen = 10, _advanced = false )
 	{
 		local count = 2;
-		local string = "";
+		local string = "<div class=\"stacktrace-container value-container\">";
 		while (getstackinfos(count) != null)
 		{
+			string += "<div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Function:</div><div class=\"value\">"
 			local line = getstackinfos(count++);
-			string += "Function:\t\t";
-
 			if (line.func != "unknown")
 			{
-				string += line.func + " ";
+				string += line.func;
 			}
 
-			string += "-> " + line.src + " : " + line.line + "\nVariables:\t\t";
+			string += "-> " + line.src + " : " + line.line + "</div></div><div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
 
 			foreach (key, value in line.locals)
 			{
 				string += this.getLocalString(key, value, _maxLen, _maxDepth, _advanced);
 			}
+
 			string = string.slice(0, string.len() - 2);
-			string += "\n";
+			string += "</div></div>";
 		}
+		string += "</div>"
 		::logInfo(string);
 	}
 
 	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1 )
 	{
+		::logInfo(this.formatData(_data, _maxDepth, _advanced, _maxLenMin));
+	}
+
+	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1)
+	{
 		if ((typeof _data == "array" || typeof _data == "table") && _data.len() > _maxLenMin)
 		{
 			_maxLenMin = _data.len();
 		}
-		::logInfo(this.getLocalString("Printing Data", _data, _maxLenMin, _maxDepth, _advanced));
+		return this.getLocalString("Data", _data, _maxLenMin, _maxDepth, _advanced)
 	}
 
 	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )

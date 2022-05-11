@@ -10,7 +10,7 @@
 	function addMod( _mod )
 	{
 		this.Mods[_mod.getID()] <- _mod;
-		::logInfo(format("MSU registered mod %s, version: %s", _mod.getName(), _mod.getVersionString()));
+		::logInfo(format("<span style=\"color: green;\">MSU registered <span style=\"color: white;\">%s</span>, version: <span style=\"color: white;\">%s</span></span>", _mod.getName(), _mod.getVersionString()));
 	}
 
 	function registerMod( _mod )
