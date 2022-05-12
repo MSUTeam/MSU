@@ -85,7 +85,7 @@
 			}
 			if (_updateJS)
 			{
-				::MSU.UI.JSConnection.updateSetting(this.getPanelID(), this.getID(), _value);
+				::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _value);
 			}
 		}
 	}
