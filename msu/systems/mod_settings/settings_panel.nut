@@ -79,6 +79,11 @@
 		return this.Pages[_pageID];
 	}
 
+	function getPages()
+	{
+		return this.Pages;
+	}
+
 	function verifyFlags( _flags )
 	{
 		foreach (page in this.Pages)
