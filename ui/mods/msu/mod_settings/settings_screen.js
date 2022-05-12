@@ -3,15 +3,19 @@ var ModSettingsScreen = function ()
 	MSUUIScreen.call(this);
 	this.mID = "ModSettingsScreen";
 
-	this.mModSettings = {};
+
 	this.mDialogContainer = null;
 	this.mListContainer = null;
 	this.mListScrollContainer = null;
 	this.mModPageScrollContainer = null;
-	this.mActiveSettings = [];
 	this.mPageTabContainer = null;
+
+	this.mModSettings = {};
+	this.mOrderedPanels = [];
 	this.mActivePanel = null;
 	this.mActivePage = null;
+	this.mActiveSettings = [];
+
 	this.mIsFirstShow = null;
 	/*
 
@@ -179,16 +183,16 @@ ModSettingsScreen.prototype.setSettings = function (_settings)
 ModSettingsScreen.prototype.createModPanelList = function ()
 {
 	var self = this;
-	var orderedPanels = [];
+	this.mOrderedPanels = [];
 	MSU.iterateObject(this.mModSettings, function(_panelID, _panel)
 	{
 		if (_panel.hidden) return;
-		orderedPanels.push(_panel);
+		self.mOrderedPanels.push(_panel);
 	});
-	orderedPanels.sort(function(a, b){
+	this.mOrderedPanels.sort(function(a, b){
 		return (a.order - b.order);
 	})
-	orderedPanels.forEach(function(_sortedPanel)
+	this.mOrderedPanels.forEach(function(_sortedPanel)
 	{
 		self.addModPanelButtonToList(_sortedPanel);
 	})
@@ -277,14 +281,14 @@ ModSettingsScreen.prototype.switchToFirstPage = function( _panel )
 ModSettingsScreen.prototype.switchToFirstPanel = function ()
 {
 	var self = this;
-	MSU.iterateObject(this.mModSettings,  function( _panelID, _panel )
+	this.mOrderedPanels.every(function(_panel)
 	{
 		if (!_panel.hidden)
 		{
 			self.switchToPanel(_panel);
 			return false;
 		}
-	}, true);
+	});
 };
 
 ModSettingsScreen.prototype.adjustTitles = function (self)
