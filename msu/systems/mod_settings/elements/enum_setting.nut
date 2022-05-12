@@ -14,9 +14,9 @@
 		this.Array = _array;
 	}
 
-	function getUIData()
+	function getUIData( _flags = [] )
 	{
-		local ret = base.getUIData();
+		local ret = base.getUIData(_flags);
 		ret.array <- this.Array;
 		return ret;
 	}

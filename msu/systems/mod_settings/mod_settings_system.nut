@@ -141,23 +141,10 @@
 
 	function getUIData( _flags = null )
 	{
-		local ret = [];
-		foreach (panel in this.Panels)
-		{
-			if (panel.verifyFlags(_flags))
-			{
-				ret.push(panel.getUIData(_flags));
-			}
-		}
-		return ret;
-	}
-
-	function getLogicalData()
-	{
 		local ret = {};
 		foreach (panel in this.getPanels())
 		{
-			ret[panel.getID()] <- panel.getLogicalData();
+			ret[panel.getID()] <- panel.getUIData(_flags);
 		}
 		return ret;
 	}

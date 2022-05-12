@@ -1,6 +1,6 @@
 ::MSU.Class.KeybindJS <- class extends ::MSU.Class.AbstractKeybind
 {
-	function getUIData()
+	function getUIData( _flags = [] )
 	{
 		return {
 			modID = this.getModID(),

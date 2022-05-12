@@ -98,13 +98,16 @@
 		return true;
 	}
 
-	function getUIData()
+	function getUIData( _flags = [] )
 	{
 		local ret = {
 			type = this.getType(),
 			id = this.getID(),
 			name = this.getName(),
 			data = this.Data,
+			panel = this.getPanelID(),
+			mod = this.getModID(),
+			hidden = !this.verifyFlags(_flags)
 		}
 		return ret;
 	}
