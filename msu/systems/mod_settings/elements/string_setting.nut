@@ -8,9 +8,9 @@
 		base.constructor(_id, _value, _name, _description);
 	}
 
-	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
+	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = true )
 	{
 		::MSU.requireString(_value);
-		base.set(_value, _updateJS, _updatePersistence, _updateCallback);
+		base.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
 	}
 }
