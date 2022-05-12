@@ -150,6 +150,15 @@
 		return ret;
 	}
 
+	function isVisibleWithFlags( _flags )
+	{
+		foreach (panel in this.getPanels())
+		{
+			if (panel.verifyFlags(_flags)) return true;
+		}
+		return false;
+	}
+
 	function sortPanelsByName( _key1, _mod1, _key2, _mod2 )
 	{
 		return _mod1.getName() <=> _mod2.getName();

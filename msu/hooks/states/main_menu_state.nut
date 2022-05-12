@@ -30,7 +30,7 @@
 	o.campaign_menu_module_onStartPressed = function( _settings )
 	{
 		this.m.TempSettings = _settings;
-		if (this.m.ModSettingsShown || ::MSU.System.ModSettings.getUIData(::MSU.SettingsFlags.NewCampaign).len() == 0)
+		if (this.m.ModSettingsShown || !::MSU.System.ModSettings.isVisibleWithFlags(::MSU.SettingsFlags.NewCampaign))
 		{
 			campaign_menu_module_onStartPressed(_settings);
 		}
