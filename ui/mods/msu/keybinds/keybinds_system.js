@@ -1,6 +1,16 @@
 MSU.Keybinds = {
 	KeybindsByMod : {},
 	PressedKeys : {},
+
+	setCustomKeybinds : function(_keybinds)
+	{
+		var self = this;
+		_keybinds.forEach(function(keybind)
+		{
+			self.addKeybindFromSQ(keybind.modID, keybind.id, keybind.keyCombinations);
+		});
+	},
+
 	addKeybindFromSQ : function( _modID, _id, _keyCombinations )
 	{
 		if (!(_modID in this.KeybindsByMod))
@@ -83,5 +93,5 @@ MSU.Keybinds = {
 			}
 		}
 		return false;
-	}
+	},
 };

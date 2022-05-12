@@ -43,6 +43,11 @@ var EnumSetting = function (_mod, _page, _setting, _parentDiv)
 	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
 
+EnumSetting.prototype.updateValue = function()
+{
+	this.button.changeButtonText(this.data.value);
+}
+
 EnumSetting.prototype.cycle = function (_forward)
 {
 	this.idx += _forward ? 1 : -1;

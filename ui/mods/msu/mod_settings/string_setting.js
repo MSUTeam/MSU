@@ -15,19 +15,21 @@ var StringSetting = function (_mod, _page, _setting, _parentDiv)
 	this.layout.append(this.contentContainer);
 
 	this.input = $('<input type="text" class="title-font-normal font-color-brother-name string-input"/>');
+	this.updateValue();
 	this.contentContainer.append(this.input);
-	this.input.val(_setting.value);
 	this.input.on("change", function(){
 		self.data.value = self.input.val();
 	});
-
-
-
 
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.input.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
+
+StringSetting.prototype.updateValue = function()
+{
+	this.input.val(this.data.value);
+}
 
 StringSetting.prototype.unbindTooltip = function ()
 {
