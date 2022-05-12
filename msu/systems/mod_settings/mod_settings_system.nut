@@ -95,7 +95,17 @@
 			::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
 			return;
 		}
-		this.getPanel(_modID).getSetting(_settingID).set(_value, true, false, true);
+		::getModSetting(_modID, _settingID).set(_value, true, false, true);
+	}
+
+	function updateSettingFromJS( _data )
+	{
+		::getModSetting(_data.mod, _data.id).set(_data.value, false);
+	}
+
+	function updateSettingInJS( _modID, _settingID, _value )
+	{
+		this.Screen.updateSettingInJS( _modID, _settingID, _value );
 	}
 
 	function callPanelsFunction( _function, ... )
