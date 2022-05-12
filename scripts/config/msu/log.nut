@@ -17,12 +17,19 @@
 
 			string += "-> " + line.src + " : " + line.line + "</div></div><div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
 
+			local fixCounter = 0;
 			foreach (key, value in line.locals)
 			{
+				if (key == "this" || key == "_release_hook_DO_NOT_delete_it_")
+				{
+					fixCounter++;
+					continue;
+				}
 				string += this.getLocalString(key, value, _maxLen, _maxDepth, _advanced);
 			}
 
-			string = string.slice(0, string.len() - 2);
+			if (line.locals.len() - fixCounter != 0) string = string.slice(0, string.len() - 2);
+			else string += "&nbsp;"
 			string += "</div></div>";
 		}
 		string += "</div>"
@@ -46,11 +53,6 @@
 	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
 	{
 		local string = "";
-
-		if (_key == "this" || _key == "_release_hook_DO_NOT_delete_it_")
-		{
-			return string;
-		}
 
 		if (!_isArray)
 		{
