@@ -152,38 +152,20 @@
 		this.callSettingsFunction("resetFlags");
 	}
 
-	function getUIData( _flags )
+	function getUIData( _flags = [] )
 	{
 		local ret = {
 			id = this.getID(),
 			name = this.getName(),
-			pages = []
+			pages = [],
+			hidden = !this.verifyFlags(_flags)
 		}
 
 		foreach (pageID, page in this.Pages)
 		{
-			if (page.verifyFlags(_flags))
-			{
-				ret.pages.push(page.getUIData(_flags));
-			}
+			ret.pages.push(page.getUIData(_flags));
 		}
 
-		return ret;
-	}
-
-	function getLogicalData()
-	{
-		local ret = {};
-		foreach (page in this.getPages())
-		{
-			foreach (setting in page.getSettings())
-			{
-				if (setting instanceof ::MSU.Class.AbstractSetting)
-				{
-					ret[setting.getID()] <- setting.getValue();
-				}
-			}
-		}
 		return ret;
 	}
 }
