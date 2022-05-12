@@ -4,17 +4,17 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUConnection", this);
-		this.queryData();
+		this.querySettingsData();
 		this.checkMSUGithubVersion();
 	}
 
-	function queryData()
+	function querySettingsData()
 	{
 		local data = {
 			keybinds = ::MSU.System.Keybinds.getJSKeybinds(),
-			settings = ::MSU.System.ModSettings.getLogicalData()
+			settings = ::MSU.System.ModSettings.getUIData()
 		};
-		this.m.JSHandle.asyncCall("queryData", data);
+		this.m.JSHandle.asyncCall("querySettingsData", data);
 	}
 
 	function removeKeybind( _keybind )
@@ -33,17 +33,9 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		}
 	}
 
-	function updateSetting( _modID, _settingID, _value )
+	function clearKeys()
 	{
-		// Need to check in case settings are changed before backend is set up.
-		if (this.m.JSHandle != null)
-		{
-			this.m.JSHandle.asyncCall("updateSetting", {
-				mod = _modID,
-				setting = _settingID,
-				value = _value
-			});
-		}
+		this.m.JSHandle.asyncCall("clearKeys", null);
 	}
 
 	function checkMSUGithubVersion()
@@ -66,13 +58,5 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		}
 	}
 
-	function updateSettingJS( _data )
-	{
-		::getModSetting(_data.mod, _data.setting).set(_data.value, false);
-	}
 
-	function clearKeys()
-	{
-		this.m.JSHandle.asyncCall("clearKeys", null);
-	}
 });

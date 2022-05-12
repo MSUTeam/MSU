@@ -56,4 +56,20 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 	{
 		::MSU.System.ModSettings.onSettingPressed(_data);
 	}
+
+	function updateSettingInJS( _modID, _settingID, _value )
+	{
+		local setting = ::getModSetting(_modID, _settingID);
+		// Need to check in case settings are changed before backend is set up.
+		if (this.m.JSHandle != null)
+		{
+			this.m.JSHandle.asyncCall("updateSetting", setting.getUIData());
+		}
+	}
+
+	function updateSettingFromJS( _data )
+	{
+		::MSU.System.ModSettings.updateSettingFromJS(_data);
+	}
+
 });
