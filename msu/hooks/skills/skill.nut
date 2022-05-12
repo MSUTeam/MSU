@@ -407,6 +407,72 @@
 
 		return _tooltip;
 	}
+
+	o.getAutoTooltip <- function()
+	{
+		local properties = this.getContainer().getActor().getBaseProperties().getClone();
+
+		local tooltip = [];
+		local valuesBefore = {};
+		local changes = {};
+		local getChange = function( _function )
+		{
+			local skills = _function == "executeScheduledChanges" ? this.m.ScheduledChangesSkills : this.m.Skills;
+			foreach (skill in skills)
+			{
+				if (!skill.isGarbage() && skill == this)
+				{
+					foreach (autoTooltipProperty, icon in ::MSU.Skills.AutoTooltipProperties)
+					{
+						valuesBefore[autoTooltipProperty] <- properties[autoTooltipProperty];
+					}
+
+					if (_function == "executeScheduledChanges") skill[_function]();
+					else skill[_function](propertiesClone);
+
+					foreach (autoTooltipProperty, oldValue in valuesBefore)
+					{
+						if (oldValue == properties[autoTooltipProperty]) continue;
+
+						local isMultiplicative = autoTooltipProperty.find("Mult") != null;
+						if (autoTooltipProperty in changes) changes[autoTooltipProperty] <- isMultiplicative ? 1 : 0;
+
+						local change = isMultiplicative ? properties[autoTooltipProperty] / (oldValue == 0 ? 1 : oldValue) : properties[autoTooltipProperty] - oldValue;
+
+						if (isMultiplicative)
+						{
+							change[autoTooltipProperty] *= properties[autoTooltipProperty] / (oldValue == 0 ? 1 : oldValue);
+						}
+						else
+						{
+							change[autoTooltipProperty] += properties[autoTooltipProperty] - oldValue;
+						}
+					}
+				}
+			}
+		}
+
+		foreach (skill in this.m.Skills)
+		{
+			skill.softReset();
+		}
+
+		getChange("onUpdate");
+		getChange("onAfterUpdate");
+		getChange("executeScheduledChanges");
+
+		foreach (autoTooltipProperty, change in changes)
+		{
+			tooltip.push({
+				id = 11,
+				type = "text",
+				icon = ::MSU.Skills.AutoTooltipProperties[autoTooltipProperty],
+				text = ::MSU.Skills.AutoTooltipProperties.getText(change)
+			});
+		}
+
+		return tooltip;
+	}
 });
 
 ::MSU.EndQueue.add(function() {

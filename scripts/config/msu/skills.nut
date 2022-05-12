@@ -11,6 +11,22 @@
 		"MinRange",
 		"MaxRange"
 	],
+	AutoTooltipProperties = {
+		MeleeSkill = "ui/icons/melee_skill.png",
+		MeleeSkillMult = "ui/icons/melee_skill.png",
+		RangedSkill = "ui/icons/ranged_skill.png",
+		RangedSkillMult = "ui/icons/ranged_skill.png",
+		MeleeDefense = "ui/icons/melee_defense.png",
+		MeleeDefenseMult = "ui/icons/melee_defense.png",
+		RangedDefense  = "ui/icons/ranged_defense.png",
+		RangedDefenseMult =  = "ui/icons/ranged_defense.png",
+		Bravery =  = "ui/icons/bravery.png",
+		BraveryMult = "ui/icons/bravery.png",
+		Initiative = "ui/icons/initiative.png",
+		InitiativeMult = "ui/icons/initiative.png",
+		Stamina = "ui/icons/fatigue.png",
+		StaminaMult = "ui/icons/fatigue.png",
+	},
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
