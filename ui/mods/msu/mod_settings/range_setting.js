@@ -18,12 +18,7 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.contentContainer.append(this.control);
 
 	this.slider = $('<input class="scale-slider" type="range"/>');
-	this.slider.attr({
-		min : _setting.min,
-		max : _setting.max,
-		step : _setting.step
-	});
-	this.slider.val(_setting.value);
+	this.updateValue();
 	this.control.append(this.slider);
 
 	this.label = $('<div class="scale-label text-font-normal font-color-subtitle">' + _setting.value + '</div>');
@@ -44,6 +39,16 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.control.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
+
+RangeSetting.prototype.updateValue = function()
+{
+	this.slider.attr({
+		min : this.data.min,
+		max : this.data.max,
+		step : this.data.step
+	});
+	this.slider.val(this.data.value);
+}
 
 RangeSetting.prototype.unbindTooltip = function ()
 {

@@ -1,7 +1,7 @@
 var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	this.data = _setting;
-	this.values = this.data.values;
+	this.values = this.data.data.values;
 	this.parent = _parentDiv;
 	var self = this;
 
@@ -32,6 +32,13 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.button.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
+
+ColorPickerSetting.prototype.updateValue = function()
+{
+	console.error("runs")
+	this.values = this.data.data.values;
+	this.updateColor();
+}
 
 ColorPickerSetting.prototype.createColorPickerPopup = function ()
 {

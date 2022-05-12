@@ -18,7 +18,7 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 
 	this.input = $('<input type="text" class="title-font-normal font-color-brother-name string-input"/>');
 	this.contentContainer.append(this.input);
-	this.input.val(MSU.Key.capitalizeKeyString(_setting.value));
+	this.updateValue();
 	this.input.on("change", function(){
 		self.data.value = self.input.val().toLowerCase();
 	});
@@ -32,6 +32,12 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 	this.input.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
+
+KeybindSetting.prototype.updateValue = function()
+{
+	this.input.val(MSU.Key.capitalizeKeyString(this.data.value));
+}
+
 
 KeybindSetting.prototype.createPopup = function ()
 {

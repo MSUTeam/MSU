@@ -15,7 +15,7 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 		radioClass: 'iradio_flat-orange',
 		increaseArea: '30%'
 	});
-	this.checkbox.iCheck(_setting.value === true ? 'check' : 'uncheck');
+	this.updateValue();
 
 	this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
 		_setting.value = !_setting.value;
@@ -36,6 +36,11 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
 };
+
+BooleanSetting.prototype.updateValue = function()
+{
+	this.checkbox.iCheck(this.data.value === true ? 'check' : 'uncheck');
+}
 
 BooleanSetting.prototype.unbindTooltip = function ()
 {
