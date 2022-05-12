@@ -35,7 +35,6 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 
 ColorPickerSetting.prototype.updateValue = function()
 {
-	console.error("runs")
 	this.values = this.data.data.values;
 	this.updateColor();
 }
