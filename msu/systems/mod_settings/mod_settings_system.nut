@@ -56,9 +56,11 @@
 	{
 		this.Locked = true;
 		this.Panels.sort(this.sortPanelsByName);
-		foreach (index, panel in this.Panels)
+		local idx = 0;
+		foreach (panel in this.Panels)
 		{
-			panel.Order = index;
+			panel.Order = idx;
+			idx++
 		}
 	}
 

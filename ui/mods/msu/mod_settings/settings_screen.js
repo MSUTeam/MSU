@@ -186,7 +186,7 @@ ModSettingsScreen.prototype.createModPanelList = function ()
 		orderedPanels.push(_panel);
 	});
 	orderedPanels.sort(function(a, b){
-		return b.order - a.order;
+		return (a.order - b.order);
 	})
 	orderedPanels.forEach(function(_sortedPanel)
 	{
