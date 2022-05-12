@@ -56,6 +56,10 @@
 	{
 		this.Locked = true;
 		this.Panels.sort(this.sortPanelsByName);
+		foreach (index, panel in this.Panels)
+		{
+			panel.Order = index;
+		}
 	}
 
 	function updateSettings( _data, _informChange = true )

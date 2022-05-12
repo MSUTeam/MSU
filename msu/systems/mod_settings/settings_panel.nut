@@ -4,6 +4,7 @@
 	ID = null;
 	Name = null;
 	Mod = null;
+	Order = 1;
 
 	constructor( _id, _name = null )
 	{
@@ -158,7 +159,8 @@
 			id = this.getID(),
 			name = this.getName(),
 			pages = [],
-			hidden = !this.verifyFlags(_flags)
+			hidden = !this.verifyFlags(_flags),
+			order = this.Order
 		}
 
 		foreach (pageID, page in this.Pages)
