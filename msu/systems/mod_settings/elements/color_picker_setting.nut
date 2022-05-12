@@ -31,11 +31,11 @@
 		return asRGBA;
 	}
 
-	function getUIData()
+	function getUIData( _flags = [] )
 	{
-		local ret = base.getUIData();
-		ret.values <- this.getValueAsTable();
-		ret.valuesRGBA <- this.getValueAsRGBA();
+		local ret = base.getUIData(_flags);
+		ret.data.values <- this.getValueAsTable();
+		ret.data.valuesRGBA <- this.getValueAsRGBA();
 		return ret;
 	}
 

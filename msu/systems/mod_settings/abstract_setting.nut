@@ -137,11 +137,12 @@
 		this.LockReason = "";
 	}
 
-	function getUIData()
+	function getUIData(_flags = [])
 	{
-		local ret = base.getUIData();
+		local ret = base.getUIData(_flags);
 		ret.locked <- this.isLocked();
 		ret.value <- this.getValue();
+		ret.currentValue <- this.getValue();
 		return ret;
 	}
 

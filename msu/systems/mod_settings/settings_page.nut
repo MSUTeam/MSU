@@ -121,20 +121,18 @@
 		return false;
 	}
 
-	function getUIData( _flags )
+	function getUIData( _flags = [] )
 	{
 		local ret = {
 			name = this.getName(),
 			id = this.getID(),
-			settings = []
+			settings = [],
+			hidden = !this.verifyFlags(_flags)
 		};
 
 		foreach (setting in this.Settings)
 		{
-			if (setting.verifyFlags(_flags))
-			{
-				ret.settings.push(setting.getUIData());
-			}
+			ret.settings.push(setting.getUIData(_flags));
 		}
 		return ret;
 	}

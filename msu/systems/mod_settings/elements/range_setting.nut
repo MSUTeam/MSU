@@ -30,9 +30,9 @@
 		return this.Step;
 	}
 
-	function getUIData()
+	function getUIData( _flags = [] )
 	{
-		local ret = base.getUIData();
+		local ret = base.getUIData(_flags);
 		ret.min <- this.getMin();
 		ret.max <- this.getMax();
 		ret.step <- this.getStep();
