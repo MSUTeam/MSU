@@ -10,9 +10,9 @@ Object.defineProperty(MSUConnection.prototype, 'constructor', {
 	writable: true
 });
 
-MSUConnection.prototype.querySettingsData = function (_data)
+MSUConnection.prototype.onQuerySettingsData = function (_data)
 {
-	MSU.Keybinds.setCustomKeybinds(_data.keybinds);
+	MSU.Keybinds.setKeybinds(_data.keybinds);
 	Screens.ModSettingsScreen.setSettings(_data.settings);
 };
 

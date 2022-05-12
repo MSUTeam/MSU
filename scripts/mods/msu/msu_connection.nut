@@ -14,7 +14,7 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 			keybinds = ::MSU.System.Keybinds.getJSKeybinds(),
 			settings = ::MSU.System.ModSettings.getUIData()
 		};
-		this.m.JSHandle.asyncCall("querySettingsData", data);
+		this.m.JSHandle.asyncCall("onQuerySettingsData", data);
 	}
 
 	function removeKeybind( _keybind )
