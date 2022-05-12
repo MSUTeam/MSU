@@ -37,9 +37,16 @@
 	width: 100%;
 }
 
-.msu-popup .ok-button {
+.msu-popup .ok-button,
+.msu-popup .quit-menu-button
+ {
 	left: calc(50% - 17.5rem / 2);
 	height: 4.3rem;
 	width: 17.5rem;
 	position: relative;
+}
+.msu-popup .quit-game-button
+ {
+	position: relative;
+	float: left;
 }

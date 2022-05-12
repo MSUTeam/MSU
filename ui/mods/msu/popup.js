@@ -38,18 +38,17 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mFooterContainer = $('<div class="footer"/>')
 	this.mContainer.append(this.mFooterContainer);
 
-	this.mFooterContainer.createTextButton("Ok", jQuery.proxy(function()
-	{
-		if (this.mForceQuit)
-		{
-			this.quitGame();
-		}
-		else
-		{
-			this.hide();
-		}
-
+	this.mFooterContainer.createTextButton("Ok", jQuery.proxy(function(){
+		this.hide();
 	}, this), "ok-button", 1);
+
+	this.mFooterContainer.createTextButton("Quit to Main Menu", jQuery.proxy(function(){
+		this.quitToMenu()
+	}, this), "quit-menu-button display-none", 1);
+
+	this.mFooterContainer.createTextButton("Quit Game", jQuery.proxy(function(){
+		this.quitGame();
+	}, this), "quit-game-button display-none", 1);
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -98,14 +97,14 @@ MSUPopup.prototype.isVisible = function ()
 
 MSUPopup.prototype.setForceQuit = function ( _forceQuit)
 {
-	this.mForceQuit = _forceQuit;
-	if (this.mForceQuit)
+	if (_forceQuit)
 	{
-		this.mFooterContainer.find(".ok-button:first").html("Quit Game");
+		this.mFooterContainer.find(".quit-menu-button:first").addClass('display-block').removeClass('display-none');
+		this.mFooterContainer.find(".quit-game-button:first").addClass('display-block').removeClass('display-none');
 	}
 	else
 	{
-		this.mFooterContainer.find(".ok-button:first").html("Ok");
+		this.mFooterContainer.find(".ok-button:first").addClass('display-block').removeClass('display-none');
 	}
 }
 
@@ -131,10 +130,8 @@ MSUPopup.prototype.clearText = function ()
 
 MSUPopup.prototype.hide = function (_clearText)
 {
-	if(_clearText) this.clearText()
-	var self = this;
+	if (_clearText) this.clearText()
 
-	//MSUUIScreen.hide
 	this.mContainer.velocity("finish", true).velocity({ opacity: 0 },
 	{
 		duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
@@ -160,6 +157,12 @@ MSUPopup.prototype.unregister = function ()
 {
 	console.log('MSUPopup::UNREGISTER');
 	this.destroy();
+}
+
+MSUPopup.prototype.quitToMenu = function ()
+{
+	SQ.call(this.mSQHandle, "quitToMenu");
+	this.hide();
 }
 
 MSUPopup.prototype.quitGame = function ()
