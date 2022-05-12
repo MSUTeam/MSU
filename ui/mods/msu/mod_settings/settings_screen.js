@@ -150,26 +150,40 @@ ModSettingsScreen.prototype.hide = function()
 ModSettingsScreen.prototype.show = function (_data)
 {
 	this.mIsFirstShow = true;
-	this.mModPanels = _data;
+	this.setSettings(_data);
 	this.createModPanelList();
 	MSUUIScreen.prototype.show.call(this,_data);
-	if(_data.length != 0)
-	{
-		this.mListScrollContainer[0].firstElementChild.click();
-	}
+	if (this.mListScrollContainer[0].firstElementChild != null) this.mListScrollContainer[0].firstElementChild.click();
 	this.mIsFirstShow = false;
+};
+
+ModSettingsScreen.prototype.setSettings = function (_settings)
+{
+	this.mModSettings = _settings;
+	MSU.iterateObject(this.mModSettings, function(_panelID, _panel)
+	{
+		_panel.settings = {};
+		_panel.pages.forEach(function(_page)
+		{
+			_page.settings.forEach(function(_setting)
+			{
+				_panel.settings[_setting.id] = _setting;
+			})
+		})
+	})
 };
 
 ModSettingsScreen.prototype.createModPanelList = function ()
 {
 	var self = this;
-	this.mModPanels.forEach(function(mod)
+	MSU.iterateObject(this.mModSettings, function(_panelID, _panel)
 	{
-		self.addModPanelButtonToList(mod);
+		if (_panel.hidden) return
+		self.addModPanelButtonToList(_panel);
 	});
 };
 
-ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
+ModSettingsScreen.prototype.addModPanelButtonToList = function (_panel)
 {
 	var self = this;
 	var button = this.mListScrollContainer.createCustomButton(null, function (_button)
@@ -181,11 +195,11 @@ ModSettingsScreen.prototype.addModPanelButtonToList = function (_mod)
 		self.mActivePanelButton = _button;
 		_button.addClass('is-active');
 
-		self.switchToModPanel(_mod);
-		self.switchToPage(_mod, _mod.pages[0]);
+		self.switchToModPanel(_panel);
+		self.switchToPage(_panel, _panel.pages[0]);
 	}, 'msu-button');
 
-	button.text(_mod.name);
+	button.text(_panel.name);
 	button.removeClass('button');
 };
 
@@ -198,6 +212,7 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 	var first = true;
 	_mod.pages.forEach(function(page)
 	{
+		if (page.hidden) return
 		var layout = $('<div class="l-tab-button"/>');
 		self.mPageTabContainer.append(layout);
 		var button = layout.createTabTextButton(page.name, function ()
@@ -224,6 +239,7 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 	var self = this;
 	_page.settings.forEach(function(element)
 	{
+		if (element.hidden) return
 		self.mActiveSettings.push(new window[element.type + "Setting"](_mod, _page, element, self.mModPageScrollContainer));
 	});
 	// if called from show(), the elements need to be added to the dom first or something so need to add it on a delay
@@ -252,26 +268,70 @@ ModSettingsScreen.prototype.adjustTitles = function (self)
 
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {
+	var self = this;
 	var changes = {};
-	this.mModPanels.forEach(function(modPanel)
+	MSU.iterateObject(this.mModSettings, function(_panelID, modPanel)
 	{
-		changes[modPanel.id] = {};
-		modPanel.pages.forEach(function(page)
+		changes[_panelID] = {};
+		MSU.iterateObject(modPanel.settings, function(_elementID, element)
 		{
-			page.settings.forEach(function(element)
+			if ("IsSetting" in element.data && !element.locked && element.currentValue != element.value)
 			{
-				if ("IsSetting" in element.data && !element.locked)
-				{
-					changes[modPanel.id][element.id] = element.value;
-				}
-			});
+				changes[_panelID][_elementID] = element.value;
+			}
 		});
 	});
 	return changes;
 };
 
+ModSettingsScreen.prototype.discardChanges = function () // Could still be significantly improved/optimized
+{
+	var self = this;
+	MSU.iterateObject(this.mModSettings, function(_panelID, modPanel)
+	{
+		MSU.iterateObject(modPanel.settings, function(_elementID, element)
+		{
+			if ("IsSetting" in element.data && !element.locked)
+			{
+				element.value = element.currentValue;
+			}
+		});
+	});
+};
+
+ModSettingsScreen.prototype.updateSetting = function (_setting)
+{
+	this.mModSettings[_setting.mod].settings[_setting.id].value = _setting.value;
+	this.mModSettings[_setting.mod].settings[_setting.id].currentValue = _setting.value;
+	this.mModSettings[_setting.mod].settings[_setting.id].data = _setting.data;
+	this.mActiveSettings.forEach(function(_activeSetting)
+	{
+		if(_activeSetting.data.id == _setting.id && "updateValue" in _activeSetting)
+		{
+			_activeSetting.updateValue();
+		}
+	})
+};
+
+ModSettingsScreen.prototype.setModSettingValue = function (_modID, _settingID, _value)
+{
+	var out = {
+		mod : _modID,
+		id : _settingID,
+		value : _value
+	};
+	this.updateSetting(out);
+	this.updateSettingInNut(out);
+};
+
+ModSettingsScreen.prototype.updateSettingInNut = function (_data)
+{
+	SQ.call(this.mSQHandle, "updateSettingFromJS", _data);
+};
+
 ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
+	this.discardChanges();
 	SQ.call(this.mSQHandle, 'onCancelButtonPressed');
 };
 
