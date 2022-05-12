@@ -2,7 +2,7 @@ MSU.Keybinds = {
 	KeybindsByMod : {},
 	PressedKeys : {},
 
-	setCustomKeybinds : function(_keybinds)
+	setKeybinds : function(_keybinds)
 	{
 		var self = this;
 		_keybinds.forEach(function(keybind)
