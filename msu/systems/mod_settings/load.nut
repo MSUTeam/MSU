@@ -26,6 +26,7 @@ includeFile("mod_settings_mod_addon.nut");
 ::MSU.SettingsScreen <- ::new("scripts/mods/msu/settings_screen");
 ::MSU.UI.registerConnection(::MSU.SettingsScreen);
 ::MSU.UI.addOnConnectCallback(::MSU.System.ModSettings.finalize.bindenv(::MSU.System.ModSettings));
+::MSU.System.ModSettings.Screen = ::MSU.SettingsScreen;
 
 
 ::MSU.SettingsFlags <- {

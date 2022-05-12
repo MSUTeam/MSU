@@ -2,6 +2,7 @@
 {
 	Panels = null;
 	Locked = null;
+	Screen = null; //settings_screen
 
 	constructor()
 	{
