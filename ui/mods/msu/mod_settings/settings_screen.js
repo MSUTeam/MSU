@@ -196,28 +196,28 @@ ModSettingsScreen.prototype.addModPanelButtonToList = function (_panel)
 		_button.addClass('is-active');
 
 		self.switchToModPanel(_panel);
-		self.switchToPage(_panel, _panel.pages[0]);
+		self.switchToFirstPage(_panel);
 	}, 'msu-button');
 
 	button.text(_panel.name);
 	button.removeClass('button');
 };
 
-ModSettingsScreen.prototype.switchToModPanel = function (_mod)
+ModSettingsScreen.prototype.switchToModPanel = function (_panel)
 {
 	this.mPageTabContainer.empty();
 	var self = this;
-	this.mContainer.findDialogSubTitle().html(_mod.name);
+	this.mContainer.findDialogSubTitle().html(_panel.name);
 
 	var first = true;
-	_mod.pages.forEach(function(page)
+	_panel.pages.forEach(function(page)
 	{
 		if (page.hidden) return
 		var layout = $('<div class="l-tab-button"/>');
 		self.mPageTabContainer.append(layout);
 		var button = layout.createTabTextButton(page.name, function ()
 		{
-			self.switchToPage(_mod, page);
+			self.switchToPage(_panel, page);
 		}, null, 'tab-button', 7);
 
 		if (first)
@@ -228,7 +228,7 @@ ModSettingsScreen.prototype.switchToModPanel = function (_mod)
 	});
 };
 
-ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
+ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 {
 	this.mActiveSettings.forEach(function(element)
 	{
@@ -240,11 +240,20 @@ ModSettingsScreen.prototype.switchToPage = function (_mod, _page)
 	_page.settings.forEach(function(element)
 	{
 		if (element.hidden) return
-		self.mActiveSettings.push(new window[element.type + "Setting"](_mod, _page, element, self.mModPageScrollContainer));
+		self.mActiveSettings.push(new window[element.type + "Setting"](_panel, _page, element, self.mModPageScrollContainer));
 	});
 	// if called from show(), the elements need to be added to the dom first or something so need to add it on a delay
 	if (this.mIsFirstShow) setTimeout(this.adjustTitles, 300, this);
 	else this.adjustTitles(this)
+};
+
+ModSettingsScreen.prototype.switchToFirstPage = function (_panel)
+{
+	var self = this;
+	_panel.pages.forEach(function(page)
+	{
+		if (!page.hidden) self.switchToPage(_panel, page)
+	});
 };
 
 ModSettingsScreen.prototype.adjustTitles = function (self)
