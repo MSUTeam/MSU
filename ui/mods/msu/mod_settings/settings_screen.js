@@ -10,7 +10,8 @@ var ModSettingsScreen = function ()
 	this.mModPageScrollContainer = null;
 	this.mActiveSettings = [];
 	this.mPageTabContainer = null;
-	this.mActivePanelButton = null;
+	this.mActivePanel = null;
+	this.mActivePage = null;
 	this.mIsFirstShow = null;
 	/*
 
@@ -153,7 +154,8 @@ ModSettingsScreen.prototype.show = function (_data)
 	this.setSettings(_data);
 	this.createModPanelList();
 	MSUUIScreen.prototype.show.call(this,_data);
-	if (this.mListScrollContainer[0].firstElementChild != null) this.mListScrollContainer[0].firstElementChild.click();
+	this.switchToFirstPanel();
+	this.switchToFirstPage(this.mActivePanel);
 	this.mIsFirstShow = false;
 };
 
@@ -170,17 +172,26 @@ ModSettingsScreen.prototype.setSettings = function (_settings)
 				_panel.settings[_setting.id] = _setting;
 			})
 		})
+		return true;
 	})
 };
 
 ModSettingsScreen.prototype.createModPanelList = function ()
 {
 	var self = this;
+	var orderedPanels = [];
 	MSU.iterateObject(this.mModSettings, function(_panelID, _panel)
 	{
-		if (_panel.hidden) return
-		self.addModPanelButtonToList(_panel);
+		if (_panel.hidden) return;
+		orderedPanels.push(_panel);
 	});
+	orderedPanels.sort(function(a, b){
+		return b.order - a.order;
+	})
+	orderedPanels.forEach(function(_sortedPanel)
+	{
+		self.addModPanelButtonToList(_sortedPanel);
+	})
 };
 
 ModSettingsScreen.prototype.addModPanelButtonToList = function (_panel)
@@ -188,28 +199,28 @@ ModSettingsScreen.prototype.addModPanelButtonToList = function (_panel)
 	var self = this;
 	var button = this.mListScrollContainer.createCustomButton(null, function (_button)
 	{
-		if (self.mActivePanelButton !== null)
-		{
-			self.mActivePanelButton.removeClass('is-active');
-		}
-		self.mActivePanelButton = _button;
-		_button.addClass('is-active');
-
-		self.switchToModPanel(_panel);
+		self.switchToPanel(_panel);
 		self.switchToFirstPage(_panel);
 	}, 'msu-button');
 
 	button.text(_panel.name);
 	button.removeClass('button');
+
+	_panel.button = button;
 };
 
-ModSettingsScreen.prototype.switchToModPanel = function (_panel)
+ModSettingsScreen.prototype.switchToPanel = function (_panel)
 {
-	this.mPageTabContainer.empty();
 	var self = this;
+	this.mPageTabContainer.empty();
 	this.mContainer.findDialogSubTitle().html(_panel.name);
+	if (this.mActivePanel !== null)
+	{
+		this.mActivePanel.button.removeClass('is-active');
+	}
+	this.mActivePanel = _panel;
+	this.mActivePanel.button.addClass('is-active');
 
-	var first = true;
 	_panel.pages.forEach(function(page)
 	{
 		if (page.hidden) return
@@ -219,24 +230,27 @@ ModSettingsScreen.prototype.switchToModPanel = function (_panel)
 		{
 			self.switchToPage(_panel, page);
 		}, null, 'tab-button', 7);
-
-		if (first)
-		{
-			button.addClass('is-selected');
-			first = false;
-		}
+		page.button = button;
 	});
 };
 
 ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 {
+	var self = this;
+	if (this.mActivePage !== null)
+	{
+		this.mActivePage.button.removeClass('is-active');
+	}
+	this.mActivePage = _page;
+	this.mActivePage.button.addClass('is-active');
+
 	this.mActiveSettings.forEach(function(element)
 	{
 		element.unbindTooltip();
 	});
 	this.mActiveSettings = [];
 	this.mModPageScrollContainer.empty();
-	var self = this;
+
 	_page.settings.forEach(function(element)
 	{
 		if (element.hidden) return
@@ -247,13 +261,30 @@ ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 	else this.adjustTitles(this)
 };
 
-ModSettingsScreen.prototype.switchToFirstPage = function (_panel)
+ModSettingsScreen.prototype.switchToFirstPage = function( _panel )
 {
 	var self = this;
-	_panel.pages.forEach(function(page)
+	_panel.pages.every(function(page)
 	{
-		if (!page.hidden) self.switchToPage(_panel, page)
+		if (!page.hidden)
+		{
+			self.switchToPage(_panel, page);
+			return false;
+		}
 	});
+};
+
+ModSettingsScreen.prototype.switchToFirstPanel = function ()
+{
+	var self = this;
+	MSU.iterateObject(this.mModSettings,  function( _panelID, _panel )
+	{
+		if (!_panel.hidden)
+		{
+			self.switchToPanel(_panel);
+			return false;
+		}
+	}, true);
 };
 
 ModSettingsScreen.prototype.adjustTitles = function (self)
