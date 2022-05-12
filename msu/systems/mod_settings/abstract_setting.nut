@@ -2,6 +2,7 @@
 {
 	static Type = "Abstract";
 	Value = null;
+	BaseValue = null;
 	Locked = null;
 	LockReason = null;
 	Callbacks = null;
@@ -10,7 +11,8 @@
 	constructor( _id, _value, _name = null, _description = null )
 	{
 		base.constructor(_id, _name, _description)
-		this.Value = _value; 
+		this.Value = _value;
+		this.BaseValue = _value;
 		this.Locked = false;
 		this.LockReason = "";
 		this.Persistence = true;
@@ -51,7 +53,18 @@
 		this.Callbacks.push(_callback);
 	}
 
-	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true )
+	function reset()
+	{
+		this.set(this.BaseValue, true, true, true, true);
+	}
+
+	function setBaseValue( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = false )
+	{
+		this.m.BaseValue = _value;
+		this.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
+	}
+
+	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = false)
 	{
 		if (this.Locked)
 		{
@@ -59,7 +72,7 @@
 			return;
 		}
 
-		if (_value != this.Value)
+		if (_value != this.Value || _force)
 		{
 			if (_updateCallback)
 			{
