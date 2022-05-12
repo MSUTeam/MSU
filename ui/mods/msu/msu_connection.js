@@ -1,7 +1,6 @@
 var MSUConnection = function ()
 {
 	MSUBackendConnection.call(this);
-	this.mModSettings = {};
 };
 
 MSUConnection.prototype = Object.create(MSUBackendConnection.prototype);
@@ -11,19 +10,10 @@ Object.defineProperty(MSUConnection.prototype, 'constructor', {
 	writable: true
 });
 
-MSUConnection.prototype.queryData = function (_data)
+MSUConnection.prototype.querySettingsData = function (_data)
 {
-	this.setCustomKeybinds(_data.keybinds);
-	this.setSettings(_data.settings);
-};
-
-MSUConnection.prototype.setCustomKeybinds = function (_keybinds)
-{
-	var self = this;
-	_keybinds.forEach(function(keybind)
-	{
-		self.addKeybind(keybind);
-	});
+	MSU.Keybinds.setCustomKeybinds(_data.keybinds);
+	Screens.ModSettingsScreen.setSettings(_data.settings);
 };
 
 MSUConnection.prototype.removeKeybind = function (_keybind)
@@ -36,36 +26,10 @@ MSUConnection.prototype.addKeybind = function (_keybind)
 	MSU.Keybinds.addKeybindFromSQ(_keybind.modID, _keybind.id, _keybind.keyCombinations);
 };
 
-MSUConnection.prototype.setSettings = function (_settings)
+MSUConnection.prototype.clearKeys = function ()
 {
-	this.mModSettings = _settings;
-};
-
-MSUConnection.prototype.updateSetting = function (_setting)
-{
-	this.mModSettings[_setting.mod][_setting.setting] = _setting.value;
-};
-
-MSU.getSettingValue = function (_modID, _settingID)
-{
-	return Screens.MSUConnection.mModSettings[_modID][_settingID];
-};
-
-MSU.setSettingValue = function (_modID, _settingID, _value)
-{
-	Screens.MSUConnection.setModSettingValue(_modID, _settingID, _value);
-};
-
-MSUConnection.prototype.setModSettingValue = function (_modID, _settingID, _value)
-{
-	this.mModSettings[_modID][_settingID] = _value;
-	var out = {
-		mod : _modID,
-		setting : _settingID,
-		value : _value
-	};
-	this.notifyBackendUpdateSetting(out);
-};
+	MSU.Keybinds.PressedKeys = {};
+}
 
 MSUConnection.prototype.checkMSUGithubVersion = function ()
 {
@@ -82,16 +46,6 @@ MSUConnection.prototype.checkMSUGithubVersion = function ()
 MSUConnection.prototype.notifyBackendGetMSUGithubVersion = function (_version)
 {
 	SQ.call(this.mSQHandle, "getMSUGithubVersion", _version);
-}
-
-MSUConnection.prototype.notifyBackendUpdateSetting = function(_data)
-{
-	SQ.call(this.mSQHandle, "updateSettingJS", _data);
-};
-
-MSUConnection.prototype.clearKeys = function ()
-{
-	MSU.Keybinds.PressedKeys = {};
 }
 
 registerScreen("MSUConnection", new MSUConnection());

@@ -3,8 +3,7 @@ var ModSettingsScreen = function ()
 	MSUUIScreen.call(this);
 	this.mID = "ModSettingsScreen";
 
-	this.mModPanels = {};
-	this.mChangedPanels = {};
+	this.mModSettings = {};
 	this.mDialogContainer = null;
 	this.mListContainer = null;
 	this.mListScrollContainer = null;
@@ -15,9 +14,9 @@ var ModSettingsScreen = function ()
 	this.mIsFirstShow = null;
 	/*
 
-	this.mModPanels = 
+	this.mModSettings =
 	[
-		{
+		panelID = {
 			modID = "",
 			name = "",
 			pages = [
@@ -33,13 +32,15 @@ var ModSettingsScreen = function ()
 					}
 				]
 			]
-		}
-		{
-
+			//settings references page settings
+			settings = {
+				settingID = {
+					...
+				}
+			}
 		}
 	]
 	*/
-
 };
 
 // Inheritance in JS
@@ -106,8 +107,6 @@ ModSettingsScreen.prototype.destroy = function ()
 	});
 
 	this.mActiveSettings = [];
-	this.mModPanels = {};
-	this.mChangedPanels = {};
 
 	MSUUIScreen.prototype.destroy.call(this);
 };
@@ -284,6 +283,16 @@ ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
 ModSettingsScreen.prototype.notifyBackendSettingButtonPressed = function (_data)
 {
 	SQ.call(this.mSQHandle, 'onSettingPressed', _data);
+};
+
+MSU.getSettingValue = function (_modID, _settingID)
+{
+	return Screens.ModSettingsScreen.mModSettings[_modID].settings[_settingID].value;
+};
+
+MSU.setSettingValue = function (_modID, _settingID, _value)
+{
+	Screens.ModSettingsScreen.setModSettingValue(_modID, _settingID, _value);
 };
 
 registerScreen("ModSettingsScreen", new ModSettingsScreen());
