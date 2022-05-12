@@ -22,6 +22,19 @@
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).getSetting(_settingID);
 	}
 
+	function getAllSettings()
+	{
+		local ret = [];
+		foreach (page in this.getPanel().getPages())
+		{
+			foreach (setting in page.getSettings())
+			{
+				ret.push(setting);
+			}
+		}
+		return ret;
+	}
+
 	function hasSetting( _settingID )
 	{
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).hasSetting(_settingID);
