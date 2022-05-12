@@ -184,7 +184,7 @@
 		local modID = this.getModID();
 		this.setFlagForProperty("Value", modID);
 		this.setFlagForProperty("Locked", modID);
-		this.setFlagForProperty("LockReason"modID);
+		this.setFlagForProperty("LockReason", modID);
 	}
 
 	function flagDeserialize()
