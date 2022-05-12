@@ -96,12 +96,22 @@ MSU.capitalizeFirst = function ( _string )
 	return _string.charAt(0).toUpperCase() + _string.slice(1);
 };
 
-MSU.iterateObject = function(_object, func)
+MSU.iterateObject = function(_object, _func, _every)
 {
-    Object.keys(_object).forEach(function(_key)
-    {
-        func(_key, _object[_key]);
-    })
+	if (_every === true)
+	{
+		Object.keys(_object).every(function(_key)
+		{
+		    return _func(_key, _object[_key]);
+		})
+	}
+	else
+	{
+		Object.keys(_object).forEach(function(_key)
+		{
+		    return _func(_key, _object[_key]);
+		})
+	}
 }
 
 // https://stackoverflow.com/a/2641047, allows binding an evenListener before other eventListeners
