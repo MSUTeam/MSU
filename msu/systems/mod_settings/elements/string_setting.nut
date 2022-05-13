@@ -4,7 +4,7 @@
 
 	constructor( _id, _value, _name = null, _description = null )
 	{
-		::MSU.requireString(_value);
+		::MSU.requireOneFromTypes(["string", "integer", "float"], _value);
 		base.constructor(_id, _value, _name, _description);
 	}
 
