@@ -389,6 +389,11 @@ ModSettingsScreen.prototype.notifyBackendSettingButtonPressed = function (_data)
 	SQ.call(this.mSQHandle, 'onSettingPressed', _data);
 };
 
+MSU.getSetting = function (_modID, _settingID)
+{
+	return Screens.ModSettingsScreen.mModSettings[_modID].settings[_settingID];
+};
+
 MSU.getSettingValue = function (_modID, _settingID)
 {
 	return Screens.ModSettingsScreen.mModSettings[_modID].settings[_settingID].value;
