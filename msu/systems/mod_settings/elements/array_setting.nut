@@ -29,16 +29,6 @@
 		this.Data.lockLength <- _lockLength;
 	}
 
-	function getUIData(_flags = [])
-	{
-		local ret = base.getUIData(_flags);
-		foreach(key, value in ret.value)
-		{
-			this.logInfo(value[0] + " " + value[1])
-		}
-		return ret;
-	}
-
 	function tostring()
 	{
 		local ret = "Type: " + this.getType() + " | ID: " + this.getID() + " | Name: " + this.getName() + " | Values: \n"
