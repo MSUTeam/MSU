@@ -5,4 +5,5 @@
 	"keybinds" : false,
 	"persistence" : false,
 	"modsettings" : false,
+	"tooltip" : true
 })
