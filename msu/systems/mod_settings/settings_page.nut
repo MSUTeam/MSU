@@ -69,6 +69,11 @@
 		return this.addElement(::MSU.Class.ColorPickerSetting(_id, _value, _name, _description));
 	}
 
+	function addArraySetting( _id, _value, _name = null, _description = null )
+	{
+		return this.addElement(::MSU.Class.ArraySetting(_id, _value, _name, _description));
+	}
+
 	function setPanel( _panel )
 	{
 		this.Panel = _panel.weakref();
