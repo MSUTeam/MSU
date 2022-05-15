@@ -12,6 +12,13 @@
 			{
 				_value[i] = [i, _value[i]]
 			}
+			else
+			{
+				if( _value[i].len() != 2) throw ::MSU.Exception.InvalidType(_value[i])
+				::MSU.requireOneFromTypes(["string", "integer", "float"], _value[i][0]);
+				::MSU.requireOneFromTypes(["string", "integer", "float"], _value[i][1]);
+			}
+
 		}
 		base.constructor(_id, _value, _name, _description);
 		this.lockLength(_lockLength);
