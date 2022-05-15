@@ -245,7 +245,7 @@
 	width: 60.0rem;
 	height: 30.0rem;
 
-	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
+	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
 	background-size: 60.0rem 30.0rem;
 	background-repeat: no-repeat;
 	/*border: 10px solid transparent;*/
@@ -259,7 +259,7 @@
 	width: 60.0rem;
 	height: 60.0rem;
 
-	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
+	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
 	background-size: 60.0rem 60.0rem;
 	background-repeat: no-repeat;
 	/*padding: 15px;*/
@@ -361,7 +361,7 @@
 	width: 60rem;
 	height: 50rem;
 
-	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
+	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
 	background-size: 58.5rem 50.2rem;
 	background-repeat: no-repeat;
 }

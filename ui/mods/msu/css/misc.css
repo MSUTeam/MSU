@@ -26,7 +26,7 @@
 
 .msu-button
 {
-	background-image: url("coui://gfx/mods/buttons/msu_button_default.png");
+	background-image: url("coui://gfx/mods/msu/buttons/msu_button_default.png");
 	background-size: 100% 100%;
 	text-shadow: 1px 1px 1px #000;
 	color: #dda21f;
@@ -48,7 +48,7 @@
 .msu-button:hover,
 .msu-button.is-selected
 {
-	background-image: url("coui://gfx/mods/buttons/msu_button_hovered.png");
+	background-image: url("coui://gfx/mods/msu/buttons/msu_button_hovered.png");
 	background-size: 100% 100%;
 	color: #f0b121;
 }
@@ -60,7 +60,7 @@
 
 .msu-button.is-active
 {
-	background-image: url("coui://gfx/mods/buttons/msu_button_pressed.png");
+	background-image: url("coui://gfx/mods/msu/buttons/msu_button_pressed.png");
 	background-size: 100% 100%;
 
 	padding-top: 0.2rem;
@@ -79,6 +79,6 @@
 .msu-button[disabled]:hover,
 .msu-button[disabled]:active
 {
-	background-image: url("coui://gfx/mods/buttons/msu_button_inactive.png");
+	background-image: url("coui://gfx/mods/msu/buttons/msu_button_inactive.png");
 	background-size: 100% 100%;
 }
