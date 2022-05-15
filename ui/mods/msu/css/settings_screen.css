@@ -160,7 +160,7 @@
 .msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button,
 .msu-settings-screen .dialog .content .l-page-container .button-container .button-setting-button,
 .msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button,
-.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
+.msu-settings-screen .dialog .content .l-page-container .array-container .popup-button
 {
 	width: 23rem;
 	height: 4rem;
@@ -188,9 +188,13 @@
 	width: 5rem;
 }
 
-.msu-settings-screen .dialog .content .l-page-container .string-container .string-input
+.string-input,
+.string-input-container,
+.keybind-button-container
 {
 	width: 30rem;
+	height: 4rem;
+	line-height: 3.6rem;
 }
 
 .msu-settings-screen .dialog .content .l-page-container .range-container .scale-control
@@ -241,12 +245,28 @@
 	width: 60.0rem;
 	height: 30.0rem;
 
-	background-image: url("coui://gfx/ui/skin/popup_background_600x300.png");
+	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
 	background-size: 60.0rem 30.0rem;
 	background-repeat: no-repeat;
+	/*border: 10px solid transparent;*/
+	/*padding: 15px;*/
+
+	/*border-image-width: 20px;*/
 }
 
-.change-keybind-container
+.change-array-popup
+{
+	width: 60.0rem;
+	height: 60.0rem;
+
+	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
+	background-size: 60.0rem 60.0rem;
+	background-repeat: no-repeat;
+	/*padding: 15px;*/
+}
+
+.change-keybind-container,
+.change-array-container
 {
 	width: 100%;
 	padding: 0.6rem;
@@ -254,8 +274,8 @@
 	float: left;
 }
 
-
-.change-keybind-container .list
+.change-keybind-container .list,
+.change-array-container .list
 {
 	width: 90%;
 	height: 15rem;
@@ -263,30 +283,38 @@
 	float: left;
 }
 
-.change-keybind-container .scroll-container > .row
+.change-array-container .list
+{
+	height: 45rem;
+}
+
+.change-keybind-container .scroll-container > .row,
+.change-array-container .scroll-container > .row
 {
 	width: 100%;
 	height: 4.3rem;
 	position: relative;
 	overflow: hidden;
+	padding-left: 1rem;
+	display: flex;
+	justify-content: space-between;
+
+	/*border: 2px solid red;*/
 }
 
 .keybind-button-container,
 .keybind-delete-button-container
 {
 	height: 4.3rem;
-	position: relative;
 }
 
 .keybind-delete-button-container
 {
-	float: right;
 	width: 9.8rem;
 }
 
 .keybind-button-container
 {
-	float: left;
 	width: 23.0rem;
 }
 
@@ -299,11 +327,33 @@
 	float: left;
 }
 
-.change-keybind-popup .l-button-bar
+.change-keybind-popup .l-button-bar,
+.change-array-popup .l-button-bar
 {
 	width: 60.0rem !important;
 	display: flex;
 	justify-content: space-between;
+}
+
+.change-keybind-popup .l-button-bar:first-child,
+.change-array-popup .l-button-bar:first-child
+{
+	border: 1plx solid red;
+	margin-left: 1rem;
+}
+
+.change-keybind-popup .l-button-bar:last-child,
+.change-array-popup .l-button-bar:last-child
+{
+	border: 1plx solid green;
+	margin-right: 1rem;
+}
+
+.array-entry-name
+{
+	width: 20rem;
+	display: flex;
+	align-items: center;
 }
 
 .color-picker-popup
@@ -311,7 +361,7 @@
 	width: 60rem;
 	height: 50rem;
 
-	background-image: url("coui://gfx/mods/skin/color-picker-popup.png");
+	background-image: url("coui://gfx/mods/skin/generic_background_large_border.png");
 	background-size: 58.5rem 50.2rem;
 	background-repeat: no-repeat;
 }
