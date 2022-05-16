@@ -28,25 +28,20 @@
 	color: white;
 	font-family: monospace, arial;
 	font-size: 20;
-	/*background-color: rgba(0, 0, 0, 1.0);*/
 	position: relative;
 }
 
 .msu-popup .footer {
 	position: relative;
+	display: flex;
 	width: 100%;
+	justify-content: center;
 }
 
 .msu-popup .ok-button,
-.msu-popup .quit-menu-button
- {
-	left: calc(50% - 17.5rem / 2);
-	height: 4.3rem;
-	width: 17.5rem;
-	position: relative;
-}
+.msu-popup .quit-menu-button,
 .msu-popup .quit-game-button
  {
-	position: relative;
-	float: left;
+	height: 4.3rem;
+	width: 17.5rem;
 }
