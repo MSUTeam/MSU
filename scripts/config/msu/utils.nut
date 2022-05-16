@@ -153,6 +153,6 @@
 
 	function getState(_id)
 	{
-		return this.States[_id];
+		if(_id in this.States) return this.States[_id];
 	}
 }
