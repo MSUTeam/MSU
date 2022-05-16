@@ -90,6 +90,7 @@ MSUPopup.prototype.show = function (_data)
 		{
 		}
 	});
+	this.updateButtons();
 }
 
 MSUPopup.prototype.isVisible = function ()
@@ -97,17 +98,25 @@ MSUPopup.prototype.isVisible = function ()
 	return this.mContainer.hasClass('display-block');
 }
 
-MSUPopup.prototype.setForceQuit = function ( _forceQuit)
+MSUPopup.prototype.updateButtons = function ()
 {
-	if (_forceQuit)
+	if (this.mForceQuit)
 	{
-		this.mFooterContainer.find(".quit-menu-button:first").addClass('display-block').removeClass('display-none');
-		this.mFooterContainer.find(".quit-game-button:first").addClass('display-block').removeClass('display-none');
+		if (this.mState != "main_menu_state") MSU.toggleDisplay(this.mFooterContainer.find(".quit-menu-button:first"), true);
+		MSU.toggleDisplay(this.mFooterContainer.find(".quit-game-button:first"), true);
+		MSU.toggleDisplay(this.mFooterContainer.find(".ok-button:first"), false);
 	}
 	else
 	{
-		this.mFooterContainer.find(".ok-button:first").addClass('display-block').removeClass('display-none');
+		MSU.toggleDisplay(this.mFooterContainer.find(".quit-menu-button:first"), false);
+		MSU.toggleDisplay(this.mFooterContainer.find(".quit-game-button:first"), false);
+		MSU.toggleDisplay(this.mFooterContainer.find(".ok-button:first"), true);
 	}
+}
+
+MSUPopup.prototype.setForceQuit = function ( _forceQuit)
+{
+	this.mForceQuit = _forceQuit;
 }
 
 MSUPopup.prototype.addLine = function (_text)
