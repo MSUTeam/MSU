@@ -55,19 +55,31 @@ this.popup <- {
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
 	}
 
-	function quitGame()
+	function quitGame(_menuOnly = true)
 	{
 		local activeState = ::MSU.Utils.getActiveState();
 		switch(activeState.ClassName)
 		{
 			case "tactical_state":
+				if (!_menuOnly)
+				{
+					this.LoadingScreen.hide = function(){
+						::MSU.Utils.getState("main_menu_state").finish();
+					}
+				}
 				activeState.onQuitToMainMenu();
 				break;
 			case "world_state":
+				if (!_menuOnly)
+				{
+					this.LoadingScreen.hide = function(){
+						::MSU.Utils.getState("main_menu_state").finish();
+					}
+				}
 				activeState.exitGame();
 				break;
 			case "main_menu_state":
-				activeState.main_menu_module_onQuitPressed();
+				activeState.finish();
 				break;
 		}
 	}

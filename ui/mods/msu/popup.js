@@ -163,13 +163,13 @@ MSUPopup.prototype.unregister = function ()
 
 MSUPopup.prototype.quitToMenu = function ()
 {
-	SQ.call(this.mSQHandle, "quitToMenu");
+	SQ.call(this.mSQHandle, "quitGame");
 	this.hide();
 }
 
 MSUPopup.prototype.quitGame = function ()
 {
-	SQ.call(this.mSQHandle, "quitGame");
+	SQ.call(this.mSQHandle, "quitGame", false);
 	this.hide();
 }
 
