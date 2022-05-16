@@ -6,12 +6,26 @@ this.popup <- {
 
 	function addLine(_text)
 	{
-		this.m.JSHandle.asyncCall("addLine", _text);
+		if (this.m.JSHandle == null)
+		{
+			this.m.TextCache.push(_text)
+		}
+		else
+		{
+			this.m.JSHandle.asyncCall("addLine", _text);
+		}
 	}
 
 	function addLines(_textArray)
 	{
-		this.m.JSHandle.asyncCall("addLines", _textArray);
+		if (this.m.JSHandle == null)
+		{
+			this.m.TextCache.extend(_textArray)
+		}
+		else
+		{
+			this.m.JSHandle.asyncCall("addLines", _textArray);
+		}
 	}
 
 	function clearText(_text)
