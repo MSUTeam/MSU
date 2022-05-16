@@ -48,3 +48,4 @@ MSU.iterateObject(MSU.TooltipIdentifiers, recursiveTravel);
 delete keyCache;
 delete curObj;
 delete idx;
+delete recursiveTravel;
