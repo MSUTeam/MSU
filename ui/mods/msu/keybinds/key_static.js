@@ -15,7 +15,7 @@ MSU.Key = {
 	capitalizeKeyString : function( _keyString )
 	{
 		_keyString = MSU.capitalizeFirst(_keyString);
-		return _keyString.split('+').reduce(function(a, b) {return a + "+" + MSU.capitalizeFirst(b);});
+		return _keyString.split('+').reduce(function(a, b) {return a + "+" + MSU.capitalizeFirst(b);}).split('/').reduce(function(a, b) {return a + "/" + MSU.capitalizeFirst(b);});
 	},
 	sortKeyCombinationString : function( _keyCombinations )
 	{
