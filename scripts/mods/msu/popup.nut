@@ -40,7 +40,9 @@ this.popup <- {
 			this.addLines(this.m.TextCache);
 			this.m.TextCache = [];
 		}
-		this.m.JSHandle.asyncCall("show", null);
+		this.m.JSHandle.asyncCall("show", {
+			state = ::MSU.Utils.getActiveState().ClassName
+		});
 	}
 
 	function setForceQuit( _forceQuit )

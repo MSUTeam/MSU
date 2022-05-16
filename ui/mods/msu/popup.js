@@ -9,6 +9,7 @@ var MSUPopup = function ()
 	this.mFooterContainer = null;
 	this.mTextArray = [];
 	this.mForceQuit = false;
+	this.mState = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -61,9 +62,10 @@ MSUPopup.prototype.destroy = function ()
 	this.destroyDIV();
 }
 
-MSUPopup.prototype.show = function ()
+MSUPopup.prototype.show = function (_data)
 {
 	var self = this;
+	this.mState = _data.state
 
 	// MSUUIScreen.show
 	var moveTo = { opacity: 1, right: '10.0rem' };
