@@ -112,6 +112,8 @@ MSU.iterateObject = function(_object, _func, _every)
 		    return _func(_key, _object[_key]);
 		})
 	}
+}
+
 MSU.toggleDisplay = function(_display, _bool)
 {
     if(_bool === false)
