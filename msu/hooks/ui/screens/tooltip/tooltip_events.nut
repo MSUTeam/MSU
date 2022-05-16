@@ -45,7 +45,7 @@
 		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
 		if (ret == null)
 		{
-			if (_elementId.find("msu-settings") == 0)
+			if (_elementId.find(::MSU.TooltipIdentifiers.SettingsIdentifier) == 0)
 			{
 				local threePartArray = split(_elementId, ".")
 				local setting = ::getModSetting(threePartArray[1], threePartArray[2]);
@@ -59,6 +59,37 @@
 						id = 2,
 						type = "description",
 						text = setting.getDescription()
+					}
+				];
+			}
+			else if (_elementId.find(::MSU.TooltipIdentifiers.GeneralIdentifier) == 0)
+			{
+				local fullKey = split(_elementId, ".");
+				fullKey = fullKey.slice(1, fullKey.len());
+				local currentKey;
+				local currentTable = MSU.TooltipIdentifiers;
+				while (fullKey.len() > 0)
+				{
+					currentKey = fullKey.remove(0);
+					if (!(currentKey in currentTable))
+					{
+						::MSU.Mod.Debug.printWarning("Key : " + currentKey + " is not a valid tooltip identifier!", "tooltip");
+						return ret;
+					}
+					currentTable = currentTable[currentKey];
+				}
+				this.logInfo(currentTable.Title)
+				this.logInfo(currentTable.Description)
+				return [
+					{
+						id = 1,
+						type = "title",
+						text = currentTable.Title
+					},
+					{
+						id = 2,
+						type = "description",
+						text = currentTable.Description
 					}
 				];
 			}

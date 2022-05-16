@@ -80,14 +80,14 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	layout.createTextButton("Cancel", function ()
 	{
 		self.notifyBackendCancelButtonPressed();
-	}, '', 1);
+	}, 'main-cancel-button', 1);
 
 	layout = $('<div class="l-ok-button"/>');
 	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
 		self.notifyBackendSaveButtonPressed();
-	}, '', 1);
+	}, 'main-save-button', 1);
 
 	var content = this.mContainer.findDialogContentContainer();
 
@@ -102,6 +102,12 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 	content.append(modPageContainerLayout);
 	this.mModPageContainer = modPageContainerLayout.createList(2);
 	this.mModPageScrollContainer = this.mModPageContainer.findListScrollContainer();
+};
+
+ModSettingsScreen.prototype.bindTooltips = function ()
+{
+	this.mDialogContainer.find('.main-cancel-button').bindTooltip({ contentType: 'ui-element', elementId: MSU.TooltipIdentifiers.ModSettings.Main.Cancel});
+	this.mDialogContainer.find('.main-save-button').bindTooltip({ contentType: 'ui-element', elementId: MSU.TooltipIdentifiers.ModSettings.Main.OK});
 };
 
 ModSettingsScreen.prototype.destroy = function ()
@@ -122,6 +128,8 @@ ModSettingsScreen.prototype.unbindTooltips = function ()
 	{
 		setting.unbindTooltip();
 	});
+	this.mDialogContainer.find('.main-cancel-button').unbindTooltip();
+	this.mDialogContainer.find('.main-save-button').unbindTooltip();
 
 	MSUUIScreen.prototype.unbindTooltips.call(this);
 };
