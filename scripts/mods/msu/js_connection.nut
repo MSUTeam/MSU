@@ -1,6 +1,7 @@
 this.js_connection <- {
 	m = {
 		JSHandle = null,
+		ID = null
 	},
 
 	function create()
@@ -10,7 +11,7 @@ this.js_connection <- {
 
 	function connect()
 	{
-
+		this.m.JSHandle = this.UI.connect(this.m.ID, this);
 	}
 
 	function destroy()
