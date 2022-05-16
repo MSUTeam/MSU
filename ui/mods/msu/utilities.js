@@ -112,6 +112,27 @@ MSU.iterateObject = function(_object, _func, _every)
 		    return _func(_key, _object[_key]);
 		})
 	}
+MSU.toggleDisplay = function(_display, _bool)
+{
+    if(_bool === false)
+    {
+        _display.removeClass('display-block').addClass('display-none')
+    }
+    else if (_bool === true)
+    {
+        _display.removeClass('display-none').addClass('display-block')
+    }
+    else
+    {
+        if (_display.hasClass('display-block'))
+        {
+            _display.removeClass('display-block').addClass('display-none')
+        }
+        else
+        {
+            _display.removeClass('display-none').addClass('display-block')
+        }
+    }
 }
 
 // https://stackoverflow.com/a/2641047, allows binding an evenListener before other eventListeners

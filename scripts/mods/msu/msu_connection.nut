@@ -49,11 +49,13 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		{
 			if (::MSU.SemVer.compareMinorVersionWithOperator(_version, ">", ::MSU.Version))
 			{
-				::MSU.Popup.showRawText("MSU has an update with new features and bugfixes available! You can go ahead and <a style=\"color: lightblue; text-decoration: underline;\"onclick=\"openURL('https://www.nexusmods.com/battlebrothers/mods/479')\">download it from NexusMods</a>")
+				::MSU.Popup.addLine("MSU has an update with new features and bugfixes available! You can go ahead and <a style=\"color: lightblue; text-decoration: underline;\"onclick=\"openURL('https://www.nexusmods.com/battlebrothers/mods/479')\">download it from NexusMods</a>");
+				::MSU.Popup.show();
 			}
 			else if (::MSU.SemVer.compareVersionWithOperator(_version, ">", ::MSU.Version))
 			{
-				::MSU.Popup.showRawText("MSU has an update with new bugfixes available! <a style=\"color: lightblue; text-decoration: underline;\"onclick=\"openURL('https://www.nexusmods.com/battlebrothers/mods/479')\">Download it from NexusMods</a> to prevent bugs")
+				::MSU.Popup.addLine("MSU has an update with new bugfixes available! <a style=\"color: lightblue; text-decoration: underline;\"onclick=\"openURL('https://www.nexusmods.com/battlebrothers/mods/479')\">Download it from NexusMods</a> to prevent bugs");
+				::MSU.Popup.show();
 			}
 		}
 	}
