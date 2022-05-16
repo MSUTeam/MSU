@@ -150,4 +150,9 @@
 			}
 		}
 	}
+
+	function getState(_id)
+	{
+		return this.States[_id];
+	}
 }
