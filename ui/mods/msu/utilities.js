@@ -130,3 +130,28 @@ $.fn.bindFirst = function(name, fn) {
         handlers.splice(0, 0, handler);
     });
 };
+
+$.fn.resizePopup = function(_contentHeight, _contentWidth)
+{
+    var popupProper = this.findPopupDialog();
+    var popupContent = this.findPopupDialogContentContainer();
+
+    _contentHeight = _contentHeight || popupContent.height();
+    _contentWidth = _contentWidth || popupContent.width();
+
+    var popupProperHeight = popupProper.height();
+    var popupContentHeight = popupContent.height();
+    var headerHeight = this.find(".header").height();
+    var footerHeight = this.find(".footer").height();
+    var subHeaderHeight = this.find(".sub-header").height();
+    var baseHeight = 8 + headerHeight + subHeaderHeight + footerHeight;
+    var totalWidth = Math.max(popupProper.width(), _contentWidth);
+    var totalHeight = baseHeight + _contentHeight;
+
+    popupProper.css("height",  totalHeight);
+    popupProper.css("width", totalWidth);
+    popupProper.css("background-size", totalWidth + " " + totalHeight)
+    popupContent.css("height", _contentHeight)
+    popupContent.css("width", _contentWidth)
+    popupProper.centerPopupDialogWithinParent()
+};
