@@ -4,7 +4,7 @@ this.popup <- {
 		TextCache = [],
 	}
 
-	function addLine(_text)
+	function addLine( _text )
 	{
 		if (this.m.JSHandle == null)
 		{
@@ -16,7 +16,7 @@ this.popup <- {
 		}
 	}
 
-	function addLines(_textArray)
+	function addLines( _textArray )
 	{
 		if (this.m.JSHandle == null)
 		{
@@ -28,12 +28,12 @@ this.popup <- {
 		}
 	}
 
-	function clearText(_text)
+	function clearText( _text )
 	{
 		this.m.JSHandle.asyncCall("clearText", null);
 	}
 
-	function show( _useCache = false)
+	function show( _useCache = false )
 	{
 		if(_useCache && this.m.TextCache.len() > 0)
 		{
@@ -55,7 +55,7 @@ this.popup <- {
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
 	}
 
-	function quitGame(_menuOnly = true)
+	function quitGame( _menuOnly = true )
 	{
 		local activeState = ::MSU.Utils.getActiveState();
 		switch(activeState.ClassName)
