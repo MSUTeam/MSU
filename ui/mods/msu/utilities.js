@@ -155,3 +155,29 @@ $.fn.resizePopup = function(_contentHeight, _contentWidth)
     popupContent.css("width", _contentWidth)
     popupProper.centerPopupDialogWithinParent()
 };
+
+MSU.toggleDisplay = function(_object, _bool)
+{
+    if(_bool === false)
+    {
+        _object.removeClass('display-block').addClass('display-none');
+    }
+    else if (_bool === true)
+    {
+        _object.removeClass('display-none').addClass('display-block');
+    }
+    else
+    {
+        if (_object.hasClass('display-block'))
+        {
+            _object.removeClass('display-block').addClass('display-none');
+            return false;
+        }
+        else
+        {
+            _object.removeClass('display-none').addClass('display-block');
+            return true;
+        }
+    }
+    return _bool;
+}
