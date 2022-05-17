@@ -283,6 +283,7 @@ ModSettingsScreen.prototype.switchToFirstPage = function( _panel )
 			self.switchToPage(_panel, page);
 			return false;
 		}
+		return true;
 	});
 };
 
