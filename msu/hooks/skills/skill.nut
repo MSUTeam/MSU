@@ -320,14 +320,14 @@
 
 		foreach (d in this.m.DamageType.toArray())
 		{
-			local probability = ::Math.round(this.m.DamageType.getProbability(d.Type) * 100);
+			local probability = ::Math.round(this.m.DamageType.getProbability(d) * 100);
 
 			if (probability < 100)
 			{
 				ret += probability + "% ";
 			}
-			
-			ret += ::Const.Damage.getDamageTypeName(d.Type) + ", ";
+
+			ret += ::Const.Damage.getDamageTypeName(d) + ", ";
 		}
 
 		ret = ret.slice(0, -2);
