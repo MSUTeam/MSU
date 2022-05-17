@@ -1,86 +1,45 @@
 this.popup <- {
 	m = {
 		JSHandle = null,
-		TextCache = [],
+		TextCache = "",
+		ForceQuit = false
 	}
 
-	function addLine( _text )
+	function showRawText( _text, _forceQuit = false )
 	{
+		if (_forceQuit) this.m.ForceQuit = true;
 		if (this.m.JSHandle == null)
 		{
-			this.m.TextCache.push(_text)
+			if (this.m.TextCache != "") this.m.TextCache += "<br>";
+			this.m.TextCache += _text;
 		}
 		else
 		{
-			this.m.JSHandle.asyncCall("addLine", _text);
+			local data = {
+				forceQuit = this.m.ForceQuit,
+				text = _text
+			}
+			this.m.JSHandle.asyncCall("showRawText", data);
 		}
 	}
 
-	function addLines( _textArray )
+	function forceQuit( _bool )
 	{
-		if (this.m.JSHandle == null)
-		{
-			this.m.TextCache.extend(_textArray)
-		}
-		else
-		{
-			this.m.JSHandle.asyncCall("addLines", _textArray);
-		}
-	}
-
-	function clearText( _text )
-	{
-		this.m.JSHandle.asyncCall("clearText", null);
-	}
-
-	function show( _useCache = false )
-	{
-		if(_useCache && this.m.TextCache.len() > 0)
-		{
-			this.addLines(this.m.TextCache);
-			this.m.TextCache = [];
-		}
-		this.m.JSHandle.asyncCall("show", {
-			state = ::MSU.Utils.getActiveState().ClassName
-		});
-	}
-
-	function setForceQuit( _forceQuit )
-	{
-		this.m.JSHandle.asyncCall("setForceQuit", _forceQuit);
+		this.m.ForceQuit = _bool;
 	}
 
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
+		if (this.m.TextCache != "")
+		{
+			this.showRawText(this.m.TextCache)
+			this.m.TextCache = "";
+		}
 	}
 
-	function quitGame( _menuOnly = true )
+	function quitGame()
 	{
-		local activeState = ::MSU.Utils.getActiveState();
-		switch(activeState.ClassName)
-		{
-			case "tactical_state":
-				if (!_menuOnly)
-				{
-					this.LoadingScreen.hide = function(){
-						::MSU.Utils.getState("main_menu_state").finish();
-					}
-				}
-				activeState.onQuitToMainMenu();
-				break;
-			case "world_state":
-				if (!_menuOnly)
-				{
-					this.LoadingScreen.hide = function(){
-						::MSU.Utils.getState("main_menu_state").finish();
-					}
-				}
-				activeState.exitGame();
-				break;
-			case "main_menu_state":
-				activeState.finish();
-				break;
-		}
+		// overwritten by mainMenuScreen hook, closes the game
 	}
 };

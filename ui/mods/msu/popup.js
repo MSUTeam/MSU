@@ -7,9 +7,6 @@ var MSUPopup = function ()
 	this.mHeaderContainer = null;
 	this.mTextContainer = null;
 	this.mFooterContainer = null;
-	this.mTextArray = [];
-	this.mForceQuit = false;
-	this.mState = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -32,24 +29,23 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 
 	this.mTextContainer = $('<div class="text-container"/>');
 	this.mContainer.append(this.mTextContainer);
-	this.mTextListContainer = this.mTextContainer.createList(2);
-	this.mTextContainer.append(this.mTextListContainer);
-	this.mTextScrollContainer = this.mTextListContainer.findListScrollContainer();
 
 	this.mFooterContainer = $('<div class="footer"/>')
 	this.mContainer.append(this.mFooterContainer);
 
-	this.mFooterContainer.createTextButton("Ok", jQuery.proxy(function(){
-		this.hide();
-	}, this), "ok-button", 1);
+	this.mFooterContainer.createTextButton("Ok", function()
+	{
+		self.hide();
+	}, "ok-button", 1);
 
-	this.mFooterContainer.createTextButton("Quit to Main Menu", jQuery.proxy(function(){
-		this.quitToMenu()
-	}, this), "quit-menu-button display-none", 1);
-
-	this.mFooterContainer.createTextButton("Quit Game", jQuery.proxy(function(){
-		this.quitGame();
-	}, this), "quit-game-button display-none", 1);
+	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
+	{
+		$(this).findButtonText().html("Quit Game");
+		$(this).on("click", function()
+		{
+			self.quitGame();
+		})
+	})
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -62,10 +58,9 @@ MSUPopup.prototype.destroy = function ()
 	this.destroyDIV();
 }
 
-MSUPopup.prototype.show = function (_data)
+MSUPopup.prototype.show = function ()
 {
 	var self = this;
-	this.mState = _data.state
 
 	// MSUUIScreen.show
 	var moveTo = { opacity: 1, right: '10.0rem' };
@@ -90,7 +85,6 @@ MSUPopup.prototype.show = function (_data)
 		{
 		}
 	});
-	this.updateButtons();
 }
 
 MSUPopup.prototype.isVisible = function ()
@@ -98,51 +92,29 @@ MSUPopup.prototype.isVisible = function ()
 	return this.mContainer.hasClass('display-block');
 }
 
-MSUPopup.prototype.updateButtons = function ()
+MSUPopup.prototype.showRawText = function (_data)
 {
-	if (this.mForceQuit)
+	if (_data.forceQuit)
 	{
-		if (this.mState != "main_menu_state") MSU.toggleDisplay(this.mFooterContainer.find(".quit-menu-button:first"), true);
-		MSU.toggleDisplay(this.mFooterContainer.find(".quit-game-button:first"), true);
-		MSU.toggleDisplay(this.mFooterContainer.find(".ok-button:first"), false);
+		this.mFooterContainer.find(".ok-button:first").trigger('force-quit')
+	}
+	if (this.isVisible())
+	{
+		this.mTextContainer.html(this.mTextContainer.html() + "<br>" + _data.text);
 	}
 	else
 	{
-		MSU.toggleDisplay(this.mFooterContainer.find(".quit-menu-button:first"), false);
-		MSU.toggleDisplay(this.mFooterContainer.find(".quit-game-button:first"), false);
-		MSU.toggleDisplay(this.mFooterContainer.find(".ok-button:first"), true);
+		this.mTextContainer.html(_data.text);
+		this.show();
 	}
 }
 
-MSUPopup.prototype.setForceQuit = function ( _forceQuit)
+MSUPopup.prototype.hide = function ()
 {
-	this.mForceQuit = _forceQuit;
-}
+	this.mTextContainer.html("");
+	var self = this;
 
-MSUPopup.prototype.addLine = function (_text)
-{
-	this.mTextArray.push(_text);
-	this.mTextScrollContainer.html(this.mTextScrollContainer.html() + "<br>" + _text);
-}
-
-MSUPopup.prototype.addLines = function (_textArray)
-{
-	for (var i = 0; i < _textArray.length; i++)
-	{
-		this.addLine(_textArray[i]);
-	}
-}
-
-MSUPopup.prototype.clearText = function ()
-{
-	this.mTextArray = [];
-	this.mTextScrollContainer.html("");
-}
-
-MSUPopup.prototype.hide = function (_clearText)
-{
-	if (_clearText) this.clearText()
-
+	//MSUUIScreen.hide
 	this.mContainer.velocity("finish", true).velocity({ opacity: 0 },
 	{
 		duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
@@ -170,16 +142,9 @@ MSUPopup.prototype.unregister = function ()
 	this.destroy();
 }
 
-MSUPopup.prototype.quitToMenu = function ()
-{
-	SQ.call(this.mSQHandle, "quitGame");
-	this.hide();
-}
-
 MSUPopup.prototype.quitGame = function ()
 {
-	SQ.call(this.mSQHandle, "quitGame", false);
-	this.hide();
+	SQ.call(this.mSQHandle, "quitGame");
 }
 
 registerScreen("MSUPopup", new MSUPopup());

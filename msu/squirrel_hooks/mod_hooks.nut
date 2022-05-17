@@ -171,9 +171,7 @@ local _mods_runQueue = ::_mods_runQueue;
 
 	if (errors != "")
 	{
-		::MSU.Popup.addLine(errors);
-		::MSU.Popup.setForceQuit(true);
-		::MSU.Popup.show();
+		::MSU.Popup.showRawText(errors, true);
 		throw errors;
 	}
 

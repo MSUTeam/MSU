@@ -7,7 +7,6 @@
 		Array = 4,
 		Table = 5
 	},
-	States = {}
 
 	function serialize( _object, _out )
 	{
@@ -138,21 +137,5 @@
 				return false;
 		}
 		throw ::MSU.InvalidValue(_compareResult);
-	}
-
-	function getActiveState()
-	{
-		foreach (name, state in this.States)
-		{
-			if (state != null && state.isVisible() && name != "root_state")
-			{
-				return state;
-			}
-		}
-	}
-
-	function getState(_id)
-	{
-		if(_id in this.States) return this.States[_id];
 	}
 }
