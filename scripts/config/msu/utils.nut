@@ -7,7 +7,8 @@
 		Array = 4,
 		Table = 5
 	},
-	Timers = {}
+	Timers = {},
+	States = {},
 
 	function serialize( _object, _out )
 	{
@@ -162,5 +163,36 @@
 	    	}
 	    }
 	    return this.Timers[_id];
+	}
+	
+	function getActiveState()
+	{
+		foreach (name, state in this.States)
+		{
+			if (state != null && state.isVisible() && name != "root_state")
+			{
+				return state;
+			}
+		}
+	}
+
+	function hasState(_id)
+	{
+		return (_id in this.States && this.States[_id] != null)
+	}
+
+	function getState(_id)
+	{
+		if (!(_id in this.States))
+		{
+			::logError("_id must be a valid state name!");
+			throw ::MSU.Exception.KeyNotFound(_id);
+		}
+		if (this.States[_id] == null)
+		{
+			::logError("State is currently null! Check with hasState().");
+			throw ::MSU.Exception.InvalidValue(_id);
+		}
+		return this.States[_id];
 	}
 }
