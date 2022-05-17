@@ -27,11 +27,12 @@
 
 	function toArray( _itemsOnly = true )
 	{
-		local ret = array(this.Table.len());
+		local ret = ::array(this.Table.len());
+		local i = 0;
 		foreach (item, weight in this.Table)
 		{
-			if (_itemsOnly) ret[i] = item;
-			else ret[i] = [weight, item];
+			if (_itemsOnly) ret[i++] = item;
+			else ret[i++] = [weight, item];
 		}
 		return ret;
 	}
