@@ -318,7 +318,7 @@
 
 		local ret = "[color=" + ::Const.UI.Color.NegativeValue + "]Inflicts ";
 
-		foreach (d in this.m.DamageType)
+		foreach (d in this.m.DamageType.toArray())
 		{
 			local probability = ::Math.round(this.m.DamageType.getProbability(d.Type) * 100);
 
