@@ -12,7 +12,7 @@
 			local line = getstackinfos(count++);
 			if (line.func != "unknown")
 			{
-				string += line.func;
+				string += line.func + " ";
 			}
 
 			string += "-> " + line.src + " : " + line.line + "</div></div><div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
