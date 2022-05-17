@@ -297,6 +297,7 @@ ModSettingsScreen.prototype.switchToFirstPanel = function ()
 			self.switchToPanel(_panel);
 			return false;
 		}
+		return true;
 	});
 };
 
