@@ -11,6 +11,12 @@
 	
 	o.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
+		if (_tile != null && _tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
 		return this.getActorsByFunction(function(_actor) {
 			if (!_actor.isAlliedWith(_faction)) return false;
 			if (_tile != null)
@@ -24,6 +30,12 @@
 	
 	o.getHostileActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
+		if (_tile != null && _tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
 		return this.getActorsByFunction(function(_actor) {
 			if (_actor.isAlliedWith(_faction)) return false;
 			if (_tile != null)
@@ -37,7 +49,15 @@
 	
 	o.getFactionActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
-		if (_tile == null) return clone this.getInstancesOfFaction(_faction);
+		if (_tile == null)
+		{
+			return clone this.getInstancesOfFaction(_faction);
+		}
+		else if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
 				
 		local actors = this.getInstancesOfFaction(_faction);
 		local ret = [];
@@ -52,6 +72,12 @@
 	
 	o.getNonFactionAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
+		if (_tile != null && _tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
 		return this.getActorsByFunction(function(_actor) {
 			if (!_actor.isAlliedWith(_faction) || _actor.getFaction() == _faction) return false;
 			if (_tile != null)
