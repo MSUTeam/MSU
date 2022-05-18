@@ -104,7 +104,7 @@ local _mods_runQueue = ::_mods_runQueue;
 	{
 		if (_dependencyTable.SemVer == null && _modTable.SemVer == null) // both the mod and the depency are not SemVer
 		{
-			return ::MSU.Utils.operatorCompare(_modTable.Version, _dependencyTable.VersionOperator, _dependencyTable.Version);
+			return ::MSU.Utils.operatorCompare(_modTable.Version <=> _dependencyTable.Version, _dependencyTable.VersionOperator);
 		}
 		return compareSemVerVersionsWithNulls(_modTable.SemVer, _dependencyTable.VersionOperator, _dependencyTable.SemVer);
 	}
