@@ -43,7 +43,7 @@
 		local ret = [];
 		foreach (actor in actors)
 		{
-			local distance = _tile.getDistanceTo(_actor.getTile());
+			local distance = _tile.getDistanceTo(actor.getTile());
 			if (distance > _distance || (_atDistance && distance != _distance)) continue;
 			ret.push(actor);			
 		}
