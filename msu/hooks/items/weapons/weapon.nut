@@ -1,22 +1,27 @@
-::mods_hookExactClass("items/weapons/weapon", function(o) {
-	o.m.WeaponType <- ::Const.Items.WeaponType.None;
-
-	local create = o.create;
-	o.create = function()
+::mods_hookDescendants("items/weapons/weapon", function(o) {
+	if ("create" in o)
 	{
-		create();
-		if (this.getCategories() == "")
+		local create = o.create;
+		o.create = function()
 		{
-			if (this.m.WeaponType != ::Const.Items.WeaponType.None)
+			create();
+			if (this.getCategories() == "")
 			{
-				this.setupCategories();
+				if (this.m.WeaponType != ::Const.Items.WeaponType.None)
+				{
+					this.setupCategories();
+				}
+			}
+			else
+			{
+				this.setupWeaponType();
 			}
 		}
-		else
-		{
-			this.setupWeaponType();
-		}
 	}
+});
+
+::mods_hookExactClass("items/weapons/weapon", function(o) {
+	o.m.WeaponType <- ::Const.Items.WeaponType.None;
 
 	o.setCategories <- function( _s, _setupWeaponType = true )
 	{
