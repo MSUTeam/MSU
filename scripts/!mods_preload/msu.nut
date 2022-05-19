@@ -24,7 +24,7 @@ local _mods_runQueue = ::_mods_runQueue;
 
 ::mods_registerMod(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
 ::mods_registerMod(::MSU.ID, ::MSU.Version, ::MSU.Name);
-::mods_queue(::MSU.ID, null, function()
+::mods_queue(::MSU.ID, "vanilla(>=1.5.0-0)", function()
 {
 	::include("msu/load.nut");
 });
