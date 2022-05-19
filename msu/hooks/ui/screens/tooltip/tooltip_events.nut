@@ -78,8 +78,6 @@
 					}
 					currentTable = currentTable[currentKey];
 				}
-				this.logInfo(currentTable.Title)
-				this.logInfo(currentTable.Description)
 				return [
 					{
 						id = 1,
