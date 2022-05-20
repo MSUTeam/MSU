@@ -68,7 +68,7 @@
 	{
 		if (this.Locked)
 		{
-			::logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed");
+			::logError("Setting \'" + this.Name + "\'' is locked and its value cannot be changed. Lock reason: " + this.getLockReason());
 			return false;
 		}
 
