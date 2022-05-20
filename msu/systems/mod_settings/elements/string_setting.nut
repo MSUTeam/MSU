@@ -11,6 +11,6 @@
 	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = true )
 	{
 		::MSU.requireString(_value);
-		base.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
+		return base.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
 	}
 }
