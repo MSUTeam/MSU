@@ -214,22 +214,27 @@
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
-			if (oldVersion == "") return;
-
-			switch (::MSU.SemVer.compare(mod, ::MSU.SemVer.getTable(oldVersion)))
+			if (oldVersion == "")
 			{
-				case 1:
-					::logInfo(format("MSU Serialization: Loading old save for mod %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
-					break;
-				case 0:
-					::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
-					break;
-				case -1:
-					::logWarning(format("MSU Serialization: Loading save from newer version for mod %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
-					break;
-				default:
-					::logError("Something has gone very wrong with MSU Serialization");
-					::MSU.System.Debug.printStackTrace();
+				::logInfo(format("MSU Serialization: First time loading this save with %s (%s)", mod.getName(), mod.getID()));
+			}
+			else
+			{
+				switch (::MSU.SemVer.compare(mod, ::MSU.SemVer.getTable(oldVersion)))
+				{
+					case 1:
+						::logInfo(format("MSU Serialization: Loading old save for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+						break;
+					case 0:
+						::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
+						break;
+					case -1:
+						::logWarning(format("MSU Serialization: Loading save from newer version for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+						break;
+					default:
+						::logError("Something has gone very wrong with MSU Serialization");
+						::MSU.System.Debug.printStackTrace();
+				}
 			}
 		}
 	}
