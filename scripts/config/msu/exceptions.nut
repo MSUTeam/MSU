@@ -1,10 +1,6 @@
 local function getInQuotes( _string )
 {
-	if (_string == "")
-	{
-		return _string;
-	}
-	return format(" \'%s\'", _string == null ? "null" : _string.tostring());
+	return _string == "" ? _string : "\'" + _string + "\'";
 }
 
 ::MSU.Exception <- {
