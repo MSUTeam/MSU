@@ -13,7 +13,7 @@
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
 
-		info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> item2.Skill.getItemActionOrder());
+		info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
 
 		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
