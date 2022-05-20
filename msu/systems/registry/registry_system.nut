@@ -39,7 +39,7 @@
 
 	function getMod( _modID )
 	{
-		if (_modID in this.Mods)
+		if (!(_modID in this.Mods))
 		{
 			::logError("Mod " + _modID + " not found in MSU! Did you forget to use ::MSU.registerMod()?");
 			throw ::MSU.Exception.KeyNotFound(_modID);
