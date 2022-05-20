@@ -39,4 +39,15 @@
 	{
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).hasSetting(_settingID);
 	}
+
+	function requireSetting( _setting, _value )
+	{
+		if (_setting.getValue() != _value)
+		{
+			if (_setting.isLocked()) ::logError("Mod " + this.getModID() + " requires setting \'" + _setting.getID() + "\' of mod \'" + _setting.getModID() + "\' to have the value \'" + _value + "\' but it is locked to be \'" + _setting.getValue() + "\'.");
+			_setting.set(_value);
+		}
+
+		if (_setting.getValue() == _value) _setting.lock("Required by Mod: " + this.getModID());
+	}
 }
