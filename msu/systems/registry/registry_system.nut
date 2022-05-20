@@ -41,7 +41,7 @@
 	{
 		if (!(_modID in this.Mods))
 		{
-			::logError("Mod " + _modID + " not found in MSU! Did you forget to use ::MSU.registerMod()?");
+			::logError("Mod " + _modID + " not found in MSU! Did you forget to create a Mod Object via ::MSU.Class.Mod?");
 			throw ::MSU.Exception.KeyNotFound(_modID);
 		}
 		return this.Mods[_modID];
