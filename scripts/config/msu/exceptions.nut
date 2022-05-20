@@ -1,6 +1,6 @@
 local function getInQuotes( _string )
 {
-	return _string == "" ? _string : "\'" + _string + "\'";
+	return _string == "" ? _string : " \'" + _string + "\'";
 }
 
 ::MSU.Exception <- {
