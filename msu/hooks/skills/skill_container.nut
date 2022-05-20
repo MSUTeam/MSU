@@ -431,6 +431,7 @@
 
 	o.onCombatFinished = function()
 	{
+		this.m.IsPreviewing = false;
 		this.callSkillsFunction("onCombatFinished");
 	}
 
