@@ -69,7 +69,7 @@
 		if (this.Locked)
 		{
 			::logError("Setting \'" + this.Name + "\'' is locked and its value can't be changed");
-			return;
+			return false;
 		}
 
 		if (_value != this.Value || _force)
@@ -87,7 +87,11 @@
 			{
 				::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _value);
 			}
+
+			return true;
 		}
+
+		return _value == this.Value;
 	}
 
 	function getValue()
