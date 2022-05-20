@@ -208,4 +208,21 @@
 			::Const.AI.Behavior.Score[_id] <- _score;
 		}
 	}
+
+	function addEntityType(_id, _name, _namePlural, _icon)
+	{
+		if (!("EntityTypeMax" in ::Const))
+		{
+			local max = 0;
+			foreach(key, value in ::Const.EntityType)
+			{
+				if (typeof value == "integer" && value > max) max = value;
+			}
+			::Const.EntityTypeMax <- max;
+		}
+		::Const.EntityType[_id] <- ++::Const.EntityTypeMax;
+		::Const.Strings.EntityName.push(_name);
+		::Const.Strings.EntityNamePlural.push(_namePlural);
+		::Const.EntityIcon.push(_icon);
+	}
 }
