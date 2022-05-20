@@ -225,4 +225,19 @@
 		::Const.Strings.EntityNamePlural.push(_namePlural);
 		::Const.EntityIcon.push(_icon);
 	}
+
+	function addItemType(_id)
+	{
+		if (_id in ::Const.Items.ItemType)
+		{
+			throw ::MSU.Exception.DuplicateKey(_id);
+		}
+		local highest = -1;
+		foreach (key, value in ::Const.Items.ItemType)
+		{
+			if (value > highest) highest = value;
+		}
+		::Const.Items.ItemType[_id] <- highest * 2;
+		::Const.Items.ItemFilter.All = ::Const.Items.ItemFilter.All | ::Const.Items.ItemType[_id];
+	}
 }
