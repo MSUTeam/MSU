@@ -80,7 +80,10 @@ local mods_queue = ::mods_queue;
 			}
 
 			mod.Dependencies.push(expressions[i])
-			_expressions += (expressions[i].Operator == null ? "" : expressions[i].Operator) + expressions[i].Name + ","
+			if (expressions[i].Operator != "!")
+			{
+				_expressions += (expressions[i].Operator == null ? "" : expressions[i].Operator) + expressions[i].Name + ","
+			}
 			// then we recreate the expression without the version info
 			// we do this for both semver and normal dependencies, because normal mod hooks doesn't handle ordering operations with version numbers, but we do
 		}
