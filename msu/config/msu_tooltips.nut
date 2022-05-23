@@ -1,4 +1,4 @@
-MSU.TooltipIdentifiers <- {
+::MSU.TooltipIdentifiers <- {
 	SettingsIdentifier = "msu-settings",
 	GeneralIdentifier = "msu-general",
 	ModSettings = {
@@ -8,8 +8,8 @@ MSU.TooltipIdentifiers <- {
 				Description = "Don't save changes."
 			}
 			OK = {
-				Title = "OK",
-				Description = "Save changes."
+				Title = "Save all changes",
+				Description = "Save all changes from every page."
 			},
 		},
 		Keybind = {
@@ -23,7 +23,7 @@ MSU.TooltipIdentifiers <- {
 					Description = "Add another keybind."
 				},
 				OK = {
-					Title = "OK",
+					Title = "Save",
 					Description = "Save changes."
 				},
 				Modify = {
