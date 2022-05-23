@@ -207,8 +207,9 @@ MSU.TimerObject.prototype.stop = function(_msg, _stop)
     return time;
 }
 
-MSU.Timer = function(_id) {
+MSU.Timer = function(_id)
+{
 	if (_id in MSU.Timers) return MSU.Timers[_id];
-    MSU.Timers[_id] = MSU.TimerObject(_id);
+    MSU.Timers[_id] = new MSU.TimerObject(_id);
     return MSU.Timers[_id];
-};
+};<
