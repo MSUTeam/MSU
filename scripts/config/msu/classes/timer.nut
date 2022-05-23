@@ -13,7 +13,7 @@
 	{
 	    local time = (::Time.getExactTime() - this.Start) * 1000;
 	    local text = format("Timer: %s %s at %f ms", this.ID, _stop ? "stopped" : "currently", time);
-	    if(_msg != "") text += " | Msg: " + _msg
+	    if(_msg != "") text += " | Msg: " + _msg;
 	    ::logInfo(text);
 	    return time;
 	}

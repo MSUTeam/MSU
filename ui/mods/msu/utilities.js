@@ -189,7 +189,7 @@ MSU.TimerObject = function(_id)
 	this.Start = new Date();
 }
 
-MSUTimer.prototype.get = function(_msg, _stop)
+MSU.TimerObject.prototype.get = function(_msg, _stop)
 {
 	var end  = new Date();
     var time = end.getTime() - this.Start.getTime();
@@ -200,7 +200,7 @@ MSUTimer.prototype.get = function(_msg, _stop)
     return time;
 }
 
-MSUTimer.prototype.stop = function(_msg, _stop)
+MSU.TimerObject.prototype.stop = function(_msg, _stop)
 {
 	var time = this.get(_msg, true);
     delete MSU.Timers[this.ID];
