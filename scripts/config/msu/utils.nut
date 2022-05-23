@@ -7,6 +7,7 @@
 		Array = 4,
 		Table = 5
 	},
+	Timers = {}
 	States = {},
 
 	function serialize( _object, _out )
@@ -164,5 +165,12 @@
 			throw ::MSU.Exception.KeyNotFound(_id);
 		}
 		return this.States[_id];
+	}
+
+	function Timer(_id)
+	{
+		if (_id in this.Timers) return this.Timers[_id];
+	    this.Timers[_id] <- ::MSU.Class.Timer(_id);
+	    return this.Timers[_id];
 	}
 }

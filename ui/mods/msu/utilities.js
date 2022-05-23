@@ -1,4 +1,5 @@
 var MSU = {};
+MSU.Timers = {};
 MSU.printData = function( _data, _depth, _maxLen )
 {
 	if (_depth === undefined) _depth = 1;
@@ -181,3 +182,34 @@ MSU.toggleDisplay = function(_object, _bool)
     }
     return _bool;
 }
+
+MSU.TimerObject = function(_id)
+{
+	this.ID = _id;
+	this.Start = new Date();
+}
+
+MSU.TimerObject.prototype.get = function(_msg, _stop)
+{
+	var end  = new Date();
+    var time = end.getTime() - this.Start.getTime();
+    var text = 'Timer: "' +  this.ID +  '" currently at ' +  time + 'ms';
+    if(_stop) text = 'Timer: "' +  this.ID +  '" stopped at ' +  time + 'ms';
+    if(_msg) text += " | Msg: " + _msg;
+    console.error(text);
+    return time;
+}
+
+MSU.TimerObject.prototype.stop = function(_msg, _stop)
+{
+	var time = this.get(_msg, true);
+    delete MSU.Timers[this.ID];
+    return time;
+}
+
+MSU.Timer = function(_id)
+{
+	if (_id in MSU.Timers) return MSU.Timers[_id];
+    MSU.Timers[_id] = new MSU.TimerObject(_id);
+    return MSU.Timers[_id];
+};
