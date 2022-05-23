@@ -7,6 +7,7 @@
 		Array = 4,
 		Table = 5
 	},
+	States = {},
 
 	function serialize( _object, _out )
 	{
@@ -137,5 +138,31 @@
 				return false;
 		}
 		throw ::MSU.InvalidValue(_compareResult);
+	}
+
+	function getActiveState()
+	{
+		foreach (name, state in this.States)
+		{
+			if (!state.isNull() && state.isVisible() && name != "root_state")
+			{
+				return state;
+			}
+		}
+	}
+
+	function hasState(_id)
+	{
+		return (_id in this.States && !this.States[_id].isNull());
+	}
+
+	function getState(_id)
+	{
+		if (!(_id in this.States))
+		{
+			::logError("_id must be a valid state name!");
+			throw ::MSU.Exception.KeyNotFound(_id);
+		}
+		return this.States[_id];
 	}
 }
