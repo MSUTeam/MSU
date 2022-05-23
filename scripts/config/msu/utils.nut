@@ -7,6 +7,7 @@
 		Array = 4,
 		Table = 5
 	},
+	Timers = {}
 	States = {},
 
 	function serialize( _object, _out )
@@ -164,5 +165,29 @@
 			throw ::MSU.Exception.KeyNotFound(_id);
 		}
 		return this.States[_id];
+	}
+
+	function Timer(_id)
+	{
+		if (_id in this.Timers) return this.Timers[id]
+	    this.Timers[_id] <-
+	    {
+	    	start = ::Time.getExactTime(),
+	    	function get(_msg = "", _stop = false)
+	    	{
+	    	    local time = (::Time.getExactTime() - this.start) * 1000;
+	    	    local text = format("Timer: %s %s at %f ms", _id, _stop ? "stopped" : "currently", time);
+	    	    if(_msg != "") text += " | Msg: " + _msg
+	    	    ::logInfo(text);
+	    	    return time;
+	    	}
+	    	function stop(_msg = "")
+	    	{
+	    		local time = this.get(_msg, true);
+	    	    delete ::MSU.Utils.Timers[_id];
+	    	    return time;
+	    	}
+	    }
+	    return this.Timers[_id];
 	}
 }
