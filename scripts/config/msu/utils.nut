@@ -144,7 +144,7 @@
 	{
 		foreach (name, state in this.States)
 		{
-			if (state != null && state.isVisible() && name != "root_state")
+			if (!state.isNull() && state.isVisible() && name != "root_state")
 			{
 				return state;
 			}
@@ -153,7 +153,7 @@
 
 	function hasState(_id)
 	{
-		return (_id in this.States && this.States[_id] != null)
+		return (_id in this.States && !this.States[_id].isNull());
 	}
 
 	function getState(_id)
