@@ -7,7 +7,6 @@
 		Array = 4,
 		Table = 5
 	},
-	Timers = {},
 	States = {},
 
 	function serialize( _object, _out )
