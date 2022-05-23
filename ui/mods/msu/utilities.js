@@ -183,25 +183,32 @@ MSU.toggleDisplay = function(_object, _bool)
     return _bool;
 }
 
+MSU.TimerObject = function(_id)
+{
+	this.ID = _id;
+	this.Start = new Date();
+}
+
+MSUTimer.prototype.get = function(_msg, _stop)
+{
+	var end  = new Date();
+    var time = end.getTime() - this.Start.getTime();
+    var text = 'Timer: "' +  this.ID +  '" currently at ' +  time + 'ms';
+    if(_stop) text = 'Timer: "' +  this.ID +  '" stopped at ' +  time + 'ms';
+    if(_msg) text += " | Msg: " + _msg;
+    console.error(text);
+    return time;
+}
+
+MSUTimer.prototype.stop = function(_msg, _stop)
+{
+	var time = this.get(_msg, true);
+    delete MSU.Timers[this.ID];
+    return time;
+}
+
 MSU.Timer = function(_id) {
-	if (_id in MSU.Timers) return MSU.Timers[_id]
-    MSU.Timers[_id] =
-    {
-    	start : new Date(),
-    	get : function(_msg, _stop) {
-    		var end  = new Date();
-    	    var time = end.getTime() - this.start.getTime();
-    	    var text = 'Timer: "' +  _id +  '" currently at ' +  time + 'ms';
-    	    if(_stop) text = 'Timer: "' +  _id +  '" stopped at ' +  time + 'ms';
-    	    if(_msg) text += " | Msg: " + _msg
-    	    console.error(text);
-    	    return time;
-    	},
-    	stop : function(_msg) {
-    		var time = this.get(_msg, true);
-    	    delete MSU.Timers[_id];
-    	    return time;
-    	}
-    }
-    return MSU.Timers[_id]
+	if (_id in MSU.Timers) return MSU.Timers[_id];
+    MSU.Timers[_id] = MSU.TimerObject(_id);
+    return MSU.Timers[_id];
 };
