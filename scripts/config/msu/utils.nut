@@ -163,11 +163,6 @@
 			::logError("_id must be a valid state name!");
 			throw ::MSU.Exception.KeyNotFound(_id);
 		}
-		if (this.States[_id] == null)
-		{
-			::logError("State is currently null! Check with hasState().");
-			throw ::MSU.Exception.InvalidValue(_id);
-		}
 		return this.States[_id];
 	}
 }
