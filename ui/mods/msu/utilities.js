@@ -212,4 +212,4 @@ MSU.Timer = function(_id)
 	if (_id in MSU.Timers) return MSU.Timers[_id];
     MSU.Timers[_id] = new MSU.TimerObject(_id);
     return MSU.Timers[_id];
-};<
+};
