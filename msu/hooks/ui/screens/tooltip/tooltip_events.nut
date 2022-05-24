@@ -46,7 +46,6 @@
 		if (ret == null)
 		{
 			local fullKey = split(_elementId, ".");
-			this.logInfo("key: " + fullKey[0])
 			if (_elementId.find(::MSU.Tooltip.SettingsIdentifier) == 0)
 			{
 				local threePartArray = split(_elementId, ".")
