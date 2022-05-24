@@ -1,5 +1,6 @@
 var MSU = {};
-MSU.Timers = {};
+MSU.Utils = {};
+MSU.Utils.Timers = {};
 MSU.printData = function( _data, _depth, _maxLen )
 {
 	if (_depth === undefined) _depth = 1;
@@ -207,9 +208,9 @@ MSU.TimerObject.prototype.stop = function(_msg, _stop)
     return time;
 }
 
-MSU.Timer = function(_id)
+MSU.Utils.Timer = function(_id)
 {
-	if (_id in MSU.Timers) return MSU.Timers[_id];
-    MSU.Timers[_id] = new MSU.TimerObject(_id);
-    return MSU.Timers[_id];
+	if (_id in MSU.Utils.Timers) return MSU.Utils.Timers[_id];
+    MSU.Utils.Timers[_id] = new MSU.TimerObject(_id);
+    return MSU.Utils.Timers[_id];
 };
