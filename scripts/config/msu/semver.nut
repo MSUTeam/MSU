@@ -1,4 +1,4 @@
-local verifyCompareInputs (_version1, _version2 )
+local function verifyCompareInputs (_version1, _version2 )
 {
 	::MSU.requireOneFromTypes(["string", "table", "instance"], _version1, _version2);
 	if (typeof _version1 == "instance") ::MSU.requireInstanceOf(::MSU.Class.Mod, _version1);
