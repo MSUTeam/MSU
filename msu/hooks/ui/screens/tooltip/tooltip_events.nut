@@ -45,10 +45,12 @@
 		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
 		if (ret == null)
 		{
-			if (_elementId.find(::MSU.TooltipIdentifiers.SettingsIdentifier) == 0)
+			local fullKey = split(_elementId, ".");
+			this.logInfo("key: " + fullKey[0])
+			if (_elementId.find(::MSU.Tooltip.SettingsIdentifier) == 0)
 			{
 				local threePartArray = split(_elementId, ".")
-				local setting = ::getModSetting(threePartArray[1], threePartArray[2]);
+				local setting = ::getModSetting(fullKey[1], fullKey[2]);
 				return [
 					{
 						id = 1,
@@ -62,12 +64,10 @@
 					}
 				];
 			}
-			else if (_elementId.find(::MSU.TooltipIdentifiers.GeneralIdentifier) == 0)
+			else if (fullKey[0] in ::MSU.Tooltip.TooltipIdentifiers)
 			{
-				local fullKey = split(_elementId, ".");
-				fullKey = fullKey.slice(1, fullKey.len());
 				local currentKey;
-				local currentTable = MSU.TooltipIdentifiers;
+				local currentTable = ::MSU.Tooltip.TooltipIdentifiers;
 				while (fullKey.len() > 0)
 				{
 					currentKey = fullKey.remove(0);
@@ -78,18 +78,7 @@
 					}
 					currentTable = currentTable[currentKey];
 				}
-				return [
-					{
-						id = 1,
-						type = "title",
-						text = currentTable.Title
-					},
-					{
-						id = 2,
-						type = "description",
-						text = currentTable.Description
-					}
-				];
+				return currentTable.getUIData();
 			}
 		}
 		return ret;

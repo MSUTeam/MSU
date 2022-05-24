@@ -2,7 +2,6 @@
 ::mods_registerCSS("msu/css/settings_screen.css");
 
 ::mods_registerJS("msu/utilities.js");
-::mods_registerJS("msu/tooltip_identifiers.js");
 
 ::mods_registerJS("msu/ui_hooks/main_menu_module.js");
 ::mods_registerJS("msu/ui_hooks/main_menu_screen.js");
@@ -29,3 +28,5 @@ foreach (file in this.IO.enumerateFiles("ui/mods/msu/mod_settings/"))
 
 ::MSU.UI.JSConnection = ::new("scripts/mods/msu/msu_connection");
 ::MSU.UI.registerConnection(::MSU.UI.JSConnection);
+
+::include("msu/ui/tooltip/load.nut");
