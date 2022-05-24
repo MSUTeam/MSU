@@ -200,14 +200,14 @@
 	{
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
-		local modIDsString = ""
+		local modIDsString = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
 		foreach (mod in ::mods_getRegisteredMods()) modIDsString += mod.Name + ",";
-		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1))
+		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
 	}
 
 	local onBeforeDeserialize = o.onBeforeDeserialize;
@@ -230,12 +230,12 @@
 						local oldVersion = _in.getMetaData().getString(mod.Name + "Version");
 						if (oldVersion == "")
 						{
-							::logInfo(format("MSU Serialization: First time time this save has been loaded with an MSU version of %s (%s)", mod.FriendlyName, mod.Name));
+							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.FriendlyName, mod.Name));
 						}
 						else
 						{
-							local msuMod = ::MSU.System.Registry.getMod(mod.Name)
-							switch(::MSU.SemVer.compare(msuMod, ::MSU.SemVer.getTable(oldVersion)))
+							local msuMod = ::MSU.System.Registry.getMod(mod.Name);
+							switch (::MSU.SemVer.compare(msuMod, ::MSU.SemVer.getTable(oldVersion)))
 							{
 								case 1:
 									::logInfo(format("MSU Serialization: Loading old save for %s (%s), %s -> %s", msuMod.getName(), msuMod.getID(), oldVersion, msuMod.getVersionString()));
@@ -258,7 +258,7 @@
 
 			foreach (id in modIDs)
 			{
-				::logWarning(format("MSU Serialization: This save is being loaded without %s", id));
+				::logWarning(format("MSU Serialization: This save was made while using %s but is being loaded with it.", id));
 			}
 		}
 		else // pre 1.1.0 legacy save support (should be removed in the future)
