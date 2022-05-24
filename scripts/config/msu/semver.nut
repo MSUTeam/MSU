@@ -1,3 +1,10 @@
+local verifyCompareInputs (_version1, _version2 )
+{
+	::MSU.requireOneFromTypes(["string", "table", "instance"], _version1, _version2);
+	if (typeof _version1 == "instance") ::MSU.requireInstanceOf(::MSU.Class.Mod, _version1);
+	if (typeof _version2 == "instance") ::MSU.requireInstanceOf(::MSU.Class.Mod, _version2);
+}
+
 ::MSU.SemVer <- {
 	// Slightly modified semver regex (https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string)
 	Regex = regexp("^((?:(?:0|[1-9]\\d*)\\.){2}(?:0|[1-9]\\d*))(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"),
@@ -99,16 +106,9 @@
 		return ret;
 	}
 
-	function verifyCompareInputs( _version1, _version2 ) // private
-	{
-		::MSU.requireOneFromTypes(["string", "table", "instance"], _version1, _version2);
-		if (typeof _version1 == "instance") ::MSU.requireInstanceOf(::MSU.Class.Mod, _version1);
-		if (typeof _version2 == "instance") ::MSU.requireInstanceOf(::MSU.Class.Mod, _version2);
-	}
-
 	function compareVersionWithOperator( _version1, _operator, _version2 )
 	{
-		this.verifyCompareInputs(_version1, _version2)
+		verifyCompareInputs(_version1, _version2);
 		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
 		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
 		return ::MSU.Utils.operatorCompare(this.compare(_version1, _version2), _operator)
@@ -116,7 +116,7 @@
 
 	function compareMajorVersionWithOperator( _version1, _operator, _version2 )
 	{
-		this.verifyCompareInputs(_version1, _version2)
+		verifyCompareInputs(_version1, _version2);
 		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
 		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
 		return ::MSU.Utils.operatorCompare( _version1.Version[0] <=> _version2.Version[0], _operator);
@@ -124,7 +124,7 @@
 
 	function compareMinorVersionWithOperator( _version1, _operator, _version2 )
 	{
-		this.verifyCompareInputs(_version1, _version2)
+		verifyCompareInputs(_version1, _version2);
 		if (typeof _version1 == "string") _version1 = this.getTable(_version1);
 		if (typeof _version2 == "string") _version2 = this.getTable(_version2);
 
