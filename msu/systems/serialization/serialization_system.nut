@@ -39,15 +39,15 @@
 
 	function clearFlags()
 	{
-		foreach (item in this.FlagsToClear) // need a better name than item lol
+		foreach (flagPair in this.FlagsToClear)
 		{
-			if (item[1].has(item[0]))
+			if (flagPair[1].has(flagPair[0]))
 			{
-				for (local i = 0; i < item[1].get(item[0]); ++i)
+				for (local i = 0; i < flagPair[1].get(flagPair[0]); ++i)
 				{
-					item[1].remove(item[0] + "." + i);
+					flagPair[1].remove(flagPair[0] + "." + i);
 				}
-				item[1].remove(item[0]);
+				flagPair[1].remove(flagPair[0]);
 			}
 		}
 	}
