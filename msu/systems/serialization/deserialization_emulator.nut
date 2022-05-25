@@ -7,29 +7,29 @@
 		if (this.Data.len() <= ++this.Idx)
 		{
 			::logError(format("Tried to read data beyond (%i) the length (%i) of the Deserialization Emulator", this.Idx, this.Data.len()));
-			return [null, null];
+			return null;
 		}
 		return this.Data[this.Idx];
 	}
 
 	function readString()
 	{
-		return this.__readData()[1];
+		return this.__readData();
 	}
 
 	function __readInt()
 	{
-		return this.__readData()[1];
+		return this.__readData();
 	}
 
 	function __readFloat()
 	{
-		return this.__readData()[1];
+		return this.__readData();
 	}
 
 	function readBool()
 	{
-		return this.__readData()[1];
+		return this.__readData();
 	}
 
 	function readI32()
@@ -76,7 +76,7 @@
 			if (_flags.has(startString + "." + i))
 			{
 				local value = _flags.get(startString + "." + i)
-				this.Data[i] = [::MSU.Utils.getDataType(value), value];
+				this.Data[i] = value;
 			}
 		}
 	}
