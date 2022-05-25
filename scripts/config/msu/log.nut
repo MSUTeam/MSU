@@ -25,7 +25,7 @@
 					fixCounter++;
 					continue;
 				}
-				string += this.getLocalString(key, value, _maxLen, _maxDepth, _advanced);
+				string += key + " = " + this.getLocalString(value, _maxLen, _maxDepth, _advanced, false) + ", ";
 			}
 
 			if (line.locals.len() - fixCounter != 0) string = string.slice(0, string.len() - 2);
@@ -36,60 +36,78 @@
 		::logInfo(string);
 	}
 
-	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1 )
+	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = false )
 	{
-		::logInfo(this.formatData(_data, _maxDepth, _advanced, _maxLenMin));
+		::logInfo(this.formatData(_data, _maxDepth, _advanced, _maxLenMin, _printClasses));
 	}
 
-	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1)
+	function printClass( _data, _maxLen = 128, _maxDepth = 1, _advanced = false )
 	{
-		if ((typeof _data == "array" || typeof _data == "table") && _data.len() > _maxLenMin)
+		this.printData(_data, _maxDepth, _advanced, _maxLen, true);
+	}
+
+	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = false)
+	{
+		if (["array", "table"].find(typeof _data) != null  && _data.len() > _maxLenMin)
 		{
 			_maxLenMin = _data.len();
 		}
-		return this.getLocalString("Data", _data, _maxLenMin, _maxDepth, _advanced)
+		return this.getLocalString(_data, _maxLenMin, _maxDepth, _advanced, _printClasses);
 	}
 
-	function getLocalString( _key, _value, _maxLen, _depth, _advanced, _isArray = false )
+	function getLocalString( _value, _maxLen, _depth, _advanced, _printClasses)
 	{
-		local string = "";
+		local ret = "";
 
-		if (!_isArray)
+		if (typeof _value == "array" && _value.len() <= _maxLen && _depth > 0) // full array
 		{
-			string += _key + " = ";
+			ret = "[";
+			foreach (idx, value in _value)
+			{
+				ret += this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses) + ", ";
+			}
+			if (_value.len() != 0) ret = ret.slice(0, -2);
+			ret += "]";
 		}
-		local arrayVsTable = ["{", false, "}"];
-		switch (typeof _value)
+		else if (typeof _value == "table" && _value.len() <= _maxLen && _depth > 0) // full table
 		{
-			case "array":
-				arrayVsTable = ["[", true, "]"];
-			case "table":
-				if (_value.len() <= _maxLen && _depth > 0)
-				{
-					string += arrayVsTable[0];
-					foreach (key2, value2 in _value)
-					{
-						string += this.getLocalString(key2, value2, _maxLen, _depth - 1, _advanced, arrayVsTable[1]);
-					}
-					if (_value.len() > 0)
-					{
-						string = string.slice(0, string.len() - 2);
-					}
-					string += arrayVsTable[2] + ", ";
-
-					break;
-				}
-			case "function":
-			case "instance":
-			case "null":
-				if (!_advanced)
-				{
-					string += ::MSU.String.capitalizeFirst(typeof _value) + ", ";
-					break;
-				}
-			default:
-				string += _value + ", ";
+			ret += "{";
+			foreach (key, value in _value)
+			{
+				ret += key + " = " + this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses) + ", ";
+			}
+			if (_value.len() != 0) ret = ret.slice(0, -2);
+			ret += "}";
 		}
-		return string;
+		else if (["instance", "class"].find(typeof _value) != null && _depth > 0 && _printClasses) // full instance or class
+		{
+			ret += "&lt;"; // < in log
+			local valueClass = typeof _value == "instance" ? _value.getclass() : _value;
+			local len = 0;
+			foreach (key, value in valueClass)
+			{
+				ret += key + " = " + this.getLocalString(_value[key], _maxLen, _depth - 1, _advanced, _printClasses) + ", ";
+				len++;
+			}
+			if (len != 0) ret = ret.slice(0, -2);
+			ret += "&gt;"; // > in log
+		}
+		else if (!_advanced && ["function", "instance", "table", "array", "null", "class"].find(typeof _value) != null)
+		{
+			ret += ::MSU.String.capitalizeFirst(typeof _value);
+		}
+		else if (typeof _value == "string")
+		{
+			ret += "\"" + _value + "\"";
+		}
+		else if (typeof _value == "bool")
+		{
+			ret += ::MSU.String.capitalizeFirst(_value.tostring());
+		}
+		else
+		{
+			ret += _value;
+		}
+		return ret;
 	}
 }
