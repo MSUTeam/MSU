@@ -48,7 +48,7 @@
 					_out.writeF32(element);
 					break;
 
-				case "boolean":
+				case "bool":
 					_out.writeU8(this.DataType.Boolean);
 					_out.writeBool(element);
 					break;
