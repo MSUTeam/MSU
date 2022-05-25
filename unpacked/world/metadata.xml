@@ -1,0 +1,4 @@
+<brush name="gfx/mods/msu/brushes/world.png" version="17">
+	<sprite id="road_N" img="roads/road_N.png"/>
+	<sprite id="road_S" img="roads/road_S.png"/>
+</brush>
