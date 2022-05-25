@@ -2,23 +2,23 @@
 {
 	function writeString( _string )
 	{
-		this.Data.push([::MSU.Utils.DataType.String, _string]);
+		this.Data.push(_string);
 		// idk about the necessity of keeping the type here as well as the value, unless someone can think of a good reason for it I will probably remove it.
 	}
 
 	function __writeInt( _int )
 	{
-		this.Data.push([::MSU.Utils.DataType.Integer, _int]);
+		this.Data.push(_int);
 	}
 
 	function __writeFloat( _float )
 	{
-		this.Data.push([::MSU.Utils.DataType.Float, _float]);
+		this.Data.push(_float);
 	}
 
 	function writeBool( _bool )
 	{
-		this.Data.push([::MSU.Utils.DataType.Boolean, _bool])
+		this.Data.push(_bool)
 	}
 
 	function writeI32( _int )
@@ -62,7 +62,7 @@
 		_flags.set(startString, this.Data.len())
 		foreach (idx, element in this.Data)
 		{
-			_flags.set(startString + "." + idx, element[1]);
+			_flags.set(startString + "." + idx, element);
 		}
 	}
 }
