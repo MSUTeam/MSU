@@ -211,6 +211,7 @@
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
+		::MSU.Metadata <- _in.getMetaData(); // not a massive fan of this tbh but I just wanted to get it to work. Still can't think of anything better though.
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
