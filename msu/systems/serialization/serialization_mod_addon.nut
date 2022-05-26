@@ -15,4 +15,14 @@
 	{
 		return ::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _flags, _clear);
 	}
+
+	function flagSerializeBBObject( _id, _bbObject, _flags = null, _clear = true )
+	{
+		::MSU.System.Serialization.flagSerialize(this.Mod, _id, _bbObject, _flags, _clear)
+	}
+
+	function flagDeserializeBBObject( _id, _bbObject, _flags = null, _clear = true )
+	{
+		::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _bbObject, _flags, _clear);
+	}
 }

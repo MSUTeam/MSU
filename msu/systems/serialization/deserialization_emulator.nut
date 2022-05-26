@@ -100,14 +100,8 @@
 	}
 	// make sure they are gone
 
-	local bro = ::World.getPlayerRoster().getAll()[0]; // grab the first bro in our player roster
-	local outEmulator = ::MSU.Class.SerializationEmulator(::MSU.Mod, "testBro");
-	bro.onSerialize(outEmulator); // save the bro in the SerializationEmulator
-	outEmulator.storeInFlagContainer(::World.Flags); // convert the SerializationEmulator into flags
-	local inEmulator = ::MSU.Class.DeserializationEmulator(::MSU.Mod, "testBro");
-	inEmulator.getFromFlagContainer(::World.Flags); // load the flags into the DeserialiationEmulator
-	::newBro <- ::World.getTemporaryRoster().create("scripts/entity/tactical/player"); // create a dummy bro
-	::newBro.onDeserialize(inEmulator); // deserialize the dummy bro to make him a clone of our original bro
-	// now check manually that ::newBro is the same as ::World.getPlayerRoster().getAll()[0] because there's no (easy?) way to check which fields are serialized
-	// Main issue I still have are that with this 2nd part there's no way to clear the flags created, but overall it seems to work flawlessly which (frankly) is fucking awesome.
+	local bro = ::World.getPlayerRoster().getAll()[0];
+	::MSU.System.Serialization.flagSerializeBBObject(::MSU.Mod, "testBro", bro, null, false);
+	::newBro <- ::World.getTemporaryRoster().create("scripts/entity/tactical/player");
+	::MSU.System.Serialization.flagDeserializeBBObject(::MSU.Mod, "testBro", ::newBro);
 }
