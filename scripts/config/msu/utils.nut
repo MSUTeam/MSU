@@ -173,4 +173,15 @@
 	    this.Timers[_id] <- ::MSU.Class.Timer(_id);
 	    return this.Timers[_id];
 	}
+
+	function addAIBehaviour(_id, _name, _order, _score = null)
+	{
+		::Const.AI.Behavior.ID[_id] <- ::Const.AI.Behavior.ID.COUNT++;
+		::Const.AI.Behavior.Name.push(_name);
+		::Const.AI.Behavior.Order[_id] <- _order;
+		if(_score != null)
+		{
+			::Const.AI.Behavior.Score[_id] <- _score;
+		}
+	}
 }
