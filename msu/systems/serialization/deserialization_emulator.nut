@@ -81,27 +81,3 @@
 		}
 	}
 }
-
-::runTest <- function()
-{
-	local test = { Hi = 123, Bye = "No", Taro = true, Midas = 420.69}; // make a dummy table
-	::MSU.Mod.Serialization.flagSerialize("test", test) // save the table in mod_msu.test
-	local test1 = ::MSU.Mod.Serialization.flagDeserialize("test") // load the table from mod_msu.test
-	foreach (key, value in test)
-	{
-		assert(test1[key] == value); // assert the tables are equal
-	}
-	::MSU.System.Serialization.clearFlags(); // clear the flags made by the table
-	local emulatorString = ::MSU.Class.SerDeEmulator(::MSU.Mod, "test").getEmulatorString();
-	assert(!::World.Flags.has(emulatorString));
-	for (local i = 0; i < test.len(); ++i)
-	{
-		assert(!::World.Flags.has(emulatorString + "." + i));
-	}
-	// make sure they are gone
-
-	local bro = ::World.getPlayerRoster().getAll()[0];
-	::MSU.System.Serialization.flagSerializeBBObject(::MSU.Mod, "testBro", bro, null, false);
-	::newBro <- ::World.getTemporaryRoster().create("scripts/entity/tactical/player");
-	::MSU.System.Serialization.flagDeserializeBBObject(::MSU.Mod, "testBro", ::newBro);
-}
