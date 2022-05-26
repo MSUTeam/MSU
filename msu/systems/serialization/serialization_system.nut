@@ -17,23 +17,21 @@
 		_mod.Serialization = ::MSU.Class.SerializationModAddon(_mod);
 	}
 
-	function flagSerialize( _mod, _id, _object, _flags = null )
+	function flagSerialize( _mod, _id, _object, _flags = null, _clear = true )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		::MSU.Utils.serialize(_object, outEmulator);
 		outEmulator.storeInFlagContainer(_flags);
-		::logInfo(_flags.get(outEmulator.getEmulatorString()));
-		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
+		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
-	function flagDeserialize( _mod, _id, _flags = null )
+	function flagDeserialize( _mod, _id, _flags = null, _clear = true )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
-		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 		inEmulator.getFromFlagContainer(_flags);
-		::logInfo(_flags.get(inEmulator.getEmulatorString()));
+		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 		return ::MSU.Utils.deserialize(inEmulator);
 	}
 
