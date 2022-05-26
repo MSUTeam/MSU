@@ -200,40 +200,93 @@
 	{
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
+		local modIDsString = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
+		foreach (mod in ::mods_getRegisteredMods()) modIDsString += mod.Name + ",";
+		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
 	}
 
 	local onBeforeDeserialize = o.onBeforeDeserialize;
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
-		foreach (mod in ::MSU.System.Serialization.Mods)
+
+		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
 		{
-			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
-			if (oldVersion == "")
+			local modIDs = split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
+			local hooksMods = ::mods_getRegisteredMods();
+			foreach (mod in hooksMods)
 			{
-				::logInfo(format("MSU Serialization: First time loading this save with %s (%s)", mod.getName(), mod.getID()));
-			}
-			else
-			{
-				switch (::MSU.SemVer.compare(mod, ::MSU.SemVer.getTable(oldVersion)))
+				local IDIdx = modIDs.find(mod.Name);
+				if (IDIdx != null)
 				{
-					case 1:
-						::logInfo(format("MSU Serialization: Loading old save for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
-						break;
-					case 0:
-						::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
-						break;
-					case -1:
-						::logWarning(format("MSU Serialization: Loading save from newer version for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
-						break;
-					default:
-						::logError("Something has gone very wrong with MSU Serialization");
-						::MSU.System.Debug.printStackTrace();
+					modIDs.remove(IDIdx);
+					if (::MSU.System.Registry.hasMod(mod.Name))
+					{
+						local oldVersion = _in.getMetaData().getString(mod.Name + "Version");
+						if (oldVersion == "")
+						{
+							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.FriendlyName, mod.Name));
+						}
+						else
+						{
+							local msuMod = ::MSU.System.Registry.getMod(mod.Name);
+							switch (::MSU.SemVer.compare(msuMod, ::MSU.SemVer.getTable(oldVersion)))
+							{
+								case 1:
+									::logInfo(format("MSU Serialization: Loading old save for %s (%s), %s -> %s", msuMod.getName(), msuMod.getID(), oldVersion, msuMod.getVersionString()));
+									break;
+								case 0:
+									::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", msuMod.getName(), msuMod.getID(), msuMod.getVersionString()));
+									break;
+								case -1:
+									::logWarning(format("MSU Serialization: Loading save from newer version for %s (%s), %s -> %s", msuMod.getName(), msuMod.getID(), oldVersion, msuMod.getVersionString()));
+									break;
+							}
+						}
+					} // else hooks mod loaded that already existed in save
+				}
+				else
+				{
+					::logWarning(format("MSU Serialization: First time this save is being loaded with %s (%s)", mod.FriendlyName, mod.Name));
+				}
+			}
+
+			foreach (id in modIDs)
+			{
+				::logWarning(format("MSU Serialization: This save was made while using %s but is being loaded without it.", id));
+			}
+		}
+		else // pre 1.1.0 legacy save support (should be removed in the future)
+		{
+			foreach (mod in ::MSU.System.Serialization.Mods)
+			{
+				local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
+				if (oldVersion == "")
+				{
+					::logInfo(format("MSU Serialization: First time loading this save with %s (%s)", mod.getName(), mod.getID()));
+				}
+				else
+				{
+					switch (::MSU.SemVer.compare(mod, ::MSU.SemVer.getTable(oldVersion)))
+					{
+						case 1:
+							::logInfo(format("MSU Serialization: Loading old save for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+							break;
+						case 0:
+							::MSU.Mod.Debug.printLog(format("MSU Serialization: Loading %s (%s), version %s", mod.getName(), mod.getID(), mod.getVersionString()));
+							break;
+						case -1:
+							::logWarning(format("MSU Serialization: Loading save from newer version for %s (%s), %s -> %s", mod.getName(), mod.getID(), oldVersion, mod.getVersionString()));
+							break;
+						default:
+							::logError("Something has gone very wrong with MSU Serialization");
+							::MSU.System.Debug.printStackTrace();
+					}
 				}
 			}
 		}
