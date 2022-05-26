@@ -23,7 +23,7 @@
 				type = "description",
 				text = typeof this.Text == "string" ? this.Text : this.Text()
 			},
-		]
+		];
 		return ret;
 	}
 }
