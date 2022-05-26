@@ -10,6 +10,25 @@
 	Timers = {}
 	States = {},
 
+	function getDataType( _var )
+	{
+		switch (typeof _var)
+		{
+			case "integer":
+				return this.DataType.Integer;
+			case "float":
+				return this.DataType.Float;
+			case "bool":
+				return this.DataType.Boolean;
+			case "string":
+				return this.DataType.String;
+			case "array":
+				return this.DataType.Array;
+			case "table":
+				return this.DataType.Table;
+		}
+	}
+
 	function serialize( _object, _out )
 	{
 		::MSU.requireOneFromTypes(["array", "table"], _object);

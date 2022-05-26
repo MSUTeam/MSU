@@ -211,6 +211,7 @@
 	o.onBeforeDeserialize = function( _in )
 	{
 		onBeforeDeserialize(_in);
+		::MSU.Metadata <- _in.getMetaData(); // not a massive fan of this tbh but I just wanted to get it to work. Still can't think of anything better though.
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
@@ -246,6 +247,7 @@
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
 		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
@@ -262,7 +264,8 @@
 		}
 
 		::MSU.System.ModSettings.flagDeserialize();
-		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.resetFlags(); // should probably get refactored into Serialization at some point
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onKeyInput = o.onKeyInput;
