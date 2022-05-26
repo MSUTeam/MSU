@@ -48,5 +48,6 @@
 				flagPair[1].remove(flagPair[0]);
 			}
 		}
+		this.FlagsToClear.clear();
 	}
 }
