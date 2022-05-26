@@ -85,8 +85,8 @@
 ::runTest <- function()
 {
 	local test = { Hi = 123, Bye = "No", Taro = true, Midas = 420.69}; // make a dummy table
-	::MSU.System.Serialization.flagSerialize(::MSU.Mod, "test", test) // save the table in mod_msu.test
-	local test1 = ::MSU.System.Serialization.flagDeserialize(::MSU.Mod, "test") // load the table from mod_msu.test
+	::MSU.Mod.Serialization.flagSerialize("test", test) // save the table in mod_msu.test
+	local test1 = ::MSU.Mod.Serialization.flagDeserialize("test") // load the table from mod_msu.test
 	foreach (key, value in test)
 	{
 		assert(test1[key] == value); // assert the tables are equal
