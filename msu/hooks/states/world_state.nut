@@ -302,6 +302,7 @@
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
 		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
@@ -318,7 +319,8 @@
 		}
 
 		::MSU.System.ModSettings.flagDeserialize();
-		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.resetFlags(); // should probably get refactored into Serialization at some point
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onKeyInput = o.onKeyInput;
