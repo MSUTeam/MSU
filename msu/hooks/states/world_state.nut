@@ -258,7 +258,7 @@
 
 			foreach (id in modIDs)
 			{
-				::logWarning(format("MSU Serialization: This save was made while using %s but is being loaded with it.", id));
+				::logWarning(format("MSU Serialization: This save was made while using %s but is being loaded without it.", id));
 			}
 		}
 		else // pre 1.1.0 legacy save support (should be removed in the future)
