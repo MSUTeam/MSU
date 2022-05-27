@@ -25,7 +25,7 @@
 					fixCounter++;
 					continue;
 				}
-				string += key + " = " + this.getLocalString(value, _maxLen, _maxDepth, _advanced, false) + ", ";
+				string += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _maxDepth, _advanced, false));
 			}
 
 			if (line.locals.len() - fixCounter != 0) string = string.slice(0, string.len() - 2);
@@ -74,7 +74,7 @@
 			ret += "{";
 			foreach (key, value in _value)
 			{
-				ret += key + " = " + this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses) + ", ";
+				ret += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
 			}
 			if (_value.len() != 0) ret = ret.slice(0, -2);
 			ret += "}";
@@ -86,7 +86,7 @@
 			local len = 0;
 			foreach (key, value in valueClass)
 			{
-				ret += key + " = " + this.getLocalString(_value[key], _maxLen, _depth - 1, _advanced, _printClasses) + ", ";
+				ret += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
 				len++;
 			}
 			if (len != 0) ret = ret.slice(0, -2);
@@ -98,7 +98,7 @@
 		}
 		else if (typeof _value == "string")
 		{
-			ret += "\"" + _value + "\"";
+			ret += format("\"%s\"", _value);
 		}
 		else if (typeof _value == "bool")
 		{
