@@ -18,7 +18,7 @@
 
 	function writeBool( _bool )
 	{
-		this.Data.push(_bool)
+		this.Data.push(_bool);
 	}
 
 	function writeI32( _int )
@@ -59,7 +59,7 @@
 	function storeInFlagContainer( _flags )
 	{
 		local startString = this.getEmulatorString();
-		_flags.set(startString, this.Data.len())
+		_flags.set(startString, this.Data.len());
 		foreach (idx, element in this.Data)
 		{
 			_flags.set(startString + "." + idx, element);
