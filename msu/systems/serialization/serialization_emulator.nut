@@ -56,7 +56,7 @@
 		this.__writeFloat(_float);
 	}
 
-	function storeInFlagContainer( _flags )
+	function storeDataInFlagContainer( _flags )
 	{
 		local startString = this.getEmulatorString();
 		_flags.set(startString, this.Data.len());

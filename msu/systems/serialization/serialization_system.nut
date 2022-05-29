@@ -22,7 +22,7 @@
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		::MSU.Utils.serialize(_object, outEmulator);
-		outEmulator.storeInFlagContainer(_flags);
+		outEmulator.storeDataInFlagContainer(_flags);
 		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
@@ -30,7 +30,7 @@
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
-		inEmulator.getFromFlagContainer(_flags);
+		inEmulator.loadDataFromFlagContainer(_flags);
 		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 		return ::MSU.Utils.deserialize(inEmulator);
 	}
@@ -40,7 +40,7 @@
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		_bbObject.onSerialize(outEmulator);
-		outEmulator.storeInFlagContainer(_flags);
+		outEmulator.storeDataInFlagContainer(_flags);
 		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
@@ -48,7 +48,7 @@
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
-		inEmulator.getFromFlagContainer(_flags);
+		inEmulator.loadDataFromFlagContainer(_flags);
 		_bbObject.onDeserialize(inEmulator);
 		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 	}
