@@ -67,7 +67,7 @@
 		return this.__readFloat();
 	}
 
-	function getFromFlagContainer( _flags ) // doesn't check if flags exist
+	function loadDataFromFlagContainer( _flags ) // doesn't check if flags exist
 	{
 		local startString = this.getEmulatorString();
 		this.Data = array(_flags.get(startString));
@@ -75,7 +75,7 @@
 		{
 			if (_flags.has(startString + "." + i))
 			{
-				local value = _flags.get(startString + "." + i)
+				local value = _flags.get(startString + "." + i);
 				this.Data[i] = value;
 			}
 		}

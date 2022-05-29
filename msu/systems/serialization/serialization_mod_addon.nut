@@ -18,7 +18,7 @@
 
 	function flagSerializeBBObject( _id, _bbObject, _flags = null, _clear = true )
 	{
-		::MSU.System.Serialization.flagSerializeBBObject(this.Mod, _id, _bbObject, _flags, _clear)
+		::MSU.System.Serialization.flagSerializeBBObject(this.Mod, _id, _bbObject, _flags, _clear);
 	}
 
 	function flagDeserializeBBObject( _id, _bbObject, _flags = null, _clear = true )
