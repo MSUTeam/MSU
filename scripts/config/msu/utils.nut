@@ -5,7 +5,9 @@
 		Boolean = 2,
 		String = 3,
 		Array = 4,
-		Table = 5
+		Table = 5,
+		Class = 6,
+		Instance = 7
 	},
 	Timers = {}
 	States = {},
@@ -26,6 +28,10 @@
 				return this.DataType.Array;
 			case "table":
 				return this.DataType.Table;
+			case "class":
+				return this.DataType.Class;
+			case "instance":
+				return this.DataType.Instance;
 		}
 	}
 
