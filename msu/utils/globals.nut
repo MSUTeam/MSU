@@ -131,17 +131,24 @@
 ::MSU.deepClone <- function( _object )
 {
 	local ret;
-	if (typeof _object == "table" || typeof _object == "array")
+	switch (typeof _object)
 	{
-		foreach (key, value in _object)
-		{
-			if (typeof _object == "table") ret[key] <- ::MSU.deepClone(value);
-			else ret.push(::MSU.deepClone(value));
-		}
+		case "table":
+			ret = {};
+			foreach (key, value in _object)
+			{
+				ret[key] <- ::MSU.deepClone(value);
+			}
+			return ret;
+		case "array":
+			ret = [];
+			foreach (key, value in _object)
+			{
+				ret.push(::MSU.deepClone(value));
+			}
+		case "instance":
+			return clone _object;
+		default:
+			return _object;
 	}
-	else
-	{
-		ret = clone _object;
-	}
-	return ret;
 }
