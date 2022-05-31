@@ -26,13 +26,13 @@
 		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
-	function flagDeserialize( _mod, _id, _flags = null, _clear = true )
+	function flagDeserialize( _mod, _id, _object = null, _flags = null, _clear = true )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
 		inEmulator.loadDataFromFlagContainer(_flags);
 		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
-		return ::MSU.Utils.deserialize(inEmulator);
+		return ::MSU.Utils.deserialize(inEmulator, _object);
 	}
 
 	function flagSerializeBBObject( _mod, _id, _bbObject, _flags = null, _clear = true )
