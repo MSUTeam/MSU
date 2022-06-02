@@ -92,7 +92,7 @@
 	if (typeof _object == "instance" && _object instanceof ::WeakTableRef)
 	{
 		if (_object.isNull()) return false;
-		 _object = _object.get();
+		_object = _object.get();
 	}
 
 	return ::isKindOf(_object, _className);
