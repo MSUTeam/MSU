@@ -12,37 +12,37 @@
 	function setTitle(_title)
 	{
 		::MSU.requireOneFromTypes(["string", "function"], _title);
-		this.Title = typeof _title == "string" ? @() _title : _title;
+		this.Title = typeof _title == "string" ? @(_data) _title : _title;
 	}
 
 	function setText(_text)
 	{
 		::MSU.requireOneFromTypes(["string", "function"], _text);
-		this.Text = typeof _text == "string" ? @() _text : _text;
+		this.Text = typeof _text == "string" ? @(_data) _text : _text;
 	}
 
-	function getTitle()
+	function getTitle(_data)
 	{
-		return this.Title();
+		return this.Title(_data);
 	}
 
-	function getText()
+	function getText(_data)
 	{
-		return this.Text();
+		return this.Text(_data);
 	}
 
-	function getUIData()
+	function getUIData(_data)
 	{
 		local ret = [
 			{
 				id = 1,
 				type = "title",
-				text = this.getTitle()
+				text = this.getTitle(_data)
 			},
 			{
 				id = 2,
 				type = "description",
-				text = this.getText()
+				text = this.getText(_data)
 			},
 		];
 		return ret;

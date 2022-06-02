@@ -39,6 +39,31 @@
 		return null;
 	}
 
+	o.onQueryGenericTooltipData <- function( _data )
+	{
+		if(!("elementId" in _data))
+		{
+			return;
+		}
+		local fullKey = split(_data.elementId, ".");
+		if (fullKey[0] in ::MSU.Tooltip.TooltipIdentifiers)
+		{
+			local currentKey;
+			local currentTable = ::MSU.Tooltip.TooltipIdentifiers;
+			while (fullKey.len() > 0)
+			{
+				currentKey = fullKey.remove(0);
+				if (!(currentKey in currentTable))
+				{
+					::MSU.Mod.Debug.printWarning("Key : " + currentKey + " is not a valid tooltip identifier!", "tooltip");
+					return ret;
+				}
+				currentTable = currentTable[currentKey];
+			}
+			return currentTable.getUIData(_data);
+		}
+	}
+
 	local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
 	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
 	{
@@ -63,24 +88,8 @@
 					}
 				];
 			}
-			else if (fullKey[0] in ::MSU.Tooltip.TooltipIdentifiers)
-			{
-				local currentKey;
-				local currentTable = ::MSU.Tooltip.TooltipIdentifiers;
-				while (fullKey.len() > 0)
-				{
-					currentKey = fullKey.remove(0);
-					if (!(currentKey in currentTable))
-					{
-						::MSU.Mod.Debug.printWarning("Key : " + currentKey + " is not a valid tooltip identifier!", "tooltip");
-						return ret;
-					}
-					currentTable = currentTable[currentKey];
-				}
-				return currentTable.getUIData();
-			}
+
 		}
 		return ret;
-		
 	}
 });
