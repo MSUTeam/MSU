@@ -13,7 +13,7 @@
 
 	function flagDeserialize( _id, _object = null, _flags = null, _clear = true )
 	{
-		return ::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _flags, _clear);
+		return ::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _object, _flags, _clear);
 	}
 
 	function flagSerializeBBObject( _id, _bbObject, _flags = null, _clear = true )
