@@ -42,9 +42,4 @@
 	{
 		return this.color(_string, ::Const.UI.Color.NegativeValue);
 	}
-
-	function colorBlue( _string )
-	{
-		return this.color(_string, "#002869"); // don't actually like this blue lol
-	}
 }
