@@ -2,11 +2,13 @@
 {
 	Title = null;
 	Text = null;
+	Data = null;
 
-	constructor(_title, _text)
+	constructor(_title, _text, _data = null)
 	{
 		this.setTitle(_title);
 		this.setText(_text);
+		this.setData(_data);
 	}
 
 	function setTitle(_title)
@@ -19,6 +21,12 @@
 	{
 		::MSU.requireOneFromTypes(["string", "function"], _text);
 		this.Text = typeof _text == "string" ? @(_data) _text : _text;
+	}
+
+	function setData(_data)
+	{
+		::MSU.requireOneFromTypes(["table", "null"], _data);
+		this.Data = _data == null ? {} : _data;
 	}
 
 	function getTitle(_data)
