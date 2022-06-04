@@ -28,18 +28,18 @@
 		return true;
 	}
 
-	function color( _string, _color )
+	function color( _color, _string )
 	{
 		return format("[color=%s]%s[/color]", _color, _string);
 	}
 
 	function colorGreen( _string )
 	{
-		return this.color(_string, ::Const.UI.Color.PositiveValue);
+		return this.color(::Const.UI.Color.PositiveValue, _string);
 	}
 
 	function colorRed( _string )
 	{
-		return this.color(_string, ::Const.UI.Color.NegativeValue);
+		return this.color(::Const.UI.Color.NegativeValue, _string);
 	}
 }
