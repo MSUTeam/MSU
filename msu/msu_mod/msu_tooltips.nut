@@ -1,8 +1,8 @@
 ::MSU.TooltipIdentifiers <- {
 	ModSettings = {
 		Main = {
-			Cancel = ::MSU.Class.UITooltip("Cancel", "Don't save changes."),
-			OK = ::MSU.Class.UITooltip("Save all changes", "Save all changes from every page.")
+			Cancel = ::MSU.Class.BasicTooltip("Cancel", "Don't save changes."),
+			OK = ::MSU.Class.BasicTooltip("Save all changes", "Save all changes from every page.")
 		},
 		Keybind = {
 			Popup = {
