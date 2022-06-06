@@ -15,7 +15,6 @@
 		this.skill.onCombatFinished();
 	}
 
-
 	o.isHidden <- function()
 	{
 		return this.m.IsSpent;
@@ -23,6 +22,13 @@
 
 	o.getItemActionCost <- function( _items )
 	{
+		foreach (item in _items)
+		{
+			if (item != null && item.isItemType(::Const.Items.ItemType.Shield))
+			{
+				return null;
+			}
+		}
 		return this.m.IsSpent ? null : 0;
 	}
 
