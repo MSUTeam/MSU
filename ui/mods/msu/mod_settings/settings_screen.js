@@ -106,8 +106,8 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 ModSettingsScreen.prototype.bindTooltips = function ()
 {
-	this.mDialogContainer.find('.main-cancel-button').bindTooltip({ contentType: 'ui-element', elementId: "MSU.ModSettings.Main.Cancel"});
-	this.mDialogContainer.find('.main-save-button').bindTooltip({ contentType: 'ui-element', elementId: "MSU.ModSettings.Main.OK"});
+	this.mDialogContainer.find('.main-cancel-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Cancel"});
+	this.mDialogContainer.find('.main-save-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.OK"});
 };
 
 ModSettingsScreen.prototype.destroy = function ()

@@ -1,4 +1,4 @@
-::MSU.TooltipIdentifiers <- {
+::MSU.Mod.Tooltips.setTooltips({
 	ModSettings = {
 		Main = {
 			Cancel = ::MSU.Class.BasicTooltip("Cancel", "Don't save changes."),
@@ -29,5 +29,4 @@
 			}
 		}
 	}
-}
-::MSU.Tooltip.addTooltips("MSU", ::MSU.TooltipIdentifiers);
+});

@@ -39,39 +39,19 @@
 		return null;
 	}
 
-	o.onQueryGenericTooltipData <- function( _data )
+	o.onQueryMSUTooltipData <- function( _data )
 	{
-		if(!("elementId" in _data))
-		{
-			return;
-		}
-		local fullKey = split(_data.elementId, ".");
-		if (fullKey[0] in ::MSU.Tooltip.TooltipIdentifiers)
-		{
-			local currentKey;
-			local currentTable = ::MSU.Tooltip.TooltipIdentifiers;
-			while (fullKey.len() > 0)
-			{
-				currentKey = fullKey.remove(0);
-				if (!(currentKey in currentTable))
-				{
-					::MSU.Mod.Debug.printWarning("Key : " + currentKey + " is not a valid tooltip identifier!", "tooltip");
-					return ret;
-				}
-				currentTable = currentTable[currentKey];
-			}
-			return currentTable.getUIData(_data);
-		}
+		return ::MSU.System.Tooltips.getTooltip(_data.modId, _data.elementId).getUIData(_data);
 	}
 
 	local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
-	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
+	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner ) // mod settings should be converted to use onQueryMSUTooltipData
 	{
 		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
 		if (ret == null)
 		{
 			local fullKey = split(_elementId, ".");
-			if (_elementId.find(::MSU.Tooltip.SettingsIdentifier) == 0)
+			if (_elementId.find("msu-settings") == 0)
 			{
 				local threePartArray = split(_elementId, ".")
 				local setting = ::getModSetting(fullKey[1], fullKey[2]);

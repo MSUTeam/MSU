@@ -14,13 +14,13 @@
 	function setTitle(_title)
 	{
 		::MSU.requireOneFromTypes(["string", "function"], _title);
-		this.Title = typeof _title == "string" ? @(_data) _title : _title;
+		this.Title = typeof _title == "string" ? @() _title : _title;
 	}
 
 	function setText(_text)
 	{
 		::MSU.requireOneFromTypes(["string", "function"], _text);
-		this.Text = typeof _text == "string" ? @(_data) _text : _text;
+		this.Text = typeof _text == "string" ? @() _text : _text;
 	}
 
 	function setData(_data)
@@ -31,12 +31,12 @@
 
 	function getTitle(_data)
 	{
-		return this.Title(_data);
+		return this.Title.getinfos().parameters.len() == 1 ? this.Title() : this.Title(_data);
 	}
 
 	function getText(_data)
 	{
-		return this.Text(_data);
+		return this.Text.getinfos().parameters.len() == 1 ? this.Text() : this.Text(_data);
 	}
 
 	function getUIData(_data)

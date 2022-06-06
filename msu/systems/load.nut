@@ -6,6 +6,7 @@
 	Log = 3,
 	Keybinds = 4,
 	PersistentData = 5,
+	Tooltips = 6
 };
 
 local function includeLoad( _folder )
@@ -26,5 +27,6 @@ includeLoad("mod_settings");
 includeLoad("serialization");
 includeLoad("keybinds");
 includeLoad("persistent_data");
+includeLoad("tooltips");
 
 includeFile("mod");

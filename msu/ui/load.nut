@@ -30,4 +30,3 @@ foreach (file in this.IO.enumerateFiles("ui/mods/msu/mod_settings/"))
 ::MSU.UI.JSConnection = ::new("scripts/mods/msu/msu_connection");
 ::MSU.UI.registerConnection(::MSU.UI.JSConnection);
 
-::include("msu/ui/tooltip/load.nut");

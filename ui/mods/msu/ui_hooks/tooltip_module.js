@@ -1,19 +1,12 @@
 var notifyBackendQueryTooltipData = TooltipModule.prototype.notifyBackendQueryTooltipData;
 TooltipModule.prototype.notifyBackendQueryTooltipData = function (_data, _callback)
 {
-	notifyBackendQueryTooltipData.call(this, _data, _callback);
-	if (this.mSQHandle === null)
+	if (this.mSQHandle !== null && _data !== null && 'contentType' in _data && _data.contentType.search("msu-") == 0)
 	{
-		return;
+		SQ.call(this.mSQHandle, 'onQueryMSUTooltipData', _data, _callback);
 	}
-
-	if (_data === null)
+	else
 	{
-		console.error('ERROR: Failed to query data from backend. Reason: Data was null.');
-		return;
-	}
-	if ('contentType' in _data && _data.contentType == "msu-generic")
-	{
-		SQ.call(this.mSQHandle, 'onQueryGenericTooltipData', _data, _callback);
+		notifyBackendQueryTooltipData.call(this, _data, _callback);
 	}
 }
