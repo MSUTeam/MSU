@@ -16,7 +16,7 @@
 		this.FullDebug = false;
 	}
 
-	function registerMod( _mod)
+	function registerMod( _mod )
 	{
 		base.registerMod(_mod);
 		if (_mod.getID() in this.Mods)
