@@ -1,4 +1,6 @@
-var MSU = {};
+var MSU = {
+	ID : "mod_msu"
+};
 MSU.Utils = {};
 MSU.Utils.Timers = {};
 MSU.printData = function( _data, _depth, _maxLen )
