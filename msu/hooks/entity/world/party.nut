@@ -1,6 +1,5 @@
 ::mods_hookExactClass("entity/world/party", function(o) {
-	o.m.VanillaBaseMovementSpeed <- o.m.BaseMovementSpeed;
-	o.m.BaseMovementSpeedMult <- 1.0;
+	// The final movement speed mult that is applied to the default value of 100
 	o.m.MovementSpeedMult <- 1.0;
 	o.m.MovementSpeedMultFunctions <- {};
 
@@ -8,7 +7,6 @@
 	o.create = function()
 	{
 		create();
-		this.resetBaseMovementSpeed();
 		this.m.MovementSpeedMultFunctions.BaseMovementSpeedMult <- this.getBaseMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RoadMovementSpeedMult <- this.getRoadMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.SlowdownPerUnitMovementSpeedMult <- this.getSlowdownPerUnitMovementSpeedMult;
@@ -18,34 +16,16 @@
 		this.m.MovementSpeedMultFunctions.NotPlayerMovementSpeedMult <- this.getNotPlayerMovementSpeedMult;
 	}
 
-	o.getVanillaBaseMovementSpeed <- function()
+	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value
+	o.getBaseMovementSpeed = function()
 	{
-		return this.m.VanillaBaseMovementSpeed;
+		return this.getMovementSpeed();
 	}
 
-	o.setVanillaBaseMovementSpeed <- function( _speed )
-	{
-		this.m.VanillaBaseMovementSpeed = _speed;
-	}
-
-	o.setBaseMovementSpeed <- function( _speed )
-	{
-		this.m.BaseMovementSpeed = _speed;
-	}
-
-	o.resetBaseMovementSpeed <- function()
-	{
-		this.setBaseMovementSpeed(100);
-	}
-
+	// Get the base values that were changed for slower parties or things like caravan contracts
 	o.getBaseMovementSpeedMult <- function()
 	{
-		return this.m.BaseMovementSpeedMult;
-	}
-
-	o.setBaseMovementSpeedMult <- function( _mult )
-	{
-		this.m.BaseMovementSpeedMult = _mult;
+		return this.m.BaseMovementSpeed / 100;
 	}
 
 	o.getMovementSpeedMult <- function()
@@ -56,12 +36,6 @@
 	o.setMovementSpeedMult <- function( _mult )
 	{
 		this.m.MovementSpeedMult = _mult;
-	}
-
-	o.setMovementSpeed <- function( _speed )
-	{
-		this.setVanillaBaseMovementSpeed(_speed);
-		this.setBaseMovementSpeedMult(_speed / 100.0);
 	}
 
 	o.getFinalMovementSpeedMult <- function()
@@ -86,7 +60,7 @@
 		{
 			this.updateMovementSpeedMult();
 		}
-		local speed = this.getBaseMovementSpeed() * this.getMovementSpeedMult();
+		local speed = ::Const.World.MovementSettings.Speed * this.getMovementSpeedMult();
 		return speed;
 	}
 
@@ -125,6 +99,11 @@
 		}
 	}
 
+	o.getTerrainTypeSpeedMult <- function()
+	{
+		return this.m.IsPlayer ? this.World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
+	}
+
 	o.getNightTimeMovementSpeedMult <- function()
 	{
 		if (!this.m.IsSlowerAtNight || ::World.isDaytime())
@@ -136,148 +115,36 @@
 
 	o.getRiverMovementSpeedMult <- function()
 	{
-		if (!this.getTile().HasRiver)
-		{
-			return 1.0;
-		}
-		return ::Const.World.MovementSettings.RiverMult;
+		return this.getTile().HasRiver ? ::Const.World.MovementSettings.RiverMult : 1.0;
 	}
 
 	o.getNotPlayerMovementSpeedMult <- function()
 	{
-		if (this.m.IsPlayer)
-		{
-			return 1.0;
-		}
-		return ::Const.World.MovementSettings.NotPlayerMult;
+		return this.m.IsPlayer ? 1.0 : ::Const.World.MovementSettings.NotPlayerMult;
 	}
 
+	local onUpdate = o.onUpdate;
 	o.onUpdate = function()
 	{
-		this.world_entity.onUpdate();
+		local moddedSpeed = this.getMovementSpeed(true);
 		local delta = this.getTimeDelta();
-		this.m.LastUpdateTime = ::Time.getVirtualTimeF();
-		
-		if (this.isInCombat())
+		local speedDelta = moddedSpeed * delta;
+		local move = this.move;
+		this.move = function(_dest, _speed)
 		{
-			this.setOrders("Fighting");
-			return;
-		}
-
-		if (this.m.StunTime > ::Time.getVirtualTimeF())
-		{
-			return;
-		}
-
-		if (this.m.Controller != null)
-		{
-			this.m.Controller.think();
-		}
-
-		if (this.m.Flags.get("IsAlps"))
-		{
-			this.m.IsLeavingFootprints = false;
-
-			if (::World.getTime().IsDaytime)
+			if (::MSU.Mod.Debug.isEnabled("movement") && ::Math.round(speedDelta) != ::Math.round(_speed))
 			{
-				//use function instead of accessing m
-				this.setVisibilityMult(0.0);
-				this.getController().getBehavior(::Const.World.AI.Behavior.ID.Attack).setEnabled(false);
+				this.testCompareMovementSpeeds(moddedSpeed, _speed)
 			}
-			else
-			{
-				//use function instead of accessing m
-				this.setVisibilityMult(1.0);
-				this.getController().getBehavior(::Const.World.AI.Behavior.ID.Attack).setEnabled(true);
-			}
+			return move(_dest, speedDelta);
 		}
-
-		if (this.m.Path != null)
-		{
-			if (this.m.Path.isAtWaypoint(this.getPos()))
-			{
-				this.m.Path.pop();
-
-				if (this.m.Path.isEmpty())
-				{
-					this.m.Path = null;
-					this.m.Destination = null;
-				}
-			}
-
-			if (this.m.Path != null)
-			{
-				this.m.Destination = ::World.tileToWorld(this.m.Path.getCurrent());
-			}
-		}
-
-		if (this.m.Destination != null)
-		{
-			if (this.m.IsMirrored)
-			{
-				if (this.getSprite("bodyUp").HasBrush)
-				{
-					if (this.m.Destination.Y < this.getPos().Y)
-					{
-						this.getSprite("bodyUp").Visible = false;
-						this.getSprite("body").Visible = true;
-					}
-					else
-					{
-						this.getSprite("bodyUp").setHorizontalFlipping(this.m.Destination.X < this.getPos().X);
-						this.getSprite("bodyUp").Visible = true;
-						this.getSprite("body").Visible = false;
-					}
-				}
-
-				this.getSprite("body").setHorizontalFlipping(this.m.Destination.X < this.getPos().X);
-			}
-
-			local myTile = this.getTile();
-			local speed = this.getMovementSpeed(true) * delta;
-
-			if (this.m.IsLeavingFootprints && !myTile.IsOccupied)
-			{
-				if (::Time.getVirtualTimeF() - this.m.LastFootprintTime >= 1.0)
-				{
-					local scale;
-
-					if (this.m.FootprintSizeOverride == 0.0)
-					{
-						scale = ::Math.minf(1.0, ::Math.maxf(0.4, this.m.Troops.len() * 0.05));
-					}
-					else
-					{
-						scale = this.m.FootprintSizeOverride;
-					}
-
-					::World.spawnFootprint(this.createVec(this.getPos().X - 5, this.getPos().Y - 15), this.m.Footprints[this.getDirection8To(this.m.Destination)] + "_0" + this.m.LastFootprintType, scale, this.m.FootprintSizeOverride != 0.0 ? 30.0 : 0.0, ::World.Assets.getFootprintVision(), this.m.FootprintType);
-					this.m.LastFootprintTime = ::Time.getVirtualTimeF();
-					this.m.LastFootprintType = this.m.LastFootprintType == 1 ? 2 : 1;
-				}
-			}
-
-			if (!this.move(this.m.Destination, speed))
-			{
-				this.m.Destination = null;
-			}
-		}
-
-		if (this.m.IdleSoundsIndex != 0 && this.m.LastIdleSound + 10.0 < ::Time.getRealTimeF() && ::Math.rand(1, 100) <= 5 && this.isVisibleToEntity(::World.State.getPlayer(), 500))
-		{
-			this.m.LastIdleSound = ::Time.getRealTimeF();
-			::Sound.play(::Const.SoundPartyAmbience[this.m.IdleSoundsIndex][::Math.rand(0, ::Const.SoundPartyAmbience[this.m.IdleSoundsIndex].len() - 1)], ::Const.Sound.Volume.Ambience, this.getPos());
-		}
-
-		::MSU.Mod.Debug.isEnabled("movement")
-		{
-			this.testCompareMovementSpeeds()
-		}
+		onUpdate();
+		this.move = move;
 	}
 
-	o.testCompareMovementSpeeds <- function()
+	o.testCompareMovementSpeeds <- function(_moddedSpeed, _speed)
 	{
-		local moddedSpeed = this.getMovementSpeed(true);
+		local name = this.m.IsPlayer ? "Player" : this.getName()
 		local vanillaMovementSpeed = 1.0
 		local slowDownPartyPerTroop = 1.0
 		local GlobalMult = 1.0
@@ -287,9 +154,7 @@
 		local RiverMult = 1.0
 		local NotPlayerMult = 1.0
 
-
-		local vanillaMovementSpeed = this.getVanillaBaseMovementSpeed();
-		local speed = vanillaMovementSpeed;
+		local speed = this.m.BaseMovementSpeed;
 		slowDownPartyPerTroop = (1.0 - ::Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
 		speed *= slowDownPartyPerTroop
 		GlobalMult = ::Const.World.MovementSettings.GlobalMult;
@@ -332,43 +197,20 @@
 		}
 		speed *= NotPlayerMult
 
-		if(::Math.round(moddedSpeed) != ::Math.round(speed))
+		local function logIfDifferent(_key, _modded, _vanilla)
 		{
-			::MSU.Mod.Debug.printError("Movement Speed for party " + this.getName() + " is NOT correct. Expected: " + speed + " , actual: " + moddedSpeed, "movement")
-			::MSU.Mod.Debug.printError("COMPARING VANILLA AND MSU", "movement")
-			::MSU.Mod.Debug.printError("vanillaMovementSpeed " + vanillaMovementSpeed + " " + this.getBaseMovementSpeedMult() * 100, "movement")
-			::MSU.Mod.Debug.printError("GlobalMult" + GlobalMult + " " + this.getGlobalMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("slowDownPartyPerTroop" + slowDownPartyPerTroop + " " + this.getSlowdownPerUnitMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("NotPlayerMult " + NotPlayerMult + " " + this.getNotPlayerMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("RiverMult " + RiverMult + " " + this.getRiverMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("NighttimeMult " + NighttimeMult + " " + this.getNightTimeMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("TerrainTypeSpeedMult " + TerrainTypeSpeedMult + " " + this.getRoadMovementSpeedMult(), "movement")
-			::MSU.Mod.Debug.printError("getTerrainTypeSpeedMultPlayer " + getTerrainTypeSpeedMultPlayer + " " + this.getRoadMovementSpeedMult(), "movement")
-
+			if (::Math.round(_modded) != ::Math.round(_vanilla))
+			{
+				::MSU.Mod.Debug.printError(format("%s : Vanilla : %f | Modded: %f", _key, _vanilla, _modded), "movement")
+			}
 		}
-	}
-	
-	local onSerialize = o.onSerialize;
-	o.onSerialize = function( _out )
-	{
-		this.getFlags().set("VanillaBaseMovementSpeed", this.getVanillaBaseMovementSpeed());
-		this.getFlags().set("BaseMovementSpeedMult", this.getBaseMovementSpeedMult());
-		onSerialize(_out);
-	}
 
-	local onDeserialize = o.onDeserialize;
-	o.onDeserialize = function( _in )
-	{
-		onDeserialize(_in);
-		if (this.getFlags().has("VanillaBaseMovementSpeed"))
-		{
-			this.setVanillaBaseMovementSpeed(this.getFlags().get("VanillaBaseMovementSpeed"));
-		}
-		if (this.getFlags().has("BaseMovementSpeedMult"))
-		{
-			this.setBaseMovementSpeedMult(this.getFlags().get("BaseMovementSpeedMult"));
-		}
-		this.resetBaseMovementSpeed();
-
+		::MSU.Mod.Debug.printError("Movement Speed for party " + this.getName() + " is NOT correct. Expected: " + speed + " , actual: " + _moddedSpeed, "movement")
+		logIfDifferent("GlobalMult", GlobalMult, this.getGlobalMovementSpeedMult());
+		logIfDifferent("slowDownPartyPerTroop", slowDownPartyPerTroop, this.getSlowdownPerUnitMovementSpeedMult());
+		logIfDifferent("NotPlayerMult", NotPlayerMult, this.getNotPlayerMovementSpeedMult());
+		logIfDifferent("RiverMult", RiverMult, this.getRiverMovementSpeedMult());
+		logIfDifferent("NighttimeMult", NighttimeMult, this.getNightTimeMovementSpeedMult());
+		logIfDifferent("TerrainTypeSpeedMult", TerrainTypeSpeedMult, this.getRoadMovementSpeedMult());
 	}
 });
