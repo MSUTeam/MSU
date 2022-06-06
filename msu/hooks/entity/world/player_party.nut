@@ -3,8 +3,7 @@
 	o.create = function()
 	{
 		create();
-		this.setVanillaBaseMovementSpeed(105);
-		this.resetBaseMovementSpeed();
+		this.setMovementSpeed(100);
 		this.m.MovementSpeedMultFunctions.PlayerMovementSpeedMult <- this.getPlayerPartyMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RosterMovementSpeedMult <- this.getRosterMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.StashMovementSpeedMult <- this.getStashMovementSpeedMult;
@@ -69,5 +68,12 @@
 			}
 		}
 		return mult;
+	}
+
+	local onDeserialize = o.onDeserialize;
+	o.onDeserialize = function(_in)
+	{
+		onDeserialize(_in);
+		this.setMovementSpeed(100);
 	}
 });
