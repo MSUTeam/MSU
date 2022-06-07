@@ -218,46 +218,6 @@
 		return null;
 	}
 
-	function rollTopX(_top, _exclude = null )
-	{
-		::MSU.requireInt(_top);
-		if (_top > this.Table.len()) return this.roll(_exclude);
-		if (_exclude != null) ::MSU.requireArray(_exclude);
-
-		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
-		if (forced.len() > 0)
-		{
-			return ::MSU.Array.rand(forced);
-		}
-		local asArray = array(_top);
-		local min = 0;
-		this.apply(function(_item, _weight)
-		{
-			if (_weigth > min)
-			{
-				asArray.push([_item, _weight]);
-				asArray.pop();
-				min = asArray.pop() == null ? 0 : _weight;
-			}
-		})
-		foreach(item, weight in this.Table)
-		{
-
-		}
-		asArray.sort(function(a, b){
-			if (a > b) return 1;
-			else if (a < b) return -1;
-			else return 0;
-		})
-		local ret = ::MSU.Class.WeightedContainer();
-		for (local i = 0; i < _top.len(); ++i)
-		{
-			ret.add(asArray[i][1], asArray[i][0])
-		}
-
-		return cloned.roll(_exclude);
-	}
-
 	function rollChance( _chance, _exclude = null )
 	{
 		return ::Math.rand(1, 100) <= _chance ? this.roll(_exclude) : null;
