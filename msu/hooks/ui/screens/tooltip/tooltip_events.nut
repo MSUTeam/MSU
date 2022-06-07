@@ -45,16 +45,16 @@
 	}
 
 	local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
-	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner ) // mod settings should be converted to use onQueryMSUTooltipData
+	// deprecated, MSU settings (and future tooltips) should now use onQueryMSUTooltipData
+	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
 	{
 		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
 		if (ret == null)
 		{
-			local fullKey = split(_elementId, ".");
 			if (_elementId.find("msu-settings") == 0)
 			{
 				local threePartArray = split(_elementId, ".")
-				local setting = ::getModSetting(fullKey[1], fullKey[2]);
+				local setting = ::getModSetting(threePartArray[1], threePartArray[2]);
 				return [
 					{
 						id = 1,
@@ -68,7 +68,6 @@
 					}
 				];
 			}
-
 		}
 		return ret;
 	}
