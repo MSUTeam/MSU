@@ -2,13 +2,13 @@
 {
 	Function = null;
 
-	constructor(_function, _data = null)
+	constructor( _function, _data = null )
 	{
 		this.setFunction(_function);
 		base.constructor(_data);
 	}
 
-	function setFunction(_function)
+	function setFunction( _function )
 	{
 		::MSU.requireFunction(_function)
 		this.Function = _function;
