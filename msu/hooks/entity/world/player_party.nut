@@ -23,10 +23,7 @@
 		local roster = ::World.getPlayerRoster().getAll();
 		foreach (bro in roster)
 		{
-			if ("getMovementSpeedMult" in bro)
-			{
-				mult *= bro.getMovementSpeedMult();
-			}
+			mult *= bro.getMovementSpeedMult();
 		}
 		return mult;
 	}
@@ -37,23 +34,14 @@
 		local inventory = ::World.Assets.getStash();
 		foreach (item in inventory.getItems())
 		{
-			if ("getMovementSpeedMult" in item)
-			{
-				mult *= item.getMovementSpeedMult();
-			}
+			mult *= item.getMovementSpeedMult();
 		}
 		return mult;
 	}
 
 	o.getOriginMovementSpeedMult <- function()
 	{
-		local mult = 1.0;
-		local origin = ::World.Assets.getOrigin();
-		if ("getMovementSpeedMult" in origin)
-		{
-			mult *= origin.getMovementSpeedMult();
-		}
-		return mult;
+		return ::World.Assets.getOrigin().getMovementSpeedMult()
 	}
 
 	o.getRetinueMovementSpeedMult <- function()
@@ -62,10 +50,7 @@
 		local retinue = ::World.Retinue;
 		foreach (follower in retinue.m.Followers)
 		{
-			if ("getMovementSpeedMult" in follower)
-			{
-				mult *= follower.getMovementSpeedMult();
-			}
+			mult *= follower.getMovementSpeedMult();
 		}
 		return mult;
 	}

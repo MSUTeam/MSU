@@ -8,4 +8,9 @@
 	o.onNewMorning <- function()
 	{
 	}
+
+	o.getMovementSpeedMult <- function()
+	{
+		return 1.0;
+	}
 });
