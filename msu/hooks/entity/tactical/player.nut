@@ -1,6 +1,11 @@
 ::mods_hookExactClass("entity/tactical/player", function(o) {
 	o.m.LevelUpsSpent <- 0;
 
+	o.getMovementSpeedMult <- function()
+	{
+		return 1.0;
+	}
+
 	local setAttributeLevelUpValues = o.setAttributeLevelUpValues;
 	o.setAttributeLevelUpValues = function( _v )
 	{

@@ -134,7 +134,7 @@
 		{
 			if (::MSU.Mod.Debug.isEnabled("movement") && ::Math.round(speedDelta) != ::Math.round(_speed))
 			{
-				this.testCompareMovementSpeeds(moddedSpeed, _speed)
+				this.__testCompareMovementSpeeds(moddedSpeed, _speed)
 			}
 			return move(_dest, speedDelta);
 		}
@@ -142,7 +142,7 @@
 		this.move = move;
 	}
 
-	o.testCompareMovementSpeeds <- function(_moddedSpeed, _speed)
+	o.__testCompareMovementSpeeds <- function(_moddedSpeed, _speed)
 	{
 		local name = this.m.IsPlayer ? "Player" : this.getName()
 		local vanillaMovementSpeed = 1.0

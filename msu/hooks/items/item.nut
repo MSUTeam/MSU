@@ -34,6 +34,11 @@
 		return this.m.SkillPtrs.filter(@(idx, skill) skill.getID() != "items.generic");
 	}
 
+	o.getMovementSpeedMult <- function()
+	{
+		return 1.0;
+	}
+
 	local getDescription = o.getDescription;
 	o.getDescription = function()
 	{
