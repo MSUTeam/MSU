@@ -40,9 +40,9 @@
 	{
 		local fullKey = split(_identifier, ".");
 		local currentTable = this.Mods[_modID];
-		while (fullKey.len() > 0)
+		for (local i = 0; i < fullKey.len(); ++i)
 		{
-			currentTable = currentTable[fullKey.remove(0)];
+			currentTable = currentTable[fullKey[i]];
 		}
 		return currentTable;
 	}
