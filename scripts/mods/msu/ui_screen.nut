@@ -6,6 +6,8 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 		OnScreenShownListener = null,
 		OnScreenHiddenListener = null,
 		OnClosePressedListener = null,
+		OnConnectedListener = null,
+		OnDisconnectedListener = null,
 		PopupVisible = false,
 	},
 
