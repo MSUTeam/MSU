@@ -86,7 +86,7 @@
 			local len = 0;
 			foreach (key, value in valueClass)
 			{
-				ret += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
+				ret += format("%s = %s, ", key, this.getLocalString(_value[key], _maxLen, _depth - 1, _advanced, _printClasses));
 				len++;
 			}
 			if (len != 0) ret = ret.slice(0, -2);
