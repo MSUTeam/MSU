@@ -36,26 +36,28 @@
 		::logInfo(string);
 	}
 
-	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = false )
+	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = true )
 	{
 		::logInfo(this.formatData(_data, _maxDepth, _advanced, _maxLenMin, _printClasses));
 	}
 
-	function printClass( _data, _maxLen = 128, _maxDepth = 1, _advanced = false )
-	{
-		this.printData(_data, _maxDepth, _advanced, _maxLen, true);
-	}
-
-	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = false)
+	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = true )
 	{
 		if (["array", "table"].find(typeof _data) != null  && _data.len() > _maxLenMin)
 		{
 			_maxLenMin = _data.len();
 		}
+		else if (["class", "instance"].find(typeof _data) != null)
+		{
+			local len = 0;
+			local classed = typeof _data == "instance" ? _data.getclass() : _data;
+			foreach (key, value in classed) ++len;
+			if (len > _maxLenMin) _maxLenMin = len;
+		}
 		return this.getLocalString(_data, _maxLenMin, _maxDepth, _advanced, _printClasses);
 	}
 
-	function getLocalString( _value, _maxLen, _depth, _advanced, _printClasses)
+	function getLocalString( _value, _maxLen, _depth, _advanced, _printClasses )
 	{
 		local ret = "";
 
