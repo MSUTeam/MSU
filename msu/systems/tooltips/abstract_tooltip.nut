@@ -9,8 +9,9 @@
 
 	function setData(_data)
 	{
-		::MSU.requireOneFromTypes(["table", "null"], _data);
-		this.Data = _data == null ? {} : _data;
+		if (_data == null) _data = {};
+		::MSU.requireTable(_data);
+		this.Data = _data;
 	}
 
 	function getUIData(_data)
