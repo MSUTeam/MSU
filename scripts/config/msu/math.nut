@@ -28,4 +28,11 @@
 		::MSU.requireFloat(_min, _max);
 		return _min + (::Math.rand(0, 2147483647) / 2147483647.0) * (_max - _min);
 	}
+
+	function round( _value, _decimalPoints )
+	{
+		::MSU.requireOneFromTypes(["float", "integer"], _value);
+		::MSU.requireInt(_decimalPoints);
+		return (_value * ::Math.pow(10, _decimalPoints)).tointeger() / ::Math.pow(10, _decimalPoints);
+	}
 };
