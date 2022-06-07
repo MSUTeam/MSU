@@ -33,7 +33,7 @@
 
 	function _get( _key )
 	{
-		return this.Table[_key]
+		return this.Table[_key];
 	}
 
 	function _nexti( _prev )
@@ -48,6 +48,11 @@
 	{
 		this.Array = clone _original.Array;
 		this.Table = clone _original.Table;
+	}
+
+	function getclass()
+	{
+		return ::MSU.Class.OrderedMap;
 	}
 
 	function toTable()

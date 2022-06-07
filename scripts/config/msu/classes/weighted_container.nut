@@ -25,6 +25,11 @@
 		this.merge(_original);
 	}
 
+	function getclass()
+	{
+		return ::MSU.Class.WeightedContainer;
+	}
+
 	function toArray( _itemsOnly = true )
 	{
 		local ret = ::array(this.Table.len());
