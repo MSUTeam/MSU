@@ -6,7 +6,7 @@
 		},
 		Element = {
 			Tooltip = ::MSU.Class.CustomTooltip(@(_data) ::getModSetting(_data.elementModId, _data.settingsElementId).getTooltip(_data))
-		}
+		},
 		Keybind = {
 			Popup = {
 				Cancel = {
