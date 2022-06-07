@@ -34,7 +34,7 @@
 
 	function getUIData(_data)
 	{
-		local ret = [
+		return [
 			{
 				id = 1,
 				type = "title",
@@ -46,6 +46,5 @@
 				text = this.getText(_data)
 			},
 		];
-		return ret;
 	}
 }
