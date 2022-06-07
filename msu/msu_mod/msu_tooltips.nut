@@ -4,6 +4,9 @@
 			Cancel = ::MSU.Class.BasicTooltip("Cancel", "Don't save changes."),
 			OK = ::MSU.Class.BasicTooltip("Save all changes", "Save all changes from every page.")
 		},
+		Element = {
+			Tooltip = ::MSU.Class.CustomTooltip(@(_data) ::getModSetting(_data.elementModId, _data.settingsElementId).getTooltip(_data))
+		}
 		Keybind = {
 			Popup = {
 				Cancel = {

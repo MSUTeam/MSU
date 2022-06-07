@@ -34,7 +34,7 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 	this.titleContainer.append(this.title);
 
 	// Tooltip
-	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 };
 
 BooleanSetting.prototype.updateValue = function()

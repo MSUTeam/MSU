@@ -5,7 +5,7 @@ var TitleSetting = function (_mod, _page, _setting, _parentDiv)
 	_parentDiv.append(this.layout);
 	this.title = $('<div class="title title-font-big font-bold font-color-title">' + _setting.name + '</div>');
 	this.layout.append(this.title);
-	this.title.bindTooltip({ contentType: 'ui-element', elementId: "msu-settings." + _mod.id + "." + _setting.id });
+	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 };
 
 TitleSetting.prototype.unbindTooltip = function ()
