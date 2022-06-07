@@ -245,7 +245,7 @@
 	{
 		::MSU.System.ModSettings.flagSerialize();
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
-		foreach(func in ::MSU.System.Serialization.SerialiseFunctions)
+		foreach(func in ::MSU.System.Serialization.SerializeFunctions)
 		{
 			func();
 		}
@@ -258,7 +258,7 @@
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
-		foreach(func in ::MSU.System.Serialization.DeserialiseFunctions)
+		foreach(func in ::MSU.System.Serialization.DeserializeFunctions)
 		{
 			func();
 		}
