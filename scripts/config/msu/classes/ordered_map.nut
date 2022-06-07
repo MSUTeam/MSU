@@ -55,6 +55,11 @@
 		return ::MSU.Class.OrderedMap;
 	}
 
+	function weakref()
+	{
+		throw "OrderedMap does not currently support weakref operations";
+	}
+
 	function toTable()
 	{
 		return clone this.Table;

@@ -30,6 +30,11 @@
 		return ::MSU.Class.WeightedContainer;
 	}
 
+	function weakref()
+	{
+		throw "WeightedContainer does not currently support weakref operations";
+	}
+
 	function toArray( _itemsOnly = true )
 	{
 		local ret = ::array(this.Table.len());
