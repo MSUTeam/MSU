@@ -201,10 +201,10 @@ MSU.TimerObject.prototype.get = function(_msg, _stop)
     return time;
 }
 
-MSU.TimerObject.prototype.stop = function(_msg, _stop)
+MSU.TimerObject.prototype.stop = function(_msg)
 {
 	var time = this.get(_msg, true);
-    delete MSU.Timers[this.ID];
+    delete MSU.Utils.Timers[this.ID];
     return time;
 }
 
