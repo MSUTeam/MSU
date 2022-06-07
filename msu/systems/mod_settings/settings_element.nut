@@ -70,7 +70,7 @@
 		return this.Data;
 	}
 
-	function getTooltip(_data)
+	function getTooltip( _data )
 	{
 		return [
 			{
