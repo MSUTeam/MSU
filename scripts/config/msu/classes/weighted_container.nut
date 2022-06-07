@@ -127,6 +127,16 @@
 		this.updateWeight(_item, _weight);
 	}
 
+	function multiply( _multipliers )
+	{
+		// _multipliers is an array of len 2 arrays with idx 0 being item and idx 1 being multiplier
+
+		foreach (multiplier in _multipliers)
+		{
+			if (this.contains(multiplier[1])) this.setWeight(multiplier[1], this.getWeight(multiplier[1]) * multiplier[0]);
+		}
+	}
+
 	function apply( _function )
 	{
 		// _function (_item, _weight)
