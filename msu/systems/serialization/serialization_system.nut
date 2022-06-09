@@ -2,12 +2,16 @@
 {
 	Mods = null;
 	FlagsToClear = null;
+	SerializeFunctions = null;
+	DeserializeFunctions = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Serialization);
 		this.Mods = [];
 		this.FlagsToClear = [];
+		this.SerializeFunctions = [];
+		this.DeserializeFunctions = [];
 	}
 
 	function registerMod( _mod )
@@ -51,6 +55,18 @@
 		inEmulator.loadDataFromFlagContainer(_flags);
 		_bbObject.onDeserialize(inEmulator);
 		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
+	}
+
+	function registerSerializeFunction(_function)
+	{
+		::MSU.requireFunction(_function);
+		this.SerializeFunctions.push(_function);
+	}
+
+	function registerDeserializeFunction(_function)
+	{
+		::MSU.requireFunction(_function);
+		this.DeserializeFunctions.push(_function);
 	}
 
 	function clearFlags()

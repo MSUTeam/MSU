@@ -7,7 +7,8 @@
 		Array = 4,
 		Table = 5,
 		Class = 6,
-		Instance = 7
+		Instance = 7,
+		Null = 8
 	},
 	Timers = {}
 	States = {},
@@ -32,6 +33,8 @@
 				return this.DataType.Class;
 			case "instance":
 				return this.DataType.Instance;
+			case "null":
+				return this.DataType.Null;
 		}
 	}
 
@@ -85,12 +88,16 @@
 
 				case "array":
 					_out.writeU8(this.DataType.Array);
-					::MSU.serialize(element, _out);
+					this.serialize(element, _out);
 					break;
 
 				case "table":
 					_out.writeU8(this.DataType.Table);
-					::MSU.serialize(element, _out);
+					this.serialize(element, _out);
+					break;
+
+				case "null":
+					_out.writeU8(this.DataType.Null);
 					break;
 
 				default:
@@ -142,7 +149,11 @@
 
 				case this.DataType.Array:
 				case this.DataType.Table:
-					val = ::MSU.deserialize(_in);
+					val = this.deserialize(_in);
+					break;
+
+				case this.DataType.Null:
+					val = null;
 					break;
 
 				default:
