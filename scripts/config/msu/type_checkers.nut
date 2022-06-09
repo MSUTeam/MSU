@@ -39,7 +39,7 @@
 	{
 		if (typeof value != "instance" || !(value instanceof _class))
 		{
-			::logError(format("%s must be an instance of the class %s.", value, _class));
+			::logError(value + " must be an instance of the class: " + _class);
 			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
@@ -62,7 +62,7 @@
 	{
 		if (typeof value != _type)
 		{
-			::logError(format("%s must have the type: %s.", value, _type));
+			::logError(value + " must have the type: " + _type);
 			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
@@ -74,7 +74,7 @@
 	{
 		if (_typeArray.find(typeof value) == null)
 		{
-			::logError(format("%s must have one of the types: %s.", value, _typeArray.reduce(@(a, b) format("%s, %s", a, b))));
+			::logError(value + " must have one of the types: " + _typeArray.reduce(@(a, b) format("%s, %s", a, b)));
 			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
@@ -86,7 +86,7 @@
 	{
 		if (_typeArray.find(typeof value) != null)
 		{
-			::logError(format("%s must NOT be one of the types: %s.", value, _typeArray.reduce(@(a, b) format("%s, %s", a, b))));
+			::logError(value + " must NOT have one of the types: " + _typeArray.reduce(@(a, b) format("%s, %s", a, b)));
 			throw ::MSU.Exception.InvalidType(value);
 		}
 	}
