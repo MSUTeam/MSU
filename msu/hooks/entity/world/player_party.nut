@@ -34,7 +34,8 @@
 		local inventory = ::World.Assets.getStash();
 		foreach (item in inventory.getItems())
 		{
-			mult *= item.getMovementSpeedMult();
+			if (item != null)
+				mult *= item.getMovementSpeedMult();
 		}
 		return mult;
 	}
@@ -50,7 +51,8 @@
 		local retinue = ::World.Retinue;
 		foreach (follower in retinue.m.Followers)
 		{
-			mult *= follower.getMovementSpeedMult();
+			if (follower != null)
+				mult *= follower.getMovementSpeedMult();
 		}
 		return mult;
 	}
