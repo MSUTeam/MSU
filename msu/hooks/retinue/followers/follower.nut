@@ -1,4 +1,4 @@
-::mods_hookBaseClass("retinue/followers/follower", function(o) {
+::mods_hookBaseClass("retinue/follower", function(o) {
 	o = o[o.SuperName];
 	o.getMovementSpeedMult <- function()
 	{
