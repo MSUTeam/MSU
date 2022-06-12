@@ -49,7 +49,7 @@
 	{
 		local mult = 1.0;
 		local retinue = ::World.Retinue;
-		foreach (follower in retinue.m.Followers)
+		foreach (follower in retinue.m.Slots)
 		{
 			if (follower != null)
 				mult *= follower.getMovementSpeedMult();
