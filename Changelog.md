@@ -1,6 +1,23 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 1.1.0
+- add Tooltip system to simplify adding tooltips to UI objects
+- add Timer functions to benchmark code
+- add: helpful log errors to type checking functions
+- add onShow and onHide to ui_screen base class (JS)
+- add addAIBehaviour function
+- add dummy functions to get movement speed mult instead of checking for the presence of the function
+- add simple state management functions
+- simplify Movement Speed hook to no longer overwrite onUpdate() of party
+- fix: quick hands incorrectly applying to shield item swaps
+- fix: issue with Movement Speed module causing crashes
+- fix: SemVer compare functions not accepting mod objects
+- fix: MSU being unable to handle incompatibilities with specific versions
+- fix: error during getActionCost function
+- fix: new mods for save not getting printed to log
+- fix: add getclass function to OrderedMap and WeightedContainer
+
 ## 1.0.5
 - Fixed the getMod function throwing exception even when the mod ID existed.
 - Fixed MSU exceptions not adding a space before quotation marks.
