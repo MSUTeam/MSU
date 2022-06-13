@@ -84,6 +84,7 @@ MSUUIScreen.prototype.show = function (_moveLeftRight, _considerParent)
 			self.notifyBackendOnShown();
 		}
 	});
+	this.onShow();
 };
 
 MSUUIScreen.prototype.hide = function (_moveLeftRight, _considerParent)
@@ -114,6 +115,15 @@ MSUUIScreen.prototype.hide = function (_moveLeftRight, _considerParent)
 			self.notifyBackendOnHidden();
 		}
 	});
+	this.onHide();
+};
+
+MSUUIScreen.prototype.onShow = function()
+{
+};
+
+MSUUIScreen.prototype.onHide = function()
+{
 };
 
 
