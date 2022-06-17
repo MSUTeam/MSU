@@ -31,7 +31,11 @@ foreach (itemType in ::Const.Items.ItemType)
 
 ::Const.Items.addNewItemType <- function( _itemType, _name = "" )
 {
-	if (_itemType in ::Const.Items.ItemType) throw ::MSU.Exception.DuplicateKey(_itemType);
+	if (_itemType in ::Const.Items.ItemType)
+	{
+		::logWarning(format('Tried to add itemtype "%s" but it already exists!', _itemType));
+		return;
+	}
 
 	local max = 0;
 	foreach (w, value in ::Const.Items.ItemType)
