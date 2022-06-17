@@ -33,7 +33,7 @@ foreach (itemType in ::Const.Items.ItemType)
 {
 	if (_itemType in ::Const.Items.ItemType)
 	{
-		::logWarning(format('Tried to add itemtype "%s" but it already exists!', _itemType));
+		::logWarning(format("Tried to add itemtype \"%s\" but it already exists!", _itemType));
 		return;
 	}
 
