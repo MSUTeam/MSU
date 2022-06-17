@@ -8,8 +8,15 @@ Changelog
 - add onShow and onHide to ui_screen base class (JS)
 - add addAIBehaviour function
 - add dummy functions to get movement speed mult instead of checking for the presence of the function
+- add text coloring functions
+- add logging for mods that the save was saved with that are now missing
 - add simple state management functions
+- add iterateObject JS function
+- add getSetting JS function
+
 - simplify Movement Speed hook to no longer overwrite onUpdate() of party
+
+- fix some issues with print/formatData and allow them to print class/instance members
 - fix: quick hands incorrectly applying to shield item swaps
 - fix: issue with Movement Speed module causing crashes
 - fix: SemVer compare functions not accepting mod objects
@@ -17,6 +24,7 @@ Changelog
 - fix: error during getActionCost function
 - fix: new mods for save not getting printed to log
 - fix: add getclass function to OrderedMap and WeightedContainer
+- various minor fixes
 
 ## 1.0.5
 - Fixed the getMod function throwing exception even when the mod ID existed.
