@@ -171,7 +171,7 @@
 .color-picker-button:active,
 .button-setting-button:active
 {
-	transform: translateY(4px);
+	transform: translateY(2px);
 }
 
 .msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button
