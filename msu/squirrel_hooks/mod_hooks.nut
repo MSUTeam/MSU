@@ -87,7 +87,7 @@ local mods_queue = ::mods_queue;
 			// then we recreate the expression without the version info
 			// we do this for both semver and normal dependencies, because normal mod hooks doesn't handle ordering operations with version numbers, but we do
 		}
-		_expressions = _expressions.slice(0,-1);
+		if (_expressions != "") _expressions = _expressions.slice(0,-1);
 	}
 	mods_queue(_id, _expressions, _function);
 }
