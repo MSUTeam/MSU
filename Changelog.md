@@ -1,6 +1,9 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 1.1.1
+- fix issue where mods with only incompatibilities wouldn't work with MSU
+
 ## 1.1.0
 - add Tooltip system to simplify adding tooltips to UI objects
 - add Timer functions to benchmark code
