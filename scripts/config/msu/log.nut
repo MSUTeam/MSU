@@ -38,7 +38,10 @@
 
 	function printData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = true )
 	{
-		::logInfo(this.formatData(_data, _maxDepth, _advanced, _maxLenMin, _printClasses));
+		local stackinfos = ::getstackinfos(2);
+		local ret = stackinfos.func == "unknown" ? "" : stackinfos.func + " ";
+		ret += "-> " + stackinfos.src + " : " + stackinfos.line + " printData: " + this.formatData(_data, _maxDepth, _advanced, _maxLenMin, _printClasses);
+		::logInfo(ret);
 	}
 
 	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = true )
