@@ -25,7 +25,7 @@
 	// Get the base values that were changed for slower parties or things like caravan contracts
 	o.getBaseMovementSpeedMult <- function()
 	{
-		return this.m.BaseMovementSpeed / 100;
+		return this.m.BaseMovementSpeed / 100.0;
 	}
 
 	o.getMovementSpeedMult <- function()
