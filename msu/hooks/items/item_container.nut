@@ -72,4 +72,20 @@
 		onNewRound();
 		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
 	}
+
+	local equip = o.equip;
+	o.equip = function( _item )
+	{
+		local ret = equip(_item);
+		if (ret == true && this.m.Actor != null) this.m.Actor.getSkills().onEquip(_item);
+		return ret;
+	}
+
+	local unequip = o.unequip;
+	o.unequip = function( _item )
+	{
+		local ret = unequip(_item);
+		if (ret == true && this.m.Actor != null) this.m.Actor.getSkills().onUnequip(_item);
+		return ret;
+	}
 });
