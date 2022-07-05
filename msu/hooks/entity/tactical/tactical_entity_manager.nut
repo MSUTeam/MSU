@@ -21,6 +21,7 @@
 			if (!_actor.isAlliedWith(_faction)) return false;
 			if (_tile != null)
 			{
+				if (!_actor.isPlacedOnMap()) return false;
 				local distance = _tile.getDistanceTo(_actor.getTile());
 				if (distance > _distance || (_atDistance && distance != _distance)) return false;
 			}
@@ -40,6 +41,7 @@
 			if (_actor.isAlliedWith(_faction)) return false;
 			if (_tile != null)
 			{
+				if (!_actor.isPlacedOnMap()) return false;
 				local distance = _tile.getDistanceTo(_actor.getTile());
 				if (distance > _distance || (_atDistance && distance != _distance)) return false;
 			}
@@ -63,6 +65,7 @@
 		local ret = [];
 		foreach (actor in actors)
 		{
+			if (!actor.isPlacedOnMap()) continue;
 			local distance = _tile.getDistanceTo(actor.getTile());
 			if (distance > _distance || (_atDistance && distance != _distance)) continue;
 			ret.push(actor);			
@@ -82,6 +85,7 @@
 			if (!_actor.isAlliedWith(_faction) || _actor.getFaction() == _faction) return false;
 			if (_tile != null)
 			{
+				if (!_actor.isPlacedOnMap()) return false;
 				local distance = _tile.getDistanceTo(_actor.getTile());
 				if (distance > _distance || (_atDistance && distance != _distance)) return false;
 			}
