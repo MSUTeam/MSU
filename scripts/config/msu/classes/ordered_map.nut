@@ -23,7 +23,7 @@
 	function _delslot( _key )
 	{
 		this.Array.remove(this.Array.find(_key));
-		delete this.Table[_key];
+		return delete this.Table[_key];
 	}
 
 	function _set( _key, _value )
