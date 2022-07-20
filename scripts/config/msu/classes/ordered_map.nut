@@ -118,11 +118,6 @@
 		return _key in this.Table;
 	}
 
-	function containsKey( _key )
-	{
-		return this.Array.find(_key) != null;
-	}
-
 	function apply( _function )
 	{
 		// _function (_key, _val, _idx)
