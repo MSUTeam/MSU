@@ -32,11 +32,19 @@
 		}
 	}
 
-	function merge( _table1, _table2, _overwrite = true )
+	function merge( _table1, _table2, _overwrite = true, _recursively = false )
 	{
 		foreach (key, value in _table2)
 		{
-			if (!_overwrite && (key in _table1)) throw ::MSU.Exception.DuplicateKey(key);
+			if (key in _table1)
+			{
+				if (!_overwrite) throw ::MSU.Exception.DuplicateKey(key);
+				if (typeof value == "table" && _recursively)
+				{
+					this.merge(_table1[key], value, true, true);
+					continue;
+				}
+			}
 			_table1[key] <- value;
 		}
 	}
