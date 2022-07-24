@@ -8,14 +8,19 @@
 		this.Version = ::Const.Serialization.Version;
 	}
 
+	function getVersion()
+	{
+		return this.Version;
+	}
+
 	function setVersion( _version )
 	{
 		this.Version = _version;
 	}
 
-	function getVersion()
+	function __getValue( _key )
 	{
-		return this.Version;
+		return this.Data[_key];
 	}
 
 	function __setValue( _key, _value )
@@ -23,9 +28,9 @@
 		this.Data[_key] <- _value;
 	}
 
-	function __getValue( _key )
+	function getInt( _key )
 	{
-		return this.Data[_key];
+		return this.__getValue(_key);
 	}
 
 	function setInt( _key, _value)
@@ -34,7 +39,7 @@
 		this.__setValue(_key, _value);
 	}
 
-	function getInt( _key )
+	function getString( _key )
 	{
 		return this.__getValue(_key);
 	}
@@ -45,7 +50,7 @@
 		this.__setValue(_key, _value);
 	}
 
-	function getString( _key )
+	function getFloat( _key )
 	{
 		return this.__getValue(_key);
 	}
@@ -54,11 +59,6 @@
 	{
 		::MSU.requireFloat(_value);
 		this.__setValue(_key, _value);
-	}
-
-	function getFloat( _key )
-	{
-		return this.__getValue(_key);
 	}
 
 	function hasData( _key )
