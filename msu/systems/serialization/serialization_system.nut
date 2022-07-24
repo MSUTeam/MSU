@@ -17,40 +17,40 @@
 		_mod.Serialization = ::MSU.Class.SerializationModAddon(_mod);
 	}
 
-	function flagSerialize( _mod, _id, _object, _flags = null, _clear = true )
+	function flagSerialize( _mod, _id, _object, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		::MSU.Utils.serialize(_object, outEmulator);
 		outEmulator.storeDataInFlagContainer(_flags);
-		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
+		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
-	function flagDeserialize( _mod, _id, _object = null, _flags = null, _clear = true )
+	function flagDeserialize( _mod, _id, _object = null, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
 		inEmulator.loadDataFromFlagContainer(_flags);
-		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
+		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 		return ::MSU.Utils.deserialize(inEmulator, _object);
 	}
 
-	function flagSerializeBBObject( _mod, _id, _bbObject, _flags = null, _clear = true )
+	function flagSerializeBBObject( _mod, _id, _bbObject, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		_bbObject.onSerialize(outEmulator);
 		outEmulator.storeDataInFlagContainer(_flags);
-		if (_clear) this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
+		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
 
-	function flagDeserializeBBObject( _mod, _id, _bbObject, _flags = null, _clear = true )
+	function flagDeserializeBBObject( _mod, _id, _bbObject, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
 		inEmulator.loadDataFromFlagContainer(_flags);
 		_bbObject.onDeserialize(inEmulator);
-		if (_clear) this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
+		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 	}
 
 	function clearFlags()
