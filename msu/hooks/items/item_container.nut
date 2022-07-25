@@ -84,7 +84,7 @@
 	local unequip = o.unequip;
 	o.unequip = function( _item )
 	{
-		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag)
+		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
 		{
 			foreach (item in this.m.Items[_item.getSlotType()])
 			{
