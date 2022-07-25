@@ -66,4 +66,8 @@
 	o.onAfterUpdateProperties <- function( _properties )
 	{			
 	}
+
+	o.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
+	{
+	}
 });
