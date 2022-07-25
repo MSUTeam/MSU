@@ -120,3 +120,9 @@
 
 	return _1 == _2;
 }
+
+::MSU.isBBObject <- function( _object, _allowWeakTableRef = true )
+{
+	if (typeof _object == "instance" && !_object.isNull()) _object = _object.get();
+	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
+}
