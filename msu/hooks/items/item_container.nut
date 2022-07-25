@@ -84,8 +84,11 @@
 	local unequip = o.unequip;
 	o.unequip = function( _item )
 	{
-		local ret = unequip(_item);
-		if (ret == true && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive()) this.m.Actor.getSkills().onUnequip(_item);
-		return ret;
+		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag)
+		{
+			this.m.Actor.getSkills().onUnequip(_item);
+		}
+
+		return unequip(_item);
 	}
 });
