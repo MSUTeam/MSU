@@ -133,13 +133,13 @@ local _mods_runQueue = ::_mods_runQueue;
 				{
 					if (dependencyTable.Version == null)
 					{
-						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + "<br><br>");
+						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName);
 						continue; // Incompatible mod present
 					}
 					else if (compareVersions(dependencyTable, dependencyMod))
 					{
 						local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
-						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + "<br><br>");
+						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion);
 						continue; // Incompatible mod version present
 					}
 					else
@@ -153,7 +153,7 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				if (dependencyMod == null)
 				{
-					::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyTable.Name + "<br><br>");
+					::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyTable.Name);
 					continue; // Required mod missing
 				}
 			}
@@ -171,7 +171,7 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
 				local modVersion = dependencyMod.SemVer == null ? dependencyMod.Version : ::MSU.SemVer.getVersionString(dependencyMod.SemVer);
-				::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + " but version " + modVersion + " was found<br><br>");
+				::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + " but version " + modVersion + " was found");
 				continue; // Incompatible mod version
 			}
 			else
