@@ -72,4 +72,26 @@
 		onNewRound();
 		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
 	}
+
+	local equip = o.equip;
+	o.equip = function( _item )
+	{
+		local ret = equip(_item);
+		if (ret == true && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive()) this.m.Actor.getSkills().onEquip(_item);
+		return ret;
+	}
+
+	local unequip = o.unequip;
+	o.unequip = function( _item )
+	{
+		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag)
+		{
+			foreach (item in this.m.Items[_item.getSlotType()])
+			{
+				if (item == _item) this.m.Actor.getSkills().onUnequip(_item);
+			}
+		}
+
+		return unequip(_item);
+	}
 });

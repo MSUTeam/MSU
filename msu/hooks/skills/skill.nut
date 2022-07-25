@@ -256,6 +256,14 @@
 	{		
 	}
 
+	o.onEquip <- function( _item )
+	{
+	}
+
+	o.onUnequip <- function( _item )
+	{
+	}
+
 	o.onAffordablePreview <- function( _skill, _movementTile )
 	{
 	}

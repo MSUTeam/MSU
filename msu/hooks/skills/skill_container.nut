@@ -188,6 +188,20 @@
 		]);
 	}
 
+	o.onEquip <- function( _item )
+	{
+		this.callSkillsFunction("onEquip", [
+			_item
+		]);
+	}
+
+	o.onUnequip <- function( _item )
+	{
+		this.callSkillsFunction("onUnequip", [
+			_item
+		]);
+	}
+
 	o.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.PreviewProperty.clear();
