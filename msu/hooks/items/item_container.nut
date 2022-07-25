@@ -86,7 +86,10 @@
 	{
 		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag)
 		{
-			this.m.Actor.getSkills().onUnequip(_item);
+			for( local i = 0; i < this.m.Items[_item.getSlotType()].len(); i = ++i )
+			{
+				if (this.m.Items[_item.getSlotType()][i] == _item) this.m.Actor.getSkills().onUnequip(_item);
+			}
 		}
 
 		return unequip(_item);
