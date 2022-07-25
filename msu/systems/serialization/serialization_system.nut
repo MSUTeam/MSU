@@ -21,7 +21,14 @@
 	{
 		if (_flags == null) _flags = ::World.Flags;
 		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
-		::MSU.Utils.serialize(_object, outEmulator);
+		if (::MSU.isBBObject(_object))
+		{
+			_object.onSerialize(outEmulator);
+		}
+		else
+		{
+			::MSU.Utils.serialize(_object, outEmulator);
+		}
 		outEmulator.storeDataInFlagContainer(_flags);
 		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
 	}
@@ -32,25 +39,15 @@
 		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
 		inEmulator.loadDataFromFlagContainer(_flags);
 		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
-		return ::MSU.Utils.deserialize(inEmulator, _object);
-	}
-
-	function flagSerializeBBObject( _mod, _id, _bbObject, _flags = null )
-	{
-		if (_flags == null) _flags = ::World.Flags;
-		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
-		_bbObject.onSerialize(outEmulator);
-		outEmulator.storeDataInFlagContainer(_flags);
-		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
-	}
-
-	function flagDeserializeBBObject( _mod, _id, _bbObject, _flags = null )
-	{
-		if (_flags == null) _flags = ::World.Flags;
-		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
-		inEmulator.loadDataFromFlagContainer(_flags);
-		_bbObject.onDeserialize(inEmulator);
-		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
+		if (::MSU.isBBObject(_object))
+		{
+			_object.onDeserialize(inEmulator);
+			return null; // yes ik this is unnecessary but looks better imo
+		}
+		else
+		{
+			return ::MSU.Utils.deserialize(inEmulator, _object);
+		}
 	}
 
 	function clearFlags()
