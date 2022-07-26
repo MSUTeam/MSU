@@ -146,7 +146,7 @@
 				if ([">", ">="].find(_operator) != null) return true;
 				return false;
 		}
-		throw ::MSU.InvalidValue(_compareResult);
+		throw ::MSU.Exception.InvalidValue(_compareResult);
 	}
 
 	function getActiveState()
