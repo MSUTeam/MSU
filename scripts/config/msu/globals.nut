@@ -112,3 +112,11 @@
 {
 	return _capture[_group].end > 0 && _capture[_group].begin < _string.len() ? _string.slice(_capture[_group].begin, _capture[_group].end) : null;
 }
+
+::MSU.isEqual <- function( _1, _2 )
+{
+	if (typeof _1 == "instance" && _1 instanceof ::WeakTableRef) _1 = _1.get();
+	if (typeof _2 == "instance" && _2 instanceof ::WeakTableRef) _2 = _2.get();
+
+	return _1 == _2;
+}
