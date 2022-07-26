@@ -221,7 +221,7 @@
 
 		local getChange = function( _function )
 		{
-			local skills = _function = "executeScheduledChanges" ? this.m.ScheduledChangesSkills : this.m.Skills;
+			local skills = _function == "executeScheduledChanges" ? this.m.ScheduledChangesSkills : this.m.Skills;
 			foreach (skill in skills)
 			{
 				if (!skill.isGarbage())
