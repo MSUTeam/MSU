@@ -5,7 +5,8 @@
 		Boolean = 2,
 		String = 3,
 		Array = 4,
-		Table = 5
+		Table = 5,
+		Null = 6
 	},
 	Timers = {}
 	States = {},
@@ -60,12 +61,16 @@
 
 				case "array":
 					_out.writeU8(this.DataType.Array);
-					::MSU.serialize(element, _out);
+					this.serialize(element, _out);
 					break;
 
 				case "table":
 					_out.writeU8(this.DataType.Table);
 					::MSU.serialize(element, _out);
+					break;
+
+				case "null":
+					_out.writeU8(this.DataType.Null);
 					break;
 
 				default:
@@ -110,6 +115,9 @@
 				case this.DataType.Table:
 					val = ::MSU.deserialize(_in);
 					break;
+
+				case this.DataType.Null:
+					val = null;
 
 				default:
 					throw ::MSU.Exception.InvalidType(dataType);
