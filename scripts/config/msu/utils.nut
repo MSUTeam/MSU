@@ -7,7 +7,8 @@
 		Array = 4,
 		Table = 5,
 		Class = 6,
-		Instance = 7
+		Instance = 7,
+		Null = 8
 	},
 	Timers = {}
 	States = {},
@@ -32,6 +33,8 @@
 				return this.DataType.Class;
 			case "instance":
 				return this.DataType.Instance;
+			case "null":
+				return this.DataType.Null;
 		}
 	}
 
@@ -93,6 +96,10 @@
 					::MSU.serialize(element, _out);
 					break;
 
+				case "null":
+					_out.writeU8(this.DataType.Null);
+					break;
+
 				default:
 					throw ::MSU.Exception.InvalidType(element);
 			}
@@ -144,6 +151,9 @@
 				case this.DataType.Table:
 					val = ::MSU.deserialize(_in);
 					break;
+
+				case this.DataType.Null:
+					val = null;
 
 				default:
 					throw ::MSU.Exception.InvalidType(dataType);
