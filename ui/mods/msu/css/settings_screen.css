@@ -167,13 +167,6 @@
 	line-height: 3.6rem;
 }
 
-.enum-button:active,
-.color-picker-button:active,
-.button-setting-button:active
-{
-	transform: translateY(2px);
-}
-
 .msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button
 {
 	/* so it lines up with the other buttons whose images have transparent parts */
