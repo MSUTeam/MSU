@@ -88,7 +88,11 @@
 		{
 			foreach (item in this.m.Items[_item.getSlotType()])
 			{
-				if (item == _item) this.m.Actor.getSkills().onUnequip(_item);
+				if (item == _item)
+				{
+					this.m.Actor.getSkills().onUnequip(_item);
+					break;
+				}
 			}
 		}
 
