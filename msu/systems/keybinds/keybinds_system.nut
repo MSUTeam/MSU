@@ -45,7 +45,7 @@
 			}
 			this.KeybindsForJS[_keybind.getModID()][_keybind.getID()] <- _keybind;
 		}
-		else
+		else if (_keybind instanceof ::MSU.Class.KeybindSQ)
 		{
 			foreach (key in _keybind.getRawKeyCombinations())
 			{
@@ -76,7 +76,7 @@
 			this.KeybindsForJS[_modID].rawdelete(_id);
 			::MSU.UI.JSConnection.removeKeybind(keybind);
 		}
-		else
+		else if (keybind instanceof ::MSU.Class.KeybindSQ)
 		{
 			foreach (key in keybind.getRawKeyCombinations())
 			{

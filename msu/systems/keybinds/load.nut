@@ -6,6 +6,7 @@ function includeFile( _file )
 includeFile("key_static");
 includeFile("abstract_keybind");
 includeFile("keybind_sq");
+includeFile("keybind_sq_passive");
 includeFile("keybind_js");
 includeFile("keybinds_system");
 ::MSU.System.Keybinds <- ::MSU.Class.KeybindsSystem();
