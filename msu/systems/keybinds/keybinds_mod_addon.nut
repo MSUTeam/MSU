@@ -24,6 +24,11 @@
 		::MSU.System.Keybinds.add(keybind);
 	}
 
+
+	function isKeybindPressed( _id )
+	{
+		return ::MSU.System.Keybinds.isKeybindPressed(this.Mod.getID(), _id);
+	}
 	function addDivider( _id )
 	{
 		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getPage("Keybinds").addDivider(_id);

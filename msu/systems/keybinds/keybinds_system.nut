@@ -246,6 +246,28 @@
 		return false;
 	}
 
+	function isKeybindPressed( _modID, _id )
+	{
+		local keybind = this.KeybindsByMod[_modID][_id];
+		foreach (rawKeyCombination in keybind.getRawKeyCombinations())
+		{
+			local keyCombination = split(rawKeyCombination, "+");
+			if (keyCombination.len() != this.PressedKeys.len()) continue;
+			local failedKeyCombination = false;
+			foreach (key in keyCombination)
+			{
+				if (!(key in this.PressedKeys))
+				{
+					failedKeyCombination = true;
+					break;
+				}
+			}
+			if (failedKeyCombination) continue;
+			return true;
+		}
+		return false;
+	}
+
 	function importPersistentSettings()
 	{
 		::MSU.System.PersistentData.loadFileForEveryMod("Keybind");
