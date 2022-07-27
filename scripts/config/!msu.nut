@@ -3,5 +3,8 @@
 	ID = "mod_msu",
 	Name = "Modding Standards & Utilities (MSU)",
 	VanillaID = "vanilla",
-	Class = {}
+	Class = {},
+	BBClass = {
+		Empty = "scripts/config/msu/classes/empty_bb_class"
+	}
 };
