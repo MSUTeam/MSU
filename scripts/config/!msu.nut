@@ -5,6 +5,6 @@
 	VanillaID = "vanilla",
 	Class = {},
 	BBClass = {
-		Empty = "scripts/config/msu/classes/empty_bb_class"
+		Dummy = "scripts/config/msu/classes/dummy_bb_class"
 	}
 };
