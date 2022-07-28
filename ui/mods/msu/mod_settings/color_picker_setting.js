@@ -23,7 +23,7 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 	})
 	this.contentContainer.append(this.button);
 
-	this.buttonLabel = $('<span class="color-picker-button-label text-font-normal font-color-subtitle">' + this.getRGBA(this.values) + '</span>');
+	this.buttonLabel = $('<span class="color-picker-button-label text-font-normal">' + this.getRGBA(this.values) + '</span>');
 	this.button.append(this.buttonLabel);
 
 	this.updateColor();
@@ -139,6 +139,13 @@ ColorPickerSetting.prototype.updateColor = function()
 	this.buttonLabel.text('' + this.getRGBA(this.values));
 	var valueAsString = this.values.Red.toString() + "," + this.values.Green.toString() + "," + this.values.Blue.toString() + "," + this.values.Alpha;
 	this.data.value = valueAsString;
+	var oppositeColors = {
+		"Red" : 255 - this.values.Red,
+		"Green" : 255 - this.values.Green,
+		"Blue" : 255 - this.values.Blue,
+		"Alpha" : 1
+	};
+	this.buttonLabel.css("color", this.getRGBA(oppositeColors));
 }
 
 ColorPickerSetting.prototype.updateColorInPopup = function()
