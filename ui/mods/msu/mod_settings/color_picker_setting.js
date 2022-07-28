@@ -11,7 +11,7 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 	this.titleContainer = $('<div class="setting-title-container"/>');
 	this.layout.append(this.titleContainer);
 
-	this.title = $('<div class="title">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-normal font-color-title">' + _setting.name + '</div>');
 	this.titleContainer.append(this.title);
 
 	this.contentContainer = $('<div class="setting-content-container"/>');

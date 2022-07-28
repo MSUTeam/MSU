@@ -26,7 +26,7 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 		this.checkbox.attr('disabled', true);
 	}
 
-	this.title = $('<label class="bool-checkbox-label" for="' + id + '">' + _setting.name + '</label>');
+	this.title = $('<label class="bool-checkbox-label title-font-normal font-color-title" for="' + id + '">' + _setting.name + '</label>');
 	this.title.click(jQuery.proxy(function(){
 		this.checkbox.iCheck('toggle');
 	}, this))

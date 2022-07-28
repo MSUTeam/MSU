@@ -112,8 +112,6 @@
 .msu-settings-screen .dialog .content .l-page-container .setting-container .setting-title-container .title
 {
 	height: 2rem;
-	font-size: 1.8rem;
-	color: #dda21f !important;
 	text-shadow: 1px 1px rgba(0, 0, 0, 128), -1px -1px #000;
 	font-weight: normal;
 	font-style : normal;
@@ -150,8 +148,6 @@
 .msu-settings-screen .dialog .content .l-page-container .boolean-container .setting-title-container .bool-checkbox-label
 {
 	padding-left: 2rem;
-	font-size: 1.8rem;
-	color: #d7b174;
 	font-weight: normal;
 	font-style : normal;
 	font-family: 'FreeUniversal-Regular';
