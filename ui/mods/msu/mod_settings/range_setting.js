@@ -18,7 +18,6 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.contentContainer.append(this.control);
 
 	this.slider = $('<input class="scale-slider" type="range"/>');
-	this.updateValue();
 	this.control.append(this.slider);
 
 	this.label = $('<div class="scale-label text-font-normal font-color-subtitle">' + _setting.value + '</div>');
@@ -38,6 +37,7 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	// Tooltip
 	this.control.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
+	this.updateValue();
 };
 
 RangeSetting.prototype.updateValue = function()
@@ -48,6 +48,7 @@ RangeSetting.prototype.updateValue = function()
 		step : this.data.step
 	});
 	this.slider.val(this.data.value);
+	this.label.text('' + this.data.value);
 }
 
 RangeSetting.prototype.unbindTooltip = function ()
