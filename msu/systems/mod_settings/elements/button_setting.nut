@@ -9,4 +9,7 @@
 			callback.call(this);
 		}
 	}
+
+	// dummy reset overwrite to avoid it getting triggered during reset calls
+	function reset() {}
 }
