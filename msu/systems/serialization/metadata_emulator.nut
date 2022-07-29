@@ -1,3 +1,4 @@
+// emulates the metadata object that can be gotten from _in.getMetadata() or _out.getMetadata() during on(De)Serialize function calls
 ::MSU.Class.MetaDataEmulator <- class
 {
 	Version = null;
@@ -66,22 +67,22 @@
 		return _key in this.Data;
 	}
 
-	function getName()
+	function getName() // dummy, doesn't return useful value
 	{
 		return "";
 	}
 
-	function getModificationDate()
+	function getModificationDate() // dummy, doesn't return useful value
 	{
 		return "";
 	}
 
-	function getCreationDate()
+	function getCreationDate() // dummy, doesn't return useful value
 	{
 		return "";
 	}
 
-	function getFileName()
+	function getFileName() // dummy, doesn't return useful value
 	{
 		return "";
 	}

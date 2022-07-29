@@ -1,3 +1,4 @@
+// Base for the Serialization and Deserialization Emulators
 ::MSU.Class.SerDeEmulator <- class
 {
 	Data = null;
