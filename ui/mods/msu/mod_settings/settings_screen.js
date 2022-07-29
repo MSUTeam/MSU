@@ -137,6 +137,7 @@ ModSettingsScreen.prototype.unbindTooltips = function ()
 		setting.unbindTooltip();
 	});
 	this.mDialogContainer.find('.main-cancel-button').unbindTooltip();
+	this.mDialogContainer.find('.main-apply-button').unbindTooltip();
 	this.mDialogContainer.find('.main-save-button').unbindTooltip();
 
 	MSUUIScreen.prototype.unbindTooltips.call(this);
