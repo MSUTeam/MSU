@@ -1,6 +1,12 @@
 # Modding Standards & Utilities (MSU)
 Changelog
 
+## 1.2
+- add 'apply' button to mod settings screen.
+- colorpicker labels now have the opposite color to increase readability
+- change settings labels to use vanilla css classes to improve compatibility
+-
+
 ## 1.1.1
 - fix issue where mods with only incompatibilities wouldn't work with MSU
 
