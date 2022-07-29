@@ -219,6 +219,9 @@
 
 .msu-settings-screen .dialog .footer .l-button-bar
 {
+	width: 100%;
+	display: flex;
+	justify-content: center;
 	top: 0.0rem;
 	left: 2.0rem;
 	right: 2.0rem;

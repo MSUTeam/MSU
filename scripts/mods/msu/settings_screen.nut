@@ -52,6 +52,11 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 		this.m.OnSavePressedListener(_data);
 	}
 
+	function onApplyButtonPressed( _data )
+	{
+		::MSU.System.ModSettings.updateSettings(_data);
+	}
+
 	function onSettingPressed( _data )
 	{
 		::MSU.System.ModSettings.onSettingPressed(_data);

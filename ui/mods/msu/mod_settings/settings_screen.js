@@ -84,6 +84,13 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 	layout = $('<div class="l-ok-button"/>');
 	footerButtonBar.append(layout);
+	layout.createTextButton("Apply", function ()
+	{
+		self.notifyBackendApplyButtonPressed();
+	}, 'main-apply-button', 1);
+
+	layout = $('<div class="l-ok-button"/>');
+	footerButtonBar.append(layout);
 	layout.createTextButton("Save", function ()
 	{
 		self.notifyBackendSaveButtonPressed();
@@ -107,6 +114,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 ModSettingsScreen.prototype.bindTooltips = function ()
 {
 	this.mDialogContainer.find('.main-cancel-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Cancel"});
+	this.mDialogContainer.find('.main-apply-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Apply"});
 	this.mDialogContainer.find('.main-save-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.OK"});
 };
 
@@ -387,6 +395,11 @@ ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
 	this.discardChanges();
 	SQ.call(this.mSQHandle, 'onCancelButtonPressed');
+};
+
+ModSettingsScreen.prototype.notifyBackendApplyButtonPressed = function ()
+{
+	SQ.call(this.mSQHandle, 'onApplyButtonPressed', this.getChanges());
 };
 
 ModSettingsScreen.prototype.notifyBackendSaveButtonPressed = function ()
