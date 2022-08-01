@@ -13,7 +13,9 @@ var ModSettingsScreen = function ()
 	this.mModSettings = {};
 	this.mOrderedPanels = [];
 	this.mActivePanel = null;
+	this.mLastActivePanel = null;
 	this.mActivePage = null;
+	this.mLastActivePage = null;
 	this.mActiveSettings = [];
 
 	this.mIsFirstShow = null;
@@ -22,6 +24,7 @@ var ModSettingsScreen = function ()
 	this.mModSettings =
 	[
 		panelID = {
+			id = "",
 			modID = "",
 			name = "",
 			pages = [
@@ -175,8 +178,22 @@ ModSettingsScreen.prototype.show = function (_data)
 	this.setSettings(_data);
 	this.createModPanelList();
 	MSUUIScreen.prototype.show.call(this,_data);
-	this.switchToFirstPanel();
-	this.switchToFirstPage(this.mActivePanel);
+	this.mActivePanel = null;
+	this.mActivePage = null;
+	if (this.mLastActivePanel != null && this.mLastActivePage != null)
+	{
+		var panel = this.getPanel(this.mLastActivePanel);
+		if (panel != null && !panel.hidden)
+		{
+			var page = this.getPage(panel, this.mLastActivePage);
+			if (page != null && !page.hidden) this.switchToPage(panel, page);
+		}
+	}
+	if (this.mActivePanel == null || this.mActivePage == null)
+	{
+		this.switchToFirstPanel();
+		this.switchToFirstPage(this.mActivePanel);
+	}
 	this.mIsFirstShow = false;
 };
 
@@ -240,6 +257,7 @@ ModSettingsScreen.prototype.switchToPanel = function (_panel)
 		this.mActivePanel.button.removeClass('is-active');
 	}
 	this.mActivePanel = _panel;
+	this.mLastActivePanel = _panel.id;
 	this.mActivePanel.button.addClass('is-active');
 
 	_panel.pages.forEach(function(page)
@@ -258,11 +276,14 @@ ModSettingsScreen.prototype.switchToPanel = function (_panel)
 ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 {
 	var self = this;
+	if (this.mActivePanel != _panel) this.switchToPanel(_panel);
+
 	if (this.mActivePage !== null)
 	{
 		this.mActivePage.button.removeClass('is-active');
 	}
 	this.mActivePage = _page;
+	this.mLastActivePage = _page.id;
 	this.mActivePage.button.addClass('is-active');
 
 	this.mActiveSettings.forEach(function(element)
@@ -282,18 +303,36 @@ ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 	else this.adjustTitles(this)
 };
 
-ModSettingsScreen.prototype.switchToFirstPage = function( _panel )
+ModSettingsScreen.prototype.getPanel = function( _id )
 {
 	var self = this;
-	_panel.pages.every(function(page)
+	var ret = null;
+	this.mOrderedPanels.every(function(_panel)
 	{
-		if (!page.hidden)
+		if (_panel.id == _id)
 		{
-			self.switchToPage(_panel, page);
+			ret = _panel;
 			return false;
 		}
 		return true;
 	});
+	return ret;
+};
+
+ModSettingsScreen.prototype.getPage = function( _panel, _id )
+{
+	var self = this;
+	var ret = null;
+	_panel.pages.every(function(page)
+	{
+		if (page.id == _id)
+		{
+			ret = page;
+			return false;
+		}
+		return true;
+	});
+	return ret;
 };
 
 ModSettingsScreen.prototype.switchToFirstPanel = function ()
@@ -304,6 +343,20 @@ ModSettingsScreen.prototype.switchToFirstPanel = function ()
 		if (!_panel.hidden)
 		{
 			self.switchToPanel(_panel);
+			return false;
+		}
+		return true;
+	});
+};
+
+ModSettingsScreen.prototype.switchToFirstPage = function( _panel )
+{
+	var self = this;
+	_panel.pages.every(function(page)
+	{
+		if (!page.hidden)
+		{
+			self.switchToPage(_panel, page);
 			return false;
 		}
 		return true;
