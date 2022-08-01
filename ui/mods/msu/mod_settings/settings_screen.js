@@ -177,8 +177,7 @@ ModSettingsScreen.prototype.show = function (_data)
 		if (panel != null && !panel.hidden)
 		{
 			var page = this.getPage(panel, this.mLastActivePage);
-			if (page != null && !page.hidden)
-				this.switchToPage(panel, page);
+			if (page != null && !page.hidden) this.switchToPage(panel, page);
 		}
 	}
 	if (this.mActivePanel == null || this.mActivePage == null)
@@ -268,8 +267,7 @@ ModSettingsScreen.prototype.switchToPanel = function (_panel)
 ModSettingsScreen.prototype.switchToPage = function (_panel, _page)
 {
 	var self = this;
-	if (this.mActivePanel != _panel)
-		this.switchToPanel(_panel);
+	if (this.mActivePanel != _panel) this.switchToPanel(_panel);
 
 	if (this.mActivePage !== null)
 	{
