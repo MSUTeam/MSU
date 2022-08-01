@@ -27,6 +27,11 @@
 		return this.getPanel().getAllSettingsAsArray();
 	}
 
+	function resetSettings()
+	{
+		return this.getPanel().resetSettings();
+	}
+
 	function hasSetting( _settingID )
 	{
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).hasSetting(_settingID);

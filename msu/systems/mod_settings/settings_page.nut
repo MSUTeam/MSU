@@ -114,6 +114,14 @@
 		return this.getSettings().values();
 	}
 
+	function resetSettings()
+	{
+		foreach (setting in this.getSettingsAsArray())
+		{
+			if (setting instanceof ::MSU.Class.AbstractSetting) setting.reset();
+		}
+	}
+
 	function get( _settingID )
 	{
 		return this.Settings[_settingID];

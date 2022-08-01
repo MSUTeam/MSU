@@ -54,6 +54,14 @@
 		return ret;
 	}
 
+	function resetSettings()
+	{
+		foreach (setting in this.getAllSettings())
+		{
+			if (setting instanceof ::MSU.Class.AbstractSetting) setting.reset();
+		}
+	}
+
 	function getSetting( _settingID )
 	{
 		foreach (page in this.Pages)
