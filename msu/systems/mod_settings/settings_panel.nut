@@ -44,6 +44,16 @@
 		}
 	}
 
+	function getAllSettings()
+	{
+		local ret = [];
+		foreach (page in this.Pages)
+		{
+			ret.extend(page.getSettingsAsArray());
+		}
+		return ret;
+	}
+
 	function getSetting( _settingID )
 	{
 		foreach (page in this.Pages)

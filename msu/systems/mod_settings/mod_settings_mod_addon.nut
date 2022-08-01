@@ -24,15 +24,7 @@
 
 	function getAllSettings()
 	{
-		local ret = [];
-		foreach (page in this.getPanel().getPages())
-		{
-			foreach (setting in page.getSettings())
-			{
-				ret.push(setting);
-			}
-		}
-		return ret;
+		return this.getPanel().getAllSettings();
 	}
 
 	function hasSetting( _settingID )

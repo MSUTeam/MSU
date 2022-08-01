@@ -109,6 +109,11 @@
 		return this.Settings;
 	}
 
+	function getSettingsAsArray()
+	{
+		return this.getSettings().values();
+	}
+
 	function get( _settingID )
 	{
 		return this.Settings[_settingID];
