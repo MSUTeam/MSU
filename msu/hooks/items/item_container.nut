@@ -33,7 +33,7 @@
 	{
 		local actionCost = this.getActionCost(_items);
 		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
-		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill, _items);
+		if (_items.len() != 0) this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill, _items);
 		this.m.ActionSkill = null;
 	}
 

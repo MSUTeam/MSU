@@ -55,6 +55,27 @@
 		}
 	}
 
+	local pickupMeleeWeaponAndShield = o.pickupMeleeWeaponAndShield;
+	o.pickupMeleeWeaponAndShield = function( _tile )
+	{
+		local mainhandBefore = this.getMainhandItem();
+		local offhandBefore = this.getOffhandItem();
+
+		local ret = pickupMeleeWeaponAndShield(_tile);
+
+		local mainhandAfter = this.getMainhandItem();
+		local offhandAfter = this.getOffhandItem();
+
+		local items = [];
+
+		if (mainhandAfter != null && mainhandAfter != mainhandBefore) items.extend([mainhandBefore, mainhandAfter]);
+		if (offhandAfter != null && offhandAfter != offhandBefore) items.extend([offhandBefore, offhandAfter]);
+
+		this.getItems().payForAction(items);
+
+		return ret;
+	}
+
 	o.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
