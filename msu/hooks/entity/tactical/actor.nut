@@ -55,6 +55,8 @@
 		}
 	}
 
+	// This function is called during `onExecute` of the `ai_pickup_weapon` behavior
+	// This hook is necessary to ensure that the correct items array is passed to the `payForAction` function
 	local pickupMeleeWeaponAndShield = o.pickupMeleeWeaponAndShield;
 	o.pickupMeleeWeaponAndShield = function( _tile )
 	{
