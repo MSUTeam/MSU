@@ -288,7 +288,7 @@
 							break;
 						default:
 							::logError("Something has gone very wrong with MSU Serialization");
-							::MSU.System.Debug.printStackTrace();
+							::MSU.Log.printStackTrace();
 					}
 				}
 			}
