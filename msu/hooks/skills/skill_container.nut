@@ -502,6 +502,9 @@
 
 	foreach (event in ::MSU.Skills.EventsToAdd)
 	{
-		o[event.Name] <- @(...) this.callSkillsFunction(event.Name, vargv, event.Update, event.AliveOnly);
+		local name = event.Name;
+		local update = event.Update;
+		local aliveOnly = event.AliveOnly;
+		o[name] <- @(...) this.callSkillsFunction(name, vargv, update, aliveOnly);
 	}
 });
