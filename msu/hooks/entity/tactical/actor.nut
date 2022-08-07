@@ -60,20 +60,14 @@
 	local pickupMeleeWeaponAndShield = o.pickupMeleeWeaponAndShield;
 	o.pickupMeleeWeaponAndShield = function( _tile )
 	{
-		local mainhandBefore = this.getMainhandItem();
-		local offhandBefore = this.getOffhandItem();
+		local itemsBefore = _entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Mainhand);
+		itemsBefore.extend(_entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Offhand));
 
 		local ret = pickupMeleeWeaponAndShield(_tile);
 
-		local mainhandAfter = this.getMainhandItem();
-		local offhandAfter = this.getOffhandItem();
-
-		local items = [];
-
-		if (mainhandAfter != null && mainhandAfter != mainhandBefore) items.extend([mainhandBefore, mainhandAfter]);
-		if (offhandAfter != null && offhandAfter != offhandBefore) items.extend([offhandBefore, offhandAfter]);
-
-		this.getItems().payForAction(items);
+		local itemsAfter = _entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Mainhand);
+		itemsAfter.extend(_entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Offhand));
+		this.getItems().payForAction(itemsAfter.filter(@(idx, item) itemsBefore.find(item) == null));
 
 		return ret;
 	}
