@@ -5,10 +5,38 @@
 		Boolean = 2,
 		String = 3,
 		Array = 4,
-		Table = 5
+		Table = 5,
+		Class = 6,
+		Instance = 7,
+		Null = 8
 	},
 	Timers = {}
 	States = {},
+
+	function getDataType( _var )
+	{
+		switch (typeof _var)
+		{
+			case "integer":
+				return this.DataType.Integer;
+			case "float":
+				return this.DataType.Float;
+			case "bool":
+				return this.DataType.Boolean;
+			case "string":
+				return this.DataType.String;
+			case "array":
+				return this.DataType.Array;
+			case "table":
+				return this.DataType.Table;
+			case "class":
+				return this.DataType.Class;
+			case "instance":
+				return this.DataType.Instance;
+			case "null":
+				return this.DataType.Null;
+		}
+	}
 
 	function serialize( _object, _out )
 	{
@@ -68,19 +96,32 @@
 					::MSU.serialize(element, _out);
 					break;
 
+				case "null":
+					_out.writeU8(this.DataType.Null);
+					break;
+
 				default:
 					throw ::MSU.Exception.InvalidType(element);
 			}
 		}
 	}
 
-	function deserialize( _in )
+	function deserialize( _in, _object = null )
 	{
 		local type = _in.readU8();
 		local isTable = type == this.DataType.Table;
 		local size = _in.readU32();
 
-		local ret = isTable ? {} : array(size);
+		local ret;
+		if (_object == null)
+		{
+			ret = isTable ? {} : array(size);
+		}
+		else
+		{
+			ret = _object;
+			if (!isTable && ret.len() < size) ret.resize(size);
+		}
 
 		for (local i = 0; i < size; i++)
 		{
@@ -110,6 +151,9 @@
 				case this.DataType.Table:
 					val = ::MSU.deserialize(_in);
 					break;
+
+				case this.DataType.Null:
+					val = null;
 
 				default:
 					throw ::MSU.Exception.InvalidType(dataType);
