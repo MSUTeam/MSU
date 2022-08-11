@@ -76,7 +76,7 @@
 			ret += "{";
 			foreach (key, value in _value)
 			{
-				ret += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
+				ret += format("%s = %s, ", key.tostring(), this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
 			}
 			if (_value.len() != 0) ret = ret.slice(0, -2);
 			ret += "}";
