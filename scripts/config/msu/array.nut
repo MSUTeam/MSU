@@ -28,7 +28,7 @@
 		do
 		{
 			idx = _array.find(_item);
-			if (idx != null) _array.remove(_item);
+			if (idx != null) _array.remove(idx);
 			else if (isFirst && !_ignoreMissing) throw ::MSU.Exception.KeyNotFound(_item);
 			isFirst = false;
 		} while (idx != null)
