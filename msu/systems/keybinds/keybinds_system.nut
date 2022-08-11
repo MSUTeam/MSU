@@ -45,7 +45,7 @@
 			}
 			this.KeybindsForJS[_keybind.getModID()][_keybind.getID()] <- _keybind;
 		}
-		else
+		else if (_keybind instanceof ::MSU.Class.KeybindSQ)
 		{
 			foreach (key in _keybind.getRawKeyCombinations())
 			{
@@ -76,7 +76,7 @@
 			this.KeybindsForJS[_modID].rawdelete(_id);
 			::MSU.UI.JSConnection.removeKeybind(keybind);
 		}
-		else
+		else if (keybind instanceof ::MSU.Class.KeybindSQ)
 		{
 			foreach (key in keybind.getRawKeyCombinations())
 			{
@@ -242,6 +242,28 @@
 			{
 				delete this.PressedKeys[key];
 			}
+		}
+		return false;
+	}
+
+	function isKeybindPressed( _modID, _id )
+	{
+		local keybind = this.KeybindsByMod[_modID][_id];
+		foreach (rawKeyCombination in keybind.getRawKeyCombinations())
+		{
+			local keyCombination = split(rawKeyCombination, "+");
+			if (keyCombination.len() != this.PressedKeys.len()) continue;
+			local failedKeyCombination = false;
+			foreach (key in keyCombination)
+			{
+				if (!(key in this.PressedKeys))
+				{
+					failedKeyCombination = true;
+					break;
+				}
+			}
+			if (failedKeyCombination) continue;
+			return true;
 		}
 		return false;
 	}
