@@ -109,7 +109,7 @@
 		return this.Settings;
 	}
 
-	function getSettingsAsArray()
+	function getAllSettingsAsArray()
 	{
 		return this.getSettings().values();
 	}

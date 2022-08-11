@@ -52,12 +52,12 @@
 		return this.Panels.contains(_id);
 	}
 
-	function getAllSettings()
+	function getAllSettingsAsArray()
 	{
 		local ret = [];
 		foreach (panel in this.getPanels())
 		{
-			ret.extend(panel.getAllSettings());
+			ret.extend(panel.getAllSettingsAsArray());
 		}
 		return ret;
 	}

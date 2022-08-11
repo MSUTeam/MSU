@@ -44,12 +44,12 @@
 		}
 	}
 
-	function getAllSettings()
+	function getAllSettingsAsArray()
 	{
 		local ret = [];
 		foreach (page in this.Pages)
 		{
-			ret.extend(page.getSettingsAsArray());
+			ret.extend(page.getAllSettingsAsArray());
 		}
 		return ret;
 	}
