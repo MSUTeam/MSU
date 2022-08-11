@@ -300,14 +300,23 @@
 	{
 		::MSU.System.ModSettings.flagSerialize();
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
+		foreach(serializeFunction in ::MSU.System.Serialization.SerializeFunctions)
+		{
+			serializeFunction(_out);
+		}
 		onSerialize(_out);
 		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
+		foreach(deserialzeFunction in ::MSU.System.Serialization.DeserializeFunctions)
+		{
+			deserialzeFunction(_in);
+		}
 		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{
 			::World.Assets.setLastDayMorningEventCalled(::World.Flags.get("MSU.LastDayMorningEventCalled"));
@@ -318,7 +327,8 @@
 		}
 
 		::MSU.System.ModSettings.flagDeserialize();
-		::MSU.System.ModSettings.resetFlags();
+		::MSU.System.ModSettings.resetFlags(); // should probably get refactored into Serialization at some point
+		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onKeyInput = o.onKeyInput;
