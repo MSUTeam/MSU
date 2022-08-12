@@ -9,6 +9,7 @@
 		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
 		::MSU.requireFunction(_function);
 		base.constructor(_modID, _id, _keyCombinations, _name);
+		::MSU.Key.isValidCombination(this.KeyCombinations);
 
 		this.Function = _function;
 		this.State = _state;
