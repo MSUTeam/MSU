@@ -1,5 +1,6 @@
 ::mods_hookNewObject("items/item_container", function(o) {
 	o.m.ActionSkill <- null;
+	o.m.IsMSUHandledItemAction <- false;
 
 	o.isActionAffordable = function ( _items )
 	{
@@ -9,6 +10,8 @@
 
 	o.getActionCost = function( _items )
 	{
+		if (this.m.IsMSUHandledItemAction) return 0;
+
 		this.m.ActionSkill = null;
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
