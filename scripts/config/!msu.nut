@@ -43,3 +43,6 @@
 {
 	::MSU.includeFiles(_files, _includeLoad);	
 }
+
+::MSU.includeFiles(::IO.enumerateFiles("msu/utils"));
+::MSU.includeFiles(::IO.enumerateFiles("msu/classes"));
