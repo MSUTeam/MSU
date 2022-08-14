@@ -17,6 +17,13 @@ local function getRegisteredModRef( _modID )
 }
 local lastRegistered = null;
 
+local mods_addHookCore = ::mods_addHookCore;
+::mods_addHookCore = function( _hooks, _name, _function )
+{
+	if (_name.slice(0, 16) == "scripts/scripts/") _name = _name.slice(16);
+	mods_addHookCore(_hooks, _name, _function);
+}
+
 local mods_registerMod = ::mods_registerMod;
 ::mods_registerMod = function( _id, _version, _name = null, _extra = null )
 {
