@@ -1,7 +1,7 @@
 ::MSU.Text <- {
 	function color( _color, _string )
 	{
-		return format("[color=%s]%s[/color]", _color, _string);
+		return "[color=" + _color + "]" + _string + "[/color]";
 	}
 
 	function colorGreen( _string )
