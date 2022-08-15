@@ -101,10 +101,26 @@
 		if (!this.m.IsBaseValuesSaved)
 		{
 			this.b <- clone this.skill.m;
-			foreach (k, v in this.m)
+			local obj = this;
+			local tables = [];
+			while (obj.ClassName != "skill")
 			{
-				this.b[k] <- v;
+				tables.push(clone obj.m);
+				obj = obj[obj.SuperName];
 			}
+
+			// This ensures that the values of slots with the same name in a parent
+			// are always taken from the bottom most child.
+			tables.reverse();
+
+			foreach (table in tables)
+			{
+				foreach (key, value in table)
+				{
+					this.b[key] <- value;
+				}
+			}
+
 			this.m.IsBaseValuesSaved = true;
 		}
 	}
