@@ -109,13 +109,11 @@
 				obj = obj[obj.SuperName];
 			}
 
-			// This ensures that the values of slots with the same name in a parent
+			// Iterate in reverse so that the values of slots with the same name in a parent
 			// are always taken from the bottom most child.
-			tables.reverse();
-
-			foreach (table in tables)
+			for (local i = tables.len() - 1; i >= 0; i--)
 			{
-				foreach (key, value in table)
+				foreach (key, value in tables[i])
 				{
 					this.b[key] <- value;
 				}
