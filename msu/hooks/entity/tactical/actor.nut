@@ -62,12 +62,6 @@
 		}
 	}
 
-	local getActionPointsMax = o.getActionPointsMax; // VANILLAFIX http://battlebrothersgame.com/forums/topic/getactionpointsmax-of-actor-should-return-a-floored-value/
-	o.getActionPointsMax = function()
-	{
-		return ::Math.floor(getActionPointsMax());
-	}
-
 	o.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
