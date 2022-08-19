@@ -33,7 +33,8 @@
 
 	function _get( _key )
 	{
-		return this.Table[_key];
+		if (_key in this.Table) return this.Table[_key];
+		throw null;
 	}
 
 	function _nexti( _prev )
@@ -48,16 +49,6 @@
 	{
 		this.Array = clone _original.Array;
 		this.Table = clone _original.Table;
-	}
-
-	function getclass()
-	{
-		return ::MSU.Class.OrderedMap;
-	}
-
-	function weakref()
-	{
-		throw "OrderedMap does not currently support weakref operations";
 	}
 
 	function toTable()

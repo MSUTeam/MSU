@@ -14,7 +14,8 @@
 
 	function _get( _item )
 	{
-		return this.Table[_item];
+		if (_item in this.Table) return this.Table[_item];
+		throw null;
 	}
 
 	function _cloned( _original )
@@ -23,16 +24,6 @@
 		this.Table = {};
 		this.Forced = [];
 		this.merge(_original);
-	}
-
-	function getclass()
-	{
-		return ::MSU.Class.WeightedContainer;
-	}
-
-	function weakref()
-	{
-		throw "WeightedContainer does not currently support weakref operations";
 	}
 
 	function toArray( _itemsOnly = true )
