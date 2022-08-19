@@ -398,6 +398,29 @@
 
 	o.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
 	{
+		if (_caller.isAttack())
+		{
+			_hitInfo.DamageType = _caller.getDamageType().roll();
+
+			// Can also pull the Damage Weight of that Damage Type in this skill and do cool things with
+			// that e.g. make some perks which only work if the used skill has 60% or more Blunt damage
+			// and here we can pull the Damage Weight of the Damage Type that was rolled and use it!
+
+			_hitInfo.DamageTypeProbability = _caller.getDamageType().getProbability(_hitInfo.DamageType);
+
+			if (::MSU.isIn(_targetEntity.m, "IsHeadless", true) && _targetEntity.m.IsHeadless)
+			{
+				_hitInfo.BodyPart = ::Const.BodyPart.Body;
+			}
+
+			local injuries = ::Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
+
+			if (injuries.len() > 0)
+			{
+				_hitInfo.Injuries = injuries;
+			}
+		}
+
 		this.callSkillsFunction("onBeforeTargetHit", [
 			_caller,
 			_targetEntity,
