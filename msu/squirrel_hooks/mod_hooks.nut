@@ -4,6 +4,7 @@
 	function add( _string )
 	{
 		::MSU.requireString(_string);
+		::logError(_string);
 		this.Errors += _string + "<br><br>";
 	}
 }
