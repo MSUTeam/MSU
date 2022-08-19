@@ -1,11 +1,4 @@
 ::mods_hookExactClass("entity/tactical/actor", function(o) {
-	local onInit = o.onInit;
-	o.onInit = function()
-	{
-		onInit();
-		this.m.Skills.add(::new("scripts/skills/effects/msu_injuries_handler_effect"));
-	}
-
 	local onMovementStart = o.onMovementStart;
 	o.onMovementStart = function ( _tile, _numTiles )
 	{
