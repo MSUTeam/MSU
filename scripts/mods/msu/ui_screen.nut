@@ -86,7 +86,6 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 		{
 			throw ::MSU.Exception.AlreadyInState;
 		}
-		this.Tooltip.show();
 		this.m.JSHandle.asyncCall("show", _data);
 	}
 
@@ -100,7 +99,6 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 		{
 			throw ::MSU.Exception.AlreadyInState;
 		}
-		this.Tooltip.hide();
 		this.m.JSHandle.asyncCall("hide", null);
 	}
 
