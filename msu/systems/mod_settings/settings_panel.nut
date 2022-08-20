@@ -56,7 +56,7 @@
 
 	function resetSettings()
 	{
-		foreach (setting in this.getAllSettings())
+		foreach (setting in this.getAllSettingsAsArray())
 		{
 			if (setting instanceof ::MSU.Class.AbstractSetting) setting.reset();
 		}
