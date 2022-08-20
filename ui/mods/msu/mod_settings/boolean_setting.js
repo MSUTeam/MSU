@@ -17,8 +17,9 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 	});
 	this.updateValue();
 
+	var self = this;
 	this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
-		_setting.value = !_setting.value;
+		_setting.value = self.checkbox.prop('checked') === true;
 	});
 
 	if (_setting.locked)
