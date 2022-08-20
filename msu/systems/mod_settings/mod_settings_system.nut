@@ -52,6 +52,16 @@
 		return this.Panels.contains(_id);
 	}
 
+	function getAllSettingsAsArray()
+	{
+		local ret = [];
+		foreach (panel in this.getPanels())
+		{
+			ret.extend(panel.getAllSettingsAsArray());
+		}
+		return ret;
+	}
+
 	function finalize()
 	{
 		this.Locked = true;
