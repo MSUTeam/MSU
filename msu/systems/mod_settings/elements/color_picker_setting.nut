@@ -31,6 +31,19 @@
 		return asRGBA;
 	}
 
+	function getValueAsHexString()
+	{
+		local asArray = split(this.Value, ",");
+		local red = format("%x", asArray[0].tointeger());
+		if (asArray[0].tointeger() < 10) red = "0" + red;
+		local green = format("%x", asArray[1].tointeger());
+		if (asArray[1].tointeger() < 10) green = "0" + green;
+		local blue = format("%x", asArray[2].tointeger());
+		if (asArray[2].tointeger() < 10) blue = "0" + blue;
+		local opacity = asArray[3] == "0.0" ? "00" : format("%x", (asArray[3].tofloat() * 255).tointeger());
+		return  red + green + blue + opacity;
+	}
+
 	function getUIData( _flags = [] )
 	{
 		local ret = base.getUIData(_flags);
