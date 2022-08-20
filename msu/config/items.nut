@@ -38,15 +38,12 @@ foreach (itemType in ::Const.Items.ItemType)
 	}
 
 	local max = 0;
-	foreach (w, value in ::Const.Items.ItemType)
-	{
-		if (value > max) max = value;
-	}
+	foreach (itemType, value in ::Const.Items.ItemType) ::Const.Items.ItemType[itemType] = value << 1;
+	foreach (itemFilter, value in ::Const.Items.ItemFilter) ::Const.Items.ItemFilter[itemFilter] = value << 1;
 
-	local val = max << 1;
-	::Const.Items.ItemType[_itemType] <- val;
-	::Const.Items.ItemFilter.All = ::Const.Items.ItemFilter.All | val;
-	::Const.Items.ItemTypeName.push(_name);
+	::Const.Items.ItemType[_itemType] <- 1;
+	::Const.Items.ItemFilter.All = ::Const.Items.ItemFilter.All | 1;
+	::Const.Items.ItemTypeName.insert(0, _name);
 }
 
 ::Const.Items.getItemTypeName <- function( _itemType )
