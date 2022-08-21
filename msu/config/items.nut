@@ -37,7 +37,6 @@ foreach (itemType in ::Const.Items.ItemType)
 		return;
 	}
 
-	local max = 0;
 	foreach (itemType, value in ::Const.Items.ItemType) ::Const.Items.ItemType[itemType] = value << 1;
 	foreach (itemFilter, value in ::Const.Items.ItemFilter) ::Const.Items.ItemFilter[itemFilter] = value << 1;
 
