@@ -124,13 +124,13 @@
 
 	function getLockReason()
 	{
-		return this.LockReason;
+		return this.LockReason == "" ? "" : this.LockReason.slice(0, -5);
 	}
 
 	function lock( _lockReason = "" )
 	{
 		this.Locked = true;
-		if (_lockReason != "") this.LockReason = _lockReason;
+		if (_lockReason != "") this.LockReason += _lockReason + " +++ ";
 	}
 
 	function unlock()
