@@ -45,6 +45,11 @@
 		return this.getPage().getModID();
 	}
 
+	function getMod()
+	{
+		return this.getPage().getMod();
+	}
+
 	function setDescription( _description )
 	{
 		this.Description = _description;
