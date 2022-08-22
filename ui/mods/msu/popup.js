@@ -5,8 +5,10 @@ var MSUPopup = function ()
 	this.mID = "MSUPopup";
 
 	this.mHeaderContainer = null;
-	this.mTextContainer = null;
+	this.mContentContainer = null;
+	this.mListScrollContainer = null;
 	this.mFooterContainer = null;
+	this.mTitle = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -24,11 +26,13 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mHeaderContainer = $('<div class="header"/>');
 	this.mContainer.append(this.mHeaderContainer);
 
-	var title = '<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Mod Error</div>'
-	this.mHeaderContainer.append(title);
+	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Mod Error</div>');
+	this.mHeaderContainer.append(this.mTitle);
 
-	this.mTextContainer = $('<div class="text-container"/>');
-	this.mContainer.append(this.mTextContainer);
+	this.mListContainer = this.mContainer.createList(1, 'line content-container');
+	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
+	this.mContainer.append(this.mContentContainer);
+
 
 	this.mFooterContainer = $('<div class="footer"/>')
 	this.mContainer.append(this.mFooterContainer);
@@ -98,22 +102,61 @@ MSUPopup.prototype.showRawText = function (_data)
 {
 	if (_data.forceQuit)
 	{
+		this.mTitle.text("Fatal Mod Error");
 		this.mFooterContainer.find(".ok-button:first").trigger('force-quit')
-	}
-	if (this.isVisible())
-	{
-		this.mTextContainer.html(this.mTextContainer.html() + "<br>" + _data.text);
 	}
 	else
 	{
-		this.mTextContainer.html(_data.text);
+		this.mTitle.text("Mod Error");
+	}
+	this.mListScrollContainer.append($('<div class="mod-raw-text">' + _data.text + '</div>'));
+	if (!this.isVisible())
+	{
 		this.show();
 	}
 }
 
+MSUPopup.prototype.showModUpdates = function (_mods)
+{
+	this.mTitle.text("Mod Updates Available");
+	var self = this;
+	$.each(_mods, function (_key, _modInfo)
+	{
+		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
+		self.mListScrollContainer.append(modInfoContainer)
+		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
+		var githubContainer = $('<div class="l-github-button"/>');
+		modInfoContainer.append(githubContainer);
+		var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
+		{
+			openURL(_modInfo.githubURL);
+		});
+		if (_modInfo.githubURL == null) githubButton.attr('disabled', true);
+		var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
+		modInfoContainer.append(nexusModsContainer);
+		var nexusModsButton = nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
+		{
+			openURL(_modInfo.nexusModsURL);
+		});
+		if (_modInfo.nexusModsURL == null) nexusModsButton.attr('disabled', true);
+		var colorFromIdx = 0;
+		if (_modInfo.updateType != "MAJOR")
+		{
+			colorFromIdx = _modInfo.availableVersion.indexOf('.');
+		}
+		if (_modInfo.updateType == "PATCH")
+		{
+			colorFromIdx = _modInfo.availableVersion.indexOf('.', colorFromIdx);
+		}
+		var start = _modInfo.availableVersion.slice(0, colorFromIdx);
+		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
+		modInfoContainer.append($('<div class="version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
+	});
+	if (!this.isVisible()) this.show();
+}
+
 MSUPopup.prototype.hide = function ()
 {
-	this.mTextContainer.html("");
 	var self = this;
 
 	//MSUUIScreen.hide
@@ -132,6 +175,7 @@ MSUPopup.prototype.hide = function ()
 			$(this).removeClass('display-block').addClass('display-none');
 		}
 	});
+	// this.mContainer.removeClass('display-block').addClass('display-none'); this on its own works
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

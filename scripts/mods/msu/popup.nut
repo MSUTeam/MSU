@@ -35,6 +35,11 @@ this.popup <- {
 		}
 	}
 
+	function showModUpdates( _modInfos )
+	{
+		this.m.JSHandle.asyncCall("showModUpdates", _modInfos);
+	}
+
 	function forceQuit( _bool )
 	{
 		this.m.ForceQuit = _bool;
@@ -52,6 +57,10 @@ this.popup <- {
 		{
 			this.showRawText(this.m.TextCache)
 			this.m.TextCache = "";
+		}
+		for (local i = 0; i < 20; ++i) // for testing to force scroll
+		{
+			this.showRawText("asdf" + i)
 		}
 	}
 

@@ -31,21 +31,56 @@ MSUConnection.prototype.clearKeys = function ()
 	MSU.Keybinds.PressedKeys = {};
 }
 
-MSUConnection.prototype.checkMSUGithubVersion = function ()
+MSUConnection.prototype.getUpdateCheckPromise = function (_updateURL)
 {
-	var checkMSUUpdate = new XMLHttpRequest();
-	var self = this;
-	checkMSUUpdate.addEventListener("load", function()
+	var ret = $.Deferred();
+	var xhttp = new XMLHttpRequest();
+	xhttp.onloadend = function()
 	{
-		self.notifyBackendGetMSUGithubVersion(JSON.parse(this.responseText).tag_name);
-	});
-	checkMSUUpdate.open("GET", 'https://api.github.com/repos/MSUTeam/mod_MSU/releases/latest');
-	checkMSUUpdate.send();
+		if (this.status == 200)
+		{
+			ret.resolve(JSON.parse(this.responseText).tag_name); // will (probably) need adjustment if we add more update sources (other than github)
+			return;
+		}
+		ret.resolve(null);
+	}
+	xhttp.ontimeout = function()
+	{
+		ret.resolve(null);
+	}
+	xhttp.open('GET', _updateURL);
+	xhttp.send();
+	return ret;
 }
 
-MSUConnection.prototype.notifyBackendGetMSUGithubVersion = function (_version)
+MSUConnection.prototype.checkForModUpdates = function (_mods)
 {
-	SQ.call(this.mSQHandle, "getMSUGithubVersion", _version);
+	var self = this;
+	var modIDs = [];
+	var promises = [];
+	$.each(_mods, function (_id, _version)
+	{
+		modIDs.push(_id);
+		promises.push(self.getUpdateCheckPromise(_version));
+	})
+	$.when.apply($, promises).done(function()
+	{
+		var modVersions = {};
+		var args = arguments
+		modIDs.forEach(function(_modID, _i)
+		{
+			if (args[_i] != null) modVersions[_modID] = args[_i]
+		})
+		self.notifyBackendReceivedModVersions(modVersions);
+	}).fail(function()
+	{
+		console.error("Something went wrong with MSU Update checks");
+	});
+}
+
+MSUConnection.prototype.notifyBackendReceivedModVersions = function (_modVersions)
+{
+	SQ.call(this.mSQHandle, "receiveModVersions", _modVersions);
 }
 
 registerScreen("MSUConnection", new MSUConnection());

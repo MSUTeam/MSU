@@ -20,7 +20,7 @@
 	margin-top: 2rem !important;
 }
 
-.msu-popup .text-container {
+.msu-popup .content-container {
 	top: 11.8rem;
 	height: calc(100% - 11.8rem - 6.3rem);
 	width: 90%;
@@ -42,4 +42,56 @@
 	height: 4.3rem;
 	width: 17.5rem;
 	position: relative;
+}
+
+.msu-mod-info-container
+{
+	width: 100%;
+	height: 11.8rem;
+	overflow: hidden;
+	position: relative;
+	color: #dda21f;
+
+	background-image: url("coui://gfx/ui/skin/list_item_03.png");
+	background-size: 100% 100%;
+}
+
+.msu-mod-info-container .mod-name
+{
+	position: absolute;
+	height: 4rem;
+	line-height: 4rem;
+	left: 1.5rem;
+	top: 1.5rem;
+}
+
+.msu-mod-info-container .version-info
+{
+	position: absolute;
+	bottom: 1.5rem;
+	left: 1.5rem;
+}
+
+.msu-mod-info-container .ui-control.button,
+.msu-mod-info-container .ui-control.button[disabled]
+{
+	background-color: rgba(0, 0, 0, 0.0);
+}
+
+.msu-mod-info-container .l-github-button
+{
+	position: absolute;
+	bottom: 1.5rem;
+	right: 1.5rem;
+	width: 3.2rem;
+	height: 3.2rem;
+}
+
+.msu-mod-info-container .l-nexusmods-button
+{
+	position: absolute;
+	bottom: 1.5rem;
+	right: 5.5rem;
+	width: 3.2rem;
+	height: 3.2rem;
 }

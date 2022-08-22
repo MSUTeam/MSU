@@ -3,6 +3,7 @@ local function includeFile( _file )
 	::includeFile("msu/systems/registry/", _file);
 }
 includeFile("registry_system.nut");
+includeFile("registry_mod_addon");
 
 local system = ::MSU.Class.RegistrySystem();
 

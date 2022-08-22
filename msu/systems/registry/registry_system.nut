@@ -1,6 +1,9 @@
 ::MSU.Class.RegistrySystem <- class extends ::MSU.Class.System
 {
 	Mods = null;
+	static UpdateSourceType = ::MSU.Class.Enum([
+		"Github"
+	]);
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Registry);
@@ -10,6 +13,7 @@
 	function addMod( _mod )
 	{
 		this.Mods[_mod.getID()] <- _mod;
+		_mod.Registry = ::MSU.Class.RegistryModAddon(_mod);
 		::logInfo(format("<span style=\"color: green;\">MSU registered <span style=\"color: white;\">%s</span>, version: <span style=\"color: white;\">%s</span></span>", _mod.getName(), _mod.getVersionString()));
 	}
 
@@ -35,6 +39,42 @@
 		}
 
 		this.addMod(_mod);
+	}
+
+	function getModsForUpdateCheck()
+	{
+		local ret = {};
+		foreach (mod in this.Mods)
+		{
+			if (mod.Registry.hasSource())
+			{
+				ret[mod.getID()] <- mod.Registry.getUpdateURL();
+			}
+		}
+		return ret;
+	}
+
+	function checkIfModVersionsAreNew( _modVersions )
+	{
+		local modsWithNewVersions = {};
+		foreach (modID, version in _modVersions)
+		{
+			local mod = ::MSU.System.Registry.getMod(modID);
+			if (!::MSU.SemVer.compareVersionWithOperator(version, ">", mod)) continue;
+			local type = "PATCH";
+			if (::MSU.SemVer.compareMajorVersionWithOperator(version, ">", mod)) type = "MAJOR";
+			else if (::MSU.SemVer.compareMinorVersionWithOperator(version, ">", mod)) type = "MINOR";
+			modsWithNewVersions[modID] <- {
+				name = mod.getName(),
+				currentVersion = mod.getVersionString(),
+				availableVersion = version,
+				updateType = type,
+				githubURL = mod.Registry.getGithubURL(),
+				nexusModsURL = mod.Registry.getNexusModsURL(),
+			};
+		}
+		::MSU.Log.printData(modsWithNewVersions, 3, false, 10);
+		::MSU.Popup.showModUpdates(modsWithNewVersions);
 	}
 
 	function getMod( _modID )
