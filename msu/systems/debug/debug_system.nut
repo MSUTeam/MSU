@@ -25,8 +25,7 @@
 		}
 
 		_mod.Debug = ::MSU.Class.DebugModAddon(_mod);
-		this.Mods[_mod.getID()] <- {
-		};
+		this.Mods[_mod.getID()] <- {};
 		this.setFlag(_mod.getID(), this.DefaultFlag, false);
 	}
 
