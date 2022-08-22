@@ -89,11 +89,6 @@
 		return this.getPanel().getID();
 	}
 
-	function getModID()
-	{
-		return this.getPanel().getModID();
-	}
-
 	function getMod()
 	{
 		return this.getPanel().getMod();
