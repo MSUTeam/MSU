@@ -40,11 +40,6 @@
 		return this.getPage().getPanelID();
 	}
 
-	function getModID()
-	{
-		return this.getPage().getModID();
-	}
-
 	function getMod()
 	{
 		return this.getPage().getMod();
