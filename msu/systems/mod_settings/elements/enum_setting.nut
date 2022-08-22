@@ -36,7 +36,7 @@
 		base.flagDeserialize();
 		if (this.Array.find(this.Value) == null)
 		{
-			::logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + this.getModID());
+			::logError("Value \'" + this.Value + "\' not contained in array for setting " + this.getID() + " in mod " + this.getMod().getID());
 			this.Value = this.Array[0];
 		}
 	}

@@ -122,7 +122,7 @@
 			name = this.getName(),
 			data = this.Data,
 			panel = this.getPanelID(),
-			mod = this.getModID(),
+			mod = this.getMod().getID(),
 			hidden = !this.verifyFlags(_flags)
 		}
 		return ret;
