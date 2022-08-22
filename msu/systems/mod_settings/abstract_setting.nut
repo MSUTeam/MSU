@@ -37,7 +37,7 @@
 		{
 			payload = "\"" + payload + "\"";
 		}
-		::MSU.System.PersistentData.writeToLog(_tag, this.getModID(), [this.getID(), payload]);
+		::MSU.System.PersistentData.writeToLog(_tag, this.getMod().getID(), [this.getID(), payload]);
 	}
 
 	function onChangedCallback( _newValue )
@@ -184,7 +184,7 @@
 
 	function flagSerialize()
 	{
-		local modID = this.getModID();
+		local modID = this.getMod().getID();
 		this.setFlagForProperty("Value", modID);
 		this.setFlagForProperty("Locked", modID);
 		this.setFlagForProperty("LockReason", modID);
@@ -192,7 +192,7 @@
 
 	function flagDeserialize()
 	{
-		local modID = this.getModID();
+		local modID = this.getMod().getID();
 		this.setPropertyIfFlagExists("Locked", modID);
 		this.setPropertyIfFlagExists("LockReason", modID);
 
@@ -205,7 +205,7 @@
 
 	function resetFlags()
 	{
-		local modID = this.getModID();
+		local modID = this.getMod().getID();
 		this.clearFlagForProperty("Value", modID);
 		this.clearFlagForProperty("Locked", modID);
 		this.clearFlagForProperty("LockReason", modID);
