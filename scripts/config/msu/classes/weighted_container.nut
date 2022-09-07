@@ -3,6 +3,8 @@
 	Total = null;
 	Table = null;
 	Forced = null;
+	NextIItems = null;
+	NextIIndex = null;
 
 	constructor( _array = null )
 	{
@@ -23,6 +25,25 @@
 		this.Total = _original.Total;
 		this.Table = clone _original.Table;
 		this.Forced = clone _original.Forced;
+	}
+
+	function _nexti( _prev )
+	{
+		if (_prev == null)
+		{
+			this.NextIItems = ::MSU.Table.keys(this.Table);
+			this.NextIIndex = 0;
+		}
+		_prev = this.NextIIndex++;
+
+		if (_prev == this.Table.len())
+		{
+			this.NextIItems = null;
+			this.NextIIndex = null;
+			return null;
+		}
+
+		return this.NextIItems[_prev];
 	}
 
 	function toArray( _itemsOnly = true )
