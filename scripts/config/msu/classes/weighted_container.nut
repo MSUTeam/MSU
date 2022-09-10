@@ -71,8 +71,8 @@
 		}
 		else
 		{
-			if (_weight > 0) this.Total += _weight;
-			this.Table[_item] <- _weight;
+			this.Table[_item] <- 0;
+			this.updateWeight(_item, _weight);
 		}
 	}
 
