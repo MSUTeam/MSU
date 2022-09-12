@@ -58,6 +58,8 @@
 			ret[i] = key;
 			i++;
 		}
+
+		return ret;
 	}
 
 	function values( _table )
@@ -69,6 +71,8 @@
 			ret[i] = value;
 			i++;
 		}
+
+		return ret;
 	}
 
 	function apply( _table, _function )
