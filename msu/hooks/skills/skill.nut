@@ -55,6 +55,7 @@
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
 
+	o.m.AIBehavior <- null;
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
@@ -196,6 +197,12 @@
 		}
 
 		setContainer(_c);
+
+		if (this.m.AIBehavior != null && _c != null && !this.getContainer().getActor().isPlayerControlled() && this.getContainer().getActor().getAIAgent().findBehavior(this.m.AIBehavior.ID) == null)
+		{
+			this.getContainer().getActor().getAIAgent().addBehavior(::new(this.m.AIBehavior.Script));
+			this.getContainer().getActor().getAIAgent().finalizeBehaviors();
+		}
 	}
 
 	local setFatigueCost = o.setFatigueCost;
