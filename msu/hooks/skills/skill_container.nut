@@ -32,20 +32,27 @@
 	local add = o.add;
 	o.add = function( _skill, _order = 0 )
 	{
-		local suffix = "";
+		local garbageSkills = {};
 		foreach (skill in this.m.SkillsToAdd)
 		{
 			if (skill.isGarbage() && skill.getID() == _skill.getID())
 			{
-				suffix = "" + _skill;
-				_skill.m.ID += suffix;
-				break;
+				local suffix = "" + skill;
+				skill.m.ID += suffix;
+				garbageSkills[skill] <- suffix;;
 			}
 		}
 
 		local ret = add(_skill, _order);
 
-		if (suffix != "") _skill.m.ID = _skill.m.ID.slice(0, -suffix.len());
+		if (garbageSkills.len() > 0)
+		{
+			foreach (skill, suffix in garbageSkills)
+			{
+				skill.m.ID = skill.m.ID.slice(0, -suffix.len());
+			}
+			garbageSkills.clear();
+		}
 
 		return ret;
 	}
