@@ -55,6 +55,7 @@
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
 
+	o.m.MSU_AddedStack <- 1;
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
@@ -308,6 +309,38 @@
 		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
 		return ret;
+	}
+
+	local removeSelf = o.removeSelf;
+	o.removeSelf = function()
+	{
+		if (this.isStacking())
+		{
+			removeSelf();
+		}
+		else
+		{
+			this.m.MSU_AddedStack--;
+			if (this.m.MSU_AddedStack <= 0) removeSelf();
+			else
+			{
+				foreach (item in this.getContainer().getActor().getItems().getAllItems())
+				{
+					if (!::MSU.isNull(this.getItem()) && this.getItem().getID() == item.getID()) continue;
+
+					foreach (skill in item.m.SkillPtrs)
+					{
+						if (skill.getID() == this.getID())
+						{
+							this.setItem(item);
+							return;
+						}
+					}
+				}
+
+				this.setItem(null);
+			}
+		}
 	}
 
 	o.getDamageType <- function()

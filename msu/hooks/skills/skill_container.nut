@@ -27,6 +27,89 @@
 		this.m.ScheduledChangesSkills.clear();
 	}
 
+	local add = o.add;
+	o.add = function( _skill, _order = 0 )
+	{
+		if (!_skill.isStacking())
+		{
+			foreach (i, alreadyPresentSkill in this.m.Skills)
+			{
+				if (alreadyPresentSkill.getID() == _skill.getID())
+				{
+					alreadyPresentSkill.m.MSU_AddedStack += 1;
+					if (!::MSU.isNull(_skill.getItem()))
+					{
+						alreadyPresentSkill.setItem(_skill.getItem());
+						foreach (i, itemSkill in _skill.getItem().m.SkillPtrs)
+						{
+							if (itemSkill.getID() == _skill.getID())
+							{
+								_skill.getItem().m.SkillPtrs[i] = alreadyPresentSkill;
+								_skill.setItem(null);
+								break;
+							}
+						}
+					}
+
+					if (alreadyPresentSkill.m.MSU_AddedStack > 1) alreadyPresentSkill.onRefresh();
+					else if (alreadyPresentSkill.m.MSU_AddedStack > 0)
+					{
+						alreadyPresentSkill.m.IsGarbage = false;
+					}
+
+					return;
+				}
+			}
+
+			foreach (i, alreadyPresentSkill in this.m.SkillsToAdd)
+			{
+				if (alreadyPresentSkill.getID() == _skill.getID())
+				{
+					alreadyPresentSkill.m.MSU_AddedStack += 1;
+					if (!::MSU.isNull(_skill.getItem()))
+					{
+						alreadyPresentSkill.setItem(_skill.getItem());
+						foreach (i, itemSkill in _skill.getItem().m.SkillPtrs)
+						{
+							if (itemSkill.getID() == _skill.getID())
+							{
+								_skill.getItem().m.SkillPtrs[i] = alreadyPresentSkill;
+								_skill.setItem(null);
+								break;
+							}
+						}
+					}
+
+					if (alreadyPresentSkill.m.MSU_AddedStack > 0)
+					{
+						alreadyPresentSkill.m.IsGarbage = false;
+					}
+
+					return;
+				}
+			}
+		}
+
+		add(_skill, _order);
+	}
+
+	local remove = o.remove;
+	o.remove = function( _skill )
+	{
+		if (_skill.m.MSU_AddedStack == 1) remove(_skill);
+		else _skill.removeSelf();
+	}
+
+	local removeByID = o.removeByID;
+	o.removeByID = function( _skillID )
+	{
+		local skill = this.getSkillByID(_skillID);
+		if (skill == null) return;
+
+		if (skill.m.MSU_AddedStack == 1) this.removeByID(_skillID);
+		else skill.removeSelf();
+	}
+
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
 		if (_argsArray == null) _argsArray = [null];
