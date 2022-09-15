@@ -28,7 +28,7 @@
 	}
 
 	// VANILLAFIX - http://battlebrothersgame.com/forums/topic/weapon-skills-lost-on-load-if-multiple-skills-call-unequip-and-equip-in-onadded/
-	// The fix works by temporarily changing the ID of the skill before calling the vanilla `add` function
+	// The fix works by temporarily changing the IDs of the garbage skills before calling the vanilla `add` function
 	local add = o.add;
 	o.add = function( _skill, _order = 0 )
 	{
