@@ -150,6 +150,12 @@
 			_targetTile,
 			_tooltip
 		], false);
+
+		local targetEntity = _targetTile.getEntity();
+		if (targetEntity != null)
+		{
+			targetEntity.getSkills().onGetHitFactors(_skill, _targetTile, _tooltip);
+		}
 	}
 
 	o.onQueryTileTooltip <- function( _tile, _tooltip )
