@@ -32,30 +32,35 @@
 	{
 		if (!_skill.isStacking())
 		{
+			local incrementAddedStack = function( _alreadyPresentSkill, _skillToAdd )
+			{
+				_alreadyPresentSkill.m.MSU_AddedStack += 1;
+				if (!::MSU.isNull(_skillToAdd.getItem()))
+				{
+					_alreadyPresentSkill.setItem(_skillToAdd.getItem());
+					foreach (i, itemSkill in _skillToAdd.getItem().m.SkillPtrs)
+					{
+						if (itemSkill.getID() == _skillToAdd.getID())
+						{
+							_skillToAdd.getItem().m.SkillPtrs[i] = _alreadyPresentSkill;
+							_skillToAdd.setItem(null);
+							break;
+						}
+					}
+				}
+
+				if (_alreadyPresentSkill.m.MSU_AddedStack > 0)
+				{
+					_alreadyPresentSkill.m.IsGarbage = false;
+				}
+			}
+
 			foreach (i, alreadyPresentSkill in this.m.Skills)
 			{
 				if (alreadyPresentSkill.getID() == _skill.getID())
 				{
-					alreadyPresentSkill.m.MSU_AddedStack += 1;
-					if (!::MSU.isNull(_skill.getItem()))
-					{
-						alreadyPresentSkill.setItem(_skill.getItem());
-						foreach (i, itemSkill in _skill.getItem().m.SkillPtrs)
-						{
-							if (itemSkill.getID() == _skill.getID())
-							{
-								_skill.getItem().m.SkillPtrs[i] = alreadyPresentSkill;
-								_skill.setItem(null);
-								break;
-							}
-						}
-					}
-
-					if (alreadyPresentSkill.m.MSU_AddedStack > 0)
-					{
-						alreadyPresentSkill.m.IsGarbage = false;
-					}
-
+					incrementAddedStack(alreadyPresentSkill, _skill);
+					if (alreadyPresentSkill.m.MSU_AddedStack > 1) alreadyPresentSkill.onRefresh();
 					return;
 				}
 			}
@@ -64,26 +69,7 @@
 			{
 				if (alreadyPresentSkill.getID() == _skill.getID())
 				{
-					alreadyPresentSkill.m.MSU_AddedStack += 1;
-					if (!::MSU.isNull(_skill.getItem()))
-					{
-						alreadyPresentSkill.setItem(_skill.getItem());
-						foreach (i, itemSkill in _skill.getItem().m.SkillPtrs)
-						{
-							if (itemSkill.getID() == _skill.getID())
-							{
-								_skill.getItem().m.SkillPtrs[i] = alreadyPresentSkill;
-								_skill.setItem(null);
-								break;
-							}
-						}
-					}
-
-					if (alreadyPresentSkill.m.MSU_AddedStack > 0)
-					{
-						alreadyPresentSkill.m.IsGarbage = false;
-					}
-
+					incrementAddedStack(alreadyPresentSkill, _skill);
 					return;
 				}
 			}
