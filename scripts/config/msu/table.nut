@@ -39,7 +39,7 @@
 			if (key in _table1)
 			{
 				if (!_overwrite) throw ::MSU.Exception.DuplicateKey(key);
-				if (typeof value == "table" && _recursively)
+				if (_recursively && typeof value == "table" && typeof _table1[key] == "table")
 				{
 					this.merge(_table1[key], value, true, true);
 					continue;
