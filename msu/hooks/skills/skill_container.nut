@@ -51,8 +51,7 @@
 						}
 					}
 
-					if (alreadyPresentSkill.m.MSU_AddedStack > 1) alreadyPresentSkill.onRefresh();
-					else if (alreadyPresentSkill.m.MSU_AddedStack > 0)
+					if (alreadyPresentSkill.m.MSU_AddedStack > 0)
 					{
 						alreadyPresentSkill.m.IsGarbage = false;
 					}
