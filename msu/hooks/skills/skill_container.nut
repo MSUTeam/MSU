@@ -81,6 +81,11 @@
 		return _argsArray[_argsArray.len() - 1];
 	}
 
+	o.onSkillsUpdated <- function()
+	{
+		this.callSkillsFunction("onSkillsUpdated");
+	}
+
 	o.onMovementStarted <- function( _tile, _numTiles )
 	{
 		this.callSkillsFunction("onMovementStarted", [

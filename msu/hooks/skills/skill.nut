@@ -205,6 +205,10 @@
 		setFatigueCost(_f);
 	}
 
+	o.onSkillsUpdated <- function()
+	{
+	}
+
 	o.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
