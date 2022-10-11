@@ -261,6 +261,10 @@
 	{
 	}
 
+	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	{
+	}
+
 	o.onQueryTooltip <- function( _skill, _tooltip )
 	{
 	}
