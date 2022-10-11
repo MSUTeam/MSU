@@ -1,4 +1,15 @@
 ::mods_hookNewObjectOnce("ui/screens/tooltip/tooltip_events", function(o) {
+	local tactical_queryTileTooltipData = o.tactical_queryTileTooltipData;
+	o.tactical_queryTileTooltipData = function()
+	{
+		local ret = tactical_queryTileTooltipData();
+		if (ret != null && ::Tactical.TurnSequenceBar.getActiveEntity() != null && ::Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
+		{
+			::Tactical.TurnSequenceBar.getActiveEntity().getSkills().onQueryTileTooltip(::Tactical.State.getLastTileHovered(), ret);
+		}
+		return ret;
+	}
+
 	local general_querySkillTooltipData = o.general_querySkillTooltipData;
 	o.general_querySkillTooltipData = function( _entityId, _skillId )
 	{

@@ -152,6 +152,14 @@
 		], false);
 	}
 
+	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	{
+		this.callSkillsFunction("onQueryTileTooltip", [
+			_tile,
+			_tooltip
+		], false);
+	}
+
 	o.onQueryTooltip <- function( _skill, _tooltip )
 	{
 		this.callSkillsFunction("onQueryTooltip", [
