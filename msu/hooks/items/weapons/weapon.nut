@@ -127,7 +127,7 @@
 			}
 		}
 
-		this.m.Categories = this.m.Categories.slice(0, -1) + ", ";
+		if (this.m.Categories != "") this.m.Categories = this.m.Categories.slice(0, -1) + ", ";
 
 		if (this.isItemType(::Const.Items.ItemType.OneHanded))
 		{
