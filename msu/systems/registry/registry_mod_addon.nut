@@ -1,7 +1,7 @@
-local githubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)") // temp location
-local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)") // temp location
 ::MSU.Class.RegistryModAddon <- class extends ::MSU.Class.SystemModAddon
 {
+	static GithubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)");
+	static NexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)");
 	__GithubURL = null;
 	__NexusModsURL = null;
 	__UpdateSource = null;
@@ -14,7 +14,7 @@ local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers
 	function setGithubURL( _url )
 	{
 		::MSU.requireString(_url);
-		if (!githubURLRegex.match(_url))
+		if (!this.GithubURLRegex.match(_url))
 		{
 			::logError("A Github link must be a link to a specific repository, eg: https://github.com/MSUTeam/MSU");
 			throw ::MSU.Exception.InvalidValue(_url);
@@ -31,7 +31,7 @@ local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers
 	function setNexusModsURL( _url )
 	{
 		::MSU.requireString(_url);
-		if (!nexusURLRegex.match(_url))
+		if (!this.NexusURLRegex.match(_url))
 		{
 			::logError("A NexusMods link must be a link to a specific mod's main page, eg: https://www.nexusmods.com/battlebrothers/mods/479");
 			throw ::MSU.Exception.InvalidType(_url);
@@ -56,7 +56,7 @@ local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers
 		if (this.__UpdateSource == null) return null;
 		if (this.__UpdateSource == ::MSU.System.Registry.UpdateSourceType.Github)
 		{
-			local capture = githubURLRegex.capture(this.__GithubURL);
+			local capture = this.GithubURLRegex.capture(this.__GithubURL);
 			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__GithubURL, 1) + "/" + ::MSU.regexMatch(capture, this.__GithubURL, 2) + "/releases/latest"
 		}
 	}
