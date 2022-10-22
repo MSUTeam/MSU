@@ -79,17 +79,24 @@
 		/*
 		_data = {
 			modID = {
-				settingID = value
+				settingID =
+				{
+					type,
+					value
+				}
 			}
 		}
 		*/
-
 		foreach (modID, panel in _data)
 		{
-			foreach (settingID, value in panel)
+			foreach (settingID, data in panel)
 			{
-				local setting = this.Panels[modID].getSetting(settingID);
-				setting.set(value);
+				this.updateSettingFromJS({
+					mod = modID,
+					id = settingID,
+					type = data.type,
+					value = data.value
+				});
 			}
 		}
 	}
@@ -117,6 +124,7 @@
 
 	function updateSettingFromJS( _data )
 	{
+		if (_data.type == "float") _data.value = _data.value.tofloat();
 		::getModSetting(_data.mod, _data.id).set(_data.value, false);
 	}
 

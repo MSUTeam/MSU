@@ -1,5 +1,10 @@
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
+	if (_setting.value % 1 != 0) _setting.value = parseFloat(_setting.value.toPrecision(6)); // fix for JS/Squirrel float conversion weirdness
+	if (_setting.min % 1 != 0) _setting.min = parseFloat(_setting.min.toPrecision(6));
+	if (_setting.max % 1 != 0) _setting.max = parseFloat(_setting.max.toPrecision(6));
+	if (_setting.step % 1 != 0) _setting.step = parseFloat(_setting.step.toPrecision(6));
+
 	this.data = _setting;
 	var self = this;
 	this.layout = $('<div class="setting-container range-container"/>');
