@@ -1,29 +1,30 @@
 ::MSU.Class.Enum <- class
 {
-	_Keys = null;
-	_ValueKeyArray = null;
+	__Keys = null;
+	__ValueKeyArray = null;
+	__NextICache = null;
 
 	constructor( _array = null )
 	{
-		this._Keys = {};
-		this._ValueKeyArray = [];
+		this.__Keys = {};
+		this.__ValueKeyArray = [];
 		if (_array != null) this.addArray(_array);
 	}
 
-	function _isValidKey( _key )
+	function __isValidKey( _key )
 	{
 		return typeof _key == "string" && _key != "" && _key.slice(0,1).tolower() != _key.slice(0,1);
 	}
 
 	function add( _key )
 	{
-		if (!this._isValidKey(_key))
+		if (!this.__isValidKey(_key))
 		{
 			::logError("MSU Enum Keys must be non-empty strings and start with a capitalized letter");
 			throw ::MSU.Exception.InvalidValue(_key);
 		}
-		this._Keys[_key] <- this._Keys.len();
-		this._ValueKeyArray.push(_key);
+		this.__Keys[_key] <- this.__Keys.len();
+		this.__ValueKeyArray.push(_key);
 	}
 
 	function addArray( _array )
@@ -33,17 +34,17 @@
 
 	function getKeyForValue( _value )
 	{
-		return this._ValueKeyArray[_value];
+		return this.__ValueKeyArray[_value];
 	}
 
 	function len()
 	{
-		return this._Keys.len();
+		return this.__Keys.len();
 	}
 
 	function _get( _key )
 	{
-		if (_key in this._Keys) return this._Keys[_key];
+		if (_key in this.__Keys) return this.__Keys[_key];
 		throw null;
 	}
 }
