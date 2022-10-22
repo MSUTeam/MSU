@@ -20,10 +20,9 @@
 
 	function _cloned( _original )
 	{
-		this.Total = 0.0;
-		this.Table = {};
-		this.Forced = [];
-		this.merge(_original);
+		this.Total = _original.Total;
+		this.Table = clone _original.Table;
+		this.Forced = clone _original.Forced;
 	}
 
 	function toArray( _itemsOnly = true )
