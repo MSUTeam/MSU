@@ -47,4 +47,16 @@
 		if (_key in this.__Keys) return this.__Keys[_key];
 		throw null;
 	}
+
+	function _cloned( _original )
+	{
+		this.__Keys = _original.__Keys;
+		this.__ValueKeyArray = _original.__ValueKeyArray;
+	}
+
+	function _nexti( _prev )
+	{
+		if (_prev == null) return this.__ValueKeyArray[0];
+		return this.__Keys[_prev] < this.len() - 1 ? this.__ValueKeyArray[this.__Keys[_prev] + 1] : null;
+	}
 }
