@@ -29,7 +29,7 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Mod Error</div>');
 	this.mHeaderContainer.append(this.mTitle);
 
-	this.mListContainer = this.mContainer.createList(1, 'line content-container');
+	this.mListContainer = this.mContainer.createList(1, 'content-container');
 	this.mListScrollContainer = this.mListContainer.findListScrollContainer();
 	this.mContainer.append(this.mContentContainer);
 
