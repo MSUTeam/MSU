@@ -158,8 +158,6 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 MSUPopup.prototype.hide = function ()
 {
 	var self = this;
-
-	//MSUUIScreen.hide
 	this.mContainer.velocity("finish", true).velocity({ opacity: 0 },
 	{
 		duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
@@ -175,7 +173,6 @@ MSUPopup.prototype.hide = function ()
 			$(this).removeClass('display-block').addClass('display-none');
 		}
 	});
-	// this.mContainer.removeClass('display-block').addClass('display-none'); this on its own works
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

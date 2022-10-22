@@ -73,7 +73,6 @@
 				nexusModsURL = mod.Registry.getNexusModsURL(),
 			};
 		}
-		::MSU.Log.printData(modsWithNewVersions, 3, false, 10);
 		::MSU.Popup.showModUpdates(modsWithNewVersions);
 	}
 

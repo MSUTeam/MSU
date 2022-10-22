@@ -58,10 +58,6 @@ this.popup <- {
 			this.showRawText(this.m.TextCache)
 			this.m.TextCache = "";
 		}
-		for (local i = 0; i < 20; ++i) // for testing to force scroll
-		{
-			this.showRawText("asdf" + i)
-		}
 	}
 
 	function hide()
