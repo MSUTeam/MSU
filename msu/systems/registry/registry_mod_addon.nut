@@ -2,13 +2,13 @@ local githubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)"
 local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)") // temp location
 ::MSU.Class.RegistryModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	_GithubURL = null;
-	_NexusModsURL = null;
-	_UpdateSource = null;
+	__GithubURL = null;
+	__NexusModsURL = null;
+	__UpdateSource = null;
 
 	function getGithubURL()
 	{
-		return this._GithubURL;
+		return this.__GithubURL;
 	}
 
 	function setGithubURL( _url )
@@ -19,13 +19,13 @@ local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers
 			::logError("A Github link must be a link to a specific repository, eg: https://github.com/MSUTeam/MSU");
 			throw ::MSU.Exception.InvalidValue(_url);
 		}
-		this._GithubURL = _url;
-		this._UpdateSource = ::MSU.System.Registry.UpdateSourceType.Github;
+		this.__GithubURL = _url;
+		this.__UpdateSource = ::MSU.System.Registry.UpdateSourceType.Github;
 	}
 
 	function getNexusModsURL()
 	{
-		return this._NexusModsURL;
+		return this.__NexusModsURL;
 	}
 
 	function setNexusModsURL( _url )
@@ -36,28 +36,28 @@ local nexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers
 			::logError("A NexusMods link must be a link to a specific mod's main page, eg: https://www.nexusmods.com/battlebrothers/mods/479");
 			throw ::MSU.Exception.InvalidType(_url);
 		}
-		this._NexusModsURL = _url;
+		this.__NexusModsURL = _url;
 	}
 
 	// hide github link?
 
 	function hasSource()
 	{
-		return this._UpdateSource != null;
+		return this.__UpdateSource != null;
 	}
 
 	function getSource()
 	{
-		return this._UpdateSource;
+		return this.__UpdateSource;
 	}
 
 	function getUpdateURL()
 	{
-		if (this._UpdateSource == null) return null;
-		if (this._UpdateSource == ::MSU.System.Registry.UpdateSourceType.Github)
+		if (this.__UpdateSource == null) return null;
+		if (this.__UpdateSource == ::MSU.System.Registry.UpdateSourceType.Github)
 		{
-			local capture = githubURLRegex.capture(this._GithubURL);
-			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this._GithubURL, 1) + "/" + ::MSU.regexMatch(capture, this._GithubURL, 2) + "/releases/latest"
+			local capture = githubURLRegex.capture(this.__GithubURL);
+			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__GithubURL, 1) + "/" + ::MSU.regexMatch(capture, this.__GithubURL, 2) + "/releases/latest"
 		}
 	}
 }
