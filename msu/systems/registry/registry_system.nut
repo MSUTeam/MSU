@@ -60,6 +60,12 @@
 		foreach (modID, version in _modVersions)
 		{
 			local mod = ::MSU.System.Registry.getMod(modID);
+			if (!::MSU.SemVer.isSemVer(version))
+			{
+				::MSU.Popup.showRawText(format("The version '%s' from the mod %s (%s) isn't using <span style=\"color: lightblue; text-decoration: underline;\" onclick=\"openURL('https://semver.org')\">semantic versioning</span> for its online versions, despite registering to use the MSU update checker. Let the mod author know if you see this error", version,  mod.getName(), modID));
+				continue;
+			}
+			// TODO check if mod version is regex, or if the mod author has fucked something up (THIS IS IMPORTANT)
 			if (!::MSU.SemVer.compareVersionWithOperator(version, ">", mod)) continue;
 			local type = "PATCH";
 			if (::MSU.SemVer.compareMajorVersionWithOperator(version, ">", mod)) type = "MAJOR";
