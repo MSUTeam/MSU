@@ -142,11 +142,11 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		var colorFromIdx = 0;
 		if (_modInfo.updateType != "MAJOR")
 		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.');
+			colorFromIdx = _modInfo.availableVersion.indexOf('.') + 1;
 		}
 		if (_modInfo.updateType == "PATCH")
 		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.', colorFromIdx);
+			colorFromIdx = _modInfo.availableVersion.indexOf('.', colorFromIdx + 1) + 1;
 		}
 		var start = _modInfo.availableVersion.slice(0, colorFromIdx);
 		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
