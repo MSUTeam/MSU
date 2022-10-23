@@ -69,32 +69,4 @@
 			this.m.ModSettingsShown = false;
 		}
 	}
-
-	local onKeyInput = o.onKeyInput;
-	o.onKeyInput = function( _key )
-	{
-		if (!::MSU.Key.isKnownKey(_key))
-		{
-			return onKeyInput(_key);
-		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.MainMenu))
-		{
-			return false;
-		}
-		return onKeyInput(_key);
-	}
-
-	local onMouseInput = o.onMouseInput;
-	o.onMouseInput = function( _mouse )
-	{
-		if (!::MSU.Key.isKnownMouse(_mouse))
-		{
-			return onMouseInput(_mouse);
-		}
-		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.MainMenu))
-		{
-			return false;
-		}
-		return onMouseInput(_mouse);
-	}
 });
