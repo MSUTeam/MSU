@@ -79,10 +79,12 @@ MSUPopup.prototype.show = function ()
 		easing: 'swing',
 		begin: function ()
 		{
+			self.notifyBackendOnAnimating();
 			$(this).removeClass('display-none').addClass('display-block');
 		},
 		complete: function ()
 		{
+			self.notifyBackendOnShown();
 		}
 	});
 }
@@ -121,9 +123,11 @@ MSUPopup.prototype.hide = function ()
 		easing: 'swing',
 		begin: function()
 		{
+			self.notifyBackendOnAnimating();
 		},
 		complete: function()
 		{
+			self.notifyBackendOnHidden();
 			$(this).css({ opacity: 0 });
 			$(this).removeClass('display-block').addClass('display-none');
 		}
@@ -146,5 +150,29 @@ MSUPopup.prototype.quitGame = function ()
 {
 	SQ.call(this.mSQHandle, "quitGame");
 }
+
+MSUPopup.prototype.notifyBackendOnShown = function ()
+{
+	if (this.mSQHandle !== null)
+	{
+		SQ.call(this.mSQHandle, 'onScreenShown');
+	}
+};
+
+MSUPopup.prototype.notifyBackendOnHidden = function ()
+{
+	if (this.mSQHandle !== null)
+	{
+		SQ.call(this.mSQHandle, 'onScreenHidden');
+	}
+};
+
+MSUPopup.prototype.notifyBackendOnAnimating = function ()
+{
+	if (this.mSQHandle !== null)
+	{
+		SQ.call(this.mSQHandle, 'onScreenAnimating');
+	}
+};
 
 registerScreen("MSUPopup", new MSUPopup());
