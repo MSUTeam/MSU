@@ -17,6 +17,7 @@ var ModSettingsScreen = function ()
 	this.mActivePage = null;
 	this.mLastActivePage = null;
 	this.mActiveSettings = [];
+	this.mBlockingInputKeybind = null;
 
 	this.mIsFirstShow = null;
 	/*
@@ -439,6 +440,23 @@ ModSettingsScreen.prototype.setModSettingValue = function (_modID, _settingID, _
 	this.updateSetting(out);
 	this.updateSettingInNut(out);
 };
+
+ModSettingsScreen.prototype.blockInputsAndWaitForKeybind = function (_keybindSetting)
+{
+	this.mBlockingInputKeybind = _keybindSetting;
+	this.notifyBackendBlockUserInput();
+}
+
+ModSettingsScreen.prototype.onReleaseBlockedInput = function (_keybindString)
+{
+	this.mBlockingInputKeybind.onReleaseKeybind(_keybindString)
+	this.mBlockingInputKeybind = null;
+}
+
+ModSettingsScreen.prototype.notifyBackendBlockUserInput = function ()
+{
+	SQ.call(this.mSQHandle, "releaseUserInputWithKeyCombination");
+}
 
 ModSettingsScreen.prototype.updateSettingInNut = function (_data)
 {

@@ -62,6 +62,16 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 		::MSU.System.ModSettings.onSettingPressed(_data);
 	}
 
+	function blockUserInputUntilKeyRelease()
+	{
+		::MSU.System.Keybinds.__BlockUserInputs();
+	}
+
+	function releaseUserInputWithKeyCombination( _keyCombinationAsString )
+	{
+		this.m.JSHandle.asyncCall("onReleaseUserInputWithKeyCombination", _keyCombinationAsString);
+	}
+
 	function updateSettingInJS( _modID, _settingID, _value )
 	{
 		local setting = ::getModSetting(_modID, _settingID);

@@ -5,6 +5,7 @@
 	KeybindsForJS = null;
 	PressedKeys = null;
 	KeysChanged = false;
+	__BlockUserInputs = false;
 
 	constructor()
 	{
@@ -266,6 +267,38 @@
 		}
 		return ::MSU.Key.sortKeyString(pressedKeysString + _lastKeyAsString);
 	}
+
+	function isBlockingUserInputs()
+	{
+		return this.__BlockUserInputs;
+	}
+
+	function __listenForAndBlockUserInputs()
+	{
+		this.PressedKeys.clear();
+		this.__BlockUserInputs = true;
+	}
+
+	function __handleBlockedUserKeyInput( _key )
+	{
+		this.__updatePressedKeysAndReturnIfNew(_key);
+		if (::MSU.Key.getKeyState(_key.getState()) == ::MSU.Key.KeyState.Release)
+			this.__notifyUIBlockedInputKeyReleased(::MSU.Key.KeyMapSQ[_key.getKey().tostring()]);
+	}
+
+	function __handleBlockedUserMouseInput( _mouse )
+	{
+		if (::MSU.Key.MouseMapSQ(_key.getID()) == ::MSU.Key.KeyState.Release)
+			this.__notifyUIBlockedInputKeyReleased(::MSU.Key.MouseMapSQ[_mouse.getID().tostring()]);
+	}
+
+	function __notifyUIBlockedInputKeyReleased( _keyAsString )
+	{
+		this.__BlockUserInputs = false;
+		local pressedKeysString = this.__getPressedKeysString(_keyAsString);
+		::MSU.SettingsScreen.releaseUserInputWithKeyCombination(pressedKeysString);
+	}
+
 	function importPersistentSettings()
 	{
 		::MSU.System.PersistentData.loadFileForEveryMod("Keybind");

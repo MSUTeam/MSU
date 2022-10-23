@@ -17,6 +17,11 @@
 		local onKeyInput = o.onKeyInput;
 		o.onKeyInput = function( _key )
 		{
+			if (::MSU.System.Keybinds.isBlockingUserInputs())
+			{
+				::MSU.System.Keybinds.__handleBlockedUserKeyInput(_key);
+				return false;
+			}
 			if (!::MSU.Key.isKnownKey(_key))
 			{
 				return onKeyInput(_key);
@@ -31,6 +36,11 @@
 		local onMouseInput = o.onMouseInput;
 		o.onMouseInput = function( _mouse )
 		{
+			if (::MSU.System.Keybinds.isBlockingUserInputs())
+			{
+				::MSU.System.Keybinds.__handleBlockedUserMouseInput(_mouse);
+				return false;
+			}
 			if (!::MSU.Key.isKnownMouse(_mouse))
 			{
 				return onMouseInput(_mouse);

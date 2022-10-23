@@ -28,6 +28,8 @@ var KeybindSetting = function (_mod, _page, _setting, _parentDiv)
 		self.createPopup(_parentDiv);
 	});
 
+	this.pressedButton = null;
+
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 	this.input.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
@@ -86,6 +88,7 @@ KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
 
 KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 {
+	var self = this;
 	var row = $('<div class="row"/>');
 	this.mButtonContainer.findListScrollContainer().append(row);
 
@@ -148,6 +151,8 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 	button.on("click", function( _event ){
 		var mainButton = this;
 		var buttons = $(".change-keybind-button");
+		self.pressedButton = this;
+		Screens.ModSettingsScreen.blockInputsAndWaitForKeybind(self);
 		buttons.map(function()
 		{
 			if (this != mainButton)
@@ -181,6 +186,12 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 		row.remove();
 	}, 'delete-keybind-button', 2);
 };
+
+KeybindSetting.prototype.onReleaseKeybind = function (_keyString)
+{
+	console.error("onReleaseKeybind " + _keyString);
+	// is sent when the keybind is detected by squirrel, should do something with pressedButton at this point presumably
+}
 
 KeybindSetting.prototype.unbindTooltip = function ()
 {
