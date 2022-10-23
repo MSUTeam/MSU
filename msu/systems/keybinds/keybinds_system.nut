@@ -179,14 +179,13 @@
 	{
 		this.KeysChanged = true;
 		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
+		local isKeyNewlyPressed = this.__updatePressedKeysAndReturnIfNew(_key);
 		local keyState;
-		if (this.isKeyStateContinuous(_key))
-		{
-			keyState = ::MSU.Key.KeyState.Continuous;
-		}
+		if (isKeyNewlyPressed) keyState = ::MSU.Key.KeyState.Press;
 		else
 		{
-			keyState = ::MSU.Key.getKeyState(_key.getState())
+			keyState = ::MSU.Key.getKeyState(_key.getState());
+			if (keyState == ::MSU.Key.KeyState.Press) keyState = ::MSU.Key.KeyState.Continuous;
 		}
 		return this.onInput(_key, _environment, _state, keyAsString, keyState);
 	}
@@ -211,39 +210,7 @@
 	// Private
 	function onInput( _key, _environment, _state, _keyAsString, _keyState )
 	{
-		local key = "";
-		foreach (pressedKeyID, value in this.PressedKeys)
-		{
-			if (_keyAsString != pressedKeyID)
-			{
-				key += pressedKeyID + "+";
-			}
-		}
-		key += _keyAsString;
-		return this.call(key, _environment, _state, _keyState);
-	}
-
-	function isKeyStateContinuous( _key )
-	{
-		// Assumes key is in KeyMapSQ
-		local key = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
-
-		if (_key.getState() == 1)
-		{
-			if (key in this.PressedKeys)
-			{
-				return true;
-			}
-			this.PressedKeys[key] <- 1;
-		}
-		else
-		{
-			if (key in this.PressedKeys) // in case the keypress started while tabbed out for example
-			{
-				delete this.PressedKeys[key];
-			}
-		}
-		return false;
+		return this.call(this.__getPressedKeysString(_keyAsString), _environment, _state, _keyState);
 	}
 
 	function isKeybindPressed( _modID, _id )
@@ -268,6 +235,37 @@
 		return false;
 	}
 
+	function __updatePressedKeysAndReturnIfNew( _key )
+	{
+		// Assumes _key is in KeyMapSQ
+		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
+		if (::MSU.Key.getKeyState(_key.getState()) == ::MSU.Key.KeyState.Press)
+		{
+			if(!(keyAsString in this.PressedKeys))
+			{
+				this.PressedKeys[keyAsString] <- 1;
+				return true;
+			}
+		}
+		else if (keyAsString in this.PressedKeys) // in case the keypress started while tabbed out
+		{
+			delete this.PressedKeys[keyAsString];
+		}
+		return false;
+	}
+
+	function __getPressedKeysString( _lastKeyAsString )
+	{
+		local pressedKeysString = "";
+		foreach (pressedKeyID, value in this.PressedKeys)
+		{
+			if (_lastKeyAsString != pressedKeyID)
+			{
+				pressedKeysString += pressedKeyID + "+";
+			}
+		}
+		return ::MSU.Key.sortKeyString(pressedKeysString + _lastKeyAsString);
+	}
 	function importPersistentSettings()
 	{
 		::MSU.System.PersistentData.loadFileForEveryMod("Keybind");
