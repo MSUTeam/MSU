@@ -1,8 +1,7 @@
 ::mods_hookExactClass("items/weapons/named/named_weapon", function(o) {
 	o.m.BaseWeaponScript <- null;
 
-	local randomizeValues = o.randomizeValues;
-	o.randomizeValues <- function()
+	o.setValuesFromBaseWeapon <- function()
 	{
 		if (this.m.BaseWeaponScript != null)
 		{
@@ -20,7 +19,12 @@
 			this.m.AdditionalAccuracy = baseWeapon.m.AdditionalAccuracy;
 			this.m.FatigueOnSkillUse = baseWeapon.m.FatigueOnSkillUse;
 		}
+	}
 
+	local randomizeValues = o.randomizeValues;
+	o.randomizeValues <- function()
+	{
+		this.setValuesFromBaseWeapon();
 		randomizeValues();
 	}
 });
