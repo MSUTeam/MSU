@@ -60,7 +60,7 @@
 			}
 		}
 
-		return names.len() > 1 ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
+		return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
 	}
 
 	o.onAfterUpdateProperties <- function( _properties )
