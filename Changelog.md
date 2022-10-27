@@ -5,7 +5,7 @@ Changelog
 - add 'apply' button to mod settings screen.
 - colorpicker labels now have the opposite color to increase readability
 - change settings labels to use vanilla css classes to improve compatibility
-- add 'getAllSettingsAsArray' functions to ModSettings addon, panels, and pages
+- add 'getAllElementsAsArray' functions to ModSettings addon, panels, and pages, with an optional filter argument to reduce the array down to desired elements (eg settings only)
 - add 'Reset' button in the ModSettings UI to reset the settings of the current page
 - add "resetSettings" functions to ModSettings addon, panels and pages, and "reset" function to settings
 - add 'Reset all settings for every mod' button to MSU settings

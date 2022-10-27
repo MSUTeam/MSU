@@ -44,21 +44,21 @@
 		}
 	}
 
-	function getAllSettingsAsArray()
+	function getAllElementsAsArray(_filter = null)
 	{
 		local ret = [];
 		foreach (page in this.Pages)
 		{
-			ret.extend(page.getAllSettingsAsArray());
+			ret.extend(page.getAllElementsAsArray(_filter));
 		}
 		return ret;
 	}
 
 	function resetSettings()
 	{
-		foreach (setting in this.getAllSettingsAsArray())
+		foreach (setting in this.getAllElementsAsArray(::MSU.Class.AbstractSetting))
 		{
-			if (setting instanceof ::MSU.Class.AbstractSetting) setting.reset();
+			setting.reset();
 		}
 	}
 

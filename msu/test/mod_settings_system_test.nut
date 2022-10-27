@@ -53,12 +53,12 @@
 
 		local resetButton = testPage.addButtonSetting("reset", null, "Reset Settings");
 		resetButton.addCallback(function(_data = null){
-			foreach(setting in ::MSU.Mod.ModSettings.getAllSettingsAsArray())
-			{
-				if(setting.getID() != "reset" && "IsSetting" in setting.Data)
-				{
-					setting.reset();
+			foreach(setting in this.getAllElementsAsArray(function(_index, _value){
+					return _value.getID() != "reset" && "IsSetting" in _value.Data
 				}
+			))
+			{
+				setting.reset();
 			}
 		})
 // 	}
