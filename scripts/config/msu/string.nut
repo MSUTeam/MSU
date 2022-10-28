@@ -26,4 +26,14 @@
 		}
 		return true;
 	}
+
+	function startsWith( _string, _start )
+	{
+		return _string.find(_start) == 0;
+	}
+
+	function endsWith( _string, _end )
+	{
+		return _end.len() <= _string.len() && _string.slice(-_end.len()) == _end;
+	}
 }
