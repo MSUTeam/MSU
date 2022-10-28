@@ -50,16 +50,5 @@
 
 		// create a color picker setting
 		testPage.addColorPickerSetting("testRBGA", "20,40,60,1");
-
-		local resetButton = testPage.addButtonSetting("reset", null, "Reset Settings");
-		resetButton.addCallback(function(_data = null){
-			foreach(setting in this.getAllElementsAsArray(function(_index, _value){
-					return _value.getID() != "reset" && "IsSetting" in _value.Data
-				}
-			))
-			{
-				setting.reset();
-			}
-		})
 // 	}
 // }
