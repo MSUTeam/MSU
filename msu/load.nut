@@ -11,6 +11,3 @@ includeLoad("hooks");
 includeLoad("msu_mod");
 includeLoad("vanilla_mod");
 includeLoad("test");
-
-this.Const.World.RoadBrushes.add(::Const.Direction.N, "road_N");
-this.Const.World.RoadBrushes.add(::Const.Direction.S, "road_S"); // idk where to put these
