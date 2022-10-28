@@ -125,20 +125,26 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
 		self.mListScrollContainer.append(modInfoContainer)
 		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
-		var githubContainer = $('<div class="l-github-button"/>');
-		modInfoContainer.append(githubContainer);
-		var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
+
+		if (_modInfo.githubURL != null)
 		{
-			openURL(_modInfo.githubURL);
-		});
-		if (_modInfo.githubURL == null) githubButton.attr('disabled', true);
-		var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
-		modInfoContainer.append(nexusModsContainer);
-		var nexusModsButton = nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
+			var githubContainer = $('<div class="l-github-button"/>');
+			modInfoContainer.append(githubContainer);
+			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
+			{
+				openURL(_modInfo.githubURL);
+			});
+		}
+		if (_modInfo.nexusModsURL != null)
 		{
-			openURL(_modInfo.nexusModsURL);
-		});
-		if (_modInfo.nexusModsURL == null) nexusModsButton.attr('disabled', true);
+			var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
+			modInfoContainer.append(nexusModsContainer);
+			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
+			{
+				openURL(_modInfo.nexusModsURL);
+			});
+		}
+
 		var colorFromIdx = 0;
 		if (_modInfo.updateType != "MAJOR")
 		{
