@@ -16,7 +16,7 @@
 		::MSU.requireString(_url);
 		if (!this.GithubURLRegex.match(_url))
 		{
-			::logError("A Github link must be a link to a specific repository, eg: https://github.com/MSUTeam/MSU");
+			::logError("A Github link must be a link to a specific repository, eg: 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
 			throw ::MSU.Exception.InvalidValue(_url);
 		}
 		this.__GithubURL = _url;
@@ -33,7 +33,7 @@
 		::MSU.requireString(_url);
 		if (!this.NexusURLRegex.match(_url))
 		{
-			::logError("A NexusMods link must be a link to a specific mod's main page, eg: https://www.nexusmods.com/battlebrothers/mods/479");
+			::logError("A NexusMods link must be a link to a specific mod's main page, eg: 'https://www.nexusmods.com/battlebrothers/mods/479' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
 			throw ::MSU.Exception.InvalidType(_url);
 		}
 		this.__NexusModsURL = _url;
