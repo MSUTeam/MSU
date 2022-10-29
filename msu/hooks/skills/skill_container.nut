@@ -152,7 +152,7 @@
 		], false);
 
 		local targetEntity = _targetTile.getEntity();
-		if (targetEntity != null)
+		if (targetEntity != null && targetEntity.getID() != this.getActor().getID())
 		{
 			targetEntity.getSkills().onGetHitFactors(_skill, _targetTile, _tooltip);
 		}
