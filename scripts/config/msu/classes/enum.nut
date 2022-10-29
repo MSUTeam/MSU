@@ -41,6 +41,12 @@
 		return this.__Keys.len();
 	}
 
+	function contains( _value )
+	{
+		::MSU.requireInt(_value);
+		return _value >= 0 && _value < this.len();
+	}
+
 	function _get( _key )
 	{
 		if (_key in this.__Keys) return this.__Keys[_key];
