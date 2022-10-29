@@ -1,26 +1,26 @@
 ::MSU.Class.RegistryModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	static GithubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)");
+	static GitHubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)");
 	static NexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)");
-	__GithubURL = null;
+	__GitHubURL = null;
 	__NexusModsURL = null;
 	__UpdateSource = null;
 
-	function getGithubURL()
+	function getGitHubURL()
 	{
-		return this.__GithubURL;
+		return this.__GitHubURL;
 	}
 
-	function setGithubURL( _url )
+	function setGitHubURL( _url )
 	{
 		::MSU.requireString(_url);
-		if (!this.GithubURLRegex.match(_url))
+		if (!this.GitHubURLRegex.match(_url))
 		{
-			::logError("A Github link must be a link to a specific repository, eg: 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
+			::logError("A GitHub link must be a link to a specific repository, eg: 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
 			throw ::MSU.Exception.InvalidValue(_url);
 		}
-		this.__GithubURL = _url;
-		this.__UpdateSource = ::MSU.System.Registry.UpdateSourceType.Github;
+		this.__GitHubURL = _url;
+		this.__UpdateSource = ::MSU.System.Registry.UpdateSourceType.GitHub;
 	}
 
 	function getNexusModsURL()
@@ -54,10 +54,10 @@
 	function getUpdateURL()
 	{
 		if (this.__UpdateSource == null) return null;
-		if (this.__UpdateSource == ::MSU.System.Registry.UpdateSourceType.Github)
+		if (this.__UpdateSource == ::MSU.System.Registry.UpdateSourceType.GitHub)
 		{
-			local capture = this.GithubURLRegex.capture(this.__GithubURL);
-			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__GithubURL, 1) + "/" + ::MSU.regexMatch(capture, this.__GithubURL, 2) + "/releases/latest"
+			local capture = this.GitHubURLRegex.capture(this.__GitHubURL);
+			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__GitHubURL, 1) + "/" + ::MSU.regexMatch(capture, this.__GitHubURL, 2) + "/releases/latest"
 		}
 	}
 }
