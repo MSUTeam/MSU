@@ -342,9 +342,8 @@
 			removeSelf();
 		}
 		else
-		{
-			this.m.MSU_AddedStack--;
-			if (this.m.MSU_AddedStack <= 0) removeSelf();
+		{			
+			if (--this.m.MSU_AddedStack <= 0) removeSelf();
 			else
 			{
 				foreach (item in this.getContainer().getActor().getItems().getAllItems())
