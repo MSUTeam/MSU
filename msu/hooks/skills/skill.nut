@@ -324,12 +324,10 @@
 		else
 		{			
 			if (--this.m.MSU.AddedStack <= 0) removeSelf();
-			else
+			else if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || !::MSU.isEqual(this.getItem().getContainer().getActor(), this.getContainer().getActor()))
 			{
 				foreach (item in this.getContainer().getActor().getItems().getAllItems())
 				{
-					if (!::MSU.isNull(this.getItem()) && this.getItem().getID() == item.getID()) continue;
-
 					foreach (skill in item.m.SkillPtrs)
 					{
 						if (skill.getID() == this.getID())

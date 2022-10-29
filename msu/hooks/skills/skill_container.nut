@@ -37,7 +37,7 @@
 				_alreadyPresentSkill.m.MSU.AddedStack += 1;
 				if (!::MSU.isNull(_skillToAdd.getItem()))
 				{
-					_alreadyPresentSkill.setItem(_skillToAdd.getItem());
+					if (::MSU.isNull(_alreadyPresentSkill.getItem()) _alreadyPresentSkill.setItem(_skillToAdd.getItem());
 					foreach (i, itemSkill in _skillToAdd.getItem().m.SkillPtrs)
 					{
 						if (itemSkill.getID() == _skillToAdd.getID())
