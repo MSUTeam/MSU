@@ -6,3 +6,4 @@ includeFile("setup_msu_mod");
 includeFile("msu_mod_debug");
 includeFile("msu_mod_modsettings");
 includeFile("msu_tooltips");
+includeFile("msu_keybinds");

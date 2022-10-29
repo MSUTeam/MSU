@@ -1,8 +1,20 @@
 this.popup <- {
 	m = {
+		Visible = false,
+		Animating = false,
 		JSHandle = null,
 		TextCache = "",
 		ForceQuit = false
+	}
+
+	function isVisible()
+	{
+		return this.m.Visible;
+	}
+
+	function isAnimating()
+	{
+		return this.m.Animating;
 	}
 
 	function showRawText( _text, _forceQuit = false )
@@ -28,6 +40,11 @@ this.popup <- {
 		this.m.ForceQuit = _bool;
 	}
 
+	function isForceQuitting()
+	{
+		return this.m.ForceQuit;
+	}
+
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
@@ -38,8 +55,30 @@ this.popup <- {
 		}
 	}
 
+	function hide()
+	{
+		this.m.JSHandle.asyncCall("hide", null);
+	}
+
 	function quitGame()
 	{
 		// overwritten by mainMenuScreen hook, closes the game
+	}
+
+	function onScreenShown()
+	{
+		this.m.Visible = true;
+		this.m.Animating = false;
+	}
+
+	function onScreenHidden()
+	{
+		this.m.Visible = false;
+		this.m.Animating = false;
+	}
+
+	function onScreenAnimating()
+	{
+		this.m.Animating = true;
 	}
 };
