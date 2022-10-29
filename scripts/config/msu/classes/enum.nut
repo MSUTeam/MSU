@@ -2,7 +2,6 @@
 {
 	__Keys = null;
 	__ValueKeyArray = null;
-	__NextICache = null;
 
 	constructor( _array = null )
 	{
