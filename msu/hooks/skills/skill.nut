@@ -55,7 +55,10 @@
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
 
-	o.m.MSU_AddedStack <- 1;
+	o.m.MSU <- {
+		AddedStack = 1
+	};
+	
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
@@ -320,7 +323,7 @@
 		}
 		else
 		{			
-			if (--this.m.MSU_AddedStack <= 0) removeSelf();
+			if (--this.m.MSU.AddedStack <= 0) removeSelf();
 			else
 			{
 				foreach (item in this.getContainer().getActor().getItems().getAllItems())

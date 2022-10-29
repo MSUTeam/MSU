@@ -34,7 +34,7 @@
 		{
 			local incrementAddedStack = function( _alreadyPresentSkill, _skillToAdd )
 			{
-				_alreadyPresentSkill.m.MSU_AddedStack += 1;
+				_alreadyPresentSkill.m.MSU.AddedStack += 1;
 				if (!::MSU.isNull(_skillToAdd.getItem()))
 				{
 					_alreadyPresentSkill.setItem(_skillToAdd.getItem());
@@ -49,7 +49,7 @@
 					}
 				}
 
-				if (_alreadyPresentSkill.m.MSU_AddedStack > 0)
+				if (_alreadyPresentSkill.m.MSU.AddedStack > 0)
 				{
 					_alreadyPresentSkill.m.IsGarbage = false;
 				}
@@ -60,7 +60,7 @@
 				if (alreadyPresentSkill.getID() == _skill.getID())
 				{
 					incrementAddedStack(alreadyPresentSkill, _skill);
-					for (local i = 1; i < alreadyPresentSkill.m.MSU_AddedStack; i++)
+					for (local i = 1; i < alreadyPresentSkill.m.MSU.AddedStack; i++)
 					{
 						alreadyPresentSkill.onRefresh();
 					}					
@@ -84,7 +84,7 @@
 	local remove = o.remove;
 	o.remove = function( _skill )
 	{
-		if (_skill.m.MSU_AddedStack == 1) remove(_skill);
+		if (_skill.m.MSU.AddedStack == 1) remove(_skill);
 		else _skill.removeSelf();
 	}
 
@@ -94,7 +94,7 @@
 		local skill = this.getSkillByID(_skillID);
 		if (skill == null) return;
 
-		if (skill.m.MSU_AddedStack == 1) removeByID(_skillID);
+		if (skill.m.MSU.AddedStack == 1) removeByID(_skillID);
 		else skill.removeSelf();
 	}
 
