@@ -1,6 +1,6 @@
 ::mods_hookExactClass("entity/tactical/actor", function(o) {
 	o.m.MSU <- {
-		IsCallingOnSkillsUpdated <- true
+		IsCallingOnSkillsUpdated = true
 	};
 
 	local onMovementStart = o.onMovementStart;
