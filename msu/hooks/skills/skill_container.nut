@@ -91,7 +91,7 @@
 		local skill = this.getSkillByID(_skillID);
 		if (skill == null) return;
 
-		if (skill.m.MSU_AddedStack == 1) this.removeByID(_skillID);
+		if (skill.m.MSU_AddedStack == 1) removeByID(_skillID);
 		else skill.removeSelf();
 	}
 
