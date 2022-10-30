@@ -90,7 +90,7 @@
 			}
 			modsWithNewVersions[modID] <- modUpdateInfo;
 		}
-		::MSU.Popup.showModUpdates(modsWithNewVersions);
+		if (modsWithNewVersions.len() > 0) ::MSU.Popup.showModUpdates(modsWithNewVersions);
 	}
 
 	function getMod( _modID )
