@@ -1,8 +1,4 @@
 ::mods_hookExactClass("entity/tactical/actor", function(o) {
-	o.m.MSU <- {
-		IsCallingOnSkillsUpdated = true
-	};
-
 	local onMovementStart = o.onMovementStart;
 	o.onMovementStart = function ( _tile, _numTiles )
 	{
@@ -32,17 +28,6 @@
 		}
 
 		return ret;
-	}
-
-	local onSkillsUpdated = o.onSkillsUpdated;
-	o.onSkillsUpdated = function()
-	{
-		onSkillsUpdated();
-		if (!this.m.IsDying)
-		{
-			this.m.MSU.IsCallingOnSkillsUpdated = !this.m.MSU.IsCallingOnSkillsUpdated;
-			if (!this.m.MSU.IsCallingOnSkillsUpdated) this.getSkills().onSkillsUpdated();
-		}
 	}
 
 	local onDeath = o.onDeath;

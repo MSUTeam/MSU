@@ -2,6 +2,7 @@
 	o.m.LastLevelOnUpdateLevelCalled <- 0;
 	o.m.ScheduledChangesSkills <- [];
 	o.m.IsPreviewing <- false;
+	o.m.IsCallingOnSkillsUpdated <- true;
 	o.PreviewProperty <- {};
 
 	local update = o.update;
@@ -25,6 +26,12 @@
 		}
 
 		this.m.ScheduledChangesSkills.clear();
+
+		if (!this.getActor().isDying())
+		{
+			this.m.IsCallingOnSkillsUpdated = !this.m.IsCallingOnSkillsUpdated;
+			if (!this.m.IsCallingOnSkillsUpdated) this.onSkillsUpdated();
+		}
 	}
 
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
