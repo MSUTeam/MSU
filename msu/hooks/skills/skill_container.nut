@@ -154,8 +154,17 @@
 		local targetEntity = _targetTile.getEntity();
 		if (targetEntity != null && targetEntity.getID() != this.getActor().getID())
 		{
-			targetEntity.getSkills().onGetHitFactors(_skill, _targetTile, _tooltip);
+			targetEntity.getSkills().onGetHitFactorsAsTarget(_skill, _targetTile, _tooltip);
 		}
+	}
+
+	o.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
+	{
+		this.callSkillsFunction("onGetHitFactorsAsTarget", [
+			_skill,
+			_targetTile,
+			_tooltip
+		], false);
 	}
 
 	o.onQueryTileTooltip <- function( _tile, _tooltip )

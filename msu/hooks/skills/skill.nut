@@ -261,6 +261,10 @@
 	{
 	}
 
+	o.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
+	{
+	}
+
 	o.onQueryTileTooltip <- function( _tile, _tooltip )
 	{
 	}
