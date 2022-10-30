@@ -1,13 +1,21 @@
 ::MSU.Class.RegistrySystem <- class extends ::MSU.Class.System
 {
-	Mods = null;
-	static UpdateSourceType = ::MSU.Class.Enum([
-		"GitHub"
+	static ModSources = {};
+	static URLDomain = ::MSU.Class.Enum([
+		"GitHub",
+		"NexusMods"
 	]);
+	Mods = null;
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Registry);
 		this.Mods = {};
+	}
+
+	function addNewModSource( _modSource )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.ModSource, _modSource.instance());
+		this.ModSources[_modSource.URLDomain] <- _modSource;
 	}
 
 	function addMod( _mod )
@@ -46,9 +54,9 @@
 		local ret = {};
 		foreach (mod in this.Mods)
 		{
-			if (mod.Registry.hasSource())
+			if (mod.Registry.hasUpdateSource())
 			{
-				ret[mod.getID()] <- mod.Registry.getUpdateURL();
+				ret[mod.getID()] <- mod.Registry.getUpdateSource().getUpdateURL();
 			}
 		}
 		return ret;
@@ -69,14 +77,18 @@
 			local type = "PATCH";
 			if (::MSU.SemVer.compareMajorVersionWithOperator(version, ">", mod)) type = "MAJOR";
 			else if (::MSU.SemVer.compareMinorVersionWithOperator(version, ">", mod)) type = "MINOR";
-			modsWithNewVersions[modID] <- {
+			local modUpdateInfo = {
 				name = mod.getName(),
 				currentVersion = mod.getVersionString(),
 				availableVersion = version,
 				updateType = type,
-				githubURL = mod.Registry.getGitHubURL(),
-				nexusModsURL = mod.Registry.getNexusModsURL(),
+				sources = {},
 			};
+			foreach (modSource in mod.Registry.__ModSources)
+			{
+				modUpdateInfo.sources[::MSU.System.Registry.URLDomain.getKeyForValue(modSource.URLDomain)] <- modSource.getURL();
+			}
+			modsWithNewVersions[modID] <- modUpdateInfo;
 		}
 		::MSU.Popup.showModUpdates(modsWithNewVersions);
 	}

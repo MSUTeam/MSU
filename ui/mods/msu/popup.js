@@ -126,22 +126,22 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		self.mListScrollContainer.append(modInfoContainer)
 		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
 
-		if (_modInfo.githubURL != null)
+		if ("GitHub" in _modInfo.sources)
 		{
 			var githubContainer = $('<div class="l-github-button"/>');
 			modInfoContainer.append(githubContainer);
 			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
 			{
-				openURL(_modInfo.githubURL);
+				openURL(_modInfo.sources.GitHub);
 			});
 		}
-		if (_modInfo.nexusModsURL != null)
+		if ("NexusMods" in _modInfo.sources)
 		{
 			var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
 			modInfoContainer.append(nexusModsContainer);
 			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
 			{
-				openURL(_modInfo.nexusModsURL);
+				openURL(_modInfo.sources.NexusMods);
 			});
 		}
 

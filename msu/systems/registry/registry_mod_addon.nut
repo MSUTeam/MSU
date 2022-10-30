@@ -1,63 +1,42 @@
 ::MSU.Class.RegistryModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	static GitHubURLRegex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)");
-	static NexusURLRegex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)");
-	__GitHubURL = null;
-	__NexusModsURL = null;
+	__ModSources = {};
 	__UpdateSource = null;
 
-	function getGitHubURL()
+	function getModSource( _domain )
 	{
-		return this.__GitHubURL;
+		return this.__ModSources[_domain];
 	}
 
-	function setGitHubURL( _url )
+	function hasModSource( _domain )
 	{
-		::MSU.requireString(_url);
-		if (!this.GitHubURLRegex.match(_url))
-		{
-			::logError("A GitHub link must be a link to a specific repository, eg: 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
-			throw ::MSU.Exception.InvalidValue(_url);
-		}
-		this.__GitHubURL = _url;
-		this.__UpdateSource = ::MSU.System.Registry.UpdateSourceType.GitHub;
+		return _domain in this.__ModSources;
 	}
 
-	function getNexusModsURL()
-	{
-		return this.__NexusModsURL;
-	}
-
-	function setNexusModsURL( _url )
+	function addModSource( _domain, _url )
 	{
 		::MSU.requireString(_url);
-		if (!this.NexusURLRegex.match(_url))
-		{
-			::logError("A NexusMods link must be a link to a specific mod's main page, eg: 'https://www.nexusmods.com/battlebrothers/mods/479' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
-			throw ::MSU.Exception.InvalidType(_url);
-		}
-		this.__NexusModsURL = _url;
+		this.__ModSources[_domain] <- ::MSU.System.Registry.ModSources[_domain](_url)
 	}
 
-	// hide github link?
+	function getUpdateSource()
+	{
+		if (!this.hasUpdateSource()) return null;
+		return this.__ModSources[this.__UpdateSource];
+	}
 
-	function hasSource()
+	function hasUpdateSource()
 	{
 		return this.__UpdateSource != null;
 	}
 
-	function getSource()
+	function setUpdateSource( _domain )
 	{
-		return this.__UpdateSource;
-	}
-
-	function getUpdateURL()
-	{
-		if (this.__UpdateSource == null) return null;
-		if (this.__UpdateSource == ::MSU.System.Registry.UpdateSourceType.GitHub)
+		if (!(_domain in this.__ModSources))
 		{
-			local capture = this.GitHubURLRegex.capture(this.__GitHubURL);
-			return "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__GitHubURL, 1) + "/" + ::MSU.regexMatch(capture, this.__GitHubURL, 2) + "/releases/latest"
+			::logError("Invalid domain value, make sure you've added this domain to the mod sources for this mod with addModSource");
+			throw ::MSU.Exception.InvalidValue(_domain);
 		}
+		this.__UpdateSource = _domain;
 	}
 }
