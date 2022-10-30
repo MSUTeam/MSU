@@ -6,6 +6,6 @@
 	::Const.AI.Behavior.ID.COUNT += 1;
 
 	::Const.AI.Behavior.Name.push(_name);
-	::Const.AI.Behavior.Order.RFAttackLunge <- _order;
-	::Const.AI.Behavior.Score.BFAttackLunge <- _score;
+	::Const.AI.Behavior.Order[_id] <- _order;
+	::Const.AI.Behavior.Score[_id] <- _score;
 }
