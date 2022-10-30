@@ -63,4 +63,11 @@
 
 		return true;
 	}
+
+	function lockSetting( _setting, _lockReason )
+	{
+		if (typeof _setting == "string") _setting = this.getSetting(_setting);
+
+		_setting.lock(_lockReason + format(" (%s (%s))", this.getMod().getID(), this.getMod().getName()));
+	}
 }
