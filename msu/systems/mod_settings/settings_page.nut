@@ -125,7 +125,7 @@
 			else
 			{
 				::logError("_filter must be of type function or class (not class instance!)");
-				throw ::MSU.Exception.InvalidType(_object);
+				throw ::MSU.Exception.InvalidType(_filter);
 			}
 		}
 
