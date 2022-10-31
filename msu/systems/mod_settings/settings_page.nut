@@ -109,7 +109,7 @@
 		return this.Settings;
 	}
 
-	function getAllElementsAsArray(_filter = null)
+	function getAllElementsAsArray( _filter = null )
 	{
 		local ret = this.getSettings().values();
 		if (_filter != null)

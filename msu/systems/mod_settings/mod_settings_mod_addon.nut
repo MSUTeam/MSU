@@ -22,7 +22,7 @@
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).getSetting(_settingID);
 	}
 
-	function getAllElementsAsArray(_filter = null)
+	function getAllElementsAsArray( _filter = null )
 	{
 		return this.getPanel().getAllElementsAsArray(_filter);
 	}

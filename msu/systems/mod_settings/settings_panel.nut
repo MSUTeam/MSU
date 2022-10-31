@@ -44,7 +44,7 @@
 		}
 	}
 
-	function getAllElementsAsArray(_filter = null)
+	function getAllElementsAsArray( _filter = null )
 	{
 		local ret = [];
 		foreach (page in this.Pages)
