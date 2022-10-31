@@ -337,29 +337,25 @@
 	local removeSelf = o.removeSelf;
 	o.removeSelf = function()
 	{
-		if (this.isStacking())
+		if (this.isStacking()) return removeSelf();
+
+		if (--this.m.MSU.AddedStack <= 0) return removeSelf();
+
+		if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || this.getItem().getContainer().getActor().getID() != this.getContainer().getActor().getID())
 		{
-			return removeSelf();
-		}
-		else
-		{			
-			if (--this.m.MSU.AddedStack <= 0) return removeSelf();
-			else if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || this.getItem().getContainer().getActor().getID() != this.getContainer().getActor().getID())
+			foreach (item in this.getContainer().getActor().getItems().getAllItems())
 			{
-				foreach (item in this.getContainer().getActor().getItems().getAllItems())
+				foreach (skill in item.m.SkillPtrs)
 				{
-					foreach (skill in item.m.SkillPtrs)
+					if (skill.getID() == this.getID())
 					{
-						if (skill.getID() == this.getID())
-						{
-							this.setItem(item);
-							return;
-						}
+						this.setItem(item);
+						return;
 					}
 				}
-
-				this.setItem(null);
 			}
+
+			this.setItem(null);
 		}
 	}
 
