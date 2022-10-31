@@ -60,10 +60,7 @@
 				if (alreadyPresentSkill.getID() == _skill.getID())
 				{
 					incrementAddedStack(alreadyPresentSkill, _skill);
-					for (local i = 1; i < alreadyPresentSkill.m.MSU.AddedStack; i++)
-					{
-						alreadyPresentSkill.onRefresh();
-					}					
+					if (alreadyPresentSkill.m.MSU.AddedStack > 1) alreadyPresentSkill.onRefresh();
 					return;
 				}
 			}
