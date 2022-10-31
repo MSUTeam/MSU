@@ -319,11 +319,11 @@
 	{
 		if (this.isStacking())
 		{
-			removeSelf();
+			return removeSelf();
 		}
 		else
 		{			
-			if (--this.m.MSU.AddedStack <= 0) removeSelf();
+			if (--this.m.MSU.AddedStack <= 0) return removeSelf();
 			else if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || this.getItem().getContainer().getActor().getID() != this.getContainer().getActor().getID())
 			{
 				foreach (item in this.getContainer().getActor().getItems().getAllItems())
