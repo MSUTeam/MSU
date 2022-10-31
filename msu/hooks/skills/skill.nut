@@ -344,7 +344,7 @@
 		else
 		{			
 			if (--this.m.MSU.AddedStack <= 0) removeSelf();
-			else if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || !::MSU.isEqual(this.getItem().getContainer().getActor(), this.getContainer().getActor()))
+			else if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || this.getItem().getContainer().getActor().getID() != this.getContainer().getActor().getID())
 			{
 				foreach (item in this.getContainer().getActor().getItems().getAllItems())
 				{
