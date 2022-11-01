@@ -382,6 +382,20 @@ ModSettingsScreen.prototype.adjustTitles = function (self)
 	});
 }
 
+ModSettingsScreen.prototype.setTypeIfFloatOrInt = function ( _data )
+{
+	if (_data.type == "number")
+	{
+		if (_data.value % 1 == 0) _data.type = "integer";
+		else
+		{
+			_data.type = "float";
+			_data.value = _data.value.toPrecision(6);
+		}
+	}
+	return _data;
+}
+
 ModSettingsScreen.prototype.getChanges = function () // Could still be significantly improved/optimized
 {
 	var self = this;
@@ -393,7 +407,10 @@ ModSettingsScreen.prototype.getChanges = function () // Could still be significa
 		{
 			if ("IsSetting" in element.data && !element.locked && element.currentValue != element.value)
 			{
-				changes[_panelID][_elementID] = element.value;
+				changes[_panelID][_elementID] = self.setTypeIfFloatOrInt({
+					type : typeof element.value,
+					value : element.value
+				});
 			}
 		});
 	});
@@ -431,11 +448,13 @@ ModSettingsScreen.prototype.updateSetting = function (_setting)
 
 ModSettingsScreen.prototype.setModSettingValue = function (_modID, _settingID, _value)
 {
-	var out = {
+	var out = this.setTypeIfFloatOrInt({
 		mod : _modID,
+		type : typeof _value,
 		id : _settingID,
 		value : _value
-	};
+	});
+
 	this.updateSetting(out);
 	this.updateSettingInNut(out);
 };
