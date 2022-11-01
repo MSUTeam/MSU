@@ -8,10 +8,9 @@ includeFile("registry_mod_addon");
 local system = ::MSU.Class.RegistrySystem();
 ::MSU.System.Registry <- system;
 
-includeFile("mod_source");
-includeFile("mod_source_github");
+::includeFiles(::IO.enumerateFiles("msu/systems/registry/mod_sources"))
+
 ::MSU.System.Registry.addNewModSource(::MSU.Class.ModSourceGitHub);
-includeFile("mod_source_nexusmods");
 ::MSU.System.Registry.addNewModSource(::MSU.Class.ModSourceNexusMods);
 
 ::MSU.getMod <- function( _modID )
