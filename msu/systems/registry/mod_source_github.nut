@@ -7,7 +7,7 @@
 	{
 		if (!this.Regex.match(_url))
 		{
-			::logError("A GitHub link must be a link to a specific repository, eg: 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
+			::logError("A GitHub link must be a link to a specific repository, e.g. 'https://github.com/MSUTeam/MSU' Check to make sure there's not an issue with your URL and that it is formatted the same way as the MSU URL.");
 			throw ::MSU.Exception.InvalidValue(_url);
 		}
 		base.constructor(_url);
