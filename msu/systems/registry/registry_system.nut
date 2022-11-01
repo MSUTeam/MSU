@@ -1,7 +1,7 @@
 ::MSU.Class.RegistrySystem <- class extends ::MSU.Class.System
 {
 	static ModSources = {};
-	static URLDomain = ::MSU.Class.Enum([
+	static ModSourceDomain = ::MSU.Class.Enum([
 		"GitHub",
 		"NexusMods"
 	]);
@@ -15,7 +15,7 @@
 	function addNewModSource( _modSource )
 	{
 		::MSU.requireInstanceOf(::MSU.Class.ModSource, _modSource.instance());
-		this.ModSources[_modSource.URLDomain] <- _modSource;
+		this.ModSources[_modSource.ModSourceDomain] <- _modSource;
 	}
 
 	function addMod( _mod )
@@ -86,7 +86,7 @@
 			};
 			foreach (modSource in mod.Registry.__ModSources)
 			{
-				modUpdateInfo.sources[::MSU.System.Registry.URLDomain.getKeyForValue(modSource.URLDomain)] <- modSource.getURL();
+				modUpdateInfo.sources[::MSU.System.Registry.ModSourceDomain.getKeyForValue(modSource.ModSourceDomain)] <- modSource.getURL();
 			}
 			modsWithNewVersions[modID] <- modUpdateInfo;
 		}

@@ -1,6 +1,6 @@
 ::MSU.Class.ModSourceNexusMods <- class extends ::MSU.Class.ModSource
 {
-	static URLDomain = ::MSU.System.Registry.URLDomain.NexusMods;
+	static ModSourceDomain = ::MSU.System.Registry.ModSourceDomain.NexusMods;
 	static Regex = regexp("https:\\/\\/www\\.nexusmods\\.com\\/battlebrothers\\/mods\\/(\\d+)");
 
 	constructor( _url )

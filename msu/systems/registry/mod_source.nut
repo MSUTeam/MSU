@@ -1,6 +1,6 @@
 ::MSU.Class.ModSource <- class
 {
-	static URLDomain = null;
+	static ModSourceDomain = null;
 	static Regex = null;
 	__URL = null;
 

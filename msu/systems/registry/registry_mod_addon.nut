@@ -37,7 +37,7 @@
 			::logError("Invalid domain value, make sure you've added this domain to the mod sources for this mod with addModSource");
 			throw ::MSU.Exception.InvalidValue(_domain);
 		}
-		if (_domain == ::MSU.System.Registry.URLDomain.NexusMods)
+		if (_domain == ::MSU.System.Registry.ModSourceDomain.NexusMods)
 		{
 			::logError("Due to the NexusMods API not being public we cannot support a NexusMods update source at this time");
 			throw ::MSU.Exception.InvalidValue(_domain);
