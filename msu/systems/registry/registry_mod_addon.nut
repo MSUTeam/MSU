@@ -16,7 +16,7 @@
 	function addModSource( _domain, _url )
 	{
 		::MSU.requireString(_url);
-		this.__ModSources[_domain] <- ::MSU.System.Registry.ModSources[_domain](_url)
+		this.__ModSources[_domain] <- ::MSU.System.Registry.ModSources[_domain](_url);
 	}
 
 	function getUpdateSource()
