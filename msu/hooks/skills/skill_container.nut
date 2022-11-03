@@ -32,43 +32,35 @@
 	{
 		if (_skill.isStacking()) return add(_skill, _order);
 
-		local incrementAddedStack = function( _alreadyPresentSkill, _skillToAdd )
-		{
-			if (++_alreadyPresentSkill.m.MSU.AddedStack > 0) _alreadyPresentSkill.m.IsGarbage = false;
+		local skills = clone this.m.Skills;
+		skills.extend(this.m.SkillsToAdd);
 
-			if (!::MSU.isNull(_skillToAdd.getItem()))
+		foreach (i, alreadyPresentSkill in skills)
+		{
+			if (alreadyPresentSkill.getID() == _skill.getID())
 			{
-				if (::MSU.isNull(_alreadyPresentSkill.getItem()) _alreadyPresentSkill.setItem(_skillToAdd.getItem());
-				foreach (i, itemSkill in _skillToAdd.getItem().m.SkillPtrs)
+				if (++alreadyPresentSkill.m.MSU.AddedStack > 0) alreadyPresentSkill.m.IsGarbage = false;
+
+				if (!::MSU.isNull(_skill.getItem()))
 				{
-					if (itemSkill.getID() == _skillToAdd.getID())
+					if (::MSU.isNull(alreadyPresentSkill.getItem()) alreadyPresentSkill.setItem(_skill.getItem());
+					foreach (j, itemSkill in _skill.getItem().m.SkillPtrs)
 					{
-						_skillToAdd.getItem().m.SkillPtrs[i] = _alreadyPresentSkill;
-						_skillToAdd.setItem(null);
-						break;
+						if (itemSkill.getID() == _skill.getID())
+						{
+							_skill.getItem().m.SkillPtrs[j] = alreadyPresentSkill;
+							_skill.setItem(null);
+							break;
+						}
 					}
 				}
-			}
-		}
 
-		foreach (alreadyPresentSkill in this.m.Skills)
-		{
-			if (alreadyPresentSkill.getID() == _skill.getID())
-			{
-				incrementAddedStack(alreadyPresentSkill, _skill);
-				if (alreadyPresentSkill.m.MSU.AddedStack > 1) alreadyPresentSkill.onRefresh();
+				if (alreadyPresentSkill.m.MSU.AddedStack > 1 && i < this.m.Skills.len()) alreadyPresentSkill.onRefresh();
 				return;
 			}
 		}
 
-		foreach (alreadyPresentSkill in this.m.SkillsToAdd)
-		{
-			if (alreadyPresentSkill.getID() == _skill.getID())
-			{
-				incrementAddedStack(alreadyPresentSkill, _skill);
-				return;
-			}
-		}
+		return add(_skill, _order);
 	}
 
 	local remove = o.remove;
