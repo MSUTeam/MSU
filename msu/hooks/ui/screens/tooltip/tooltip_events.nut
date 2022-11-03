@@ -13,41 +13,28 @@
 	local general_querySkillTooltipData = o.general_querySkillTooltipData;
 	o.general_querySkillTooltipData = function( _entityId, _skillId )
 	{
-		local entity = ::Tactical.getEntityByID(_entityId);
+		local ret = general_querySkillTooltipData(_entityId, _skillId);
 
-		if (entity != null)
+		if (ret != null)
 		{
-			local skill = entity.getSkills().getSkillByID(_skillId);
-
-			if (skill != null)
-			{
-				local tooltip = skill.getTooltip();
-				skill.getContainer().onQueryTooltip(skill, tooltip);
-				return tooltip;
-			}
+			local skill = ::Tactical.getEntityByID(_entityId).getSkills().getSkillByID(_skillId);
+			skill.getContainer().onQueryTooltip(skill, ret);
 		}
 
-		return null;
+		return ret;
 	}
 
 	local general_queryStatusEffectTooltipData = o.general_queryStatusEffectTooltipData;
 	o.general_queryStatusEffectTooltipData = function( _entityId, _statusEffectId )
 	{
-		local entity = ::Tactical.getEntityByID(_entityId);
-
-		if (entity != null)
+		local ret = general_queryStatusEffectTooltipData(_entityId, _statusEffectId);
+		if (ret != null)
 		{
-			local statusEffect = entity.getSkills().getSkillByID(_statusEffectId);
-
-			if (statusEffect != null)
-			{	
-				local tooltip = statusEffect.getTooltip();
-				statusEffect.getContainer().onQueryTooltip(statusEffect, tooltip);
-				return tooltip;
-			}
+			local statusEffect = ::Tactical.getEntityByID(_entityId).getSkills().getSkillByID(_statusEffectId);
+			statusEffect.getContainer().onQueryTooltip(statusEffect, ret);
 		}
 
-		return null;
+		return ret;
 	}
 
 	o.onQueryMSUTooltipData <- function( _data )
