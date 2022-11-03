@@ -319,7 +319,7 @@
 	{
 		if (this.isStacking()) return removeSelf();
 
-		if (--this.m.MSU.AddedStack <= 0) return removeSelf();
+		if (--this.m.MSU.AddedStack == 0) return removeSelf();
 
 		if (::MSU.isNull(this.getItem()) || ::MSU.isNull(this.getItem().getContainer()) || this.getItem().getContainer().getActor().getID() != this.getContainer().getActor().getID())
 		{
