@@ -55,8 +55,7 @@
 					}
 				}
 
-				if (alreadyPresentSkill.m.MSU.AddedStack > 1 && i < this.m.Skills.len()) alreadyPresentSkill.onRefresh();
-				return;
+				break;
 			}
 		}
 
