@@ -104,16 +104,15 @@
 
 	function getDescription()
 	{
-		local ret = "";
+		local ret = base.getDescription();
 		if (this.isLocked())
 		{
-			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n";
+			ret += "\n\n[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n";
 			if (this.LockReason != "")
 			{
-				ret += this.getLockReason() + "\n";
+				ret += this.getLockReason();
 			}
 		}
-		ret += base.getDescription();
 		return ret;
 	}
 
