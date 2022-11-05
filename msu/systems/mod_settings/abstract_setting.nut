@@ -110,7 +110,7 @@
 			ret += "[color=" + ::Const.UI.Color.NegativeValue + "]Locked[/color]\n";
 			if (this.LockReason != "")
 			{
-				ret += this.LockReason + "\n";
+				ret += this.getLockReason() + "\n";
 			}
 		}
 		ret += base.getDescription();
