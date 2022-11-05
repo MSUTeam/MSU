@@ -43,7 +43,7 @@
 
 				if (!::MSU.isNull(_skill.getItem()))
 				{
-					if (::MSU.isNull(alreadyPresentSkill.getItem()) alreadyPresentSkill.setItem(_skill.getItem());
+					if (::MSU.isNull(alreadyPresentSkill.getItem())) alreadyPresentSkill.setItem(_skill.getItem());
 					foreach (j, itemSkill in _skill.getItem().m.SkillPtrs)
 					{
 						if (itemSkill.getID() == _skill.getID())
