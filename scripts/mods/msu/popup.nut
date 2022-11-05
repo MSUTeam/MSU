@@ -35,6 +35,11 @@ this.popup <- {
 		}
 	}
 
+	function showModUpdates( _modInfos )
+	{
+		this.m.JSHandle.asyncCall("showModUpdates", _modInfos);
+	}
+
 	function forceQuit( _bool )
 	{
 		this.m.ForceQuit = _bool;
