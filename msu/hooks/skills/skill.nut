@@ -341,10 +341,15 @@
 
 		if (--this.m.MSU.AddedStack == 0) return removeSelf();
 
-		if (::MSU.isNull(this.getItem()) || !::MSU.isEqual(this.getItem().getContainer(), this.getContainer().getActor().getItems()))
+		// The actual item which provided this skill isn't unequipped yet because
+		// the removeSelf is called BEFORE the item is unequipped. So, we iterate over
+		// all items and skip the one that is going to be unequipped
+		if (::MSU.isEqual(this.getContainer().getActor().getItems().m.MSU.ItemBeingUnequipped, this.getItem()))
 		{
 			foreach (item in this.getContainer().getActor().getItems().getAllItems())
 			{
+				if (::MSU.isEqual(item, this.getItem())) continue;
+
 				foreach (skill in item.m.SkillPtrs)
 				{
 					if (skill.getID() == this.getID())
@@ -354,9 +359,9 @@
 					}
 				}
 			}
-
-			this.setItem(null);
 		}
+
+		this.setItem(null);
 	}
 
 	o.getDamageType <- function()
