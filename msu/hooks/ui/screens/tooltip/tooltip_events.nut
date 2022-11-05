@@ -29,7 +29,7 @@
 			local statusEffect = entity.getSkills().getSkillByID(_statusEffectId);
 
 			if (statusEffect != null)
-			{	
+			{
 				local tooltip = statusEffect.getTooltip();
 				statusEffect.getContainer().onQueryTooltip(statusEffect, tooltip);
 				return tooltip;
@@ -49,6 +49,20 @@
 	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
 	{
 		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
+
+        // Paragon Level mention/overwrite
+        if(_elementId == "character-screen.left-panel-header-module.Experience" || _elementId == "character-screen.left-panel-header-module.Level")
+        {
+            foreach(entry in ret)
+            {
+                if (entry.id == 2 && entry.type == "description")
+                {
+                    entry.text = ::MSU.String.replace(entry.text, "11th character level, characters are veterans and", "paragon level " + ::Const.XP.MaxLevelWithPerkpoints + " characters")
+					break;
+				}
+            }
+        }
+
 		if (ret == null)
 		{
 			if (_elementId.find("msu-settings") == 0)

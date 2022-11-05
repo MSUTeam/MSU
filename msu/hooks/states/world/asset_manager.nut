@@ -22,6 +22,19 @@
 		update(_worldState);
 	}
 
+	// Manually fix the potentially wrong AttributeLevelUpValues for campaign bros
+	local oldSetCampaignSettings = o.setCampaignSettings;
+	o.setCampaignSettings = function( _settings )
+	{
+		oldSetCampaignSettings(_settings);
+
+		foreach( bro in ::World.getPlayerRoster().getAll() )
+		{
+			bro.m.Attributes = [];
+			bro.fillAttributeLevelUpValues(bro.m.ParagonLevel - 1);
+		}
+	}
+
 	o.getLastDayMorningEventCalled <- function()
 	{
 		return this.m.LastDayMorningEventCalled;
