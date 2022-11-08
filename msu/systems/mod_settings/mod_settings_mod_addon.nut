@@ -22,9 +22,14 @@
 		return ::MSU.System.ModSettings.getPanel(this.Mod.getID()).getSetting(_settingID);
 	}
 
-	function getAllSettingsAsArray()
+	function getAllElementsAsArray( _filter = null )
 	{
-		return this.getPanel().getAllSettingsAsArray();
+		return this.getPanel().getAllElementsAsArray(_filter);
+	}
+
+	function resetSettings()
+	{
+		return this.getPanel().resetSettings();
 	}
 
 	function hasSetting( _settingID )

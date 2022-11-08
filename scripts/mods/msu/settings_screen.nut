@@ -47,6 +47,13 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 		this.m.OnCancelPressedListener();
 	}
 
+	function onResetButtonPressed( _data )
+	{
+		local panel = ::MSU.System.ModSettings.getPanel(_data.panelID);
+		local page = panel.getPage(_data.pageID);
+		page.resetSettings();
+	}
+
 	function onSaveButtonPressed( _data )
 	{
 		this.m.OnSavePressedListener(_data);

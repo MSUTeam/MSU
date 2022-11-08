@@ -87,6 +87,13 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 
 	layout = $('<div class="l-ok-button"/>');
 	footerButtonBar.append(layout);
+	layout.createTextButton("Reset", function ()
+	{
+		self.notifyBackendResetButtonPressed();
+	}, 'main-reset-button', 1);
+
+	layout = $('<div class="l-ok-button"/>');
+	footerButtonBar.append(layout);
 	layout.createTextButton("Apply", function ()
 	{
 		self.notifyBackendApplyButtonPressed();
@@ -117,6 +124,7 @@ ModSettingsScreen.prototype.createDIV = function (_parentDiv)
 ModSettingsScreen.prototype.bindTooltips = function ()
 {
 	this.mDialogContainer.find('.main-cancel-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Cancel"});
+	this.mDialogContainer.find('.main-reset-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Reset"});
 	this.mDialogContainer.find('.main-apply-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.Apply"});
 	this.mDialogContainer.find('.main-save-button').bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Main.OK"});
 };
@@ -140,6 +148,7 @@ ModSettingsScreen.prototype.unbindTooltips = function ()
 		setting.unbindTooltip();
 	});
 	this.mDialogContainer.find('.main-cancel-button').unbindTooltip();
+	this.mDialogContainer.find('.main-reset-button').unbindTooltip();
 	this.mDialogContainer.find('.main-apply-button').unbindTooltip();
 	this.mDialogContainer.find('.main-save-button').unbindTooltip();
 
@@ -468,6 +477,14 @@ ModSettingsScreen.prototype.notifyBackendCancelButtonPressed = function ()
 {
 	this.discardChanges();
 	SQ.call(this.mSQHandle, 'onCancelButtonPressed');
+};
+
+ModSettingsScreen.prototype.notifyBackendResetButtonPressed = function ()
+{
+	SQ.call(this.mSQHandle, 'onResetButtonPressed', {
+		"panelID" : this.mActivePanel.id,
+		"pageID" : this.mActivePage.id,
+	});
 };
 
 ModSettingsScreen.prototype.notifyBackendApplyButtonPressed = function ()

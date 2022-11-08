@@ -109,9 +109,35 @@
 		return this.Settings;
 	}
 
-	function getAllSettingsAsArray()
+	function getAllElementsAsArray( _filter = null )
 	{
-		return this.getSettings().values();
+		local ret = this.getSettings().values();
+		if (_filter != null)
+		{
+			if (typeof _filter == "function")
+			{
+				ret = ret.filter(_filter);
+			}
+			else if (typeof _filter == "class")
+			{
+				ret = ret.filter(@(_idx, _element) _element instanceof _filter);
+			}
+			else
+			{
+				::logError("_filter must be of type function or class (not class instance!)");
+				throw ::MSU.Exception.InvalidType(_filter);
+			}
+		}
+
+		return ret;
+	}
+
+	function resetSettings()
+	{
+		foreach (setting in this.getAllElementsAsArray(::MSU.Class.AbstractSetting))
+		{
+			setting.reset();
+		}
 	}
 
 	function get( _settingID )
