@@ -43,9 +43,9 @@
 		{
 			foreach (skill in this.m.SkillsToAdd)
 			{
-				if (_skill.getID() == skill.getID() && skill.isGarbage())
+				if (_skill.getID() == skill.getID())
 				{
-					this.m.SkillsToAdd.remove(skill);
+					if (skill.isGarbage()) this.m.SkillsToAdd.remove(skill);
 					break;
 				}
 			}
