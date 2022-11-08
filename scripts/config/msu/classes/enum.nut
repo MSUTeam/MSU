@@ -22,6 +22,11 @@
 			::logError("MSU Enum Keys must be non-empty strings and start with a capitalized letter");
 			throw ::MSU.Exception.InvalidValue(_key);
 		}
+		if (_key in this.__Keys)
+		{
+			::logError("MSU Enum Keys must be unique");
+			throw ::MSU.Exception.InvalidValue(_key);
+		}
 		this.__Keys[_key] <- this.__Keys.len();
 		this.__ValueKeyArray.push(_key);
 	}
