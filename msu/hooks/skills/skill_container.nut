@@ -41,11 +41,11 @@
 	{
 		if (!_skill.isStacking())
 		{
-			foreach (skill in this.m.SkillsToAdd)
+			foreach (i, alreadyPresentSkill in this.m.SkillsToAdd)
 			{
-				if (_skill.getID() == skill.getID())
+				if (_skill.getID() == alreadyPresentSkill.getID())
 				{
-					if (skill.isGarbage()) this.m.SkillsToAdd.remove(skill);
+					if (alreadyPresentSkill.isGarbage()) this.m.SkillsToAdd.remove(i);
 					break;
 				}
 			}
