@@ -337,7 +337,7 @@
 	local removeSelf = o.removeSelf;
 	o.removeSelf = function()
 	{
-		if (this.isStacking()) return removeSelf();
+		if (!_skill.isKeepingAddRemoveHistory()) return removeSelf();
 
 		if (--this.m.MSU.AddedStack == 0) return removeSelf();
 
@@ -362,6 +362,11 @@
 		}
 
 		this.setItem(null);
+	}
+
+	function isKeepingAddRemoveHistory()
+	{
+		return !this.isStacking() && !(this.isType(::Const.SkillType.Perk) || !this.isType(::Const.SkillType.StatusEffect));
 	}
 
 	o.getDamageType <- function()
