@@ -30,7 +30,7 @@
 	local add = o.add;
 	o.add = function( _skill, _order = 0 )
 	{
-		if (_skill.isStacking()) return add(_skill, _order);
+		if (!_skill.isKeepingAddRemoveHistory()) return add(_skill, _order);
 
 		local skills = clone this.m.Skills;
 		skills.extend(this.m.SkillsToAdd);
