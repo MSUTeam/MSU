@@ -6,12 +6,16 @@
 
 	o.isActionAffordable = function ( _items )
 	{
+		if (this.m.MSU.IsIgnoringItemAction) return true;
+
 		local actionCost = this.getActionCost(_items);
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
 	o.getActionCost = function( _items )
 	{
+		if (this.m.MSU.IsIgnoringItemAction) return 0;
+
 		this.m.ActionSkill = null;
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
