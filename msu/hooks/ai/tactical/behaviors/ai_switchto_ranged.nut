@@ -2,15 +2,15 @@
 	local onExecute = o.onExecute;
 	o.onExecute = function( _entity )
 	{
-		local itemsBefore = {};
+		local itemsBefore = array(::Const.ItemSlot.COUNT);
 		for (local i = 0; i < ::Const.ItemSlot.COUNT; i++)
 		{
-			itemsBefore[i] = _entity.getItems().getAllItemsAtSlot(i);
+			itemsBefore[i] = clone _entity.getItems().m.Items[i];
 		}
 
-		_entity.getItems().m.IsMSUHandledItemAction = true;
+		_entity.getItems().m.MSU.IsIgnoringItemAction = true;
 		local ret = onExecute(_entity);
-		_entity.getItems().m.IsMSUHandledItemAction = false;
+		_entity.getItems().m.MSU.IsIgnoringItemAction = false;
 
 		if (ret)
 		{
@@ -18,9 +18,14 @@
 			local items = [];
 			for (local i = 0; i < ::Const.ItemSlot.COUNT; i++)
 			{
-				local itemsNowInSlot = _entity.getItems().getAllItemsAtSlot(i);
-				items.extend(itemsBefore[i].filter(@(idx, item) itemsNowInSlot.find(item) == null));
-				items.extend(itemsNowInSlot.filter(@(idx, item) itemsBefore[i].find(item) == null));
+				foreach (j, item in _entity.getItems().m.Items[i])
+				{
+					if (item != itemsBefore[i][j])
+					{
+						if (item != null && item != -1) items.push(item);
+						if (itemsBefore[i][j] != null & itemsBefore[i][j] != -1) items.push(itemsBefore[i][j]);
+					}
+				}
 			}
 			_entity.getItems().payForAction(items);
 		}
