@@ -154,7 +154,7 @@
 
 				case this.DataType.Null:
 					val = null;
-
+					break;
 				default:
 					throw ::MSU.Exception.InvalidType(dataType);
 			}
