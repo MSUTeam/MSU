@@ -313,9 +313,9 @@
 	o.onDeserialize = function( _in )
 	{
 		onDeserialize(_in);
-		foreach(deserialzeFunction in ::MSU.System.Serialization.DeserializeFunctions)
+		foreach(deserializeFunction in ::MSU.System.Serialization.DeserializeFunctions)
 		{
-			deserialzeFunction(_in);
+			deserializeFunction(_in);
 		}
 		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{
