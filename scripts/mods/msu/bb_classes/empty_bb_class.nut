@@ -1,4 +1,4 @@
-this.dummy_bb_class <- {
+this.empty_bb_class <- {
 	m = {},
 	function create()
 	{
