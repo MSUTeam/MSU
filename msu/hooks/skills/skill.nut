@@ -54,10 +54,6 @@
 
 ::mods_hookBaseClass("skills/skill", function(o) {
 	o = o[o.SuperName];
-
-	o.m.MSU <- {
-		Owners = []
-	};
 	
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
 	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
@@ -68,8 +64,13 @@
 	o.m.IsApplyingPreview <- false;
 	o.PreviewField <- {};
 
+	o.m.MSU <- {
+		Owners = []
+	};
+
 	o.getOwners <- function()
 	{
+		::MSU.Mod.Debug.printLog("Returning owners for skill " + this.getID() + " , len: " + this.m.MSU.Owners.len(), "skills");
 		return this.m.MSU.Owners;
 	}
 
@@ -79,6 +80,7 @@
 		{
 			if (::MSU.isEqual(currentOwner, _owner))
 			{
+				::MSU.Mod.Debug.printLog("Found owner for skill " + this.getID() + " , owner: " + _owner, "skills");
 				return idx;
 			}
 		}
@@ -91,6 +93,7 @@
 			// Probably add some debug stuff
 			return false;
 		}
+		::MSU.Mod.Debug.printLog("Added owner for skill " + this.getID() + " , owner: " + _owner, "skills");
 		this.getOwners().append(::MSU.asWeakTableRef(_owner));
 		return true;
 	}
@@ -100,6 +103,7 @@
 		local ownerIdx = this.findOwner(_owner);
 		if (ownerIdx != null)
 		{
+			::MSU.Mod.Debug.printLog("Removed owner for skill " + this.getID() + " , owner: " + _owner, "skills");
 			this.getOwners().remove(ownerIdx);
 			return true;
 		}
@@ -112,6 +116,7 @@
 		{
 			if (!::MSU.isNull(owner))
 			{
+				::MSU.Mod.Debug.printLog("Skill " + this.getID() + " has valid owner: " + owner, "skills");
 				return true;
 			}
 		}
@@ -128,6 +133,7 @@
 		{
 			if (::MSU.isKindOf(owner, "item"))
 			{
+				::MSU.Mod.Debug.printLog("Skill " + this.getID() + " returns setItem for previous owner: " + owner, "skills");
 				return setItem(owner)
 			}
 		}
@@ -137,7 +143,12 @@
 	local removeSelf = o.removeSelf;
 	o.removeSelf = function()
 	{
-		if (!this.hasValidOwners()) return removeSelf();
+		if (!this.hasValidOwners())
+		{
+			::MSU.Mod.Debug.printLog("Skill " + this.getID() + " does removes itself", "skills");
+			return removeSelf();
+		}
+		::MSU.Mod.Debug.printLog("Skill " + this.getID() + " does not remove itself due to having valid owner.", "skills");
 	}
 
 

@@ -70,7 +70,7 @@
 	o.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
 	{
 	}
-
+	 //item.nut
 	local addSkill = o.addSkill;
 	o.addSkill <- function(_skill)
 	{

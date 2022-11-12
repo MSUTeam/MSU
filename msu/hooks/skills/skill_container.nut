@@ -46,14 +46,24 @@
 	local remove = o.remove;
 	o.remove = function( _skill )
 	{
-		if (!_skill.hasValidOwners()) return remove(_skill);
+		if (!_skill.hasValidOwners())
+		{
+			::MSU.Mod.Debug.printLog("Do remove skill " + _skill.getID() + " (no valid owner.)", "skills");
+			return remove(_skill);
+		}
+		::MSU.Mod.Debug.printLog("Did not remove skill " + _skill.getID() + " due to having valid owner.", "skills");
 	}
 
 	local removeByID = o.removeByID;
 	o.removeByID = function( _skillID )
 	{
 		local skill = this.getSkillByID(_skillID);
-		if (skill == null || !skill.hasValidOwners()) return removeByID(_skillID);
+		if (skill == null || !skill.hasValidOwners())
+		{
+			::MSU.Mod.Debug.printLog("Do remove skill " + (skill == null ? "null" : skill.getID()) + "  (null / no valid owner.)", "skills");
+			return removeByID(_skillID);
+		}
+		::MSU.Mod.Debug.printLog("Did not remove skill " + (skill == null ? "null" : skill.getID()) + " due to being null / having valid owner.", "skills");
 	}
 
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
