@@ -54,9 +54,9 @@
 		return this.Name;
 	}
 
-	function getModID()
+	function getMod()
 	{
-		return this.ModID;
+		return ::MSU.System.Registry.getMod(this.ModID);
 	}
 
 	function makeSetting()
@@ -72,7 +72,7 @@
 
 	function tostring()
 	{
-		return format("ModID: %s, ID: %s, KeyCombinations: %s", this.getModID(), this.getID(), this.getKeyCombinations());
+		return format("ModID: %s, ID: %s, KeyCombinations: %s", this.getMod().getID(), this.getID(), this.getKeyCombinations());
 	}
 
 	function _tostring()

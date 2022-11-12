@@ -43,7 +43,7 @@
 			{
 				::MSU.UI.JSConnection.addKeybind(_keybind);
 			}
-			this.KeybindsForJS[_keybind.getModID()][_keybind.getID()] <- _keybind;
+			this.KeybindsForJS[_keybind.getMod().getID()][_keybind.getID()] <- _keybind;
 		}
 		else if (_keybind instanceof ::MSU.Class.KeybindSQ)
 		{
@@ -59,7 +59,7 @@
 			}
 		}
 
-		this.KeybindsByMod[_keybind.getModID()][_keybind.getID()] <- _keybind;
+		this.KeybindsByMod[_keybind.getMod().getID()][_keybind.getID()] <- _keybind;
 		if (_makeSetting)
 		{
 			this.addKeybindSetting(_keybind);
@@ -147,7 +147,7 @@
 
 	function addKeybindSetting( _keybind )
 	{
-		::MSU.System.ModSettings.getPanel(_keybind.getModID()).getPage("Keybinds").addElement(_keybind.makeSetting());
+		::MSU.System.ModSettings.getPanel(_keybind.getMod().getID()).getPage("Keybinds").addElement(_keybind.makeSetting());
 	}
 
 	function getJSKeybinds()
