@@ -27,56 +27,33 @@
 		this.m.ScheduledChangesSkills.clear();
 	}
 
-	local add = o.add;
-	o.add = function( _skill, _order = 0 )
+	o.addOwnerToSkill <- function(_owner, _skillID)
 	{
-		if (!_skill.isKeepingAddRemoveHistory()) return add(_skill, _order);
-
 		local skills = clone this.m.Skills;
 		skills.extend(this.m.SkillsToAdd);
-
-		foreach (i, alreadyPresentSkill in skills)
+		foreach (skill in skills)
 		{
-			if (alreadyPresentSkill.getID() == _skill.getID())
+			if (skill.getID() == _skillID)
 			{
-				if (++alreadyPresentSkill.m.MSU.AddedStack > 0) alreadyPresentSkill.m.IsGarbage = false;
-
-				if (!::MSU.isNull(_skill.getItem()))
-				{
-					if (::MSU.isNull(alreadyPresentSkill.getItem())) alreadyPresentSkill.setItem(_skill.getItem());
-					foreach (j, itemSkill in _skill.getItem().m.SkillPtrs)
-					{
-						if (itemSkill.getID() == _skill.getID())
-						{
-							_skill.getItem().m.SkillPtrs[j] = alreadyPresentSkill;
-							_skill.setItem(null);
-							break;
-						}
-					}
-				}
-
-				break;
+				skill.addOwner(_owner);
+				skill.m.IsGarbage = false;
+				return true;
 			}
 		}
-
-		return add(_skill, _order);
+		return false;
 	}
 
 	local remove = o.remove;
 	o.remove = function( _skill )
 	{
-		if (_skill.m.MSU.AddedStack == 1) return remove(_skill);
-		else return _skill.removeSelf();
+		if (!_skill.hasValidOwners()) return remove(_skill);
 	}
 
 	local removeByID = o.removeByID;
 	o.removeByID = function( _skillID )
 	{
 		local skill = this.getSkillByID(_skillID);
-		if (skill == null) return;
-
-		if (skill.m.MSU.AddedStack == 1) return removeByID(_skillID);
-		else return skill.removeSelf();
+		if (skill == null || !skill.hasValidOwners()) return removeByID(_skillID);
 	}
 
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )

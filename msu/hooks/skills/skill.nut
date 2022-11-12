@@ -56,7 +56,7 @@
 	o = o[o.SuperName];
 
 	o.m.MSU <- {
-		AddedStack = 1
+		Owners = []
 	};
 	
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
@@ -67,6 +67,79 @@
 
 	o.m.IsApplyingPreview <- false;
 	o.PreviewField <- {};
+
+	o.getOwners <- function()
+	{
+		return this.m.MSU.Owners;
+	}
+
+	o.findOwner <- function(_owner)
+	{
+		foreach (idx, currentOwner in this.getOwners())
+		{
+			if (::MSU.isEqual(currentOwner, _owner))
+			{
+				return idx;
+			}
+		}
+	}
+
+	o.addOwner <- function(_owner)
+	{
+		if (this.findOwner(_owner) != null)
+		{
+			// Probably add some debug stuff
+			return false;
+		}
+		this.getOwners().append(::MSU.asWeakTableRef(_owner));
+		return true;
+	}
+
+	o.removeOwner <- function(_owner)
+	{
+		local ownerIdx = this.findOwner(_owner);
+		if (ownerIdx != null)
+		{
+			this.getOwners().remove(ownerIdx);
+			return true;
+		}
+		return false;
+	}
+
+	o.hasValidOwners <- function()
+	{
+		foreach (owner in this.getOwners())
+		{
+			if (!::MSU.isNull(owner))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	local setItem = o.setItem;
+	o.setItem = function(_item)
+	{
+		if (_item != null || !this.hasValidOwners())
+			return setItem(_item)
+
+		foreach (owner in this.getOwners())
+		{
+			if (::MSU.isKindOf(owner, "item"))
+			{
+				return setItem(owner)
+			}
+		}
+		return setItem(_item)
+	}
+
+	local removeSelf = o.removeSelf;
+	o.removeSelf = function()
+	{
+		if (!this.hasValidOwners()) return removeSelf();
+	}
+
 
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
@@ -312,41 +385,6 @@
 		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
 		return ret;
-	}
-
-	local removeSelf = o.removeSelf;
-	o.removeSelf = function()
-	{
-		if (!_skill.isKeepingAddRemoveHistory()) return removeSelf();
-
-		if (--this.m.MSU.AddedStack == 0) return removeSelf();
-
-		// The actual item which provided this skill isn't unequipped yet because
-		// the removeSelf is called BEFORE the item is unequipped. So, we iterate over
-		// all items and skip the one that is going to be unequipped
-		if (::MSU.isEqual(this.getContainer().getActor().getItems().m.MSU.ItemBeingUnequipped, this.getItem()))
-		{
-			foreach (item in this.getContainer().getActor().getItems().getAllItems())
-			{
-				if (::MSU.isEqual(item, this.getItem())) continue;
-
-				foreach (skill in item.m.SkillPtrs)
-				{
-					if (skill.getID() == this.getID())
-					{
-						this.setItem(item);
-						return;
-					}
-				}
-			}
-		}
-
-		this.setItem(null);
-	}
-
-	function isKeepingAddRemoveHistory()
-	{
-		return !this.isStacking() && !(this.isType(::Const.SkillType.Perk) || !this.isType(::Const.SkillType.StatusEffect));
 	}
 
 	o.getDamageType <- function()

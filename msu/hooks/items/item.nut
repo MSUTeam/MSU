@@ -70,4 +70,21 @@
 	o.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
 	{
 	}
+
+	local addSkill = o.addSkill;
+	o.addSkill <- function(_skill)
+	{
+		if (!this.getContainer().getActor().getSkills().addOwnerToSkill(this, _skill.getID()))
+		{
+			_skill.addOwner(this);
+		}
+		return addSkill(_skill);
+	}
+
+	local removeSkill = o.removeSkill;
+	o.removeSkill <- function(_skill)
+	{
+		_skill.removeOwner(this);
+		return removeSkill(_skill);
+	}
 });
