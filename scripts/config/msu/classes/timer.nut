@@ -5,7 +5,7 @@
 	PauseStart = null;
 	PauseIncrement = null;
 
-	constructor(_id)
+	constructor( _id )
 	{
 		this.ID = _id;
 		this.Start = ::Time.getExactTime();
