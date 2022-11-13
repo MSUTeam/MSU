@@ -213,7 +213,7 @@ MSU.TimerObject.prototype.get = function(_msg, _stop, _printMsg)
 
 MSU.TimerObject.prototype.pause = function()
 {
-	if (this.PauseStart != null)
+	if (this.PauseStart != null && MSU.getSettingValue("mod_msu", "performanceLog"))
 	{
 		console.error("Timer " + this.ID + " paused despite already being paused!");
 	}
@@ -224,7 +224,10 @@ MSU.TimerObject.prototype.unpause = function()
 {
 	if (this.PauseStart == null)
 	{
-		console.error("Timer " + this.ID + " resumed despite not being paused!");
+		if (MSU.getSettingValue("mod_msu", "performanceLog"))
+		{
+			console.error("Timer " + this.ID + " resumed despite not being paused!");
+		}
 		return;
 	}
 	var pauseStop = new Date();

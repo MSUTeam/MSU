@@ -32,7 +32,7 @@
 	{
 		if (this.PauseStart != null)
 		{
-			::logWarning(format("Timer %s paused despite already being paused!", this.ID));
+			::MSU.Mod.Debug.printWarning(format("Timer %s paused despite already being paused!", this.ID), "performance");
 		}
 		this.PauseStart = ::Time.getExactTime();
 	}
@@ -41,7 +41,7 @@
 	{
 		if (this.PauseStart == null)
 		{
-			::logWarning(format("Timer %s resumed despite not being paused!", this.ID));
+			::MSU.Mod.Debug.printWarning(format("Timer %s resumed despite not being paused!", this.ID), "performance");
 			return;
 		}
 		this.PauseIncrement += ::Time.getExactTime() - this.PauseStart;
