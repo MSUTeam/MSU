@@ -5,5 +5,6 @@
 	"keybinds" : false,
 	"persistence" : false,
 	"modsettings" : false,
-	"tooltip" : false
+	"tooltip" : false,
+	"performance" : false
 })
