@@ -190,17 +190,43 @@ MSU.TimerObject = function(_id)
 {
 	this.ID = _id;
 	this.Start = new Date();
+	this.PauseStart = null;
+	this.PauseIncrement = 0;
 }
 
 MSU.TimerObject.prototype.get = function(_msg, _stop)
 {
+	// Make sure to substract paused timme
+	if (this.PauseStart != null)
+		this.unpause();
 	var end  = new Date();
-    var time = end.getTime() - this.Start.getTime();
+    var time = end.getTime() - this.Start.getTime() - this.PauseIncrement;
     var text = 'Timer: "' +  this.ID +  '" currently at ' +  time + 'ms';
     if(_stop) text = 'Timer: "' +  this.ID +  '" stopped at ' +  time + 'ms';
     if(_msg) text += " | Msg: " + _msg;
     console.error(text);
     return time;
+}
+
+MSU.TimerObject.prototype.pause = function()
+{
+	if (this.PauseStart != null)
+	{
+		console.error("Timer " + this.ID + " paused despite already being paused!");
+	}
+	this.PauseStart = new Date();
+}
+
+MSU.TimerObject.prototype.unpause = function()
+{
+	if (this.PauseStart == null)
+	{
+		console.error("Timer " + this.ID + " resumed despite not being paused!");
+		return;
+	}
+	var pauseStop = new Date();
+	this.PauseIncrement += pauseStop.getTime() - this.PauseStart.getTime();
+	this.PauseStart = null;
 }
 
 MSU.TimerObject.prototype.stop = function(_msg)

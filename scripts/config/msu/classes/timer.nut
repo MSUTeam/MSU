@@ -2,20 +2,47 @@
 {
 	ID = null;
 	Start = null;
+	PauseStart = null;
+	PauseIncrement = null;
 
 	constructor(_id)
 	{
 		this.ID = _id;
 		this.Start = ::Time.getExactTime();
+		this.PauseIncrement = 0;
 	}
 
 	function get(_msg = "", _stop = false)
 	{
-	    local time = (::Time.getExactTime() - this.Start) * 1000;
+		// Make sure to substract paused timme
+		if (this.PauseStart != null)
+			this.unpause();
+
+	    local time = (::Time.getExactTime() - this.Start - this.PauseIncrement) * 1000;
 	    local text = format("Timer: %s %s at %f ms", this.ID, _stop ? "stopped" : "currently", time);
 	    if(_msg != "") text += " | Msg: " + _msg;
 	    ::logInfo(text);
 	    return time;
+	}
+
+	function pause()
+	{
+		if (this.PauseStart != null)
+		{
+			::logWarning(format("Timer %s paused despite already being paused!", this.ID));
+		}
+		this.PauseStart = ::Time.getExactTime();
+	}
+
+	function unpause()
+	{
+		if (this.PauseStart == null)
+		{
+			::logWarning(format("Timer %s resumed despite not being paused!", this.ID));
+			return;
+		}
+		this.PauseIncrement += ::Time.getExactTime() - this.PauseStart;
+		this.PauseStart = null;
 	}
 
 	function stop(_msg = "")
