@@ -1,14 +1,21 @@
 ::mods_hookNewObject("items/item_container", function(o) {
 	o.m.ActionSkill <- null;
+	o.m.MSU <- {
+		IsIgnoringItemAction = false
+	}
 
 	o.isActionAffordable = function ( _items )
 	{
+		if (this.m.MSU.IsIgnoringItemAction) return true;
+
 		local actionCost = this.getActionCost(_items);
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
 	o.getActionCost = function( _items )
 	{
+		if (this.m.MSU.IsIgnoringItemAction) return 0;
+
 		this.m.ActionSkill = null;
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
@@ -22,7 +29,7 @@
 			if (entry.Cost < cost)
 			{
 				cost = entry.Cost;
-				this.m.ActionSkill = entry.Skill;
+				this.m.ActionSkill = ::MSU.asWeakTableRef(entry.Skill);
 			}
 		}
 
@@ -31,9 +38,12 @@
 
 	o.payForAction = function ( _items )
 	{
+		if (this.m.MSU.IsIgnoringItemAction || _items.len() == 0) return;
+
 		local actionCost = this.getActionCost(_items);
 		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
 		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill, _items);
+		this.m.ActionSkill = null;
 	}
 
 	o.getStaminaModifier <- function( _slots = null )
