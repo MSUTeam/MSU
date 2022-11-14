@@ -76,11 +76,6 @@
 		return ret;
 	}
 
-	o.isSlotEmptyOrBlocked <- function( _itemSlot, _idx = 0 )
-	{
-		return this.m.Items[_itemSlot][_idx] == null || this.m.Items[_itemSlot][_idx] == -1;
-	}
-
 	local onNewRound = o.onNewRound;
 	o.onNewRound = function()
 	{
