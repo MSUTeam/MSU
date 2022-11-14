@@ -63,9 +63,9 @@
 	{
 		local setting = ::MSU.Class.KeybindSetting(this.getID(), this.getKeyCombinations(), this.getName());
 		setting.setDescription(this.getDescription());
-		setting.addCallback(function(_data)
+		setting.addAfterChangeCallback(function(_oldValue)
 		{
-			::MSU.System.Keybinds.update(this.getMod().getID(), this.getID(), _data, true, false, false);
+			::MSU.System.Keybinds.update(this.getMod().getID(), this.getID());
 		});
 		return setting;
 	}
