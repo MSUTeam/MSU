@@ -197,8 +197,10 @@ MSU.TimerObject = function(_id)
 MSU.TimerObject.prototype.get = function(_msg, _stop, _printMsg)
 {
 	// Make sure to substract paused timme
+	var pauseIncrement = this.PauseIncrement;
 	if (this.PauseStart != null)
-		this.unpause();
+		pauseIncrement += new Date().getTime() - this.PauseStart;
+
 	var end  = new Date();
     var time = end.getTime() - this.Start.getTime() - this.PauseIncrement;
     if (_printMsg !== false)

@@ -15,10 +15,11 @@
 	function get( _msg = "", _stop = false, _printMsg = true )
 	{
 		// Make sure to substract paused timme
+		local pauseIncrement = this.PauseIncrement;
 		if (this.PauseStart != null)
-			this.unpause();
+			pauseIncrement += ::Time.getExactTime() - this.PauseStart;
 
-	    local time = (::Time.getExactTime() - this.Start - this.PauseIncrement) * 1000;
+	    local time = (::Time.getExactTime() - this.Start - pauseIncrement) * 1000;
 	    if (_printMsg)
 	    {
 		    local text = format("Timer: %s %s at %f ms", this.ID, _stop ? "stopped" : "currently", time);
