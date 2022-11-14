@@ -1,15 +1,5 @@
 ::MSU.Class.KeybindsModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	function update( _id, _keyCombinations )
-	{
-		::MSU.System.Keybinds.update(this.Mod.getID(), _id, _keyCombinations, true, false, false);
-	}
-
-	function updateBaseValue( _id, _keyCombinations )
-	{
-		::MSU.System.Keybinds.updateBaseValue(this.Mod.getID(), _id, _keyCombinations, true, false, false);
-	}
-
 	function addSQKeybind( _id, _keyCombinations, _state, _function, _name = null, _keyState = null, _description = "" )
 	{
 		local keybind = ::MSU.Class.KeybindSQ(this.Mod.getID(), _id, _keyCombinations, _state, _function, _name, _keyState);
@@ -44,5 +34,17 @@
 	function addTitle( _id, _name )
 	{
 		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getPage("Keybinds").addTitle(_id, _name);
+	}
+
+	// Deprecated, use ModSettings set() instead
+	function update( _id, _keyCombinations )
+	{
+		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getSetting(_id).set(_keyCombinations);
+	}
+
+	// Deprecated, use ModSettings setBaseValue() instead
+	function updateBaseValue( _id, _keyCombinations)
+	{
+		::MSU.System.Keybinds.updateBaseValue(this.Mod.getID(), _id, _keyCombinations);
 	}
 }
