@@ -218,14 +218,9 @@
 	    return this.Timers[_id];
 	}
 
+	// Deprecated - use ::MSU.AI.addBehavior instead
 	function addAIBehaviour(_id, _name, _order, _score = null)
 	{
-		::Const.AI.Behavior.ID[_id] <- ::Const.AI.Behavior.ID.COUNT++;
-		::Const.AI.Behavior.Name.push(_name);
-		::Const.AI.Behavior.Order[_id] <- _order;
-		if(_score != null)
-		{
-			::Const.AI.Behavior.Score[_id] <- _score;
-		}
+		return ::MSU.AI.addBehavior(_id, _name, _order, _score);
 	}
 }
