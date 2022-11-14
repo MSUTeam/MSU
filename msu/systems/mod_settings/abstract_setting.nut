@@ -73,10 +73,13 @@
 		this.set(this.BaseValue, true, true, true, true);
 	}
 
-	function setBaseValue( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = false )
+	function setBaseValue( _value, _reset = false)
 	{
 		this.m.BaseValue = _value;
-		this.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
+		if (_reset)
+		{
+			this.reset();
+		}
 	}
 
 	function set( _newValue, _updateJS = true, _updatePersistence = true, _updateBeforeChangeCallback = true, _force = false, _updateAfterChangeCallback = true)
