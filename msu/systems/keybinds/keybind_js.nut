@@ -9,7 +9,7 @@
 	function getUIData( _flags = [] )
 	{
 		return {
-			modID = this.getModID(),
+			modID = this.getMod().getID(),
 			id = this.getID(),
 			keyCombinations = this.getKeyCombinations()
 		};

@@ -1,7 +1,7 @@
 ::MSU.Class.AbstractKeybind <- class
 {
 	KeyCombinations = null;
-	ModID = null;
+	Mod = null;
 	ID = null;
 	Name = null;
 	Description = null;
@@ -16,7 +16,7 @@
 		}
 		::MSU.requireString(_modID, _id, _keyCombinations, _name);
 
-		this.ModID = _modID;
+		this.Mod = ::MSU.System.Registry.getMod(_modID);
 		this.ID = _id;
 		this.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations), "/");
 		this.Name = _name;
@@ -54,9 +54,9 @@
 		return this.Name;
 	}
 
-	function getModID()
+	function getMod()
 	{
-		return this.ModID;
+		return this.Mod;
 	}
 
 	function makeSetting()
@@ -72,7 +72,7 @@
 
 	function tostring()
 	{
-		return format("ModID: %s, ID: %s, KeyCombinations: %s", this.getModID(), this.getID(), this.getKeyCombinations());
+		return format("ModID: %s, ID: %s, KeyCombinations: %s", this.getMod().getID(), this.getID(), this.getKeyCombinations());
 	}
 
 	function _tostring()
