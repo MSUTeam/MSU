@@ -29,7 +29,7 @@
 			if (entry.Cost < cost)
 			{
 				cost = entry.Cost;
-				this.m.ActionSkill = entry.Skill;
+				this.m.ActionSkill = ::MSU.asWeakTableRef(entry.Skill);
 			}
 		}
 
