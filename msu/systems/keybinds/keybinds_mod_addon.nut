@@ -41,10 +41,4 @@
 	{
 		::MSU.System.ModSettings.getPanel(this.Mod.getID()).getSetting(_id).set(_keyCombinations);
 	}
-
-	// Deprecated, use ModSettings setBaseValue() instead
-	function updateBaseValue( _id, _keyCombinations)
-	{
-		::MSU.System.Keybinds.updateBaseValue(this.Mod.getID(), _id, _keyCombinations);
-	}
 }

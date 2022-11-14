@@ -259,10 +259,4 @@
 	{
 		this.MSU.System.ModSettings.setSettingFromPersistence(_modID, _id, _keyCombinations);
 	}
-
-	// Deprecated, now handled over the mod settings system
-	function updateBaseValue( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true )
-	{
-		::getModSetting(_modID, _id).setBaseValue(_keyCombinations);
-	}
 }
