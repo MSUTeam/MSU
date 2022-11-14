@@ -97,14 +97,6 @@
 		this.add(keybind, false);
 	}
 
-	function updateBaseValue( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true )
-	{
-		local keybind = this.remove(_modID, _id);
-		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(_keyCombinations),"/");
-		::getModSetting(_modID, _id).setBaseValue(keybind.getKeyCombinations(), _updateJS, _updatePersistence, _updateCallback, true);
-		this.add(keybind, false);
-	}
-
 	function call( _key, _environment, _state, _keyState )
 	{
 		if (!(_key in this.KeybindsByKey))
@@ -266,5 +258,11 @@
 	function updateFromPersistence( _modID, _id, _keyCombinations )
 	{
 		this.MSU.System.ModSettings.setSettingFromPersistence(_modID, _id, _keyCombinations);
+	}
+
+	// Deprecated, now handled over the mod settings system
+	function updateBaseValue( _modID, _id, _keyCombinations, _updateJS = true, _updatePersistence = true, _updateCallback = true )
+	{
+		::getModSetting(_modID, _id).setBaseValue(_keyCombinations);
 	}
 }
