@@ -55,27 +55,6 @@
 		}
 	}
 
-	// This function is called during `onExecute` of the `ai_pickup_weapon` behavior
-	// This hook is necessary to ensure that the correct items array is passed to the `payForAction` function
-	// TODO - needs discussion because in vanilla even if the AI picks up a weapon AND a shield, they only pay the cost ONCE i.e. 4 AP
-	// However with this change now they will be able to pick up a weapon with 0 Cost if they have Quick Hands - this conflicts with vanilla behavior
-	// We could leave this hook out completely but that will leave a loop hole in MSU implementation regarding skills which may affect AP cost of picking
-	// up items from the ground
-	local pickupMeleeWeaponAndShield = o.pickupMeleeWeaponAndShield;
-	o.pickupMeleeWeaponAndShield = function( _tile )
-	{
-		local itemsBefore = _entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Mainhand);
-		itemsBefore.extend(_entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Offhand));
-
-		local ret = pickupMeleeWeaponAndShield(_tile);
-
-		local itemsAfter = _entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Mainhand);
-		itemsAfter.extend(_entity.getItems().getAllItemsAtSlot(::Const.ItemSlot.Offhand));
-		this.getItems().payForAction(itemsAfter.filter(@(idx, item) itemsBefore.find(item) == null));
-
-		return ret;
-	}
-
 	o.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
