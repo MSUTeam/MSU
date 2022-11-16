@@ -1,4 +1,13 @@
 ::MSU.Table <- {
+
+	function getKwargsTable(_options, _delegate)
+	{
+		if (_options == null)
+			_options = {};
+		_options.setdelegate(_delegate);
+		return _options;
+	}
+
 	function rand( _table )
 	{
 		local chosenIdx = ::Math.rand(0, _table.len() - 1);
