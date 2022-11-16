@@ -154,6 +154,28 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				if (dependencyMod == null)
 				{
+					switch (dependencyTable.Name)
+					{
+						case "dlc_lindwurm":
+							dependencyTable.Name = "DLC: Lindwurm";
+							break;
+
+						case "dlc_unhold":
+							dependencyTable.Name = "DLC: Beasts & Exploration";
+							break;
+
+						case "dlc_wildmen":
+							dependencyTable.Name = "DLC: Warriors of the North";
+							break;
+
+						case "dlc_desert":
+							dependencyTable.Name = "DLC: Blazing Deserts";
+							break;
+
+						case "dlc_paladins":
+							dependencyTable.Name = "DLC: Of Flesh and Faith";
+							break;
+					}
 					::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyTable.Name);
 					continue; // Required mod missing
 				}
