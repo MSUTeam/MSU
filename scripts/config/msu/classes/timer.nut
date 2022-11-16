@@ -12,20 +12,21 @@
 		this.PauseIncrement = 0;
 	}
 
-	function get( _msg = "", _stop = false, _printMsg = true )
+	function silentGet()
 	{
-		// Make sure to substract paused timme
 		local pauseIncrement = this.PauseIncrement;
 		if (this.PauseStart != null)
 			pauseIncrement += ::Time.getExactTime() - this.PauseStart;
 
-	    local time = (::Time.getExactTime() - this.Start - pauseIncrement) * 1000;
-	    if (_printMsg)
-	    {
-		    local text = format("Timer: %s %s at %f ms", this.ID, _stop ? "stopped" : "currently", time);
-		    if(_msg != "") text += " | Msg: " + _msg;
-		    ::logInfo(text);
-	    }
+	    return (::Time.getExactTime() - this.Start - pauseIncrement) * 1000;
+	}
+
+	function get( _msg = "", _stop = false )
+	{
+		local time = this.silentGet()
+		local text = format("Timer: %s %s at %f ms", this.ID, _stop ? "stopped" : "currently", time);
+		if(_msg != "") text += " | Msg: " + _msg;
+		::logInfo(text);
 	    return time;
 	}
 
@@ -49,10 +50,15 @@
 		this.PauseStart = null;
 	}
 
-	function stop( _msg = "", _printMsg = true )
+	function stop( _msg = "" )
 	{
-		local time = this.get(_msg, true, _printMsg);
 	    delete ::MSU.Utils.Timers[this.ID];
-	    return time;
+	    return this.get(_msg, true);
+	}
+
+	function silentStop()
+	{
+		delete ::MSU.Utils.Timers[this.ID];
+		return this.silentGet();
 	}
 }
