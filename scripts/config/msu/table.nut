@@ -1,6 +1,6 @@
 ::MSU.Table <- {
 
-	function getKwargsTable( _passedArguments, _defaultArgumentsTable )
+	function kwargs( _passedArguments, _defaultArgumentsTable )
 	{
 		if (_passedArguments == null)
 			_passedArguments = {};
