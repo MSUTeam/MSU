@@ -1,11 +1,11 @@
 ::MSU.Table <- {
 
-	function getKwargsTable( _options, _defaultArgumentTable )
+	function getKwargsTable( _passedArguments, _defaultArgumentsTable )
 	{
-		if (_options == null)
-			_options = {};
-		_options.setdelegate(_defaultArgumentTable);
-		return _options;
+		if (_passedArguments == null)
+			_passedArguments = {};
+		_passedArguments.setdelegate(_defaultArgumentsTable);
+		return _passedArguments;
 	}
 
 	function rand( _table )
