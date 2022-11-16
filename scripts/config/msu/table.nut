@@ -1,6 +1,6 @@
 ::MSU.Table <- {
 
-	function getKwargsTable(_options, _delegate)
+	function getKwargsTable( _options, _delegate )
 	{
 		if (_options == null)
 			_options = {};
