@@ -1,10 +1,10 @@
 ::MSU.Table <- {
 
-	function getKwargsTable( _options, _delegate )
+	function getKwargsTable( _options, _defaultArgumentTable )
 	{
 		if (_options == null)
 			_options = {};
-		_options.setdelegate(_delegate);
+		_options.setdelegate(_defaultArgumentTable);
 		return _options;
 	}
 
