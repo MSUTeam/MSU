@@ -100,9 +100,8 @@
 
 		if (this.isEnabledForMod(_modID, _flagID))
 		{
-			local src = getstackinfos(3).src.slice(0, -4);
-			src = split(src, "/")[split(src, "/").len()-1] + ".nut";
-			local string = format("%s::%s -- %s -- %s", _modID, _flagID, src, _printText);
+			local si = ::getstackinfos(3);
+			local string = format("%s::%s -- %s::%s : %i<br>%s", _modID, _flagID, si.src, si.func == "unknown" ? "" : si.func, si.line, _printText)
 			switch (_logType)
 			{
 				case this.LogType.Info:
