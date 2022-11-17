@@ -2,9 +2,7 @@
 	function capitalizeFirst( _string )
 	{
 		if (_string == "") return _string;
-		local first = _string.slice(0, 1);
-		first = first.toupper();
-		return first + _string.slice(1);
+		return _string.slice(0, 1).toupper() + _string.slice(1);
 	}
 
 	function replace( _string, _find, _replace, _all = false )
