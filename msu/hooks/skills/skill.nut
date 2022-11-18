@@ -198,13 +198,13 @@
 
 		setContainer(_c);
 
-		if (this.m.AIBehaviorScript != null && _c != null && !this.getContainer().getActor().isPlayerControlled())
+		if (this.m.AIBehaviorScript != null && _c != null && !_c.getActor().isPlayerControlled())
 		{
 			local behavior = ::new(this.m.AIBehaviorScript);
-			if (this.getContainer().getActor().getAIAgent().findBehavior(behavior.getID()) == null)
+			if (_c.getActor().getAIAgent().findBehavior(behavior.getID()) == null)
 			{
-				this.getContainer().getActor().getAIAgent().addBehavior(behavior);
-				this.getContainer().getActor().getAIAgent().finalizeBehaviors();
+				_c.getActor().getAIAgent().addBehavior(behavior);
+				_c.getActor().getAIAgent().finalizeBehaviors();
 			}
 		}
 	}
