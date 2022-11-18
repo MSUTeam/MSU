@@ -34,25 +34,6 @@
 		}
 	}
 
-	// VANILLAFIX http://battlebrothersgame.com/forums/topic/weapon-skills-lost-on-load-if-multiple-skills-call-unequip-and-equip-in-onadded
-	// if we overwrite add later, we should do this inside the loop in the function
-	local add = o.add;
-	o.add = function( _skill, _order = 0 )
-	{
-		if (!_skill.isStacking())
-		{
-			foreach (i, alreadyPresentSkill in this.m.SkillsToAdd)
-			{
-				if (_skill.getID() == alreadyPresentSkill.getID())
-				{
-					if (alreadyPresentSkill.isGarbage()) this.m.SkillsToAdd.remove(i);
-					break;
-				}
-			}
-		}
-		return add(_skill, _order);
-	}
-
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
 		if (_argsArray == null) _argsArray = [null];
