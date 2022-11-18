@@ -133,14 +133,14 @@
 		this.Screen.updateSettingInJS( _modID, _settingID, _value );
 	}
 
-	function callPanelsFunction( _function, ... )
+	function callPanelsFunction( _function, _argsArray )
 	{
-		vargv.insert(0, null);
+		_argsArray.insert(0, null);
 
 		foreach (panel in this.Panels)
 		{
-			vargv[0] = panel;
-			panel[_function].acall(vargv);
+			_argsArray[0] = panel;
+			panel[_function].acall(_argsArray);
 		}
 	}
 
@@ -149,19 +149,14 @@
 		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 	}
 
-	function flagSerialize()
+	function flagSerialize( _out )
 	{
-		this.callPanelsFunction("flagSerialize");
+		this.callPanelsFunction("flagSerialize", [_out]);
 	}
 
-	function resetFlags()
+	function flagDeserialize( _in )
 	{
-		this.callPanelsFunction("resetFlags");
-	}
-
-	function flagDeserialize()
-	{
-		this.callPanelsFunction("flagDeserialize");
+		this.callPanelsFunction("flagDeserialize", [_in]);
 	}
 
 	function getUIData( _flags = null )

@@ -140,35 +140,30 @@
 		return this.Mod.getID();
 	}
 
-	function callSettingsFunction( _function, ... )
+	function callSettingsFunction( _function, _argsArray )
 	{
-		vargv.insert(0, null);
+		_argsArray.insert(0, null);
 		foreach (page in this.Pages)
 		{
 			foreach (setting in page.getSettings())
 			{
 				if (setting instanceof ::MSU.Class.AbstractSetting)
 				{
-					vargv[0] = setting;
-					setting[_function].acall(vargv);
+					_argsArray[0] = setting;
+					setting[_function].acall(_argsArray);
 				}
 			}
 		}
 	}
 
-	function flagSerialize()
+	function flagSerialize( _out )
 	{
-		this.callSettingsFunction("flagSerialize");
+		this.callSettingsFunction("flagSerialize", [_out]);
 	}
 
-	function flagDeserialize()
+	function flagDeserialize( _in )
 	{
-		this.callSettingsFunction("flagDeserialize");
-	}
-
-	function resetFlags()
-	{
-		this.callSettingsFunction("resetFlags");
+		this.callSettingsFunction("flagDeserialize", [_in]);
 	}
 
 	function getUIData( _flags = [] )
