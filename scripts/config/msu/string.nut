@@ -5,6 +5,12 @@
 		return _string.slice(0, 1).toupper() + _string.slice(1);
 	}
 
+	function uncapitalizeFirst( _string )
+	{
+		if (_string == "") return _string;
+		return _string.slice(0, 1).tolower() + _string.slice(1);
+	}
+
 	function replace( _string, _find, _replace, _all = false )
 	{
 		if (_all) return ::String.replace(_string, _find, _replace);
