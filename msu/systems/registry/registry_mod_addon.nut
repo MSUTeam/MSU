@@ -1,7 +1,13 @@
 ::MSU.Class.RegistryModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	__ModSources = {};
+	__ModSources = null;
 	__UpdateSource = null;
+
+	constructor(_mod)
+	{
+		base.constructor(_mod);
+		this.__ModSources = {};
+	}
 
 	function getModSource( _domain )
 	{
