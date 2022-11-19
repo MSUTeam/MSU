@@ -8,19 +8,9 @@
 		this.__regexp = regexp(_expression);
 	}
 
-	function search( _string, _startIndex = 0 )
+	function _get( _key )
 	{
-		return this.__regexp.search(_string, _startIndex);
-	}
-
-	function capture( _string, _startIndex = 0 )
-	{
-		return this.__regexp.capture(_string, _startIndex);
-	}
-
-	function match( _string )
-	{
-		return this.__regexp.match(_string);
+		return this.__regexp[_key];
 	}
 
 	function captureAll( _string, _startIndex = 0 )
