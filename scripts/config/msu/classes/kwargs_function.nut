@@ -6,7 +6,7 @@
 
 	constructor( _defaultArgs, _function )
 	{
-		this.set(_function);
+		this.setFunction(_function);
 		this.__DefaultArgs = _defaultArgs;
 	}
 
@@ -16,21 +16,21 @@
 		return this.__Function.acall(vargv);
 	}
 
-	function _typeof()
-	{
-		return typeof this.__Function;
-	}
+	// function _typeof()
+	// {
+	// 	return typeof this.__Function;
+	// }
 
-	function _tostring()
-	{
-		return this.__Function.tostring();
-	}
+	// function _tostring()
+	// {
+	// 	return this.__Function.tostring();
+	// }
 
-	function _get( _key )
-	{
-		if (_key == "weakref") throw null;
-		return this.__Function[_key];
-	}
+	// function _get( _key )
+	// {
+	// 	if (_key == "weakref") throw null;
+	// 	return this.__Function[_key];
+	// }
 
 	function _cloned( _original )
 	{
@@ -49,7 +49,7 @@
 		return this.__Function;
 	}
 
-	function set( _function )
+	function setFunction( _function )
 	{
 		::MSU.requireFunction(_function);
 		local info = _function.getinfos();

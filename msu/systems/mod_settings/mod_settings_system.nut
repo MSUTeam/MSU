@@ -119,13 +119,13 @@
 			::MSU.Mod.Debug.printWarning(format("Mod %s no longer has the setting %s", _modID, _settingID), "debug");
 			return;
 		}
-		::getModSetting(_modID, _settingID).set(_value, true, false, true);
+		::getModSetting(_modID, _settingID).set(_value, {UpdatePersistence = false});
 	}
 
 	function updateSettingFromJS( _data )
 	{
 		if (_data.type == "float") _data.value = _data.value.tofloat();
-		::getModSetting(_data.mod, _data.id).set(_data.value, false);
+		::getModSetting(_data.mod, _data.id).set(_data.value, {UpdateJS = false});
 	}
 
 	function updateSettingInJS( _modID, _settingID, _value )

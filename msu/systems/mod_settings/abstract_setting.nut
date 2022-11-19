@@ -70,7 +70,7 @@
 
 	function reset()
 	{
-		this.set(this.BaseValue, true, true, true, true);
+		this.set(this.BaseValue, {Force = true});
 	}
 
 	function setBaseValue( _value, _reset = false)
@@ -80,39 +80,6 @@
 		{
 			this.reset();
 		}
-	}
-
-	function set( _newValue, _updateJS = true, _updatePersistence = true, _updateBeforeChangeCallback = true, _force = false, _updateAfterChangeCallback = true)
-	{
-		if (this.Locked)
-		{
-			::logError("Setting \'" + this.Name + "\'' is locked and its value cannot be changed. Lock reason: " + this.getLockReason());
-			return false;
-		}
-
-		if (_newValue != this.Value || _force)
-		{
-			local oldValue = this.Value;
-			if (_updateBeforeChangeCallback)
-			{
-				this.onBeforeChangeCallback(_newValue);
-			}
-			this.Value = _newValue;
-			if (_updateAfterChangeCallback)
-			{
-				this.onAfterChangeCallback(oldValue);
-			}
-			if (_updatePersistence && this.Persistence)
-			{
-				this.printForParser();
-			}
-			if (_updateJS)
-			{
-				::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _newValue);
-			}
-		}
-
-		return true;
 	}
 
 	function getValue()
@@ -221,7 +188,7 @@
 		local valueFlag = this.getPropertyFlag(modID, "Value");
 		if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != "(null : 0x00000000)")
 		{
-			this.set(::World.Flags.get(valueFlag), true, false, true);
+			this.set(::World.Flags.get(valueFlag), {UpdatePersistence = false});
 		}
 	}
 
@@ -248,4 +215,49 @@
 	{
 		this.addBeforeChangeCallback(_callback);
 	}
+	function set(){}
+
+	set = ::MSU.Class.KwargsFunction(
+	{
+		UpdateJS = true,
+		UpdatePersistence = true,
+		UpdateBeforeChangeCallback = true,
+		UpdateAfterChangeCallback = true,
+		Force = false
+	},
+	function(_newValue, _kwargs = null)
+	{
+		::logInfo("?????");
+		if (this.Locked)
+		{
+			::logError("Setting \'" + this.Name + "\'' is locked and its value cannot be changed. Lock reason: " + this.getLockReason());
+			return false;
+		}
+
+		if ((_newValue == this.Value) && !_kwargs.Force)
+		{
+			return false;
+		}
+
+		local oldValue = this.Value;
+		if (_kwargs.UpdateBeforeChangeCallback)
+		{
+			this.onBeforeChangeCallback(_newValue);
+		}
+		this.Value = _newValue;
+		if (_kwargs.UpdateAfterChangeCallback)
+		{
+			this.onAfterChangeCallback(oldValue);
+		}
+		if (_kwargs.UpdatePersistence && this.Persistence)
+		{
+			this.printForParser();
+		}
+		if (_kwargs.UpdateJS)
+		{
+			::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _newValue);
+		}
+
+		return true;
+	});
 }
