@@ -47,6 +47,7 @@
 			}
 			_table1[key] <- value;
 		}
+		return _table1;
 	}
 
 	function keys( _table )
