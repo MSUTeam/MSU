@@ -88,12 +88,12 @@
 
 				case "array":
 					_out.writeU8(this.DataType.Array);
-					::MSU.serialize(element, _out);
+					this.serialize(element, _out);
 					break;
 
 				case "table":
 					_out.writeU8(this.DataType.Table);
-					::MSU.serialize(element, _out);
+					this.serialize(element, _out);
 					break;
 
 				case "null":
@@ -149,7 +149,7 @@
 
 				case this.DataType.Array:
 				case this.DataType.Table:
-					val = ::MSU.deserialize(_in);
+					val = this.deserialize(_in);
 					break;
 
 				case this.DataType.Null:
