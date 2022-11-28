@@ -24,7 +24,7 @@ local function verifyCompareInputs (_version1, _version2 )
 			throw ::MSU.Exception.InvalidValue(_version);
 		}
 		return {
-			Version = split(::MSU.regexMatch(version, _version, 1), "."),
+			Version = split(::MSU.regexMatch(version, _version, 1), ".").map(@(_v) _v.tointeger()),
 			PreRelease = ::MSU.regexMatch(version, _version, 2) == null ? null : split(::MSU.regexMatch(version, _version, 2), "."),
 			Metadata = ::MSU.regexMatch(version, _version, 3) == null ? null : split(::MSU.regexMatch(version, _version, 3), ".")
 		};
