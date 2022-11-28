@@ -194,23 +194,23 @@ MSU.TimerObject = function(_id)
 	this.PauseIncrement = 0;
 }
 
-MSU.TimerObject.prototype.get = function(_msg, _stop, _printMsg)
+MSU.TimerObject.prototype.silentGet = function()
 {
-	// Make sure to substract paused timme
 	var pauseIncrement = this.PauseIncrement;
 	if (this.PauseStart != null)
 		pauseIncrement += new Date().getTime() - this.PauseStart;
+	return (new Date()).getTime() - this.Start.getTime() - this.PauseIncrement
+}
 
-	var end  = new Date();
-    var time = end.getTime() - this.Start.getTime() - this.PauseIncrement;
-    if (_printMsg !== false)
-    {
-	    var text = 'Timer: "' +  this.ID +  '" currently at ' +  time + 'ms';
-	    if (_stop) text = 'Timer: "' +  this.ID +  '" stopped at ' +  time + 'ms';
-	    if (_msg) text += " | Msg: " + _msg;
-	    console.error(text);
-    }
-    return time;
+MSU.TimerObject.prototype.get = function(_msg, _stop)
+{
+	// Make sure to substract paused timme
+	var time = this.silentGet();
+	var text = 'Timer: "' +  this.ID +  '" currently at ' +  time + 'ms';
+	if (_stop) text = 'Timer: "' +  this.ID +  '" stopped at ' +  time + 'ms';
+	if (_msg) text += " | Msg: " + _msg;
+	console.error(text);
+	return time;
 }
 
 MSU.TimerObject.prototype.pause = function()
@@ -237,11 +237,16 @@ MSU.TimerObject.prototype.unpause = function()
 	this.PauseStart = null;
 }
 
-MSU.TimerObject.prototype.stop = function(_msg, _printMsg)
+MSU.TimerObject.prototype.stop = function(_msg)
 {
-	var time = this.get(_msg, true, _printMsg);
-    delete MSU.Utils.Timers[this.ID];
-    return time;
+	delete MSU.Utils.Timers[this.ID];
+	return this.get(_msg, true);
+}
+
+MSU.TimerObject.prototype.silentStop = function()
+{
+	delete MSU.Utils.Timers[this.ID];
+	return this.silentGet();
 }
 
 MSU.Utils.Timer = function(_id)
