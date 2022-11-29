@@ -3,6 +3,7 @@
 	Total = null;
 	Table = null;
 	Forced = null;
+	Temp = null;
 	NextIItems = null;
 	NextIIndex = null;
 
@@ -132,9 +133,13 @@
 		return this.Table[_item];
 	}
 
-	function setWeight( _item, _weight )
+	function setWeight( _item, _weight, _temporary = false )
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
+		if (_temporary)
+		{
+			this.Temp[_item] <- _weight;
+		}
 		this.updateWeight(_item, _weight);
 	}
 
@@ -220,23 +225,37 @@
 	{
 		if (_exclude != null) ::MSU.requireArray(_exclude);
 
+		local ret;
+
 		local forced = _exclude == null ? this.Forced : this.Forced.filter(@(idx, item) _exclude.find(item) == null);
 		if (forced.len() > 0)
 		{
-			return ::MSU.Array.rand(forced);
+			ret = ::MSU.Array.rand(forced);
 		}
-
-		local roll = ::MSU.Math.randf(0.0, this.getTotal(_exclude));
-		foreach (item, weight in this.Table)
+		else
 		{
-			if (_exclude != null && _exclude.find(item) != null) continue;
+			local roll = ::MSU.Math.randf(0.0, this.getTotal(_exclude));
+			foreach (item, weight in this.Table)
+			{
+				if (_exclude != null && _exclude.find(item) != null) continue;
 
-			if (roll <= weight && weight != 0.0) return item;
+				if (roll <= weight && weight != 0.0)
+				{
+					ret = item;
+					break;
+				}
 
-			roll -= weight;
+				roll -= weight;
+			}
 		}
 
-		return null;
+		foreach (item, weight in this.Temp)
+		{
+			this.setWeight(item, weight);
+		}
+		this.Temp.clear();
+
+		return ret;
 	}
 
 	function rollChance( _chance, _exclude = null )
