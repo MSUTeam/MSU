@@ -1,4 +1,11 @@
 ::MSU.Popup <- ::new("scripts/mods/msu/popup");
+::MSU.EarlyConnection <- ::new("scripts/mods/msu/early_js_connection");
+
+::MSU.EarlyJSHooks <- []
+::MSU.registerEarlyJSHook <- function( _scriptFile )
+{
+	this.EarlyJSHooks.push("mods/" + _scriptFile);
+}
 
 ::mods_registerJS("msu/popup.js");
 ::mods_registerCSS("msu/css/popup.css");
