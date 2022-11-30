@@ -29,7 +29,7 @@ var MSUEarlyConnection = function ()
 {
 	this.mSQHandle = null;
 };
-
+var oldRegisterScreens = registerScreens;
 MSUEarlyConnection.prototype.onConnection = function (_handle)
 {
 	this.mSQHandle = _handle;
@@ -46,29 +46,15 @@ MSUEarlyConnection.prototype.onConnection = function (_handle)
 		js.src = _data[_data.length-1];
 		js.onload = function()
 		{
-			registerScreen("ConsoleScreen", new ConsoleScreen());
-			registerScreen("LoadingScreen", new LoadingScreen());
-			registerScreen("TooltipScreen", new TooltipScreen());
-			registerScreen("DialogScreen", new DialogScreen());
-			registerScreen("TacticalScreen", new TacticalScreen());
-			registerScreen("TacticalCombatResultScreen", new TacticalCombatResultScreen());
-			registerScreen("TacticalDialogScreen", new TacticalDialogScreen());
-			registerScreen("WorldScreen", new WorldScreen());
-			registerScreen("WorldTownScreen", new WorldTownScreen());
-			registerScreen("WorldGameFinishScreen", new WorldGameFinishScreen());
-			registerScreen("WorldEventPopupScreen", new WorldEventPopupScreen());
-			registerScreen("WorldEventScreen", new WorldEventScreen());
-			registerScreen("WorldCombatDialog", new WorldCombatDialog());
-			registerScreen("WorldRelationsScreen", new WorldRelationsScreen());
-			registerScreen("WorldObituaryScreen", new WorldObituaryScreen());
-			registerScreen("WorldCampfireScreen", new WorldCampfireScreen());
-			registerScreen("MainMenuScreen", new MainMenuScreen());
-			registerScreen("WorldMenuScreen", new IngameMenuScreen());
-			registerScreen("TacticalMenuScreen", new IngameMenuScreen());
-			registerScreen("WorldCharacterScreen", new CharacterScreen(false));
-			registerScreen("TacticalCharacterScreen", new CharacterScreen(true));
-
-			Screens["Tooltip"] = Screens["TooltipScreen"];
+			var tempCall = engine.call;
+			engine.call = function(_functionName, _target, _arg1, _arg2)
+			{
+				if (_functionName == "registrationFinished") return;
+				if (_functionName == "registerScreen" && _target == "RootScreen") return;
+				return tempCall.call(this, _functionName, _target, _arg1, _arg2);
+			}
+			oldRegisterScreens();
+			engine.call = tempCall;
 			SQ.call(this.mSQHandle, "resumeOnInit", null)
 		}.bind(this)
 		document.body.appendChild(js);
