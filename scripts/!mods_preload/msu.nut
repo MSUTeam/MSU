@@ -22,14 +22,6 @@ local _mods_runQueue = ::_mods_runQueue;
 	::MSU.EndQueue.run();
 }
 
-::MSU.EarlyConnection <- ::new("scripts/mods/msu/early_js_connection");
-
-::MSU.EarlyJSHooks <- []
-::MSU.registerEarlyJSHook <- function( _scriptFile )
-{
-	this.EarlyJSHooks.push(_scriptFile);
-}
-
 ::MSU.EndQueue.add(function()
 {
 	::mods_hookExactClass("root_state", function (o)
@@ -38,7 +30,7 @@ local _mods_runQueue = ::_mods_runQueue;
 		o.resumeOnInit <- function()
 		{
 			local add = this.add;
-			this.add = function(...);
+			this.add = function(...){};
 			onInit();
 			this.add = add;
 		}
@@ -46,9 +38,8 @@ local _mods_runQueue = ::_mods_runQueue;
 		o.onInit = function()
 		{
 			::MSU.Utils.States[this.ClassName] <- this;
-
 			::MSU.EarlyConnection.connect();
-			this.add("MainMenuState", "scripts/states/main_menu_state");
+			this.add("MainMenuState", "scripts/states/main_menu_state"); // game immediately crashes if you don't do this
 		}
 	});
 
@@ -58,26 +49,8 @@ local _mods_runQueue = ::_mods_runQueue;
 		o.onInit = function()
 		{
 			::MSU.Utils.States[this.ClassName] <- this;
-			// this.initLoadingScreenHandler();
-			this.show();
 		}
-		o.resumeOnShow <- o.onShow;
-		o.onShow = function(){};
 	});
-
-	::mods_hookNewObjectOnce("ui/screens/menu/main_menu_screen", function (o)
-	{
-		o.onScreenShown = function()
-		{
-			::logInfo("onScreenShown");
-			this.m.Visible = true;
-
-			if (this.m.OnScreenShownListener != null)
-			{
-				this.m.OnScreenShownListener();
-			}
-		}
-	})
 })
 
 ::mods_registerMod(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
