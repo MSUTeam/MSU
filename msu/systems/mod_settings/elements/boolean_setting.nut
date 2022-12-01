@@ -13,4 +13,9 @@
 		::MSU.requireBool(_value);
 		return base.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
 	}
+
+	function toggle()
+	{
+		this.Value = !this.Value;
+	}
 }
