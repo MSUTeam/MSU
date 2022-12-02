@@ -27,19 +27,19 @@ local _mods_runQueue = ::_mods_runQueue;
 	::mods_hookExactClass("root_state", function (o)
 	{
 		local onInit = o.onInit;
+		o.onInit = function()
+		{
+			::MSU.Utils.States[this.ClassName] <- this;
+			::MSU.EarlyConnection.connect();
+			this.add("MainMenuState", "scripts/states/main_menu_state"); // game immediately crashes if you don't do this
+		}
+
 		o.resumeOnInit <- function()
 		{
 			local add = this.add;
 			this.add = function(...){};
 			onInit();
 			this.add = add;
-		}
-
-		o.onInit = function()
-		{
-			::MSU.Utils.States[this.ClassName] <- this;
-			::MSU.EarlyConnection.connect();
-			this.add("MainMenuState", "scripts/states/main_menu_state"); // game immediately crashes if you don't do this
 		}
 	});
 
