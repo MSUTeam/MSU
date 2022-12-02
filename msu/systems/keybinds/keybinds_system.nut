@@ -221,6 +221,7 @@
 		}
 		key += _keyAsString;
 		key = ::MSU.Key.sortKeyString(key);
+		::MSU.Mod.Debug.printWarning("Final key string: " + key, "keybinds");
 		return this.call(key, _environment, _state, _keyState);
 	}
 
