@@ -41,10 +41,7 @@ MSUEarlyConnection.prototype.onConnection = function (_handle)
 			js.src = _data[i];
 			document.body.appendChild(js);
 		}
-
-		var js = document.createElement("script");
-		js.src = _data[_data.length-1];
-		js.onload = function()
+		var resumeInit = function()
 		{
 			var tempCall = engine.call;
 			engine.call = function(_functionName, _target, _arg1, _arg2)
@@ -56,8 +53,19 @@ MSUEarlyConnection.prototype.onConnection = function (_handle)
 			oldRegisterScreens();
 			engine.call = tempCall;
 			SQ.call(this.mSQHandle, "resumeOnInit", null)
-		}.bind(this)
-		document.body.appendChild(js);
+		}
+
+		if (_data == undefined || _data.length == 0) resumeInit.call(this);
+		else
+		{
+			var js = document.createElement("script");
+			js.src = _data[_data.length-1];
+			js.onload = function()
+			{
+				resumeInit.call(this);
+			}.bind(this);
+			document.body.appendChild(js);
+		}
 	}.bind(this));
 };
 
