@@ -193,7 +193,7 @@
 			local valueFlag = getPropertyFlag(modID, "Value");
 			if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != null + "")
 			{
-				this.set(::World.Flags.get(valueFlag), true, false, true);
+				this.set(::World.Flags.get(valueFlag), true, false);
 			}
 		}
 		else
