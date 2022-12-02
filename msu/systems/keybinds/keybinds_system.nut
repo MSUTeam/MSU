@@ -220,6 +220,7 @@
 			}
 		}
 		key += _keyAsString;
+		key = ::MSU.Key.sortKeyString(key);
 		return this.call(key, _environment, _state, _keyState);
 	}
 
