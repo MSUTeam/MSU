@@ -77,7 +77,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.MainMenu))
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.MainMenu) || ::MSU.Mod.ModSettings.getSetting("supressBaseKeybinds").getValue())
 		{
 			return false;
 		}
