@@ -320,7 +320,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World) || ::MSU.Mod.ModSettings.getSetting("supressBaseKeybinds").getValue())
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World) || ::MSU.Mod.ModSettings.getSetting("suppressBaseKeybinds").getValue())
 		{
 			return false;
 		}
