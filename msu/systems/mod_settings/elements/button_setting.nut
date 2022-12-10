@@ -4,7 +4,7 @@
 
 	function onPressedCallback()
 	{
-		foreach (callback in this.Callbacks)
+		foreach (callback in this.BeforeChangeCallbacks)
 		{
 			callback.call(this);
 		}

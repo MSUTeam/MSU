@@ -8,10 +8,10 @@
 		base.constructor(_id, _value, _name, _description);
 	}
 
-	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = true )
+	function set( _newValue, _updateJS = true, _updatePersistence = true, _updateBeforeChangeCallback = true, _force = true, _updateAfterChangeCallback = true)
 	{
-		::MSU.requireBool(_value);
-		return base.set(_value, _updateJS, _updatePersistence, _updateCallback, _force);
+		::MSU.requireBool(_newValue);
+		return base.set(_newValue, _updateJS, _updatePersistence, _updateBeforeChangeCallback, _force, _updateAfterChangeCallback);
 	}
 
 	function toggle()

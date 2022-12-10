@@ -5,7 +5,8 @@
 	BaseValue = null;
 	Locked = null;
 	LockReason = null;
-	Callbacks = null;
+	BeforeChangeCallbacks = null;
+	AfterChangeCallbacks = null;
 	Persistence = null; //if it should print change to log for further manipulation
 
 	constructor( _id, _value, _name = null, _description = null )
@@ -16,7 +17,8 @@
 		this.Locked = false;
 		this.LockReason = "";
 		this.Persistence = true;
-		this.Callbacks = [];
+		this.BeforeChangeCallbacks = [];
+		this.AfterChangeCallbacks = [];
 		this.Data.IsSetting <- true;
 	}
 
@@ -40,17 +42,30 @@
 		::MSU.System.PersistentData.writeToLog(_tag, this.getMod().getID(), [this.getID(), payload]);
 	}
 
-	function onChangedCallback( _newValue )
+	function onBeforeChangeCallback( _newValue )
 	{
-		foreach (callback in this.Callbacks)
+		foreach (callback in this.BeforeChangeCallbacks)
 		{
 			callback.call(this, _newValue);
 		}
 	}
 
-	function addCallback( _callback )
+	function onAfterChangeCallback( _oldValue )
 	{
-		this.Callbacks.push(_callback);
+		foreach (callback in this.AfterChangeCallbacks)
+		{
+			callback.call(this, _oldValue);
+		}
+	}
+
+	function addBeforeChangeCallback( _callback )
+	{
+		this.BeforeChangeCallbacks.push(_callback);
+	}
+
+	function addAfterChangeCallback( _callback )
+	{
+		this.AfterChangeCallbacks.push(_callback);
 	}
 
 	function reset()
@@ -67,7 +82,7 @@
 		}
 	}
 
-	function set( _value, _updateJS = true, _updatePersistence = true, _updateCallback = true, _force = false)
+	function set( _newValue, _updateJS = true, _updatePersistence = true, _updateBeforeChangeCallback = true, _force = false, _updateAfterChangeCallback = true)
 	{
 		if (this.Locked)
 		{
@@ -75,20 +90,25 @@
 			return false;
 		}
 
-		if (_value != this.Value || _force)
+		if (_newValue != this.Value || _force)
 		{
-			if (_updateCallback)
+			local oldValue = this.Value;
+			if (_updateBeforeChangeCallback)
 			{
-				this.onChangedCallback(_value);
+				this.onBeforeChangeCallback(_newValue);
 			}
-			this.Value = _value;
+			this.Value = _newValue;
+			if (_updateAfterChangeCallback)
+			{
+				this.onAfterChangeCallback(oldValue);
+			}
 			if (_updatePersistence && this.Persistence)
 			{
 				this.printForParser();
 			}
 			if (_updateJS)
 			{
-				::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _value);
+				::MSU.System.ModSettings.updateSettingInJS(this.getPanelID(), this.getID(), _newValue);
 			}
 		}
 
@@ -221,5 +241,11 @@
 	function _tostring()
 	{
 		return this.tostring();
+	}
+
+	// Deprecated
+	function addCallback( _callback )
+	{
+		this.addBeforeChangeCallback(_callback);
 	}
 }
