@@ -90,7 +90,7 @@
 		return keybind;
 	}
 
-	function update( _modID, _id)
+	function update( _modID, _id )
 	{
 		local keybind = this.remove(_modID, _id);
 		keybind.KeyCombinations = split(::MSU.Key.sortKeyCombinationsString(::getModSetting(_modID, _id).getValue()), "/");
@@ -172,7 +172,7 @@
 		return this.onInput(_key, _environment, _state, keyAsString, keyState);
 	}
 
-	function frameUpdate( _ = null) # needs an empty default parameter since scheduleEvent uses .call(_env)
+	function frameUpdate( _ = null ) # needs an empty default parameter since scheduleEvent uses .call(_env)
 	{
 		if (!this.KeysChanged && this.PressedKeys.len() != 0)
 		{
