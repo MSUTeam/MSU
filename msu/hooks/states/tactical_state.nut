@@ -57,7 +57,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical) || ::MSU.Mod.ModSettings.getSetting("suppressBaseKeybinds").getValue())
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical) || ::MSU.Mod.ModSettings.getSetting("SuppressBaseKeybinds").getValue())
 		{
 			return false;
 		}

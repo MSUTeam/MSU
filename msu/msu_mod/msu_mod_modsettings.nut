@@ -14,7 +14,7 @@ resetAllSettingsButton.addCallback(function(_data = null){
 	foreach (panel in ::MSU.System.ModSettings.getPanels()) panel.resetSettings();
 })
 
-local suppressBaseKeybinds = generalPage.addBooleanSetting("suppressBaseKeybinds", false, "Suppress base keybinds");
+local suppressBaseKeybinds = generalPage.addBooleanSetting("SuppressBaseKeybinds", false, "Suppress base keybinds");
 suppressBaseKeybinds.setDescription("Whether base keybinds should be suppressed. This means that only the MSU system will be used for keybinds.\nFor example, if you set 'Open Character Screen' from 'c' to 'tab' then without this setting, pressing 'c' will still open the character screen if no other MSU keybind is bound to c. With this setting, only 'tab' will open it.");
 
 
