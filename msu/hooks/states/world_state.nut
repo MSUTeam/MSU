@@ -288,10 +288,9 @@
 	local onSerialize = o.onSerialize;
 	o.onSerialize = function( _out )
 	{
-		::MSU.System.ModSettings.flagSerialize();
+		::MSU.System.ModSettings.flagSerialize(_out);
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
-		::MSU.System.ModSettings.resetFlags();
 		::MSU.System.Serialization.clearFlags();
 	}
 
@@ -307,9 +306,7 @@
 		{
 			::World.Assets.setLastDayMorningEventCalled(::World.getTime().Days);
 		}
-
-		::MSU.System.ModSettings.flagDeserialize();
-		::MSU.System.ModSettings.resetFlags(); // should probably get refactored into Serialization at some point
+		::MSU.System.ModSettings.flagDeserialize(_in);
 		::MSU.System.Serialization.clearFlags();
 	}
 

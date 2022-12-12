@@ -170,67 +170,61 @@
 		return ret;
 	}
 
-	function getSerDeFlag( _modID )
+	function __getSerializationTable()
 	{
-		return "ModSetting." + _modID + "." + this.getID();
+		return {
+			Value = this.Value,
+			Locked = this.Locked,
+			LockReason = this.LockReason
+		};
 	}
 
-	function getPropertyFlag( _modID, _property )
+	function __setFromSerializationTable( _table )
 	{
-		return this.getSerDeFlag(_modID) + "." + _property;
+		this.Value = _table.Value;
+		this.Locked = _table.Locked;
+		this.LockReason = _table.LockReason;
 	}
 
-	function setFlagForProperty( _property, _modID )
+	function flagSerialize( _out )
 	{
-		::World.Flags.set(this.getPropertyFlag(_modID, _property), this[_property]);
+		::MSU.Mod.Serialization.flagSerialize("MS." + this.getMod().getID() + "." + this.getID(), this.__getSerializationTable()); // not sure I like this ID generation, MS is short for ModSettings to save space
 	}
 
-	function setPropertyIfFlagExists( _property, _modID )
+	function flagDeserialize( _in )
 	{
-		local flag = this.getPropertyFlag(_modID, _property);
-		if (::World.Flags.has(flag))
+		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.2.0", _in.getMetaData()))
 		{
-			this[_property] = ::World.Flags.get(flag);
+			this.__setFromSerializationTable(::MSU.Mod.Serialization.flagDeserialize("MS." + this.getMod().getID() + "." + this.getID()));
 		}
-	}
-
-	function clearFlagForProperty( _property, _modID )
-	{
-		local flag = this.getPropertyFlag(_modID, _property);
-		if (::World.Flags.has(flag))
+		else if (::MSU.Mod.Serialization.isSavedVersionAtLeast("0.0.1", _in.getMetaData()))
 		{
-			::World.Flags.remove(flag);
+			local getPropertyFlag = @( _modID, _property ) "ModSetting." + _modID + "." + this.getID() + "." + _property;
+			local function setPropertyIfFlagExists( _property, _modID )
+			{
+				local flag = getPropertyFlag(_modID, _property);
+				if (::World.Flags.has(flag))
+				{
+					this[_property] = ::World.Flags.get(flag);
+					::World.Flags.remove(flag);
+				}
+			}
+			local modID = this.getMod().getID();
+			setPropertyIfFlagExists("Locked", modID);
+			setPropertyIfFlagExists("LockReason", modID);
+
+			local valueFlag = getPropertyFlag(modID, "Value");
+			if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != null + "")
+			{
+				this.set(::World.Flags.get(valueFlag), true, false);
+			}
 		}
-	}
-
-
-	function flagSerialize()
-	{
-		local modID = this.getMod().getID();
-		this.setFlagForProperty("Value", modID);
-		this.setFlagForProperty("Locked", modID);
-		this.setFlagForProperty("LockReason", modID);
-	}
-
-	function flagDeserialize()
-	{
-		local modID = this.getMod().getID();
-		this.setPropertyIfFlagExists("Locked", modID);
-		this.setPropertyIfFlagExists("LockReason", modID);
-
-		local valueFlag = this.getPropertyFlag(modID, "Value");
-		if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != "(null : 0x00000000)")
+		else
 		{
-			this.set(::World.Flags.get(valueFlag), true, false, true);
+			// This is what runs when we load a vanilla game, leaving this as placeholder for now
+			// I think we should consider resetting the value here, (we should definitely reset once we have persistent data working with cookies)
+			// as while it is less convenient, not resetting could theoretically cause issues.
 		}
-	}
-
-	function resetFlags()
-	{
-		local modID = this.getMod().getID();
-		this.clearFlagForProperty("Value", modID);
-		this.clearFlagForProperty("Locked", modID);
-		this.clearFlagForProperty("LockReason", modID);
 	}
 
 	function tostring()
