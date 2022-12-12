@@ -8,9 +8,9 @@
 			itemsBefore[i] = clone _entity.getItems().m.Items[i];
 		}
 
-		_entity.getItems().m.MSU.IsIgnoringItemAction = true;
+		_entity.getItems().m.MSU_IsIgnoringItemAction = true;
 		local ret = onExecute(_entity);
-		_entity.getItems().m.MSU.IsIgnoringItemAction = false;
+		_entity.getItems().m.MSU_IsIgnoringItemAction = false;
 
 		if (ret && this.m.Skill == null)
 		{
