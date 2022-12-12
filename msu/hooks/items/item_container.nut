@@ -1,12 +1,10 @@
 ::mods_hookNewObject("items/item_container", function(o) {
 	o.m.ActionSkill <- null;
-	o.m.MSU <- {
-		IsIgnoringItemAction = false
-	}
+	o.m.MSU_IsIgnoringItemAction = false;
 
 	o.isActionAffordable = function ( _items )
 	{
-		if (this.m.MSU.IsIgnoringItemAction) return true;
+		if (this.m.MSU_IsIgnoringItemAction) return true;
 
 		local actionCost = this.getActionCost(_items);
 		return this.m.Actor.getActionPoints() >= actionCost;
@@ -14,7 +12,7 @@
 
 	o.getActionCost = function( _items )
 	{
-		if (this.m.MSU.IsIgnoringItemAction) return 0;
+		if (this.m.MSU_IsIgnoringItemAction) return 0;
 
 		this.m.ActionSkill = null;
 
@@ -38,7 +36,7 @@
 
 	o.payForAction = function ( _items )
 	{
-		if (this.m.MSU.IsIgnoringItemAction || _items.len() == 0) return;
+		if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
 
 		local actionCost = this.getActionCost(_items);
 		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
