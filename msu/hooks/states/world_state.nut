@@ -317,7 +317,7 @@
 		{
 			return onKeyInput(_key);
 		}
-		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World))
+		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World) || ::MSU.Mod.ModSettings.getSetting("SuppressBaseKeybinds").getValue())
 		{
 			return false;
 		}
