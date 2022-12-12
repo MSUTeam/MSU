@@ -8,7 +8,7 @@ local expandedItemTooltips = generalPage.addBooleanSetting("ExpandedItemTooltips
 expandedItemTooltips.setPersistence(false);
 expandedItemTooltips.setDescription("Show MSU-based information in item tooltips e.g. Item Type.");
 
-local resetAllSettingsButton = generalPage.addButtonSetting("resetAllSettings", null, "Reset ALL Settings");
+local resetAllSettingsButton = generalPage.addButtonSetting("ResetAllSettings", null, "Reset ALL Settings");
 resetAllSettingsButton.setDescription("Reset all settings for every mod.");
 resetAllSettingsButton.addCallback(function(_data = null){
 	foreach (panel in ::MSU.System.ModSettings.getPanels()) panel.resetSettings();
