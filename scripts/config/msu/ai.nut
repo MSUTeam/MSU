@@ -5,7 +5,7 @@
 	{
 		if (this.m.BehaviorIDToScriptMap.len() == 0)
 		{
-			throw "This function cannot be used before the root_state.onInit function has run");
+			throw "This function cannot be used before the root_state.onInit function has run";
 		}
 		if (!(_id in this.m.BehaviorIDToScriptMap))
 		{
