@@ -5,3 +5,4 @@
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/states"));
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/ui"));
 ::includeFiles(this.IO.enumerateFiles("msu/hooks/retinue"));
+::include("msu/hooks/root_state.nut");
