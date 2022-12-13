@@ -6,7 +6,14 @@
 
 		foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
 		{
-			::MSU.AI.BehaviorIDToScriptMap[::new(script).getID()] <- script;
+			try
+			{
+				::MSU.AI.BehaviorIDToScriptMap[::new(script).getID()] <- script;
+			}
+			catch (error)
+			{
+				::logError("Could not instantiate or get ID of behavior: " + script);
+			}
 		}
 
 		return ret;
