@@ -2,8 +2,6 @@
 	local onInit = o.onInit;
 	o.onInit = function()
 	{
-		local ret = onInit();
-
 		foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
 		{
 			try
@@ -16,6 +14,6 @@
 			}
 		}
 
-		return ret;
+		return onInit();
 	}
 });
