@@ -84,7 +84,7 @@
 
 	function set( _newValue, _updateJS = true, _updatePersistence = true, _updateBeforeChangeCallback = true, _force = false, _updateAfterChangeCallback = true)
 	{
-		if (this.Locked)
+		if (this.Locked && !_force)
 		{
 			::logError("Setting \'" + this.Name + "\'' is locked and its value cannot be changed. Lock reason: " + this.getLockReason());
 			return false;
