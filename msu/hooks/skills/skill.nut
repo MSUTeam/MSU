@@ -195,6 +195,13 @@
 		{
 			this.saveBaseValues();
 		}
+		else
+		{
+			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))			
+			{				
+				this.getContainer().getActor().getAIAgent().removeBehaviorByStack(this.m.AIBehaviorID);
+			}
+		}
 
 		setContainer(_c);
 
