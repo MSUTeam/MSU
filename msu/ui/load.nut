@@ -11,7 +11,7 @@
 ::mods_registerJS("msu/msu_connection.js");
 ::mods_registerJS("msu/ui_screen.js");
 
-foreach (file in this.IO.enumerateFiles("ui/mods/msu/mod_settings/"))
+foreach (file in ::IO.enumerateFiles("ui/mods/msu/mod_settings/"))
 {
 	local splitFile = split(file, "/");
 	local shortArray = splitFile.slice(2, splitFile.len());

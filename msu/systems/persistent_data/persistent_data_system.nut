@@ -21,7 +21,7 @@
 
 	function importModFiles( _modID )
 	{
-		local persistentDirectory = this.IO.enumerateFiles(this.ModConfigPath + _modID);
+		local persistentDirectory = ::IO.enumerateFiles(this.ModConfigPath + _modID);
 		if (persistentDirectory == null)
 		{
 			return;
