@@ -1,6 +1,6 @@
 local function includeFile( _file )
 {
-	::includeFile("msu/test/", _file + ".nut");
+	::MSU.includeFile("msu/test/", _file + ".nut");
 }
 if (::MSU.Mod.Debug.isEnabled("modsettings"))
 {

@@ -1,12 +1,12 @@
-::includeLoad <- function( _prefix, _folder )
+::MSU.includeLoad <- function( _prefix, _folder )
 {
 	::include(_prefix + _folder + "/load.nut");
 }
-::includeFile <- function( _prefix, _file )
+::MSU.includeFile <- function( _prefix, _file )
 {
 	::include(_prefix + _file);
 }
-::includeFiles <- function( _files, _includeLoad = false )
+::MSU.includeFiles <- function( _files, _includeLoad = false )
 {
 	foreach (file in _files)
 	{
@@ -17,9 +17,25 @@
 	}
 }
 
+// TODO: The old functions are converted to wrappers TEMPORARILY for the new MSU namespace functions.
+// This is to help mods that may rely on these functions (e.g. Enduriel's mods) to function for now
+// without requiring an update. These wrappers should be deleted in a future update after Enduriel updates his mods.
+::includeLoad <- function( _prefix, _folder )
+{
+	::MSU.includeLoad(_prefix, _folder);
+}
+::includeFile <- function( _prefix, _file )
+{
+	::MSU.includeFile(_prefix, _file);	
+}
+::includeFiles <- function( _files, _includeLoad = false )
+{
+	::MSU.includeFiles(_files, _includeLoad);	
+}
+
 local function includeLoad( _folder )
 {
-	::includeLoad("msu/", _folder);
+	::MSU.includeLoad("msu/", _folder);
 }
 
 includeLoad("ui");

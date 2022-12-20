@@ -1,1 +1,1 @@
-::includeFiles(this.IO.enumerateFiles("msu/config/"));
+::MSU.includeFiles(this.IO.enumerateFiles("msu/config/"));

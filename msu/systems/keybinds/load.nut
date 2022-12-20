@@ -1,6 +1,6 @@
 function includeFile( _file )
 {
-	::includeFile("msu/systems/keybinds/", _file + ".nut");
+	::MSU.includeFile("msu/systems/keybinds/", _file + ".nut");
 }
 
 includeFile("key_static");

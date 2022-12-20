@@ -1,6 +1,6 @@
 function includeFile( _file )
 {
-	::includeFile("msu/systems/serialization/", _file);
+	::MSU.includeFile("msu/systems/serialization/", _file);
 }
 includeFile("metadata_emulator");
 includeFile("serde_emulator");
