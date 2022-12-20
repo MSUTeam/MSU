@@ -1,6 +1,6 @@
 local function includeFile( _file )
 {
-	::includeFile("msu/msu_mod/", _file + ".nut");
+	::MSU.includeFile("msu/msu_mod/", _file + ".nut");
 }
 includeFile("setup_msu_mod");
 includeFile("msu_registry");

@@ -1,6 +1,6 @@
 local function includeFile( _file )
 {
-	::includeFile("msu/systems/mod_settings/", _file);
+	::MSU.includeFile("msu/systems/mod_settings/", _file);
 }
 
 includeFile("settings_element.nut");

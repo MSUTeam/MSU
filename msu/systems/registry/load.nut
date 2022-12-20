@@ -1,6 +1,6 @@
 local function includeFile( _file )
 {
-	::includeFile("msu/systems/registry/", _file);
+	::MSU.includeFile("msu/systems/registry/", _file);
 }
 includeFile("registry_system");
 includeFile("registry_mod_addon");

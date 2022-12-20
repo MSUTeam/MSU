@@ -11,12 +11,12 @@
 
 local function includeLoad( _folder )
 {
-	::includeLoad("msu/systems/", _folder);
+	::MSU.includeLoad("msu/systems/", _folder);
 }
 
 local function includeFile( _file )
 {
-	::includeFile("msu/systems/", _file + ".nut")
+	::MSU.includeFile("msu/systems/", _file + ".nut")
 }
 
 includeFile("system");

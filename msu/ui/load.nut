@@ -25,7 +25,7 @@ foreach (file in this.IO.enumerateFiles("ui/mods/msu/mod_settings/"))
 ::mods_registerJS("msu/keybinds/document_events.js");
 
 
-::includeFile("msu/ui/", "ui.nut");
+::MSU.includeFile("msu/ui/", "ui.nut");
 
 ::MSU.UI.JSConnection = ::new("scripts/mods/msu/msu_connection");
 ::MSU.UI.registerConnection(::MSU.UI.JSConnection);
