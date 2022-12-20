@@ -7,7 +7,7 @@ includeFile("settings_element.nut");
 includeFile("abstract_setting.nut");
 includeFile("elements/string_setting.nut");
 
-foreach (file in this.IO.enumerateFiles("msu/systems/mod_settings/elements/"))
+foreach (file in ::IO.enumerateFiles("msu/systems/mod_settings/elements/"))
 {
 	::include(file);
 }

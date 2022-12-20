@@ -101,7 +101,7 @@
 
 	o.getTerrainTypeSpeedMult <- function()
 	{
-		return this.m.IsPlayer ? this.World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
+		return this.m.IsPlayer ? ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
 	}
 
 	o.getNightTimeMovementSpeedMult <- function()

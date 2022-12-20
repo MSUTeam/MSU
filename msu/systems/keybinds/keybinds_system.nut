@@ -259,6 +259,6 @@
 	// Deprecated, now handled over the mod settings system
 	function updateFromPersistence( _modID, _id, _keyCombinations )
 	{
-		this.MSU.System.ModSettings.setSettingFromPersistence(_modID, _id, _keyCombinations);
+		::MSU.System.ModSettings.setSettingFromPersistence(_modID, _id, _keyCombinations);
 	}
 }
