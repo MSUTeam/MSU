@@ -1,3 +1,4 @@
+::MSU.includeFiles(this.IO.enumerateFiles("msu/hooks/config"));
 ::MSU.includeFiles(this.IO.enumerateFiles("msu/hooks/entity"));
 ::MSU.includeFiles(this.IO.enumerateFiles("msu/hooks/items"));
 ::MSU.includeFiles(this.IO.enumerateFiles("msu/hooks/scenarios"));
