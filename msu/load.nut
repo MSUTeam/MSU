@@ -3,6 +3,8 @@ local function includeLoad( _folder )
 	::MSU.includeLoad("msu/", _folder);
 }
 
+// utils and classes are loaded before mods_queue in scripts/config/!msu.nut
+
 includeLoad("ui");
 includeLoad("systems");
 includeLoad("hooks");
