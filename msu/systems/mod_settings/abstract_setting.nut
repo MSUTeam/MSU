@@ -173,9 +173,9 @@
 	function __getSerializationTable()
 	{
 		return {
-			Value = this.Value,
-			Locked = this.Locked,
-			LockReason = this.LockReason
+			Value = this.getValue(),
+			Locked = this.isLocked(),
+			LockReason = this.getLockReason()
 		};
 	}
 
