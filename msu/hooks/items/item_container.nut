@@ -1,6 +1,6 @@
 ::mods_hookNewObject("items/item_container", function(o) {
 	o.m.ActionSkill <- null;
-	o.m.MSU_IsIgnoringItemAction = false;
+	o.m.MSU_IsIgnoringItemAction <- false;
 
 	o.isActionAffordable = function ( _items )
 	{
