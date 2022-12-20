@@ -181,9 +181,9 @@
 
 	function __setFromSerializationTable( _table )
 	{
-		this.Value = _table.Value;
-		this.Locked = _table.Locked;
-		this.LockReason = _table.LockReason;
+		this.unlock();
+		this.Value = this.set(_table.Value, true, false, true, true);
+		if (_table.Locked) this.lock(_table.LockReason);
 	}
 
 	function flagSerialize( _out )
@@ -209,15 +209,16 @@
 					::World.Flags.remove(flag);
 				}
 			}
-			local modID = this.getMod().getID();
-			setPropertyIfFlagExists("Locked", modID);
-			setPropertyIfFlagExists("LockReason", modID);
 
+			local modID = this.getMod().getID();
 			local valueFlag = getPropertyFlag(modID, "Value");
 			if (::World.Flags.has(valueFlag) && ::World.Flags.get(valueFlag) != null + "")
 			{
-				this.set(::World.Flags.get(valueFlag), true, false);
+				this.unlock();
+				this.set(::World.Flags.get(valueFlag), true, false, true, true);
 			}
+			setPropertyIfFlagExists("Locked", modID);
+			setPropertyIfFlagExists("LockReason", modID);
 		}
 		else
 		{
