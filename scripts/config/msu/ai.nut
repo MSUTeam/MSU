@@ -9,7 +9,7 @@
 		}
 		if (!(_id in this.m.BehaviorIDToScriptMap))
 		{
-			::logError("Invalid behavior id '" + _id + "' and/or the associated script file is not located in \'scripts/ai/tactical/behaviors\'");
+			::logError("Invalid behavior id \'" + _id + "\' and/or the associated script file is not located in \'scripts/ai/tactical/behaviors\'");
 			throw ::MSU.Exception.KeyNotFound(_id);
 		}
 
