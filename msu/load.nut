@@ -5,7 +5,6 @@ local function includeLoad( _folder )
 
 includeLoad("ui");
 includeLoad("systems");
-includeLoad("config");
 includeLoad("hooks");
 includeLoad("msu_mod");
 includeLoad("vanilla_mod");
