@@ -16,6 +16,6 @@
 
 	function toggle()
 	{
-		this.Value = !this.Value;
+		this.set(!this.Value);
 	}
 }
