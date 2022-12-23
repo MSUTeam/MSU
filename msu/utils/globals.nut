@@ -123,6 +123,7 @@
 
 ::MSU.isBBObject <- function( _object, _allowWeakTableRef = true )
 {
-	if (typeof _object == "instance" && !_object.isNull()) _object = _object.get();
+	if (typeof _object == "instance" && _object instanceof ::WeakTableRef && _allowWeakTableRef)
+		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
