@@ -137,7 +137,7 @@ local function isCampfireScreen()
 	}
 }, "Toggle Retinue SCreen");
 
-::MSU.Vanilla.Keybinds.addSQKeybind("world_pause", "0", ::MSU.Key.State.World, function()
+::MSU.Vanilla.Keybinds.addSQKeybind("world_pause", "0/space", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
 	{
