@@ -127,3 +127,25 @@
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
+
+::MSU.new <- function( _script, _fields, _function = null )
+{
+	if (_fields == null && _function == null)
+	{
+		::logError("Both \'_fields\' and \'_function\' cannot be null simultaneously");
+		throw ::MSU.Exception.InvalidValue(_fields);
+	}
+
+	local obj = ::new(_script);
+	if (_fields != null)
+	{
+		foreach (key, value in _fields)
+		{
+			obj.m[key] = value;
+		}
+	}
+
+	if (_function != null) _function(obj);
+
+	return obj;
+}
