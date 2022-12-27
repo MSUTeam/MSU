@@ -46,7 +46,7 @@
 		}
 		else
 		{
-			return ::MSU.Utils.deserialize(inEmulator, _object);
+			return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
 		}
 	}
 
