@@ -25,6 +25,8 @@
 		}
 
 		this.m.ScheduledChangesSkills.clear();
+
+		if (!this.getActor().isDying()) this.onSkillsUpdated();
 	}
 
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
@@ -79,6 +81,26 @@
 		}
 		this.m.IsUpdating = wasUpdating;
 		return _argsArray[_argsArray.len() - 1];
+	}
+
+	o.onSkillsUpdated <- function()
+	{
+		this.callSkillsFunctionWhenAlive("onSkillsUpdated", null, false);
+
+		local shouldUpdate = this.m.SkillsToAdd.len() > 0;
+		if (!shouldUpdate)
+		{
+			foreach (skill in this.m.Skills)
+			{
+				if (skill.isGarbage())
+				{
+					shouldUpdate = true;
+					break;
+				}
+			}
+		}
+
+		if (shouldUpdate) this.update();
 	}
 
 	o.onMovementStarted <- function( _tile, _numTiles )
