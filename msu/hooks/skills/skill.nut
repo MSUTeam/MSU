@@ -272,7 +272,7 @@
 	{
 	}
 
-	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	o.onQueryTileTooltip <- function( _tile, _tooltip, _asTarget )
 	{
 	}
 

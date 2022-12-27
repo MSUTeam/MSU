@@ -167,12 +167,16 @@
 		], false);
 	}
 
-	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	o.onQueryTileTooltip <- function( _tile, _tooltip, _asTarget )
 	{
 		this.callSkillsFunction("onQueryTileTooltip", [
 			_tile,
-			_tooltip
+			_tooltip,
+			_asTarget
 		], false);
+
+		if (!_asTarget && _tile.IsOccupiedByActor && _tile.getEntity().getID() != this.getContainer().getActor().getID())
+			_tile.getEntity().getSkills().onQueryTileTooltip(_tile, _tooltip, true);
 	}
 
 	o.onQueryTooltip <- function( _skill, _tooltip )
