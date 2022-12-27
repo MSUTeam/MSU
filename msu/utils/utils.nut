@@ -106,22 +106,13 @@
 		}
 	}
 
-	function deserialize( _in, _object = null )
+	function deserialize( _in )
 	{
 		local type = _in.readU8();
 		local isTable = type == this.DataType.Table;
 		local size = _in.readU32();
 
-		local ret;
-		if (_object == null)
-		{
-			ret = isTable ? {} : array(size);
-		}
-		else
-		{
-			ret = _object;
-			if (!isTable && ret.len() < size) ret.resize(size);
-		}
+		local ret = isTable ? {} : array(size);
 
 		for (local i = 0; i < size; i++)
 		{
