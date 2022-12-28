@@ -188,14 +188,14 @@
 
 	function flagSerialize( _out )
 	{
-		::MSU.Mod.Serialization.flagSerialize("MS." + this.getMod().getID() + "." + this.getID(), this.__getSerializationTable()); // not sure I like this ID generation, MS is short for ModSettings to save space
+		this.getMod().Serialization.flagSerialize(format("MS.%s", this.getID()), this.__getSerializationTable());
 	}
 
 	function flagDeserialize( _in )
 	{
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.2.0", _in.getMetaData()))
 		{
-			this.__setFromSerializationTable(::MSU.Mod.Serialization.flagDeserialize("MS." + this.getMod().getID() + "." + this.getID()));
+			this.__setFromSerializationTable(this.getMod().Serialization.flagDeserialize(format("MS.%s", this.getID())));
 		}
 		else if (::MSU.Mod.Serialization.isSavedVersionAtLeast("0.0.1", _in.getMetaData()))
 		{
