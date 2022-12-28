@@ -157,6 +157,22 @@
 		return ret;
 	}
 
+	function deserializeInto( _object, _in )
+	{
+		::MSU.requireOneFromTypes(["table", "array"], _object);
+
+		local deserializedObj = ::MSU.Utils.deserialize(_in);
+
+		if (typeof _object == "table") return ::MSU.Table.merge(_object, deserializedObj);
+
+		_object.resize(::Math.max(_object.len(), deserializedObj.len()));
+		foreach (i, value in deserializedObj)
+		{
+			_object[i] = value;
+		}
+		return _object;
+	}
+
 	function operatorCompare( _compareResult, _operator )
 	{
 		switch (_compareResult)
