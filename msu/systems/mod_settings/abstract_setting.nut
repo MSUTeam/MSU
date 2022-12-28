@@ -182,7 +182,7 @@
 	function __setFromSerializationTable( _table )
 	{
 		this.unlock();
-		this.Value = this.set(_table.Value, true, false, true, true);
+		this.set(_table.Value, true, false, true, true);
 		if (_table.Locked) this.lock(_table.LockReason);
 	}
 
