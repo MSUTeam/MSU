@@ -104,4 +104,21 @@
 			}
 		}
 	}
+
+	function merge( _array1, _array2, _recursively = false )
+	{
+		_array1.resize(::Math.max(_array1.length(), _array2.length()));
+
+		foreach (i, value in _array2)
+		{
+			if (_recursively && typeof value == "array" && typeof _array1[i] == "array")
+			{
+				this.merge(_array1[i], value, true);
+				continue;
+			}
+			_array1[i] = value;
+		}
+
+		return _array1;
+	}
 }
