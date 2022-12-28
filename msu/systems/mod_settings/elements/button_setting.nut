@@ -10,6 +10,10 @@
 		}
 	}
 
-	// dummy reset overwrite to avoid it getting triggered during reset calls
+	// dummy overwrites as buttons don't implement serialization, might want to improve at a later date
+	function flagSerialize( _out ) {}
+
+	function flagDeserialize( _in ) {}
+
 	function reset() {}
 }
