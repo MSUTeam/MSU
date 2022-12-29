@@ -2,9 +2,9 @@
 	function rand( _array, _start = 0, _end = null )
 	{
 		if (_array.len() == 0) return null;
-		if (_start < 0) _start = _array.len() - _start;
+		if (_start < 0) _start = _array.len() + _start;
 		if (_end == null) _end = _array.len();
-		else if (_end < 0) _end = _array.len() - _end;
+		else if (_end < 0) _end = _array.len() + _end;
 
 		if (_start < 0 || _end < _start || _end > _array.len())
 		{
