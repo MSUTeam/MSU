@@ -1,17 +1,18 @@
 ::MSU.Array <- {
 	function rand( _array, _start = 0, _end = null )
 	{
-		if (_array.len() == 0) return null;
-		if (_start < 0) _start = _array.len() + _start;
-		if (_end == null) _end = _array.len();
-		else if (_end < 0) _end = _array.len() + _end;
+		local len = _array.len();
+		if (_start >= len || -_start > len) throw "starting index out of bounds";
 
-		if (_start < 0 || _end < _start || _end > _array.len())
-		{
-			throw "Invalid indices. _array.len() = " + _array.len();
-		}
+		if (_end == null) _end = len;
+		else if (_end > len || -_end > len) throw "ending index out of bounds";
 
-		return _array[::Math.rand(_start, _end - 1)];
+		if (_start < 0) _start = len + _start;
+		if (_end < 0) _end = len + _end;
+
+		if (_end - 1 < _start) throw "invalid indices - _start must be smaller than _end - 1";
+
+		return len == 0 ? null : _array[::Math.rand(_start, _end - 1)];
 	}
 
 	// Deprecated, use removeElement instead
