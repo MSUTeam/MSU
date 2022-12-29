@@ -7,6 +7,7 @@
 		if (_start < 0) _start = _array.len() - _start;
 		
 		if (_start < 0 || _end < _start)
+		if (_start < 0 || _end < _start || _end > _array.len())
 		{
 			throw "Invalid indices. _array.len() = " + _array.len();
 		}
