@@ -14,24 +14,18 @@
 		return _array[::Math.rand(_start, _end - 1)];
 	}
 
-	// Deprecated, use removeElement instead
 	function remove( _array, _item, _ignoreMissing = true )
 	{
-		this.removeElement(_array, _item, _ignoreMissing = true);
-		return _item;
-	}
-
-	function removeElement( _array, _item, _ignoreMissing = true )
-	{
-		local idx;
-		local isFirst = false;
-		do
+		local idx = _array.find(_item);
+		if (_item == null)
 		{
-			idx = _array.find(_item);
-			if (idx != null) _array.remove(_item);
-			else if (isFirst && !_ignoreMissing) throw ::MSU.Exception.KeyNotFound(_item);
-			isFirst = true;
-		} while (idx != null)
+			if (!_ignoreMissing) throw ::MSU.Exception.KeyNotFound(_item);
+			return null;
+		}
+		else
+		{
+			return _array.remove(idx);
+		}
 	}
 
 	function shuffle( _array )
