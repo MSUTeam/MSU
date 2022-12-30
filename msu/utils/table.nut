@@ -41,7 +41,7 @@
 				if (!_overwrite) throw ::MSU.Exception.DuplicateKey(key);
 				if (_recursively && typeof value == "table" && typeof _table1[key] == "table")
 				{
-					this.merge(_table1[key], value, true, true);
+					this.merge(_table1[key], value, _overwrite, true);
 					continue;
 				}
 			}
