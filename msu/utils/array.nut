@@ -14,6 +14,8 @@
 		return _array[::Math.rand(_start, _end - 1)];
 	}
 
+
+	// deprecated - use removeByValue instead
 	function remove( _array, _item, _ignoreMissing = true )
 	{
 		local idx = _array.find(_item);
@@ -26,6 +28,12 @@
 		{
 			return _array.remove(idx);
 		}
+	}
+
+	function removeByValue( _array, _item )
+	{
+		local idx = _array.find(_item);
+		if (idx != null) return _array.remove(idx);
 	}
 
 	function shuffle( _array )
