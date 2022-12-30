@@ -17,7 +17,7 @@
 	function remove( _array, _item, _ignoreMissing = true )
 	{
 		local idx = _array.find(_item);
-		if (_item == null)
+		if (idx == null)
 		{
 			if (!_ignoreMissing) throw ::MSU.Exception.KeyNotFound(_item);
 			return null;
