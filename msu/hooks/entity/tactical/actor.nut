@@ -118,6 +118,11 @@
 		return s != null && !s.isHidden();
 	}
 
+	o.isDisarmed <- function()
+	{
+		return this.getSkills().hasSkill("effects.disarmed");
+	}
+
 	o.addExcludedInjuries <- function(_injuries)
 	{
 		foreach (injury in _injuries)
