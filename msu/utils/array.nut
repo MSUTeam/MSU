@@ -20,7 +20,7 @@
 
 		if (_end - 1 < _start)
 		{
-			::logError("invalid indices - _start must be smaller than _end - 1");
+			::logError("invalid indices: _start must be smaller than _end - 1");
 			throw ::MSU.Exception.InvalidValue(_end);
 		}
 
