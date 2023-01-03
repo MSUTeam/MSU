@@ -60,7 +60,7 @@
 
 	o.msu_settings_screen_onSavepressed <- function( _data )
 	{
-		::MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettingsFromJS(_data);
 		this.m.MenuStack.pop();
 		if (this.m.ModSettingsShown)
 		{

@@ -61,7 +61,7 @@ this.settings_screen <- ::inherit("scripts/mods/msu/ui_screen", {
 
 	function onApplyButtonPressed( _data )
 	{
-		::MSU.System.ModSettings.updateSettings(_data);
+		::MSU.System.ModSettings.updateSettingsFromJS(_data);
 	}
 
 	function onSettingPressed( _data )
