@@ -18,9 +18,9 @@
 		if (_start < 0) _start = len + _start;
 		if (_end < 0) _end = len + _end;
 
-		if (_end - 1 < _start)
+		if (_start >= _end)
 		{
-			::logError("invalid indices: _start must be smaller than _end - 1");
+			::logError("invalid indices: _start must be smaller than _end");
 			throw ::MSU.Exception.InvalidValue(_end);
 		}
 
