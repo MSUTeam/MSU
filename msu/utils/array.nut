@@ -11,7 +11,7 @@
 		if (_end == null) _end = len;
 		else if (_end > len || -_end > len)
 		{
-			::logError("starting index out of bounds");
+			::logError("ending index out of bounds");
 			throw ::MSU.Exception.InvalidValue(_end);
 		}
 
