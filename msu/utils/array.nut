@@ -2,15 +2,27 @@
 	function rand( _array, _start = 0, _end = null )
 	{
 		local len = _array.len();
-		if (_start >= len || -_start > len) throw "starting index out of bounds";
+		if (_start >= len || -_start > len)
+		{
+			::logError("starting index out of bounds");
+			throw ::MSU.Exception.InvalidValue(_start);
+		}
 
 		if (_end == null) _end = len;
-		else if (_end > len || -_end > len) throw "ending index out of bounds";
+		else if (_end > len || -_end > len)
+		{
+			::logError("starting index out of bounds");
+			throw ::MSU.Exception.InvalidValue(_end);
+		}
 
 		if (_start < 0) _start = len + _start;
 		if (_end < 0) _end = len + _end;
 
-		if (_end - 1 < _start) throw "invalid indices - _start must be smaller than _end - 1";
+		if (_end - 1 < _start)
+		{
+			::logError("invalid indices - _start must be smaller than _end - 1");
+			throw ::MSU.Exception.InvalidValue(_end);
+		}
 
 		return len == 0 ? null : _array[::Math.rand(_start, _end - 1)];
 	}
