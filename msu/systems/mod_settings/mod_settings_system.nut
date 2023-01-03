@@ -74,7 +74,7 @@
 		}
 	}
 
-	function updateSettingsFromJS( _data, _informChange = true )
+	function updateSettingsFromJS( _data )
 	{
 		/*
 		_data = {
