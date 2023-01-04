@@ -1,17 +1,30 @@
 ::MSU.Array <- {
 	function rand( _array, _start = 0, _end = null )
 	{
-		if (_array.len() == 0) return null;
-		if (_end == null) _end = _array.len();
-		if (_end < 0) _end = _array.len() - _end;
-		if (_start < 0) _start = _array.len() - _start;
-		
-		if (_start < 0 || _end < _start)
+		local len = _array.len();
+		if (_start >= len || -_start > len)
 		{
-			throw "Invalid indices. _array.len() = " + _array.len();
+			::logError("starting index out of bounds");
+			throw ::MSU.Exception.InvalidValue(_start);
 		}
 
-		return _array[::Math.rand(_start, _end - 1)];
+		if (_end == null) _end = len;
+		else if (_end > len || -_end > len)
+		{
+			::logError("ending index out of bounds");
+			throw ::MSU.Exception.InvalidValue(_end);
+		}
+
+		if (_start < 0) _start = len + _start;
+		if (_end < 0) _end = len + _end;
+
+		if (_start >= _end)
+		{
+			::logError("invalid indices: _start must be smaller than _end");
+			throw ::MSU.Exception.InvalidValue(_end);
+		}
+
+		return len == 0 ? null : _array[::Math.rand(_start, _end - 1)];
 	}
 
 
