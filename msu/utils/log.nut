@@ -15,22 +15,20 @@
 				string += line.func + " ";
 			}
 
-			string += "-> " + line.src + " : " + line.line + "</div></div><div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
+			string += "-> " + line.src + " : " + line.line + "</div></div>";
 
 			local fixCounter = 0;
-			foreach (key, value in line.locals)
-			{
-				if (key == "this" || key == "_release_hook_DO_NOT_delete_it_")
-				{
-					fixCounter++;
-					continue;
-				}
-				string += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _maxDepth, _advanced, false));
-			}
+			local locals = ::MSU.Table.filter(line.locals, @(_key, _val) _key != "this" && _key != "_release_hook_DO_NOT_delete_it_");
 
-			if (line.locals.len() - fixCounter != 0) string = string.slice(0, string.len() - 2);
-			else string += "&nbsp;"
-			string += "</div></div>";
+			if (locals.len() != 0)
+			{
+				string += "<div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
+				foreach (key, value in locals)
+				{
+					string += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _maxDepth, _advanced, false));
+				}
+				string = string.slice(0, string.len() - 2) + "</div></div>";
+			}
 		}
 		string += "</div>"
 		::logInfo(string);
