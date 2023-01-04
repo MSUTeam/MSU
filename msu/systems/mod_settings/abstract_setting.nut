@@ -193,7 +193,7 @@
 
 	function flagDeserialize( _in )
 	{
-		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.2.0", _in.getMetaData()))
+		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.2.0-rc.1", _in.getMetaData()))
 		{
 			this.__setFromSerializationTable(this.getMod().Serialization.flagDeserialize(format("MS.%s", this.getID())));
 		}
