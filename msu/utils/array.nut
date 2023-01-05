@@ -2,6 +2,12 @@
 	function rand( _array, _start = 0, _end = null )
 	{
 		local len = _array.len();
+		if (len == 0)
+		{
+			if (_start != 0 || _end != null) throw "indexing empty array";
+			return null;
+		}
+
 		if (_start >= len || -_start > len)
 		{
 			::logError("starting index out of bounds");
@@ -24,7 +30,7 @@
 			throw ::MSU.Exception.InvalidValue(_end);
 		}
 
-		return len == 0 ? null : _array[::Math.rand(_start, _end - 1)];
+		return _array[::Math.rand(_start, _end - 1)];
 	}
 
 
