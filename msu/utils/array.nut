@@ -9,11 +9,12 @@
 		}
 
 		if (_start == null) _start = 0;
-		if (_start >= len || -_start > len)
+		else if (_start >= len || -_start > len)
 		{
 			::logError("starting index out of bounds");
 			throw ::MSU.Exception.InvalidValue(_start);
 		}
+		else if (_start < 0) _start = len + _start;
 
 		if (_end == null) _end = len;
 		else if (_end > len || -_end > len)
@@ -21,9 +22,7 @@
 			::logError("ending index out of bounds");
 			throw ::MSU.Exception.InvalidValue(_end);
 		}
-
-		if (_start < 0) _start = len + _start;
-		if (_end < 0) _end = len + _end;
+		else if (_end < 0) _end = len + _end;
 
 		if (_start >= _end)
 		{
