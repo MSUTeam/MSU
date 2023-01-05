@@ -1,13 +1,14 @@
 ::MSU.Array <- {
-	function rand( _array, _start = 0, _end = null )
+	function rand( _array, _start = null, _end = null )
 	{
 		local len = _array.len();
 		if (len == 0)
 		{
-			if (_start != 0 || _end != null) throw "indexing empty array";
+			if (_start != null || _end != null) throw "indexing empty array";
 			return null;
 		}
 
+		if (_start == null) _start = 0;
 		if (_start >= len || -_start > len)
 		{
 			::logError("starting index out of bounds");
