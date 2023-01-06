@@ -75,7 +75,7 @@
 
 	function setBaseValue( _value, _reset = false)
 	{
-		this.m.BaseValue = _value;
+		this.BaseValue = _value;
 		if (_reset)
 		{
 			this.reset();
