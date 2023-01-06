@@ -122,6 +122,34 @@ local _mods_runQueue = ::_mods_runQueue;
 		return compareSemVerVersionsWithNulls(_modTable.SemVer, _dependencyTable.VersionOperator, _dependencyTable.SemVer);
 	}
 
+	local function getTextForOperator( _operator )
+	{
+		switch (_operator)
+		{
+			case ">":
+				return "newer than";
+
+			case ">=":
+				return "at least";
+
+			case null:
+			case "=":
+				return "";
+
+			case "!=":
+				return "other than";
+
+			case "<=":
+				return "up to";
+
+			case "<":
+				return "older than";
+
+			default:
+				throw ::MSU.Exception.InvalidValue(_operator);
+		}
+	}
+
 	foreach (mod in ::mods_getRegisteredMods())
 	{
 		foreach (dependencyTable in mod.Dependencies)
@@ -140,7 +168,7 @@ local _mods_runQueue = ::_mods_runQueue;
 					else if (compareVersions(dependencyTable, dependencyMod))
 					{
 						local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
-						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion);
+						::MSU.QueueErrors.add(mod.FriendlyName + " is not compatible with " + dependencyMod.FriendlyName + " version " + getTextForOperator(dependencyTable.VersionOperator) + " " + tableVersion);
 						continue; // Incompatible mod version present
 					}
 					else
@@ -194,7 +222,7 @@ local _mods_runQueue = ::_mods_runQueue;
 			{
 				local tableVersion = dependencyTable.SemVer == null ? dependencyTable.Version : ::MSU.SemVer.getVersionString(dependencyTable.SemVer);
 				local modVersion = dependencyMod.SemVer == null ? dependencyMod.Version : ::MSU.SemVer.getVersionString(dependencyMod.SemVer);
-				::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + dependencyTable.VersionOperator + tableVersion + " but version " + modVersion + " was found");
+				::MSU.QueueErrors.add(mod.FriendlyName + " requires " + dependencyMod.FriendlyName + " version " + getTextForOperator(dependencyTable.VersionOperator) + " " + tableVersion + " but version " + modVersion + " was found");
 				continue; // Incompatible mod version
 			}
 			else
