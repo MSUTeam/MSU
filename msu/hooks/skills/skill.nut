@@ -56,6 +56,7 @@
 	o = o[o.SuperName];
 
 	o.m.MSU_AddedStack <- 1;
+	o.m.MSU_StackedFields <- {};
 
 	o.m.AIBehaviorID <- null;
 	o.m.DamageType <- ::MSU.Class.WeightedContainer();
@@ -337,9 +338,34 @@
 	local removeSelf = o.removeSelf;
 	o.removeSelf = function()
 	{
-		if (!this.isKeepingAddRemoveHistory()) return removeSelf();
+		this.removeSelfByStack(::MSU.Skills.StackedFields);
+	}
 
+	o.removeSelfByStack <- function( _stackedFields )
+	{
+		if (!this.isKeepingAddRemoveHistory()) return removeSelf();
 		if (--this.m.MSU_AddedStack == 0) return removeSelf();
+
+		foreach (fieldName, defaultValue in ::MSU.Skills.StackedFields)
+		{
+			local value = fieldName in _stackedFields ? _stackedFields[fieldName] : defaultValue;
+			local count = this.m.MSU_StackedFields[fieldName][value];
+
+			if (count > 0) this.m.MSU_StackedFields[fieldName][value] = count - 1;
+			else throw "trying to remove " + this.getID() + " but all its stacked additions with \'" + fieldName + " = " + value + "\' have already been removed";
+
+			if (this.m.MSU_StackedFields[fieldName][defaultValue] > 0) this.m[fieldName] = defaultValue;
+			else
+			{
+				local bestValue = defaultValue;
+				local bestCount = 0;
+				foreach (localValue, localCount in this.m.MSU_StackedFields[fieldName])
+				{
+					if (localCount > bestCount) bestValue = localValue;
+				}
+				this.m[fieldName] = bestValue;
+			}
+		}
 
 		// The actual item which provided this skill isn't unequipped yet because
 		// the removeSelf is called BEFORE the item is unequipped. So, we iterate over

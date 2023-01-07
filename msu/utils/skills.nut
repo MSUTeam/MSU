@@ -12,6 +12,9 @@
 		"MinRange",
 		"MaxRange"
 	],
+	StackedFields = {
+		IsSerialized = true
+	},
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
