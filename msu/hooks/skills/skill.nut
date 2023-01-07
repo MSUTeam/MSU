@@ -337,7 +337,7 @@
 	local removeSelf = o.removeSelf;
 	o.removeSelf = function()
 	{
-		if (!_skill.isKeepingAddRemoveHistory()) return removeSelf();
+		if (!this.isKeepingAddRemoveHistory()) return removeSelf();
 
 		if (--this.m.MSU_AddedStack == 0) return removeSelf();
 
