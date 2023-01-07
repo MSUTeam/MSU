@@ -364,9 +364,9 @@
 		this.setItem(null);
 	}
 
-	function isKeepingAddRemoveHistory()
+	o.isKeepingAddRemoveHistory <- function()
 	{
-		return !this.isStacking() && !(this.isType(::Const.SkillType.Perk) || !this.isType(::Const.SkillType.StatusEffect));
+		return !this.isStacking() && (this.isType(::Const.SkillType.Perk) || !this.isType(::Const.SkillType.StatusEffect));
 	}
 
 	o.getDamageType <- function()
