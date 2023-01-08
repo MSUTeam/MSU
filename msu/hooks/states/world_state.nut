@@ -5,6 +5,8 @@
 		onInitUI();
 		local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
+		::World.setOnLoadCallback(this.MSU_onDeserialize.bindenv(this));
+		::World.setOnSaveCallback(this.MSU_onSerialize.bindenv(this));
 	}
 
 	o.main_menu_module_onModOptionsPressed <- function()
@@ -291,7 +293,6 @@
 		::MSU.System.ModSettings.flagSerialize(_out);
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
 		onSerialize(_out);
-		::MSU.System.Serialization.clearFlags();
 	}
 
 	local onDeserialize = o.onDeserialize;
@@ -307,7 +308,28 @@
 			::World.Assets.setLastDayMorningEventCalled(::World.getTime().Days);
 		}
 		::MSU.System.ModSettings.flagDeserialize(_in);
+	}
+
+	o.onAfterSerialize <- function( _out )
+	{
 		::MSU.System.Serialization.clearFlags();
+	}
+
+	o.onAfterDeserialize <- function( _in )
+	{
+		::MSU.System.Serialization.clearFlags();
+	}
+
+	o.MSU_onSerialize <- function( _in )
+	{
+		this.onSerialize(_in);
+		this.onAfterSerialize(_in);
+	}
+
+	o.MSU_onDeserialize <- function( _out )
+	{
+		this.onDeserialize(_out);
+		this.onAfterDeserialize(_out);
 	}
 
 	local onKeyInput = o.onKeyInput;
