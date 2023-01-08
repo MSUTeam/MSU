@@ -32,21 +32,13 @@ local _mods_runQueue = ::_mods_runQueue;
 			::MSU.Utils.States[this.ClassName] <- this;
 			::MSU.EarlyConnection.connect();
 			this.add("MainMenuState", "scripts/states/main_menu_state"); // game immediately crashes if you don't do this
-			::mods_callHook("root_state.onInit", this);
 		}
 
 		o.resumeOnInit <- function()
 		{
 			local add = this.add;
 			this.add = function(...){};
-			local mods_callHook = ::mods_callHook;
-			::mods_callHook = function( ... )
-			{
-				if (vargv[0] != "root_state.onInit")
-					mods_callHook.acall(vargv);
-			}
 			onInit();
-			::mods_callHook = mods_callHook
 			this.add = add;
 		}
 	});
