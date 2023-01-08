@@ -39,7 +39,7 @@
 		{
 			if (alreadyPresentSkill.getID() == _skill.getID())
 			{
-				if (++alreadyPresentSkill.m.MSU.AddedStack > 0) alreadyPresentSkill.m.IsGarbage = false;
+				if (++alreadyPresentSkill.m.MSU_AddedStack > 0) alreadyPresentSkill.m.IsGarbage = false;
 
 				if (!::MSU.isNull(_skill.getItem()))
 				{
@@ -65,7 +65,7 @@
 	local remove = o.remove;
 	o.remove = function( _skill )
 	{
-		if (_skill.m.MSU.AddedStack == 1) return remove(_skill);
+		if (_skill.m.MSU_AddedStack == 1) return remove(_skill);
 		else return _skill.removeSelf();
 	}
 
@@ -75,7 +75,7 @@
 		local skill = this.getSkillByID(_skillID);
 		if (skill == null) return;
 
-		if (skill.m.MSU.AddedStack == 1) return removeByID(_skillID);
+		if (skill.m.MSU_AddedStack == 1) return removeByID(_skillID);
 		else return skill.removeSelf();
 	}
 

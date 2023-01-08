@@ -1,9 +1,7 @@
 ::mods_hookNewObject("items/item_container", function(o) {
 	o.m.ActionSkill <- null;
 	o.m.MSU_IsIgnoringItemAction <- false;
-	o.m.MSU <- {
-		ItemBeingUnequipped = null
-	}
+	o.m.MSU_ItemBeingUnequipped <- null;
 
 	o.isActionAffordable = function ( _items )
 	{
@@ -98,7 +96,7 @@
 		// This variable is needed for proper functionality in the skill.removeSelf function because
 		// in that function we want to know if the item being unequipped is the one that is attached to that skill
 		// and skills are removed before the item is unequipped
-		this.m.MSU.ItemBeingUnequipped = _item;
+		this.m.MSU_ItemBeingUnequipped = _item;
 
 		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
 		{
@@ -114,7 +112,7 @@
 
 		local ret = unequip(_item);
 
-		this.m.MSU.ItemBeingUnequipped = null;
+		this.m.MSU_ItemBeingUnequipped = null;
 
 		return ret;
 	}

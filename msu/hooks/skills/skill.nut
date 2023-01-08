@@ -339,12 +339,12 @@
 	{
 		if (!_skill.isKeepingAddRemoveHistory()) return removeSelf();
 
-		if (--this.m.MSU.AddedStack == 0) return removeSelf();
+		if (--this.m.MSU_AddedStack == 0) return removeSelf();
 
 		// The actual item which provided this skill isn't unequipped yet because
 		// the removeSelf is called BEFORE the item is unequipped. So, we iterate over
 		// all items and skip the one that is going to be unequipped
-		if (::MSU.isEqual(this.getContainer().getActor().getItems().m.MSU.ItemBeingUnequipped, this.getItem()))
+		if (::MSU.isEqual(this.getContainer().getActor().getItems().m.MSU_ItemBeingUnequipped, this.getItem()))
 		{
 			foreach (item in this.getContainer().getActor().getItems().getAllItems())
 			{
