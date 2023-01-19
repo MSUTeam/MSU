@@ -42,7 +42,7 @@ foreach (itemType in ::Const.Items.ItemType)
 
 	::Const.Items.ItemType[_itemType] <- 1;
 	::Const.Items.ItemFilter.All = ::Const.Items.ItemFilter.All | 1;
-	::Const.Items.ItemTypeName.insert(0, _name);
+	::Const.Items.ItemTypeName.insert(1, _name);
 }
 
 ::Const.Items.getItemTypeName <- function( _itemType )
