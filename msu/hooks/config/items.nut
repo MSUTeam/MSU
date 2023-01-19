@@ -25,7 +25,8 @@ foreach (itemType in ::Const.Items.ItemType)
 			name = "Trade Good";				
 			break;
 	}
-	local idx = ::MSU.Math.log2int(itemType) + 1;
+
+	local idx = itemType == 0 ? 0 : ::MSU.Math.log2int(itemType) + 1;
 	::Const.Items.ItemTypeName[idx] = name;
 }
 
@@ -47,7 +48,7 @@ foreach (itemType in ::Const.Items.ItemType)
 
 ::Const.Items.getItemTypeName <- function( _itemType )
 {
-	local idx = ::MSU.Math.log2int(_itemType) + 1;
+	local idx = _itemType == 0 ? 0 : ::MSU.Math.log2int(_itemType) + 1;
 	if (idx < ::Const.Items.ItemTypeName.len())
 	{
 		return ::Const.Items.ItemTypeName[idx];
