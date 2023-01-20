@@ -3,12 +3,14 @@
 	Panels = null;
 	Locked = null;
 	Screen = null; //settings_screen
+	RequiredSettingValues = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.ModSettings);
 		this.Locked = false;
 		this.Panels = ::MSU.Class.OrderedMap();
+		this.RequiredSettingValues = [];
 	}
 
 	function registerMod( _mod )
@@ -149,6 +151,15 @@
 		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 	}
 
+	function registerRequiredSettingValue( _mod, _setting, _value )
+	{
+		this.RequiredSettingValues.push({
+			Mod = _mod,
+			Setting = _setting,
+			Value = _value
+		});
+	}
+
 	function flagSerialize( _out )
 	{
 		this.callPanelsFunction("flagSerialize", [_out]);
@@ -157,6 +168,19 @@
 	function flagDeserialize( _in )
 	{
 		this.callPanelsFunction("flagDeserialize", [_in]);
+
+		local reqs = clone this.RequiredSettingValues;
+		foreach (req in reqs)
+		{
+			req.Mod.ModSettings.requireSettingValue(req.Setting, req.Value);
+		}
+		this.RequiredSettingValues = reqs;
+
+		if (::MSU.QueueErrors.Errors != "")
+		{
+			::logError("Saved game has incompatible mod setting requirements with current mods.")
+			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
+		}
 	}
 
 	function getUIData( _flags = null )

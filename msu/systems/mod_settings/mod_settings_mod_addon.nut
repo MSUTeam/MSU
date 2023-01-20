@@ -39,6 +39,8 @@
 
 	function requireSettingValue( _setting, _value )
 	{
+		::MSU.System.ModSettings.registerRequiredSettingValue(this.getMod(), _setting, _value);
+
 		if (_setting.getValue() != _value)
 		{
 			if (_setting.isLocked())
