@@ -3,17 +3,17 @@
 
 	function getBehaviorScriptFromID( _id )
 	{
-		if (this.m.BehaviorIDToScriptMap.len() == 0)
+		if (this.BehaviorIDToScriptMap.len() == 0)
 		{
 			throw "This function cannot be used before the root_state.onInit function has run";
 		}
-		if (!(_id in this.m.BehaviorIDToScriptMap))
+		if (!(_id in this.BehaviorIDToScriptMap))
 		{
 			::logError("Invalid behavior id \'" + _id + "\' and/or the associated script file is not located in \'scripts/ai/tactical/behaviors\'");
 			throw ::MSU.Exception.KeyNotFound(_id);
 		}
 
-		return this.m.BehaviorIDToScriptMap[_id];
+		return this.BehaviorIDToScriptMap[_id];
 	}
 
 	function addBehavior ( _id, _name, _order, _score )
