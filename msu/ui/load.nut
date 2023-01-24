@@ -1,7 +1,9 @@
 ::mods_registerCSS("msu/css/misc.css");
 ::mods_registerCSS("msu/css/settings_screen.css");
 
-::mods_registerJS("msu/utilities.js");
+::MSU.registerEarlyJSHook("msu/utilities.js");
+
+::MSU.registerEarlyJSHook("msu/nested_tooltips.js");
 
 ::mods_registerJS("msu/ui_hooks/main_menu_module.js");
 ::mods_registerJS("msu/ui_hooks/main_menu_screen.js");
