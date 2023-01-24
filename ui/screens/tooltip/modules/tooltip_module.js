@@ -122,10 +122,10 @@ TooltipModule.prototype.register = function (_parentDiv)
 		this.mParent = _parentDiv;
 
 		// Note: This is a workaround to hide the Tooltip if the Cursor has been moven onto the tooltip...
-		this.mContainer.on('mouseenter' + TooltipModuleIdentifier.KeyEvent.Namespace, null, this, function(_event) {
-			var self = _event.data;
-			self.hideTooltip();
-		});
+		// this.mContainer.on('mouseenter' + TooltipModuleIdentifier.KeyEvent.Namespace, null, this, function(_event) {
+		// 	var self = _event.data;
+		// 	self.hideTooltip();
+		// });
 	}
 };
 
