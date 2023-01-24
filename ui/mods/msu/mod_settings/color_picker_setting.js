@@ -11,7 +11,7 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 	this.titleContainer = $('<div class="setting-title-container"/>');
 	this.layout.append(this.titleContainer);
 
-	this.title = $('<div class="title title-font-normal font-color-title">' + _setting.name + '</div>');
+	this.title = $('<div class="title title-font-normal font-color-title line red">' + _setting.name + '</div>');
 	this.titleContainer.append(this.title);
 
 	this.contentContainer = $('<div class="setting-content-container"/>');
@@ -29,8 +29,9 @@ var ColorPickerSetting = function (_mod, _page, _setting, _parentDiv)
 	this.updateColor();
 
 	// Tooltip
-	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
-	this.button.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
+	MSU.NestedTooltip.bind(this.title, { contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id })
+	// this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
+	// this.button.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 };
 
 ColorPickerSetting.prototype.updateValue = function()
