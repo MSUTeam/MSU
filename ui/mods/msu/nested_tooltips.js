@@ -1,292 +1,155 @@
 MSU.NestedTooltip = {
-	__regexp : /{(\w+)}(.*?){\/\1}/gm,
+	__regexp : /{tooltip=([\w\.]+)}(.*?){\/tooltip}/gm,
 	__tooltipStack : [],
-	__tooltipRoot : null,
 	__tooltipHideDelay : 200,
 	bind : function (_element, _data)
 	{
-		var self = this;
-
-		_element.on('mouseenter', function(_event)
+		_element.on('mouseenter', this.getBindFunction(_data));
+	},
+	getBindFunction : function (_data)
+	{
+		return function (_event)
 		{
-			console.error('mouseenter ori')
+			var element = $(this);
+			if (element.data('msu-nested') !== undefined) return;
+			var self = MSU.NestedTooltip;
+			self.updateStack();
+
 			Screens.TooltipScreen.mTooltipModule.notifyBackendQueryTooltipData(_data, function (_backendData)
 			{
-				self.createTooltip(_backendData, _element, _element.contentType);
+				self.createTooltip(_backendData, element, element.contentType);
 			});
-		});
-		if (this.__tooltipRoot == null)
-		{
-			console.error('__tooltipRoot 2')
-			_element.on('mouseenter', function(_event)
+			element.on('mouseenter.msunested', function(_event)
 			{
-				console.error('mouseenter root')
-				_element.mouseIsOver = true;
-				if (_element.msuTooltipTimeout !== null)
-					clearTimeout(_element.msuTooltipTimeout);
+				var data = $(this).data('msu-nested');
+				data.isHovered = true;
+				if (data.timeout !== null)
+				{
+					clearTimeout(data.timeout);
+					data.timeout = null;
+				}
 			});
-			_element.on('mouseleave', function (_event)
+			element.on('mouseleave.msunested', function (_event)
 			{
-				_element.msuTooltipTimeout = setTimeout(self.hideTooltip, self.__tooltipHideDelay, _element, self);
+				var data = $(this).data('msu-nested');
+				data.isHovered = false;
+				data.timeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
 			});
-			this.__tooltipRoot = _element;
 		}
 	},
 	updateStack : function ()
 	{
-		var hoveringOver = null;
 		for (var i = this.__tooltipStack.length - 1; i >= 0; i--)
 		{
-			if (this.__tooltipStack[i].mouseIsOver)
-			{
-				hoveringOver = i;
+			var pairData = this.__tooltipStack[i];
+			if (pairData.source.isHovered || pairData.tooltip.isHovered)
 				break;
-			}
-		}
-		if (hoveringOver == null)
-		{
-			if (this.__tooltipRoot != null && this.__tooltipRoot.mouseIsOver)
-				hoveringOver = 1;
-			else
-			{
-				hoveringOver = 0;
-				this.__tooltipRoot = null;
-			}
-		}
-		else
-			++hoveringOver;
-		console.error('hoveringOver ' + hoveringOver)
-		for (var i = this.__tooltipStack.length - 1; i >= hoveringOver; --i)
-		{
-			this.__tooltipStack[i].remove();
-			this.__tooltipStack.pop()
+			this.removeTooltip(pairData, i);
 		}
 	},
-	hideTooltip : function (_element, _self)
+	removeTooltip : function (_pairData, _idx)
 	{
-		_self == _self || this;
-		_element.mouseIsOver = false;
-		_self.updateStack();
+		if (_pairData.source.timeout !== null)
+			clearTimeout(_pairData.source.timeout);
+		if (_pairData.tooltip.timeout !== null)
+			clearTimeout(_pairData.tooltip.timeout);
+		_pairData.source.container.off('mouseenter.msunested mouseenter.msunested');
+		_pairData.source.container.removeData('msu-nested');
+		_pairData.tooltip.container.remove();
+		this.__tooltipStack.splice(_idx, 1);
 	},
 	createTooltip : function (_data, _parentElement, _contentType)
 	{
-		var container = this.getDivFromData(_data, _contentType);
-		container.mouseIsOver = false;
+		var container = this.getTooltipFromData(_data, _contentType);
 		var self = this;
-		this.__tooltipStack.push(container);
-		var len = this.__tooltipStack.length;
+		var sourceData = {
+			container : _parentElement,
+			timeout : null,
+			isHovered : true
+		};
+		_parentElement.data('msu-nested', sourceData);
+		var tooltipData = {
+			container : container,
+			timeout : null,
+			isHovered : false
+		};
+		container.data('msu-nested', tooltipData);
+		this.__tooltipStack.push({
+			source : sourceData,
+			tooltip : tooltipData
+		});
 		container.on('mouseenter', function (_event)
 		{
-			container.mouseIsOver = true;
-			if (container.msuTooltipTimeout !== undefined)
-				clearTimeout(container.msuTooltipTimeout);
-		})
+			var data = $(this).data('msu-nested');
+			data.isHovered = true;
+			if (data.timeout !== null)
+			{
+				clearTimeout(data.timeout);
+				data.timeout = null;
+			}
+		});
 		container.on('mouseleave', function (_event)
 		{
-			container.msuTooltipTimeout = setTimeout(self.hideTooltip, self.__tooltipHideDelay, container, self);
-		})
+			var data = $(this).data('msu-nested');
+			data.isHovered = false;
+			data.timeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
+		});
 
 		$('body').append(container)
 		this.positionTooltip(container, _data, _parentElement);
 	},
-	createEmptyTooltip : function ()
+	getTooltipFromData : function (_data, _contentType)
 	{
-		var tooltip = {
-			container : $('<div class="tooltip-module ui-control-tooltip-module line"/>'),
-			ornament : $('<div class="top-ornament"/>'),
-			header : $('<div class="header-container"/>'),
-			content : $('<div class="content-container"></div>'),
-			leftContent : $('<div class="left-content-container"></div>'),
-			rightContent : $('<div class="right-content-container"></div>'),
-			footer : $('<div class="footer-container"></div>'),
-			hint : $('<div class="hint-container"></div>')
-		}
-		tooltip.container.append(tooltip.ornament);
-		tooltip.container.append(tooltip.header);
-		tooltip.container.append(tooltip.content);
-		tooltip.content.append(tooltip.leftContent);
-		tooltip.content.append(tooltip.rightContent);
-		tooltip.container.append(tooltip.footer);
-		tooltip.container.append(tooltip.hint);
-		return tooltip;
-	},
-	getDivFromData : function (_data, _contentType)
-	{
-		var tooltip = this.createEmptyTooltip();
-		for (var i = 0; i < _data.length; ++i)
-		{
-			var data = _data[i];
-			if ('contentType' in data)
-				continue;
-			if (typeof(data) != 'object' || !('type' in data))
-			{
-				queryStackTrace()
-				throw 'ERROR: Failed to find "type" field while interpreting tooltip entry. Index: ' + i;
-			}
-			if (!('id' in data))
-			{
-				queryStackTrace()
-				throw 'ERROR: Failed to find "id" field while interpreting tooltip entry. Index: ' + i;
-			}
-
-			var hasHeader = false;
-			var hasHeaderText = false;
-			var hasContent = false;
-			var hasFooter = false;
-			var hasHint = false;
-
-			switch(data.type)
-			{
-				case 'title':
-					if (Screens.TooltipScreen.mTooltipModule.addHeaderTitleDiv(tooltip.header, data) != null)
-						hasHeader = true;
-					break;
-				case 'description':
-					if (Screens.TooltipScreen.mTooltipModule.addHeaderDescriptionDiv(tooltip.header, data) != null)
-						hasHeader = true;
-					break;
-				case 'header':
-					if (Screens.TooltipScreen.mTooltipModule.addHeaderContentTextDiv(tooltip.rightContent, data) != null)
-						hasContent = true;
-					break;
-				case 'headerText':
-					if (Screens.TooltipScreen.mTooltipModule.addHeaderTextDiv(tooltip.header, data) != null)
-					{
-						hasHeader = true;
-						hasHeaderText = true;
-					}
-					break;
-				case 'image':
-					if (Screens.TooltipScreen.mTooltipModule.addAtmosphericImageDiv(tooltip.leftContent, data) != null)
-						hasContent = true;
-					break;
-				case 'text':
-					if (Screens.TooltipScreen.mTooltipModule.addContentTextDiv(tooltip.rightContent, data) != null)
-						hasContent = true;
-					break;
-				case 'progressbar':
-					if (Screens.TooltipScreen.mTooltipModule.addContentProgressbarDiv(tooltip.rightContent, data) != null)
-						hasContent = true;
-					break;
-				case 'icons':
-					if (Screens.TooltipScreen.mTooltipModule.addFooterIconDiv(tooltip.footer, data) != null)
-						hasFooter = true;
-					break;
-				case 'hint':
-					if (Screens.TooltipScreen.mTooltipModule.addFooterIconDiv(tooltip.hint, data) != null)
-						hasHint = true;
-					break;
-			}
-			if (!hasHeaderText && !hasFooter)
-				tooltip.header.addClass('display-none');
-			if (!hasContent)
-				tooltip.content.addClass('display-none');
-			if (!hasFooter)
-				tooltip.footer.addClass('display-none');
-			if (!hasHint)
-				tooltip.hint.addClass('display-none');
-
-			switch(_contentType)
-			{
-				case 'tile':
-					tooltip.container.addClass('is-full-width is-tile-content');
-					break;
-				case 'tile-entity':
-				case 'entity':
-					tooltip.container.addClass('is-entity-content');
-					break;
-				case 'roster-entity':
-					tooltip.container.addClass('is-full-width is-entity-content');
-					break;
-				case 'skill':
-					tooltip.container.addClass('is-full-width is-skill-content');
-					break;
-				case 'status-effect':
-					tooltip.container.addClass('is-full-width is-status-effect-content');
-					break;
-				case 'settlement-status-effect':
-					tooltip.container.addClass('is-full-width is-status-effect-content');
-					break;
-				case 'ui-element':
-				case 'verbatim':
-				case 'company-perk':
-					tooltip.container.addClass('is-full-width is-ui-element-content');
-					break;
-				case 'ui-item':
-					tooltip.container.addClass('is-full-width is-ui-item-content');
-					break;
-				case 'follower':
-					tooltip.container.addClass('is-full-width is-ui-element-content');
-					break;
-			}
-
-			if (hasContent || hasHeaderText)
-			{
-				var headerDescription = tooltip.header.find('> .row.description-container').last();
-				var headerTitle = tooltip.header.find('> .row.title-container').last();
-				if (headerDescription.length !== 0)
-					headerDescription.addClass('ui-control-tooltip-module-bottom-devider');
-				else if (headerTitle.length !== 0)
-					headerTitle.addClass('ui-control-tooltip-module-bottom-devider');
-			}
-
-			if (hasContent && hasHeaderText)
-			{
-				var headerLastText = tooltip.header.find('> .row.title-text-container').last();
-				headerLastText.addClass('ui-control-tooltip-module-bottom-devider');
-			}
-
-			if ((hasHeader || hasContent) && hasFooter)
-			{
-				tooltip.footer.addClass('ui-control-tooltip-module-top-devider');
-			}
-
-			if ((hasHeader || hasContent) && hasHint)
-			{
-				tooltip.hint.addClass('ui-control-tooltip-module-top-devider');
-			}
-		}
-		tooltip.container.css('height', 100)
-		return tooltip.container;
+		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
+		var ret = $('<div class="tooltip-module ui-control-tooltip-module"/>');
+		Screens.TooltipScreen.mTooltipModule.mContainer = ret;
+		Screens.TooltipScreen.mTooltipModule.buildFromData(_data, false, _contentType);
+		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
+		return ret;
 	},
 	positionTooltip : function (_tooltip, _data, _targetDIV)
 	{
-		var tooltipModule = Screens.TooltipScreen.mTooltipModule;
-		var offsetY = ('yOffset' in _data) ? _data.yOffset : tooltipModule.mDefaultYOffset;
-		if (offsetY !== null)
-		{
-			if (typeof(offsetY) === 'string')
-				offsetY = parseInt(offsetY, 10);
-			else if (typeof(offsetY) !== 'number')
-				offsetY = 0;
-		}
-
-		var targetOffset    = _targetDIV.offset();
-		var elementWidth    = _targetDIV.outerWidth(true);
-		var elementHeight   = _targetDIV.outerHeight(true);
-		var containerWidth  = _tooltip.outerWidth(true);
-		var containerHeight = _tooltip.outerHeight(true);
-
-		var posLeft = (targetOffset.left + (elementWidth / 2)) - (containerWidth / 2);
-		var posTop  = targetOffset.top - containerHeight - offsetY;
-
-		if (posLeft < 0)
-			posLeft = targetOffset.left;
-
-		if (posLeft + containerWidth > $(window).width())
-			posLeft = targetOffset.left + elementWidth - containerWidth;
-
-		if (posTop < 0)
-			posTop = targetOffset.top + elementHeight + offsetY;
-
-		_tooltip.css({ left: posLeft, top: posTop });
-		// _tooltip.velocity("finish", true).velocity({ opacity: 0.99 }, { duration: tooltipModule.mFadeInTime }); // Anti Alias Fix
+		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
+		Screens.TooltipScreen.mTooltipModule.mContainer = _tooltip;
+		Screens.TooltipScreen.mTooltipModule.setupUITooltip(_targetDIV, _data);
+		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 	},
 	parseText : function (_text)
 	{
-		return _text.replace(this.RegExp, function (_match, _id, _text)
+		return _text.replace(this.__regexp, function (_match, _id, _text)
 		{
-			return '<span class="msu-nested-tooltip" data-msu-nested-id="' + _id + '">' + _text + '</span>' // probably some formatting here
+			var idx = _id.search(/\./);
+			if (idx == -1)
+			{
+				throw "Nested Tooltip ID is has wrong formatting: " + _id;
+				console.error(queryStackTrace());
+			}
+			var begin = _id.slice(0, idx);
+			var end = _id.slice(idx);
+
+			return '<span style="color: blue;" class="msu-nested-tooltip" data-msu-nested-mod="' + begin + '" data-msu-nested-id="' + end + '">' + _text + '</span>' // probably some formatting here
 		})
-	}
+	},
 }
+MSU.XBBCODE_process = XBBCODE.process;
+// I hate this but the XBBCODE plugin doesn't allow dynamically adding tags
+// there's a fork that does here https://github.com/patorjk/Extendible-BBCode-Parser
+// but we'd have to tweak it a bunch to add the vanilla tags
+// it also changes some other stuff and is somewhat out of date at this point
+// then again, the one used in vanilla is probably even more outdated
+XBBCODE.process = function (config)
+{
+	var ret = MSU.XBBCODE_process.call(this, config);
+	ret.html = MSU.NestedTooltip.parseText(ret.html)
+	return ret;
+}
+
+$(document).on('mouseenter', '.msu-nested-tooltip', function()
+{
+	var data = {
+		contentType : 'msu-nested-tooltip',
+		elementId : this.dataset.msuNestedId,
+		modId : this.dataset.msuNestedMod
+	}
+	MSU.NestedTooltip.getBindFunction(data).call(this);
+})
