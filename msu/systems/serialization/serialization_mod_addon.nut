@@ -11,8 +11,18 @@
 		::MSU.System.Serialization.flagSerialize(this.Mod, _id, _object, _flags);
 	}
 
-	function flagDeserialize( _id, _object = null, _flags = null )
+	function flagDeserialize( _id, _defaultValue, _object = null, _flags = null )
 	{
-		return ::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _object, _flags);
+		return ::MSU.System.Serialization.flagDeserialize(this.Mod, _id, _defaultValue, _object, _flags);
+	}
+
+	function getDeserializationEmulator( _id, _flags = null )
+	{
+		return ::MSU.System.Serialization.getDeserializationEmulator(this.Mod, _id, _flags);
+	}
+
+	function getSerializationEmulator( _id, _flags = null )
+	{
+		return ::MSU.System.Serialization.getSerializationEmulator(this.Mod, _id, _flags);
 	}
 }

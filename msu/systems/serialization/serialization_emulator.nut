@@ -1,25 +1,42 @@
 // enulates the _out object passed to onSerialize functions
 ::MSU.Class.SerializationEmulator <- class extends ::MSU.Class.SerDeEmulator
 {
+	IsIncremental = false;
+
+	function setIncremental( _bool )
+	{
+		this.IsIncremental = _bool;
+	}
+
+	function __writeData( _data )
+	{
+		this.Data.push(_data);
+		if (this.IsIncremental)
+		{
+			local startString = this.getEmulatorString();
+			this.FlagContainer.set(startString, this.Data.len());
+			this.FlagContainer.set(startString + "." + (this.Data.len() - 1), _data);
+		}
+	}
+
 	function writeString( _string )
 	{
-		this.Data.push(_string);
-		// idk about the necessity of keeping the type here as well as the value, unless someone can think of a good reason for it I will probably remove it.
+		this.__writeData(_string);
 	}
 
 	function __writeInt( _int )
 	{
-		this.Data.push(_int);
+		this.__writeData(_int);
 	}
 
 	function __writeFloat( _float )
 	{
-		this.Data.push(_float);
+		this.__writeData(_float);
 	}
 
 	function writeBool( _bool )
 	{
-		this.Data.push(_bool);
+		this.__writeData(_bool);
 	}
 
 	function writeI32( _int )
@@ -57,13 +74,18 @@
 		this.__writeFloat(_float);
 	}
 
-	function storeDataInFlagContainer( _flags )
+	function storeDataInFlagContainer()
 	{
+		if (this.IsIncremental)
+		{
+			::logError("Called storeDataInFlagContainer for an Incremental SerializationEmulator");
+			throw ::MSU.Exception.InvalidValue();
+		}
 		local startString = this.getEmulatorString();
-		_flags.set(startString, this.Data.len());
+		this.FlagContainer.set(startString, this.Data.len());
 		foreach (idx, element in this.Data)
 		{
-			_flags.set(startString + "." + idx, element);
+			this.FlagContainer.set(startString + "." + idx, element);
 		}
 	}
 }

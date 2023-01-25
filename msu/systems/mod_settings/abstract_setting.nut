@@ -186,16 +186,21 @@
 		if (_table.Locked) this.lock(_table.LockReason);
 	}
 
+	function getSerDeFlag()
+	{
+		return "MS." + this.getID();
+	}
+
 	function flagSerialize( _out )
 	{
-		this.getMod().Serialization.flagSerialize(format("MS.%s", this.getID()), this.__getSerializationTable());
+		this.getMod().Serialization.flagSerialize(this.getSerDeFlag(), this.__getSerializationTable());
 	}
 
 	function flagDeserialize( _in )
 	{
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.2.0-rc.1", _in.getMetaData()))
 		{
-			this.__setFromSerializationTable(this.getMod().Serialization.flagDeserialize(format("MS.%s", this.getID())));
+			this.__setFromSerializationTable(this.getMod().Serialization.flagDeserialize(this.getSerDeFlag(), this.__getSerializationTable()));
 		}
 		else if (::MSU.Mod.Serialization.isSavedVersionAtLeast("0.0.1", _in.getMetaData()))
 		{

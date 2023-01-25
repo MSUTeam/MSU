@@ -68,17 +68,21 @@
 		return this.__readFloat();
 	}
 
-	function loadDataFromFlagContainer( _flags ) // doesn't check if flags exist
+	function loadDataFromFlagContainer()
 	{
 		local startString = this.getEmulatorString();
-		this.Data = array(_flags.get(startString));
+		if (!this.FlagContainer.has(startString))
+			return false;
+		this.Data = array(this.FlagContainer.get(startString));
+		this.FlagContainer.remove(startString);
 		for (local i = 0; i < this.Data.len(); ++i)
 		{
-			if (_flags.has(startString + "." + i))
-			{
-				local value = _flags.get(startString + "." + i);
-				this.Data[i] = value;
-			}
+			local currentFlag = startString + "." + i;
+			if (!this.FlagContainer.has(currentFlag))
+				return false;
+			this.Data[i] = this.FlagContainer.get(currentFlag);
+			this.FlagContainer.remove(currentFlag);
 		}
+		return true;
 	}
 }
