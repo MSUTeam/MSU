@@ -44,7 +44,6 @@ ArraySetting.prototype.createPopup = function ()
 	{
 		this.popup.addPopupDialogButton('Add', 'l-add-keybind-button', function (_dialog)
 		{
-			var timerEntry = MSU.Timer("test");
 			self.createEntryRow([null, ""]);
 		});
 	}
