@@ -41,7 +41,7 @@ MSU.NestedTooltip = {
 						data.timeout = null;
 					}
 				});
-				element.on('mouseleave.msu-tooltip-showing', function (_event)
+				element.on('mouseleave.msu-tooltip-showing remove.msu-tooltip-showing', function (_event)
 				{
 					var data = $(this).data('msu-nested');
 					data.isHovered = false;
@@ -73,7 +73,7 @@ MSU.NestedTooltip = {
 			clearTimeout(_pairData.source.timeout);
 		if (_pairData.tooltip.timeout !== null)
 			clearTimeout(_pairData.tooltip.timeout);
-		_pairData.source.container.off('mouseenter.msu-tooltip-showing mouseleave.msu-tooltip-showing');
+		_pairData.source.container.off('mouseenter.msu-tooltip-showing mouseleave.msu-tooltip-showing remove.msu-tooltip-showing');
 		_pairData.source.container.removeData('msu-nested');
 		_pairData.tooltip.container.remove();
 		this.__tooltipStack.splice(_idx, 1);
