@@ -1,3 +1,126 @@
+/* Vanilla Font Fixes */
+@font-face{
+	font-family: 'FreeUniversal';
+	src: url('coui://gfx/fonts/free_universal/FreeUniversal-Regular-edited.ttf') format('truetype');
+}
+
+@font-face{
+	font-family: 'FreeUniversal';
+	src: url('coui://gfx/fonts/free_universal/FreeUniversal-Italic-edited.ttf') format('truetype');
+	font-style: italic;
+}
+
+@font-face{
+	font-family: 'FreeUniversal';
+	src: url('coui://gfx/mods/msu/fonts/FreeUniversal/FreeUniversal-Bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'FreeUniversal';
+	src: url('coui://gfx/mods/msu/fonts/FreeUniversal/FreeUniversal-BoldItalic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'Arsenal';
+	src: url('coui://gfx/fonts/arsenal/Arsenal-Regular.ttf') format('truetype');
+}
+
+@font-face{
+	font-family: 'Arsenal';
+	src: url('coui://gfx/fonts/arsenal/Arsenal-Italic.ttf') format('truetype');
+	font-style: italic;
+}
+
+@font-face{
+	font-family: 'Arsenal';
+	src: url('coui://gfx/mods/msu/fonts/Arsenal/Arsenal-Bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'Arsenal';
+	src: url('coui://gfx/fonts/arsenal/Arsenal/Arsenal-BoldItalic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'Cinzel';
+	src: url('coui://data/gfx/fonts/cinzel/Cinzel-Regular.ttf') format('truetype');
+}
+
+@font-face{
+	font-family: 'Cinzel';
+	src: url('coui://data/gfx/fonts/cinzel/Cinzel-Bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'Arimo';
+	src: url('coui://gfx/mods/msu/fonts/Arimo/Arimo.ttf') format('truetype');
+}
+
+@font-face{
+	font-family: 'Arimo';
+	src: url('coui://gfx/mods/msu/fonts/Arimo/Arimo-Italic.ttf') format('truetype');
+	font-style: italic;
+}
+
+@font-face{
+	font-family: 'Arimo';
+	src: url('coui://gfx/mods/msu/fonts/Arimo/Arimo-Bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face{
+	font-family: 'Arimo';
+	src: url('coui://gfx/mods/msu/fonts/Arimo/Arimo-BoldItalic.ttf') format('truetype');
+	font-style: italic;
+	font-weight: bold;
+}
+
+.default-font-very-small,
+.default-font-small,
+.default-font-normal,
+.default-font-big
+{
+	font-family: monospace, Arimo; /* Arial isn't open licensed, Arimo is a very similar alternative that is */
+}
+
+.description-font-very-small,
+.description-font-small,
+.description-font-medium,
+.description-font-normal,
+.description-font-big,
+.description-font-very-big
+{
+	font-family: 'FreeUniversal';
+}
+
+.text-font-very-small,
+.text-font-small,
+.text-font-medium,
+.text-font-normal,
+.text-font-big,
+.text-font-very-big
+{
+	font-family: 'FreeUniversal';
+}
+
+.title-font-very-small,
+.title-font-small,
+.title-font-normal,
+.title-font-big,
+.title-font-very-big
+{
+	font-weight: bold;
+	font-family: 'Cinzel', monospace;
+}
+
+/* Outline for debugging */
 .line
 {
 	outline: 2px solid white;
@@ -23,7 +146,7 @@
 	outline-color: blue;
 }
 
-
+/* MSU Settings */
 .msu-button
 {
 	background-image: url("coui://gfx/mods/msu/buttons/msu_button_default.png");
