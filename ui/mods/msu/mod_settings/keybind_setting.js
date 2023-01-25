@@ -72,6 +72,9 @@ KeybindSetting.prototype.createPopup = function ()
 		self.data.value = result.toLowerCase();
 		Screens.ModSettingsScreen.destroyPopupDialog();
 	});
+	$(".l-cancel-keybind-button").bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Keybind.Popup.Cancel"});
+	$(".l-add-keybind-button").bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Keybind.Popup.Add"});
+	$(".l-ok-keybind-button").bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Keybind.Popup.OK"});
 };
 
 KeybindSetting.prototype.createChangeKeybindScrollContainer = function(_dialog)
@@ -180,6 +183,10 @@ KeybindSetting.prototype.createChangeKeybindRow = function(_name)
 	{
 		row.remove();
 	}, 'delete-keybind-button', 2);
+
+	// Need to bind the first one after removing the event handlers
+	button.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Keybind.Popup.Modify"});
+	destroyButton.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Keybind.Popup.Delete"});
 };
 
 KeybindSetting.prototype.unbindTooltip = function ()
