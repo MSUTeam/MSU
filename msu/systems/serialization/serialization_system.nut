@@ -1,13 +1,13 @@
 ::MSU.Class.SerializationSystem <- class extends ::MSU.Class.System
 {
 	Mods = null;
-	FlagsToClear = null;
+	EmulatorsToClear = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Serialization);
 		this.Mods = [];
-		this.FlagsToClear = [];
+		this.EmulatorsToClear = [];
 	}
 
 	function registerMod( _mod )
@@ -19,50 +19,55 @@
 
 	function flagSerialize( _mod, _id, _object, _flags = null )
 	{
-		if (_flags == null) _flags = ::World.Flags;
-		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id);
 		if (::MSU.isBBObject(_object))
 		{
-			_object.onSerialize(outEmulator);
+			::logError("flagSerialize can't serialize a BB Object, you should use <object>.onSerialize(<Mod>.Serialization.getSerializationEmulator())");
+			throw ::MSU.Exception.InvalidType("_object");
 		}
-		else
-		{
-			::MSU.Utils.serialize(_object, outEmulator);
-		}
-		outEmulator.storeDataInFlagContainer(_flags);
-		this.FlagsToClear.push([outEmulator.getEmulatorString(), _flags]);
+		if (_flags == null) _flags = ::World.Flags;
+
+		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id, _flags);
+		this.EmulatorsToClear.push(outEmulator);
+		::MSU.Utils.serialize(_object, outEmulator);
+		outEmulator.storeDataInFlagContainer(); // should we release data at this point?
 	}
 
-	function flagDeserialize( _mod, _id, _object = null, _flags = null )
+	function flagDeserialize( _mod, _id, _defaultValue, _object = null, _flags = null )
 	{
-		if (_flags == null) _flags = ::World.Flags;
-		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id);
-		inEmulator.loadDataFromFlagContainer(_flags);
-		this.FlagsToClear.push([inEmulator.getEmulatorString(), _flags]);
 		if (::MSU.isBBObject(_object))
 		{
-			_object.onDeserialize(inEmulator);
-			return null; // yes ik this is unnecessary but looks better imo
+			::logError("flagDeserialize can't deserialize a BB Object, you should use <object>.onDeserialize(<Mod>.Serialization.getDeserializationEmulator())");
+			throw ::MSU.Exception.InvalidType("_object");
 		}
-		else
-		{
-			return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
-		}
+		if (_flags == null) _flags = ::World.Flags;
+
+		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id, _flags);
+		if (!inEmulator.loadDataFromFlagContainer())
+			return _defaultValue;
+		return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
+	}
+
+	function getDeserializationEmulator( _mod, _id, _flags = null )
+	{
+		if (_flags == null) _flags = ::World.Flags;
+		local emulator = ::MSU.Class.DeserializationEmulator(_mod, _id, _flags);
+		emulator.loadDataFromFlagContainer();
+		return emulator;
+	}
+
+	function getSerializationEmulator( _mod, _id, _flags = null )
+	{
+		if (_flags == null) _flags = ::World.Flags;
+		local emulator = ::MSU.Class.SerializationEmulator(_mod, _id, _flags);
+		emulator.setIncremental(true);
+		this.EmulatorsToClear.push(emulator);
+		return emulator;
 	}
 
 	function clearFlags()
 	{
-		foreach (flagPair in this.FlagsToClear)
-		{
-			if (flagPair[1].has(flagPair[0]))
-			{
-				for (local i = 0; i < flagPair[1].get(flagPair[0]); ++i)
-				{
-					flagPair[1].remove(flagPair[0] + "." + i);
-				}
-				flagPair[1].remove(flagPair[0]);
-			}
-		}
-		this.FlagsToClear.clear();
+		foreach (flagContainer in this.EmulatorsToClear)
+			flagContainer.clearFlags();
+		this.EmulatorsToClear.clear();
 	}
 }

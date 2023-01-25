@@ -1,17 +1,25 @@
 // Base for the Serialization and Deserialization Emulators
 ::MSU.Class.SerDeEmulator <- class
 {
+	static __IDRegex = regexp("^.*\\.\\d+$")
 	Data = null;
 	Mod = null;
 	ID = null;
 	MetaData = null;
+	FlagContainer = null;
 
-	constructor(_mod, _id, _metaDataEmulator = null)
+	constructor(_mod, _id, _flagContainer, _metaDataEmulator = null)
 	{
 		if (_metaDataEmulator == null) _metaDataEmulator = ::MSU.Class.MetaDataEmulator();
+		if (this.__IDRegex.match(_id))
+		{
+			::logError("the ID passed to flag serialization cannot end with a full stop followed by digits so it doesn't collide with internal MSU flags");
+			throw ::MSU.Exception.InvalidValue(_id);
+		}
 		this.Data = [];
 		this.Mod = _mod;
 		this.ID = _id;
+		this.FlagContainer = _flagContainer;
 		this.MetaData = _metaDataEmulator;
 	}
 
@@ -20,13 +28,13 @@
 		return format("MSU.%s.%s", this.Mod.getID(), this.ID);
 	}
 
-	function clearFlagContainer( _flags )
+	function clearFlags()
 	{
 		local startString = this.getEmulatorString();
-		_flags.remove(startString);
+		this.FlagContainer.remove(startString);
 		for (local i = 0; i < this.Data.len(); ++i)
 		{
-			_flags.remove(startString + "." + i);
+			this.FlagContainer.remove(startString + "." + i);
 		}
 	}
 
