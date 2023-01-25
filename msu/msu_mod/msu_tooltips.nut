@@ -11,26 +11,11 @@
 		},
 		Keybind = {
 			Popup = {
-				Cancel = {
-					Title = "Cancel",
-					Description = "Don't save changes."
-				},
-				Add = {
-					Title = "Add",
-					Description = "Add another keybind."
-				},
-				OK = {
-					Title = "Save",
-					Description = "Save changes."
-				},
-				Modify = {
-					Title = "Modify",
-					Description = "Modify this keybind."
-				},
-				Delete = {
-					Title = "Delete",
-					Description = "Delete this keybind."
-				},
+				Cancel = ::MSU.Class.BasicTooltip("Cancel", "Don't save changes."),
+				Add = ::MSU.Class.BasicTooltip("Add", "Add another keybind."),
+				OK = ::MSU.Class.BasicTooltip("Save", "Save changes."),
+				Modify = ::MSU.Class.BasicTooltip("Modify", "Modify this keybind."),
+				Delete = ::MSU.Class.BasicTooltip("Delete", "Delete this keybind."),
 			}
 		}
 	}
