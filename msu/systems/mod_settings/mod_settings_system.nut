@@ -196,12 +196,10 @@
 	{
 		this.callPanelsFunction("flagDeserialize", [_in]);
 
-		local reqs = clone this.RequiredSettingValues;
-		foreach (req in reqs)
+		foreach (req in this.RequiredSettingValues)
 		{
-			req.Mod.ModSettings.requireSettingValue(req.Setting, req.Value);
+			this.requireSettingValue(req.Mod, req.Setting, req.Value);
 		}
-		this.RequiredSettingValues = reqs;
 
 		if (::MSU.QueueErrors.Errors != "")
 		{
