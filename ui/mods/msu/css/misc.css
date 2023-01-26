@@ -1,3 +1,11 @@
+/* Nested Tooltip */
+.msu-nested-tooltip
+{
+	display: inline-block;
+	font-weight: bold;
+	color: #1A1A1A;
+	text-decoration: underline;
+}
 .line
 {
 	outline: 2px solid white;
