@@ -160,6 +160,33 @@
 		});
 	}
 
+	function requireSettingValue( _requestingMod, _setting, _value )
+	{
+		if (_setting.getValue() != _value)
+		{
+			if (_setting.isLocked())
+			{
+				::MSU.QueueErrors.add("Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ") requires setting \'" + _setting.getID() + "\' of mod \'" + _setting.getMod().getID() + " (" + _setting.getMod().getName() + ")\' to have the value \'" + _value + "\' but it is locked to be \'" + _setting.getValue() + "\'. Lock reason: " + _setting.getLockReason() + ".");
+				return false;
+			}
+
+			if (_setting.set(_value))
+			{
+				_setting.lock("Required by Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ")");
+				return true;
+			}
+			else
+			{
+				::MSU.QueueErrors.add("Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ") failed to set \'" + _setting.getID() + "\' of mod \'" + _setting.getMod().getID() + " (" + _setting.getMod().getName() + ")\' to the value \'" + _value + "\'.");
+				return false;
+			}
+		}
+
+		_setting.lock("Required by Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ")");
+
+		return true;
+	}
+
 	function flagSerialize( _out )
 	{
 		this.callPanelsFunction("flagSerialize", [_out]);
