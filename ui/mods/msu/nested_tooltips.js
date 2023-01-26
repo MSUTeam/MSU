@@ -1,5 +1,5 @@
 MSU.NestedTooltip = {
-	__regexp : /{tooltip=([\w\.]+)}(.*?){\/tooltip}/gm,
+	__regexp : /\[tooltip=([\w\.]+?)\.([\w\.]+)\](.*?)\[\/tooltip\]/gm,
 	__tooltipStack : [],
 	__tooltipHideDelay : 200,
 	__tooltipShowDelay : 200,
@@ -134,20 +134,17 @@ MSU.NestedTooltip = {
 		Screens.TooltipScreen.mTooltipModule.setupUITooltip(_targetDIV, _data);
 		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 	},
+	getTooltipLinkHTML : function (_mod, _id, _text)
+	{
+		_text = _text || "";
+		return '<div class="msu-nested-tooltip" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
+	},
 	parseText : function (_text)
 	{
-		return _text.replace(this.__regexp, function (_match, _id, _text)
+		var self = this;
+		return _text.replace(this.__regexp, function (_match, _mod, _id, _text)
 		{
-			var idx = _id.search(/\./);
-			if (idx == -1)
-			{
-				throw "Nested Tooltip ID is has wrong formatting: " + _id;
-				console.error(queryStackTrace());
-			}
-			var begin = _id.slice(0, idx);
-			var end = _id.slice(idx);
-
-			return '<span style="color: blue;" class="msu-nested-tooltip" data-msu-nested-mod="' + begin + '" data-msu-nested-id="' + end + '">' + _text + '</span>' // probably some formatting here
+			return self.getTooltipLinkHTML(_mod, _id, _text);
 		})
 	},
 }
