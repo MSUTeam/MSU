@@ -165,24 +165,23 @@
 		if (_setting.getValue() != _value)
 		{
 			if (_setting.isLocked())
-			{
-				::MSU.QueueErrors.add("Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ") requires setting \'" + _setting.getID() + "\' of mod \'" + _setting.getMod().getID() + " (" + _setting.getMod().getName() + ")\' to have the value \'" + _value + "\' but it is locked to be \'" + _setting.getValue() + "\'. Lock reason: " + _setting.getLockReason() + ".");
+			{							;
+				::MSU.QueueErrors.add(format("Mod %s (%s) requires setting \'%s\' of mod %s (%s) to have the value \'%s\' but it is locked to be \'%s\'. Lock reason: %s.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + "", _setting.getValue() + "", _setting.getLockReason()));
 				return false;
 			}
 
 			if (_setting.set(_value))
 			{
-				_setting.lock("Required by Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ")");
+				_setting.lock(format("Required by Mod %s (%s)", _requestingMod.getID(), _requestingMod.getName()));
 				return true;
 			}
 			else
-			{
-				::MSU.QueueErrors.add("Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ") failed to set \'" + _setting.getID() + "\' of mod \'" + _setting.getMod().getID() + " (" + _setting.getMod().getName() + ")\' to the value \'" + _value + "\'.");
+				::MSU.QueueErrors.add(format("Mod %s (%s) failed to set setting \'%s\' of mod %s (%s) to the value \'%s\'.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + ""));
 				return false;
 			}
 		}
 
-		_setting.lock("Required by Mod " + _requestingMod.getID() + " (" + _requestingMod.getName() + ")");
+		_setting.lock(format("Required by Mod %s (%s)", _requestingMod.getID(), _requestingMod.getName()));
 
 		return true;
 	}
