@@ -124,6 +124,7 @@ MSU.NestedTooltip = {
 		var ret = $('<div class="tooltip-module ui-control-tooltip-module"/>');
 		Screens.TooltipScreen.mTooltipModule.mContainer = ret;
 		Screens.TooltipScreen.mTooltipModule.buildFromData(_data, false, _contentType);
+		this.parseImgPaths(ret);
 		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 		return ret;
 	},
@@ -147,6 +148,36 @@ MSU.NestedTooltip = {
 			return self.getTooltipLinkHTML(_mod, _id, _text);
 		})
 	},
+	getImageTooltipData : function (_imagePath)
+	{
+		var self = this;
+		var html;
+		var parsedPath = _imagePath.replace(this.__regexp, function (_match, _mod, _id, _text)
+		{
+			html = self.getTooltipLinkHTML(_mod, _id);
+			return _text;
+		})
+		return {
+			imagePath : parsedPath,
+			imageTooltip : html
+		};
+	},
+	parseImgPaths : function (_jqueryObj)
+	{
+		var self = this;
+		_jqueryObj.find('img').each(function ()
+		{
+			var tooltipData = self.getImageTooltipData(this.src);
+			if (tooltipData.imageTooltip != undefined)
+			{
+				var img = $(this);
+				var div = $(tooltipData.imageTooltip)
+				img.after(div);
+				div.append(img.detach());
+				this.src = tooltipData.imagePath;
+			}
+		})
+	}
 }
 MSU.XBBCODE_process = XBBCODE.process;
 // I hate this but the XBBCODE plugin doesn't allow dynamically adding tags
