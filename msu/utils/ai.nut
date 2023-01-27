@@ -1,5 +1,6 @@
 ::MSU.AI <- {
 	BehaviorIDToScriptMap = {}, // Is populated during root_state.onInit function
+	SkillIDToBehaviorIDMap = {}, // Is populated during root_state.onInit function but used via a function in skill.nut create() hook
 
 	function getBehaviorScriptFromID( _id )
 	{

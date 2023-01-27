@@ -1,6 +1,11 @@
 ::mods_hookDescendants("skills/skill", function(o) {
 	if ("create" in o)
 	{
+		o.setVanillaBehaviorID <- function()
+		{
+			this.m.AIBehaviorID = ::MSU.AI.SkillIDToBehaviorIDMap[this.getID()];
+		}
+
 		local create = o.create;
 		o.create = function()
 		{
@@ -48,6 +53,8 @@
 						this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
 				}
 			}
+
+			this.setVanillaBehaviorID();
 		}
 	}
 });

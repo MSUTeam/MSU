@@ -6,7 +6,16 @@
 		{
 			try
 			{
-				::MSU.AI.BehaviorIDToScriptMap[::new(script).getID()] <- script;
+				local behavior = ::new(script);
+				local id = behavior.getID();
+				::MSU.AI.BehaviorIDToScriptMap[id] <- script;
+				if ("PossibleSkills" in behavior.m)
+				{
+					foreach (skillID in behavior.m.PossibleSkills)
+					{
+						::MSU.AI.SkillIDToBehaviorIDMap[skillID] <- id;
+					}
+				}
 			}
 			catch (error)
 			{
