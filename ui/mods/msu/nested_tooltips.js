@@ -44,6 +44,11 @@ MSU.NestedTooltip = {
 				element.on('mouseleave.msu-tooltip-showing remove.msu-tooltip-showing', function (_event)
 				{
 					var data = $(this).data('msu-nested');
+					if (data === undefined) // not sure when this comes up, but sometimes it does, and the game errors unless we do this
+					{
+						self.updateStack();
+						return;
+					}
 					data.isHovered = false;
 					data.timeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
 				});
