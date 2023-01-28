@@ -15,7 +15,7 @@ MSU.NestedTooltip = {
 			data.isHovered = false;
 			this.updateStack();
 		}
-		_element.off('mouseenter.msu-tooltip-source');
+		_element.off('.msu-tooltip-source');
 	},
 	getBindFunction : function (_data)
 	{
@@ -25,7 +25,7 @@ MSU.NestedTooltip = {
 			if (element.data('msu-nested') !== undefined) return;
 			var self = MSU.NestedTooltip;
 			var timeout = setTimeout(function() {
-				element.off('mouseleave.msu-tooltip-loading');
+				element.off('.msu-tooltip-loading');
 				self.updateStack();
 				Screens.TooltipScreen.mTooltipModule.notifyBackendQueryTooltipData(_data, function (_backendData)
 				{
@@ -73,7 +73,7 @@ MSU.NestedTooltip = {
 			clearTimeout(_pairData.source.timeout);
 		if (_pairData.tooltip.timeout !== null)
 			clearTimeout(_pairData.tooltip.timeout);
-		_pairData.source.container.off('mouseenter.msu-tooltip-showing mouseleave.msu-tooltip-showing remove.msu-tooltip-showing');
+		_pairData.source.container.off('.msu-tooltip-showing');
 		_pairData.source.container.removeData('msu-nested');
 		_pairData.tooltip.container.remove();
 		this.__tooltipStack.splice(_idx, 1);
