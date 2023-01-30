@@ -202,7 +202,7 @@
 
 		if (::MSU.QueueErrors.Errors != "")
 		{
-			::logError("Saved game has incompatible mod setting requirements with current mods.")
+			::logError("Saved game has incompatible mod setting requirements with current mods.");
 			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
 		}
 	}
