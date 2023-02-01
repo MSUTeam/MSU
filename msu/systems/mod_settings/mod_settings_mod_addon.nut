@@ -64,10 +64,19 @@
 		return true;
 	}
 
-	function lockSetting( _setting, _lockReason )
+	function addLock( _setting, _lockID, _lockReason )
 	{
 		if (typeof _setting == "string") _setting = this.getSetting(_setting);
 
-		_setting.lock(_lockReason + format(" (%s (%s))", this.getMod().getID(), this.getMod().getName()));
+		_lockID = this.getMod().getID() + "." + _lockID;
+		_setting.addLock(_lockID, _lockReason);
+	}
+
+	function removeLock( _setting, _lockID )
+	{
+		if (typeof _setting == "string") _setting = this.getSetting(_setting);
+
+		_lockID = this.getMod().getID() + "." + _lockID;
+		_setting.removeLock(_lockID);
 	}
 }
