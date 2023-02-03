@@ -3,12 +3,14 @@
 	Panels = null;
 	Locked = null;
 	Screen = null; //settings_screen
+	RequiredSettingValues = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.ModSettings);
 		this.Locked = false;
 		this.Panels = ::MSU.Class.OrderedMap();
+		this.RequiredSettingValues = [];
 	}
 
 	function registerMod( _mod )
@@ -149,6 +151,35 @@
 		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 	}
 
+	function registerRequiredSettingValue( _requestingMod, _setting, _value )
+	{
+		foreach (reqValueInfo in this.RequiredSettingValues)
+		{
+			if (reqValueInfo.Mod == _requestingMod && reqValueInfo.Setting = _setting && reqValueInfo.Value == _value)
+			{
+				return;
+			}
+		}
+
+		this.RequiredSettingValues.push({
+			Mod = _requestingMod,
+			Setting = _setting,
+			Value = _value
+		});
+	}
+
+	function unregisterRequiredSettingValue( _requestingMod, _setting )
+	{
+		foreach (i, reqValueInfo in this.RequiredSettingValues)
+		{
+			if (reqValueInfo.Mod == _requestingMod && reqValueInfo.Setting == _setting)
+			{
+				this.RequiredSettingValues.remove(i);
+				return;
+			}
+		}
+	}
+
 	function flagSerialize( _out )
 	{
 		this.callPanelsFunction("flagSerialize", [_out]);
@@ -157,6 +188,51 @@
 	function flagDeserialize( _in )
 	{
 		this.callPanelsFunction("flagDeserialize", [_in]);
+		this.verifyRequiredSettings();
+	}
+
+	function requireSettingValue( _requestingMod, _setting, _value )
+	{
+		local success = true;
+		if (_setting.getValue() != _value)
+		{
+			if (_setting.isLocked())
+			{
+				::MSU.QueueErrors.add(format("Mod %s (%s) requires setting \'%s\' of mod %s (%s) to have the value \'%s\' but it is locked to be \'%s\'. Lock reason: %s.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + "", _setting.getValue() + "", _setting.getLockReason()));
+				success = false;
+			}
+			else if (!_setting.set(_value))
+			{
+				::MSU.QueueErrors.add(format("Mod %s (%s) failed to set setting \'%s\' of mod %s (%s) to the value \'%s\'.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + ""));
+				success = false;
+			}
+		}
+
+		if (success)
+		{
+			_setting.addLock(this.getRequiredSettingValueLockID(_requestingMod, _setting), format("Required by Mod %s (%s)", _requestingMod.getID(), _requestingMod.getName()));
+		}
+
+		return success;
+	}
+
+	function verifyRequiredSettings()
+	{
+		foreach (req in this.RequiredSettingValues)
+		{
+			this.requireSettingValue(req.Mod, req.Setting, req.Value);
+		}
+
+		if (::MSU.QueueErrors.Errors != "")
+		{
+			::logError("Incompatible mod setting requirements with current mods.");
+			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
+		}
+	}
+
+	function getRequiredSettingValueLockID( _requestingMod, _setting )
+	{
+		return format("RequiredSettingValue.%s.%s", _requestingMod.getID(), _setting.getID());
 	}
 
 	function getUIData( _flags = null )
