@@ -188,6 +188,7 @@
 	function flagDeserialize( _in )
 	{
 		this.callPanelsFunction("flagDeserialize", [_in]);
+		this.verifyRequiredSettings();
 	}
 
 	function requireSettingValue( _requestingMod, _setting, _value )
@@ -213,6 +214,20 @@
 		}
 
 		return success;
+	}
+
+	function verifyRequiredSettings()
+	{
+		foreach (req in this.RequiredSettingValues)
+		{
+			this.requireSettingValue(req.Mod, req.Setting, req.Value);
+		}
+
+		if (::MSU.QueueErrors.Errors != "")
+		{
+			::logError("Incompatible mod setting requirements with current mods.");
+			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
+		}
 	}
 
 	function getRequiredSettingValueLockID( _requestingMod, _setting )
