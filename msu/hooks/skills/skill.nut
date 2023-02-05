@@ -425,6 +425,11 @@
 		return ret;
 	}
 
+	q.getNestedTooltip <- function()
+	{
+		return this.getTooltip();
+	}
+
 	q.getRangedTooltip <- function( _tooltip = null )
 	{
 		if (_tooltip == null) _tooltip = [];
