@@ -399,6 +399,11 @@
 		return ret;
 	}
 
+	o.getNestedTooltip <- function()
+	{
+		return this.getTooltip();
+	}
+
 	o.getRangedTooltip <- function( _tooltip = null )
 	{
 		if (_tooltip == null) _tooltip = [];
