@@ -3,12 +3,14 @@
 	Panels = null;
 	Locked = null;
 	Screen = null; //settings_screen
+	RequiredSettingValues = null;
 
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.ModSettings);
 		this.Locked = false;
 		this.Panels = ::MSU.Class.OrderedMap();
+		this.RequiredSettingValues = [];
 	}
 
 	function registerMod( _mod )
@@ -149,6 +151,41 @@
 		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 	}
 
+	function registerRequiredSettingValue( _mod, _setting, _value )
+	{
+		this.RequiredSettingValues.push({
+			Mod = _mod,
+			Setting = _setting,
+			Value = _value
+		});
+	}
+
+	function requireSettingValue( _requestingMod, _setting, _value )
+	{
+		if (_setting.getValue() != _value)
+		{
+			if (_setting.isLocked())
+			{							;
+				::MSU.QueueErrors.add(format("Mod %s (%s) requires setting \'%s\' of mod %s (%s) to have the value \'%s\' but it is locked to be \'%s\'. Lock reason: %s.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + "", _setting.getValue() + "", _setting.getLockReason()));
+				return false;
+			}
+
+			if (_setting.set(_value))
+			{
+				_setting.lock(format("Required by Mod %s (%s)", _requestingMod.getID(), _requestingMod.getName()));
+				return true;
+			}
+			else
+				::MSU.QueueErrors.add(format("Mod %s (%s) failed to set setting \'%s\' of mod %s (%s) to the value \'%s\'.", _requestingMod.getID(), _requestingMod.getName(), _setting.getID(), _setting.getMod().getID(), _setting.getMod().getName(), _value + ""));
+				return false;
+			}
+		}
+
+		_setting.lock(format("Required by Mod %s (%s)", _requestingMod.getID(), _requestingMod.getName()));
+
+		return true;
+	}
+
 	function flagSerialize( _out )
 	{
 		this.callPanelsFunction("flagSerialize", [_out]);
@@ -157,6 +194,17 @@
 	function flagDeserialize( _in )
 	{
 		this.callPanelsFunction("flagDeserialize", [_in]);
+
+		foreach (req in this.RequiredSettingValues)
+		{
+			this.requireSettingValue(req.Mod, req.Setting, req.Value);
+		}
+
+		if (::MSU.QueueErrors.Errors != "")
+		{
+			::logError("Saved game has incompatible mod setting requirements with current mods.");
+			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
+		}
 	}
 
 	function getUIData( _flags = null )
