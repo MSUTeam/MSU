@@ -208,7 +208,7 @@
 
 		setContainer(_c);
 
-		if (this.m.AIBehaviorID != null && _c != null && !this.getContainer().getActor().isPlayerControlled() && this.getContainer().getActor().getAIAgent().findBehavior(this.m.AIBehaviorID) == null)
+		if (this.m.AIBehaviorID != null && _c != null && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player && this.getContainer().getActor().getAIAgent().findBehavior(this.m.AIBehaviorID) == null)
 		{
 			this.getContainer().getActor().getAIAgent().addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
 			this.getContainer().getActor().getAIAgent().finalizeBehaviors();
