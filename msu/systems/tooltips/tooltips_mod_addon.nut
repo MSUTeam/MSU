@@ -1,6 +1,6 @@
 ::MSU.Class.TooltipsModAddon <- class extends ::MSU.Class.SystemModAddon
 {
-	static __regexp = regexp("\\[([^|]+)\\|([\\w\\.\\+]+)\\]"); // \[(.+?)\|([\w\.]+)\] \[([^|]+)\|([\w\.]+)\]
+	static __regexp = regexp("\\[([^/|]+)\\|([\\w\\.\\+]+)\\]"); // \[(.+?)\|([\w\.]+)\] \[([^|]+)\|([\w\.]+)\]
 	function setTooltips( _tooltipTable )
 	{
 		::MSU.System.Tooltips.setTooltips(this.Mod.getID(), _tooltipTable);
