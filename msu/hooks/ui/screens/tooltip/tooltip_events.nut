@@ -21,6 +21,69 @@
 		return skill.getNestedTooltip();
 	}
 
+	o.general_queryItemNestedTooltipData <- function( _entityId, _itemId, _itemOwner, _filename )
+	{
+		local item;
+
+		if (_itemId != null)
+		{
+			local entity = _entityId != null ? ::Tactical.getEntityByID(_entityId) : null;
+			switch (_itemOwner)
+			{
+				case "entity":
+					if (entity != null) item = entity.getItems().getItemByInstanceID(_itemId);
+					break;
+
+				case "ground":
+				case "character-screen-inventory-list-module.ground":
+					if (entity != null) item = ::TooltipEvents.tactical_helper_findGroundItem(entity, _itemId);
+					break;
+
+				case "stash":
+				case "character-screen-inventory-list-module.stash":
+					local result = ::Stash.getItemByInstanceID(_itemId);
+					if (result != null) item = result.item;
+					break;
+
+				case "craft":
+					return ::World.Crafting.getBlueprint(_itemId).getTooltip();
+
+				case "blueprint":
+					return ::World.Crafting.getBlueprint(_entityId).getTooltipForComponent(_itemId);
+
+				case "world-town-screen-shop-dialog-module.stash":
+					local result = ::Stash.getItemByInstanceID(_itemId);
+					if (result != null) item = result.item;
+					break;
+
+				case "world-town-screen-shop-dialog-module.shop":
+					local stash = ::World.State.getTownScreen().getShopDialogModule().getShop().getStash();
+					if (stash != null)
+					{
+						local result = stash.getItemByInstanceID(_itemId);
+						if (result != null) item = result.item;
+					}
+					break;
+
+				case "tactical-combat-result-screen.stash":
+					local result = ::Stash.getItemByInstanceID(_itemId);
+					if (result != null) item = result.item;
+					break;
+
+				case "tactical-combat-result-screen.found-loot":
+					local result = ::Tactical.CombatResultLoot.getItemByInstanceID(_itemId);
+					if (result != null) item = result.item;
+					break;
+			}
+		}
+		else
+		{
+			item = ::MSU.NestedTooltips.ItemObjectsByFilename[_filename];
+		}
+
+		return item.getNestedTooltip();
+	}
+
 	local tactical_queryTileTooltipData = o.tactical_queryTileTooltipData;
 	o.tactical_queryTileTooltipData = function()
 	{
