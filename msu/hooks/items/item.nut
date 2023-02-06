@@ -1,6 +1,11 @@
 ::mods_hookBaseClass("items/item", function(o) {
 	o = o[o.SuperName];
 
+	o.getNestedTooltip <- function()
+	{
+		return this.getTooltip();
+	}
+
 	o.isItemType = function( _t, _any = true, _only = false )
 	{
 		if (_any)
