@@ -88,6 +88,46 @@ MSU.NestedTooltip = {
 
 		}
 	},
+	onShowTooltipTimerExpired : function(_sourceContainer, _tooltipParams)
+	{
+		var self = this;
+		_sourceContainer.off('.msu-tooltip-loading');
+		// ghetto clone to get new ref
+		_tooltipParams = JSON.parse(JSON.stringify(_tooltipParams));
+
+		if (this.__tooltipStack.length > 0)
+		{
+			// check if this is within the same chain of nested tooltips, or if we need to clear the stack and start a new chain
+			if (this.__tooltipStack[this.__tooltipStack.length -1].tooltip.container.find(_sourceContainer).length === 0)
+			{
+				self.clearStack();
+			}
+			// If we already have tooltips in the stack, we want to fetch the one from the first tooltip that will have received the entityId from the vanilla function
+			else
+			{
+				$.each(this.__tooltipStack[0].dataToPass, function(_key, _value)
+				{
+					if (_key in _tooltipParams)
+						return;
+					_tooltipParams[_key] = _value;
+				})
+			}
+		}
+		Screens.TooltipScreen.mTooltipModule.notifyBackendQueryTooltipData(_tooltipParams, function (_backendData)
+		{
+			if (_backendData === undefined || _backendData === null)
+		    {
+		    	self.TileTooltipDiv.shrink();
+		        return;
+		    }
+
+		    // vanilla behavior, when sth moved into tile while the data was being fetched
+		    if (_tooltipParams.contentType === 'tile' || _tooltipParams.contentType === 'tile-entity')
+		    	Screens.TooltipScreen.mTooltipModule.updateContentType(_backendData)
+
+			self.createTooltip(_backendData, _sourceContainer, _tooltipParams);
+		});
+	},
 	updateStack : function ()
 	{
 		for (var i = this.__tooltipStack.length - 1; i >= 0; i--)
@@ -149,6 +189,17 @@ MSU.NestedTooltip = {
 		this.__tooltipStack.push({
 			source : sourceData,
 			tooltip : tooltipData
+		if (this.__tooltipStack.length == 0)
+		{
+			var dataToPass = {};
+			$.each(_tooltipParams, function(_key, _value)
+			{
+				if (_key === "contentType" || _key === "elementId")
+					return;
+				dataToPass[_key] = _value;
+			})
+			stackData.dataToPass = dataToPass;
+		}
 		});
 		container.on('mouseenter.msu-tooltip-tooltip', function (_event)
 		{
