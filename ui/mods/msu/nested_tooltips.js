@@ -5,6 +5,43 @@ MSU.NestedTooltip = {
 	__tooltipShowDelay : 200,
 	bindToElement : function (_element, _data)
 	KeyImgMap : {},
+	TileTooltipDiv : {
+		container : $("<div class='msu-tile-div'/>").appendTo($(document.body)),
+		expand : function(_newPosition)
+		{
+			this.container.show();
+			this.container.offset(_newPosition);
+		},
+		shrink : function()
+		{
+			var sourceData = this.container.data("msu-nested");
+			if (sourceData !== undefined && sourceData !== null)
+			{
+				var tooltipData = sourceData.tooltipContainer.data("msu-nested");
+				if (tooltipData !== undefined && tooltipData.isLocked)
+				{
+					return false;
+				}
+				MSU.NestedTooltip.clearTimeouts(sourceData);
+				sourceData.isHovered = false;
+				MSU.NestedTooltip.updateStack();
+			}
+			this.container.hide();
+			return true;
+		},
+		bind : function(_params)
+		{
+			MSU.NestedTooltip.bindToElement(this.container, _params);
+		},
+		unbind : function()
+		{
+			MSU.NestedTooltip.unbindFromElement(this.container);
+		},
+		trigger : function()
+		{
+			this.container.trigger('mouseenter.msu-tooltip-source');
+		}
+	},
 	reloadTooltip : function(_element, _newParams)
 	{
 		if (this.__tooltipStack.length === 0)
@@ -245,6 +282,30 @@ $(document).on('mouseenter.msu-tooltip-source', '.msu-nested-tooltip', function(
 	}
 	MSU.NestedTooltip.getBindFunction(data).call(this);
 })
+
+TooltipModule.prototype.showTileTooltip = function()
+{
+	if (this.mCurrentData === undefined || this.mCurrentData === null)
+	{
+		return;
+	}
+	MSU.NestedTooltip.TileTooltipDiv.expand({top: this.mLastMouseY - 30, left:this.mLastMouseX - 30});
+	MSU.NestedTooltip.updateStack();
+	if (MSU.NestedTooltip.isStackEmpty())
+	{
+		MSU.NestedTooltip.TileTooltipDiv.bind(this.mCurrentData);
+		MSU.NestedTooltip.TileTooltipDiv.trigger();
+	}
+};
+
+MSU.TooltipModule_hideTileTooltip = TooltipModule.prototype.hideTileTooltip;
+TooltipModule.prototype.hideTileTooltip = function()
+{
+	if (MSU.NestedTooltip.TileTooltipDiv.shrink())
+		MSU.NestedTooltip.TileTooltipDiv.unbind();
+	MSU.TooltipModule_hideTileTooltip.call(this);
+};
+
 $.fn.updateTooltip = function (_newParams)
 {
     if (Screens.Tooltip === null || !Screens.Tooltip.isConnected())
