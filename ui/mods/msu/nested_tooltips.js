@@ -218,6 +218,48 @@ MSU.NestedTooltip = {
 
 		$('body').append(tooltipContainer)
 		this.positionTooltip(tooltipContainer, _backendData, _sourceContainer);
+	addTooltipLockHandler : function(_tooltipContainer, _sourceContainer)
+	{
+		var nestedItems = _tooltipContainer.find(".msu-nested-tooltip");
+		if (nestedItems.length == 0)
+			return;
+		var self = this;
+
+		_tooltipContainer.addClass("msu-nested-tooltips-within");
+		var progressImage = $("<div class='tooltip-progress-bar'/>")
+			.appendTo(_tooltipContainer)
+
+		progressImage.velocity({ opacity: 0 },
+		{
+	        duration: 1000,
+			begin: function()
+			{
+				progressImage.css("opacity", 1)
+	        },
+			complete: function()
+			{
+				progressImage.remove();
+				var data = _tooltipContainer.data('msu-nested');
+				if (data === undefined)
+				{
+					return;
+				}
+				data.isLocked = true;
+				_tooltipContainer.addClass("msu-nested-tooltips-locked");
+				setTimeout(function()
+				{
+					_tooltipContainer.removeClass("msu-nested-tooltips-locked");
+				}, 100)
+	        }
+	   });
+
+		_sourceContainer.mousedown(function(){
+			if (MSU.Keybinds.isMousebindPressed(MSU.ID, "LockTooltip"))
+			{
+				progressImage.velocity("finish");
+			}
+		})
+	},
 		});
 		container.on('mouseenter.msu-tooltip-tooltip', function (_event)
 		{
