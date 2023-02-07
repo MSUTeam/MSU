@@ -6,6 +6,11 @@
 		::MSU.System.Tooltips.setTooltips(this.Mod.getID(), _tooltipTable);
 	}
 
+	function setTooltipImageKeywords( _table )
+	{
+		return ::MSU.System.Tooltips.setTooltipImageKeywords(this.Mod.getID(), _table);
+	}
+
 	function getTooltip( _identifier )
 	{
 		return ::MSU.System.Tooltips.getTooltip(this.Mod.getID(), _identifier);
