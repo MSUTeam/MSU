@@ -69,47 +69,21 @@ MSU.NestedTooltip = {
 		}
 		_element.off('.msu-tooltip-source');
 	},
-	getBindFunction : function (_data)
+	getBindFunction : function (_tooltipParams)
 	{
 		return function (_event)
 		{
-			var element = $(this);
-			if (element.data('msu-nested') !== undefined) return;
 			var self = MSU.NestedTooltip;
-			var timeout = setTimeout(function() {
-				element.off('.msu-tooltip-loading');
-				self.updateStack();
-				Screens.TooltipScreen.mTooltipModule.notifyBackendQueryTooltipData(_data, function (_backendData)
-				{
-					self.createTooltip(_backendData, element, _data.contentType);
-				});
-				element.on('mouseenter.msu-tooltip-showing', function(_event)
-				{
-					var data = $(this).data('msu-nested');
-					data.isHovered = true;
-					if (data.timeout !== null)
-					{
-						clearTimeout(data.timeout);
-						data.timeout = null;
-					}
-				});
-				element.on('mouseleave.msu-tooltip-showing remove.msu-tooltip-showing', function (_event)
-				{
-					var data = $(this).data('msu-nested');
-					if (data === undefined) // not sure when this comes up, but sometimes it does, and the game errors unless we do this
-					{
-						self.updateStack();
-						return;
-					}
-					data.isHovered = false;
-					data.timeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
-				});
+			var tooltipSource = $(this);
+			if (tooltipSource.data('msu-nested') !== undefined) return;
+			var createTooltipTimeout = setTimeout(function(){
+				self.onShowTooltipTimerExpired(tooltipSource, _tooltipParams);
 			}, self.__tooltipShowDelay);
 
-			element.on('mouseleave.msu-tooltip-loading', function (_event)
+			tooltipSource.on('mouseleave.msu-tooltip-loading', function (_event)
 			{
-				clearTimeout(timeout);
-				element.off('mouseleave.msu-tooltip-loading');
+				clearTimeout(createTooltipTimeout);
+				tooltipSource.off('mouseleave.msu-tooltip-loading');
 			})
 
 		}
