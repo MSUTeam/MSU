@@ -299,11 +299,18 @@ MSU.NestedTooltip = {
 		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 		return ret;
 	},
-	positionTooltip : function (_tooltip, _data, _targetDIV)
+	positionTooltip : function (_tooltip, _backendData, _targetDIV)
 	{
 		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
 		Screens.TooltipScreen.mTooltipModule.mContainer = _tooltip;
-		Screens.TooltipScreen.mTooltipModule.setupUITooltip(_targetDIV, _data);
+		if (_targetDIV.is(this.TileTooltipDiv.container))
+		{
+			Screens.TooltipScreen.mTooltipModule.setupTileTooltip();
+		}
+		else
+		{
+			Screens.TooltipScreen.mTooltipModule.setupUITooltip(_targetDIV, _backendData);
+		}
 		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 	},
 	getTooltipLinkHTML : function (_mod, _id, _text)
