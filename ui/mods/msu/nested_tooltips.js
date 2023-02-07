@@ -1,5 +1,5 @@
 MSU.NestedTooltip = {
-	__regexp : /(?:\[|&#91;)tooltip=([\w\.]+?)\.([\w\.\+]+)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/tooltip(?:\]|&#93;)/gm,
+	__regexp : /(?:\[|&#91;)tooltip=([\w\.]+?)\.(.+?)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/tooltip(?:\]|&#93;)/gm,
 	__tooltipStack : [],
 	__tooltipHideDelay : 100,
 	__tooltipShowDelay : 200,
