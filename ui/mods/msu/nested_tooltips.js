@@ -5,6 +5,20 @@ MSU.NestedTooltip = {
 	__tooltipShowDelay : 200,
 	bindToElement : function (_element, _data)
 	KeyImgMap : {},
+	reloadTooltip : function(_element, _newParams)
+	{
+		if (this.__tooltipStack.length === 0)
+			return;
+		var sourceData = this.__tooltipStack[0].source;
+		var sourceContainer = sourceData.container;
+		var sourceParams = sourceData.tooltipParams;
+		if (_element !== undefined && !_element.is(sourceContainer))
+			return;
+		this.clearStack();
+		this.unbindFromElement(sourceContainer);
+		this.bindToElement(sourceContainer, _newParams || sourceParams);
+		sourceContainer.trigger('mouseenter.msu-tooltip-source');
+	},
 	{
 		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_data));
 	},
@@ -231,3 +245,21 @@ $(document).on('mouseenter.msu-tooltip-source', '.msu-nested-tooltip', function(
 	}
 	MSU.NestedTooltip.getBindFunction(data).call(this);
 })
+$.fn.updateTooltip = function (_newParams)
+{
+    if (Screens.Tooltip === null || !Screens.Tooltip.isConnected())
+    {
+        return;
+    }
+
+    var tooltip = Screens.Tooltip.getModule('TooltipModule');
+    if (tooltip !== null)
+    {
+        MSU.NestedTooltip.reloadTooltip(this, _newParams);
+	}
+};
+
+TooltipModule.prototype.reloadTooltip = function()
+{
+	MSU.NestedTooltip.reloadTooltip();
+};
