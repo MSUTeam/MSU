@@ -1,9 +1,8 @@
 MSU.NestedTooltip = {
 	__regexp : /(?:\[|&#91;)tooltip=([\w\.]+?)\.([\w\.\+]+)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/tooltip(?:\]|&#93;)/gm,
 	__tooltipStack : [],
-	__tooltipHideDelay : 200,
+	__tooltipHideDelay : 100,
 	__tooltipShowDelay : 200,
-	bindToElement : function (_element, _data)
 	KeyImgMap : {},
 	TileTooltipDiv : {
 		container : $("<div class='msu-tile-div'/>").appendTo($(document.body)),
@@ -56,8 +55,9 @@ MSU.NestedTooltip = {
 		this.bindToElement(sourceContainer, _newParams || sourceParams);
 		sourceContainer.trigger('mouseenter.msu-tooltip-source');
 	},
+	bindToElement : function (_element, _tooltipParams)
 	{
-		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_data));
+		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_tooltipParams));
 	},
 	unbindFromElement : function (_element)
 	{
@@ -65,9 +65,9 @@ MSU.NestedTooltip = {
 		if (data !== undefined)
 		{
 			data.isHovered = false;
-			this.updateStack();
 		}
 		_element.off('.msu-tooltip-source');
+		this.updateStack();
 	},
 	getBindFunction : function (_tooltipParams)
 	{
@@ -218,6 +218,7 @@ MSU.NestedTooltip = {
 
 		$('body').append(tooltipContainer)
 		this.positionTooltip(tooltipContainer, _backendData, _sourceContainer);
+	},
 	addTooltipLockHandler : function(_tooltipContainer, _sourceContainer)
 	{
 		var nestedItems = _tooltipContainer.find(".msu-nested-tooltip");
@@ -260,28 +261,51 @@ MSU.NestedTooltip = {
 			}
 		})
 	},
-		});
-		container.on('mouseenter.msu-tooltip-tooltip', function (_event)
+	addSourceContainerMouseHandler : function(_sourceContainer)
+	{
+		var self = this;
+		var sourceData = _sourceContainer.data('msu-nested');
+		_sourceContainer.on('mouseenter.msu-tooltip-showing', function(_event)
 		{
-			var data = $(this).data('msu-nested');
-			data.isHovered = true;
-			if (data.timeout !== null)
+			self.clearTimeouts(sourceData);
+			sourceData.isHovered = true;
+		});
+		_sourceContainer.on('mouseleave.msu-tooltip-showing remove.msu-tooltip-showing', function (_event)
+		{
+			self.clearTimeouts(sourceData);
+			sourceData.isHovered = false;
+			sourceData.updateStackTimeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
+		});
+	},
+	addTooltipContainerMouseHandler : function(_tooltipContainer)
+	{
+		var self = this;
+		var tooltipData = _tooltipContainer.data("msu-nested");
+		_tooltipContainer.on('mouseenter.msu-tooltip-container', function (_event)
+		{
+			self.clearTimeouts(tooltipData);
+			tooltipData.isHovered = true;
+			if (!tooltipData.isLocked)
 			{
-				clearTimeout(data.timeout);
-				data.timeout = null;
+				_tooltipContainer.hide();
+				setTimeout(function(){
+					self.cleanSourceContainer(tooltipData.sourceContainer);
+					return;
+				}, self.__tooltipHideDelay)
+			}
+			else
+			{
+				$(".ui-control-tooltip-module").addClass("msu-nested-tooltip-not-hovered");
+				_tooltipContainer.removeClass("msu-nested-tooltip-not-hovered");
 			}
 		});
-		container.on('mouseleave.msu-tooltip-tooltip', function (_event)
+		_tooltipContainer.on('mouseleave.msu-tooltip-container', function (_event)
 		{
-			var data = $(this).data('msu-nested');
-			data.isHovered = false;
-			data.timeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
+			self.clearTimeouts(tooltipData);
+			tooltipData.isHovered = false;
+			tooltipData.updateStackTimeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
 		});
-
-		$('body').append(container)
-		this.positionTooltip(container, _data, _sourceElement);
 	},
-	getTooltipFromData : function (_data, _contentType)
 	clearTimeouts : function(_data)
 	{
 		if (_data.updateStackTimeout !== undefined && _data.updateStackTimeout !== null)
@@ -290,11 +314,12 @@ MSU.NestedTooltip = {
 			_data.updateStackTimeout = null;
 		}
 	},
+	getTooltipFromData : function (_backendData, _contentType)
 	{
 		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
 		var ret = $('<div class="tooltip-module ui-control-tooltip-module"/>');
 		Screens.TooltipScreen.mTooltipModule.mContainer = ret;
-		Screens.TooltipScreen.mTooltipModule.buildFromData(_data, false, _contentType);
+		Screens.TooltipScreen.mTooltipModule.buildFromData(_backendData, false, _contentType);
 		this.parseImgPaths(ret);
 		Screens.TooltipScreen.mTooltipModule.mContainer = tempContainer;
 		return ret;
