@@ -146,6 +146,14 @@ MSU.NestedTooltip = {
 		this.positionTooltip(container, _data, _sourceElement);
 	},
 	getTooltipFromData : function (_data, _contentType)
+	clearTimeouts : function(_data)
+	{
+		if (_data.updateStackTimeout !== undefined && _data.updateStackTimeout !== null)
+		{
+			clearTimeout(_data.updateStackTimeout);
+			_data.updateStackTimeout = null;
+		}
+	},
 	{
 		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
 		var ret = $('<div class="tooltip-module ui-control-tooltip-module"/>');
