@@ -209,6 +209,15 @@ MSU.NestedTooltip = {
 			stackData.dataToPass = dataToPass;
 		}
 		this.__tooltipStack.push(stackData);
+
+		this.addTooltipLockHandler(tooltipContainer, _sourceContainer);
+
+		this.addSourceContainerMouseHandler(_sourceContainer);
+
+		this.addTooltipContainerMouseHandler(tooltipContainer);
+
+		$('body').append(tooltipContainer)
+		this.positionTooltip(tooltipContainer, _backendData, _sourceContainer);
 		});
 		container.on('mouseenter.msu-tooltip-tooltip', function (_event)
 		{
