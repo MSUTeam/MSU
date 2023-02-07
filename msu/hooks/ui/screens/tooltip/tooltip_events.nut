@@ -39,7 +39,9 @@
 
 	o.onQueryMSUTooltipData <- function( _data )
 	{
-		return ::MSU.System.Tooltips.getTooltip(_data.modId, _data.elementId).getUIData(_data);
+		local ret = ::MSU.System.Tooltips.getTooltip(_data.modId, _data.elementId);
+		_data.ExtraData <- ret.Data;
+		return ret.Tooltip.getUIData(_data);
 	}
 
 	local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
