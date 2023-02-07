@@ -1,6 +1,7 @@
 ::MSU.NestedTooltips <- {
 	SkillObjectsByFilename = {},
-	ItemObjectsByFilename = {}
+	ItemObjectsByFilename = {},
+	PerkIDByFilename = {}
 };
 
 ::MSU.AfterQueue.add(::MSU.ID, function() {
