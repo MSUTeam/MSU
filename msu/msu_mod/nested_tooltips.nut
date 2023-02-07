@@ -1,6 +1,7 @@
 ::MSU.NestedTooltips <- {
 	SkillObjectsByFilename = {},
-	ItemObjectsByFilename = {}
+	ItemObjectsByFilename = {},
+	PerkIDByFilename = {}
 };
 
 ::MSU.QueueBucket.FirstWorldInit.push(function() {
