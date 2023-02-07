@@ -89,4 +89,21 @@
 			Data = extraData
 		};
 	}
+
+	function hasKey( _modID, _key )
+	{
+		local fullKey = split(split(_key, "+")[0], ".");
+		local currentTable = this.Mods[_modID];
+		for (local i = 0; i < fullKey.len(); ++i)
+		{
+			local currentKey = fullKey[i];
+			if (!(currentKey in currentTable))
+			{
+				return false;
+			}
+			currentTable = currentTable[currentKey];
+		}
+
+		return true;
+	}
 }
