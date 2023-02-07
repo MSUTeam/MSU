@@ -1,5 +1,6 @@
 ::MSU.NestedTooltips <- {
-	SkillObjectsByFilename = {}
+	SkillObjectsByFilename = {},
+	ItemObjectsByFilename = {}
 };
 
 ::MSU.AfterQueue.add(::MSU.ID, function() {
@@ -10,6 +11,15 @@
 		{
 			skill.saveBaseValues();
 			::MSU.NestedTooltips.SkillObjectsByFilename[split(file, "/").top()] <- skill;
+		}
+	}
+
+	foreach (file in ::IO.enumerateFiles("scripts/items"))
+	{
+		local item = ::new(file);
+		if (::MSU.isIn("getID", item, true))
+		{
+			::MSU.NestedTooltips.ItemObjectsByFilename[split(file, "/").top()] <- item;
 		}
 	}
 });
