@@ -6,6 +6,37 @@
 	color: #1A1A1A;
 	text-decoration: underline;
 }
+.msu-nested-tooltips-within
+{
+	border-top: 3px solid #AC7327;
+	border-left: 3px solid #AC7327;
+}
+.msu-nested-tooltips-locked
+{
+	border-right: 3px solid #AC7327;
+	border-bottom: 3px solid #AC7327;
+}
+.msu-nested-tooltip-not-hovered
+{
+	-webkit-filter: brightness(50%);
+}
+.tooltip-progress-bar
+{
+	position: absolute;
+	background-image: url(coui://gfx/mods/msu/icons/timeout.png);
+	right: 1rem;
+	top: 0.7rem;
+	width: 15px;
+	height: 22px;
+}
+.msu-tile-div
+{
+	position: absolute;
+	width: 10rem;
+	height: 10rem;
+	z-index: 1;
+}
+
 .line
 {
 	outline: 2px solid white;
