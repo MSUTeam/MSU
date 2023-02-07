@@ -61,12 +61,32 @@
 
 	function getTooltip( _modID, _identifier )
 	{
-		local fullKey = split(_identifier, ".");
+		local arr = split(_identifier, "+");
+		local fullKey = split(arr[0], ".");
+		local extraData;
+		switch (arr.len())
+		{
+			case 1:
+				break;
+
+			case 2:
+				extraData = arr[1];
+				break;
+
+			default:
+				arr.slice(1).reduce(@(a, b) a + "+" + b);
+				break;
+		}
+
 		local currentTable = this.Mods[_modID];
 		for (local i = 0; i < fullKey.len(); ++i)
 		{
-			currentTable = currentTable[fullKey[i]];
+			local currentKey = fullKey[i];
+			currentTable = currentTable[currentKey];
 		}
-		return currentTable;
+		return {
+			Tooltip = currentTable,
+			Data = extraData
+		};
 	}
 }
