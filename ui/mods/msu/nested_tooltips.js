@@ -154,20 +154,6 @@ MSU.NestedTooltip = {
 			return self.getTooltipLinkHTML(_mod, _id, _text);
 		})
 	},
-	getImageTooltipData : function (_imagePath)
-	{
-		var self = this;
-		var html;
-		var parsedPath = _imagePath.replace(this.__regexp, function (_match, _mod, _id, _text)
-		{
-			html = self.getTooltipLinkHTML(_mod, _id);
-			return _text;
-		})
-		return {
-			imagePath : parsedPath,
-			imageTooltip : html
-		};
-	},
 	parseImgPaths : function (_jqueryObj)
 	{
 		var self = this;
