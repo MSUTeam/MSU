@@ -68,21 +68,42 @@ MSU.NestedTooltip = {
 		for (var i = this.__tooltipStack.length - 1; i >= 0; i--)
 		{
 			var pairData = this.__tooltipStack[i];
-			if (pairData.source.isHovered || pairData.tooltip.isHovered)
-				break;
+			if ((pairData.source.isHovered && pairData.source.container.is(":visible")) || (pairData.tooltip.isHovered && pairData.tooltip.container.is(":visible")))
+				return;
 			this.removeTooltip(pairData, i);
 		}
 	},
-	removeTooltip : function (_pairData, _idx)
+	clearStack : function ()
 	{
-		if (_pairData.source.timeout !== null)
-			clearTimeout(_pairData.source.timeout);
-		if (_pairData.tooltip.timeout !== null)
-			clearTimeout(_pairData.tooltip.timeout);
-		_pairData.source.container.off('.msu-tooltip-showing');
-		_pairData.source.container.removeData('msu-nested');
-		_pairData.tooltip.container.remove();
-		this.__tooltipStack.splice(_idx, 1);
+		for (var i = this.__tooltipStack.length - 1; i >= 0; i--)
+		{
+			this.removeTooltip(this.__tooltipStack[i]);
+		}
+	},
+	isStackEmpty : function ()
+	{
+		return this.__tooltipStack.length === 0;
+	},
+	removeTooltip : function (_pairData)
+	{
+		this.cleanSourceContainer(_pairData.source.container);
+		this.cleanTooltipContainer(_pairData.tooltip.container);
+		this.__tooltipStack.pop();
+	},
+	cleanSourceContainer : function(_sourceContainer)
+	{
+		_sourceContainer.off('.msu-tooltip-showing');
+		var data = _sourceContainer.data("msu-nested");
+		if (data === undefined)
+			return;
+		this.clearTimeouts(data);
+		_sourceContainer.removeData('msu-nested');
+	},
+	cleanTooltipContainer : function(_tooltipContainer)
+	{
+		var data = _tooltipContainer.data("msu-nested");
+		this.clearTimeouts(data);
+		_tooltipContainer.remove();
 	},
 	createTooltip : function (_data, _sourceElement, _contentType)
 	{
