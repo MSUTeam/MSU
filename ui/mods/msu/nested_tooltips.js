@@ -170,25 +170,33 @@ MSU.NestedTooltip = {
 		this.clearTimeouts(data);
 		_tooltipContainer.remove();
 	},
-	createTooltip : function (_data, _sourceElement, _contentType)
+	createTooltip : function (_backendData, _sourceContainer, _tooltipParams)
 	{
-		var container = this.getTooltipFromData(_data, _contentType);
 		var self = this;
+		var tooltipContainer = this.getTooltipFromData(_backendData, _tooltipParams.contentType);
 		var sourceData = {
-			container : _sourceElement,
-			timeout : null,
-			isHovered : true
+			container : _sourceContainer,
+			updateStackTimeout : null,
+			isHovered : true,
+			tooltipContainer : tooltipContainer,
+			tooltipParams : _tooltipParams
 		};
-		_sourceElement.data('msu-nested', sourceData);
+		_sourceContainer.data('msu-nested', sourceData);
 		var tooltipData = {
-			container : container,
-			timeout : null,
-			isHovered : false
+			container : tooltipContainer,
+			updateStackTimeout : null,
+			isHovered : false,
+			isLocked : false,
+			sourceContainer : _sourceContainer
 		};
-		container.data('msu-nested', tooltipData);
-		this.__tooltipStack.push({
+
+		tooltipContainer.data('msu-nested', tooltipData);
+		var stackData = {
 			source : sourceData,
 			tooltip : tooltipData
+		}
+
+		// Add data that we'll want to pass to any nested tooltips, such as entityId
 		if (this.__tooltipStack.length == 0)
 		{
 			var dataToPass = {};
@@ -200,6 +208,7 @@ MSU.NestedTooltip = {
 			})
 			stackData.dataToPass = dataToPass;
 		}
+		this.__tooltipStack.push(stackData);
 		});
 		container.on('mouseenter.msu-tooltip-tooltip', function (_event)
 		{
