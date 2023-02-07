@@ -47,4 +47,9 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 	{
 		::MSU.System.Registry.checkIfModVersionsAreNew(_modVersions);
 	}
+
+	function passTooltipIdentifiers(_table)
+	{
+		this.m.JSHandle.asyncCall("setTooltipImageKeywords", _table);
+	}
 });

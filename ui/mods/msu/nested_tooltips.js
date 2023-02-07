@@ -4,6 +4,7 @@ MSU.NestedTooltip = {
 	__tooltipHideDelay : 200,
 	__tooltipShowDelay : 200,
 	bindToElement : function (_element, _data)
+	KeyImgMap : {},
 	{
 		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_data));
 	},
@@ -172,14 +173,13 @@ MSU.NestedTooltip = {
 		var self = this;
 		_jqueryObj.find('img').each(function ()
 		{
-			var tooltipData = self.getImageTooltipData(this.src);
-			if (tooltipData.imageTooltip != undefined)
+			if (this.src in self.KeyImgMap)
 			{
+				var entry = self.KeyImgMap[this.src];
 				var img = $(this);
-				var div = $(tooltipData.imageTooltip)
+				var div = $(self.getTooltipLinkHTML(entry.mod, entry.id));
 				img.after(div);
 				div.append(img.detach());
-				this.src = tooltipData.imagePath;
 			}
 		})
 	}
