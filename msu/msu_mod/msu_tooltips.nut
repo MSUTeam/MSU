@@ -1,6 +1,6 @@
 ::MSU.Mod.Tooltips.setTooltips({
 	CharacterStats = ::MSU.Class.CustomTooltip(@(_data) ::TooltipEvents.general_queryUIElementTooltipData(null, "character-stats." + _data.ExtraData, null)),
-	Perk = ::MSU.Class.CustomTooltip(@(_data) ::TooltipEvents.general_queryUIPerkTooltipData(null, _data.ExtraData)),
+	Perk = ::MSU.Class.CustomTooltip(@(_data) ::TooltipEvents.general_queryUIPerkTooltipData(null, ::MSU.NestedTooltips.PerkIDByFilename[_data.ExtraData])),
 	Skill = ::MSU.Class.CustomTooltip(function(_data) {
 		local arr = split(_data.ExtraData, ",");
 		return ::TooltipEvents.general_querySkillNestedTooltipData("entityId" in _data ? _data.entityId : null, arr.len() > 1 ? arr[1] : null, arr[0])
@@ -54,7 +54,9 @@ local tooltipImageKeywords = {
 {
 	foreach (perk in ::Const.Perks.LookupMap)
 	{
-		tooltipImageKeywords[perk.Icon] <- "Perk+" + perk.ID;
+		local filename = split(perk.Script, "/").top();
+		tooltipImageKeywords[perk.Icon] <- "Perk+" + filename;
+		::MSU.NestedTooltips.PerkIDByFilename[filename] <- perk.ID;
 	}
 	::MSU.Mod.Tooltips.setTooltipImageKeywords(tooltipImageKeywords);
 });
