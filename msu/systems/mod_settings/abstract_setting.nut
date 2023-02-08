@@ -188,7 +188,7 @@
 
 	function getSerDeFlag()
 	{
-		return "MS." + this.getID();
+		return "ModSetting." + this.getID();
 	}
 
 	function flagSerialize( _out )
