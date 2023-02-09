@@ -1,4 +1,4 @@
-::mods_hookNewObjectOnce("states/world/asset_manager", function(o) {
+::mods_hookNewObject("states/world/asset_manager", function(o) {
 	o.m.LastDayMorningEventCalled <- 0;
 	local update = o.update;
 	o.update = function( _worldState )
