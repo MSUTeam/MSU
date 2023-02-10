@@ -89,6 +89,3 @@ MSUConnection.prototype.setTooltipImageKeywords = function (_table)
 		MSU.NestedTooltip.KeyImgMap[_key] = _value;
 	})
 }
-
-
-registerScreen("MSUConnection", new MSUConnection());

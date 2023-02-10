@@ -1,0 +1,1 @@
+registerScreen("MSUConnection", new MSUConnection());

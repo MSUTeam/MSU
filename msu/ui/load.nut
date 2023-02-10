@@ -1,31 +1,33 @@
+local function includeJSFilesInFolder( _folder )
+{
+	foreach (file in ::IO.enumerateFiles(_folder))
+	{
+		local splitFile = split(file, "/");
+		local shortArray = splitFile.slice(2, splitFile.len());
+		local shortenedString = shortArray.reduce(@(a, b) a + "/" + b);
+		::MSU.registerEarlyJSHook(shortenedString + ".js");
+	}
+}
+
 ::mods_registerCSS("msu/css/misc.css");
 ::mods_registerCSS("msu/css/settings_screen.css");
 
-::MSU.registerEarlyJSHook("msu/utilities.js");
+::MSU.registerEarlyJSHook("msu/main.js");
+
+includeJSFilesInFolder("ui/mods/msu/misc");
 
 ::MSU.registerEarlyJSHook("msu/nested_tooltips.js");
 
-::mods_registerJS("msu/ui_hooks/main_menu_module.js");
-::mods_registerJS("msu/ui_hooks/main_menu_screen.js");
-::mods_registerJS("msu/ui_hooks/tooltip_module.js");
+includeJSFilesInFolder("ui/mods/msu/ui_hooks");
 
-::mods_registerJS("msu/backend_connection.js");
-::mods_registerJS("msu/msu_connection.js");
-::mods_registerJS("msu/ui_screen.js");
+::MSU.registerEarlyJSHook("msu/backend_connection.js");
+::MSU.registerEarlyJSHook("msu/msu_connection.js");
+::MSU.registerEarlyJSHook("msu/ui_screen.js");
 
-foreach (file in ::IO.enumerateFiles("ui/mods/msu/mod_settings/"))
-{
-	local splitFile = split(file, "/");
-	local shortArray = splitFile.slice(2, splitFile.len());
-	local shortenedString = shortArray.reduce(@(a, b) a + "/" + b);
-	::mods_registerJS(shortenedString + ".js");
-}
+includeJSFilesInFolder("ui/mods/msu/mod_settings");
+includeJSFilesInFolder("ui/mods/msu/keybinds");
 
-::mods_registerJS("msu/keybinds/key_static.js");
-::mods_registerJS("msu/keybinds/keybind.js");
-::mods_registerJS("msu/keybinds/keybinds_system.js");
-::mods_registerJS("msu/keybinds/document_events.js");
-
+::mods_registerJS("msu/register_screens.js")
 
 ::MSU.includeFile("msu/ui/", "ui.nut");
 

@@ -20,8 +20,6 @@ MainMenuModule.prototype.addModOptionsButton = function ()
 	}, '', 4);
 };
 
-Screens.MainMenuScreen.getModule("MainMenuModule").addModOptionsButton();
-
 MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 {
 	SQ.call(this.mSQHandle, 'onModOptionsButtonPressed');
