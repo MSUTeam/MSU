@@ -367,7 +367,7 @@ MSU.NestedTooltip = {
 		})
 	}
 }
-MSU.XBBCODE_process = XBBCODE.process;
+MSU.Hooks.XBBCODE_process = XBBCODE.process;
 // I hate this but the XBBCODE plugin doesn't allow dynamically adding tags
 // there's a fork that does here https://github.com/patorjk/Extendible-BBCode-Parser
 // but we'd have to tweak it a bunch to add the vanilla tags
@@ -375,7 +375,7 @@ MSU.XBBCODE_process = XBBCODE.process;
 // then again, the one used in vanilla is probably even more outdated
 XBBCODE.process = function (config)
 {
-	var ret = MSU.XBBCODE_process.call(this, config);
+	var ret = MSU.Hooks.XBBCODE_process.call(this, config);
 	ret.html = MSU.NestedTooltip.parseText(ret.html)
 	return ret;
 }
@@ -415,12 +415,12 @@ TooltipModule.prototype.showTileTooltip = function()
 	}
 };
 
-MSU.TooltipModule_hideTileTooltip = TooltipModule.prototype.hideTileTooltip;
+MSU.Hooks.TooltipModule_hideTileTooltip = TooltipModule.prototype.hideTileTooltip;
 TooltipModule.prototype.hideTileTooltip = function()
 {
 	if (MSU.NestedTooltip.TileTooltipDiv.shrink())
 		MSU.NestedTooltip.TileTooltipDiv.unbind();
-	MSU.TooltipModule_hideTileTooltip.call(this);
+	MSU.Hooks.TooltipModule_hideTileTooltip.call(this);
 };
 
 $.fn.updateTooltip = function (_newParams)
