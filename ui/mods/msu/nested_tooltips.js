@@ -3,6 +3,7 @@ MSU.NestedTooltip = {
 	__tooltipStack : [],
 	__tooltipHideDelay : 100,
 	__tooltipShowDelay : 200,
+	__showTooltipTimeout : null,
 	KeyImgMap : {},
 	TileTooltipDiv : {
 		container : $("<div class='msu-tile-div'/>").appendTo($(document.body)),
@@ -77,13 +78,13 @@ MSU.NestedTooltip = {
 			var self = MSU.NestedTooltip;
 			var tooltipSource = $(this);
 			if (tooltipSource.data('msu-nested') !== undefined) return;
-			var createTooltipTimeout = setTimeout(function(){
+			self.__showTooltipTimeout = setTimeout(function(){
 				self.onShowTooltipTimerExpired(tooltipSource, _tooltipParams);
 			}, self.__tooltipShowDelay);
 
 			tooltipSource.on('mouseleave.msu-tooltip-loading', function (_event)
 			{
-				clearTimeout(createTooltipTimeout);
+				clearTimeout(self.__showTooltipTimeout);
 				tooltipSource.off('mouseleave.msu-tooltip-loading');
 			})
 
@@ -92,6 +93,7 @@ MSU.NestedTooltip = {
 	onShowTooltipTimerExpired : function(_sourceContainer, _tooltipParams)
 	{
 		var self = this;
+		clearTimeout(self.__showTooltipTimeout);
 		_sourceContainer.off('.msu-tooltip-loading');
 		// ghetto clone to get new ref
 		_tooltipParams = JSON.parse(JSON.stringify(_tooltipParams));
