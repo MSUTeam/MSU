@@ -6,12 +6,27 @@ MSU.NestedTooltip = {
 	KeyImgMap : {},
 	TileTooltipDiv : {
 		container : $("<div class='msu-tile-div'/>").appendTo($(document.body)),
-		expand : function(_newPosition)
+		cursorPos : {top:0, left:0},
+		expand : function()
 		{
-			this.container.show();
-			this.container.offset(_newPosition);
+			var self = this;
+			Screens.MSUConnection.queryZoomLevel(function(_params){
+				var baseSize = _params.State == "tactical_state" ? 100 : 150;
+				var squareSize = Math.floor(baseSize / _params.Zoom);
+				self.container.height(squareSize);
+				self.container.width(squareSize);
+				self.container.show();
+				self.container.offset({top: self.cursorPos.top - Math.floor(squareSize/2), left:  self.cursorPos.left - Math.floor(squareSize/2) });
+			})
 		},
 		shrink : function()
+		{
+			this.container.height(0);
+			this.container.width(0);
+			this.container.hide();
+			this.container.offset({top: 0, left: 0});
+		},
+		canShrink : function()
 		{
 			var sourceData = this.container.data("msu-nested");
 			if (sourceData !== undefined && sourceData !== null)
