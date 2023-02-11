@@ -56,20 +56,6 @@ MSU.NestedTooltip = {
 			this.container.trigger('mouseenter.msu-tooltip-source');
 		}
 	},
-	reloadTooltip : function(_element, _newParams)
-	{
-		if (this.__tooltipStack.length === 0)
-			return;
-		var sourceData = this.__tooltipStack[0].source;
-		var sourceContainer = sourceData.container;
-		var sourceParams = sourceData.tooltipParams;
-		if (_element !== undefined && !_element.is(sourceContainer))
-			return;
-		this.clearStack();
-		this.unbindFromElement(sourceContainer);
-		this.bindToElement(sourceContainer, _newParams || sourceParams);
-		sourceContainer.trigger('mouseenter.msu-tooltip-source');
-	},
 	bindToElement : function (_element, _tooltipParams)
 	{
 		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_tooltipParams));
@@ -321,14 +307,6 @@ MSU.NestedTooltip = {
 			tooltipData.updateStackTimeout = setTimeout(self.updateStack.bind(self), self.__tooltipHideDelay);
 		});
 	},
-	clearTimeouts : function(_data)
-	{
-		if (_data.updateStackTimeout !== undefined && _data.updateStackTimeout !== null)
-		{
-			clearTimeout(_data.updateStackTimeout);
-			_data.updateStackTimeout = null;
-		}
-	},
 	getTooltipFromData : function (_backendData, _contentType)
 	{
 		var tempContainer = Screens.TooltipScreen.mTooltipModule.mContainer;
@@ -380,7 +358,29 @@ MSU.NestedTooltip = {
 				div.append(img.detach());
 			}
 		})
-	}
+	},
+	clearTimeouts : function(_data)
+	{
+		if (_data.updateStackTimeout !== undefined && _data.updateStackTimeout !== null)
+		{
+			clearTimeout(_data.updateStackTimeout);
+			_data.updateStackTimeout = null;
+		}
+	},
+	reloadTooltip : function(_element, _newParams)
+	{
+		if (this.isStackEmpty())
+			return;
+		var sourceData = this.__tooltipStack[0].source;
+		var sourceContainer = sourceData.container;
+		var sourceParams = sourceData.tooltipParams;
+		if (_element !== undefined && !_element.is(sourceContainer))
+			return;
+		this.clearStack();
+		this.unbindFromElement(sourceContainer);
+		this.bindToElement(sourceContainer, _newParams || sourceParams);
+		sourceContainer.trigger('mouseenter.msu-tooltip-source');
+	},
 }
 MSU.XBBCODE_process = XBBCODE.process;
 // I hate this but the XBBCODE plugin doesn't allow dynamically adding tags
