@@ -90,5 +90,10 @@ MSUConnection.prototype.setTooltipImageKeywords = function (_table)
 	})
 }
 
+MSUConnection.prototype.queryZoomLevel = function (_callback)
+{
+	SQ.call(this.mSQHandle, "queryZoomLevel", null, _callback);
+}
+
 
 registerScreen("MSUConnection", new MSUConnection());
