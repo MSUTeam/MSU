@@ -37,15 +37,12 @@ MSU.NestedTooltip = {
 				{
 					return false;
 				}
-				MSU.NestedTooltip.clearTimeouts(sourceData);
-				sourceData.isHovered = false;
-				MSU.NestedTooltip.updateStack();
 			}
-			this.container.hide();
 			return true;
 		},
 		bind : function(_params)
 		{
+			_params.isTileTooltip = true;
 			MSU.NestedTooltip.bindToElement(this.container, _params);
 		},
 		unbind : function()
@@ -120,9 +117,13 @@ MSU.NestedTooltip = {
 		{
 			if (_backendData === undefined || _backendData === null)
 		    {
-		    	self.TileTooltipDiv.shrink();
+		    	if (_tooltipParams.isTileTooltip)
+		    		self.TileTooltipDiv.shrink();
 		        return;
 		    }
+		    if (_tooltipParams.isTileTooltip)
+		    	self.TileTooltipDiv.expand();
+
 
 		    // vanilla behavior, when sth moved into tile while the data was being fetched
 		    if (_tooltipParams.contentType === 'tile' || _tooltipParams.contentType === 'tile-entity')
@@ -165,6 +166,8 @@ MSU.NestedTooltip = {
 		if (data === undefined)
 			return;
 		this.clearTimeouts(data);
+		if (data.tooltipParams.isTileTooltip)
+			this.TileTooltipDiv.shrink();
 		_sourceContainer.removeData('msu-nested');
 	},
 	cleanTooltipContainer : function(_tooltipContainer)
@@ -423,11 +426,11 @@ TooltipModule.prototype.showTileTooltip = function()
 	{
 		return;
 	}
-	MSU.NestedTooltip.TileTooltipDiv.expand({top: this.mLastMouseY - 30, left:this.mLastMouseX - 30});
 	MSU.NestedTooltip.updateStack();
 	if (MSU.NestedTooltip.isStackEmpty())
 	{
 		MSU.NestedTooltip.TileTooltipDiv.bind(this.mCurrentData);
+		MSU.NestedTooltip.TileTooltipDiv.cursorPos = {top: this.mLastMouseY, left: this.mLastMouseX};
 		MSU.NestedTooltip.TileTooltipDiv.trigger();
 	}
 };
@@ -435,8 +438,11 @@ TooltipModule.prototype.showTileTooltip = function()
 MSU.TooltipModule_hideTileTooltip = TooltipModule.prototype.hideTileTooltip;
 TooltipModule.prototype.hideTileTooltip = function()
 {
-	if (MSU.NestedTooltip.TileTooltipDiv.shrink())
+	if (MSU.NestedTooltip.TileTooltipDiv.canShrink())
+	{
+		MSU.NestedTooltip.TileTooltipDiv.shrink()
 		MSU.NestedTooltip.TileTooltipDiv.unbind();
+	}
 	MSU.TooltipModule_hideTileTooltip.call(this);
 };
 
