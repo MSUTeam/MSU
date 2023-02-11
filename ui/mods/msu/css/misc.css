@@ -35,6 +35,7 @@
 	width: 10rem;
 	height: 10rem;
 	z-index: 1;
+	border-radius: 50%;
 }
 
 .line
