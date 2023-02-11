@@ -456,3 +456,8 @@ TooltipModule.prototype.reloadTooltip = function()
 {
 	MSU.NestedTooltip.reloadTooltip();
 };
+
+TooltipModule.prototype.hideTooltip = function()
+{
+    MSU.NestedTooltip.clearStack();
+};
