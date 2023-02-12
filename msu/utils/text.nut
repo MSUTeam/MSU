@@ -13,4 +13,14 @@
 	{
 		return this.color(::Const.UI.Color.NegativeValue, _string);
 	}
+
+	function colorPositive( _string )
+	{
+		return this.color(::Const.UI.Color.PositiveValue, _string);
+	}
+
+	function colorNegative( _string )
+	{
+		return this.color(::Const.UI.Color.NegativeValue, _string);
+	}
 }
