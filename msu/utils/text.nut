@@ -1,4 +1,9 @@
 ::MSU.Text <- {
+	Color = {
+		Green = "#135213",
+		Red = "#8f1e1e"
+	},
+
 	function color( _color, _string )
 	{
 		return ::Const.UI.getColorized(_string, _color);
