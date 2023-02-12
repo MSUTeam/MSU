@@ -11,12 +11,12 @@
 
 	function colorGreen( _string )
 	{
-		return this.color(::Const.UI.Color.PositiveValue, _string);
+		return this.color(this.Color.Green, _string);
 	}
 
 	function colorRed( _string )
 	{
-		return this.color(::Const.UI.Color.NegativeValue, _string);
+		return this.color(this.Color.Red, _string);
 	}
 
 	function colorPositive( _string )
