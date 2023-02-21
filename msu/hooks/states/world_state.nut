@@ -5,6 +5,7 @@
 		onInitUI();
 		local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
+		::MSU.AfterQueue.run();
 	}
 
 	o.main_menu_module_onModOptionsPressed <- function()
