@@ -68,6 +68,34 @@
 	o.m.IsApplyingPreview <- false;
 	o.PreviewField <- {};
 
+	o.isType = function( _t, _any = true, _only = false )
+	{
+		if (_any)
+		{
+			return _only ? this.m.Type - (this.m.Type & _t) == 0 : (this.m.Type & _t) != 0;
+		}
+		else
+		{
+			return _only ? (this.m.Type & _t) == this.m.Type : (this.m.Type & _t) == _t;
+		}
+	}
+
+	o.addType <- function ( _t )
+	{
+		this.m.Type = this.m.Type | _t;
+	}
+
+	o.setType <- function( _t )
+	{
+		this.m.Type = _t;
+	}
+
+	o.removeType <- function( _t )
+	{
+		if (this.isType(_t, false)) this.m.Type -= _t;
+		else throw ::MSU.Exception.KeyNotFound(_t);
+	}
+
 	o.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
