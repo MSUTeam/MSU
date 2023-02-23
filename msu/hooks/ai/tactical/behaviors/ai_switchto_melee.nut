@@ -25,7 +25,7 @@
 				{
 					foreach (j, item in _entity.getItems().m.Items[i])
 					{
-						if (item != itemsBefore[i][j])
+						if (item != itemsBefore[i][j] && items.find(item) == null)
 						{
 							if (item != null && item != -1) items.push(item);
 							if (itemsBefore[i][j] != null && itemsBefore[i][j] != -1) items.push(itemsBefore[i][j]);
