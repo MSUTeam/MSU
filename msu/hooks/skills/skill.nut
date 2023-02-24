@@ -201,8 +201,11 @@
 		else
 		{
 			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))			
-			{				
-				this.getContainer().getActor().getAIAgent().removeBehaviorByStack(this.m.AIBehaviorID);
+			{
+				local agent = this.getContainer().getActor().getAIAgent();
+				local activeBehavior = agent.m.ActiveBehavior;
+				if (activeBehavior != null && activeBehavior.getID() == this.m.AIBehaviorID) agent.m.MSU_BehaviorToRemove = activeBehavior;
+				else agent.removeBehaviorByStack(this.m.AIBehaviorID);
 			}
 		}
 
