@@ -194,7 +194,7 @@
 	local setContainer = o.setContainer;
 	o.setContainer = function( _c )
 	{
-		if (c == null)
+		if (_c == null)
 		{
 			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))
 			{
