@@ -194,24 +194,23 @@
 	local setContainer = o.setContainer;
 	o.setContainer = function( _c )
 	{
-		if (_c != null)
+		if (c == null)
 		{
-			this.saveBaseValues();
-		}
-		else
-		{
-			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))			
+			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))
 			{
 				local agent = this.getContainer().getActor().getAIAgent();
 				local activeBehavior = agent.m.ActiveBehavior;
 				if (activeBehavior != null && activeBehavior.getID() == this.m.AIBehaviorID) agent.m.MSU_BehaviorToRemove = activeBehavior;
 				else agent.removeBehaviorByStack(this.m.AIBehaviorID);
 			}
+
+			return setContainer(_c);
 		}
 
+		this.saveBaseValues();
 		setContainer(_c);
 
-		if (this.m.AIBehaviorID != null && _c != null && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player)
+		if (this.m.AIBehaviorID != null && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player)
 		{
 			this.getContainer().getActor().getAIAgent().addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
 			this.getContainer().getActor().getAIAgent().finalizeBehaviors();
