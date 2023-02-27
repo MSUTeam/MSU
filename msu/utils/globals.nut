@@ -133,9 +133,9 @@
 {
 	if (this.DummyPlayer == null)
 	{
-		this.DummyPlayer = ::World.getTemporaryRoster().create("scripts/entity/tactical/player");
-		this.DummyPlayer.m.Name = "MSU DummyPlayer";
-		::World.getTemporaryRoster().clear();
+		local roster = ::World.createRoster("MSU_Roster");
+		this.DummyPlayer = roster.create("scripts/entity/tactical/player");
+		this.DummyPlayer.m.Name = "MSU Dummy Player";
 	}
 	return this.DummyPlayer;
 }
