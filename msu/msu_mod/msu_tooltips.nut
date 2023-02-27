@@ -3,11 +3,16 @@
 	Perk = ::MSU.Class.CustomTooltip(@(_data) ::TooltipEvents.general_queryUIPerkTooltipData(null, ::MSU.NestedTooltips.PerkIDByFilename[_data.ExtraData])),
 	Skill = ::MSU.Class.CustomTooltip(function(_data) {
 		local arr = split(_data.ExtraData, ",");
-		return ::TooltipEvents.general_querySkillNestedTooltipData("entityId" in _data ? _data.entityId : null, arr.len() > 1 ? arr[1] : null, arr[0])
+		local entityId = "entityId" in _data ? _data.entityId : null;
+		local skillId = arr.len() > 1 && arr[1] != "null" ? arr[1] : null;
+		return ::TooltipEvents.general_querySkillNestedTooltipData(entityId, skillId, arr[0])
 	}),
 	Item = ::MSU.Class.CustomTooltip(function(_data) {
 		local arr = split(_data.ExtraData, ",");
-		return ::TooltipEvents.general_queryItemNestedTooltipData("entityId" in _data ? _data.entityId : null, arr.len() > 1 ? arr[1] : null, arr.len() > 2 ? arr[2] : null, arr[0])
+		local entityId = "entityId" in _data ? _data.entityId : null;
+		local itemId = arr.len() > 1 && arr[1] != "null" ? arr[1] : null;
+		local itemOwner = arr.len() > 2 && arr[2] != "null" ? arr[2] : null;
+		return ::TooltipEvents.general_queryItemNestedTooltipData(entityId, itemId, itemOwner, arr[0])
 	}),
 	ModSettings = {
 		Main = {
