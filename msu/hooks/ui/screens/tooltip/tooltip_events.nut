@@ -9,16 +9,34 @@
 			skill = entity.getSkills().getSkillByID(_skillId);
 		}
 
-		if (skill == null)
+		if (skill != null)
+			return skill.getNestedTooltip();
+
+		local ret;
+		if (::MSU.NestedTooltips.NestedSkillItem == null)
 		{
 			skill = ::MSU.NestedTooltips.SkillObjectsByFilename[_filename];
 			skill.m.Container = ::Reforged.getDummyPlayer().getSkills();
-			local ret = skill.getNestedTooltip();
+			ret = skill.getNestedTooltip();
 			skill.m.Container = null;
 			return ret;
 		}
 
-		return skill.getNestedTooltip();
+		local item = ::MSU.NestedTooltips.NestedSkillItem;
+		local isDummyEquipping = ::MSU.isNull(item.getContainer());
+
+		if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().equip(item);
+		foreach (s in item.getSkills())
+		{
+			if (s.getID() == _skillId)
+			{
+				ret = s.getNestedTooltip();
+				break;
+			}
+		}
+		if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().unequip(item);
+
+		return ret;
 	}
 
 	q.general_queryItemNestedTooltipData <- function( _entityId, _itemId, _itemOwner, _filename )
