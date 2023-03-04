@@ -127,3 +127,15 @@
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
+
+::MSU.DummyPlayer <- null;
+::MSU.getDummyPlayer <- function()
+{
+	if (this.DummyPlayer == null)
+	{
+		local roster = ::World.createRoster("MSU_Roster");
+		this.DummyPlayer = roster.create("scripts/entity/tactical/player");
+		this.DummyPlayer.m.Name = "MSU Dummy Player";
+	}
+	return this.DummyPlayer;
+}

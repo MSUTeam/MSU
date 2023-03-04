@@ -9,6 +9,40 @@
 	}
 };
 
+::MSU.AfterQueue <- {
+	Queue = [],
+
+	function add( _modID, _function )
+	{
+		this.Queue.push({
+			ModID = _modID,
+			Function = _function
+		});
+	}
+
+	function run()
+	{
+		foreach (entry in this.Queue)
+		{
+			try
+			{
+				entry.Function();
+			}
+			catch (error)
+			{
+				::MSU.QueueErrors.add(format("Mod %s threw an error in its AfterQueue function. Error: %s", entry.ModID, error));
+			}
+		}
+
+		this.Queue.clear();
+
+		if (::MSU.QueueErrors.Errors != "")
+		{
+			::MSU.Popup.showRawText(::MSU.QueueErrors.Errors, true);
+		}
+	}
+}
+
 ::MSU.includeLoad <- function( _prefix, _folder )
 {
 	::include(_prefix + _folder + "/load.nut");
