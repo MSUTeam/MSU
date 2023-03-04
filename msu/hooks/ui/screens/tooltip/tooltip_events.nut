@@ -16,7 +16,7 @@
 		if (::MSU.NestedTooltips.NestedSkillItem == null)
 		{
 			skill = ::MSU.NestedTooltips.SkillObjectsByFilename[_filename];
-			skill.m.Container = ::Reforged.getDummyPlayer().getSkills();
+			skill.m.Container = ::MSU.getDummyPlayer().getSkills();
 			ret = skill.getNestedTooltip();
 			skill.m.Container = null;
 			return ret;
