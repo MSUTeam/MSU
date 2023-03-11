@@ -200,7 +200,7 @@
 	},
 	ReverseKeyMapJS = {
 		"backspace" : "8",
-		"tabulator" : "9",
+		"tab" : "9",
 		"return" : "13",
 		"shift" : "16",
 		"ctrl" : "17",

@@ -30,7 +30,7 @@ MSU.Key = {
 	},
 	KeyMapJS : {
 		8 :"backspace",
-		9 :"tabulator",
+		9 :"tab",
 		13 :"return",
 		16 :"shift",
 		17 :"ctrl",
