@@ -192,6 +192,8 @@
 	local onBeforeSerialize = o.onBeforeSerialize;
 	o.onBeforeSerialize = function( _out )
 	{
+		::World.deleteRoster("MSU_Roster");
+		::MSU.DummyPlayer = null;
 		onBeforeSerialize(_out);
 		local meta = _out.getMetaData();
 		local modIDsString = "";
