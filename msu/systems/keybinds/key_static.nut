@@ -76,6 +76,17 @@
 		}
 	}
 
+	function getMouseState( _rawMouseState )
+	{
+		switch (_rawMouseState)
+		{
+			case 0:
+				return this.KeyState.Press;
+			case 1:
+				return this.KeyState.Release;
+		}
+	}
+
 	function isKnownKey( _key )
 	{
 		return _key.getKey().tostring() in this.KeyMapSQ;
