@@ -23,6 +23,9 @@ includeFile("serialization_mod_addon.nut");
 		getEconomicDifficulty = @() 1,
 		isIronman = @() false,
 	}
+	::World.Assets.setdelegate({ // attempted patch for any other function calls
+		_get = @(_k)@(...)""
+	});
 	worldState.onBeforeSerialize(serEm);
 	delete ::World.Assets;
 });
