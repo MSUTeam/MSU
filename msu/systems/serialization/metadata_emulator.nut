@@ -86,4 +86,10 @@
 	{
 		return "";
 	}
+
+	function _cloned( _original )
+	{
+		this.Data = clone _original.Data;
+		this.Version = _original.Version;
+	}
 }

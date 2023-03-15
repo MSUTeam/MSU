@@ -2,6 +2,7 @@
 {
 	Mods = null;
 	EmulatorsToClear = null;
+	MetaData = null;
 
 	constructor()
 	{
