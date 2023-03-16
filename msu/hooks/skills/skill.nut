@@ -210,7 +210,7 @@
 		this.saveBaseValues();
 		setContainer(_c);
 
-		if (this.m.AIBehaviorID != null && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player)
+		if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor().getAIAgent()) && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player)
 		{
 			this.getContainer().getActor().getAIAgent().addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
 			this.getContainer().getActor().getAIAgent().finalizeBehaviors();
