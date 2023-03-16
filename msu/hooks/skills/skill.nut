@@ -210,10 +210,14 @@
 		this.saveBaseValues();
 		setContainer(_c);
 
-		if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor().getAIAgent()) && this.getContainer().getActor().getAIAgent().getID() != ::Const.AI.Agent.ID.Player)
+		if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor()))
 		{
-			this.getContainer().getActor().getAIAgent().addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
-			this.getContainer().getActor().getAIAgent().finalizeBehaviors();
+			local agent = this.getContainer().getActor().getAIAgent();
+			if (!::MSU.isNull(agent) && agent.getID() != ::Const.AI.Agent.ID.Player)
+			{
+				agent.addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
+				agent.finalizeBehaviors();
+			}
 		}
 	}
 
