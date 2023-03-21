@@ -6,6 +6,7 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		this.m.JSHandle = ::UI.connect("MSUConnection", this);
 		this.querySettingsData();
 		this.checkForModUpdates();
+		this.updateNestedTooltipTextStyle();
 	}
 
 	function querySettingsData()
@@ -51,5 +52,14 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 	function passTooltipIdentifiers(_table)
 	{
 		this.m.JSHandle.asyncCall("setTooltipImageKeywords", _table);
+	}
+
+	function updateNestedTooltipTextStyle()
+	{
+		local styleString = format("color: rgba(%s);", ::getModSetting("mod_msu", "NestedTooltips_Color").getValue());
+		if (::getModSetting("mod_msu", "NestedTooltips_Bold").getValue()) styleString += "font-weight: bold;";
+		if (::getModSetting("mod_msu", "NestedTooltips_Italic").getValue()) styleString += "font-style: italic;";
+		if (::getModSetting("mod_msu", "NestedTooltips_Underline").getValue()) styleString += "text-decoration: underline;";
+		this.m.JSHandle.asyncCall("updateNestedTooltipTextStyle", styleString);
 	}
 });

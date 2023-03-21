@@ -90,5 +90,10 @@ MSUConnection.prototype.setTooltipImageKeywords = function (_table)
 	})
 }
 
+MSUConnection.prototype.updateNestedTooltipTextStyle = function (_styleString)
+{
+	MSU.NestedTooltip.TextStyle = _styleString;
+}
+
 
 registerScreen("MSUConnection", new MSUConnection());
