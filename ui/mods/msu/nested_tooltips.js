@@ -5,6 +5,7 @@ MSU.NestedTooltip = {
 	__tooltipShowDelay : 200,
 	__showTooltipTimeout : null,
 	KeyImgMap : {},
+	TextStyle: "",
 	TileTooltipDiv : {
 		container : $("<div class='msu-tile-div'/>").appendTo($(document.body)),
 		cursorPos : {top:0, left:0},
@@ -339,7 +340,7 @@ MSU.NestedTooltip = {
 	getTooltipLinkHTML : function (_mod, _id, _text)
 	{
 		_text = _text || "";
-		return '<div class="msu-nested-tooltip" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
+		return '<div class="msu-nested-tooltip" style="' + this.TextStyle + '" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
 	},
 	parseText : function (_text)
 	{
