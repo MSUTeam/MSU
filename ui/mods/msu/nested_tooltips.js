@@ -1,5 +1,6 @@
 MSU.NestedTooltip = {
 	KeyImgMap : {},
+	TextStyle: "",
 	__regexp : /(?:\[|&#91;)tooltip=([\w\.]+?)\.(.+?)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/tooltip(?:\]|&#93;)/gm,
 	__tooltipStack : [],
 	__tooltipHideDelay : 100,
@@ -339,7 +340,7 @@ MSU.NestedTooltip = {
 	getTooltipLinkHTML : function (_mod, _id, _text)
 	{
 		_text = _text || "";
-		return '<div class="msu-nested-tooltip" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
+		return '<div class="msu-nested-tooltip" style="' + this.TextStyle + '" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
 	},
 	parseText : function (_text)
 	{
