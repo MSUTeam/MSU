@@ -95,5 +95,9 @@ MSUConnection.prototype.queryZoomLevel = function (_callback)
 	SQ.call(this.mSQHandle, "queryZoomLevel", null, _callback);
 }
 
+MSUConnection.prototype.updateNestedTooltipTextStyle = function (_styleString)
+{
+	MSU.NestedTooltip.TextStyle = _styleString;
+}
 
 registerScreen("MSUConnection", new MSUConnection());
