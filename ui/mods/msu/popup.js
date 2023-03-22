@@ -2,6 +2,8 @@ var MSUPopup = function ()
 {
 	this.mSQHandle = null
 	this.mContainer = null;
+	this.mSmallContainer = null;
+	this.mParent = null;
 	this.mID = "MSUPopup";
 
 	this.mHeaderContainer = null;
@@ -9,6 +11,13 @@ var MSUPopup = function ()
 	this.mListScrollContainer = null;
 	this.mFooterContainer = null;
 	this.mTitle = null;
+	this.mStates = {
+		Small : 0,
+		Full : 1
+	}
+	this.mState = this.mStates.Small;
+	this.mNumModsChecked = null;
+	this.mNumUpdates = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -22,6 +31,9 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	var self = this;
 	this.mContainer = $('<div class="msu-popup ui-control dialog display-none opacity-none"/>');
 	_parentDiv.append(this.mContainer);
+	this.mContainer.click(function(){
+		self.toggleState();
+	})
 
 	this.mHeaderContainer = $('<div class="header"/>');
 	this.mContainer.append(this.mHeaderContainer);
@@ -52,20 +64,42 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	})
 }
 
+MSUPopup.prototype.createSmallDIV = function (_parentDiv)
+{
+	var self = this;
+	this.mSmallContainer = $('<div class="msu-popup-small"/>');
+	_parentDiv.append(this.mSmallContainer);
+	this.mModUpdateButton = $('<div class="msu-popup-small-update-button"/>')
+		.appendTo(this.mSmallContainer)
+		.on("click", function(){
+			self.toggleState();
+	})
+	this.mModUpdateInfo = $('<div class="msu-popup-small-update-info"/>')
+		.appendTo(this.mSmallContainer)
+}
+
 MSUPopup.prototype.create = function(_parentDiv)
 {
 	this.createDIV(_parentDiv);
+	this.createSmallDIV(_parentDiv);
 };
 
 MSUPopup.prototype.destroy = function ()
 {
 	this.destroyDIV();
+	this.destroySmallDIV();
+}
+
+MSUPopup.prototype.destroySmallDIV = function ()
+{
+	this.mSmallContainer.empty();
+	this.mSmallContainer.remove();
+	this.mSmallContainer = null;
 }
 
 MSUPopup.prototype.show = function ()
 {
 	var self = this;
-
 	// MSUUIScreen.show
 	var moveTo = { opacity: 1, right: '10.0rem' };
 	var offset = -this.mContainer.width();
@@ -93,9 +127,30 @@ MSUPopup.prototype.show = function ()
 	});
 }
 
+MSUPopup.prototype.setState = function (_state)
+{
+	this.mState = _state;
+	if (this.mState == this.mStates.Small)
+	{
+		this.mContainer.hide();
+		this.mSmallContainer.show();
+	}
+	else
+	{
+		this.mContainer.show();
+		this.mSmallContainer.hide();
+		this.show();
+	}
+}
+
+MSUPopup.prototype.toggleState = function ()
+{
+	this.setState(this.mState == this.mStates.Small ? this.mStates.Full : this.mStates.Small);
+}
+
 MSUPopup.prototype.isVisible = function ()
 {
-	return this.mContainer.hasClass('display-block');
+	return this.mContainer.css('display') == "block" || this.mSmallContainer.css('display') == "block";
 }
 
 MSUPopup.prototype.showRawText = function (_data)
@@ -112,7 +167,7 @@ MSUPopup.prototype.showRawText = function (_data)
 	this.mListScrollContainer.append($('<div class="mod-raw-text">' + _data.text + '</div>'));
 	if (!this.isVisible())
 	{
-		this.show();
+		this.setState(this.mStates.Full);
 	}
 }
 
@@ -158,7 +213,10 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
 		modInfoContainer.append($('<div class="version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
 	});
-	if (!this.isVisible()) this.show();
+	var checkText = "" + this.mNumModsChecked + (this.mNumModsChecked == 1 ? " mod" : " mods") + " checked<br>";
+	checkText += this.mNumUpdates + (this.mNumUpdates == 1 ? " update" : " updates");
+	this.mModUpdateInfo.html(checkText);
+	this.setState(this.mStates.Small);
 }
 
 MSUPopup.prototype.hide = function ()

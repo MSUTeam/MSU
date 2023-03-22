@@ -71,11 +71,19 @@ MSUConnection.prototype.checkForModUpdates = function (_mods)
 	$.when.apply($, promises).done(function()
 	{
 		var modVersions = {};
+		var updateNum = 0;
 		var args = arguments
 		modIDs.forEach(function(_modID, _i)
 		{
-			if (args[_i] != null) modVersions[_modID] = args[_i]
+			if (args[_i] != null)
+			{
+				modVersions[_modID] = args[_i];
+				updateNum++
+			}
 		})
+		modVersions["mod_msu"] = "1.2.4"
+		Screens.MSUPopup.mNumUpdates = updateNum;
+		Screens.MSUPopup.mNumModsChecked = modIDs.length;
 		self.notifyBackendReceivedModVersions(modVersions);
 	}).fail(function()
 	{
