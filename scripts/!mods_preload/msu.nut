@@ -18,7 +18,16 @@
 local _mods_runQueue = ::_mods_runQueue;
 ::_mods_runQueue = function()
 {
-	_mods_runQueue();
+	// Try catch block to allow the game to continue if something in the queue
+	// throws an exception e.g. incompatible mod version. Otherwise gets stuck
+	// at black screen on startup without any info to the user.
+	try
+	{
+		_mods_runQueue();
+	}
+	catch (error)
+	{
+	}
 	::MSU.EndQueue.run();
 }
 
