@@ -78,7 +78,7 @@ MSUConnection.prototype.checkForModUpdates = function (_mods)
 			if (args[_i] != null)
 			{
 				modVersions[_modID] = args[_i];
-				updateNum++
+				updateNum++;
 			}
 		})
 		Screens.MSUPopup.mNumUpdates = updateNum;

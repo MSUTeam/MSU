@@ -73,7 +73,7 @@ MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 			self.setState(self.mStates.Full);
 	})
 	this.mModUpdateInfo = $('<div class="msu-popup-small-update-info"/>')
-		.appendTo(this.mSmallContainer)
+		.appendTo(this.mSmallContainer);
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -101,7 +101,7 @@ MSUPopup.prototype.fadeIn = function (_container)
 	if (_container.css("display") == "block")
 		return;
 	_container.css("opacity", 0);
-	_container.velocity("finish", true).velocity({opacity: 1 },
+	_container.velocity("finish", true).velocity({opacity: 1},
 	{
 		duration: Constants.SCREEN_SLIDE_IN_OUT_DELAY,
 		easing: 'swing',
@@ -122,7 +122,7 @@ MSUPopup.prototype.fadeOut = function (_container)
 	var self = this;
 	if (_container.css("display") != "block")
 		return;
-	_container.velocity("finish", true).velocity({opacity: 0 },
+	_container.velocity("finish", true).velocity({opacity: 0},
 	{
 		duration: Constants.SCREEN_SLIDE_IN_OUT_DELAY,
 		easing: 'swing',
@@ -168,7 +168,7 @@ MSUPopup.prototype.showRawText = function (_data)
 	if (_data.forceQuit)
 	{
 		this.mTitle.text("Fatal Mod Error");
-		this.mFooterContainer.find(".ok-button:first").trigger('force-quit')
+		this.mFooterContainer.find(".ok-button:first").trigger('force-quit');
 	}
 	else
 	{
@@ -185,7 +185,7 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 	$.each(_mods, function (_key, _modInfo)
 	{
 		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
-		self.mListScrollContainer.append(modInfoContainer)
+		self.mListScrollContainer.append(modInfoContainer);
 		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
 
 		if ("GitHub" in _modInfo.sources)
