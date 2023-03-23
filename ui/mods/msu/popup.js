@@ -12,10 +12,12 @@ var MSUPopup = function ()
 	this.mFooterContainer = null;
 	this.mTitle = null;
 	this.mStates = {
-		Small : 0,
-		Full : 1
+		None : 0,
+		Small : 1,
+		Full : 2
 	}
-	this.mState = this.mStates.Small;
+	this.mState = this.mStates.None;
+	this.mLastState = this.mState;
 	this.mNumModsChecked = null;
 	this.mNumUpdates = null;
 }
