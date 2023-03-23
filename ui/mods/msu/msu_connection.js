@@ -76,7 +76,6 @@ MSUConnection.prototype.checkForModUpdates = function (_mods)
 				updateNum++
 			}
 		})
-		modVersions["mod_msu"] = "1.2.4"
 		Screens.MSUPopup.mNumUpdates = updateNum;
 		Screens.MSUPopup.mNumModsChecked = modIDs.length;
 		self.notifyBackendReceivedModVersions(modVersions);
