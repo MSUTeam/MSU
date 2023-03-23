@@ -11,8 +11,9 @@
 
 .msu-popup-small
 {
+	display: none;
 	position: absolute;
-	bottom: 5%;
+	top: 85%;
 	left: calc(50% - 5rem);
 	z-index: 100 !important;
 }
