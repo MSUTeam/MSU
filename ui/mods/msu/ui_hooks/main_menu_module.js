@@ -1,7 +1,7 @@
-var createMainMenuButtons = MainMenuModule.prototype.createMainMenuButtons;
+MSU.Hooks.MainMenuModule_createMainMenuButtons = MainMenuModule.prototype.createMainMenuButtons;
 MainMenuModule.prototype.createMainMenuButtons = function ()
 {
-	createMainMenuButtons.call(this);
+	MSU.Hooks.MainMenuModule_createMainMenuButtons.call(this);
 	this.addModOptionsButton();
 };
 
@@ -27,16 +27,16 @@ MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 	SQ.call(this.mSQHandle, 'onModOptionsButtonPressed');
 };
 
-var createWorldMapMenuButtons = MainMenuModule.prototype.createWorldMapMenuButtons;
+MSU.Hooks.MainMenuModule_createWorldMapMenuButtons = MainMenuModule.prototype.createWorldMapMenuButtons;
 MainMenuModule.prototype.createWorldMapMenuButtons = function (_isSavingAllowed, _seed)
 {
-	createWorldMapMenuButtons.call(this, _isSavingAllowed, _seed);
+	MSU.Hooks.MainMenuModule_createWorldMapMenuButtons.call(this, _isSavingAllowed, _seed);
 	this.addModOptionsButton();
 };
 
-var createTacticalMapMenuButtons = MainMenuModule.prototype.createTacticalMapMenuButtons;
+MSU.Hooks.MainMenuModule_createTacticalMapMenuButtons = MainMenuModule.prototype.createTacticalMapMenuButtons;
 MainMenuModule.prototype.createTacticalMapMenuButtons = function (_isRetreatAllowed, _isQuitAllowed, _quitText)
 {
-	createTacticalMapMenuButtons.call(this, _isRetreatAllowed, _isQuitAllowed, _quitText);
+	MSU.Hooks.MainMenuModule_createTacticalMapMenuButtons.call(this, _isRetreatAllowed, _isQuitAllowed, _quitText);
 	this.addModOptionsButton();
 };
