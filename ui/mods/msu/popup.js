@@ -33,9 +33,6 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	var self = this;
 	this.mContainer = $('<div class="msu-popup ui-control dialog display-none opacity-none"/>');
 	_parentDiv.append(this.mContainer);
-	this.mContainer.click(function(){
-		self.toggleState();
-	})
 
 	this.mHeaderContainer = $('<div class="header"/>');
 	this.mContainer.append(this.mHeaderContainer);
@@ -53,7 +50,7 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 
 	this.mFooterContainer.createTextButton("Ok", function()
 	{
-		self.hide();
+		self.setState(self.mStates.Small);
 	}, "ok-button", 1);
 
 	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
