@@ -3,7 +3,6 @@ var MSUPopup = function ()
 	this.mSQHandle = null
 	this.mContainer = null;
 	this.mSmallContainer = null;
-	this.mParent = null;
 	this.mID = "MSUPopup";
 
 	this.mHeaderContainer = null;
