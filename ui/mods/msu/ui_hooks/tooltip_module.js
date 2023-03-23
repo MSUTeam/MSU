@@ -1,4 +1,4 @@
-var notifyBackendQueryTooltipData = TooltipModule.prototype.notifyBackendQueryTooltipData;
+MSU.Hooks.TooltipModule_notifyBackendQueryTooltipData = TooltipModule.prototype.notifyBackendQueryTooltipData;
 TooltipModule.prototype.notifyBackendQueryTooltipData = function (_data, _callback)
 {
 	if (this.mSQHandle !== null && _data !== null && 'contentType' in _data && _data.contentType.search("msu-") == 0)
@@ -7,6 +7,6 @@ TooltipModule.prototype.notifyBackendQueryTooltipData = function (_data, _callba
 	}
 	else
 	{
-		notifyBackendQueryTooltipData.call(this, _data, _callback);
+		MSU.Hooks.TooltipModule_notifyBackendQueryTooltipData.call(this, _data, _callback);
 	}
 }

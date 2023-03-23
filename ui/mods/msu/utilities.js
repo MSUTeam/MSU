@@ -1,5 +1,6 @@
 var MSU = {
-	ID : "mod_msu"
+	ID : "mod_msu",
+	Hooks : {},
 };
 MSU.Utils = {};
 MSU.Utils.Timers = {};
