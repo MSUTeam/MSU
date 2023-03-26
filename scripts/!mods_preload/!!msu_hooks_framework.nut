@@ -53,6 +53,16 @@ local inherit = ::inherit;
 		}
 	}
 
+	// Apply interfaces (a poor man's multiple inheritance system)
+	if ("MSU_Interfaces" in o)
+	{
+		foreach (interfaceName in o.MSU_Interfaces)
+		{
+			::MSU.Hooks.Interface[interfaceName](o);
+		}
+		delete o.MSU_Interfaces;
+	}
+
 	::MSU.Hooks.CurrentScriptStack.pop();
 
 	return o;
@@ -66,6 +76,7 @@ local inherit = ::inherit;
 	DescendantHooks = {},
 	LeavesHooks = {},
 	ChangeParent = {},
+	Interface = {},
 	CurrentScriptStack = [],
 
 	function callHookCore( _hooks, _script, _args )
@@ -162,6 +173,12 @@ local inherit = ::inherit;
 	function changeParent( _childScript, _newParentScript )
 	{
 		::MSU.Hooks.ChangeParent[_childScript] <- _newParentScript;
+	}
+
+	function addInterface( _name, _function )
+	{
+		// _function takes one parameter which is the inherited class object
+		::MSU.Hooks.Interface[_name] <- _function;
 	}
 }
 
