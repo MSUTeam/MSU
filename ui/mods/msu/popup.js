@@ -18,7 +18,7 @@ var MSUPopup = function ()
 	this.mState = this.mStates.None;
 	this.mLastState = this.mState;
 	this.mNumModsChecked = null;
-	this.mNumUpdates = null;
+	this.mModVersionData = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -184,28 +184,14 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 	var self = this;
 	$.each(_mods, function (_key, _modInfo)
 	{
+		var modVersionData = self.mModVersionData[_key];
 		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
 		self.mListScrollContainer.append(modInfoContainer);
-		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
+		var nameRow = $('<div class="msu-mod-name-row title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>')
+			.appendTo(modInfoContainer)
 
-		if ("GitHub" in _modInfo.sources)
-		{
-			var githubContainer = $('<div class="l-github-button"/>');
-			modInfoContainer.append(githubContainer);
-			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
-			{
-				openURL(_modInfo.sources.GitHub);
-			});
-		}
-		if ("NexusMods" in _modInfo.sources)
-		{
-			var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
-			modInfoContainer.append(nexusModsContainer);
-			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
-			{
-				openURL(_modInfo.sources.NexusMods);
-			});
-		}
+		var versionRow = $('<div class="msu-mod-version-row">')
+			.appendTo(modInfoContainer)
 
 		var colorFromIdx = 0;
 		if (_modInfo.updateType != "MAJOR")
@@ -218,12 +204,41 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		}
 		var start = _modInfo.availableVersion.slice(0, colorFromIdx);
 		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
-		modInfoContainer.append($('<div class="version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
+		versionRow.append($('<div class="msu-mod-version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
+
+		if ("GitHub" in _modInfo.sources)
+		{
+			var githubContainer = $('<div class="l-github-button"/>')
+				.appendTo(versionRow);
+			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
+			{
+				openURL(_modInfo.sources.GitHub);
+			});
+		}
+		if ("NexusMods" in _modInfo.sources)
+		{
+			var nexusModsContainer = $('<div class="l-nexusmods-button"/>')
+				.appendTo(versionRow);
+			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
+			{
+				openURL(_modInfo.sources.NexusMods);
+			});
+		}
+
+		// Add update text
+		if (modVersionData.body.length > 0)
+		{
+			var descriptionRow = $('<div class="msu-mod-info-description description-font-normal font-color-description"/>')
+				.html(modVersionData.body.replace(/(?:\r\n|\r|\n)/g, '<br>'))
+				.appendTo(modInfoContainer)
+		}
 	});
 	var checkText = "" + this.mNumModsChecked + (this.mNumModsChecked == 1 ? " mod" : " mods") + " checked<br>";
-	checkText += this.mNumUpdates + (this.mNumUpdates == 1 ? " update" : " updates");
+	var numUpdates = Object.keys(this.mModVersionData).length;
+	checkText += numUpdates + (numUpdates == 1 ? " update" : " updates");
 	this.mModUpdateInfo.html(checkText);
 	this.setState(this.mStates.Small);
+	this.mModVersionData = null;
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

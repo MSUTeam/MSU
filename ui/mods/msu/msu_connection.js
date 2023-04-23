@@ -44,7 +44,7 @@ MSUConnection.prototype.getUpdateCheckPromise = function (_updateURL)
 	{
 		if (this.status == 200)
 		{
-			ret.resolve(JSON.parse(this.responseText).tag_name); // will (probably) need adjustment if we add more update sources (other than github)
+			ret.resolve(JSON.parse(this.responseText)); // will (probably) need adjustment if we add more update sources (other than github)
 			return;
 		}
 		ret.resolve(null);
@@ -70,20 +70,20 @@ MSUConnection.prototype.checkForModUpdates = function (_mods)
 	})
 	$.when.apply($, promises).done(function()
 	{
-		var modVersions = {};
-		var updateNum = 0;
+		var modVersionsForBackend = {};
+		var modVersionData = {};
 		var args = arguments
 		modIDs.forEach(function(_modID, _i)
 		{
 			if (args[_i] != null)
 			{
-				modVersions[_modID] = args[_i];
-				updateNum++;
+				modVersionsForBackend[_modID] = args[_i].tag_name;
+				modVersionData[_modID] = args[_i];
 			}
 		})
-		Screens.MSUPopup.mNumUpdates = updateNum;
+		Screens.MSUPopup.mModVersionData = modVersionData;
 		Screens.MSUPopup.mNumModsChecked = modIDs.length;
-		self.notifyBackendReceivedModVersions(modVersions);
+		self.notifyBackendReceivedModVersions(modVersionsForBackend);
 	}).fail(function()
 	{
 		console.error("Something went wrong with MSU Update checks");
