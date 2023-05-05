@@ -48,9 +48,6 @@
 						this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
 				}
 			}
-
-			if (this.getID() in ::MSU.AI.VanillaSkillIDToBehaviorIDMap)
-				this.m.AIBehaviorID = ::MSU.AI.VanillaSkillIDToBehaviorIDMap[this.getID()];
 		}
 	}
 });
