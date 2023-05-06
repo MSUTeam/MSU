@@ -62,12 +62,12 @@
 		return ret;
 	}
 
-	function checkIfModVersionsAreNew( _modVersions )
+	function checkIfModVersionsAreNew( _modVersionData )
 	{
-		local modsWithNewVersions = {};
-		foreach (modID, version in _modVersions)
+		foreach (modID, modData in _modVersionData)
 		{
 			local mod = ::MSU.System.Registry.getMod(modID);
+			local version = modData.tag_name;
 			if (!::MSU.SemVer.isSemVer(version))
 			{
 				::MSU.Popup.showRawText(format("The version '%s' from the mod %s (%s) isn't using <span style=\"color: lightblue; text-decoration: underline;\" onclick=\"openURL('https://semver.org')\">semantic versioning</span> for its online versions, despite registering to use the MSU update checker. Let the mod author know if you see this error", version,  mod.getName(), modID));
@@ -77,7 +77,7 @@
 			local type = "PATCH";
 			if (::MSU.SemVer.compareMajorVersionWithOperator(version, ">", mod)) type = "MAJOR";
 			else if (::MSU.SemVer.compareMinorVersionWithOperator(version, ">", mod)) type = "MINOR";
-			local modUpdateInfo = {
+			modData.UpdateInfo <- {
 				name = mod.getName(),
 				currentVersion = mod.getVersionString(),
 				availableVersion = version,
@@ -86,11 +86,10 @@
 			};
 			foreach (modSource in mod.Registry.__ModSources)
 			{
-				modUpdateInfo.sources[::MSU.System.Registry.ModSourceDomain.getKeyForValue(modSource.ModSourceDomain)] <- modSource.getURL();
+				modData.UpdateInfo.sources[::MSU.System.Registry.ModSourceDomain.getKeyForValue(modSource.ModSourceDomain)] <- modSource.getURL();
 			}
-			modsWithNewVersions[modID] <- modUpdateInfo;
 		}
-		if (modsWithNewVersions.len() > 0) ::MSU.Popup.showModUpdates(modsWithNewVersions);
+		return _modVersionData;
 	}
 
 	function getMod( _modID )

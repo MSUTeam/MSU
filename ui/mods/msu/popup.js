@@ -3,12 +3,14 @@ var MSUPopup = function ()
 	this.mSQHandle = null
 	this.mContainer = null;
 	this.mSmallContainer = null;
+	this.mSmallContainerInfo = null;
 	this.mID = "MSUPopup";
 
 	this.mHeaderContainer = null;
 	this.mContentContainer = null;
 	this.mListScrollContainer = null;
 	this.mFooterContainer = null;
+	this.mOkButton = null;
 	this.mTitle = null;
 	this.mStates = {
 		None : 0,
@@ -17,8 +19,6 @@ var MSUPopup = function ()
 	}
 	this.mState = this.mStates.None;
 	this.mLastState = this.mState;
-	this.mNumModsChecked = null;
-	this.mModVersionData = null;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -47,19 +47,10 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mFooterContainer = $('<div class="footer"/>')
 	this.mContainer.append(this.mFooterContainer);
 
-	this.mFooterContainer.createTextButton("Ok", function()
+	this.mOkButton = this.mFooterContainer.createTextButton("Ok", function()
 	{
 		self.setState(self.mStates.Small);
 	}, "ok-button", 1);
-
-	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
-	{
-		$(this).findButtonText().html("Quit Game");
-		$(this).on("click", function()
-		{
-			self.quitGame();
-		})
-	})
 }
 
 MSUPopup.prototype.createSmallDIV = function (_parentDiv)
@@ -67,13 +58,42 @@ MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 	var self = this;
 	this.mSmallContainer = $('<div class="msu-popup-small"/>');
 	_parentDiv.append(this.mSmallContainer);
-	this.mModUpdateButton = $('<div class="msu-popup-small-update-button"/>')
+	this.mSmallContainerButton = $('<div class="msu-popup-small-update-button"/>')
 		.appendTo(this.mSmallContainer)
 		.on("click", function(){
 			self.setState(self.mStates.Full);
 	})
-	this.mModUpdateInfo = $('<div class="msu-popup-small-update-info"/>')
+	this.mSmallContainerInfo = $('<div class="msu-popup-small-update-info"/>')
 		.appendTo(this.mSmallContainer);
+}
+
+MSUPopup.prototype.addMessage = function (_text)
+{
+	this.addListContent($('<div class="msu-mod-info-container"><div class="description-font-normal font-color-description">' + _text + '</div></div>'));
+}
+
+MSUPopup.prototype.addListContent = function (_content)
+{
+	this.mListScrollContainer.append(_content)
+}
+
+MSUPopup.prototype.setTitle = function (_content)
+{
+	this.mTitle.text(_content);
+}
+
+MSUPopup.prototype.setSmallContainerInfo = function (_content)
+{
+	this.mSmallContainerInfo.html(_content)
+}
+
+MSUPopup.prototype.setForceQuit = function ()
+{
+	this.mOkButton.findButtonText().html("Quit Game");
+	this.mOkButton.on("click", function()
+	{
+		self.quitGame();
+	})
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -140,6 +160,11 @@ MSUPopup.prototype.fadeOut = function (_container)
 
 MSUPopup.prototype.setState = function (_state)
 {
+	if (!_state in this.mStates)
+	{
+		console.error("Invalid State " + _state + " passed to MSU popup!");
+		return;
+	}
 	this.mState = _state;
 	if (this.mState == this.mStates.None)
 	{
@@ -176,69 +201,6 @@ MSUPopup.prototype.showRawText = function (_data)
 	}
 	this.mListScrollContainer.append($('<div class="mod-raw-text">' + _data.text + '</div>'));
 	this.setState(this.mStates.Full);
-}
-
-MSUPopup.prototype.showModUpdates = function (_mods)
-{
-	this.mTitle.text("Mod Updates Available");
-	var self = this;
-	$.each(_mods, function (_key, _modInfo)
-	{
-		var modVersionData = self.mModVersionData[_key];
-		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
-		self.mListScrollContainer.append(modInfoContainer);
-		var nameRow = $('<div class="msu-mod-name-row title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>')
-			.appendTo(modInfoContainer)
-
-		var versionRow = $('<div class="msu-mod-version-row">')
-			.appendTo(modInfoContainer)
-
-		var colorFromIdx = 0;
-		if (_modInfo.updateType != "MAJOR")
-		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.') + 1;
-		}
-		if (_modInfo.updateType == "PATCH")
-		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.', colorFromIdx + 1) + 1;
-		}
-		var start = _modInfo.availableVersion.slice(0, colorFromIdx);
-		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
-		versionRow.append($('<div class="msu-mod-version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
-
-		if ("GitHub" in _modInfo.sources)
-		{
-			var githubContainer = $('<div class="l-github-button"/>')
-				.appendTo(versionRow);
-			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
-			{
-				openURL(_modInfo.sources.GitHub);
-			});
-		}
-		if ("NexusMods" in _modInfo.sources)
-		{
-			var nexusModsContainer = $('<div class="l-nexusmods-button"/>')
-				.appendTo(versionRow);
-			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
-			{
-				openURL(_modInfo.sources.NexusMods);
-			});
-		}
-
-		// Add update text
-		if (modVersionData.body.length > 0)
-		{
-			var descriptionRow = $('<div class="msu-mod-info-description description-font-normal font-color-description"/>')
-				.html(modVersionData.body.replace(/(?:\r\n|\r|\n)/g, '<br>'))
-				.appendTo(modInfoContainer)
-		}
-	});
-	var checkText = "" + this.mNumModsChecked + (this.mNumModsChecked == 1 ? " mod" : " mods") + " checked<br>";
-	var numUpdates = Object.keys(this.mModVersionData).length;
-	checkText += numUpdates + (numUpdates == 1 ? " update" : " updates");
-	this.mModUpdateInfo.html(checkText);
-	this.setState(this.mStates.Small);
-	this.mModVersionData = null;
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

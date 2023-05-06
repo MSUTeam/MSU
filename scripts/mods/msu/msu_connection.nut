@@ -48,8 +48,8 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		this.m.JSHandle.asyncCall("checkForModUpdates", ::MSU.System.Registry.getModsForUpdateCheck());
 	}
 
-	function receiveModVersions( _modVersions )
+	function compareModVersions( _modVersionData )
 	{
-		::MSU.System.Registry.checkIfModVersionsAreNew(_modVersions);
+		return ::MSU.System.Registry.checkIfModVersionsAreNew(_modVersionData);
 	}
 });

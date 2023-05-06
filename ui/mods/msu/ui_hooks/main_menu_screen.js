@@ -1,14 +1,14 @@
 MainMenuScreen.prototype.showMainMenuModule = function ()
 {
 	this.mMainMenuModule.show();
-	Screens.MSUPopup.setState(Screens.MSUPopup.mLastState);
+	MSU.Popup.setState(MSU.Popup.mLastState);
 };
 
 MainMenuScreen.prototype.hideMainMenuModule = function ()
 {
 	this.mMainMenuModule.hide();
-	Screens.MSUPopup.mLastState = Screens.MSUPopup.mState;
-	Screens.MSUPopup.setState(Screens.MSUPopup.mStates.None);
+	MSU.Popup.mLastState = MSU.Popup.mState;
+	MSU.Popup.setState(MSU.Popup.mStates.None);
 };
 
 MainMenuScreen.prototype.hideNewCampaignModule = function ()
@@ -30,14 +30,14 @@ MSU.Hooks.MainMenuScreen_hide = MainMenuScreen.prototype.hide;
 MainMenuScreen.prototype.hide = function()
 {
 	MSU.Hooks.MainMenuScreen_hide.call(this);
-	Screens.MSUPopup.mLastState = Screens.MSUPopup.mState;
-	Screens.MSUPopup.setState(Screens.MSUPopup.mStates.None);
+	MSU.Popup.mLastState = MSU.Popup.mState;
+	MSU.Popup.setState(MSU.Popup.mStates.None);
 }
 
 MSU.Hooks.MainMenuScreen_show = MainMenuScreen.prototype.show;
 MainMenuScreen.prototype.show = function(_animate)
 {
 	MSU.Hooks.MainMenuScreen_show.call(this, _animate);
-	Screens.MSUPopup.setState(Screens.MSUPopup.mLastState);
+	MSU.Popup.setState(MSU.Popup.mLastState);
 }
 

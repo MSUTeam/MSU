@@ -4,7 +4,12 @@ this.popup <- {
 		Animating = false,
 		JSHandle = null,
 		TextCache = "",
-		ForceQuit = false
+		ForceQuit = false,
+		States = {
+			None = 0,
+			Small = 1,
+			Full = 2
+		}
 	}
 
 	function isVisible()
@@ -17,7 +22,17 @@ this.popup <- {
 		return this.m.Animating;
 	}
 
-	function showRawText( _text, _forceQuit = false )
+	function addMessage(_text)
+	{
+		this.m.JSHandle.asyncCall("addMessage", _text);
+	}
+
+	function setState(_state)
+	{
+		this.m.JSHandle.asyncCall("setState", _state);
+	}
+
+	function showRawText( _text, _forceQuit = false, _state = null )
 	{
 		if (_forceQuit) this.m.ForceQuit = true;
 		if (this.m.JSHandle == null)
@@ -27,17 +42,12 @@ this.popup <- {
 		}
 		else
 		{
-			local data = {
-				forceQuit = this.m.ForceQuit,
-				text = _text
-			}
-			this.m.JSHandle.asyncCall("showRawText", data);
+			if (this.m.ForceQuit)
+				this.m.JSHandle.asyncCall("setForceQuit", null);
+			this.addMessage(_text);
+			if (_state != null)
+				this.setState(_state);
 		}
-	}
-
-	function showModUpdates( _modInfos )
-	{
-		this.m.JSHandle.asyncCall("showModUpdates", _modInfos);
 	}
 
 	function forceQuit( _bool )
