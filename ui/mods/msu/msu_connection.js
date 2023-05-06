@@ -71,14 +71,12 @@ MSUConnection.prototype.checkForModUpdates = function (_modsWithUpdateData)
 	$.when.apply($, promises).done(function()
 	{
 		var modVersionData = {};
-		// var modVersionDataForBackend = {};
 		var args = arguments;
 		modIDs.forEach(function(_modID, _i)
 		{
 			if (args[_i] != null)
 			{
 				modVersionData[_modID] = args[_i];
-				// modVersionDataForBackend[_modID] = args[_i].tag_name;
 			}
 		})
 		self.compareModVersions(modVersionData)
@@ -90,11 +88,9 @@ MSUConnection.prototype.checkForModUpdates = function (_modsWithUpdateData)
 
 MSUConnection.prototype.compareModVersions = function (_modVersionData)
 {
-	MSU.Utils.Timer("popup")
 	var self = this;
 	SQ.call(self.mSQHandle, "compareModVersions", _modVersionData, function(_ret)
 	{
-		MSU.Utils.Timer("popup").stop();
 		self.showModUpdates(_ret)
 	});
 }

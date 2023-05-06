@@ -36,7 +36,7 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mHeaderContainer = $('<div class="header"/>');
 	this.mContainer.append(this.mHeaderContainer);
 
-	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Mod Error</div>');
+	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Info Popup</div>');
 	this.mHeaderContainer.append(this.mTitle);
 
 	this.mListContainer = this.mContainer.createList(1, 'content-container');
@@ -87,13 +87,26 @@ MSUPopup.prototype.setSmallContainerInfo = function (_content)
 	this.mSmallContainerInfo.html(_content)
 }
 
-MSUPopup.prototype.setForceQuit = function ()
+MSUPopup.prototype.setForceQuit = function(_bool)
 {
-	this.mOkButton.findButtonText().html("Quit Game");
-	this.mOkButton.on("click", function()
+	var self = this;
+	this.mOkButton.off("click");
+	if (_bool)
 	{
-		self.quitGame();
-	})
+		this.mOkButton.findButtonText().html("Quit Game");
+		this.mOkButton.on("click", function()
+		{
+			self.quitGame();
+		})
+	}
+	else
+	{
+		this.mOkButton.findButtonText().html("Ok");
+		this.mOkButton.on("click", function()
+		{
+			self.setState(self.mStates.Small);
+		})
+	}
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
@@ -186,21 +199,6 @@ MSUPopup.prototype.setState = function (_state)
 MSUPopup.prototype.isVisible = function ()
 {
 	return this.mContainer.css('display') == "block";
-}
-
-MSUPopup.prototype.showRawText = function (_data)
-{
-	if (_data.forceQuit)
-	{
-		this.mTitle.text("Fatal Mod Error");
-		this.mFooterContainer.find(".ok-button:first").trigger('force-quit');
-	}
-	else
-	{
-		this.mTitle.text("Mod Error");
-	}
-	this.mListScrollContainer.append($('<div class="mod-raw-text">' + _data.text + '</div>'));
-	this.setState(this.mStates.Full);
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

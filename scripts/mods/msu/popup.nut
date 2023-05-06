@@ -24,7 +24,13 @@ this.popup <- {
 
 	function addMessage(_text)
 	{
-		this.m.JSHandle.asyncCall("addMessage", _text);
+		if (this.m.JSHandle == null)
+		{
+			if (this.m.TextCache != "") this.m.TextCache += "<br>";
+			this.m.TextCache += _text;
+		}
+		else this.m.JSHandle.asyncCall("addMessage", _text);
+
 	}
 
 	function setState(_state)
@@ -32,27 +38,16 @@ this.popup <- {
 		this.m.JSHandle.asyncCall("setState", _state);
 	}
 
-	function showRawText( _text, _forceQuit = false, _state = null )
+	function setTitle(_text)
 	{
-		if (_forceQuit) this.m.ForceQuit = true;
-		if (this.m.JSHandle == null)
-		{
-			if (this.m.TextCache != "") this.m.TextCache += "<br>";
-			this.m.TextCache += _text;
-		}
-		else
-		{
-			if (this.m.ForceQuit)
-				this.m.JSHandle.asyncCall("setForceQuit", null);
-			this.addMessage(_text);
-			if (_state != null)
-				this.setState(_state);
-		}
+		this.m.JSHandle.asyncCall("setTitle", _text);
 	}
 
-	function forceQuit( _bool )
+	function setForceQuit( _bool )
 	{
 		this.m.ForceQuit = _bool;
+		if (this.m.JSHandle != null)
+			this.m.JSHandle.asyncCall("setForceQuit", _bool);
 	}
 
 	function isForceQuitting()
@@ -65,7 +60,7 @@ this.popup <- {
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
 		if (this.m.TextCache != "")
 		{
-			this.showRawText(this.m.TextCache)
+			this.addMessage(this.m.TextCache)
 			this.m.TextCache = "";
 		}
 	}

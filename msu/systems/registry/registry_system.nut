@@ -70,7 +70,7 @@
 			local version = modData.tag_name;
 			if (!::MSU.SemVer.isSemVer(version))
 			{
-				::MSU.Popup.showRawText(format("The version '%s' from the mod %s (%s) isn't using <span style=\"color: lightblue; text-decoration: underline;\" onclick=\"openURL('https://semver.org')\">semantic versioning</span> for its online versions, despite registering to use the MSU update checker. Let the mod author know if you see this error", version,  mod.getName(), modID));
+				::MSU.Popup.addMessage(format("The version '%s' from the mod %s (%s) isn't using <span style=\"color: lightblue; text-decoration: underline;\" onclick=\"openURL('https://semver.org')\">semantic versioning</span> for its online versions, despite registering to use the MSU update checker. Let the mod author know if you see this error", version,  mod.getName(), modID));
 				continue;
 			}
 			if (!::MSU.SemVer.compareVersionWithOperator(version, ">", mod)) continue;
