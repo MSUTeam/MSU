@@ -56,13 +56,20 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 {
 	var self = this;
-	this.mSmallContainer = $('<div class="msu-popup-small"/>');
-	_parentDiv.append(this.mSmallContainer);
+	this.mSmallContainer = $('<div class="msu-popup-small"/>')
+		.appendTo(_parentDiv)
+		.mousedown(function(event) {
+		    switch (event.which) {
+		        case 1:
+		            self.setState(self.mStates.Full);
+		            break;
+		        case 3:
+		            self.setState(self.mStates.None);
+		            break;
+		    }
+		})
 	this.mSmallContainerButton = $('<div class="msu-popup-small-update-button"/>')
 		.appendTo(this.mSmallContainer)
-		.on("click", function(){
-			self.setState(self.mStates.Full);
-	})
 	this.mSmallContainerInfo = $('<div class="msu-popup-small-update-info"/>')
 		.appendTo(this.mSmallContainer);
 }
