@@ -47,6 +47,18 @@ this.popup <- {
 		this.m.JSHandle.asyncCall("setState", _state);
 	}
 
+	function setInfoText(_text)
+	{
+		if (this.m.JSHandle == null)
+		{
+			this.m.FunctionBuffer.push(function(){
+				this.setInfoText(_text);
+			})
+			return;
+		}
+		this.m.JSHandle.asyncCall("setSmallContainerInfo", _text);
+	}
+
 	function setTitle(_text)
 	{
 		if (this.m.JSHandle == null)
