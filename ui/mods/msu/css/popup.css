@@ -13,17 +13,19 @@
 {
 	display: none;
 	position: absolute;
-	top: 85%;
-	left: calc(50% - 5rem);
+	top: 5%;
+	right: 1rem;
 	z-index: 100 !important;
 }
 
 .msu-popup-small-update-button
 {
-	height: 10rem;
-	width: 10rem;
+	height: 4rem;
+	width: 4rem;
 	background-image: url("coui://gfx/mods/msu/buttons/mod_update.png");
 	background-size: 100% 100%;
+	position:relative;
+	left: 3rem;
 }
 .msu-popup-small-update-info
 {
@@ -31,6 +33,7 @@
 	font-size: 1.5rem;
 	color: white;
 	background-color: rgba(0, 0, 0, 0.7);
+	word-wrap: break-word;
 }
 
 .msu-popup .header {
