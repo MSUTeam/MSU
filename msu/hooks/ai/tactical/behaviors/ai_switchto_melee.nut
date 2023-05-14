@@ -3,6 +3,8 @@
 	o.onExecute = function( _entity )
 	{
 		local itemsBefore = array(::Const.ItemSlot.COUNT);
+		// We need to cache this as it is set to false in onExecute
+		local wasNegatingDisarm = this.m.IsNegatingDisarm;
 		for (local i = 0; i < ::Const.ItemSlot.COUNT; i++)
 		{
 			itemsBefore[i] = clone _entity.getItems().m.Items[i];
@@ -14,8 +16,10 @@
 
 		if (ret)
 		{
-			if (this.m.IsNegatingDisarm)
+			if (wasNegatingDisarm)
 			{
+				// Once to use up quickhands, once to actually pay for the cost
+				_entity.getItems().payForAction([_entity.getMainhandItem()]);
 				_entity.getItems().payForAction([_entity.getMainhandItem()]);
 			}
 			else
