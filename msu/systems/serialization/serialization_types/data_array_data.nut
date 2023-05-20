@@ -67,6 +67,18 @@
 		this.getData().push(_value);
 	}
 
+	function createDeserializationEmulator( _metaData = null )
+	{
+		if (_metaData == null) _metaData = ::MSU.Class.MetaDataEmulator();
+		return ::MSU.Class.StrictDeserializationEmulator(_metaData, this);
+	}
+
+	function createSerializationEmulator( _metaData = null )
+	{
+		if (_metaData == null) _metaData = ::MSU.Class.MetaDataEmulator();
+		return ::MSU.Class.StrictSerializationEmulator(_metaData, this);
+	}
+
 	// private functions
 
 	function __loadValue( _idx, _in )
