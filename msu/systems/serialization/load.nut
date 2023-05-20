@@ -4,6 +4,7 @@ function includeFile( _file )
 }
 includeFile("metadata_emulator");
 includeFile("serde_emulator");
+includeFile("flag_serde_emulator");
 includeFile("serialization_emulator");
 includeFile("deserialization_emulator");
 
