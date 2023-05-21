@@ -1,5 +1,5 @@
 // emulates the _out object passed to onSerialize functions
-::MSU.Class.StrictSerializationEmulator <- class extends ::MSU.Class.SerDeEmulator
+::MSU.Class.StrictSerializationEmulator <- class extends ::MSU.Class.StrictSerDeEmulator
 {
 	function __writeData(_data )
 	{
