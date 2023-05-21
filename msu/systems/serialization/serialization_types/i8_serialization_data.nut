@@ -1,6 +1,6 @@
 ::MSU.Class.I8SerializationData <- class extends ::MSU.Class.AbstractSerializationData
 {
-	static __Type = ::MSU.Utils.SerializationData.I8;
+	static __Type = ::MSU.Utils.SerializationDataType.I8;
 
 	constructor( _data )
 	{

@@ -108,4 +108,42 @@
 		result += this.Separator
 		::logInfo(result);
 	}
+
+	function createFile( _fileName, _dataArray )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.AbstractSerializationData, _dataArray);
+		local storage = ::PersistenceManager.createStorage(_fileName);
+		storage.beginWrite();
+		_dataArray.serialize(storage);
+		storage.endWrite();
+	}
+
+	function fileExists( _fileName )
+	{
+		local storages = ::PersistenceManager.queryStorages();
+		local found = false;
+		foreach (storage in storages)
+		{
+			if (storage.getFileName() == _fileName)
+			{
+				found = true;
+				break;
+			}
+		}
+		return found;
+	}
+
+	function readFile( _fileName )
+	{
+		if (!this.fileExists(_fileName))
+		{
+			::logError("tried to read file that doesn't exist");
+			throw ::MSU.Exception.InvalidValue(_fileName);
+		}
+		local storage = ::PersistenceManager.loadStorage(_fileName);
+		storage.beginRead();
+		local data = ::MSU.Class.CustomSerializationData.__readValueFromStorage(storage);
+		storage.endRead();
+		return data;
+	}
 }

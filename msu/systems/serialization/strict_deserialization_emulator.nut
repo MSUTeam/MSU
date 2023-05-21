@@ -1,5 +1,5 @@
 // emulates the _in object passed to onDeserialize functions
-::MSU.Class.StrictDeserializationEmulator <- class extends ::MSU.Class.SerDeEmulator
+::MSU.Class.StrictDeserializationEmulator <- class extends ::MSU.Class.StrictSerDeEmulator
 {
 	Idx = -1;
 
