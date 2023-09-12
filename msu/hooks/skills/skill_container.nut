@@ -233,7 +233,7 @@
 			_movementTile,
 		], false);
 
-		if (::MSU.Skills.QueuedPreviewChanges.len() == 0) return;
+		if (::MSU.Skills.QueuedPreviewChanges.len() == 0) return false;
 
 		local propertiesClone = this.getActor().getBaseProperties().getClone();
 
@@ -323,6 +323,7 @@
 		}
 
 		::MSU.Skills.QueuedPreviewChanges.clear();
+		return true;
 	}
 
 	//Vanilla Overwrites start
