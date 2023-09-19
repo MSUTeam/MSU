@@ -1,5 +1,5 @@
 ::MSU <- {
-	Version = "1.2.6",
+	Version = "1.2.7",
 	ID = "mod_msu",
 	Name = "Modding Standards & Utilities (MSU)",
 	VanillaID = "vanilla",
