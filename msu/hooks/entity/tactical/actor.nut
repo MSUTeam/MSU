@@ -107,7 +107,7 @@
 	}
 });
 
-::MSU.VeryLateBucket.add(function() {
+::MSU.VeryLateBucket.push(function() {
 	::MSU.HooksMod.hook("scripts/entity/tactical/actor", function(q) {
 		q.onDeath = @(__original) function( _killer, _skill, _tile, _fatalityType )
 		{

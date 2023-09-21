@@ -9,7 +9,11 @@
 });
 
 ::MSU.HooksMod.queue(function() {
-	::MSU.VeryLateBucket.run();
+	foreach (func in ::MSU.VeryLateBucket)
+	{
+		func();
+	}
+	::MSU.VeryLateBucket.clear();
 }, ::Hooks.QueueBucket.VeryLate);
 
 ::MSU.HooksMod.queue(function() {

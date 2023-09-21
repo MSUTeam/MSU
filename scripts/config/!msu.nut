@@ -7,21 +7,7 @@
 	BBClass = {
 		Empty = "scripts/mods/msu/empty_bb_class"
 	},
-	VeryLateBucket = {
-		Functions = [],
-		function add( _function )
-		{
-			this.Functions.push(_function);
-		}
-		function run()
-		{
-			foreach (func in this.Functions)
-			{
-				func();
-			}
-		}
-		delete this.Functions;
-	}
+	VeryLateBucket = []
 };
 
 ::MSU.includeLoad <- function( _prefix, _folder )
