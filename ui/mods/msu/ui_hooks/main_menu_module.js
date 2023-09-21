@@ -2,11 +2,6 @@ MSU.Hooks.MainMenuModule_createMainMenuButtons = MainMenuModule.prototype.create
 MainMenuModule.prototype.createMainMenuButtons = function ()
 {
 	MSU.Hooks.MainMenuModule_createMainMenuButtons.call(this);
-	this.addModOptionsButton();
-};
-
-MainMenuModule.prototype.addModOptionsButton = function ()
-{
 	var self = this;
 
 	var row = $('<div class="row"></div>');
@@ -19,8 +14,6 @@ MainMenuModule.prototype.addModOptionsButton = function ()
 		self.notifyBackendModOptionsButtonPressed();
 	}, '', 4);
 };
-
-Screens.MainMenuScreen.getModule("MainMenuModule").addModOptionsButton();
 
 MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 {

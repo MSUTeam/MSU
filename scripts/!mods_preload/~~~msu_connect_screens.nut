@@ -1,1 +1,1 @@
-::mods_registerJS("msu/connect_screens.js");
+::Hooks.registerLateJS("ui/mods/msu/connect_screens.js");
