@@ -1,5 +1,4 @@
 ::MSU.Skills <- {
-	EventsToAdd = [],
 	PreviewApplicableFunctions = [
 		"getActionPointCost",
 		"getFatigueCost"
@@ -15,14 +14,13 @@
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
-		this.EventsToAdd.push({
-			Name = _name,
-			Update = _update,
-			AliveOnly = _aliveOnly
-		});
-
 		::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
 			q[_name] <- _function == null ? function() {} : _function;
+		});
+
+		// TODO: Instead of adding a `...` wrapper, perhaps a compileString to add actual function with proper params is the better way to go
+		::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+			q[_name] <- @(...) this.callSkillsFunction(_name, vargv, _update, _aliveOnly);
 		});
 	}
 
