@@ -1,7 +1,7 @@
 ::MSU.Popup <- ::new("scripts/mods/msu/popup");
 
-::mods_registerJS("msu/popup.js");
-::mods_registerCSS("msu/css/popup.css");
+::Hooks.registerJS("ui/mods/msu/popup.js");
+::Hooks.registerCSS("ui/mods/msu/css/popup.css");
 
 // TODO: This won't work as the MSU mod isn't initialized with Modern Hooks this early
 // @Enduriel take a look please
