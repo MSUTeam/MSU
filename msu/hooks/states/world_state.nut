@@ -197,7 +197,7 @@
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
-		foreach (mod in ::mods_getRegisteredMods()) modIDsString += mod.Name + ",";
+		foreach (mod in ::Hooks.getMods()) modIDsString += mod.getName() + ",";
 		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
 	}
 
@@ -208,7 +208,7 @@
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
 		{
 			local modIDs = split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
-			local hooksMods = ::mods_getRegisteredMods();
+			local hooksMods = ::Hooks.getMods();
 			foreach (mod in hooksMods)
 			{
 				local IDIdx = modIDs.find(mod.Name);
