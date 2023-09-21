@@ -1,5 +1,3 @@
-::Hooks.register(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
-
 ::MSU.HooksMod <- ::Hooks.register(::MSU.ID, ::MSU.Version, ::MSU.Name);
 ::MSU.HooksMod.require(::MSU.VanillaID + ">= 1.5.0-13");
 ::MSU.HooksMod.incompatibleWith("mod_legends < 16.0.0");

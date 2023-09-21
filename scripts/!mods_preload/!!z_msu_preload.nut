@@ -24,8 +24,3 @@
 
 ::include("msu/squirrel_hooks/mod_hooks"); // patches mod_hooks to accept semver strings
 
-if (::Const.DLC.Lindwurm) ::Hooks.register("dlc_lindwurm", 1, "Lindwurm");
-if (::Const.DLC.Unhold) ::Hooks.register("dlc_unhold", 1, "Beasts & Exploration");
-if (::Const.DLC.Wildmen) ::Hooks.register("dlc_wildmen", 1, "Warriors of the North");
-if (::Const.DLC.Desert) ::Hooks.register("dlc_desert", 1, "Blazing Deserts");
-if (::Const.DLC.Paladins) ::Hooks.register("dlc_paladins", 1, "Of Flesh and Faith");
