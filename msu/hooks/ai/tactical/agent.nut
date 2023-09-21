@@ -29,7 +29,7 @@
 	}
 });
 
-::MSU.VeryLateBucket.add(function() {
+::MSU.VeryLateBucket.push(function() {
 	::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
 		q.execute = @(__original) function( _entity )
 		{

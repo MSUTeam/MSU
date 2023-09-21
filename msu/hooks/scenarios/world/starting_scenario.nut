@@ -13,7 +13,7 @@
 	}
 });
 
-::MSU.VeryLateBucket.add(function() {
+::MSU.VeryLateBucket.push(function() {
 	::MSU.HooksMod.leafHook("scripts/scenarios/world/starting_scenario", function(q) {
 		q.onUpdateLevel <- @(__original) function( _bro )
 		{

@@ -548,7 +548,7 @@
 
 // TODO: If we add the events in VeryLateBucket then people cannot hook events (during Normal bucket) added by other mods via ::MSU.Skills.addEvent
 // TODO: Instead of adding a `...` wrapper, perhaps a compileString to add actual function with proper params is the better way to go
-::MSU.VeryLateBucket.add(function() {
+::MSU.VeryLateBucket.push(function() {
 	::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
 		foreach (event in ::MSU.Skills.EventsToAdd)
 		{
