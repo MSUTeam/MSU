@@ -3,6 +3,8 @@
 ::mods_registerJS("msu/popup.js");
 ::mods_registerCSS("msu/css/popup.css");
 
+// TODO: This won't work as the MSU mod isn't initialized with Modern Hooks this early
+// @Enduriel take a look please
 ::Hooks.getMod(::MSU.ID).hook("scripts/ui/screens/menu/modules/main_menu_module", function(q) {
 	q.create = @(__original) function()
 	{
