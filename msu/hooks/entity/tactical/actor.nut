@@ -1,26 +1,23 @@
-::mods_hookExactClass("entity/tactical/actor", function(o) {
-	local onMovementStart = o.onMovementStart;
-	o.onMovementStart = function ( _tile, _numTiles )
+::MSU.HooksMod.hook("scripts/entity/tactical/actor", function(q) {
+	q.onMovementStart = @(__original) function ( _tile, _numTiles )
 	{
-		onMovementStart(_tile, _numTiles);
+		__original(_tile, _numTiles);
 		this.m.IsMoving = true;
 		this.m.Skills.onMovementStarted(_tile, _numTiles);
 		this.m.IsMoving = false;
 	}
 
-	local onMovementFinish = o.onMovementFinish;
-	o.onMovementFinish = function ( _tile )
+	q.onMovementFinish = @(__original) function ( _tile )
 	{
-		onMovementFinish(_tile);
+		__original(_tile);
 		this.m.IsMoving = true;
 		this.m.Skills.onMovementFinished(_tile);
 		this.m.IsMoving = false;
 	}
 
-	local onMovementStep = o.onMovementStep;
-	o.onMovementStep = function( _tile, _levelDifference )
+	q.onMovementStep = @(__original) function( _tile, _levelDifference )
 	{
-		local ret = onMovementStep(_tile, _levelDifference);
+		local ret = __original(_tile, _levelDifference);
 
 		if (ret)
 		{
@@ -30,64 +27,39 @@
 		return ret;
 	}
 
-	local onDeath = o.onDeath;
-	o.onDeath = function( _killer, _skill, _tile, _fatalityType )
-	{
-		local deathTile = this.isPlacedOnMap() ? this.getTile() : null;
-		this.m.Skills.onDeathWithInfo(_killer, _skill, deathTile, _tile, _fatalityType);
-
-		onDeath(_killer, _skill, _tile, _fatalityType);
-
-		if (!::Tactical.State.isFleeing() && deathTile != null)
-		{
-			local factions = ::Tactical.Entities.getAllInstances();
-
-			foreach (f in factions)
-			{
-				foreach (actor in f)
-				{
-					if (actor.getID() != this.getID())
-					{
-						actor.getSkills().onOtherActorDeath(_killer, this, _skill, deathTile, _tile, _fatalityType);
-					}
-				}
-			}
-		}
-	}
-
-	o.getMainhandItem <- function()
+	q.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
 	}
 
-	o.getOffhandItem <- function()
+	q.getOffhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Offhand);
 	}
 
-	o.getHeadItem <- function()
+	q.getHeadItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Head);
 	}
 
-	o.getBodyItem <- function()
+	q.getBodyItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Body);
 	}
 
-	o.isArmedWithOneHandedWeapon <- function()
+	q.isArmedWithOneHandedWeapon <- function()
 	{
 		local item = this.getMainhandItem();
 		return item != null && item.isItemType(::Const.Items.ItemType.OneHanded);
 	}
 
-	o.isArmedWithTwoHandedWeapon <- function()
+	q.isArmedWithTwoHandedWeapon <- function()
 	{
 		local item = this.getMainhandItem();
 		return item != null && item.isItemType(::Const.Items.ItemType.TwoHanded);
 	}
 
-	o.getRemainingArmorFraction <- function( _bodyPart = null )
+	q.getRemainingArmorFraction <- function( _bodyPart = null )
 	{
 		local totalArmorMax = 0;
 		local currentArmor = 0;
@@ -106,24 +78,24 @@
 		return totalArmorMax > 0 ? currentArmor / (totalArmorMax * 1.0) : 0.0;
 	}
 
-	o.isEngagedInMelee <- function()
+	q.isEngagedInMelee <- function()
 	{
 		return this.isPlacedOnMap() && this.getTile().hasZoneOfControlOtherThan(this.getAlliedFactions());
 	}
 
-	o.isDoubleGrippingWeapon <- function()
+	q.isDoubleGrippingWeapon <- function()
 	{
 		local s = this.getSkills().getSkillByID("special.double_grip");
 
 		return s != null && !s.isHidden();
 	}
 
-	o.isDisarmed <- function()
+	q.isDisarmed <- function()
 	{
 		return this.getSkills().hasSkill("effects.disarmed");
 	}
 
-	o.addExcludedInjuries <- function(_injuries)
+	q.addExcludedInjuries <- function(_injuries)
 	{
 		foreach (injury in _injuries)
 		{
@@ -133,4 +105,30 @@
 			}
 		}
 	}
+});
+
+::MSU.VeryLateBucket.add(function() {
+	::MSU.HooksMod.hook("scripts/entity/tactical/actor", function(q) {
+		q.onDeath = @(__original) function( _killer, _skill, _tile, _fatalityType )
+		{
+			local deathTile = this.isPlacedOnMap() ? this.getTile() : null;
+			this.m.Skills.onDeathWithInfo(_killer, _skill, deathTile, _tile, _fatalityType);
+
+			__original(_killer, _skill, _tile, _fatalityType);
+
+			if (!::Tactical.State.isFleeing() && deathTile != null)
+			{
+				foreach (faction in ::Tactical.Entities.getAllInstances())
+				{
+					foreach (actor in faction)
+					{
+						if (actor.getID() != this.getID())
+						{
+							actor.getSkills().onOtherActorDeath(_killer, this, _skill, deathTile, _tile, _fatalityType);
+						}
+					}
+				}
+			}
+		}
+	});
 });

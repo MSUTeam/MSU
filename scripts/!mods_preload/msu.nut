@@ -1,30 +1,27 @@
-::MSU.EndQueue <- {
-	Queue = [],
+::Hooks.register(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
 
-	function add( _function )
-	{
-		this.Queue.push(_function);
-	}
+::MSU.HooksMod <- ::Hooks.register(::MSU.ID, ::MSU.Version, ::MSU.Name);
+::MSU.HooksMod.require(::MSU.VanillaID + ">= 1.5.0-13");
+::MSU.HooksMod.incompatibleWith("mod_legends < 16.0.0");
 
-	function run()
-	{
-		foreach (func in this.Queue)
-		{
-			func();
-		}
-	}
-};
-
-local _mods_runQueue = ::_mods_runQueue;
-::_mods_runQueue = function()
-{
-	_mods_runQueue();
-	::MSU.EndQueue.run();
-}
-
-::mods_registerMod(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
-::mods_registerMod(::MSU.ID, ::MSU.Version, ::MSU.Name);
-::mods_queue(::MSU.ID, "vanilla(>=1.5.0-13), !mod_legends(<16.0.0)", function()
-{
+::MSU.HooksMod.queue(function() {
 	::include("msu/load.nut");
 });
+
+::MSU.HooksMod.queue(function() {
+	::MSU.VeryLateBucket.run();
+}, ::Hooks.QueueBucket.VeryLate);
+
+::MSU.HooksMod.queue(function() {
+	foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
+	{
+		try
+		{
+			::MSU.AI.BehaviorIDToScriptMap[::new(script).getID()] <- script;
+		}
+		catch (error)
+		{
+			::logError("Could not instantiate or get ID of behavior: " + script);
+		}
+	}
+}, ::Hooks.QueueBucket.FirstWorldInit);

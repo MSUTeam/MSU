@@ -1,11 +1,10 @@
-::mods_hookNewObject("skills/skill_container", function(o) {
-	o.m.LastLevelOnUpdateLevelCalled <- 0;
-	o.m.ScheduledChangesSkills <- [];
-	o.m.IsPreviewing <- false;
-	o.PreviewProperty <- {};
+::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+	q.m.LastLevelOnUpdateLevelCalled <- 0;
+	q.m.ScheduledChangesSkills <- [];
+	q.m.IsPreviewing <- false;
+	q.PreviewProperty <- {};
 
-	local update = o.update;
-	o.update = function()
+	q.update = @(__original) function()
 	{
 		if (this.m.IsUpdating || !this.m.Actor.isAlive())
 		{
@@ -17,7 +16,7 @@
 			if (!skill.isGarbage()) skill.softReset();
 		}
 
-		update();
+		__original();
 
 		foreach (skill in this.m.ScheduledChangesSkills)
 		{
@@ -27,7 +26,7 @@
 		this.m.ScheduledChangesSkills.clear();
 	}
 
-	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
+	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
 		if (_argsArray == null) _argsArray = [null];
 		else _argsArray.insert(0, null);
@@ -59,12 +58,12 @@
 		}
 	}
 
-	o.callSkillsFunctionWhenAlive <- function( _function, _argsArray = null, _update = true )
+	q.callSkillsFunctionWhenAlive <- function( _function, _argsArray = null, _update = true )
 	{
 		this.callSkillsFunction(_function, _argsArray, _update, true);
 	}
 
-	o.buildProperties <- function( _function, _argsArray )
+	q.buildProperties <- function( _function, _argsArray )
 	{
 		_argsArray.insert(0, null);
 		_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
@@ -81,7 +80,7 @@
 		return _argsArray[_argsArray.len() - 1];
 	}
 
-	o.onMovementStarted <- function( _tile, _numTiles )
+	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 		this.callSkillsFunction("onMovementStarted", [
 			_tile,
@@ -89,14 +88,14 @@
 		]);
 	}
 
-	o.onMovementFinished <- function( _tile )
+	q.onMovementFinished <- function( _tile )
 	{
 		this.callSkillsFunction("onMovementFinished", [
 			_tile
 		]);
 	}
 
-	o.onMovementStep <- function( _tile, _levelDifference )
+	q.onMovementStep <- function( _tile, _levelDifference )
 	{
 		this.callSkillsFunction("onMovementStep", [
 			_tile,
@@ -104,7 +103,7 @@
 		], false);
 	}
 
-	o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
+	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
 		// Don't update if using a skill that sets Tile to ID 0 e.g. Rotation because this leads
 		// to crashes if any skill tries to access the current tile in its onUpdate
@@ -118,7 +117,7 @@
 		], this.getActor().isPlacedOnMap());
 	}
 
-	o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
+	q.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
 		this.callSkillsFunction("onBeforeAnySkillExecuted", [
 			_skill,
@@ -128,7 +127,7 @@
 		]);
 	}
 	
-	o.onUpdateLevel <- function()
+	q.onUpdateLevel <- function()
 	{
 		local currLevel = this.getActor().getLevel();
 		if (currLevel > this.m.LastLevelOnUpdateLevelCalled)
@@ -138,12 +137,12 @@
 		}
 	}
 
-	o.onNewMorning <- function()
+	q.onNewMorning <- function()
 	{
 		this.callSkillsFunctionWhenAlive("onNewMorning");
 	}
 
-	o.onGetHitFactors <- function( _skill, _targetTile, _tooltip )
+	q.onGetHitFactors <- function( _skill, _targetTile, _tooltip )
 	{
 		this.callSkillsFunction("onGetHitFactors", [
 			_skill,
@@ -158,7 +157,7 @@
 		}
 	}
 
-	o.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
+	q.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
 	{
 		this.callSkillsFunction("onGetHitFactorsAsTarget", [
 			_skill,
@@ -167,7 +166,7 @@
 		], false);
 	}
 
-	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	q.onQueryTileTooltip <- function( _tile, _tooltip )
 	{
 		this.callSkillsFunction("onQueryTileTooltip", [
 			_tile,
@@ -175,7 +174,7 @@
 		], false);
 	}
 
-	o.onQueryTooltip <- function( _skill, _tooltip )
+	q.onQueryTooltip <- function( _skill, _tooltip )
 	{
 		this.callSkillsFunction("onQueryTooltip", [
 			_skill,
@@ -183,7 +182,7 @@
 		], false);
 	}
 
-	o.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
+	q.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
 	{
 		this.callSkillsFunction("onDeathWithInfo", [
 			_killer,
@@ -194,7 +193,7 @@
 		], false);
 	}
 
-	o.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
+	q.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
 	{
 		this.callSkillsFunction("onOtherActorDeath", [
 			_killer,
@@ -206,28 +205,28 @@
 		]);
 	}
 
-	o.onEnterSettlement <- function( _settlement )
+	q.onEnterSettlement <- function( _settlement )
 	{
 		this.callSkillsFunction("onEnterSettlement", [
 			_settlement
 		]);
 	}
 
-	o.onEquip <- function( _item )
+	q.onEquip <- function( _item )
 	{
 		this.callSkillsFunction("onEquip", [
 			_item
 		]);
 	}
 
-	o.onUnequip <- function( _item )
+	q.onUnequip <- function( _item )
 	{
 		this.callSkillsFunction("onUnequip", [
 			_item
 		]);
 	}
 
-	o.onAffordablePreview <- function( _skill, _movementTile )
+	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.PreviewProperty.clear();
 		foreach (skill in this.m.Skills)
@@ -334,12 +333,12 @@
 
 	//Vanilla Overwrites start
 	
-	o.onAfterDamageReceived = function()
+	q.onAfterDamageReceived = function()
 	{
 		this.callSkillsFunctionWhenAlive("onAfterDamageReceived");
 	}
 
-	o.buildPropertiesForUse = function( _caller, _targetEntity )
+	q.buildPropertiesForUse = function( _caller, _targetEntity )
 	{
 		_caller.resetField("HitChanceBonus");
 		if (::MSU.isIn("AdditionalAccuracy", _caller.m, true)) _caller.resetField("AdditionalAccuracy");
@@ -351,7 +350,7 @@
 		]);
 	}
 
-	o.buildPropertiesForDefense = function( _attacker, _skill )
+	q.buildPropertiesForDefense = function( _attacker, _skill )
 	{
 		return this.buildProperties("onBeingAttacked", [
 			_attacker,
@@ -359,7 +358,7 @@
 		]);
 	}
 
-	o.buildPropertiesForBeingHit = function( _attacker, _skill, _hitinfo )
+	q.buildPropertiesForBeingHit = function( _attacker, _skill, _hitinfo )
 	{
 		return this.buildProperties("onBeforeDamageReceived", [
 			_attacker,
@@ -368,49 +367,49 @@
 		]);
 	}
 
-	o.onBeforeActivation = function()
+	q.onBeforeActivation = function()
 	{
 		this.callSkillsFunctionWhenAlive("onBeforeActivation");
 	}
 
-	o.onTurnStart = function()
+	q.onTurnStart = function()
 	{
 		this.callSkillsFunctionWhenAlive("onTurnStart");
 	}
 
-	o.onResumeTurn = function()
+	q.onResumeTurn = function()
 	{
 		this.callSkillsFunctionWhenAlive("onResumeTurn");
 	}
 
-	o.onRoundEnd = function()
+	q.onRoundEnd = function()
 	{
 		this.callSkillsFunctionWhenAlive("onRoundEnd");
 	}
 
-	o.onTurnEnd = function()
+	q.onTurnEnd = function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
-	o.onWaitTurn = function()
+	q.onWaitTurn = function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
-	o.onNewRound = function()
+	q.onNewRound = function()
 	{
 		this.callSkillsFunction("onNewRound");
 	}
 
-	o.onNewDay = function()
+	q.onNewDay = function()
 	{
 		this.callSkillsFunctionWhenAlive("onNewDay");
 	}
 
-	o.onDamageReceived = function( _attacker, _damageHitpoints, _damageArmor )
+	q.onDamageReceived = function( _attacker, _damageHitpoints, _damageArmor )
 	{
 		this.callSkillsFunction("onDamageReceived", [
 			_attacker,
@@ -419,7 +418,7 @@
 		]);
 	}
 
-	o.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
+	q.onBeforeTargetHit = function( _caller, _targetEntity, _hitInfo )
 	{
 		if (_caller.isAttack())
 		{
@@ -451,7 +450,7 @@
 		]);
 	}
 
-	o.onTargetHit = function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
+	q.onTargetHit = function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
 	{
 		this.callSkillsFunction("onTargetHit", [
 			_caller,
@@ -462,7 +461,7 @@
 		]);
 	}
 
-	o.onTargetMissed = function( _caller, _targetEntity )
+	q.onTargetMissed = function( _caller, _targetEntity )
 	{
 		this.callSkillsFunction("onTargetMissed", [
 			_caller,
@@ -470,7 +469,7 @@
 		]);
 	}
 
-	o.onTargetKilled = function( _targetEntity, _skill )
+	q.onTargetKilled = function( _targetEntity, _skill )
 	{
 		this.callSkillsFunction("onTargetKilled", [
 			_targetEntity,
@@ -478,7 +477,7 @@
 		]);
 	}
 
-	o.onMissed = function( _attacker, _skill )
+	q.onMissed = function( _attacker, _skill )
 	{
 		this.callSkillsFunction("onMissed", [
 			_attacker,
@@ -486,30 +485,30 @@
 		]);
 	}
 
-	o.onCombatStarted = function()
+	q.onCombatStarted = function()
 	{
 		this.callSkillsFunction("onCombatStarted");
 	}
 
-	o.onCombatFinished = function()
+	q.onCombatFinished = function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunction("onCombatFinished");
 	}
 
-	o.onDeath = function( _fatalityType )
+	q.onDeath = function( _fatalityType )
 	{
 		this.callSkillsFunction("onDeath", [_fatalityType]);
 	}
 
-	o.onDismiss = function()
+	q.onDismiss = function()
 	{
 		this.callSkillsFunction("onDismiss");
 	}
 
 	//Vanilla Ovewrites End
 	
-	o.getItemActionCost <- function( _items )
+	q.getItemActionCost <- function( _items )
 	{
 		local info = [];
 		foreach (skill in this.m.Skills)
@@ -524,7 +523,7 @@
 		return info;
 	}
 
-	o.onPayForItemAction <- function( _skill, _items )
+	q.onPayForItemAction <- function( _skill, _items )
 	{
 		this.callSkillsFunction("onPayForItemAction", [
 			_skill,
@@ -532,7 +531,7 @@
 		]);
 	}
 
-	o.getSkillsByFunction <- function( _function )
+	q.getSkillsByFunction <- function( _function )
 	{
 		local ret = [];
 		foreach (skill in this.m.Skills)
@@ -545,12 +544,18 @@
 
 		return ret;
 	}
+});
 
-	foreach (event in ::MSU.Skills.EventsToAdd)
-	{
-		local name = event.Name;
-		local update = event.Update;
-		local aliveOnly = event.AliveOnly;
-		o[name] <- @(...) this.callSkillsFunction(name, vargv, update, aliveOnly);
-	}
+// TODO: If we add the events in VeryLateBucket then people cannot hook events (during Normal bucket) added by other mods via ::MSU.Skills.addEvent
+// TODO: Instead of adding a `...` wrapper, perhaps a compileString to add actual function with proper params is the better way to go
+::MSU.VeryLateBucket.add(function() {
+	::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+		foreach (event in ::MSU.Skills.EventsToAdd)
+		{
+			local name = event.Name;
+			local update = event.Update;
+			local aliveOnly = event.AliveOnly;
+			o[name] <- @(...) this.callSkillsFunction(name, vargv, update, aliveOnly);
+		}
+	});
 });

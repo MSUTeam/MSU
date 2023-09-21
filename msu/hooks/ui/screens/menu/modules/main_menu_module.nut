@@ -1,13 +1,12 @@
-::mods_hookExactClass("ui/screens/menu/modules/main_menu_module", function(o)
-{
-	o.m.OnModOptionsPressedListener <- null;
+::MSU.HooksMod.hook("scripts/ui/screens/menu/modules/main_menu_module", function(q) {
+	q.m.OnModOptionsPressedListener <- null;
 
-	o.setOnModOptionsPressedListener <- function( _listener )
+	q.setOnModOptionsPressedListener <- function( _listener )
 	{
 		this.m.OnModOptionsPressedListener = _listener;
 	}
 
-	o.onModOptionsButtonPressed <- function()
+	q.onModOptionsButtonPressed <- function()
 	{
 		this.m.OnModOptionsPressedListener();
 	}

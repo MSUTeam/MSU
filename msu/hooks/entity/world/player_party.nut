@@ -1,8 +1,7 @@
-::mods_hookExactClass("entity/world/player_party", function(o) {
-	local create = o.create;
-	o.create = function()
+::MSU.HooksMod.hook("scripts/entity/world/player_party", function(q) {
+	q.create = @(__original) function()
 	{
-		create();
+		__original();
 		this.setMovementSpeed(100);
 		this.m.MovementSpeedMultFunctions.PlayerMovementSpeedMult <- this.getPlayerPartyMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RosterMovementSpeedMult <- this.getRosterMovementSpeedMult;
@@ -12,12 +11,12 @@
 	}
 
 	//refers to the base 105 movement speed of the player
-	o.getPlayerPartyMovementSpeedMult <- function()
+	q.getPlayerPartyMovementSpeedMult <- function()
 	{
 		return 1.05;
 	}
 
-	o.getRosterMovementSpeedMult <- function()
+	q.getRosterMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
 		local roster = ::World.getPlayerRoster().getAll();
@@ -28,7 +27,7 @@
 		return mult;
 	}
 
-	o.getStashMovementSpeedMult <- function()
+	q.getStashMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
 		local inventory = ::World.Assets.getStash();
@@ -40,12 +39,12 @@
 		return mult;
 	}
 
-	o.getOriginMovementSpeedMult <- function()
+	q.getOriginMovementSpeedMult <- function()
 	{
 		return ::World.Assets.getOrigin().getMovementSpeedMult()
 	}
 
-	o.getRetinueMovementSpeedMult <- function()
+	q.getRetinueMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
 		local retinue = ::World.Retinue;
@@ -57,10 +56,9 @@
 		return mult;
 	}
 
-	local onDeserialize = o.onDeserialize;
-	o.onDeserialize = function(_in)
+	q.onDeserialize = @(__original) function( _in )
 	{
-		onDeserialize(_in);
+		__original(_in);
 		this.setMovementSpeed(100);
 	}
 });
