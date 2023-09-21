@@ -2,7 +2,7 @@
 	q.m.LastLevelOnUpdateLevelCalled <- 0;
 	q.m.ScheduledChangesSkills <- [];
 	q.m.IsPreviewing <- false;
-	q.PreviewProperty <- {};
+	q.m.PreviewProperty <- {};
 
 	q.update = @(__original) function()
 	{
@@ -228,7 +228,7 @@
 
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
-		this.PreviewProperty.clear();
+		this.m.PreviewProperty.clear();
 		foreach (skill in this.m.Skills)
 		{
 			skill.PreviewField.clear();
@@ -303,12 +303,12 @@
 				if (change.TargetSkill != null)
 				{
 					target = change.TargetSkill.m;
-					previewTable = change.TargetSkill.PreviewField;
+					previewTable = change.TargetSkill.m.PreviewField;
 				}
 				else
 				{
 					target = this.getActor().getCurrentProperties();
-					previewTable = this.PreviewProperty;
+					previewTable = this.m.PreviewProperty;
 				}
 
 				if (!(change.Field in previewTable)) previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };

@@ -57,7 +57,7 @@
 	q.m.ScheduledChanges <- [];
 
 	q.m.IsApplyingPreview <- false;
-	q.PreviewField <- {};
+	q.m.PreviewField <- {};
 
 	q.isType = function( _t, _any = true, _only = false )
 	{
@@ -487,7 +487,7 @@
 				if (!this.m.IsApplyingPreview) return __original();
 
 				local temp = {};
-				foreach (field, change in this.PreviewField)
+				foreach (field, change in this.m.PreviewField)
 				{
 					temp[field] <- this.m[field];
 					if (change.Multiplicative)
@@ -505,7 +505,7 @@
 				}
 
 				local properties = this.getContainer().getActor().getCurrentProperties();
-				foreach (field, change in this.getContainer().PreviewProperty)
+				foreach (field, change in this.getContainer().m.PreviewProperty)
 				{
 					temp[field] <- properties[field];
 					if (change.Multiplicative)
@@ -526,12 +526,12 @@
 
 				if (temp.len() > 0)
 				{
-					foreach (field, change in this.PreviewField)
+					foreach (field, change in this.m.PreviewField)
 					{
 						this.m[field] = temp[field];
 					}
 
-					foreach (field, change in this.getContainer().PreviewProperty)
+					foreach (field, change in this.getContainer().m.PreviewProperty)
 					{
 						properties[field] = temp[field];
 					}
