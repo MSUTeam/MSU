@@ -1,8 +1,7 @@
-::mods_hookChildren("states/state", function(o) {
-	local onInit = o.onInit;
-	o.onInit = function()
+::MSU.HooksMod.hook("scripts/states/state", function(q) {
+	q.onInit = @(__original) function()
 	{
 		::MSU.Utils.States[this.ClassName] <- ::WeakTableRef(this);
-		return onInit();
+		return __original();
 	}
 });

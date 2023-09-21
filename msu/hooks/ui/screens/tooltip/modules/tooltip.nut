@@ -1,5 +1,5 @@
-::mods_hookNewObject("ui/screens/tooltip/modules/tooltip", function(o){
-	o.onQueryMSUTooltipData <- function(_data)
+::MSU.HooksMod.hook("scripts/ui/screens/tooltip/modules/tooltip", function(q) {
+	q.onQueryMSUTooltipData <- function(_data)
 	{
 		return ::TooltipScreen.m.TooltipEvents.onQueryMSUTooltipData(_data);
 	}

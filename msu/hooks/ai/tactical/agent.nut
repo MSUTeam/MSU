@@ -1,11 +1,8 @@
-::mods_hookBaseClass("ai/tactical/agent", function(o) {
-	o = o[o.SuperName];
+::MSU.HooksMod.hook("ai/tactical/agent", function(q) {
+	q.m.MSU_BehaviorStacks <- {};
+	q.m.MSU_BehaviorToRemove <- null;
 
-	o.m.MSU_BehaviorStacks <- {};
-	o.m.MSU_BehaviorToRemove <- null;
-
-	local addBehavior = o.addBehavior;
-	o.addBehavior = function( _behavior )
+	q.addBehavior = @(__original) function( _behavior )
 	{
 		if (_behavior.getID() in this.m.MSU_BehaviorStacks)
 		{
@@ -14,14 +11,13 @@
 		}
 
 		this.m.MSU_BehaviorStacks[_behavior.getID()] <- 1;
-		return addBehavior(_behavior);
+		return __original(_behavior);
 	}
 
-	local removeBehavior = o.removeBehavior;
-	o.removeBehavior = function( _id )
+	q.removeBehavior = @(__original) function( _id )
 	{
 		if (_id in this.m.MSU_BehaviorStacks) delete this.m.MSU_BehaviorStacks[_id];
-		return removeBehavior(_id);
+		return __original(_id);
 	}
 
 	// TODO: This function's name is temporary and is currently undocumented while we search for a better name
@@ -33,14 +29,11 @@
 	}
 });
 
-::MSU.EndQueue.add(function() {
-	::mods_hookBaseClass("ai/tactical/agent", function(o) {
-		o = o[o.SuperName];
-
-		local execute = o.execute;
-		o.execute = function( _entity )
+::MSU.VeryLateBucket.add(function() {
+	::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
+		q.execute = @(__original) function( _entity )
 		{
-			local ret = execute(_entity);
+			local ret = __original(_entity);
 			if (this.m.MSU_BehaviorToRemove != null)
 			{
 				this.removeBehaviorByStack(this.m.MSU_BehaviorToRemove.getID());

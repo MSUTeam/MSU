@@ -21,9 +21,8 @@
 			AliveOnly = _aliveOnly
 		});
 
-		::mods_hookBaseClass("skills/skill", function(o) {
-			o = o[o.SuperName];
-			o[_name] <- _function == null ? function() {} : _function;
+		::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+			q[_name] <- _function == null ? function() {} : _function;
 		});
 	}
 
