@@ -39,6 +39,7 @@
 		local ret = addSkill(_skill);
 		if (::MSU.isIn("AdditionalAccuracy", _skill.m, true))
 		{
+			_skill.resetField("AdditionalAccuracy");
 			_skill.m.AdditionalAccuracy += this.m.AdditionalAccuracy;
 			_skill.setBaseValue("AdditionalAccuracy", _skill.m.AdditionalAccuracy);
 		}

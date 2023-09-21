@@ -76,6 +76,17 @@
 		}
 	}
 
+	function getMouseState( _rawMouseState )
+	{
+		switch (_rawMouseState)
+		{
+			case 0:
+				return this.KeyState.Press;
+			case 1:
+				return this.KeyState.Release;
+		}
+	}
+
 	function isKnownKey( _key )
 	{
 		return _key.getKey().tostring() in this.KeyMapSQ;
@@ -200,7 +211,7 @@
 	},
 	ReverseKeyMapJS = {
 		"backspace" : "8",
-		"tabulator" : "9",
+		"tab" : "9",
 		"return" : "13",
 		"shift" : "16",
 		"ctrl" : "17",

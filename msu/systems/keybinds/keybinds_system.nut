@@ -186,7 +186,7 @@
 	function onMouseInput( _mouse, _environment, _state )
 	{
 		local keyAsString = ::MSU.Key.MouseMapSQ[_mouse.getID().tostring()];
-		return this.onInput(_mouse, _environment, _state, keyAsString, _mouse.getState());
+		return this.onInput(_mouse, _environment, _state, keyAsString, ::MSU.Key.getMouseState(_mouse.getState()));
 	}
 
 	// Private
