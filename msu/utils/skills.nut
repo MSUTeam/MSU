@@ -18,9 +18,23 @@
 			q[_name] <- _function == null ? function() {} : _function;
 		});
 
-		// TODO: Instead of adding a `...` wrapper, perhaps a compileString to add actual function with proper params is the better way to go
 		::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
-			q[_name] <- @(...) this.callSkillsFunction(_name, vargv, _update, _aliveOnly);
+			if (_function == null || _function.getinfos().parameters.len() == 0)
+			{
+				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly);
+			}
+			else
+			{
+				local info = _function.getinfos();
+				info.parameters.remove(0); // remove "this"
+				local params = clone info.parameters;
+				foreach (i, defparam in info.defparams)
+				{
+					params[params.len() - info.defparams.len() + i] += " = " + defparam;
+				}
+
+				q[_name] <- compilestring("return function (" + params.reduce(@(a, b) a + ", " + b) + ") { return this.callSkillsFunction(" + _name + ", [" + info.parameters.reduce(@(a, b) a + ", " + b) + "], " + _update + ", " + _aliveOnly + "); }")();
+			}
 		});
 	}
 
@@ -38,7 +52,7 @@
 	function removeFromSoftReset( _field )
 	{
 		local idx = this.SoftResetFields.find(_field);
-		if (idx != null) this.SoftResetFields.remove(idx); 
+		if (idx != null) this.SoftResetFields.remove(idx);
 	}
 
 	// Private
