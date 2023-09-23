@@ -21,6 +21,3 @@
 		}
 	}
 });
-
-::include("msu/squirrel_hooks/mod_hooks"); // patches mod_hooks to accept semver strings
-
