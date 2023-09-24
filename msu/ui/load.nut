@@ -1,3 +1,6 @@
+::Hooks.registerJS("ui/mods/msu/popup.js");
+::Hooks.registerCSS("ui/mods/msu/css/popup.css");
+
 ::Hooks.registerCSS("ui/mods/msu/css/misc.css");
 ::Hooks.registerCSS("ui/mods/msu/css/settings_screen.css");
 

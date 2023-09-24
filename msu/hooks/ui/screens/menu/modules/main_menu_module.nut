@@ -10,4 +10,19 @@
 	{
 		this.m.OnModOptionsPressedListener();
 	}
+
+	q.create = @(__original) function()
+	{
+		__original();
+		::MSU.Popup.quitGame = o.onQuitButtonPressed.bindenv(this);
+	}
+
+	q.connectBackend <- function()
+	{
+		::MSU.Popup.connect();
+		if ("UI" in ::MSU)
+		{
+			::MSU.UI.connect();
+		}
+	}
 });
