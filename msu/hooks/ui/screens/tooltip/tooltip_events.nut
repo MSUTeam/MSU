@@ -13,28 +13,31 @@
 			return skill.getNestedTooltip();
 
 		local ret;
-		if (::MSU.isNull(::MSU.NestedTooltips.NestedSkillItem))
+
+		local item = ::MSU.NestedTooltips.NestedSkillItem;
+		if (!::MSU.isNull(item))
+		{
+			local isDummyEquipping = ::MSU.isNull(item.getContainer());
+
+			if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().equip(item);
+			foreach (s in item.getSkills())
+			{
+				if (s.getID() == _skillId)
+				{
+					ret = s.getNestedTooltip();
+					break;
+				}
+			}
+			if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().unequip(item);
+		}
+
+		if (ret == null)
 		{
 			skill = ::MSU.NestedTooltips.SkillObjectsByFilename[_filename];
 			skill.m.Container = ::MSU.getDummyPlayer().getSkills();
 			ret = skill.getNestedTooltip();
 			skill.m.Container = null;
-			return ret;
 		}
-
-		local item = ::MSU.NestedTooltips.NestedSkillItem;
-		local isDummyEquipping = ::MSU.isNull(item.getContainer());
-
-		if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().equip(item);
-		foreach (s in item.getSkills())
-		{
-			if (s.getID() == _skillId)
-			{
-				ret = s.getNestedTooltip();
-				break;
-			}
-		}
-		if (isDummyEquipping) ::MSU.getDummyPlayer().getItems().unequip(item);
 
 		return ret;
 	}
