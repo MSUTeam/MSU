@@ -3,7 +3,6 @@
 	q.m.MovementSpeedMult <- 1.0;
 	q.m.MovementSpeedMultFunctions <- {};
 
-	local create = o.create;
 	q.create = @(__original) function()
 	{
 		__original();
@@ -17,7 +16,7 @@
 	}
 
 	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value
-	q.getBaseMovementSpeed = function()
+	q.getBaseMovementSpeed = @(__original) function()
 	{
 		return this.getMovementSpeed();
 	}
