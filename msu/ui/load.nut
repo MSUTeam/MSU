@@ -15,9 +15,7 @@
 ::Hooks.registerJS("ui/mods/msu/ui_screen.js");
 
 foreach (file in ::IO.enumerateFiles("ui/mods/msu/mod_settings/"))
-{
-	::Hooks.registerJS(shortenedString + ".js");
-}
+	::Hooks.registerJS(file + ".js");
 
 ::Hooks.registerJS("ui/mods/msu/keybinds/key_static.js");
 ::Hooks.registerJS("ui/mods/msu/keybinds/keybind.js");
