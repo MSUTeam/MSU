@@ -1,16 +1,21 @@
 ::MSU.HooksMod.hook("scripts/skills/perks/perk_quick_hands", function(q) {
 	q.m.IsSpent <- false;
-	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
-	q.onUpdate = function( _properties )
+	q.create = @(__original) function()
+	{
+		__original();
+		this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
+	}
+
+	q.onUpdate = @(__original) function( _properties )
 	{
 	}
 
-	q.onCombatStarted = function()
+	q.onCombatStarted = @(__original) function()
 	{
 	}
 
-	q.onCombatFinished = function()
+	q.onCombatFinished = @(__original) function()
 	{
 		this.skill.onCombatFinished();
 	}

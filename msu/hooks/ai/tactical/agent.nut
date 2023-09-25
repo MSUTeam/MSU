@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("ai/tactical/agent", function(q) {
+::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
 	q.m.MSU_BehaviorStacks <- {};
 	q.m.MSU_BehaviorToRemove <- null;
 
@@ -22,7 +22,7 @@
 
 	// TODO: This function's name is temporary and is currently undocumented while we search for a better name
 	// Once we find a better name we will change it and add it to documentation
-	o.removeBehaviorByStack <- function( _id )
+	q.removeBehaviorByStack <- function( _id )
 	{
 		if (!(_id in this.m.MSU_BehaviorStacks) || --this.m.MSU_BehaviorStacks[_id] == 0)
 			return this.removeBehavior(_id);

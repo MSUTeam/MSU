@@ -59,7 +59,7 @@
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
 
-	q.isType = function( _t, _any = true, _only = false )
+	q.isType = @(__original) function( _t, _any = true, _only = false )
 	{
 		if (_any)
 		{

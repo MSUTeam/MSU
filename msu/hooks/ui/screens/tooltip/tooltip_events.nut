@@ -40,7 +40,7 @@
 	}
 
 	// deprecated, MSU settings (and future tooltips) should now use onQueryMSUTooltipData
-	q.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
+	q.general_queryUIElementTooltipData = @(__original) function( _entityId, _elementId, _elementOwner )
 	{
 		local ret = __original(_entityId, _elementId, _elementOwner);
 		if (ret == null)
