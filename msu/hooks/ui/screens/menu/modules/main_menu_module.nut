@@ -14,7 +14,7 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		::MSU.Popup.quitGame = o.onQuitButtonPressed.bindenv(this);
+		::MSU.Popup.quitGame = this.onQuitButtonPressed.bindenv(this);
 	}
 
 	q.connectBackend <- function()

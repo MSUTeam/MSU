@@ -5,7 +5,6 @@
 		return __original(_activeEntity, _mouseEvent);
 	}
 
-	local executeEntitySkill = o.executeEntitySkill;
 	q.executeEntitySkill = @(__original) function( _activeEntity, _targetTile )
 	{
 		_activeEntity.getSkills().m.IsPreviewing = false;

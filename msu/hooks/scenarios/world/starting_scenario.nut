@@ -15,9 +15,9 @@
 
 ::MSU.VeryLateBucket.push(function() {
 	::MSU.HooksMod.leafHook("scripts/scenarios/world/starting_scenario", function(q) {
-		q.onUpdateLevel <- @(__original) function( _bro )
+		q.onUpdateLevel = @(__original) function( _bro )
 		{
-			onUpdateLevel(_bro);
+			__original(_bro);
 			_bro.getSkills().onUpdateLevel();
 		}
 	});
