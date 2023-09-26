@@ -197,7 +197,7 @@
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
-		foreach (mod in ::Hooks.getMods()) modIDsString += mod.getName() + ",";
+		foreach (mod in ::Hooks.getMods()) modIDsString += mod.getID() + ",";
 		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
 	}
 
@@ -211,20 +211,20 @@
 			local hooksMods = ::Hooks.getMods();
 			foreach (mod in hooksMods)
 			{
-				local IDIdx = modIDs.find(mod.Name);
+				local IDIdx = modIDs.find(mod.getID());
 				if (IDIdx != null)
 				{
 					modIDs.remove(IDIdx);
-					if (::MSU.System.Registry.hasMod(mod.Name))
+					if (::MSU.System.Registry.hasMod(mod.getID()))
 					{
-						local oldVersion = _in.getMetaData().getString(mod.Name + "Version");
+						local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 						if (oldVersion == "")
 						{
-							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.FriendlyName, mod.Name));
+							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.getName(), mod.getID()));
 						}
 						else
 						{
-							local msuMod = ::MSU.System.Registry.getMod(mod.Name);
+							local msuMod = ::MSU.System.Registry.getMod(mod.getID());
 							switch (::MSU.SemVer.compare(msuMod, ::MSU.SemVer.getTable(oldVersion)))
 							{
 								case 1:
@@ -242,7 +242,7 @@
 				}
 				else
 				{
-					::logWarning(format("MSU Serialization: First time this save is being loaded with %s (%s)", mod.FriendlyName, mod.Name));
+					::logWarning(format("MSU Serialization: First time this save is being loaded with %s (%s)", mod.getName(), mod.getID()));
 				}
 			}
 
