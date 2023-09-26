@@ -19,21 +19,31 @@
 		});
 
 		::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
-			if (_function == null || _function.getinfos().parameters.len() == 0)
+			if (_function == null || _function.getinfos().parameters.len() == 1) // for parameterless functions it should be a len 1 array containing "this"
 			{
 				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly);
 			}
 			else
 			{
 				local info = _function.getinfos();
-				info.parameters.remove(0); // remove "this"
-				local params = clone info.parameters;
-				foreach (i, defparam in info.defparams)
+				local declarationParams = clone info.parameters; // used in compilestring for function declaration
+				declarationParams.remove(0) // remove "this"
+				local wrappedParams = clone declarationParams; // used in compilestring to call skills function
+
+				if (declarationParams[declarationParams.len() - 1] == "...")
 				{
-					params[params.len() - info.defparams.len() + i] += " = " + defparam;
+					declarationParams.remove(declarationParams.len() - 2); // remove "vargv"
+					wrappedParams.remove(wrappedParams.len() - 1); // remove "..."
+				}
+				else // function with vargv cannot have defparams
+				{
+					foreach (i, defparam in info.defparams)
+					{
+						declarationParams[declarationParams.len() - info.defparams.len() + i] += " = " + defparam;
+					}
 				}
 
-				q[_name] <- compilestring("return function (" + params.reduce(@(a, b) a + ", " + b) + ") { return this.callSkillsFunction(" + _name + ", [" + info.parameters.reduce(@(a, b) a + ", " + b) + "], " + _update + ", " + _aliveOnly + "); }")();
+				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(%s, [%s], %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + ""))();
 			}
 		});
 	}
