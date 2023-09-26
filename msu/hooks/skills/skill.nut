@@ -1,4 +1,4 @@
-::MSU.HooksMod.leafHook("scripts/skills/skill", function(q) {
+::MSU.HooksMod.hookTree("scripts/skills/skill", function(q) {
 	q.create = @(__original) function()
 	{
 		__original();
