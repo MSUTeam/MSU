@@ -1,4 +1,4 @@
-::MSU.HooksMod.leafHook("scripts/items/weapons/weapon", function(q) {
+::MSU.HooksMod.hookTree("scripts/items/weapons/weapon", function(q) {
 	q.create = @(__original) function()
 	{
 		__original();
