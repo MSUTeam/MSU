@@ -2,8 +2,9 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		if (this.m.IsAttack && this.m.DamageType.len() == 0)
+		if (this.m.IsAttack && (this.m.DamageType == null || this.m.DamageType.len() == 0))
 		{
+			this.m.DamageType = ::MSU.Class.WeightedContainer();
 			switch (this.m.InjuriesOnBody)
 			{
 				case null:
@@ -50,7 +51,7 @@
 
 ::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
 	q.m.AIBehaviorID <- null;
-	q.m.DamageType <- ::MSU.Class.WeightedContainer();
+	q.m.DamageType <- null;
 	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	q.m.IsBaseValuesSaved <- false;
@@ -367,7 +368,7 @@
 
 	q.getWeightedRandomDamageType <- function()
 	{
-		return this.m.DamageType.roll();
+		return this.m.DamageType == null ? null : this.m.DamageType.roll();
 	}
 
 	q.verifyTargetAndRange <- function( _targetTile, _origin = null )
