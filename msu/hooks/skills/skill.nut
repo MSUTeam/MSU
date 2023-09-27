@@ -478,7 +478,7 @@
 	}
 });
 
-::MSU.VeryLateBucket.push(function() {
+::MSU.QueueBucket.VeryLate.push(function() {
 	::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{

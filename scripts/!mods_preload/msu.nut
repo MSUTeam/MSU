@@ -7,14 +7,23 @@
 });
 
 ::MSU.HooksMod.queue(function() {
-	foreach (func in ::MSU.VeryLateBucket)
+	foreach (func in ::MSU.QueueBucket.VeryLate)
 	{
 		func();
 	}
-	::MSU.VeryLateBucket.clear();
+	::MSU.QueueBucket.VeryLate.clear();
 }, ::Hooks.QueueBucket.VeryLate);
 
 ::MSU.HooksMod.queue(function() {
+	foreach (func in ::MSU.QueueBucket.FirstWorldInit)
+	{
+		func();
+	}
+	::MSU.QueueBucket.FirstWorldInit.clear();
+	delete ::MSU.QueueBucket;
+}, ::Hooks.QueueBucket.FirstWorldInit);
+
+::MSU.QueueBucket.FirstWorldInit.push(function() {
 	foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
 	{
 		try
@@ -26,4 +35,4 @@
 			::logError("Could not instantiate or get ID of behavior: " + script);
 		}
 	}
-}, ::Hooks.QueueBucket.FirstWorldInit);
+});
