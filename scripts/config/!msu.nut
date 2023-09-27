@@ -7,7 +7,11 @@
 	BBClass = {
 		Empty = "scripts/mods/msu/empty_bb_class"
 	},
-	VeryLateBucket = []
+	QueueBucket = {
+		VeryLate = [],
+		AfterHooks = [],
+		FirstWorldInit = []
+	}
 };
 
 ::MSU.includeLoad <- function( _prefix, _folder )
