@@ -1,4 +1,7 @@
 ::MSU.HooksMod.hookTree("scripts/skills/skill", function(q) {
+	if (!q.contains("create"))
+		return;
+
 	q.create = @(__original) function()
 	{
 		__original();
