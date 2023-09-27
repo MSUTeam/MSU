@@ -420,7 +420,7 @@
 
 	q.onBeforeTargetHit = @(__original) function( _caller, _targetEntity, _hitInfo )
 	{
-		if (_caller.isAttack())
+		if (_caller.isAttack() && _caller.getDamageType() != null)
 		{
 			_hitInfo.DamageType = _caller.getDamageType().roll();
 
