@@ -1,3 +1,6 @@
 ::MSU.HooksMod.hook("scripts/items/tools/faction_banner", function(q) {
-	q.setWeaponType(::Const.Items.WeaponType.Polearm);
+	q.create = @(__original) function() {
+		__original();
+		this.setWeaponType(::Const.Items.WeaponType.Polearm);
+	}
 });
