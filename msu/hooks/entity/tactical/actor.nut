@@ -108,7 +108,7 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/entity/tactical/actor", function(q) {
+	::MSU.HooksMod.hookTree("scripts/entity/tactical/actor", function(q) {
 		q.onDeath = @(__original) function( _killer, _skill, _tile, _fatalityType )
 		{
 			local deathTile = this.isPlacedOnMap() ? this.getTile() : null;
