@@ -9,7 +9,11 @@
 				_object.addSprite(sprite);
 		}
 
-		local ret = _native(_sprite);
+		// If the object already has the sprite that `addSprite` is trying to add then we fetch that
+		// instead of adding it again. Necessary with this system because if someone changes order
+		// of vanilla sprites, then this function may add those sprites to the entity
+		// before a manual vanilla `addSprite` call to add that sprite.
+		local ret = _object.hasSprite(_sprite) ? _object.getSprite(_sprite) : _native(_sprite);
 
 		foreach (sprite in _orderInfo[_sprite].Behind)
 		{
