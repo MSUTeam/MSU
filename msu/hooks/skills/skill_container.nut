@@ -231,7 +231,7 @@
 		this.m.PreviewProperty.clear();
 		foreach (skill in this.m.Skills)
 		{
-			skill.PreviewField.clear();
+			skill.m.PreviewField.clear();
 		}
 
 		this.callSkillsFunction("onAffordablePreview", [
