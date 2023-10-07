@@ -79,6 +79,16 @@
 		}
 	}
 
+	function addMany( _weight, _array )
+	{
+		::MSU.requireArray(_array);
+		foreach (item in _array)
+		{
+			this.add(item, _weight);
+		}
+		return this;
+	}
+
 	function add( _item, _weight = 1 )
 	{
 		::MSU.requireOneFromTypes(["integer", "float"], _weight);
