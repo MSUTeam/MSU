@@ -79,13 +79,34 @@
 		}
 	}
 
-	function addMany( _weight, _array )
+	// We expect 1 or 2 args.
+	// - When 1 it is an array
+	// - When 2 then the first arg is the weight and the second is the array
+	function addMany( ... )
 	{
-		::MSU.requireArray(_array);
-		foreach (item in _array)
+		// vargv[0] is "this"
+		if (vargv.len() == 1 || vargv.len() > 3)
 		{
-			this.add(item, _weight);
+			::logError("addMany accepts 1 or 2 arguments. If 1, then it is an array. If 2 then the first is the weight, and the second is the array");
+			throw "wrong number of parameters";
 		}
+
+		if (vargv.len() == 2)
+		{
+			foreach (item in vargv[1])
+			{
+				this.add(item);
+			}
+		}
+		else
+		{
+			local weight = vargv[1];
+			foreach (item in vargv[2])
+			{
+				this.add(item, weight);
+			}
+		}
+
 		return this;
 	}
 
