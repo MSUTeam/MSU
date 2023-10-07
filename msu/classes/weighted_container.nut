@@ -93,6 +93,7 @@
 
 		if (vargv.len() == 2)
 		{
+			::MSU.requireArray(vargv[1]);
 			foreach (item in vargv[1])
 			{
 				this.add(item);
@@ -100,6 +101,7 @@
 		}
 		else
 		{
+			::MSU.requireArray(vargv[2]);
 			local weight = vargv[1];
 			foreach (item in vargv[2])
 			{
