@@ -109,15 +109,20 @@
 		{
 			this.Table[_item] <- 0;
 			this.updateWeight(_item, _weight);
+			if (this.Array != null) this.Array.push(_item);
 		}
 	}
 
 	function remove( _item )
 	{
+		if (this.Array != null) // _item is an idx
+		{
+			_item = this.Array.remove(this.Array.find(_item));
+		}
+
 		if (this.Table[_item] < 0) delete this.Forced[_item];
 		else this.Total -= this.Table[_item];
 		delete this.Table[_item];
-		this.Array.remove(this.Array.find(_item));
 	}
 
 	function contains( _item )
