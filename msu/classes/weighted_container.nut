@@ -2,6 +2,7 @@
 {
 	Total = null;
 	Table = null;
+	Array = null;
 	Forced = null;
 	NextIItems = null;
 	NextIIndex = null;
@@ -16,7 +17,8 @@
 
 	function _get( _item )
 	{
-		if (_item in this.Table) return this.Table[_item];
+		if (this.Array != null) return this.Array[_item]; // _item is an idx in this case
+		else if (_item in this.Table) return this.Table[_item];
 		throw null;
 	}
 
@@ -25,10 +27,24 @@
 		this.Total = _original.Total;
 		this.Table = clone _original.Table;
 		this.Forced = clone _original.Forced;
+		this.Array = _original.Array == null ? null : clone _original.Array;
 	}
 
 	function _nexti( _prev )
 	{
+		if (this.Array != null)
+		{
+			if (this.Array.len() == 0)
+				return null;
+
+			if (_prev == null)
+				return 0;
+			else if (_prev == this.Array.len() - 1)
+				return null;
+
+			return _prev + 1;
+		}
+
 		if (_prev == null)
 		{
 			this.NextIItems = ::MSU.Table.keys(this.Table);
@@ -101,11 +117,35 @@
 		if (this.Table[_item] < 0) delete this.Forced[_item];
 		else this.Total -= this.Table[_item];
 		delete this.Table[_item];
+		this.Array.remove(this.Array.find(_item));
 	}
 
 	function contains( _item )
 	{
 		return _item in this.Table;
+	}
+
+	function makeOrdered( _bool = true )
+	{
+		if (_bool)
+		{
+			this.Array = ::MSU.Table.keys(this.Table);
+			this.sort();
+		}
+		else
+		{
+			this.Array = null;
+		}
+	}
+
+	function isOrdered()
+	{
+		return this.Array != null;
+	}
+
+	function sort()
+	{
+		this.Array.sort(@(a, b) this.Table[a] <=> this.Table[b]); // Sort ascending
 	}
 
 	function getProbability( _item, _exclude = null )
@@ -155,6 +195,7 @@
 		// must return a len 2 array with weight, item as elements
 
 		local ret = ::MSU.Class.WeightedContainer();
+		if (this.Array != null) ret.makeOrdered();
 		foreach (item, weight in this.Table)
 		{
 			local pair = _function(item, weight); 
@@ -169,6 +210,7 @@
 		// must return a boolean
 
 		local ret = ::MSU.Class.WeightedContainer();
+		if (this.Array != null) ret.makeOrdered();
 		foreach (item, weight in this.Table)
 		{
 			if (_function(item, weight)) ret.add(item, weight);
@@ -181,6 +223,7 @@
 		this.Total = 0.0;
 		this.Table.clear();
 		this.Forced.clear();
+		if (this.Array != null) this.Array.clear();
 	}
 
 	function max()
