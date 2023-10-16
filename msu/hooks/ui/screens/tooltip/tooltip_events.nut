@@ -13,7 +13,7 @@
 			return skill.getNestedTooltip();
 
 		local ret;
-		if (::MSU.NestedTooltips.NestedSkillItem == null)
+		if (::MSU.isNull(::MSU.NestedTooltips.NestedSkillItem))
 		{
 			skill = ::MSU.NestedTooltips.SkillObjectsByFilename[_filename];
 			skill.m.Container = ::MSU.getDummyPlayer().getSkills();
