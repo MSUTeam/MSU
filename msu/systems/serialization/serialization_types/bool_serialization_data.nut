@@ -1,4 +1,4 @@
-::MSU.Class.BoolSerializationData <- class extends ::MSU.Class.AbstractSerializationData
+::MSU.Class.BoolSerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
 	static __Type = ::MSU.Utils.SerializationDataType.Bool;
 

@@ -1,4 +1,4 @@
-::MSU.Class.U32SerializationData <- class extends ::MSU.Class.AbstractSerializationData
+::MSU.Class.U32SerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
 	static __Type = ::MSU.Utils.SerializationDataType.U32;
 

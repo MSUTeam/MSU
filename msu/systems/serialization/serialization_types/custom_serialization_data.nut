@@ -19,7 +19,7 @@
 	// must be called when overriden
 	function serialize( _out )
 	{
-		_out.writeU8(this.getType());
+		base.serialize(_out);
 		::MSU.Class.U32SerializationData(this.len()).serialize(_out); // store length
 	}
 
