@@ -3,14 +3,14 @@
 	static __Type = ::MSU.Utils.SerializationDataType.Table;
 	__DataArray = null;
 
-	constructor( _data, _metaData )
+	constructor( _data )
 	{
 		if (_data == null)
 			_data = {};
 		::MSU.requireTable(_data)
-		base.constructor(_data, "table");
+		base.constructor(_data);
 
-		this.__DataArray = ::MSU.Class.DataArrayData("table_data_array");
+		this.__DataArray = ::MSU.Class.DataArrayData();
 		this.setLength(_data.len()*2);
 		local i = 0;
 		foreach (key, value in _data)
@@ -40,7 +40,6 @@
 	{
 		base.deserialize(_in);
 		_in.readU8(); // TODO
-		_in.readString();
 		this.__DataArray.deserialize(_in);
 		local data = this.getData();
 		for (local i = 0; i < this.__DataArray.len(); i+=2)

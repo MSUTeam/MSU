@@ -3,23 +3,13 @@
 	static __Type = ::MSU.Utils.SerializationDataType.DataArray;
 	__InnerArray = null;
 
-	constructor( _metaData )
+	constructor()
 	{
-		base.constructor(null, _metaData);
+		base.constructor(null);
 		this.__InnerArray = [];
 	}
 
 	// overridden functions
-
-	function setMetaData( _metaData )
-	{
-		if (this.isInitialized())
-		{
-			::logError("MetaData cannot be changed after the DataArray has been written to");
-			throw ::MSU.Exception.InvalidValue(this.isInitialized());
-		}
-		base.setMetaData(_metaData);
-	}
 
 	function getData()
 	{
@@ -49,6 +39,7 @@
 
 	function serialize( _out )
 	{
+		// TODO, also serialize metadata
 		base.serialize(_out);
 		for (local i = 0; i < this.__InnerArray.len(); ++i)
 		{
