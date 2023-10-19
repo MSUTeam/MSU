@@ -17,7 +17,6 @@
 	function serialize( _out )
 	{
 		_out.writeU8(this.getType());
-		_out["write" + ::MSU.Utils.SerializationDataType.getKeyForValue(this.getType())](this.getData());
 	}
 
 	function getData()

@@ -1,4 +1,4 @@
-::MSU.Class.StringSerializationData <- class extends ::MSU.Class.AbstractSerializationData
+::MSU.Class.StringSerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
 	static __Type = ::MSU.Utils.SerializationDataType.String;
 
