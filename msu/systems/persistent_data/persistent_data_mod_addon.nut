@@ -17,26 +17,34 @@
 	}
 
 	// MSU 1.3.0
-	function createFile( _fileName, _data, _serializationEmulator = null )
+	function prefixFileName( _fileName )
 	{
-		// _data is a table filled with any squirrel types except instances or bb objects
+		return format("MSU#%s#%s", this.Mod.getID(), _fileName);
 	}
 
-	function loadFile( _fileName )
+	function createFile( _fileName, _data )
 	{
-		return {
-			SerializationEmulator = null,
-			Data = {}
-		}
+		::MSU.System.PersistentData.createFile(this.prefixFileName(_fileName), ::MSU.Class.ArraySerializationData([_data], "Main"));
 	}
 
-	function saveValue( _id, _value )
+	function hasFile( _fileName )
 	{
-		// _value can be any squirrel type except instance and not a bb object
+		return ::MSU.System.PersistentData.hasFile(this.prefixFileName(_fileName));
 	}
 
-	function readValue( _id )
+	function getFiles()
 	{
+		local prefix = "MSU#" + this.Mod.getID();
+		return ::PersistenceManager.queryStorages().filter(@(_i, _v) ::MSU.String.startsWith(_v.getFileName(), prefix))
+	}
 
+	function deleteFile( _fileName )
+	{
+		::PersistenceManager.deleteStorage(this.prefixFileName(_fileName));
+	}
+
+	function readFile( _fileName )
+	{
+		return ::MSU.System.PersistentData.readFile(this.prefixFileName(_fileName)).getData()[0];
 	}
 }
