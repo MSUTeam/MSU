@@ -24,7 +24,7 @@
 
 	function createFile( _fileName, _data )
 	{
-		::MSU.System.PersistentData.createFile(this.prefixFileName(_fileName), ::MSU.Class.ArraySerializationData([_data], "Main"));
+		::MSU.System.PersistentData.createFile(this.prefixFileName(_fileName), ::MSU.Class.ArraySerializationData([_data]));
 	}
 
 	function hasFile( _fileName )

@@ -2,20 +2,9 @@
 {
 	__MetaData = null;
 
-	constructor(_data, _metaData)
+	constructor(_data)
 	{
-		this.__MetaData = _metaData;
 		base.constructor(_data);
-	}
-
-	function getMetaData()
-	{
-		return this.__MetaData;
-	}
-
-	function setMetaData( _metaData )
-	{
-		this.__MetaData = _metaData;
 	}
 
 	// must be called when overriden
@@ -31,7 +20,6 @@
 	function serialize( _out )
 	{
 		_out.writeU8(this.getType());
-		_out.writeString(this.getMetaData());
 		::MSU.Class.U32SerializationData(this.len()).serialize(_out); // store length
 	}
 
@@ -71,19 +59,19 @@
 			case this.DataType.F32:
 				return ::MSU.Class.F32SerializationData(_in.readF32());
 			case this.DataType.DataArray:
-				local dataArray = ::MSU.Class.DataArrayData(_in.readString());
+				local dataArray = ::MSU.Class.DataArrayData();
 				dataArray.deserialize(_in);
 				return dataArray;
 			case this.DataType.Table:
-				local table = ::MSU.Class.TableSerializationData(null, _in.readString());
+				local table = ::MSU.Class.TableSerializationData(null);
 				table.deserialize(_in);
 				return table;
 			case this.DataType.Array:
-				local array = ::MSU.Class.ArraySerializationData(null, _in.readString());
+				local array = ::MSU.Class.ArraySerializationData(null);
 				array.deserialize(_in);
 				return array;
 			default:
-				local unknownData =  ::MSU.Class.UnknownSerializationData(type, _in.readString());
+				local unknownData =  ::MSU.Class.UnknownSerializationData(type, null);
 				unknownData.deserialize(_in);
 				return unknownData;
 		}
@@ -140,9 +128,9 @@
 					::logError("MSU Serialization cannot handle BB Objects");
 					throw ::MSU.Exception.InvalidValue(_value);
 				}
-				return ::MSU.Class.TableSerializationData(_value, "table");
+				return ::MSU.Class.TableSerializationData(_value);
 			case "array":
-				return ::MSU.Class.ArraySerializationData(_value, "array");
+				return ::MSU.Class.ArraySerializationData(_value);
 			case "instance":
 				if (_value instanceof ::MSU.Class.AbstractSerializationData)
 					return _value;
