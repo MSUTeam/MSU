@@ -2,7 +2,7 @@
 	q.m.ActionSkill <- null;
 	q.m.MSU_IsIgnoringItemAction <- false;
 
-	q.isActionAffordable = @(__original) function ( _items )
+	q.isActionAffordable = @() function ( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction) return true;
 
@@ -10,7 +10,7 @@
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
-	q.getActionCost = @(__original) function( _items )
+	q.getActionCost = @() function( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction) return 0;
 
@@ -34,7 +34,7 @@
 		return cost;
 	}
 
-	q.payForAction = @(__original) function ( _items )
+	q.payForAction = @() function ( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
 

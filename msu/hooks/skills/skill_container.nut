@@ -333,12 +333,12 @@
 
 	//Vanilla Overwrites start
 	
-	q.onAfterDamageReceived = @(__original) function()
+	q.onAfterDamageReceived = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onAfterDamageReceived");
 	}
 
-	q.buildPropertiesForUse = @(__original) function( _caller, _targetEntity )
+	q.buildPropertiesForUse = @() function( _caller, _targetEntity )
 	{
 		_caller.resetField("HitChanceBonus");
 		if (::MSU.isIn("AdditionalAccuracy", _caller.m, true)) _caller.resetField("AdditionalAccuracy");
@@ -350,7 +350,7 @@
 		]);
 	}
 
-	q.buildPropertiesForDefense = @(__original) function( _attacker, _skill )
+	q.buildPropertiesForDefense = @() function( _attacker, _skill )
 	{
 		return this.buildProperties("onBeingAttacked", [
 			_attacker,
@@ -358,7 +358,7 @@
 		]);
 	}
 
-	q.buildPropertiesForBeingHit = @(__original) function( _attacker, _skill, _hitinfo )
+	q.buildPropertiesForBeingHit = @() function( _attacker, _skill, _hitinfo )
 	{
 		return this.buildProperties("onBeforeDamageReceived", [
 			_attacker,
@@ -367,49 +367,49 @@
 		]);
 	}
 
-	q.onBeforeActivation = @(__original) function()
+	q.onBeforeActivation = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onBeforeActivation");
 	}
 
-	q.onTurnStart = @(__original) function()
+	q.onTurnStart = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onTurnStart");
 	}
 
-	q.onResumeTurn = @(__original) function()
+	q.onResumeTurn = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onResumeTurn");
 	}
 
-	q.onRoundEnd = @(__original) function()
+	q.onRoundEnd = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onRoundEnd");
 	}
 
-	q.onTurnEnd = @(__original) function()
+	q.onTurnEnd = @() function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
-	q.onWaitTurn = @(__original) function()
+	q.onWaitTurn = @() function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
-	q.onNewRound = @(__original) function()
+	q.onNewRound = @() function()
 	{
 		this.callSkillsFunction("onNewRound");
 	}
 
-	q.onNewDay = @(__original) function()
+	q.onNewDay = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onNewDay");
 	}
 
-	q.onDamageReceived = @(__original) function( _attacker, _damageHitpoints, _damageArmor )
+	q.onDamageReceived = @() function( _attacker, _damageHitpoints, _damageArmor )
 	{
 		this.callSkillsFunction("onDamageReceived", [
 			_attacker,
@@ -418,7 +418,7 @@
 		]);
 	}
 
-	q.onBeforeTargetHit = @(__original) function( _caller, _targetEntity, _hitInfo )
+	q.onBeforeTargetHit = @() function( _caller, _targetEntity, _hitInfo )
 	{
 		if (_caller.isAttack() && _caller.getDamageType() != null)
 		{
@@ -450,7 +450,7 @@
 		]);
 	}
 
-	q.onTargetHit = @(__original) function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
+	q.onTargetHit = @() function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
 	{
 		this.callSkillsFunction("onTargetHit", [
 			_caller,
@@ -461,7 +461,7 @@
 		]);
 	}
 
-	q.onTargetMissed = @(__original) function( _caller, _targetEntity )
+	q.onTargetMissed = @() function( _caller, _targetEntity )
 	{
 		this.callSkillsFunction("onTargetMissed", [
 			_caller,
@@ -469,7 +469,7 @@
 		]);
 	}
 
-	q.onTargetKilled = @(__original) function( _targetEntity, _skill )
+	q.onTargetKilled = @() function( _targetEntity, _skill )
 	{
 		this.callSkillsFunction("onTargetKilled", [
 			_targetEntity,
@@ -477,7 +477,7 @@
 		]);
 	}
 
-	q.onMissed = @(__original) function( _attacker, _skill )
+	q.onMissed = @() function( _attacker, _skill )
 	{
 		this.callSkillsFunction("onMissed", [
 			_attacker,
@@ -485,23 +485,23 @@
 		]);
 	}
 
-	q.onCombatStarted = @(__original) function()
+	q.onCombatStarted = @() function()
 	{
 		this.callSkillsFunction("onCombatStarted");
 	}
 
-	q.onCombatFinished = @(__original) function()
+	q.onCombatFinished = @() function()
 	{
 		this.m.IsPreviewing = false;
 		this.callSkillsFunction("onCombatFinished");
 	}
 
-	q.onDeath = @(__original) function( _fatalityType )
+	q.onDeath = @() function( _fatalityType )
 	{
 		this.callSkillsFunction("onDeath", [_fatalityType]);
 	}
 
-	q.onDismiss = @(__original) function()
+	q.onDismiss = @() function()
 	{
 		this.callSkillsFunction("onDismiss");
 	}
