@@ -50,6 +50,11 @@
 		{
 			foreach (sprite in _behind)
 			{
+				if (this.__isInFrontOf(_script, _sprite, sprite))
+				{
+					::logWarning(format("Trying to set sprite order of \'%s\' to be behind \'%s\' but another mod has already set it to be in front", _sprite, sprite));
+					continue;
+				}
 				if (this.SpriteOrder[_script][_sprite].Behind.find(sprite) == null)
 					this.SpriteOrder[_script][_sprite].Behind.push(sprite);
 			}
@@ -58,10 +63,37 @@
 		{
 			foreach (sprite in _inFrontOf)
 			{
+				if (this.__isBehind(_script, _sprite, sprite))
+				{
+					::logWarning(format("Trying to set sprite order of \'%s\' to be in front of \'%s\' but another mod has already set it to be behind", _sprite, sprite));
+					continue;
+				}
 				if (this.SpriteOrder[_script][_sprite].InFrontOf.find(sprite) == null)
 					this.SpriteOrder[_script][_sprite].InFrontOf.push(sprite);
 			}
 		}
+	}
+
+	function __isInFrontOf( _script, _sprite1, _sprite2 )
+	{
+		local spriteOrder = this.SpriteOrder[_script];
+		if ((_sprite1 in spriteOrder) && spriteOrder[_sprite1].InFrontOf.find(_sprite2) != null)
+			return true;
+		if ((_sprite2 in spriteOrder) && spriteOrder[_sprite2].Behind.find(_sprite1) != null)
+			return true;
+
+		return false;
+	}
+
+	function __isBehind( _script, _sprite1, _sprite2 )
+	{
+		local spriteOrder = this.SpriteOrder[_script];
+		if ((_sprite1 in spriteOrder) && spriteOrder[_sprite1].Behind.find(_sprite2) != null)
+			return true;
+		if ((_sprite2 in spriteOrder) && spriteOrder[_sprite2].InFrontOf.find(_sprite1) != null)
+			return true;
+
+		return false;
 	}
 }
 
