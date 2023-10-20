@@ -25,7 +25,8 @@
 		"F32",
 		"DataArray",
 		"Table",
-		"Array"
+		"Array",
+		"RawDataArray"
 	]),
 	Timers = {}
 	States = {},
