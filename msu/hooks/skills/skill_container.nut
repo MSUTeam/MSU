@@ -1,5 +1,4 @@
 ::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
-	q.m.LastLevelOnUpdateLevelCalled <- 0;
 	q.m.ScheduledChangesSkills <- [];
 	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
@@ -129,12 +128,7 @@
 	
 	q.onUpdateLevel <- function()
 	{
-		local currLevel = this.getActor().getLevel();
-		if (currLevel > this.m.LastLevelOnUpdateLevelCalled)
-		{
-			this.m.LastLevelOnUpdateLevelCalled = currLevel;
-			this.callSkillsFunction("onUpdateLevel");
-		}
+		this.callSkillsFunction("onUpdateLevel");
 	}
 
 	q.onNewMorning <- function()
