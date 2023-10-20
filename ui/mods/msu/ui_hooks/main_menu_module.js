@@ -5,7 +5,8 @@ MainMenuModule.prototype.createMainMenuButtons = function ()
 	this.addModOptionsButton();
 };
 
-MainMenuModule.prototype.addModOptionsButton = function() {
+MainMenuModule.prototype.addModOptionsButton = function()
+{
 	var self = this;
 
 	var row = $('<div class="row"></div>');
