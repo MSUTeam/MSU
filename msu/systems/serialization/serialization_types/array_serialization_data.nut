@@ -10,7 +10,7 @@
 		::MSU.requireArray(_data);
 		base.constructor(_data);
 
-		this.__DataArray = ::MSU.Class.DataArrayData();
+		this.__DataArray = ::MSU.Class.RawDataArrayData();
 		this.setLength(_data.len());
 
 		foreach (i, element in _data)

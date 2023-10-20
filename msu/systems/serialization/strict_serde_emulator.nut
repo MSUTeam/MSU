@@ -2,10 +2,10 @@
 {
 	DataArray = null;
 
-	constructor( _metaData, _dataArray )
+	constructor( _dataArray )
 	{
-		base.constructor(_metaData);
 		this.DataArray = _dataArray;
+		base.constructor(_dataArray.getMetaData());
 	}
 
 	function getDataArray()

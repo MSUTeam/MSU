@@ -87,6 +87,18 @@
 		return "";
 	}
 
+	function serialize( _out )
+	{
+		_out.writeU8(this.Version);
+		::MSU.Utils.serialize(this.Data, _out);
+	}
+
+	function deserialize( _in )
+	{
+		this.Version = _in.readU8();
+		this.Data = ::MSU.Utils.deserialize(_in);
+	}
+
 	function _cloned( _original )
 	{
 		this.Data = clone _original.Data;
