@@ -104,4 +104,15 @@
 			}
 		}
 	}
+
+	// Returns a new array
+	function removeDuplicates( _array )
+	{
+		local arrayTable = {};
+		foreach (entry in _array)
+		{
+			arrayTable[entry] <- null;
+		}
+		return ::MSU.Table.keys(arrayTable);
+	}
 }
