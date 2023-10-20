@@ -71,7 +71,7 @@
 				array.deserialize(_in);
 				return array;
 			default:
-				local unknownData =  ::MSU.Class.UnknownSerializationData(type, null);
+				local unknownData =  ::MSU.Class.UnknownSerializationData(type);
 				unknownData.deserialize(_in);
 				return unknownData;
 		}
@@ -125,7 +125,7 @@
 			case "table":
 				if (::MSU.isBBObject(_value))
 				{
-					::logError("MSU Serialization cannot handle BB Objects");
+					::logError("MSU Serialization cannot serialize BB Objects directly");
 					throw ::MSU.Exception.InvalidValue(_value);
 				}
 				return ::MSU.Class.TableSerializationData(_value);

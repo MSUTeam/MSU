@@ -1,10 +1,10 @@
-::MSU.Class.UnknownSerializationData <- class extends ::MSU.Class.DataArrayData
+::MSU.Class.UnknownSerializationData <- class extends ::MSU.Class.RawDataArrayData
 {
 	__Type = null;
 
-	constructor( _type, _data )
+	constructor( _type )
 	{
 		this.__Type = _type;
-		base.constructor(_data);
+		base.constructor();
 	}
 }
