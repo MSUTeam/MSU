@@ -24,7 +24,7 @@
 		return ret;
 	}
 
-	function setOrder( _class, _sprite, _behind = null, _inFrontOf = null )
+	function setOrder( _script, _sprite, _behind = null, _inFrontOf = null )
 	{
 		// Ensure that both _behind and _inFrontOf are not null at the same time.
 		// And when not null, they are arrays.
@@ -33,14 +33,14 @@
 		if (_inFrontOf != null) ::MSU.requireArray(_inFrontOf);
 		else ::MSU.requireArray(_behind);
 
-		if (!(_class in this.SpriteOrder))
+		if (!(_script in this.SpriteOrder))
 		{
-			this.SpriteOrder[_class] <- {};
+			this.SpriteOrder[_script] <- {};
 		}
 
-		if (!(_sprite in this.SpriteOrder[_class]))
+		if (!(_sprite in this.SpriteOrder[_script]))
 		{
-			this.SpriteOrder[_class][_sprite] <- {
+			this.SpriteOrder[_script][_sprite] <- {
 				Behind = [],
 				InFrontOf = []
 			};
@@ -50,26 +50,26 @@
 		{
 			foreach (sprite in _behind)
 			{
-				if (this.SpriteOrder[_class][_sprite].Behind.find(sprite) == null)
-					this.SpriteOrder[_class][_sprite].Behind.push(sprite);
+				if (this.SpriteOrder[_script][_sprite].Behind.find(sprite) == null)
+					this.SpriteOrder[_script][_sprite].Behind.push(sprite);
 			}
 		}
 		if (_inFrontOf != null)
 		{
 			foreach (sprite in _inFrontOf)
 			{
-				if (this.SpriteOrder[_class][_sprite].InFrontOf.find(sprite) == null)
-					this.SpriteOrder[_class][_sprite].InFrontOf.push(sprite);
+				if (this.SpriteOrder[_script][_sprite].InFrontOf.find(sprite) == null)
+					this.SpriteOrder[_script][_sprite].InFrontOf.push(sprite);
 			}
 		}
 	}
 }
 
 ::MSU.QueueBucket.VeryLate.push(function() {
-	foreach (clas, spriteOrder in ::MSU.Sprite.SpriteOrder)
+	foreach (script, spriteOrder in ::MSU.Sprite.SpriteOrder)
 	{
 		local orderInfo = spriteOrder;
-		::MSU.HooksMod.hook(clas, function(q) {
+		::MSU.HooksMod.hook(script, function(q) {
 			q.addSprite = @(__native) function( _sprite )
 			{
 				if (_sprite in orderInfo)
