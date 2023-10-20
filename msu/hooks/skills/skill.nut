@@ -214,7 +214,7 @@
 		return true;
 	}
 
-	// TODO: Should probably switch to a leaf hook on `onAdded` in VeryLateBucket
+	// TODO: Should probably switch to a hookTree on `onAdded` in VeryLateBucket
 	q.setContainer = @(__original) function( _c )
 	{
 		if (_c == null)
@@ -244,7 +244,7 @@
 		}
 	}
 
-	// TODO: Should probably switch to a leaf hook in VeryLateBucket
+	// TODO: Should probably switch to a hookTree VeryLateBucket
 	// TODO: Should call the original before setting the base value
 	q.setFatigueCost = @(__original) function( _f )
 	{
