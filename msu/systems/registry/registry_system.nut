@@ -39,7 +39,7 @@
 				::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.KeyNotFound(_mod.getID());
 			}
-			if (typeof ::Hooks.getMod(_mod.getID()).getVersionString() == "float" || ::Hooks.getMod(_mod.getID()).getVersionString() != _mod.getVersionString())
+			if (::Hooks.getMod(_mod.getID()).getVersionString() != _mod.getVersionString())
 			{
 				::logError("Register your mod using the same version with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.InvalidValue(_mod.getVersionString());
