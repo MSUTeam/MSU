@@ -22,13 +22,23 @@
 		local match;
 		local ret = "";
 		local lastPos = 0;
+		local tag = "tooltip";
 		while (match = this.__regexp.capture(_string, lastPos))
 		{
 			ret += _string.slice(lastPos, match[0].begin);
 			local text = _string.slice(match[1].begin, match[1].end);
+			if (text.find("Img/") != null)
+			{
+				text = text.slice(4);
+				tag = "imgtooltip";
+			}
+			else
+			{
+				tag = "tooltip";
+			}
 			local tooltipID = _string.slice(match[2].begin, match[2].end);
 			local modID = !::MSU.System.Tooltips.hasKey(myModID, tooltipID) && ::MSU.System.Tooltips.hasKey(::MSU.ID, tooltipID) ? ::MSU.ID : myModID;
-			ret += format("[tooltip=%s.%s]%s[/tooltip]", modID, _prefix + tooltipID, text);
+			ret += format("[%s=%s.%s]%s[/%s]", tag, modID, _prefix + tooltipID, text, tag);
 			lastPos = match[0].end;
 		}
 

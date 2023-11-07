@@ -3,6 +3,10 @@
 {
 	display: inline-block;
 }
+.msu-nested-tooltip img
+{
+	height: 2.5rem;
+}
 .msu-nested-tooltips-within
 {
 	border-top: 3px solid #AC7327;
