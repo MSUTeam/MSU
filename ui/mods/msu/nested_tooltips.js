@@ -58,6 +58,7 @@ MSU.NestedTooltip = {
 	},
 	bindToElement : function (_element, _tooltipParams)
 	{
+		this.unbindFromElement(_element);
 		_element.on('mouseenter.msu-tooltip-source', this.getBindFunction(_tooltipParams));
 	},
 	unbindFromElement : function (_element)
