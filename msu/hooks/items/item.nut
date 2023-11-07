@@ -1,7 +1,5 @@
-::mods_hookBaseClass("items/item", function(o) {
-	o = o[o.SuperName];
-
-	o.isItemType = function( _t, _any = true, _only = false )
+::MSU.HooksMod.hook("scripts/items/item", function(q) {
+	q.isItemType = @(__original) function( _t, _any = true, _only = false )
 	{
 		if (_any)
 		{
@@ -13,38 +11,37 @@
 		}
 	}
 
-	o.addItemType <- function ( _t )
+	q.addItemType <- function ( _t )
 	{
 		this.m.ItemType = this.m.ItemType | _t;
 	}
 
-	o.setItemType <- function( _t )
+	q.setItemType <- function( _t )
 	{
 		this.m.ItemType = _t;
 	}
 
-	o.removeItemType <- function( _t )
+	q.removeItemType <- function( _t )
 	{
 		if (this.isItemType(_t, false)) this.m.ItemType -= _t;
 		else throw ::MSU.Exception.KeyNotFound(_t);
 	}
 
-	o.getSkills <- function()
+	q.getSkills <- function()
 	{
 		return this.m.SkillPtrs.filter(@(idx, skill) skill.getID() != "items.generic");
 	}
 
-	o.getMovementSpeedMult <- function()
+	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
 	}
 
-	local getDescription = o.getDescription;
-	o.getDescription = function()
+	q.getDescription = @(__original) function()
 	{
 		if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemTooltips").getValue())
 		{
-			return getDescription();
+			return __original();
 		}
 
 		local names = "";
@@ -60,14 +57,14 @@
 			}
 		}
 
-		return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + getDescription() : getDescription();
+		return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + __original() : __original();
 	}
 
-	o.onAfterUpdateProperties <- function( _properties )
+	q.onAfterUpdateProperties <- function( _properties )
 	{			
 	}
 
-	o.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
+	q.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
 	{
 	}
 });

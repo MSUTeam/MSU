@@ -1,28 +1,26 @@
-::mods_registerCSS("msu/css/misc.css");
-::mods_registerCSS("msu/css/settings_screen.css");
+::Hooks.registerJS("ui/mods/msu/popup.js");
+::Hooks.registerCSS("ui/mods/msu/css/popup.css");
 
-::mods_registerJS("msu/utilities.js");
+::Hooks.registerCSS("ui/mods/msu/css/misc.css");
+::Hooks.registerCSS("ui/mods/msu/css/settings_screen.css");
 
-::mods_registerJS("msu/ui_hooks/main_menu_module.js");
-::mods_registerJS("msu/ui_hooks/main_menu_screen.js");
-::mods_registerJS("msu/ui_hooks/tooltip_module.js");
+::Hooks.registerJS("ui/mods/msu/utilities.js");
 
-::mods_registerJS("msu/backend_connection.js");
-::mods_registerJS("msu/msu_connection.js");
-::mods_registerJS("msu/ui_screen.js");
+::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_module.js");
+::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_screen.js");
+::Hooks.registerJS("ui/mods/msu/ui_hooks/tooltip_module.js");
+
+::Hooks.registerJS("ui/mods/msu/backend_connection.js");
+::Hooks.registerJS("ui/mods/msu/msu_connection.js");
+::Hooks.registerJS("ui/mods/msu/ui_screen.js");
 
 foreach (file in ::IO.enumerateFiles("ui/mods/msu/mod_settings/"))
-{
-	local splitFile = split(file, "/");
-	local shortArray = splitFile.slice(2, splitFile.len());
-	local shortenedString = shortArray.reduce(@(a, b) a + "/" + b);
-	::mods_registerJS(shortenedString + ".js");
-}
+	::Hooks.registerJS(file + ".js");
 
-::mods_registerJS("msu/keybinds/key_static.js");
-::mods_registerJS("msu/keybinds/keybind.js");
-::mods_registerJS("msu/keybinds/keybinds_system.js");
-::mods_registerJS("msu/keybinds/document_events.js");
+::Hooks.registerJS("ui/mods/msu/keybinds/key_static.js");
+::Hooks.registerJS("ui/mods/msu/keybinds/keybind.js");
+::Hooks.registerJS("ui/mods/msu/keybinds/keybinds_system.js");
+::Hooks.registerJS("ui/mods/msu/keybinds/document_events.js");
 
 
 ::MSU.includeFile("msu/ui/", "ui.nut");

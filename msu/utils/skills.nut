@@ -1,5 +1,4 @@
 ::MSU.Skills <- {
-	EventsToAdd = [],
 	PreviewApplicableFunctions = [
 		"getActionPointCost",
 		"getFatigueCost"
@@ -15,15 +14,37 @@
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
-		this.EventsToAdd.push({
-			Name = _name,
-			Update = _update,
-			AliveOnly = _aliveOnly
+		::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+			q[_name] <- _function == null ? function() {} : _function;
 		});
 
-		::mods_hookBaseClass("skills/skill", function(o) {
-			o = o[o.SuperName];
-			o[_name] <- _function == null ? function() {} : _function;
+		::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+			if (_function == null || _function.getinfos().parameters.len() == 1) // for parameterless functions it should be a len 1 array containing "this"
+			{
+				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly);
+			}
+			else
+			{
+				local info = _function.getinfos();
+				local declarationParams = clone info.parameters; // used in compilestring for function declaration
+				declarationParams.remove(0) // remove "this"
+				local wrappedParams = clone declarationParams; // used in compilestring to call skills function
+
+				if (declarationParams[declarationParams.len() - 1] == "...")
+				{
+					declarationParams.remove(declarationParams.len() - 2); // remove "vargv"
+					wrappedParams.remove(wrappedParams.len() - 1); // remove "..."
+				}
+				else // function with vargv cannot have defparams
+				{
+					foreach (i, defparam in info.defparams)
+					{
+						declarationParams[declarationParams.len() - info.defparams.len() + i] += " = " + defparam;
+					}
+				}
+
+				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(%s, [%s], %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + ""))();
+			}
 		});
 	}
 
@@ -41,7 +62,7 @@
 	function removeFromSoftReset( _field )
 	{
 		local idx = this.SoftResetFields.find(_field);
-		if (idx != null) this.SoftResetFields.remove(idx); 
+		if (idx != null) this.SoftResetFields.remove(idx);
 	}
 
 	// Private

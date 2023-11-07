@@ -1,26 +1,31 @@
-::mods_hookExactClass("skills/perks/perk_quick_hands", function(o) {
-	o.m.IsSpent <- false;
-	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
+::MSU.HooksMod.hook("scripts/skills/perks/perk_quick_hands", function(q) {
+	q.m.IsSpent <- false;
 
-	o.onUpdate = function( _properties )
+	q.create = @(__original) function()
+	{
+		__original();
+		this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
+	}
+
+	q.onUpdate = @(__original) function( _properties )
 	{
 	}
 
-	o.onCombatStarted = function()
+	q.onCombatStarted = @(__original) function()
 	{
 	}
 
-	o.onCombatFinished = function()
+	q.onCombatFinished = @(__original) function()
 	{
 		this.skill.onCombatFinished();
 	}
 
-	o.isHidden <- function()
+	q.isHidden <- function()
 	{
 		return this.m.IsSpent;
 	}
 
-	o.getItemActionCost <- function( _items )
+	q.getItemActionCost <- function( _items )
 	{
 		foreach (item in _items)
 		{
@@ -32,7 +37,7 @@
 		return this.m.IsSpent ? null : 0;
 	}
 
-	o.onPayForItemAction <- function( _skill, _items )
+	q.onPayForItemAction <- function( _skill, _items )
 	{
 		if (_skill == this)
 		{
@@ -40,7 +45,7 @@
 		}
 	}
 
-	o.onTurnStart <- function()
+	q.onTurnStart <- function()
 	{
 		this.m.IsSpent = false;
 	}

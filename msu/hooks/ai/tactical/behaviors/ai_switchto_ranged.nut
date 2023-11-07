@@ -1,6 +1,5 @@
-::mods_hookExactClass("ai/tactical/behaviors/ai_switchto_ranged", function(o) {
-	local onExecute = o.onExecute;
-	o.onExecute = function( _entity )
+::MSU.HooksMod.hook("scripts/ai/tactical/behaviors/ai_switchto_ranged", function(q) {
+	q.onExecute = @(__original) function( _entity )
 	{
 		local itemsBefore = array(::Const.ItemSlot.COUNT);
 		for (local i = 0; i < ::Const.ItemSlot.COUNT; i++)
@@ -9,7 +8,7 @@
 		}
 
 		_entity.getItems().m.MSU_IsIgnoringItemAction = true;
-		local ret = onExecute(_entity);
+		local ret = __original(_entity);
 		_entity.getItems().m.MSU_IsIgnoringItemAction = false;
 
 		if (ret)

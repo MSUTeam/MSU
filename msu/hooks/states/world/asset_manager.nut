@@ -1,7 +1,6 @@
-::mods_hookNewObject("states/world/asset_manager", function(o) {
-	o.m.LastDayMorningEventCalled <- 0;
-	local update = o.update;
-	o.update = function( _worldState )
+::MSU.HooksMod.hook("scripts/states/world/asset_manager", function(q) {
+	q.m.LastDayMorningEventCalled <- 0;
+	q.update = @(__original) function( _worldState )
 	{
 		if (::World.getTime().Hours == 1 && ::World.getTime().Hours != this.m.LastHourUpdated && ::World.getTime().Days > this.m.LastDayMorningEventCalled)
 		{
@@ -19,15 +18,15 @@
 			::World.Assets.getOrigin().onNewDay();
 		}
 
-		update(_worldState);
+		return __original(_worldState);
 	}
 
-	o.getLastDayMorningEventCalled <- function()
+	q.getLastDayMorningEventCalled <- function()
 	{
 		return this.m.LastDayMorningEventCalled;
 	}
 
-	o.setLastDayMorningEventCalled <- function( _day )
+	q.setLastDayMorningEventCalled <- function( _day )
 	{
 		this.m.LastDayMorningEventCalled = _day;
 	}

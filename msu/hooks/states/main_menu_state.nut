@@ -1,16 +1,15 @@
-::mods_hookExactClass("states/main_menu_state", function(o) {
-	o.m.ModSettingsShown <- false;
-	o.m.TempSettings <- null;
+::MSU.HooksMod.hook("scripts/states/main_menu_state", function(q) {
+	q.m.ModSettingsShown <- false;
+	q.m.TempSettings <- null;
 
-	local onInit = o.onInit;
-	o.onInit = function()
+	q.onInit = @(__original) function()
 	{
-		onInit();
+		__original();
 		local mainMenuModule = this.m.MainMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
 	}
 
-	o.main_menu_module_onModOptionsPressed <- function()
+	q.main_menu_module_onModOptionsPressed <- function()
 	{
 		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this)); // Need to bind these every time because it's a new screen and not a module (which tbh was probs a mistake).
 		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
@@ -26,13 +25,12 @@
 		});
 	}
 
-	local campaign_menu_module_onStartPressed = o.campaign_menu_module_onStartPressed;
-	o.campaign_menu_module_onStartPressed = function( _settings )
+	q.campaign_menu_module_onStartPressed = @(__original) function( _settings )
 	{
 		this.m.TempSettings = _settings;
 		if (this.m.ModSettingsShown || !::MSU.System.ModSettings.isVisibleWithFlags(::MSU.SettingsFlags.NewCampaign))
 		{
-			campaign_menu_module_onStartPressed(_settings);
+			__original(_settings);
 		}
 		else
 		{
@@ -52,13 +50,13 @@
 		}
 	}
 
-	o.msu_settings_screen_onCancelPressed <- function()
+	q.msu_settings_screen_onCancelPressed <- function()
 	{
 		this.m.ModSettingsShown = false;
 		this.m.MenuStack.pop();
 	}
 
-	o.msu_settings_screen_onSavepressed <- function( _data )
+	q.msu_settings_screen_onSavepressed <- function( _data )
 	{
 		::MSU.System.ModSettings.updateSettingsFromJS(_data);
 		this.m.MenuStack.pop();
@@ -70,31 +68,29 @@
 		}
 	}
 
-	local onKeyInput = o.onKeyInput;
-	o.onKeyInput = function( _key )
+	q.onKeyInput = @(__original) function( _key )
 	{
 		if (!::MSU.Key.isKnownKey(_key))
 		{
-			return onKeyInput(_key);
+			return __original(_key);
 		}
 		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.MainMenu) || ::MSU.Mod.ModSettings.getSetting("SuppressBaseKeybinds").getValue())
 		{
 			return false;
 		}
-		return onKeyInput(_key);
+		return __original(_key);
 	}
 
-	local onMouseInput = o.onMouseInput;
-	o.onMouseInput = function( _mouse )
+	q.onMouseInput = @(__original) function( _mouse )
 	{
 		if (!::MSU.Key.isKnownMouse(_mouse))
 		{
-			return onMouseInput(_mouse);
+			return __original(_mouse);
 		}
 		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.MainMenu))
 		{
 			return false;
 		}
-		return onMouseInput(_mouse);
+		return __original(_mouse);
 	}
 });

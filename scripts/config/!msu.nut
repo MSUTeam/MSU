@@ -6,6 +6,11 @@
 	Class = {},
 	BBClass = {
 		Empty = "scripts/mods/msu/empty_bb_class"
+	},
+	QueueBucket = {
+		VeryLate = [],
+		AfterHooks = [],
+		FirstWorldInit = []
 	}
 };
 

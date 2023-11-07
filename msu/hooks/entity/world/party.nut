@@ -1,12 +1,11 @@
-::mods_hookExactClass("entity/world/party", function(o) {
+::MSU.HooksMod.hook("scripts/entity/world/party", function(q) {
 	// The final movement speed mult that is applied to the default value of 100
-	o.m.MovementSpeedMult <- 1.0;
-	o.m.MovementSpeedMultFunctions <- {};
+	q.m.MovementSpeedMult <- 1.0;
+	q.m.MovementSpeedMultFunctions <- {};
 
-	local create = o.create;
-	o.create = function()
+	q.create = @(__original) function()
 	{
-		create();
+		__original();
 		this.m.MovementSpeedMultFunctions.BaseMovementSpeedMult <- this.getBaseMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RoadMovementSpeedMult <- this.getRoadMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.SlowdownPerUnitMovementSpeedMult <- this.getSlowdownPerUnitMovementSpeedMult;
@@ -17,28 +16,28 @@
 	}
 
 	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value
-	o.getBaseMovementSpeed = function()
+	q.getBaseMovementSpeed = @(__original) function()
 	{
 		return this.getMovementSpeed();
 	}
 
 	// Get the base values that were changed for slower parties or things like caravan contracts
-	o.getBaseMovementSpeedMult <- function()
+	q.getBaseMovementSpeedMult <- function()
 	{
 		return this.m.BaseMovementSpeed / 100.0;
 	}
 
-	o.getMovementSpeedMult <- function()
+	q.getMovementSpeedMult <- function()
 	{
 		return this.m.MovementSpeedMult;
 	}
 
-	o.setMovementSpeedMult <- function( _mult )
+	q.setMovementSpeedMult <- function( _mult )
 	{
 		this.m.MovementSpeedMult = _mult;
 	}
 
-	o.getFinalMovementSpeedMult <- function()
+	q.getFinalMovementSpeedMult <- function()
 	{
 		local mult = 1.0;
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
@@ -49,12 +48,12 @@
 		return mult;
 	}
 
-	o.updateMovementSpeedMult <- function()
+	q.updateMovementSpeedMult <- function()
 	{
 		this.setMovementSpeedMult(this.getFinalMovementSpeedMult());
 	}
 
-	o.getMovementSpeed <- function( _update = false )
+	q.getMovementSpeed <- function( _update = false )
 	{
 		if (_update)
 		{
@@ -64,7 +63,7 @@
 		return speed;
 	}
 
-	o.getTimeDelta <- function() 
+	q.getTimeDelta <- function()
 	{
 		local delta = ::Math.maxf(0.0, ::Time.getVirtualTimeF() - this.m.LastUpdateTime);
 		return delta;
@@ -72,17 +71,17 @@
 
 	//------------- All movementspeed factors, extracted out of party onUpdate() ---------------------
 
-	o.getSlowdownPerUnitMovementSpeedMult <- function()
+	q.getSlowdownPerUnitMovementSpeedMult <- function()
 	{
 		return (1.0 - ::Math.minf(0.5, this.m.Troops.len() * ::Const.World.MovementSettings.SlowDownPartyPerTroop));
 	}
 
-	o.getGlobalMovementSpeedMult <- function()
+	q.getGlobalMovementSpeedMult <- function()
 	{
 		return ::Const.World.MovementSettings.GlobalMult;
 	}
 
-	o.getRoadMovementSpeedMult <- function()
+	q.getRoadMovementSpeedMult <- function()
 	{
 		if (this.isIgnoringCollision())
 		{
@@ -99,12 +98,12 @@
 		}
 	}
 
-	o.getTerrainTypeSpeedMult <- function()
+	q.getTerrainTypeSpeedMult <- function()
 	{
 		return this.m.IsPlayer ? ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
 	}
 
-	o.getNightTimeMovementSpeedMult <- function()
+	q.getNightTimeMovementSpeedMult <- function()
 	{
 		if (!this.m.IsSlowerAtNight || ::World.isDaytime())
 		{
@@ -113,18 +112,17 @@
 		return ::Const.World.MovementSettings.NighttimeMult;
 	}
 
-	o.getRiverMovementSpeedMult <- function()
+	q.getRiverMovementSpeedMult <- function()
 	{
 		return this.getTile().HasRiver ? ::Const.World.MovementSettings.RiverMult : 1.0;
 	}
 
-	o.getNotPlayerMovementSpeedMult <- function()
+	q.getNotPlayerMovementSpeedMult <- function()
 	{
 		return this.m.IsPlayer ? 1.0 : ::Const.World.MovementSettings.NotPlayerMult;
 	}
 
-	local onUpdate = o.onUpdate;
-	o.onUpdate = function()
+	q.onUpdate = @(__original) function()
 	{
 		local moddedSpeed = this.getMovementSpeed(true);
 		local delta = this.getTimeDelta();
@@ -138,11 +136,11 @@
 			}
 			return move(_dest, speedDelta);
 		}
-		onUpdate();
+		__original();
 		this.move = move;
 	}
 
-	o.__testCompareMovementSpeeds <- function(_moddedSpeed, _speed)
+	q.__testCompareMovementSpeeds <- function(_moddedSpeed, _speed)
 	{
 		local name = this.m.IsPlayer ? "Player" : this.getName()
 		local vanillaMovementSpeed = 1.0

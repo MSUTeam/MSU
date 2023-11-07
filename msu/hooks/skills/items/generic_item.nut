@@ -1,5 +1,5 @@
-::mods_hookExactClass("skills/items/generic_item", function(o) {
-	o.onAfterUpdate <- function( _properties )
+::MSU.HooksMod.hook("scripts/skills/items/generic_item", function(q) {
+	q.onAfterUpdate <- function( _properties )
 	{
 		if (!::MSU.isNull(this.m.Item) && !::MSU.isNull(this.m.Item.getContainer()))
 		{
@@ -11,7 +11,7 @@
 		}
 	}
 
-	o.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
+	q.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
 	{
 		if (!::MSU.isNull(this.m.Item) && !::MSU.isNull(this.m.Item.getContainer()))
 		{

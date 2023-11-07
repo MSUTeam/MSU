@@ -1,29 +1,25 @@
-::mods_hookDescendants("items/weapons/weapon", function(o) {
-	if ("create" in o)
+::MSU.HooksMod.hookTree("scripts/items/weapons/weapon", function(q) {
+	q.create = @(__original) function()
 	{
-		local create = o.create;
-		o.create = function()
+		__original();
+		if (this.getCategories() == "")
 		{
-			create();
-			if (this.getCategories() == "")
+			if (this.m.WeaponType != ::Const.Items.WeaponType.None)
 			{
-				if (this.m.WeaponType != ::Const.Items.WeaponType.None)
-				{
-					this.setupCategories();
-				}
+				this.setupCategories();
 			}
-			else
-			{
-				this.setupWeaponType();
-			}
+		}
+		else
+		{
+			this.setupWeaponType();
 		}
 	}
 });
 
-::mods_hookExactClass("items/weapons/weapon", function(o) {
-	o.m.WeaponType <- ::Const.Items.WeaponType.None;
+::MSU.HooksMod.hook("scripts/items/weapons/weapon", function(q) {
+	q.m.WeaponType <- ::Const.Items.WeaponType.None;
 
-	o.setCategories <- function( _s, _setupWeaponType = true )
+	q.setCategories <- function( _s, _setupWeaponType = true )
 	{
 		this.m.Categories = _s;
 
@@ -33,10 +29,9 @@
 		}
 	}
 
-	local addSkill = o.addSkill;
-	o.addSkill = function( _skill )
+	q.addSkill = @(__original) function( _skill )
 	{
-		local ret = addSkill(_skill);
+		local ret = __original(_skill);
 		if (::MSU.isIn("AdditionalAccuracy", _skill.m, true))
 		{
 			_skill.resetField("AdditionalAccuracy");
@@ -46,7 +41,7 @@
 		return ret;
 	}
 
-	o.setupWeaponType <- function()
+	q.setupWeaponType <- function()
 	{
 		this.m.WeaponType = ::Const.Items.WeaponType.None;
 
@@ -83,7 +78,7 @@
 		}
 	}
 
-	o.isWeaponType <- function( _t, _any = true, _only = false )
+	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
 		if (_any)
 		{
@@ -95,7 +90,7 @@
 		}
 	}
 
-	o.addWeaponType <- function( _weaponType, _setupCategories = true )
+	q.addWeaponType <- function( _weaponType, _setupCategories = true )
 	{
 		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
@@ -105,7 +100,7 @@
 		}
 	}
 
-	o.setWeaponType <- function( _t, _setupCategories = true )
+	q.setWeaponType <- function( _t, _setupCategories = true )
 	{
 		this.m.WeaponType = _t;
 
@@ -115,7 +110,7 @@
 		}
 	}
 
-	o.removeWeaponType <- function( _weaponType, _setupCategories = true )
+	q.removeWeaponType <- function( _weaponType, _setupCategories = true )
 	{
 		if (this.isWeaponType(_weaponType, false))
 		{
@@ -128,7 +123,7 @@
 		}
 	}
 
-	o.setupCategories <- function()
+	q.setupCategories <- function()
 	{
 		this.m.Categories = "";
 
