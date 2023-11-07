@@ -15,6 +15,14 @@
 }, ::Hooks.QueueBucket.VeryLate);
 
 ::MSU.HooksMod.queue(function() {
+	foreach (func in ::MSU.QueueBucket.AfterHooks)
+	{
+		func();
+	}
+	::MSU.QueueBucket.AfterHooks.clear();
+}, ::Hooks.QueueBucket.AfterHooks);
+
+::MSU.HooksMod.queue(function() {
 	foreach (func in ::MSU.QueueBucket.FirstWorldInit)
 	{
 		func();
