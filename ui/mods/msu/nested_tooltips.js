@@ -1,5 +1,6 @@
 MSU.NestedTooltip = {
 	__regexp : /(?:\[|&#91;)tooltip=([\w\.]+?)\.(.+?)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/tooltip(?:\]|&#93;)/gm,
+	__imgRegexp : /(?:\[|&#91;)imgtooltip=([\w\.]+?)\.(.+?)(?:\]|&#93;)(.*?)(?:\[|&#91;)\/imgtooltip(?:\]|&#93;)/gm,
 	__tooltipStack : [],
 	__tooltipHideDelay : 100,
 	__tooltipShowDelay : 200,
@@ -342,6 +343,20 @@ MSU.NestedTooltip = {
 		_text = _text || "";
 		return '<div class="msu-nested-tooltip" style="' + this.TextStyle + '" data-msu-nested-mod="' + _mod + '" data-msu-nested-id="' + _id + '">' + _text + '</div>';
 	},
+	getTooltipImageHTML : function (_mod, _id, _src)
+	{
+		var img = '<img msu-nested="true" src="coui://' + _src + '"</img>';
+		return this.getTooltipLinkHTML(_mod, _id, img);
+	},
+	parseImageText : function (_text)
+	{
+		var self = this;
+		return _text.replace(this.__imgRegexp, function( _match, _mod, _id, _text)
+		{
+			var ret = self.getTooltipImageHTML(_mod, _id, _text);
+			return ret;
+		})
+	},
 	parseText : function (_text)
 	{
 		var self = this;
@@ -355,7 +370,7 @@ MSU.NestedTooltip = {
 		var self = this;
 		_jqueryObj.find('img').each(function ()
 		{
-			if (this.src in self.KeyImgMap)
+			if (this.src in self.KeyImgMap && (this.hasAttribute("msu-nested") != true))
 			{
 				var entry = self.KeyImgMap[this.src];
 				var img = $(this);
@@ -397,6 +412,7 @@ MSU.XBBCODE_process = XBBCODE.process;
 XBBCODE.process = function (config)
 {
 	var ret = MSU.XBBCODE_process.call(this, config);
+	ret.html = MSU.NestedTooltip.parseImageText(ret.html);
 	ret.html = MSU.NestedTooltip.parseText(ret.html)
 	return ret;
 }
