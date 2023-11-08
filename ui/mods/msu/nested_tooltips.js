@@ -79,7 +79,7 @@ MSU.NestedTooltip = {
 			if (tooltipSource.data('msu-nested') !== undefined) return;
 			self.__showTooltipTimeout = setTimeout(function(){
 				self.onShowTooltipTimerExpired(tooltipSource, _tooltipParams);
-			}, self.__tooltipShowDelay);
+			}, _tooltipParams.isTileTooltip === true ? 0 : self.__tooltipShowDelay);
 
 			tooltipSource.on('mouseleave.msu-tooltip-loading', function (_event)
 			{
