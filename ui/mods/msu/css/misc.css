@@ -10,12 +10,6 @@
 .msu-nested-tooltips-within
 {
 	border-top: 3px solid #AC7327;
-	border-left: 3px solid #AC7327;
-}
-.msu-nested-tooltips-locked
-{
-	border-right: 3px solid #AC7327;
-	border-bottom: 3px solid #AC7327;
 }
 .msu-nested-tooltip-not-hovered
 {
@@ -25,6 +19,7 @@
 {
 	position: absolute;
 	background-image: url(coui://gfx/mods/msu/icons/timeout.png);
+	background-size: 15px 22px;
 	right: 1rem;
 	top: 0.7rem;
 	width: 15px;
