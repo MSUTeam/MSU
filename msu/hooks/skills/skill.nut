@@ -1,71 +1,69 @@
-::mods_hookDescendants("skills/skill", function(o) {
-	if ("create" in o)
+::MSU.HooksMod.hookTree("scripts/skills/skill", function(q) {
+	if (!q.contains("create"))
+		return;
+
+	q.create = @(__original) function()
 	{
-		local create = o.create;
-		o.create = function()
+		__original();
+		if (this.m.IsAttack && (this.m.DamageType == null || this.m.DamageType.len() == 0))
 		{
-			create();
-			if (this.m.IsAttack && this.m.DamageType.len() == 0)
+			this.m.DamageType = ::MSU.Class.WeightedContainer();
+			switch (this.m.InjuriesOnBody)
 			{
-				switch (this.m.InjuriesOnBody)
-				{
-					case null:
-						this.m.DamageType.add(::Const.Damage.DamageType.None);
-						break;
+				case null:
+					this.m.DamageType.add(::Const.Damage.DamageType.None);
+					break;
 
-					case ::Const.Injury.BluntBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Blunt);
-						break;
+				case ::Const.Injury.BluntBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Blunt);
+					break;
 
-					case ::Const.Injury.PiercingBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
-						break;
+				case ::Const.Injury.PiercingBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+					break;
 
-					case ::Const.Injury.CuttingBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
-						break;
+				case ::Const.Injury.CuttingBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+					break;
 
-					case ::Const.Injury.BurningBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Burning);
-						break;
+				case ::Const.Injury.BurningBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Burning);
+					break;
 
-					case ::Const.Injury.BluntAndPiercingBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Blunt, 55);
-						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 45);
-						break;
+				case ::Const.Injury.BluntAndPiercingBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Blunt, 55);
+					this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 45);
+					break;
 
-					case ::Const.Injury.BurningAndPiercingBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Burning, 25);
-						this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 75);
-						break;
+				case ::Const.Injury.BurningAndPiercingBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Burning, 25);
+					this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 75);
+					break;
 
-					case ::Const.Injury.CuttingAndPiercingBody:
-						this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
-						this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
-						break;
+				case ::Const.Injury.CuttingAndPiercingBody:
+					this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
+					this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
+					break;
 
-					default:
-						this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
-				}
+				default:
+					this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
 			}
 		}
 	}
 });
 
-::mods_hookBaseClass("skills/skill", function(o) {
-	o = o[o.SuperName];
+::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+	q.m.AIBehaviorID <- null;
+	q.m.DamageType <- null;
+	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
-	o.m.AIBehaviorID <- null;
-	o.m.DamageType <- ::MSU.Class.WeightedContainer();
-	o.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
+	q.m.IsBaseValuesSaved <- false;
+	q.m.ScheduledChanges <- [];
 
-	o.m.IsBaseValuesSaved <- false;
-	o.m.ScheduledChanges <- [];
+	q.m.IsApplyingPreview <- false;
+	q.m.PreviewField <- {};
 
-	o.m.IsApplyingPreview <- false;
-	o.PreviewField <- {};
-
-	o.isType = function( _t, _any = true, _only = false )
+	q.isType = @() function( _t, _any = true, _only = false )
 	{
 		if (_any)
 		{
@@ -77,29 +75,29 @@
 		}
 	}
 
-	o.addType <- function ( _t )
+	q.addType <- function ( _t )
 	{
 		this.m.Type = this.m.Type | _t;
 	}
 
-	o.setType <- function( _t )
+	q.setType <- function( _t )
 	{
 		this.m.Type = _t;
 	}
 
-	o.removeType <- function( _t )
+	q.removeType <- function( _t )
 	{
 		if (this.isType(_t, false)) this.m.Type -= _t;
 		else throw ::MSU.Exception.KeyNotFound(_t);
 	}
 
-	o.scheduleChange <- function( _field, _change, _set = false )
+	q.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
 		this.getContainer().m.ScheduledChangesSkills.push(this);
 	}
 
-	o.executeScheduledChanges <- function()
+	q.executeScheduledChanges <- function()
 	{
 		if (this.m.ScheduledChanges.len() == 0)
 		{
@@ -125,7 +123,7 @@
 		this.m.ScheduledChanges.clear();
 	}
 
-	o.saveBaseValues <- function()
+	q.saveBaseValues <- function()
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
@@ -152,17 +150,17 @@
 		}
 	}
 
-	o.getBaseValue <- function( _field )
+	q.getBaseValue <- function( _field )
 	{
 		return this.b[_field];
 	}
 
-	o.setBaseValue <- function( _field, _value )
+	q.setBaseValue <- function( _field, _value )
 	{
 		if (this.m.IsBaseValuesSaved) this.b[_field] = _value;
 	}
 
-	o.softReset <- function()
+	q.softReset <- function()
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
@@ -179,7 +177,7 @@
 		return true;
 	}
 
-	o.hardReset <- function( _exclude = null )
+	q.hardReset <- function( _exclude = null )
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
@@ -202,7 +200,7 @@
 		return true;
 	}
 
-	o.resetField <- function( _field )
+	q.resetField <- function( _field )
 	{
 		if (!this.m.IsBaseValuesSaved)
 		{
@@ -216,8 +214,8 @@
 		return true;
 	}
 
-	local setContainer = o.setContainer;
-	o.setContainer = function( _c )
+	// TODO: Should probably switch to a hookTree on `onAdded` in VeryLateBucket
+	q.setContainer = @(__original) function( _c )
 	{
 		if (_c == null)
 		{
@@ -229,11 +227,11 @@
 				else agent.removeBehaviorByStack(this.m.AIBehaviorID);
 			}
 
-			return setContainer(_c);
+			return __original(_c);
 		}
 
 		this.saveBaseValues();
-		setContainer(_c);
+		__original(_c);
 
 		if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor()))
 		{
@@ -246,110 +244,110 @@
 		}
 	}
 
-	local setFatigueCost = o.setFatigueCost;
-	o.setFatigueCost = function( _f )
+	// TODO: Should probably switch to a hookTree VeryLateBucket
+	// TODO: Should call the original before setting the base value
+	q.setFatigueCost = @(__original) function( _f )
 	{
 		this.setBaseValue("FatigueCost", _f);
-		setFatigueCost(_f);
+		return __original(_f);
 	}
 
-	o.onMovementStarted <- function( _tile, _numTiles )
+	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
 
-	o.onMovementFinished <- function( _tile )
+	q.onMovementFinished <- function( _tile )
 	{
 	}
 
-	o.onMovementStep <- function( _tile, _levelDifference )
+	q.onMovementStep <- function( _tile, _levelDifference )
 	{
 	}
 
-	o.onAfterDamageReceived <- function()
+	q.onAfterDamageReceived <- function()
 	{
 	}
 
-	o.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
+	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
 	}
 
-	o.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
+	q.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
 	{
 	}
 
-	o.onUpdateLevel <- function()
+	q.onUpdateLevel <- function()
 	{
 	}
 
-	o.getItemActionCost <- function( _items )
+	q.getItemActionCost <- function( _items )
 	{
 	}
 
-	o.getItemActionOrder <- function()
+	q.getItemActionOrder <- function()
 	{
 		return this.m.ItemActionOrder;
 	}
 
-	o.onPayForItemAction <- function( _skill, _items )
+	q.onPayForItemAction <- function( _skill, _items )
 	{
 	}
 
-	o.onNewMorning <- function()
+	q.onNewMorning <- function()
 	{
 	}
 
-	o.onGetHitFactors <- function( _skill, _targetTile, _tooltip ) 
+	q.onGetHitFactors <- function( _skill, _targetTile, _tooltip )
 	{
 	}
 
-	o.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
+	q.onGetHitFactorsAsTarget <- function( _skill, _targetTile, _tooltip )
 	{
 	}
 
-	o.onQueryTileTooltip <- function( _tile, _tooltip )
+	q.onQueryTileTooltip <- function( _tile, _tooltip )
 	{
 	}
 
-	o.onQueryTooltip <- function( _skill, _tooltip )
+	q.onQueryTooltip <- function( _skill, _tooltip )
 	{
 	}
 
-	o.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
+	q.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
 	{
 	}
 
-	o.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
+	q.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
 	{			
 	}
 
-	o.onEnterSettlement <- function( _settlement )
+	q.onEnterSettlement <- function( _settlement )
 	{		
 	}
 
-	o.onEquip <- function( _item )
+	q.onEquip <- function( _item )
 	{
 	}
 
-	o.onUnequip <- function( _item )
+	q.onUnequip <- function( _item )
 	{
 	}
 
-	o.onAffordablePreview <- function( _skill, _movementTile )
+	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 	}
 
-	o.modifyPreviewField <- function( _skill, _field, _newChange, _multiplicative )
+	q.modifyPreviewField <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, _skill, _field, _newChange, _multiplicative);
 	}
 
-	o.modifyPreviewProperty <- function( _skill, _field, _newChange, _multiplicative )
+	q.modifyPreviewProperty <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, null, _field, _newChange, _multiplicative);
 	}
 
-	local use = o.use;
-	o.use = function( _targetTile, _forFree = false )
+	q.use = @(__original) function( _targetTile, _forFree = false )
 	{
 		// Save the container as a local variable because some skills delete
 		// themselves during use (e.g. Reload Bolt) causing this.m.Container
@@ -359,24 +357,24 @@
 
 		container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
-		local ret = use(_targetTile, _forFree);
+		local ret = __original(_targetTile, _forFree);
 
 		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
 		return ret;
 	}
 
-	o.getDamageType <- function()
+	q.getDamageType <- function()
 	{
 		return this.m.DamageType;
 	}
 
-	o.getWeightedRandomDamageType <- function()
+	q.getWeightedRandomDamageType <- function()
 	{
-		return this.m.DamageType.roll();
+		return this.m.DamageType == null ? null : this.m.DamageType.roll();
 	}
 
-	o.verifyTargetAndRange <- function( _targetTile, _origin = null )
+	q.verifyTargetAndRange <- function( _targetTile, _origin = null )
 	{
 		if (_origin == null)
 		{
@@ -386,12 +384,11 @@
 		return this.onVerifyTarget(_origin, _targetTile) && this.isInRange(_targetTile, _origin);
 	}
 
-	local getDescription = o.getDescription;
-	o.getDescription = function()
+	q.getDescription = @(__original) function()
 	{
-		if (this.m.DamageType.len() == 0 || !::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
+		if (this.m.DamageType == null || this.m.DamageType.len() == 0 || !::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
 		{
-			return getDescription();
+			return __original();
 		}
 
 		local ret = "[color=" + ::Const.UI.Color.NegativeValue + "]Inflicts ";
@@ -410,15 +407,14 @@
 
 		ret = ret.slice(0, -2);
 
-		ret += " Damage [/color]\n\n" + getDescription();
+		ret += " Damage [/color]\n\n" + __original();
 
 		return ret;
 	}
 
-	local getHitFactors = o.getHitFactors;
-	o.getHitFactors = function( _targetTile )
+	q.getHitFactors = @(__original) function( _targetTile )
 	{
-		local ret = getHitFactors(_targetTile);
+		local ret = __original(_targetTile);
 		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue() && ::MSU.isIn("AdditionalAccuracy", this.m, true) && this.m.AdditionalAccuracy != 0)
 		{
 			local payload = {
@@ -433,7 +429,7 @@
 		return ret;
 	}
 
-	o.getRangedTooltip <- function( _tooltip = null )
+	q.getRangedTooltip <- function( _tooltip = null )
 	{
 		if (_tooltip == null) _tooltip = [];
 		
@@ -486,18 +482,16 @@
 	}
 });
 
-::MSU.EndQueue.add(function() {
-	::mods_hookBaseClass("skills/skill", function(o) {
-		o = o[o.SuperName];
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
-			local oldFunc = o[func];
-			o[func] = function()
+			q[func] = @(__original) function()
 			{
-				if (!this.m.IsApplyingPreview) return oldFunc();
+				if (!this.m.IsApplyingPreview) return __original();
 
 				local temp = {};
-				foreach (field, change in this.PreviewField)
+				foreach (field, change in this.m.PreviewField)
 				{
 					temp[field] <- this.m[field];
 					if (change.Multiplicative)
@@ -515,7 +509,7 @@
 				}
 
 				local properties = this.getContainer().getActor().getCurrentProperties();
-				foreach (field, change in this.getContainer().PreviewProperty)
+				foreach (field, change in this.getContainer().m.PreviewProperty)
 				{
 					temp[field] <- properties[field];
 					if (change.Multiplicative)
@@ -532,16 +526,16 @@
 					}
 				}
 
-				local ret = oldFunc();
+				local ret = __original();
 
 				if (temp.len() > 0)
 				{
-					foreach (field, change in this.PreviewField)
+					foreach (field, change in this.m.PreviewField)
 					{
 						this.m[field] = temp[field];
 					}
 
-					foreach (field, change in this.getContainer().PreviewProperty)
+					foreach (field, change in this.getContainer().m.PreviewProperty)
 					{
 						properties[field] = temp[field];
 					}
@@ -551,25 +545,23 @@
 			}
 		}
 
-		local isAffordablePreview = o.isAffordablePreview;
-		o.isAffordablePreview = function()
+		q.isAffordablePreview = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return isAffordablePreview();
+			if (!this.getContainer().m.IsPreviewing) return __original();
 			this.m.IsApplyingPreview = true;
-			local ret = isAffordablePreview();
+			local ret = __original();
 			this.m.IsApplyingPreview = false;
 			return ret;
 		}
 
-		local getCostString = o.getCostString;
-		o.getCostString = function()
+		q.getCostString = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return getCostString();
+			if (!this.getContainer().m.IsPreviewing) return __original();
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
 				this.m.IsApplyingPreview = true;
-				local ret = getCostString();
+				local ret = __original();
 				this.m.IsApplyingPreview = false;
 				local skillID = this.getContainer().getActor().getPreviewSkillID();
 				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
@@ -577,7 +569,7 @@
 				return ret;
 			}
 
-			return getCostString();
+			return __original();
 		}
 	});
 });

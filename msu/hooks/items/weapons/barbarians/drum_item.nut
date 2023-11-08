@@ -1,4 +1,7 @@
-::mods_hookNewObject("items/weapons/barbarians/drum_item", function(o) {
-	o.addWeaponType(::Const.Items.WeaponType.Musical, false);
-	o.addWeaponType(::Const.Items.WeaponType.Mace);
+::MSU.HooksMod.hook("scripts/items/weapons/barbarians/drum_item", function(q) {
+	q.create = @(__original) function() {
+		__original()
+		this.addWeaponType(::Const.Items.WeaponType.Musical, false);
+		this.addWeaponType(::Const.Items.WeaponType.Mace);
+	}
 });

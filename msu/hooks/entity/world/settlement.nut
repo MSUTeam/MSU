@@ -1,13 +1,11 @@
-::mods_hookExactClass("entity/world/settlement", function(o) {
-	local onEnter = o.onEnter;
-	o.onEnter = function()
+::MSU.HooksMod.hook("scripts/entity/world/settlement", function(q) {
+	q.onEnter = @(__original) function()
 	{
-		local ret = onEnter();
+		local ret = __original();
 
 		if (ret)
 		{
-			local roster = ::World.getPlayerRoster().getAll();
-			foreach (bro in roster)
+			foreach (bro in ::World.getPlayerRoster().getAll())
 			{
 				bro.getSkills().onEnterSettlement(this);
 			}

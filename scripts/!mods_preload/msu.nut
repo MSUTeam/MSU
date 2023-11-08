@@ -1,30 +1,46 @@
-::MSU.EndQueue <- {
-	Queue = [],
+::MSU.HooksMod <- ::Hooks.register(::MSU.ID, ::MSU.Version, ::MSU.Name);
+::MSU.HooksMod.require(::MSU.VanillaID + " >= 1.5.0-13");
+::MSU.HooksMod.conflictWith("mod_legends < 16.0.0");
 
-	function add( _function )
+::MSU.HooksMod.queue(function() {
+	::include("msu/load.nut");
+});
+
+::MSU.HooksMod.queue(function() {
+	foreach (func in ::MSU.QueueBucket.VeryLate)
 	{
-		this.Queue.push(_function);
+		func();
 	}
+	::MSU.QueueBucket.VeryLate.clear();
+}, ::Hooks.QueueBucket.VeryLate);
 
-	function run()
+::MSU.HooksMod.queue(function() {
+	foreach (func in ::MSU.QueueBucket.AfterHooks)
 	{
-		foreach (func in this.Queue)
+		func();
+	}
+	::MSU.QueueBucket.AfterHooks.clear();
+}, ::Hooks.QueueBucket.AfterHooks);
+
+::MSU.HooksMod.queue(function() {
+	foreach (func in ::MSU.QueueBucket.FirstWorldInit)
+	{
+		func();
+	}
+	::MSU.QueueBucket.FirstWorldInit.clear();
+	delete ::MSU.QueueBucket;
+}, ::Hooks.QueueBucket.FirstWorldInit);
+
+::MSU.QueueBucket.FirstWorldInit.push(function() {
+	foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
+	{
+		try
 		{
-			func();
+			::MSU.AI.BehaviorIDToScriptMap[::new(script).getID()] <- script;
+		}
+		catch (error)
+		{
+			::logError("Could not instantiate or get ID of behavior: " + script);
 		}
 	}
-};
-
-local _mods_runQueue = ::_mods_runQueue;
-::_mods_runQueue = function()
-{
-	_mods_runQueue();
-	::MSU.EndQueue.run();
-}
-
-::mods_registerMod(::MSU.VanillaID, ::MSU.SemVer.formatVanillaVersion(::GameInfo.getVersionNumber()), "Vanilla");
-::mods_registerMod(::MSU.ID, ::MSU.Version, ::MSU.Name);
-::mods_queue(::MSU.ID, "vanilla(>=1.5.0-13), !mod_legends(<16.0.0)", function()
-{
-	::include("msu/load.nut");
 });

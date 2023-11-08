@@ -1,8 +1,8 @@
-::mods_hookNewObject("items/item_container", function(o) {
-	o.m.ActionSkill <- null;
-	o.m.MSU_IsIgnoringItemAction <- false;
+::MSU.HooksMod.hook("scripts/items/item_container", function(q) {
+	q.m.ActionSkill <- null;
+	q.m.MSU_IsIgnoringItemAction <- false;
 
-	o.isActionAffordable = function ( _items )
+	q.isActionAffordable = @() function ( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction) return true;
 
@@ -10,7 +10,7 @@
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
-	o.getActionCost = function( _items )
+	q.getActionCost = @() function( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction) return 0;
 
@@ -34,7 +34,7 @@
 		return cost;
 	}
 
-	o.payForAction = function ( _items )
+	q.payForAction = @() function ( _items )
 	{
 		if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
 
@@ -44,7 +44,7 @@
 		this.m.ActionSkill = null;
 	}
 
-	o.getStaminaModifier <- function( _slots = null )
+	q.getStaminaModifier <- function( _slots = null )
 	{
 		local ret = 0;
 
@@ -62,23 +62,21 @@
 		return ret;
 	}
 
-	local onNewRound = o.onNewRound;
-	o.onNewRound = function()
+	q.onNewRound = @(__original) function()
 	{
-		onNewRound();
+		local ret = __original();
 		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
+		return ret;
 	}
 
-	local equip = o.equip;
-	o.equip = function( _item )
+	q.equip = @(__original) function( _item )
 	{
-		local ret = equip(_item);
+		local ret = __original(_item);
 		if (ret == true && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive()) this.m.Actor.getSkills().onEquip(_item);
 		return ret;
 	}
 
-	local unequip = o.unequip;
-	o.unequip = function( _item )
+	q.unequip = @(__original) function( _item )
 	{
 		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
 		{
@@ -92,6 +90,6 @@
 			}
 		}
 
-		return unequip(_item);
+		return __original(_item);
 	}
 });

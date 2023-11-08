@@ -30,13 +30,6 @@ local function verifyCompareInputs (_version1, _version2 )
 		};
 	}
 
-	function formatVanillaVersion( _vanillaVersion )
-	{
-		local versionArray = split(_vanillaVersion, ".");
-		local preRelease = versionArray.pop();
-		return versionArray.reduce(@(_a, _b) _a + "." + _b) + "-" + preRelease;
-	}
-
 	function compare( _version1, _version2 )
 	{
 		for (local i = 0; i < 3; ++i)
