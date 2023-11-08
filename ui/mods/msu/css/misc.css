@@ -1,3 +1,39 @@
+/* Nested Tooltip */
+.msu-nested-tooltip
+{
+	display: inline-block;
+}
+.msu-nested-tooltip img
+{
+	height: 2.5rem;
+}
+.msu-nested-tooltips-within
+{
+	border-top: 3px solid #AC7327;
+}
+.msu-nested-tooltip-not-hovered
+{
+	-webkit-filter: brightness(50%);
+}
+.tooltip-progress-bar
+{
+	position: absolute;
+	background-image: url(coui://gfx/mods/msu/icons/timeout.png);
+	background-size: 15px 22px;
+	right: 1rem;
+	top: 0.7rem;
+	width: 15px;
+	height: 22px;
+}
+.msu-tile-div
+{
+	position: absolute;
+	width: 10rem;
+	height: 10rem;
+	z-index: 1;
+	border-radius: 50%;
+}
+
 /* Vanilla Font Fixes */
 @font-face{
 	font-family: 'FreeUniversal';

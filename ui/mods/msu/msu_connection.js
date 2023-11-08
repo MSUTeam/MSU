@@ -83,4 +83,21 @@ MSUConnection.prototype.notifyBackendReceivedModVersions = function (_modVersion
 	SQ.call(this.mSQHandle, "receiveModVersions", _modVersions);
 }
 
+MSUConnection.prototype.setTooltipImageKeywords = function (_table)
+{
+	$.each(_table, function(_key, _value){
+		MSU.NestedTooltip.KeyImgMap[_key] = _value;
+	})
+}
+
+MSUConnection.prototype.queryZoomLevel = function (_callback)
+{
+	SQ.call(this.mSQHandle, "queryZoomLevel", null, _callback);
+}
+
+MSUConnection.prototype.updateNestedTooltipTextStyle = function (_styleString)
+{
+	MSU.NestedTooltip.TextStyle = _styleString;
+}
+
 registerScreen("MSUConnection", new MSUConnection());
