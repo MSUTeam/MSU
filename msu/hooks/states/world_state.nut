@@ -189,6 +189,8 @@
 
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
+		::World.deleteRoster("MSU_Roster");
+		::MSU.DummyPlayer = null;
 		__original(_out);
 		local meta = _out.getMetaData();
 		local modIDsString = "";
