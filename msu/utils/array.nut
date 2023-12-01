@@ -110,7 +110,7 @@
 	{
 		local hasNull = false;
 		local t = {};
-		foreach (i, a in _array)
+		foreach (a in _array)
 		{
 			if (a == null)
 				hasNull = true;
