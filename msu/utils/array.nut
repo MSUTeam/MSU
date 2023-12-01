@@ -108,11 +108,11 @@
 	// Returns a new array
 	function uniques( _array )
 	{
-		local arrayTable = {};
-		foreach (entry in _array)
+		local t = {};
+		foreach (a in _array)
 		{
-			arrayTable[entry] <- true;
+			t[a] <- true;
 		}
-		return ::MSU.Table.keys(arrayTable);
+		return ::MSU.Table.keys(t);
 	}
 }
