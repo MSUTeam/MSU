@@ -111,7 +111,7 @@
 		local arrayTable = {};
 		foreach (entry in _array)
 		{
-			arrayTable[entry] <- null;
+			arrayTable[entry] <- true;
 		}
 		return ::MSU.Table.keys(arrayTable);
 	}
