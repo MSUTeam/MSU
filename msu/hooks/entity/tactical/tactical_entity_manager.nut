@@ -2,10 +2,13 @@
 	o.getActorsByFunction <- function( _function )
 	{
 		local ret = [];
-		foreach (actor in this.getAllInstancesAsArray())
+		foreach (faction in this.getAllInstances())
 		{
-			if (_function(actor)) ret.push(actor);
-		}		
+			foreach (actor in faction)
+			{
+				if (_function(actor)) ret.push(actor);
+			}
+		}
 		return ret;
 	}
 	
