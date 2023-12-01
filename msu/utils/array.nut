@@ -106,7 +106,7 @@
 	}
 
 	// Returns a new array
-	function removeDuplicates( _array )
+	function uniques( _array )
 	{
 		local arrayTable = {};
 		foreach (entry in _array)
