@@ -1,7 +1,5 @@
 ::MSU.Entities <- {
 	EntityTypeToDefaultFactionMap = {},
-	HighestIDDiff = -99,
-	HighestID = -99,
 
 	// EntityType is mainly used in vanilla to assign entity names, icons, default faction and to group together entities on the combat dialogue tooltip
 	// ActorDef is used to set the base properties of an actor during its onInit function
@@ -32,19 +30,11 @@
 
 	function addEntityType( _type, _entityName, _entityNamePlural, _entityIcon, _defaultFaction )
 	{
-		// If the Diff is now greater than before, that means some other mod added something to the ::Const.EntityType
-		// table, so we should update our HighestID again.
-		if (this.HighestID == -99 || ::Const.EntityType.len() - this.HighestID > this.HighestIDDiff)
-		{
-			foreach (key, value in ::Const.EntityType)
-			{
-				if (typeof value == "integer" && value > this.HighestID)
-					this.HighestID = value;
-			}
-			this.HighestIDDiff = ::Const.EntityType.len() - this.HighestID;
-		}
-
-		::Const.EntityType[_type] <- ++this.HighestID;
+		// We can't use ::Const.EntityType.len() because that table contains functions as well in addition to EntityTypes
+		// ::Const.EntityIcon array is 1 shorter than the number of entities in ::Const.EntityType
+		// The first EntityType is EntityType.Player with a value of -1 so the highest EntityType ID is going to be EntityIcon.len() - 1
+		// assuming no one messed up and for each new entry in EntityType an entry was also correctly pushed to EntityIcon.
+		::Const.EntityType[_type] <- ::Const.EntityIcon.len() - 1;
 		::Const.Strings.EntityName.push(_entityName);
 		::Const.Strings.EntityNamePlural.push(_entityNamePlural);
 		::Const.EntityIcon.push(_entityIcon);
