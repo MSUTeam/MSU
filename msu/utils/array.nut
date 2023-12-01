@@ -108,11 +108,20 @@
 	// Returns a new array
 	function uniques( _array )
 	{
+		local hasNull = false;
 		local t = {};
-		foreach (a in _array)
+		foreach (i, a in _array)
 		{
-			t[a] <- true;
+			if (a == null)
+				hasNull = true;
+			else
+				t[a] <- true;
 		}
-		return ::MSU.Table.keys(t);
+
+		local ret = ::MSU.Table.keys(t);
+		if (hasNull)
+			ret.push(null);
+
+		return ret;
 	}
 }
