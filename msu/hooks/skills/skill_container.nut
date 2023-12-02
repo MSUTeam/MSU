@@ -27,6 +27,80 @@
 		this.m.ScheduledChangesSkills.clear();
 	}
 
+	local add = o.add;
+	o.add = function( _skill, _order = 0 )
+	{
+		if (!_skill.isKeepingAddRemoveHistory()) return add(_skill, _order);
+
+		local skills = clone this.m.Skills;
+		skills.extend(this.m.SkillsToAdd);
+
+		foreach (i, alreadyPresentSkill in skills)
+		{
+			if (alreadyPresentSkill.getID() == _skill.getID())
+			{
+				if (++alreadyPresentSkill.m.MSU_AddedStack > 0) alreadyPresentSkill.m.IsGarbage = false;
+
+				foreach (fieldName, defaultValue in ::MSU.Skills.StackedFields)
+				{
+					// this.m.MSU_StackedFields is a table where each key is a fieldName and its value is a table
+					// this table's keys are the values of this.m[fieldName] and its values are how many times
+					// this value occurs in stacked additions e.g.
+					// 	this.m.MSU_StackedFields = {
+					// 		IsSerialized = {
+					// 			true = 1, // this skill was added 1 times with this.m.IsSerialized = true
+					// 			false = 3 // this skill was added 3 times with this.m.IsSerialized = false
+					// 		}
+					// 	}
+					if (!(fieldName in alreadyPresentSkill.m.MSU_StackedFields))
+					{
+						alreadyPresentSkill.m.MSU_StackedFields[fieldName] <- {};
+						alreadyPresentSkill.m.MSU_StackedFields[fieldName][defaultValue] <- 0;
+					}
+
+					local value = _skill.m[fieldName];
+					if (value in alreadyPresentSkill.m.MSU_StackedFields[fieldName]) alreadyPresentSkill.m.MSU_StackedFields[fieldName][value]++;
+					else alreadyPresentSkill.m.MSU_StackedFields[fieldName][value] <- 1;
+				}
+
+				if (!::MSU.isNull(_skill.getItem()))
+				{
+					if (::MSU.isNull(alreadyPresentSkill.getItem())) alreadyPresentSkill.setItem(_skill.getItem());
+					foreach (j, itemSkill in _skill.getItem().m.SkillPtrs)
+					{
+						if (itemSkill.getID() == _skill.getID())
+						{
+							_skill.getItem().m.SkillPtrs[j] = alreadyPresentSkill;
+							_skill.setItem(null);
+							break;
+						}
+					}
+				}
+
+				break;
+			}
+		}
+
+		return add(_skill, _order);
+	}
+
+	local remove = o.remove;
+	o.remove = function( _skill )
+	{
+		if (_skill.m.MSU_AddedStack == 1) return remove(_skill);
+		else return _skill.removeSelf();
+	}
+
+	local removeByID = o.removeByID;
+	o.removeByID = function( _skillID )
+	{
+		local skill = this.getSkillByID(_skillID);
+		if (skill == null) return;
+
+		if (skill.m.MSU_AddedStack == 1) return removeByID(_skillID);
+		else return skill.removeSelf();
+	}
+
 	o.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
 		if (_argsArray == null) _argsArray = [null];
