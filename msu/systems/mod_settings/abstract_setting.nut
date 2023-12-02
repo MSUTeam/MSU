@@ -173,9 +173,7 @@
 	function __getSerializationTable()
 	{
 		return {
-			Value = this.getValue(),
-			Locked = this.isLocked(),
-			LockReason = this.getLockReason()
+			Value = this.getValue()
 		};
 	}
 
@@ -183,7 +181,6 @@
 	{
 		this.unlock();
 		this.set(_table.Value, true, false, true, true);
-		if (_table.Locked) this.lock(_table.LockReason);
 	}
 
 	function getSerDeFlag()
@@ -222,8 +219,6 @@
 				this.unlock();
 				this.set(::World.Flags.get(valueFlag), true, false, true, true);
 			}
-			setPropertyIfFlagExists("Locked", modID);
-			setPropertyIfFlagExists("LockReason", modID);
 		}
 		else
 		{
