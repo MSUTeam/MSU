@@ -1,11 +1,12 @@
-::mods_hookExactClass("items/weapons/named/named_weapon", function(o) {
-	o.m.BaseWeaponScript <- null;
+::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
+	q.m.BaseItemScript <- null;
 
-	o.getValuesForRandomize <- function()
+	q.getValuesForRandomize <- function()
 	{
-		if (this.m.BaseWeaponScript == null) return {};
+		if (this.m.BaseItemScript == null)
+			return {};
 
-		local baseWeapon = ::new(this.m.BaseWeaponScript);
+		local baseWeapon = ::new(this.m.BaseItemScript);
 		return {
 			Condition = baseWeapon.m.Condition;
 			ConditionMax = baseWeapon.m.ConditionMax;
@@ -22,7 +23,7 @@
 		};
 	}
 
-	o.setValuesForRandomize <- function( _values )
+	q.setValuesForRandomize <- function( _values )
 	{
 		foreach (key, value in _values)
 		{
@@ -30,10 +31,9 @@
 		}
 	}
 
-	local randomizeValues = o.randomizeValues;
-	o.randomizeValues <- function()
+	q.randomizeValues <- @(__original) function()
 	{
 		this.setValuesBeforeRandomize(this.getValuesBeforeRandomize());
-		randomizeValues();
+		return __original();
 	}
 });
