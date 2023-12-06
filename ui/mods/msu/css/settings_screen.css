@@ -133,9 +133,40 @@
 	height: 4rem;
 }
 
+.msu-settings-screen .dialog .content .l-page-container .button-container,
 .msu-settings-screen .dialog .content .l-page-container .boolean-container
 {
 	height: 4.0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .button-container
+{
+	float: none;
+	align-items: center;
+	justify-content: center;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .button-container .setting-content-container
+{
+	left: 0rem;
+	height: 3rem;
+	padding-left: 0rem;
+	width: intrinsic;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .button-container .setting-content-container .msu-button
+{
+	width: intrinsic;
+	padding: 0 2rem;
+	max-width: 100%;
+	min-width: 20rem;
+	left: 0rem;
+}
+
+.msu-settings-screen .dialog .content .l-page-container .button-container .setting-content-container .msu-button .label
+{
+	display: inline-block;
+	position: relative;
 }
 
 .msu-settings-screen .dialog .content .l-page-container .boolean-container .setting-title-container
@@ -154,7 +185,6 @@
 }
 
 .msu-settings-screen .dialog .content .l-page-container .enum-container .enum-button,
-.msu-settings-screen .dialog .content .l-page-container .button-container .button-setting-button,
 .msu-settings-screen .dialog .content .l-page-container .color-picker-container .color-picker-button,
 .msu-settings-screen .dialog .content .l-page-container .array-container .popup-button
 {
