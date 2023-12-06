@@ -110,17 +110,23 @@
 	{
 		local hasNull = false;
 		local t = {};
-		foreach (a in _array)
+		local ret = [];
+		foreach (e in _array)
 		{
-			if (a == null)
-				hasNull = true;
-			else
-				t[a] <- true;
+			if (e == null)
+			{
+				if (!hasNull)
+				{
+					ret.push(null);
+					hasNull = true;
+				}
+			}
+			else if (!(e in t))
+			{
+				t[e] <- true;
+				ret.push(e);
+			}
 		}
-
-		local ret = ::MSU.Table.keys(t);
-		if (hasNull)
-			ret.push(null);
 
 		return ret;
 	}
