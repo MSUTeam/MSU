@@ -20,14 +20,7 @@
 	local onMovementStep = o.onMovementStep;
 	o.onMovementStep = function( _tile, _levelDifference )
 	{
-		local ret = onMovementStep(_tile, _levelDifference);
-
-		if (ret)
-		{
-			this.m.Skills.onMovementStep(_tile, _levelDifference);
-		}
-
-		return ret;
+		return onMovementStep(_tile, _levelDifference) && this.m.Skills.onMovementStep(_tile, _levelDifference);
 	}
 
 	local onDeath = o.onDeath;

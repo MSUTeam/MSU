@@ -263,6 +263,7 @@
 
 	o.onMovementStep <- function( _tile, _levelDifference )
 	{
+		return true;
 	}
 
 	o.onAfterDamageReceived <- function()
