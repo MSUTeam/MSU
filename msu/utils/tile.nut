@@ -15,7 +15,9 @@
 
 	function getNeighbors( _tile, _function = null )
 	{
-		// _function( tile ) and returns boolean
+		// _function( tile ) returns boolean
+		// iterates over all neighboring tiles and calls _function on each tile
+		// returns an array of tiles for which _function returned true
 
 		local ret = [];
 		for (local i = 0; i < 6; i++)
@@ -32,7 +34,9 @@
 
 	function getNeighbor( _tile, _function = null )
 	{
-		// _function( tile ) and returns boolean
+		// _function( tile ) returns boolean
+		// iterates over all neighboring tiles and calls _function on each tile
+		// returns the first tile for which _function returned true
 
 		for (local i = 0; i < 6; i++)
 		{
