@@ -10,6 +10,24 @@
 		Instance = 7,
 		Null = 8
 	},
+	SerializationDataType = ::MSU.Class.Enum([
+		"None",
+		"Unknown",
+		"Null",
+		"Bool",
+		"String",
+		"U8",
+		"U16",
+		"U32",
+		"I8",
+		"I16",
+		"I32",
+		"F32",
+		"DataArray",
+		"Table",
+		"Array",
+		"RawDataArray"
+	]),
 	Timers = {}
 	States = {},
 

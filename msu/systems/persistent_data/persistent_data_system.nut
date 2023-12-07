@@ -3,6 +3,7 @@
 	Mods = null;
 	ModConfigPath = "mod_config/";
 	Separator = "@"
+	FileNameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$")
 
 	constructor()
 	{
@@ -107,5 +108,47 @@
 		}
 		result += this.Separator
 		::logInfo(result);
+	}
+
+	function createFile( _fileName, _dataArray )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.AbstractSerializationData, _dataArray);
+		this.validateFileName(_fileName);
+		local storage = ::PersistenceManager.createStorage(_fileName);
+		storage.beginWrite();
+		_dataArray.serialize(storage);
+		storage.endWrite();
+	}
+
+	function validateFileName( _fileName )
+	{
+		if (!this.FileNameRegexp.match(_fileName))
+		{
+			::logError("Battle Brothers file saves can only contain the characters 'a-zA-Z0-9_,-+# '");
+			throw ::MSU.Exception.InvalidValue(_fileName);
+		}
+	}
+
+	function hasFile( _fileName )
+	{
+		local storages = ::PersistenceManager.queryStorages();
+		foreach (storage in storages)
+			if (storage.getFileName() == _fileName)
+				return true;
+		return false;
+	}
+
+	function readFile( _fileName )
+	{
+		if (!this.hasFile(_fileName))
+		{
+			::logError("tried to read file that doesn't exist");
+			throw ::MSU.Exception.InvalidValue(_fileName);
+		}
+		local storage = ::PersistenceManager.loadStorage(_fileName);
+		storage.beginRead();
+		local data = ::MSU.Class.CustomSerializationData.__readValueFromStorage(storage);
+		storage.endRead();
+		return data;
 	}
 }
