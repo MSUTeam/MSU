@@ -7,6 +7,10 @@
 });
 
 ::MSU.HooksMod.queue(function() {
+	::include("msu/hooks/entity/tactical/humans/standard_bearer"); // Remove perk_inspiring_presence from standard_bearer as part of our fix of onCombatStart
+}, ::Hooks.QueueBucket.First);
+
+::MSU.HooksMod.queue(function() {
 	foreach (func in ::MSU.QueueBucket.VeryLate)
 	{
 		func();
