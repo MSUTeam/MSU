@@ -2,7 +2,7 @@
 	q.m.LevelUpsSpent <- 0;
 
 	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
-	// This fix is spread out over 3 files: tactical_entity_manager, actor, player
+	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
 	q.onCombatStart = @() function()
 	{
 		this.m.MaxEnemiesThisTurn = 1;
