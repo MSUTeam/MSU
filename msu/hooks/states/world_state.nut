@@ -37,7 +37,7 @@
 		this.m.MenuStack.pop();
 	}
 
-	q.getLocalCombatProperties = @(__original) function( _pos, _ignoreNoEnemies = false )
+	q.getLocalCombatProperties = @() function( _pos, _ignoreNoEnemies = false )
 	{
 		local raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
 		local parties = [];

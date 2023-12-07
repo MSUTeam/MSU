@@ -7,15 +7,15 @@
 		this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
 	}
 
-	q.onUpdate = @(__original) function( _properties )
+	q.onUpdate = @() function( _properties )
 	{
 	}
 
-	q.onCombatStarted = @(__original) function()
+	q.onCombatStarted = @() function()
 	{
 	}
 
-	q.onCombatFinished = @(__original) function()
+	q.onCombatFinished = @() function()
 	{
 		this.skill.onCombatFinished();
 	}

@@ -16,7 +16,7 @@
 	}
 
 	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value
-	q.getBaseMovementSpeed = @(__original) function()
+	q.getBaseMovementSpeed = @() function()
 	{
 		return this.getMovementSpeed();
 	}
