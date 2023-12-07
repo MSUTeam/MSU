@@ -27,6 +27,15 @@
 		return ret;
 	}
 
+	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
+	// This fix is spread out over 3 files: tactical_entity_manager, actor, player
+	q.onCombatStart <- function()
+	{
+		this.m.Skills.onCombatStarted();
+		this.m.Items.onCombatStarted();
+		this.m.Skills.update();
+	}
+
 	q.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);

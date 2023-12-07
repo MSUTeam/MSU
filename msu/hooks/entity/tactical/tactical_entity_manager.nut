@@ -1,5 +1,6 @@
 ::MSU.MH.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
 	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
+	// This fix is spread out over 3 files: tactical_entity_manager, actor, player
 	q.spawn = @(__original) function( _properties )
 	{
 		local ret = __original(_properties);
@@ -9,9 +10,7 @@
 			{
 				foreach (actor in faction)
 				{
-					actor.getSkills().onCombatStarted();
-					actor.getItems().onCombatStarted();
-					actor.getSkills().update();
+					actor.onCombatStart();
 				}
 			}
 		}
