@@ -1,3 +1,4 @@
+// VANILLAFIX https://steamcommunity.com/app/365360/discussions/1/3436829654723733817/
 ::Const.World.RoadBrushes.add(::Const.DirectionAsBit.N, "road_N");
 ::Const.World.RoadBrushes.add(::Const.DirectionAsBit.S, "road_S");
 ::Const.World.RoadBrushes.add(::Const.DirectionAsBit.N | ::Const.DirectionAsBit.NE | ::Const.DirectionAsBit.NW, "road_NW_N_NE");
