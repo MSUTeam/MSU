@@ -1,2 +1,2 @@
-::Const.World.RoadBrushes.add(::Const.Direction.N, "road_N");
-::Const.World.RoadBrushes.add(::Const.Direction.S, "road_S");
+::Const.World.RoadBrushes.add(::Const.DirectionAsBit.N, "road_N");
+::Const.World.RoadBrushes.add(::Const.DirectionAsBit.S, "road_S");
