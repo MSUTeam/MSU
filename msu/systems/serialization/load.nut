@@ -11,6 +11,8 @@ includeFile("strict_serde_emulator");
 includeFile("strict_serialization_emulator");
 includeFile("strict_deserialization_emulator");
 
+includeFile("debug_serde_emulator");
+
 includeFile("serialization_system.nut");
 ::MSU.System.Serialization <- ::MSU.Class.SerializationSystem();
 includeFile("serialization_mod_addon.nut");

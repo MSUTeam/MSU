@@ -1,7 +1,6 @@
-::include("msu/systems/serialization/serialization_types/raw_data_array_data");
-::MSU.Class.DataArrayData <- class extends ::MSU.Class.RawDataArrayData
+::MSU.Class.DataArrayData <- class extends ::MSU.Class.SerializationDataCollection
 {
-	static __Type = ::MSU.Utils.SerializationDataType.DataArray;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.DataArray;
 	__MetaData = null;
 
 	constructor()
@@ -22,9 +21,9 @@
 		_out.writeU8(this.getType());
 		this.getMetaData().serialize(_out);
 		::MSU.Class.U32SerializationData(this.len()).serialize(_out); // store length
-		for (local i = 0; i < this.__InnerArray.len(); ++i)
+		for (local i = 0; i < this.Collection.len(); ++i)
 		{
-			this.__InnerArray[i].serialize(_out);
+			this.Collection[i].serialize(_out);
 		}
 	}
 
@@ -37,24 +36,5 @@
 	function setMetaData( _metaData )
 	{
 		this.__MetaData = _metaData;
-	}
-
-	function getElement( _idx )
-	{
-		return this.__InnerArray[_idx];
-	}
-
-	function createDeserializationEmulator( _metaData = null )
-	{
-		if (_metaData != null)
-			this.setMetaData(_metaData);
-		return ::MSU.Class.StrictDeserializationEmulator(this);
-	}
-
-	function createSerializationEmulator( _metaData = null )
-	{
-		if (_metaData != null)
-			this.setMetaData(_metaData);
-		return ::MSU.Class.StrictSerializationEmulator(this);
 	}
 }

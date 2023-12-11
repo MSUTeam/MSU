@@ -1,50 +1,28 @@
-::MSU.Class.ArraySerializationData <- class extends ::MSU.Class.CustomSerializationData
+::MSU.Class.ArraySerializationData <- class extends ::MSU.Class.SerializationDataCollection
 {
-	static __Type = ::MSU.Utils.SerializationDataType.Array;
-	__DataArray = null;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.Array;
 
 	constructor( _data )
 	{
 		if (_data == null)
 			_data = [];
 		::MSU.requireArray(_data);
+
 		base.constructor(_data);
-
-		this.__DataArray = ::MSU.Class.RawDataArrayData();
-		this.setLength(_data.len());
-
+		this.Collection.resize(_data.len())
 		foreach (i, element in _data)
 		{
-			this.__DataArray.setElement(i, this.__convertValueFromBaseType(element));
+			this.Collection[i] =  ::MSU.System.Serialization.convertValueFromBaseType(element);
 		}
-	}
-
-	function setLength( _length )
-	{
-		this.getData().resize(_length);
-		this.__DataArray.setLength(_length);
-	}
-
-	function len()
-	{
-		return this.__DataArray.len();
-	}
-
-	function serialize( _out )
-	{
-		base.serialize(_out);
-		this.__DataArray.serialize(_out);
 	}
 
 	function deserialize( _in )
 	{
 		base.deserialize(_in);
-		_in.readU8();
-		this.__DataArray.deserialize(_in);
-		local data = this.getData();
-		for (local i = 0; i < this.len(); ++i)
+		this.__Data.resize(this.Collection.len());
+		for (local i = 0; i < this.Collection.len(); ++i)
 		{
-			data[i] = this.__DataArray.getElement(i).getData()
+			this.__Data[i] = this.Collection[i].getData();
 		}
 	}
 }

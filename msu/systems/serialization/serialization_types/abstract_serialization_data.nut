@@ -1,8 +1,7 @@
 ::MSU.Class.AbstractSerializationData <- class
 {
-	static __Type = ::MSU.Utils.SerializationDataType.None;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.None;
 	__Data = null;
-	static DataType = ::MSU.Utils.SerializationDataType;
 
 	constructor( _data )
 	{

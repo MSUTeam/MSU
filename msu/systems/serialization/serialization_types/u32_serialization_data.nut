@@ -1,6 +1,6 @@
 ::MSU.Class.U32SerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
-	static __Type = ::MSU.Utils.SerializationDataType.U32;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.U32;
 
 	constructor( _data )
 	{

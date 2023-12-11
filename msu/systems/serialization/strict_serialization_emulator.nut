@@ -3,7 +3,7 @@
 {
 	function __writeData(_data )
 	{
-		this.getDataArray().pushElement(_data);
+		this.getDataArray().Collection.push(_data);
 	}
 
 	function writeString( _string )

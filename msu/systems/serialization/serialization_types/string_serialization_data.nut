@@ -1,6 +1,6 @@
 ::MSU.Class.StringSerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
-	static __Type = ::MSU.Utils.SerializationDataType.String;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.String;
 
 	constructor( _data )
 	{

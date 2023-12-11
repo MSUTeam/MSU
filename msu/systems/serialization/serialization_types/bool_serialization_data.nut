@@ -1,6 +1,6 @@
 ::MSU.Class.BoolSerializationData <- class extends ::MSU.Class.BasicSerializationData
 {
-	static __Type = ::MSU.Utils.SerializationDataType.Bool;
+	static __Type = ::MSU.System.Serialization.SerializationDataType.Bool;
 
 	constructor(_data)
 	{
