@@ -8,46 +8,46 @@
 
 	function writeString( _string )
 	{
-		this.__writeData(::MSU.Class.StringSerializationData(_string));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.String,_string));
 	}
 
 	function writeBool( _bool )
 	{
-		this.__writeData(::MSU.Class.BoolSerializationData(_bool));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.Bool,_bool));
 	}
 
 	function writeI32( _int )
 	{
-		this.__writeData(::MSU.Class.I32SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.I32,_int));
 	}
 
 	function writeU32( _int )
 	{
-		this.__writeData(::MSU.Class.U32SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.U22,_int));
 	}
 
 	function writeI16( _int )
 	{
-		this.__writeData(::MSU.Class.I16SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.I16,_int));
 	}
 
 	function writeU16( _int )
 	{
-		this.__writeData(::MSU.Class.U16SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.U16, _int));
 	}
 
 	function writeI8( _int )
 	{
-		this.__writeData(::MSU.Class.I8SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.I8,_int));
 	}
 
 	function writeU8( _int )
 	{
-		this.__writeData(::MSU.Class.U8SerializationData(_int));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.U8, _int));
 	}
 
 	function writeF32( _float )
 	{
-		this.__writeData(::MSU.Class.F32SerializationData(_float));
+		this.__writeData(::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.F32, _float));
 	}
 }

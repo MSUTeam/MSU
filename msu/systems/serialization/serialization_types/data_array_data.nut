@@ -20,7 +20,7 @@
 	{
 		_out.writeU8(this.getType());
 		this.getMetaData().serialize(_out);
-		::MSU.Class.U32SerializationData(this.len()).serialize(_out); // store length
+		::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.U32, this.len()).serialize(_out); // store length
 		for (local i = 0; i < this.Collection.len(); ++i)
 		{
 			this.Collection[i].serialize(_out);
@@ -36,5 +36,24 @@
 	function setMetaData( _metaData )
 	{
 		this.__MetaData = _metaData;
+	}
+
+	function getElement( _idx )
+	{
+		return this.__InnerArray[_idx];
+	}
+
+	function createDeserializationEmulator( _metaData = null )
+	{
+		if (_metaData != null)
+			this.setMetaData(_metaData);
+		return ::MSU.Class.StrictDeserializationEmulator(this);
+	}
+
+	function createSerializationEmulator( _metaData = null )
+	{
+		if (_metaData != null)
+			this.setMetaData(_metaData);
+		return ::MSU.Class.StrictSerializationEmulator(this);
 	}
 }

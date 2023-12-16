@@ -239,11 +239,11 @@
 			case "array":
 				return ::MSU.Class.ArraySerializationData(_value);
 			case "instance":
-				if (_value instanceof ::MSU.Class.AbstractSerializationData)
+				if (_value instanceof ::MSU.Class.PrimitiveSerializationData || _value instanceof ::MSU.Class.SerializationDataCollection )
 					return _value;
 				if (_value instanceof ::MSU.Class.StrictSerDeEmulator)
 					return _value.getDataArray();
-				::logError("MSU Serialization cannot handle instances other than descendants of ::MSU.Class.AbstractSerializationData");
+				::logError("MSU Serialization cannot handle instances other than ::MSU.Class.PrimitiveSerializationData and descendants of ::MSU.Class.SerializationDataCollection!");
 				throw ::MSU.Exception.InvalidValue(_value);
 			default:
 				::logError("Attempted to serialize unknown type");
