@@ -37,4 +37,14 @@
 	{
 		this.ReadWriter.endRead();
 	}
+
+	function beginWrite()
+	{
+		this.ReadWriter.beginWrite();
+	}
+
+	function endWrite()
+	{
+		this.ReadWriter.endWrite();
+	}
 }

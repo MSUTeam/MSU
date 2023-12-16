@@ -21,7 +21,6 @@
 	function deserialize( _in )
 	{
 		base.deserialize(_in);
-		_in.readU8(); // TODO
 		this.__Data = {};
 		for (local i = 0; i < this.Collection.len(); i+=2)
 		{

@@ -112,7 +112,7 @@
 
 	function createFile( _fileName, _dataArray )
 	{
-		::MSU.requireInstanceOf(::MSU.Class.AbstractSerializationData, _dataArray);
+		::MSU.requireInstanceOf(::MSU.Class.SerializationDataCollection, _dataArray);
 		this.validateFileName(_fileName);
 		local storage = ::PersistenceManager.createStorage(_fileName);
 		storage = ::MSU.Class.DebugSerdeEmulator(storage);

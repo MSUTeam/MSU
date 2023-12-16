@@ -1,17 +1,19 @@
-::MSU.Class.SerializationDataCollection <- class extends ::MSU.Class.AbstractSerializationData
+::MSU.Class.SerializationDataCollection <- class
 {
+	static __Type = ::MSU.System.Serialization.SerializationDataType.Collection;
 	Collection = null;
+	__Data = null;
 	constructor(_data)
 	{
-		base.constructor(_data);
+		this.__Data = _data;
 		this.Collection = [];
 	}
 
 	// must be called when overriden
 	function serialize( _out )
 	{
-		base.serialize(_out);
-		::MSU.Class.U32SerializationData(this.len()).serialize(_out); // store length
+		_out.writeU8(this.getType());
+		::MSU.Class.PrimitiveSerializationData(::MSU.System.Serialization.SerializationDataType.U32, this.len()).serialize(_out); // store length
 		for (local i = 0; i < this.Collection.len(); ++i)
 		{
 			this.Collection[i].serialize(_out);
@@ -35,6 +37,16 @@
 	function len()
 	{
 		return this.Collection.len();
+	}
+
+	function getType()
+	{
+		return this.__Type;
+	}
+
+	function getData()
+	{
+		return this.__Data;
 	}
 }
 

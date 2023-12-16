@@ -1,4 +1,4 @@
-::MSU.Class.PrimitiveSerializationData
+::MSU.Class.PrimitiveSerializationData <- class
 {
 	__Type = null;
 	__Data = null;
@@ -22,6 +22,16 @@
 	function serialize( _out )
 	{
 		_out.writeU8(this.getType());
-		_out[::MSU.System.Serialization.WriterFunctionStrings(this.getType())](this.getData());
+		_out[this.getWriteFunctionString()](this.getData());
+	}
+
+	function getWriteFunctionString()
+	{
+		return ::MSU.System.Serialization.WriterFunctionStrings[this.getType()];
+	}
+
+	function getReadFunctionString()
+	{
+		return ::MSU.System.Serialization.ReaderFunctionStrings[this.getType()];
 	}
 }

@@ -5,8 +5,6 @@
 	MetaData = null;
 
 	SerializationDataType = ::MSU.Class.Enum([
-		"None",
-		"Unknown",
 		"Null",
 		"Bool",
 		"String",
@@ -17,12 +15,13 @@
 		"I16",
 		"I32",
 		"F32",
-		"DataArray",
+		"Collection",
 		"Table",
 		"Array",
-		"RawDataArray"
+		"DataArray",
 	])
 	ReaderFunctionStrings = null;
+	WriterFunctionStrings = null;
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Serialization);
@@ -119,7 +118,7 @@
 	{
 		local type = _in.readU8();
 		local dataTypes = this.SerializationDataType;
-		if (!(type in this.SerializationDataType))
+		if (!this.SerializationDataType.contains(type))
 			throw "Unknown type for deserialization! " + type;
 		switch (type)
 		{
@@ -133,9 +132,9 @@
 				return array;
 			// validate data right away
 			default:
-				local data = _in[this.ReaderFunctionStrings[type]];
+				local data = _in[this.ReaderFunctionStrings[type]]();
 				this.validatePrimitiveData(type, data);
-				return ::MSU.Class.PrimitiveSerializationType(type, data);
+				return ::MSU.Class.PrimitiveSerializationData(type, data);
 		}
 	}
 
@@ -146,32 +145,41 @@
 				return;
 			case this.SerializationDataType.Bool:
 				::MSU.requireBool(_data);
+				return;
 			case this.SerializationDataType.String:
 				::MSU.requireString(_data);
+				return;
 			case this.SerializationDataType.U8:
 				::MSU.requireInt(_data);
 				if (_data < 0 || _data > 255)
 					throw ::MSU.Exception.InvalidValue(_data);
+				return;
 			case this.SerializationDataType.U16:
 				::MSU.requireInt(_data);
 				if (_data < 0 || _data > 65535)
 					throw ::MSU.Exception.InvalidValue(_data);
+				return;
 			case this.SerializationDataType.U32:
 				::MSU.requireInt(_data);
 				if (_data < 0)
 					throw ::MSU.Exception.InvalidValue(_data);
+				return;
 			case this.SerializationDataType.I8:
 				::MSU.requireInt(_data);
 				if (_data < -128 || _data > 127)
 					throw ::MSU.Exception.InvalidValue(_data);
+				return;
 			case this.SerializationDataType.I16:
 				::MSU.requireInt(_data);
 				if (_data < -32768 || _data > 32767)
 					throw ::MSU.Exception.InvalidValue(_data);
+				return;
 			case this.SerializationDataType.I32:
 				::MSU.requireInt(_data);
+				return;
 			case this.SerializationDataType.F32:
 				::MSU.requireOneFromTypes(["float", "integer"], _data);
+				return;
 		}
 	}
 

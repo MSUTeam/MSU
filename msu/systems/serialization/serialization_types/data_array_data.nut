@@ -3,9 +3,9 @@
 	static __Type = ::MSU.System.Serialization.SerializationDataType.DataArray;
 	__MetaData = null;
 
-	constructor()
+	constructor(_data = null)
 	{
-		base.constructor();
+		base.constructor(_data);
 		this.__MetaData = clone ::MSU.System.Serialization.MetaData;
 	}
 

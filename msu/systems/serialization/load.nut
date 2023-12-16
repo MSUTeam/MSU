@@ -17,7 +17,7 @@ includeFile("serialization_system.nut");
 ::MSU.System.Serialization <- ::MSU.Class.SerializationSystem();
 includeFile("serialization_mod_addon.nut");
 
-includeFile("serialization_types/abstract_serialization_data");
+includeFile("serialization_types/primitive_serialization_data");
 includeFile("serialization_types/custom_serialization_data");
 includeFile("serialization_types/data_array_data");
 ::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization/serialization_types"));
