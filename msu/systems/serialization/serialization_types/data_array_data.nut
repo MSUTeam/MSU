@@ -56,4 +56,13 @@
 			this.setMetaData(_metaData);
 		return ::MSU.Class.StrictSerializationEmulator(this);
 	}
+
+	function writeFrom(_obj)
+	{
+		_obj.onSerialize(this.createSerializationEmulator());
+	}
+	function writeTo(_obj)
+	{
+		_obj.onDeserialize(this.createDeserializationEmulator());
+	}
 }
