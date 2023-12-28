@@ -57,11 +57,11 @@
 		return ::MSU.Class.StrictSerializationEmulator(this);
 	}
 
-	function writeFrom(_obj)
+	function read(_obj)
 	{
 		_obj.onSerialize(this.createSerializationEmulator());
 	}
-	function writeTo(_obj)
+	function write(_obj)
 	{
 		_obj.onDeserialize(this.createDeserializationEmulator());
 	}
