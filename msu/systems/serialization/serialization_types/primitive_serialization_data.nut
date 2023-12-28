@@ -22,7 +22,11 @@
 	function serialize( _out )
 	{
 		_out.writeU8(this.getType());
-		_out[this.getWriteFunctionString()](this.getData());
+		// As there is no read/writeNull, we need to transform it
+		if (this.__Type == ::MSU.System.Serialization.SerializationDataType.Null)
+			_out.writeBool(false);
+		else
+			_out[this.getWriteFunctionString()](this.getData());
 	}
 
 	function getWriteFunctionString()

@@ -29,7 +29,7 @@
 		this.EmulatorsToClear = [];
 
 		this.ReaderFunctionStrings = {};
-		this.ReaderFunctionStrings[this.SerializationDataType.Null] 	<- "readNull";
+		this.ReaderFunctionStrings[this.SerializationDataType.Null] 	<- "readBool";
 		this.ReaderFunctionStrings[this.SerializationDataType.Bool] 	<- "readBool";
 		this.ReaderFunctionStrings[this.SerializationDataType.String] 	<- "readString";
 		this.ReaderFunctionStrings[this.SerializationDataType.U8] 		<- "readU8";
@@ -41,7 +41,7 @@
 		this.ReaderFunctionStrings[this.SerializationDataType.F32] 		<- "readF32";
 
 		this.WriterFunctionStrings = {};
-		this.WriterFunctionStrings[this.SerializationDataType.Null] 	<- "writeNull";
+		this.WriterFunctionStrings[this.SerializationDataType.Null] 	<- "readBool";
 		this.WriterFunctionStrings[this.SerializationDataType.Bool] 	<- "writeBool";
 		this.WriterFunctionStrings[this.SerializationDataType.String] 	<- "writeString";
 		this.WriterFunctionStrings[this.SerializationDataType.U8] 		<- "writeU8";
@@ -137,6 +137,9 @@
 			// validate data right away
 			default:
 				local data = _in[this.ReaderFunctionStrings[type]]();
+				// As there is no null read/write, we need to convert it from a bool
+				if (type == dataTypes.Null)
+					data = null;
 				this.validatePrimitiveData(type, data);
 				return ::MSU.Class.PrimitiveSerializationData(type, data);
 		}
