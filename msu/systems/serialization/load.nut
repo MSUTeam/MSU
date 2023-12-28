@@ -18,8 +18,7 @@ includeFile("serialization_system.nut");
 includeFile("serialization_mod_addon.nut");
 
 includeFile("serialization_types/primitive_serialization_data");
-includeFile("serialization_types/custom_serialization_data");
-includeFile("serialization_types/data_array_data");
+includeFile("serialization_types/serialization_data_collection");
 ::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization/serialization_types"));
 
 ::MSU.UI.addOnConnectCallback(function()
