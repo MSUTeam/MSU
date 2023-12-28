@@ -130,6 +130,10 @@
 				local array = ::MSU.Class.ArraySerializationData(null);
 				array.deserialize(_in);
 				return array;
+			case dataTypes.DataArray:
+				local dataArray = ::MSU.Class.DataArrayData();
+				dataArray.deserialize(_in);
+				return dataArray;
 			// validate data right away
 			default:
 				local data = _in[this.ReaderFunctionStrings[type]]();
