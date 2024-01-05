@@ -11,13 +11,14 @@ includeFile("strict_serde_emulator");
 includeFile("strict_serialization_emulator");
 includeFile("strict_deserialization_emulator");
 
+includeFile("debug_serde_emulator");
+
 includeFile("serialization_system.nut");
 ::MSU.System.Serialization <- ::MSU.Class.SerializationSystem();
 includeFile("serialization_mod_addon.nut");
 
-includeFile("serialization_types/abstract_serialization_data");
-includeFile("serialization_types/custom_serialization_data");
-includeFile("serialization_types/data_array_data");
+includeFile("serialization_types/primitive_serialization_data");
+includeFile("serialization_types/serialization_data_collection");
 ::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization/serialization_types"));
 
 ::MSU.UI.addOnConnectCallback(function()

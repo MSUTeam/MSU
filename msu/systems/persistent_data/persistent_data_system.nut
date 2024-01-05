@@ -112,9 +112,10 @@
 
 	function createFile( _fileName, _dataArray )
 	{
-		::MSU.requireInstanceOf(::MSU.Class.AbstractSerializationData, _dataArray);
+		::MSU.requireInstanceOf(::MSU.Class.SerializationDataCollection, _dataArray);
 		this.validateFileName(_fileName);
 		local storage = ::PersistenceManager.createStorage(_fileName);
+		storage = ::MSU.Class.DebugSerdeEmulator(storage);
 		storage.beginWrite();
 		_dataArray.serialize(storage);
 		storage.endWrite();
@@ -146,8 +147,9 @@
 			throw ::MSU.Exception.InvalidValue(_fileName);
 		}
 		local storage = ::PersistenceManager.loadStorage(_fileName);
+		storage = ::MSU.Class.DebugSerdeEmulator(storage);
 		storage.beginRead();
-		local data = ::MSU.Class.CustomSerializationData.__readValueFromStorage(storage);
+		local data = ::MSU.System.Serialization.readValueFromStorage(storage);
 		storage.endRead();
 		return data;
 	}
