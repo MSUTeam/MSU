@@ -21,16 +21,20 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 	this.checkbox.on('ifChecked ifUnchecked', null, this, function (_event) {
 		_setting.value = self.checkbox.prop('checked') === true;
 	});
-
+	
+	var disabled_string = _setting.locked ? 'disabled' : 'title';
+	this.title = $('<label class="bool-checkbox-label title-font-normal font-color-' + disabled_string + '" for="' + id + '">' + _setting.name + '</label>');
+	
 	if (_setting.locked)
 	{
 		this.checkbox.attr('disabled', true);
 	}
-
-	this.title = $('<label class="bool-checkbox-label title-font-normal font-color-title" for="' + id + '">' + _setting.name + '</label>');
-	this.title.click(jQuery.proxy(function(){
-		this.checkbox.iCheck('toggle');
-	}, this))
+	else
+	{
+		this.title.click(jQuery.proxy(function () {
+			this.checkbox.iCheck('toggle');
+		}, this));
+	}
 
 	this.titleContainer.append(this.title);
 
