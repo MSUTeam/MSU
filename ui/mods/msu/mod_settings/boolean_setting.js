@@ -22,17 +22,19 @@ var BooleanSetting = function (_mod, _page, _setting, _parentDiv)
 		_setting.value = self.checkbox.prop('checked') === true;
 	});
 
-	if (_setting.locked)
-	{
-		this.checkbox.attr('disabled', true);
-	}
-
 	this.title = $('<label class="bool-checkbox-label title-font-normal font-color-title" for="' + id + '">' + _setting.name + '</label>');
 	this.title.click(jQuery.proxy(function(){
-		this.checkbox.iCheck('toggle');
+		if (!_setting.locked)
+			this.checkbox.iCheck('toggle');
 	}, this))
 
 	this.titleContainer.append(this.title);
+
+	if (_setting.locked)
+	{
+		this.checkbox.iCheck('disable');
+		this.title.css('-webkit-filter', 'grayscale(100%)');
+	}
 
 	// Tooltip
 	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
