@@ -18,7 +18,7 @@ local suppressBaseKeybinds = generalPage.addBooleanSetting("SuppressBaseKeybinds
 suppressBaseKeybinds.setDescription("Whether base keybinds should be suppressed. This means that only the MSU system will be used for keybinds.\nFor example, if you set 'Open Character Screen' from 'c' to 'tab' then without this setting, pressing 'c' will still open the character screen if no other MSU keybind is bound to c. With this setting, only 'tab' will open it.");
 
 local jsAllowInput = generalPage.addBooleanSetting("jsAllowInput", false, "Use keybinds when writing text");
-jsAllowInput.setDescription("Whether keybinds should trigger when you are writing text.\nUsed for mods that add some text you can write, like a 'change name' popup. Without workarounds, keybinds will still work then, so writing a 'c' would open the game.\nKeep this disabled unless you're having issues with keybinds not working properly.");
+jsAllowInput.setDescription("Whether keybinds should trigger when you are writing text.\nUsed for mods that add some text you can write, like a 'change name' popup. Without workarounds, keybinds will still work then, so writing a 'c' would open the stash screen.\nKeep this disabled unless you're having issues with keybinds not working properly.");
 jsAllowInput.addAfterChangeCallback(@ (_oldValue) ::MSU.System.Keybinds.InputDenied = false); // use it as an opportunity to reset
 
 local logPage = ::MSU.Mod.ModSettings.addPage("Logging");
