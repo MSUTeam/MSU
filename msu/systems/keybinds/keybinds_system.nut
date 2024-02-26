@@ -5,6 +5,7 @@
 	KeybindsForJS = null;
 	PressedKeys = null;
 	KeysChanged = false;
+	InputDenied = false;
 
 	constructor()
 	{
@@ -158,6 +159,8 @@
 
 	function onKeyInput( _key, _environment, _state )
 	{
+		if (this.InputDenied)
+			return true;
 		this.KeysChanged = true;
 		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
 		local keyState;

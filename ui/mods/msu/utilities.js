@@ -256,3 +256,10 @@ MSU.Utils.Timer = function(_id)
     MSU.Utils.Timers[_id] = new MSU.TimerObject(_id);
     return MSU.Utils.Timers[_id];
 };
+
+$("body").on("focus", "input, textarea", function(){
+	Screens["MSUConnection"].setInputDenied(true);
+})
+$("body").on("focusout", "input, textarea", function(){
+	Screens["MSUConnection"].setInputDenied(false);
+})
