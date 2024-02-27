@@ -92,4 +92,19 @@
 
 		return __original(_item);
 	}
+
+	q.getItemsByFunction <- function( _function )
+	{
+		local ret = [];
+		foreach (slot, _ in ::Const.ItemSlotSpaces)
+		{
+			ret.extend(this.getItemsByFunctionAtSlot(slot, _function));
+		}
+		return ret;
+	}
+
+	q.getItemsByFunctionAtSlot <- function( _slot, _function )
+	{
+		return this.m.Items[_slot].filter(@(_, _item) _item != null && _item != -1 && _function(_item));
+	}
 });
