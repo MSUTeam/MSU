@@ -97,12 +97,9 @@
 	{
 		local ret = [];
 
-		foreach (slot, spaces in ::Const.ItemSlotSpaces)
+		foreach (slot, _ in ::Const.ItemSlotSpaces)
 		{
-			for (local i = 0; i < spaces; i++)
-			{
-				this.__putItemsAtSlotIntoArray(slot, ret);
-			}
+			this.__putItemsAtSlotIntoArray(slot, ret);
 		}
 
 		return ret;
