@@ -96,29 +96,15 @@
 	q.getItemsByFunction <- function( _function )
 	{
 		local ret = [];
-
 		foreach (slot, _ in ::Const.ItemSlotSpaces)
 		{
-			this.__putItemsAtSlotIntoArray(slot, ret);
+			ret.extend(this.getItemsByFunctionAtSlot(slot, _function));
 		}
-
 		return ret;
 	}
 
 	q.getItemsByFunctionAtSlot <- function( _slot, _function )
 	{
-		local ret = [];
-		this.__putItemsAtSlotIntoArray(_slot, ret);
-		return ret;
-	}
-
-	q.__putItemsAtSlotIntoArray <- function( _slot, _array )
-	{
-		for (local i = 0; i < ::Const.ItemSlotSpaces[_slot]; i++)
-		{
-			local item = this.m.Items[_slot][i];
-			if (item != null && item != -1 && _function(item))
-				_array.push(item);
-		}
+		return this.m.Items[_slot].filter(@(_, _item) _item != null && _item != -1 && _function(_item));
 	}
 });
