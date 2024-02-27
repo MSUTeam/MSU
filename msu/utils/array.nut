@@ -104,4 +104,30 @@
 			}
 		}
 	}
+
+	// Returns a new array
+	function uniques( _array )
+	{
+		local hasNull = false;
+		local t = {};
+		local ret = [];
+		foreach (e in _array)
+		{
+			if (e == null)
+			{
+				if (!hasNull)
+				{
+					ret.push(null);
+					hasNull = true;
+				}
+			}
+			else if (!(e in t))
+			{
+				t[e] <- true;
+				ret.push(e);
+			}
+		}
+
+		return ret;
+	}
 }
