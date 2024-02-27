@@ -5,7 +5,6 @@
 ::Hooks.registerCSS("ui/mods/msu/css/settings_screen.css");
 
 ::Hooks.registerJS("ui/mods/msu/utilities.js");
-::Hooks.registerJS("msu/ui_hooks/turnsequencebar_module.js");
 
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_module.js");
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_screen.js");
