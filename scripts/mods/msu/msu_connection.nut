@@ -40,8 +40,6 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 
 	function setInputDenied( _bool )
 	{
-		if (::MSU.Mod.ModSettings.getSetting("jsAllowInput").getValue())
-			return;
 		::MSU.System.Keybinds.InputDenied = _bool;
 	}
 

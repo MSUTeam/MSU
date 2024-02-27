@@ -258,8 +258,12 @@ MSU.Utils.Timer = function(_id)
 };
 
 $("body").on("focus", "input, textarea", function(){
+	if (!MSU.getSettingValue("mod_msu", "blockSQInput"))
+		return;
 	Screens["MSUConnection"].setInputDenied(true);
 })
 $("body").on("focusout", "input, textarea", function(){
+	if (!MSU.getSettingValue("mod_msu", "blockSQInput"))
+		return;
 	Screens["MSUConnection"].setInputDenied(false);
 })
