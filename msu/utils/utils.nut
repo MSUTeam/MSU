@@ -45,21 +45,15 @@
 		if (typeof _a != typeof _b)
 			return false;
 		if (typeof _a != "array" && typeof _a != "table")
-		{
 			return false;
-		}
 		if (_a.len() != _b.len())
-		{
 			return false;
-		}
 		if (typeof _a == "array")
 		{
 			foreach (i, v in _a)
 			{
 				if (!this.deepEq(v, _b[i]))
-				{
 					return false;
-				}
 			}
 		}
 		else
@@ -67,9 +61,7 @@
 			foreach (k, v in _a)
 			{
 				if (!(k in _b) || !this.deepEq(k, _b[k]))
-				{
 					return false;
-				}
 			}
 		}
 		return true;
