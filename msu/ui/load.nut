@@ -6,9 +6,11 @@
 
 ::Hooks.registerJS("ui/mods/msu/utilities.js");
 
-::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_module.js");
-::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_screen.js");
-::Hooks.registerJS("ui/mods/msu/ui_hooks/tooltip_module.js");
+
+foreach (file in ::IO.enumerateFiles("ui/mods/msu/ui_hooks/"))
+	::Hooks.registerJS(file + ".js");
+
+::Hooks.registerJS("ui/mods/msu/localization/system.js");
 
 ::Hooks.registerJS("ui/mods/msu/backend_connection.js");
 ::Hooks.registerJS("ui/mods/msu/msu_connection.js");
