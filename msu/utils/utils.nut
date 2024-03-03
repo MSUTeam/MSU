@@ -38,77 +38,128 @@
 		}
 	}
 
+	function __serializePrimitive( _object, _out )
+	{
+		local dataType = typeof _object;
+		switch (dataType)
+		{
+			case "integer":
+				_out.writeU8(this.DataType.Integer);
+				if (element < 0)
+				{
+					_out.writeBool(true);
+					_out.writeI32(element);
+				}
+				else
+				{
+					_out.writeBool(false);
+					_out.writeU32(element);
+				}
+				break;
+
+			case "float":
+				_out.writeU8(this.DataType.Float);
+				_out.writeF32(element);
+				break;
+
+			case "bool":
+				_out.writeU8(this.DataType.Boolean);
+				_out.writeBool(element);
+				break;
+
+			case "string":
+				_out.writeU8(this.DataType.String);
+				_out.writeString(element);
+				break;
+
+			case "array":
+				_out.writeU8(this.DataType.Array);
+				this.serialize(element, _out);
+				break;
+
+			case "table":
+				_out.writeU8(this.DataType.Table);
+				this.serialize(element, _out);
+				break;
+
+			case "null":
+				_out.writeU8(this.DataType.Null);
+				break;
+
+			default:
+				throw ::MSU.Exception.InvalidType(element);
+		}
+	}
+
 	function serialize( _object, _out )
 	{
-		::MSU.requireOneFromTypes(["array", "table"], _object);
+		::MSU.requireAnyTypeExcept(["instance", "class"], _object);
 
 		local type = typeof _object;
 		local isTable = type == "table";
 
-		if (isTable) _out.writeU8(this.DataType.Table);
-		else _out.writeU8(this.DataType.Array);
+		_out.writeU8(this.getDataType(_object));
 
-		_out.writeU32(_object.len());
-
-		foreach (key, element in _object)
+		if (isTable || type == "array")
 		{
-			if (isTable) _out.writeString(key);
-			local dataType = typeof element;
-
-			switch (dataType)
+			_out.writeU32(_object.len());
+			foreach (key, element in _object)
 			{
-				case "integer":
-					_out.writeU8(this.DataType.Integer);
-					if (element < 0)
-					{
-						_out.writeBool(true);
-						_out.writeI32(element);
-					}
-					else
-					{
-						_out.writeBool(false);
-						_out.writeU32(element);
-					}
-					break;
-
-				case "float":
-					_out.writeU8(this.DataType.Float);
-					_out.writeF32(element);
-					break;
-
-				case "bool":
-					_out.writeU8(this.DataType.Boolean);
-					_out.writeBool(element);
-					break;
-
-				case "string":
-					_out.writeU8(this.DataType.String);
-					_out.writeString(element);
-					break;
-
-				case "array":
-					_out.writeU8(this.DataType.Array);
-					this.serialize(element, _out);
-					break;
-
-				case "table":
-					_out.writeU8(this.DataType.Table);
-					this.serialize(element, _out);
-					break;
-
-				case "null":
-					_out.writeU8(this.DataType.Null);
-					break;
-
-				default:
-					throw ::MSU.Exception.InvalidType(element);
+				if (isTable) _out.writeString(key);
+				this.__serializePrimitive(element, _out);
 			}
+		}
+		else
+		{
+			this.__serializePrimitive(_object, _out);
+		}
+	}
+
+	function __deserializePrimitive( _in, _type = null)
+	{
+		if (_type == null)
+			_type = _in.readU8();
+
+		switch (_type)
+		{
+			case this.DataType.Integer:
+				return _in.readBool() ? _in.readI32() : _in.readU32();
+				break;
+
+			case this.DataType.Float:
+				return _in.readF32();
+				break;
+
+			case this.DataType.Boolean:
+				return _in.readBool();
+				break;
+
+			case this.DataType.String:
+				return _in.readString();
+				break;
+
+			case this.DataType.Array:
+			case this.DataType.Table:
+				return this.deserialize(_in);
+				break;
+
+			case this.DataType.Null:
+				return null;
+				break;
+			default:
+				throw ::MSU.Exception.InvalidType(dataType);
 		}
 	}
 
 	function deserialize( _in )
 	{
 		local type = _in.readU8();
+
+		if (type != this.DataType.Table && type != this.DataType.Array)
+		{
+			return this.__deserializePrimitive(_in, type)
+		}
+
 		local isTable = type == this.DataType.Table;
 		local size = _in.readU32();
 
@@ -117,39 +168,7 @@
 		for (local i = 0; i < size; i++)
 		{
 			local key = isTable ? _in.readString() : null;
-			local dataType = _in.readU8();
-			local val;
-
-			switch (dataType)
-			{
-				case this.DataType.Integer:
-					val = _in.readBool() ? _in.readI32() : _in.readU32();
-					break;
-
-				case this.DataType.Float:
-					val = _in.readF32();
-					break;
-
-				case this.DataType.Boolean:
-					val = _in.readBool();
-					break;
-
-				case this.DataType.String:
-					val = _in.readString();
-					break;
-
-				case this.DataType.Array:
-				case this.DataType.Table:
-					val = this.deserialize(_in);
-					break;
-
-				case this.DataType.Null:
-					val = null;
-					break;
-				default:
-					throw ::MSU.Exception.InvalidType(dataType);
-			}
-
+			local val = this.__deserializePrimitive(_in);
 			if (isTable) ret[key] <- val;
 			else ret[i] = val;
 		}

@@ -20,6 +20,7 @@
 
 	function flagSerialize( _mod, _id, _object, _flags = null )
 	{
+		::MSU.requireString(_id);
 		if (::MSU.isBBObject(_object))
 		{
 			::logError("flagSerialize can't serialize a BB Object, you should use <object>.onSerialize(<Mod>.Serialization.getSerializationEmulator())");
@@ -35,6 +36,7 @@
 
 	function flagDeserialize( _mod, _id, _defaultValue, _object = null, _flags = null )
 	{
+		::MSU.requireString(_id);
 		if (::MSU.isBBObject(_object))
 		{
 			::logError("flagDeserialize can't deserialize a BB Object, you should use <object>.onDeserialize(<Mod>.Serialization.getDeserializationEmulator())");
@@ -50,6 +52,7 @@
 
 	function getDeserializationEmulator( _mod, _id, _flags = null )
 	{
+		::MSU.requireString(_id);
 		if (_flags == null) _flags = ::World.Flags;
 		local emulator = ::MSU.Class.DeserializationEmulator(_mod, _id, _flags);
 		emulator.loadDataFromFlagContainer();
@@ -58,6 +61,7 @@
 
 	function getSerializationEmulator( _mod, _id, _flags = null )
 	{
+		::MSU.requireString(_id);
 		if (_flags == null) _flags = ::World.Flags;
 		local emulator = ::MSU.Class.SerializationEmulator(_mod, _id, _flags);
 		emulator.setIncremental(true);
