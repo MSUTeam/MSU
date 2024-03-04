@@ -8,12 +8,11 @@
 	::MSU.requireTypeArray("integer", vargv);
 }
 
-::MSU.requireUnsigned <- function( ... )
+::MSU.requireUInt <- function( ... )
 {
-	::MSU.requireTypeArray("integer", vargv);
 	foreach (value in vargv)
 	{
-		if (value < 0)
+		if (typeof value != "integer" || value < 0)
 		{
 			::logError(value + " must have the type: unsigned");
 			throw ::MSU.Exception.InvalidType(value);
