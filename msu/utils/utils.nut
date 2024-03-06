@@ -23,6 +23,7 @@
 		"I16",
 		"I32",
 		"F32",
+		"SerializationData"
 		"DataArray",
 		"Table",
 		"Array",
