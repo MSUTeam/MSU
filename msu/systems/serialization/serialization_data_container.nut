@@ -9,6 +9,29 @@
 	{
 		this.__Type = _type;
 		this.__Data = _data;
+		switch (_type)
+		{
+			case this.DataType.Array:
+			case this.DataType.SerializationData:
+				this.__SerializationData = array(_data.len());
+				foreach (i, item in _data)
+				{
+					this.__SerializationData[i] = this.__convertValueFromBaseType(item);
+				}
+				break;
+
+			 case this.DataType.Table:
+			 	this.__SerializationData = array(_data.len() * 2);
+			 	foreach (key, value in _data)
+			 	{
+			 		this.__SerializationData[i] = this.__convertValueFromBaseType(key);
+			 		this.__SerializationData[i] = this.__convertValueFromBaseType(value);
+			 	}
+			 	break;
+
+			 default:
+			 	this.__SerializationData = [this.__convertValueFromBaseType(_data)];
+		}
 	}
 
 	function getType()
@@ -18,7 +41,25 @@
 
 	function getData()
 	{
-		return this.__Data;
+		return this.getType() == this.DataType.SerializationData ? this : this.__Data;
+	}
+
+	function len()
+	{
+		return this.__Data.len();
+	}
+
+	function pushElement( _data )
+	{
+		if (this.getType() != this.DataType.SerializationData)
+			throw "can only add data if the container contains SerializationData";
+
+		this.__SerializationData.push(_data);
+	}
+
+	function getElement( _idx )
+	{
+		return this.__SerializationData[_idx];
 	}
 
 	function serialize( _out )
@@ -29,19 +70,11 @@
 		{
 			case this.DataType.Array:
 			case this.DataType.SerializationData:
-				_out.writeU32(this.getData().len());
-				foreach (item in this.getData())
-				{
-					this.__convertValueFromBaseType(item).serialize();
-				}
-				break;
-
 			case this.DataType.Table:
-				_out.writeU32(this.getData().len());
-				foreach (key, value in this.getData())
+				_out.writeU32(this.__SerializationData.len());
+				foreach (item in this.__SerializationData)
 				{
-					this.__convertValueFromBaseType(key).serialize();
-					this.__convertValueFromBaseType(value).serialize();
+					item.serialize();
 				}
 				break;
 
@@ -59,16 +92,17 @@
 			case this.DataType.SerializationData: // aka an instance of our pseudo-new data type SerializationDataContainer
 				local len = _in.readU32();
 				this.__SerializationData = array(len);
+				this.__Data = array(len);
 				for (local i = 0; i < len; i++)
 				{
 					this.__SerializationData[i] = this.__readValueFromStorage(_in);
+					this.__Data[i] = this.__SerializationData[i].getData();
 				}
-				this.__Data = clone this.__SerializationData;
 				break;
 
 			case this.DataType.Table:
 				local len = _in.readU32();
-				this.__SerializationData = array(len * 2);
+				this.__SerializationData = array(len);
 				this.__Data = {};
 				for (local i = 0; i < len; i+=2)
 				{
@@ -76,13 +110,13 @@
 					local value = this.__readValueFromStorage(_in);
 					this.__SerializationData[i] = key;
 					this.__SerializationData[i+1] = value;
-					this.__Data[key] <- value;
+					this.__Data[key.getData()] <- value.getData();
 				}
 				break;
 
 			default:
 				this.__Data = _in["read" + this.DataType.getKeyForValue(type)]();
-				this.__SerializationData = [this.__Data];
+				this.__SerializationData = [this.__convertValueFromBaseType(this.__Data)];
 		}
 	}
 
