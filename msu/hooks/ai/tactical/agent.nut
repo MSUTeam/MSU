@@ -1,6 +1,12 @@
 ::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
-	q.m.MSU_BehaviorStacks <- {};
+	q.m.MSU_BehaviorStacks <- null; // Initialized to {} during agent.create
 	q.m.MSU_BehaviorToRemove <- null;
+
+	q.create = @(__original) function()
+	{
+		__original();
+		this.m.MSU_BehaviorStacks = {};
+	}
 
 	q.addBehavior = @(__original) function( _behavior )
 	{

@@ -1,7 +1,13 @@
 ::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
-	q.m.ScheduledChangesSkills <- [];
+	q.m.ScheduledChangesSkills <- null; // Initialized to [] during skill_container.create
 	q.m.IsPreviewing <- false;
-	q.m.PreviewProperty <- {};
+	q.m.PreviewProperty <- null; // Initialized to {} during skill_container.create
+
+	q.create <- function()
+	{
+		this.m.ScheduledChangesSkills = [];
+		this.m.PreviewProperty = {};
+	}
 
 	q.update = @(__original) function()
 	{

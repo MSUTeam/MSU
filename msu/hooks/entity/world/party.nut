@@ -1,18 +1,20 @@
 ::MSU.HooksMod.hook("scripts/entity/world/party", function(q) {
 	// The final movement speed mult that is applied to the default value of 100
 	q.m.MovementSpeedMult <- 1.0;
-	q.m.MovementSpeedMultFunctions <- {};
+	q.m.MovementSpeedMultFunctions <- null; // Initialized as a table during party.create
 
 	q.create = @(__original) function()
 	{
 		__original();
-		this.m.MovementSpeedMultFunctions.BaseMovementSpeedMult <- this.getBaseMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.RoadMovementSpeedMult <- this.getRoadMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.SlowdownPerUnitMovementSpeedMult <- this.getSlowdownPerUnitMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.GlobalMovementSpeedMult <- this.getGlobalMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.NightTimeMovementSpeedMult <- this.getNightTimeMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.RiverMovementSpeedMult <- this.getRiverMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.NotPlayerMovementSpeedMult <- this.getNotPlayerMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions = {
+			BaseMovementSpeed = this.getBaseMovementSpeedMult,
+			RoadMovementSpeedMult = this.getRoadMovementSpeedMult,
+			SlowdownPerUnitMovementSpeedMult = this.getSlowdownPerUnitMovementSpeedMult,
+			GlobalMovementSpeedMult = this.getGlobalMovementSpeedMult,
+			NightTimeMovementSpeedMult = this.getNightTimeMovementSpeedMult,
+			RiverMovementSpeedMult = this.getRiverMovementSpeedMult,
+			NotPlayerMovementSpeedMult = this.getNotPlayerMovementSpeedMult
+		};
 	}
 
 	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value

@@ -58,10 +58,16 @@
 	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	q.m.IsBaseValuesSaved <- false;
-	q.m.ScheduledChanges <- [];
+	q.m.ScheduledChanges <- null; // Initialized to [] during skill.create
 
 	q.m.IsApplyingPreview <- false;
-	q.m.PreviewField <- {};
+	q.m.PreviewField <- null; // Initialized to {} during skill.create
+
+	q.create <- function()
+	{
+		this.m.ScheduledChanges = [];
+		this.m.PreviewField = {};
+	}
 
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
