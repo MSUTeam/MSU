@@ -42,7 +42,7 @@
 		local data = this.SerializationData.getDataArray()[this.Idx];
 		if (data.getType() != _type)
 		{
-			::logError(format("The type being read %s isn't the same as the type %s stored in the Deserialization Emulator", ::MSU.Utils.SerializationDataType.getKeyForValue(_type), ::MSU.Utils.SerializationDataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType())));
+			::logError(format("The type being read %s isn't the same as the type %s stored in the Deserialization Emulator", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType())));
 			// currently still continuing in case of conversion between integers
 		}
 		return data.getData();
@@ -119,46 +119,46 @@
 
 	function readString()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.String);
+		return this.__readData(::MSU.Serialization.DataType.String);
 	}
 
 	function readBool()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.Bool);
+		return this.__readData(::MSU.Serialization.DataType.Bool);
 	}
 
 	function readI32()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.I32);
+		return this.__readData(::MSU.Serialization.DataType.I32);
 	}
 
 	function readU32()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.U32);
+		return this.__readData(::MSU.Serialization.DataType.U32);
 	}
 
 	function readI16()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.I16);
+		return this.__readData(::MSU.Serialization.DataType.I16);
 	}
 
 	function readU16()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.U16);
+		return this.__readData(::MSU.Serialization.DataType.U16);
 	}
 
 	function readI8()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.I8);
+		return this.__readData(::MSU.Serialization.DataType.I8);
 	}
 
 	function readU8()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.U8);
+		return this.__readData(::MSU.Serialization.DataType.U8);
 	}
 
 	function readF32()
 	{
-		return this.__readData(::MSU.Utils.SerializationDataType.F32);
+		return this.__readData(::MSU.Serialization.DataType.F32);
 	}
 }

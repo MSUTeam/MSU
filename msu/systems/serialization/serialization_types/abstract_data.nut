@@ -33,22 +33,22 @@
 	{
 		switch (_type)
 		{
-			case ::MSU.Utils.SerializationDataType.U8: case ::MSU.Utils.SerializationDataType.U16: case ::MSU.Utils.SerializationDataType.U32:
-			case ::MSU.Utils.SerializationDataType.I8: case ::MSU.Utils.SerializationDataType.I16: case ::MSU.Utils.SerializationDataType.I32:
-			case ::MSU.Utils.SerializationDataType.F32: case ::MSU.Utils.SerializationDataType.Bool: case ::MSU.Utils.SerializationDataType.String:
-				return ::MSU.Class.PrimitiveData(_type, _in["read" + ::MSU.Utils.SerializationDataType.getKeyForValue(_type)]());
+			case ::MSU.Serialization.DataType.U8: case ::MSU.Serialization.DataType.U16: case ::MSU.Serialization.DataType.U32:
+			case ::MSU.Serialization.DataType.I8: case ::MSU.Serialization.DataType.I16: case ::MSU.Serialization.DataType.I32:
+			case ::MSU.Serialization.DataType.F32: case ::MSU.Serialization.DataType.Bool: case ::MSU.Serialization.DataType.String:
+				return ::MSU.Class.PrimitiveData(_type, _in["read" + ::MSU.Serialization.DataType.getKeyForValue(_type)]());
 
-			case ::MSU.Utils.SerializationDataType.Table:
+			case ::MSU.Serialization.DataType.Table:
 				local ret = ::MSU.Class.TableData({});
 				ret.deserialize(_in);
 				return ret;
 
-			case ::MSU.Utils.SerializationDataType.Array:
+			case ::MSU.Serialization.DataType.Array:
 				local ret = ::MSU.Class.ArrayData([]);
 				ret.deserialize(_in);
 				return ret;
 
-			case ::MSU.Utils.SerializationDataType.SerializationData:
+			case ::MSU.Serialization.DataType.SerializationData:
 				local ret = ::MSU.Class.SerializationData([]);
 				ret.deserialize(_in);
 				return ret;
@@ -63,30 +63,30 @@
 				if (_value >= 0)
 				{
 					if (_value <= 255)
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.U8, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.U8, _value);
 					else if (_value <= 65535)
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.U16, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.U16, _value);
 					else
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.U32, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.U32, _value);
 				}
 				else
 				{
 					if (_value >= -128)
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.I8, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.I8, _value);
 					else if  (_value >= -32768)
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.I16, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.I16, _value);
 					else
-						return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.I32, _value);
+						return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.I32, _value);
 				}
 				break;
 			case "string":
-				return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.String, _value);
+				return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.String, _value);
 			case "float":
-				return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.F32, _value);
+				return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.F32, _value);
 			case "bool":
-				return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.Bool, _value);
+				return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.Bool, _value);
 			case "null":
-				return ::MSU.Class.PrimitiveData(::MSU.Utils.SerializationDataType.Null, null);
+				return ::MSU.Class.PrimitiveData(::MSU.Serialization.DataType.Null, null);
 			case "table":
 				if (::MSU.isBBObject(_value))
 				{

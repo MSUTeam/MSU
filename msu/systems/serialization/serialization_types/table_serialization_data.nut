@@ -15,7 +15,7 @@
 		}
 		base.constructor(array);
 
-		this.__Type = ::MSU.Utils.SerializationDataType.Table;
+		this.__Type = ::MSU.Serialization.DataType.Table;
 		this.__Data = _data;
 	}
 

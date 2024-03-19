@@ -6,7 +6,7 @@
 	{
 		::MSU.requireArray(_data);
 
-		base.constructor(::MSU.Utils.SerializationDataType.Array, _data);
+		base.constructor(::MSU.Serialization.DataType.Array, _data);
 
 		this.__DataArray = array(_data.len());
 		foreach (i, value in _data)
