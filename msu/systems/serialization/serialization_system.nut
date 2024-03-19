@@ -27,7 +27,7 @@
 		}
 		if (_flags == null) _flags = ::World.Flags;
 
-		local outEmulator = ::MSU.Class.SerializationEmulator(_mod, _id, _flags);
+		local outEmulator = ::MSU.Class.FlagSerializationEmulator(_mod, _id, _flags);
 		this.EmulatorsToClear.push(outEmulator);
 		::MSU.Utils.serialize(_object, outEmulator);
 		outEmulator.storeDataInFlagContainer(); // should we release data at this point?
@@ -42,7 +42,7 @@
 		}
 		if (_flags == null) _flags = ::World.Flags;
 
-		local inEmulator = ::MSU.Class.DeserializationEmulator(_mod, _id, _flags);
+		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags);
 		if (!inEmulator.loadDataFromFlagContainer())
 			return _defaultValue;
 		return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
@@ -51,7 +51,7 @@
 	function getDeserializationEmulator( _mod, _id, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
-		local emulator = ::MSU.Class.DeserializationEmulator(_mod, _id, _flags);
+		local emulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags);
 		emulator.loadDataFromFlagContainer();
 		return emulator;
 	}
@@ -59,7 +59,7 @@
 	function getSerializationEmulator( _mod, _id, _flags = null )
 	{
 		if (_flags == null) _flags = ::World.Flags;
-		local emulator = ::MSU.Class.SerializationEmulator(_mod, _id, _flags);
+		local emulator = ::MSU.Class.FlagSerializationEmulator(_mod, _id, _flags);
 		emulator.setIncremental(true);
 		this.EmulatorsToClear.push(emulator);
 		return emulator;
