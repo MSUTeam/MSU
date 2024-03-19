@@ -18,7 +18,6 @@
 		this.Mod = _mod;
 		this.ID = _id;
 		this.FlagContainer = _flagContainer;
-		this.Data = [];
 	}
 
 	function getEmulatorString()
@@ -30,7 +29,7 @@
 	{
 		local startString = this.getEmulatorString();
 		this.FlagContainer.remove(startString);
-		for (local i = 0; i < this.Data.len(); ++i)
+		for (local i = 0; i < this.SerializationData.len(); ++i)
 		{
 			this.FlagContainer.remove(startString + "." + i);
 		}

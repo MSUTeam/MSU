@@ -7,9 +7,6 @@ includeFile("serde_emulator");
 includeFile("flag_serde_emulator");
 includeFile("serialization_emulator");
 includeFile("deserialization_emulator");
-includeFile("strict_serde_emulator");
-includeFile("strict_serialization_emulator");
-includeFile("strict_deserialization_emulator");
 
 includeFile("serialization_system.nut");
 ::MSU.System.Serialization <- ::MSU.Class.SerializationSystem();
