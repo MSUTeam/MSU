@@ -4,53 +4,53 @@
 	{
 		switch( _type )
 		{
-			case ::MSU.Utils.SerializationDataType.U8:
+			case ::MSU.Serialization.DataType.U8:
 				::MSU.requireInt(_data);
 				if (_data < 0 || _data > 255)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.U16:
+			case ::MSU.Serialization.DataType.U16:
 				::MSU.requireInt(_data);
 				if (_data < 0 || _data > 65535)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.U32:
+			case ::MSU.Serialization.DataType.U32:
 				::MSU.requireInt(_data);
 				if (_data < 0)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.I8:
+			case ::MSU.Serialization.DataType.I8:
 				::MSU.requireInt(_data);
 				if (_data < -128 || _data > 127)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.I16:
+			case ::MSU.Serialization.DataType.I16:
 				::MSU.requireInt(_data);
 				if (_data < -32768 || _data > 32767)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.I32:
+			case ::MSU.Serialization.DataType.I32:
 				::MSU.requireInt(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.F32:
+			case ::MSU.Serialization.DataType.F32:
 				::MSU.requireFloat(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.Bool:
+			case ::MSU.Serialization.DataType.Bool:
 				::MSU.requireBool(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.String:
+			case ::MSU.Serialization.DataType.String:
 				::MSU.requireString(_data);
 				break;
 
-			case ::MSU.Utils.SerializationDataType.Null:
+			case ::MSU.Serialization.DataType.Null:
 				if (_data != null)
 					throw ::MSU.Exception.InvalidValue(_data);
 				break;
@@ -65,13 +65,13 @@
 	function serialize( _out )
 	{
 		base.serialize(_out);
-		if (this.getType() != ::MSU.Utils.SerializationDataType.Null)
-			_out["write" + ::MSU.Utils.SerializationDataType.getKeyForValue(this.getType())](this.getData());
+		if (this.getType() != ::MSU.Serialization.DataType.Null)
+			_out["write" + ::MSU.Serialization.DataType.getKeyForValue(this.getType())](this.getData());
 	}
 
 	function deserialize( _in )
 	{
-		if (this.getType() != ::MSU.Utils.SerializationDataType.Null)
-			this.__Data = _in["read" + ::MSU.Utils.SerializationDataType.getKeyForValue(this.getType())]();
+		if (this.getType() != ::MSU.Serialization.DataType.Null)
+			this.__Data = _in["read" + ::MSU.Serialization.DataType.getKeyForValue(this.getType())]();
 	}
 }

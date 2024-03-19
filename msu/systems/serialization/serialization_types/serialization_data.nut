@@ -5,7 +5,7 @@
 		if (_data == null)
 			_data = [];
 		base.constructor(_data);
-		this.__Type = ::MSU.Utils.SerializationDataType.SerializationData;
+		this.__Type = ::MSU.Serialization.DataType.SerializationData;
 	}
 
 	function getData()
