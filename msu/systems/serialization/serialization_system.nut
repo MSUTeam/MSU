@@ -30,7 +30,7 @@
 
 		local outEmulator = ::MSU.Class.FlagSerializationEmulator(_mod, _id, _flags);
 		this.EmulatorsToClear.push(outEmulator);
-		::MSU.Utils.serialize(_object, outEmulator);
+		::MSU.Serialization.serialize(_object, outEmulator);
 		outEmulator.storeDataInFlagContainer(); // should we release data at this point?
 	}
 
@@ -46,7 +46,11 @@
 		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags, ::MSU.System.Serialization.DeserializeMetaData);
 		if (!inEmulator.loadDataFromFlagContainer())
 			return _defaultValue;
-		return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
+
+		if (!::MSU.Mod.Serialization.isSavedVersionAtLeast("1.3.0", inEmulator.getMetaData()))
+			return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
+
+		return _object == null ? ::MSU.Serialization.deserialize(inEmulator) : ::MSU.Serialization.deserializeInto(_object, inEmulator);
 	}
 
 	function getDeserializationEmulator( _mod, _id, _flags = null )
