@@ -3,7 +3,123 @@
 {
 	MetaData = null;
 	SerializationData = null;
-	Idx = -1;
+
+	// Used to populate SerializationEmulator and FlagSerializationEmulator classes after their creation to emulate multiple inheritance
+	static __ReadFields = {
+		Idx = -1,
+
+		function readString()
+		{
+			return this.__readData(::MSU.Serialization.DataType.String);
+		}
+
+		function readBool()
+		{
+			return this.__readData(::MSU.Serialization.DataType.Bool);
+		}
+
+		function readI32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I32);
+		}
+
+		function readU32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U32);
+		}
+
+		function readI16()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I16);
+		}
+
+		function readU16()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U16);
+		}
+
+		function readI8()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I8);
+		}
+
+		function readU8()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U8);
+		}
+
+		function readF32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.F32);
+		}
+	};
+
+	// Used to populate DeserializationEmulator and FlagDeserializationEmulator classes after their creation to emulate multiple inheritance
+	static __WriteFields = {
+		function writeString( _string )
+		{
+			::MSU.requireString(_string);
+			this.__writeData(_string);
+		}
+
+		function writeBool( _bool )
+		{
+			::MSU.requireBool(_bool);
+			this.__writeData(_bool);
+		}
+
+		function writeI32( _int )
+		{
+			::MSU.requireInt(_int);
+			this.__writeData(_int);
+		}
+
+		function writeU32( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int);
+		}
+
+		function writeI16( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < -32768 || _int > 32767)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int);
+		}
+
+		function writeU16( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0 || _int > 65535)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int);
+		}
+
+		function writeI8( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < -128 || _int > 127)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int);
+		}
+
+		function writeU8( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0 || _int > 255)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int);
+		}
+
+		function writeF32( _float )
+		{
+			::MSU.requireOneFromTypes(["float", "integer"], _float);
+			this.__writeData(_float);
+		}
+	};
 
 	constructor( _metaDataEmulator, _serializationData = null )
 	{
@@ -32,6 +148,11 @@
 		return this.MetaData;
 	}
 
+	function __writeData( _data )
+	{
+		this.SerializationData.push(_data);
+	}
+
 	function __readData( _type )
 	{
 		if (this.SerializationData.len() <= ++this.Idx)
@@ -46,119 +167,5 @@
 			// currently still continuing in case of conversion between integers
 		}
 		return data.getData();
-	}
-
-	function __writeData( _data )
-	{
-		this.SerializationData.push(_data);
-	}
-
-	function writeString( _string )
-	{
-		::MSU.requireString(_string);
-		this.__writeData(_string);
-	}
-
-	function writeBool( _bool )
-	{
-		::MSU.requireBool(_bool);
-		this.__writeData(_bool);
-	}
-
-	function writeI32( _int )
-	{
-		::MSU.requireInt(_int);
-		this.__writeData(_int);
-	}
-
-	function writeU32( _int )
-	{
-		::MSU.requireInt(_int);
-		if (_int < 0)
-			throw ::MSU.Exception.InvalidValue(_int);
-		this.__writeData(_int);
-	}
-
-	function writeI16( _int )
-	{
-		::MSU.requireInt(_int);
-		if (_int < -32768 || _int > 32767)
-			throw ::MSU.Exception.InvalidValue(_int);
-		this.__writeData(_int);
-	}
-
-	function writeU16( _int )
-	{
-		::MSU.requireInt(_int);
-		if (_int < 0 || _int > 65535)
-			throw ::MSU.Exception.InvalidValue(_int);
-		this.__writeData(_int);
-	}
-
-	function writeI8( _int )
-	{
-		::MSU.requireInt(_int);
-		if (_int < -128 || _int > 127)
-			throw ::MSU.Exception.InvalidValue(_int);
-		this.__writeData(_int);
-	}
-
-	function writeU8( _int )
-	{
-		::MSU.requireInt(_int);
-		if (_int < 0 || _int > 255)
-			throw ::MSU.Exception.InvalidValue(_int);
-		this.__writeData(_int);
-	}
-
-	function writeF32( _float )
-	{
-		::MSU.requireOneFromTypes(["float", "integer"], _float);
-		this.__writeData(_float);
-	}
-
-	function readString()
-	{
-		return this.__readData(::MSU.Serialization.DataType.String);
-	}
-
-	function readBool()
-	{
-		return this.__readData(::MSU.Serialization.DataType.Bool);
-	}
-
-	function readI32()
-	{
-		return this.__readData(::MSU.Serialization.DataType.I32);
-	}
-
-	function readU32()
-	{
-		return this.__readData(::MSU.Serialization.DataType.U32);
-	}
-
-	function readI16()
-	{
-		return this.__readData(::MSU.Serialization.DataType.I16);
-	}
-
-	function readU16()
-	{
-		return this.__readData(::MSU.Serialization.DataType.U16);
-	}
-
-	function readI8()
-	{
-		return this.__readData(::MSU.Serialization.DataType.I8);
-	}
-
-	function readU8()
-	{
-		return this.__readData(::MSU.Serialization.DataType.U8);
-	}
-
-	function readF32()
-	{
-		return this.__readData(::MSU.Serialization.DataType.F32);
 	}
 }
