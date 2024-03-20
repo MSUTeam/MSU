@@ -22,3 +22,8 @@
 		return true;
 	}
 }
+
+foreach (key, value in ::MSU.Class.SerDeEmulator.__ReadFunctions)
+{
+	::MSU.Class.FlagDeserializationEmulator[key] <- value;
+}
