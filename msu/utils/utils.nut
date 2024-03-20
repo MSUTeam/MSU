@@ -23,10 +23,9 @@
 		"I16",
 		"I32",
 		"F32",
-		"DataArray",
 		"Table",
 		"Array",
-		"RawDataArray"
+		"SerializationData"
 	]),
 	Timers = {}
 	States = {},

@@ -1,50 +1,50 @@
-::MSU.Class.ArraySerializationData <- class extends ::MSU.Class.CustomSerializationData
+::MSU.Class.ArrayData <- class extends ::MSU.Class.AbstractData
 {
-	static __Type = ::MSU.Utils.SerializationDataType.Array;
 	__DataArray = null;
 
 	constructor( _data )
 	{
-		if (_data == null)
-			_data = [];
 		::MSU.requireArray(_data);
-		base.constructor(_data);
 
-		this.__DataArray = ::MSU.Class.RawDataArrayData();
-		this.setLength(_data.len());
+		base.constructor(::MSU.Utils.SerializationDataType.Array, _data);
 
-		foreach (i, element in _data)
+		this.__DataArray = array(_data.len());
+		foreach (i, value in _data)
 		{
-			this.__DataArray.setElement(i, this.__convertValueFromBaseType(element));
+			this.__DataArray[i] = this.__convertValueFromBaseType(value);
 		}
-	}
-
-	function setLength( _length )
-	{
-		this.getData().resize(_length);
-		this.__DataArray.setLength(_length);
 	}
 
 	function len()
 	{
-		return this.__DataArray.len();
+		return this.__Data.len();
+	}
+
+	function getDataArray()
+	{
+		return this.__DataArray;
 	}
 
 	function serialize( _out )
 	{
 		base.serialize(_out);
-		this.__DataArray.serialize(_out);
+		_out.writeU32(this.__DataArray.len());
+		foreach (value in this.__DataArray)
+		{
+			value.serialize(_out);
+		}
 	}
 
 	function deserialize( _in )
 	{
-		base.deserialize(_in);
-		_in.readU8();
-		this.__DataArray.deserialize(_in);
-		local data = this.getData();
-		for (local i = 0; i < this.len(); ++i)
+		local len = _in.readU32();
+		this.__Data = array(len);
+		this.__DataArray = array(len);
+		for (local i = 0; i < len; i++)
 		{
-			data[i] = this.__DataArray.getElement(i).getData()
+			local value = this.__readValueFromStorage(_in.readU8(), _in);
+			this.__DataArray[i] = value;
+			this.__Data[i] = value.getData();
 		}
 	}
 }
