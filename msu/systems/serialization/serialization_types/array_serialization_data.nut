@@ -11,7 +11,7 @@
 		this.__DataArray = array(_data.len());
 		foreach (i, value in _data)
 		{
-			this.__DataArray[i] = this.__convertValueFromBaseType(value);
+			this.__DataArray[i] = ::MSU.Serialization.__convertValueFromBaseType(value);
 		}
 	}
 
@@ -33,7 +33,7 @@
 		// it using __convertValueFromBaseType which may end up being a U8 for example. This then would
 		// throw a warning in the log when trying to read it as a U32. To prevent this, we serialize it
 		// by already converting it to the appropriate type here.
-		this.__convertValueFromBaseType(this.__DataArray.len()).serialize(_out);
+		::MSU.Serialization.__convertValueFromBaseType(this.__DataArray.len()).serialize(_out);
 		foreach (value in this.__DataArray)
 		{
 			value.serialize(_out);
@@ -42,12 +42,12 @@
 
 	function deserialize( _in )
 	{
-		local len = this.__readValueFromStorage(_in.readU8(), _in).getData();
+		local len = ::MSU.Serialization.__readValueFromStorage(_in.readU8(), _in).getData();
 		this.__Data = array(len);
 		this.__DataArray = array(len);
 		for (local i = 0; i < len; i++)
 		{
-			local value = this.__readValueFromStorage(_in.readU8(), _in);
+			local value = ::MSU.Serialization.__readValueFromStorage(_in.readU8(), _in);
 			this.__DataArray[i] = value;
 			this.__Data[i] = value.getData();
 		}

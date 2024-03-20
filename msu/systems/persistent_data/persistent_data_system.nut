@@ -147,7 +147,7 @@
 		}
 		local storage = ::PersistenceManager.loadStorage(_fileName);
 		storage.beginRead();
-		local data = ::MSU.Class.AbstractData.__readValueFromStorage(storage.readU8(), storage);
+		local data = ::MSU.Serialization.__readValueFromStorage(storage.readU8(), storage);
 		storage.endRead();
 		return data;
 	}
