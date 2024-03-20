@@ -3,6 +3,7 @@
 	Mods = null;
 	EmulatorsToClear = null;
 	MetaData = null;
+	DeserializeMetaData = null;
 
 	constructor()
 	{
