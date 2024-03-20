@@ -21,7 +21,7 @@
 	function push( _element )
 	{
 		this.__Data.push(_element);
-		this.__DataArray.push(this.__convertValueFromBaseType(_element));
+		this.__DataArray.push(::MSU.Serialization.__convertValueFromBaseType(_element));
 	}
 
 	function getSerializationEmulator()
