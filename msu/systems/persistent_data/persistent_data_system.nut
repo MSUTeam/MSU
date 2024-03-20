@@ -112,7 +112,7 @@
 
 	function createFile( _fileName, _dataArray )
 	{
-		::MSU.requireInstanceOf(::MSU.Class.AbstractSerializationData, _dataArray);
+		::MSU.requireInstanceOf(::MSU.Class.ArrayData, _dataArray);
 		this.validateFileName(_fileName);
 		local storage = ::PersistenceManager.createStorage(_fileName);
 		storage.beginWrite();
@@ -147,7 +147,7 @@
 		}
 		local storage = ::PersistenceManager.loadStorage(_fileName);
 		storage.beginRead();
-		local data = ::MSU.Class.CustomSerializationData.__readValueFromStorage(storage);
+		local data = ::MSU.Class.AbstractData.__readValueFromStorage(storage.readU8(), storage);
 		storage.endRead();
 		return data;
 	}
