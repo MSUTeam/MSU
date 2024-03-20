@@ -43,7 +43,7 @@
 		}
 		if (_flags == null) _flags = ::World.Flags;
 
-		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags);
+		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags, ::MSU.System.Serialization.DeserializeMetaData);
 		if (!inEmulator.loadDataFromFlagContainer())
 			return _defaultValue;
 		return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
