@@ -65,6 +65,7 @@
 		{
 			this.addKeybindSetting(_keybind);
 		}
+		return _keybind;
 	}
 
 	// Private
@@ -108,6 +109,11 @@
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
 			::MSU.Mod.Debug.printWarning("Checking keybind: " + keybind.tostring(), "keybinds");
+			if (this.InputDenied && !keybind.BypassInputDenied)
+			{
+				continue;
+			}
+
 			if (!keybind.hasState(_state))
 			{
 				continue;
@@ -159,8 +165,6 @@
 
 	function onKeyInput( _key, _environment, _state )
 	{
-		if (this.InputDenied)
-			return true;
 		this.KeysChanged = true;
 		local keyAsString = ::MSU.Key.KeyMapSQ[_key.getKey().tostring()];
 		local keyState;
@@ -172,7 +176,7 @@
 		{
 			keyState = ::MSU.Key.getKeyState(_key.getState())
 		}
-		return this.onInput(_key, _environment, _state, keyAsString, keyState);
+		return this.onInput(_key, _environment, _state, keyAsString, keyState) || this.InputDenied;
 	}
 
 	function frameUpdate( _ = null ) # needs an empty default parameter since scheduleEvent uses .call(_env)
