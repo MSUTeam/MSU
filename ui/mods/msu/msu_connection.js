@@ -31,6 +31,11 @@ MSUConnection.prototype.clearKeys = function ()
 	MSU.Keybinds.PressedKeys = {};
 }
 
+MSUConnection.prototype.setInputDenied = function (_bool)
+{
+	SQ.call(this.mSQHandle, "setInputDenied", _bool);
+}
+
 MSUConnection.prototype.getUpdateCheckPromise = function (_updateURL)
 {
 	var ret = $.Deferred();

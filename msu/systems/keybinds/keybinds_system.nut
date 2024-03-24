@@ -5,6 +5,7 @@
 	KeybindsForJS = null;
 	PressedKeys = null;
 	KeysChanged = false;
+	InputDenied = false;
 
 	constructor()
 	{
@@ -64,6 +65,7 @@
 		{
 			this.addKeybindSetting(_keybind);
 		}
+		return _keybind;
 	}
 
 	// Private
@@ -107,6 +109,11 @@
 		foreach (keybind in this.KeybindsByKey[_key])
 		{
 			::MSU.Mod.Debug.printWarning("Checking keybind: " + keybind.tostring(), "keybinds");
+			if (this.InputDenied && !keybind.BypassInputDenied)
+			{
+				continue;
+			}
+
 			if (!keybind.hasState(_state))
 			{
 				continue;
@@ -169,7 +176,7 @@
 		{
 			keyState = ::MSU.Key.getKeyState(_key.getState())
 		}
-		return this.onInput(_key, _environment, _state, keyAsString, keyState);
+		return this.onInput(_key, _environment, _state, keyAsString, keyState) || this.InputDenied;
 	}
 
 	function frameUpdate( _ = null ) # needs an empty default parameter since scheduleEvent uses .call(_env)
