@@ -1,5 +1,6 @@
 ::MSU.Class.PersistentDataSystem <- class extends ::MSU.Class.System
 {
+	static FilePrefix = "MSU#";
 	Mods = null;
 	ModConfigPath = "mod_config/";
 	Separator = "@"

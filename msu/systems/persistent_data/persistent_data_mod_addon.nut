@@ -19,7 +19,7 @@
 	// MSU 1.3.0
 	function prefixFileName( _fileName )
 	{
-		return format("MSU#%s#%s", this.Mod.getID(), _fileName);
+		return format("%s%s#%s", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID(), _fileName);
 	}
 
 	function createFile( _fileName, _data )
@@ -34,7 +34,7 @@
 
 	function getFiles()
 	{
-		local prefix = "MSU#" + this.Mod.getID();
+		local prefix = ::MSU.System.PersistentData.FilePrefix + this.Mod.getID();
 		return ::PersistenceManager.queryStorages().filter(@(_i, _v) ::MSU.String.startsWith(_v.getFileName(), prefix))
 	}
 
