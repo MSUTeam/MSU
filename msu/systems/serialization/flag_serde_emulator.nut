@@ -14,7 +14,7 @@
 			::logError("the ID passed to flag serialization cannot end with a full stop followed by digits so it doesn't collide with internal MSU flags");
 			throw ::MSU.Exception.InvalidValue(_id);
 		}
-		base.constructor(_metaDataEmulator)
+		base.constructor(_metaDataEmulator);
 		this.Mod = _mod;
 		this.ID = _id;
 		this.FlagContainer = _flagContainer;
