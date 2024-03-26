@@ -1,3 +1,5 @@
+::Const.CharacterProperties.CanReceiveTemporaryInjuries <- true;
+
 ::Const.ItemActionOrder <- {
 	First = 0,
 	Early = 1000,
