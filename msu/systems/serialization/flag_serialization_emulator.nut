@@ -35,7 +35,7 @@
 	}
 }
 
-foreach (key, value in ::MSU.Class.SerDeEmulator.__WriteFunctions)
+foreach (key, value in ::MSU.Class.SerDeEmulator.__WriteFields)
 {
 	::MSU.Class.FlagSerializationEmulator[key] <- value;
 }

@@ -3,10 +3,11 @@
 {
 	MetaData = null;
 	SerializationData = null;
-	Idx = -1;
 
 	// Used to populate SerializationEmulator and FlagSerializationEmulator classes after their creation to emulate multiple inheritance
-	static __ReadFunctions = {
+	static __ReadFields = {
+		Idx = -1,
+
 		function readString()
 		{
 			return this.__readData(::MSU.Serialization.DataType.String);
@@ -54,7 +55,7 @@
 	};
 
 	// Used to populate DeserializationEmulator and FlagDeserializationEmulator classes after their creation to emulate multiple inheritance
-	static __WriteFunctions = {
+	static __WriteFields = {
 		function writeString( _string )
 		{
 			::MSU.requireString(_string);

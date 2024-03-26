@@ -3,7 +3,7 @@
 {
 }
 
-foreach (key, value in ::MSU.Class.SerDeEmulator.__ReadFunctions)
+foreach (key, value in ::MSU.Class.SerDeEmulator.__ReadFields)
 {
 	::MSU.Class.DeserializationEmulator[key] <- value;
 }
