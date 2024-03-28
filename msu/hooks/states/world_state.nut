@@ -189,7 +189,9 @@
 
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
+		::MSU.System.Serialization.MetaData = _out.getMetaData();
 		__original(_out);
+
 		local meta = _out.getMetaData();
 		local modIDsString = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
@@ -203,6 +205,7 @@
 
 	q.onBeforeDeserialize = @(__original) function( _in )
 	{
+		::MSU.System.Serialization.DeserializeMetaData = _in.getMetaData();
 		__original(_in);
 
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))

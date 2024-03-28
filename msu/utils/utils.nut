@@ -13,31 +13,7 @@
 	Timers = {}
 	States = {},
 
-	function getDataType( _var )
-	{
-		switch (typeof _var)
-		{
-			case "integer":
-				return this.DataType.Integer;
-			case "float":
-				return this.DataType.Float;
-			case "bool":
-				return this.DataType.Boolean;
-			case "string":
-				return this.DataType.String;
-			case "array":
-				return this.DataType.Array;
-			case "table":
-				return this.DataType.Table;
-			case "class":
-				return this.DataType.Class;
-			case "instance":
-				return this.DataType.Instance;
-			case "null":
-				return this.DataType.Null;
-		}
-	}
-
+	// deprecated - use ::MSU.Serialization.serialize instead
 	function serialize( _object, _out )
 	{
 		::MSU.requireOneFromTypes(["array", "table"], _object);
@@ -106,6 +82,7 @@
 		}
 	}
 
+	// deprecated - use ::MSU.Serialization.deserialize instead
 	function deserialize( _in )
 	{
 		local type = _in.readU8();
@@ -157,6 +134,7 @@
 		return ret;
 	}
 
+	// deprecated - use ::MSU.Serialization.deserializeInto instead
 	function deserializeInto( _object, _in )
 	{
 		::MSU.requireOneFromTypes(["table", "array"], _object);
