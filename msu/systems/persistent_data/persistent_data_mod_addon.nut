@@ -19,7 +19,7 @@
 	// MSU 1.3.0
 	function prefixFileName( _fileName )
 	{
-		return format("$s%s#%s", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID(), _fileName);
+		return format("%s%s#%s", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID(), _fileName);
 	}
 
 	function createFile( _fileName, _data )
