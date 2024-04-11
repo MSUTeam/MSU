@@ -18,7 +18,7 @@
 
 	function addBaseItemToNamedItemVeryLate( _q )
 	{
-		_q.randomizeValues <- @(__original) function()
+		_q.randomizeValues = @(__original) function()
 		{
 			this.setValuesBeforeRandomize();
 			return __original();
