@@ -32,6 +32,45 @@
 		}
 		return ret;
 	}
+
+	q.getActorsWithDistance <- function( _tile, _distance, _atDistance = false )
+	{
+		if (_distance == 1)
+		{
+			local ret = [];
+
+			if (!_atDistance && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+
+			for (local i = 0; i < 6; i++)
+			{
+				if (!_tile.hasNextTile(i))
+					continue;
+
+				local nextTile = _tile.getNextTile(i);
+				if (nextTile.IsOccupiedByActor)
+					ret.push(nextTile.getEntity());
+			}
+
+			return ret;
+		}
+		else
+		{
+			return this.getActorsByFunction(function(_actor) {
+				if (!_actor.isPlacedOnMap())
+					return false;
+				local distance = _tile.getDistanceTo(_actor.getTile());
+				if (distance > _distance)
+					return false;
+				return !_atDistance || distance == _distance;
+			})
+		}
+	}
+
+	q.getAdjacentActors <- function( _tile )
+	{
+		return this.getActorsWithDistance(_tile, 1, true);
+	}
 	
 	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
