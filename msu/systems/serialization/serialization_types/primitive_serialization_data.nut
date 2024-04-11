@@ -39,7 +39,7 @@
 				break;
 
 			case ::MSU.Serialization.DataType.F32:
-				::MSU.requireFloat(_data);
+				::MSU.requireOneFromTypes(["integer", "float"], _data);
 				break;
 
 			case ::MSU.Serialization.DataType.Bool:
