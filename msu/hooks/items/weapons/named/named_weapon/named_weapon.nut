@@ -1,6 +1,4 @@
 ::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
-	q.m.BaseItemScript <- null;
-
 	q.getFieldsForRandomize <- function()
 	{
 		return [
@@ -19,22 +17,8 @@
 			"FatigueOnSkillUse"
 		];
 	}
+});
 
-	q.setValuesBeforeRandomize <- function()
-	{
-		if (this.m.BaseItemScript == null)
-			return;
-
-		local baseM = ::new(this.m.BaseItemScript).m;
-		foreach (field in this.getFieldsForRandomize())
-		{
-			this.m[field] = baseM[field];
-		}
-	}
-
-	q.randomizeValues <- @(__original) function()
-	{
-		this.setValuesBeforeRandomize();
-		return __original();
-	}
+::MSU.HooksMod.hookTree("scripts/items/weapons/named/named_weapon", function(q) {
+	::MSU.HooksHelper.addBaseItemToNamedItem(q);
 });
