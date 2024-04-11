@@ -8,14 +8,14 @@
 			"ConditionMax",
 			"StaminaModifier",
 			"RegularDamage",
-			"RegularDamageMax"
-			"ArmorDamageMult"
-			"ChanceToHitHead"
-			"DirectDamageMult"
-			"DirectDamageAdd"
-			"StaminaModifier"
-			"ShieldDamage"
-			"AdditionalAccuracy"
+			"RegularDamageMax",
+			"ArmorDamageMult",
+			"ChanceToHitHead",
+			"DirectDamageMult",
+			"DirectDamageAdd",
+			"StaminaModifier",
+			"ShieldDamage",
+			"AdditionalAccuracy",
 			"FatigueOnSkillUse"
 		];
 	}
