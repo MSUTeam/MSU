@@ -59,19 +59,19 @@
 		function writeString( _string )
 		{
 			::MSU.requireString(_string);
-			this.__writeData(_string);
+			this.__writeData(_string, ::MSU.Serialization.DataType.String);
 		}
 
 		function writeBool( _bool )
 		{
 			::MSU.requireBool(_bool);
-			this.__writeData(_bool);
+			this.__writeData(_bool, ::MSU.Serialization.DataType.Bool);
 		}
 
 		function writeI32( _int )
 		{
 			::MSU.requireInt(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I32);
 		}
 
 		function writeU32( _int )
@@ -79,7 +79,7 @@
 			::MSU.requireInt(_int);
 			if (_int < 0)
 				throw ::MSU.Exception.InvalidValue(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U32);
 		}
 
 		function writeI16( _int )
@@ -87,7 +87,7 @@
 			::MSU.requireInt(_int);
 			if (_int < -32768 || _int > 32767)
 				throw ::MSU.Exception.InvalidValue(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I16);
 		}
 
 		function writeU16( _int )
@@ -95,7 +95,7 @@
 			::MSU.requireInt(_int);
 			if (_int < 0 || _int > 65535)
 				throw ::MSU.Exception.InvalidValue(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U16);
 		}
 
 		function writeI8( _int )
@@ -103,7 +103,7 @@
 			::MSU.requireInt(_int);
 			if (_int < -128 || _int > 127)
 				throw ::MSU.Exception.InvalidValue(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I8);
 		}
 
 		function writeU8( _int )
@@ -111,13 +111,13 @@
 			::MSU.requireInt(_int);
 			if (_int < 0 || _int > 255)
 				throw ::MSU.Exception.InvalidValue(_int);
-			this.__writeData(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U8);
 		}
 
 		function writeF32( _float )
 		{
 			::MSU.requireOneFromTypes(["float", "integer"], _float);
-			this.__writeData(_float);
+			this.__writeData(_float, ::MSU.Serialization.DataType.F32);
 		}
 	};
 
@@ -148,9 +148,9 @@
 		return this.MetaData;
 	}
 
-	function __writeData( _data )
+	function __writeData( _data, _type )
 	{
-		this.SerializationData.push(_data);
+		this.SerializationData.write(_data, _type);
 	}
 
 	function __readData( _type )

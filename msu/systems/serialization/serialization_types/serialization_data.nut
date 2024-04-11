@@ -24,6 +24,12 @@
 		this.__DataArray.push(::MSU.Serialization.__convertValueFromBaseType(_element));
 	}
 
+	function write( _element, _type )
+	{
+		this.__Data.push(_element);
+		this.__DataArray.push(::MSU.Serialization.__convertValueFromGivenType(_element, _type));
+	}
+
 	function getSerializationEmulator()
 	{
 		return ::MSU.Class.SerializationEmulator(::MSU.Class.MetaDataEmulator(), this);

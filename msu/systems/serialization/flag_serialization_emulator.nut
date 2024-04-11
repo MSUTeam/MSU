@@ -8,9 +8,9 @@
 		this.IsIncremental = _bool;
 	}
 
-	function __writeData( _data )
+	function __writeData( _data, _type )
 	{
-		base.__writeData(_data);
+		base.__writeData(_data, _type);
 		if (this.IsIncremental)
 		{
 			local startString = this.getEmulatorString();
