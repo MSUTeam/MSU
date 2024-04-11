@@ -1,6 +1,6 @@
-::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
-	::MSU.HooksHelper.addBaseItemToNamedItem(q);
+::MSU.HooksHelper.addBaseItemToNamedItem("scripts/items/weapons/named/named_weapon");
 
+::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
 	q.getFieldsForRandomize <- function()
 	{
 		return [
@@ -19,10 +19,4 @@
 			"FatigueOnSkillUse"
 		];
 	}
-});
-
-::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
-		::MSU.HooksHelper.addBaseItemToNamedItemVeryLate(q);
-	});
 });

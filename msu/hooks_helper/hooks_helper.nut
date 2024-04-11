@@ -1,23 +1,26 @@
 ::MSU.HooksHelper <- {
-	function addBaseItemToNamedItem( _q )
+	function addBaseItemToNamedItem( _script )
 	{
-		_q.m.BaseItemScript <- null;
-	}
+		::MSU.HooksMod.hook(_script, function(q) {
+			q.m.BaseItemScript <- null;
+		});
 
-	function addBaseItemToNamedItemVeryLate( _q )
-	{
-		_q.randomizeValues = @(__original) function()
-		{
-			if (this.m.BaseItemScript != null)
-			{
-				local baseM = ::new(this.m.BaseItemScript).m;
-				foreach (field in this.getFieldsForRandomize())
+		::MSU.QueueBucket.VeryLate.push(function() {
+			::MSU.HooksMod.hook(_script, function(q) {
+				q.randomizeValues = @(__original) function()
 				{
-					this.m[field] = baseM[field];
-				}
-			}
+					if (this.m.BaseItemScript != null)
+					{
+						local baseM = ::new(this.m.BaseItemScript).m;
+						foreach (field in this.getFieldsForRandomize())
+						{
+							this.m[field] = baseM[field];
+						}
+					}
 
-			return __original();
-		}
+					return __original();
+				}
+			});
+		});
 	}
 }

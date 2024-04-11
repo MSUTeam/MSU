@@ -1,6 +1,6 @@
-::MSU.HooksMod.hook("scripts/items/shields/named/named_shield", function(q) {
-	::MSU.HooksHelper.addBaseItemToNamedItem(q);
+::MSU.HooksHelper.addBaseItemToNamedItem("scripts/items/shields/named/named_shield");
 
+::MSU.HooksMod.hook("scripts/items/shields/named/named_shield", function(q) {
 	q.getFieldsForRandomize <- function()
 	{
 		return [
@@ -11,10 +11,4 @@
 			"StaminaModifier"
 		];
 	}
-});
-
-::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/items/shields/named/named_shield", function(q) {
-		::MSU.HooksHelper.addBaseItemToNamedItemVeryLate(q);
-	});
 });

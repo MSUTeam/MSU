@@ -1,6 +1,6 @@
-::MSU.HooksMod.hook("scripts/items/armor/named/named_armor", function(q) {
-	::MSU.HooksHelper.addBaseItemToNamedItem(q);
+::MSU.HooksHelper.addBaseItemToNamedItem("scripts/items/armor/named/named_armor");
 
+::MSU.HooksMod.hook("scripts/items/armor/named/named_armor", function(q) {
 	q.getFieldsForRandomize <- function()
 	{
 		return [
@@ -9,10 +9,4 @@
 			"StaminaModifier"
 		];
 	}
-});
-
-::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/items/armor/named/named_armor", function(q) {
-		::MSU.HooksHelper.addBaseItemToNamedItemVeryLate(q);
-	});
 });
