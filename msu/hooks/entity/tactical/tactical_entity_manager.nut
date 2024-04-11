@@ -32,6 +32,57 @@
 		}
 		return ret;
 	}
+
+	q.getActorsWithinRange <- function( _tile, _max = 1, _min = 1 )
+	{
+		if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
+		if (_max < _min)
+		{
+			::logError("_max must be equal to or greater than _min");
+			throw ::MSU.Exception.InvalidValue(_max);
+		}
+
+		if (_max == 1)
+		{
+			local ret = this.getAdjacentActors(_tile);
+			if (_min == 0 && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+			return ret;
+		}
+
+		return this.getActorsByFunction(function(_actor) {
+			if (!_actor.isPlacedOnMap())
+				return false;
+			local distance = _tile.getDistanceTo(_actor.getTile());
+			return distance <= _max && distance >= _min;
+		});
+	}
+
+	q.getAdjacentActors <- function( _tile )
+	{
+		if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
+		local ret = [];
+		for (local i = 0; i < 6; i++)
+		{
+			if (!_tile.hasNextTile(i))
+				continue;
+
+			local nextTile = _tile.getNextTile(i);
+			if (nextTile.IsOccupiedByActor)
+				ret.push(nextTile.getEntity());
+		}
+		return ret;
+	}
 	
 	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
