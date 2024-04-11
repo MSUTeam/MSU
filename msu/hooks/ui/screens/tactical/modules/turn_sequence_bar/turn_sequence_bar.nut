@@ -17,7 +17,8 @@
 		this.m.MSU_JSHandle.setdelegate({
 			function _get( _key )
 			{
-				if (_key in this.__JSHandle) return this.__JSHandle[_key];
+				if (_key in this.__JSHandle)
+					return this.__JSHandle[_key];
 				throw null;
 			}
 		});
