@@ -129,4 +129,28 @@
 				throw ::MSU.Exception.InvalidType(_value);
 		}
 	}
+
+	function __convertValueFromGivenType( _value, _type )
+	{
+		switch (_type)
+		{
+			case this.DataType.U8: case this.DataType.U16: case this.DataType.U32:
+			case this.DataType.I8: case this.DataType.I16: case this.DataType.I32:
+			case this.DataType.F32: case this.DataType.Bool: case this.DataType.String:
+				return ::MSU.Class.PrimitiveData(_type, _value);
+
+			case this.DataType.Table:
+				return ::MSU.Class.TableData(_value);
+
+			case this.DataType.Array:
+				return ::MSU.Class.ArrayData(_value);
+
+			case this.DataType.SerializationData:
+				return ::MSU.Class.SerializationData(_value);
+
+			default:
+				::logError("Attempted to convert unknown type");
+				throw ::MSU.Exception.InvalidValue(_type);
+		}
+	}
 }
