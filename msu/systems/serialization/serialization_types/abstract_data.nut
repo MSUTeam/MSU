@@ -24,6 +24,11 @@
 		_out.writeU8(this.__Type);
 	}
 
+	function isTypeValid( _type )
+	{
+		return this.__Type == _type;
+	}
+
 	// Must be overridden by children
 	function deserialize( _in )
 	{
