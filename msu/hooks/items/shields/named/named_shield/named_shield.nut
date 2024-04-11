@@ -1,32 +1,32 @@
 ::MSU.HooksMod.hook("scripts/items/shields/named/named_shield", function(q) {
 	q.m.BaseItemScript <- null;
 
-	q.getValuesForRandomize <- function()
+	q.getFieldsForRandomize <- function()
 	{
-		if (this.m.BaseItemScript == null)
-			return {};
-
-		local baseItem = ::new(this.m.BaseItemScript);
-		return {
-			Condition = baseItem.m.Condition,
-			ConditionMax = baseItem.m.ConditionMax,
-			MeleeDefense = baseItem.m.MeleeDefense,
-			RangedDefense = baseItem.m.RangedDefense,
-			StaminaModifier = baseItem.m.StaminaModifier
-		};
+		return [
+			"Condition",
+			"ConditionMax",
+			"MeleeDefense",
+			"RangedDefense",
+			"StaminaModifier"
+		];
 	}
 
-	q.setValuesBeforeRandomize <- function( _values )
+	q.setValuesBeforeRandomize <- function()
 	{
-		foreach (key, value in _values)
+		if (this.m.BaseItemScript == null)
+			return;
+
+		local baseM = ::new(this.m.BaseItemScript).m;
+		foreach (field in this.getFieldsForRandomize())
 		{
-			this.m[key] = value;
+			this.m[field] = baseM[field];
 		}
 	}
 
 	q.randomizeValues = @(__original) function()
 	{
-		this.setValuesBeforeRandomize(this.getValuesForRandomize());
+		this.setValuesBeforeRandomize();
 		return __original();
 	}
 });

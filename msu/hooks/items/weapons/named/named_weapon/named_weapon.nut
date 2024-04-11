@@ -1,39 +1,40 @@
 ::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
 	q.m.BaseItemScript <- null;
 
-	q.getValuesForRandomize <- function()
+	q.getFieldsForRandomize <- function()
 	{
-		if (this.m.BaseItemScript == null)
-			return {};
-
-		local baseWeapon = ::new(this.m.BaseItemScript);
-		return {
-			Condition = baseWeapon.m.Condition;
-			ConditionMax = baseWeapon.m.ConditionMax;
-			RegularDamage = baseWeapon.m.RegularDamage;
-			RegularDamageMax = baseWeapon.m.RegularDamageMax;
-			ArmorDamageMult = baseWeapon.m.ArmorDamageMult;
-			ChanceToHitHead = baseWeapon.m.ChanceToHitHead;
-			DirectDamageMult = baseWeapon.m.DirectDamageMult;
-			DirectDamageAdd = baseWeapon.m.DirectDamageAdd;
-			StaminaModifier = baseWeapon.m.StaminaModifier;
-			ShieldDamage = baseWeapon.m.ShieldDamage;
-			AdditionalAccuracy = baseWeapon.m.AdditionalAccuracy;
-			FatigueOnSkillUse = baseWeapon.m.FatigueOnSkillUse;
-		};
+		return [
+			"Condition",
+			"ConditionMax",
+			"StaminaModifier",
+			"RegularDamage",
+			"RegularDamageMax"
+			"ArmorDamageMult"
+			"ChanceToHitHead"
+			"DirectDamageMult"
+			"DirectDamageAdd"
+			"StaminaModifier"
+			"ShieldDamage"
+			"AdditionalAccuracy"
+			"FatigueOnSkillUse"
+		];
 	}
 
-	q.setValuesForRandomize <- function( _values )
+	q.setValuesBeforeRandomize <- function()
 	{
-		foreach (key, value in _values)
+		if (this.m.BaseItemScript == null)
+			return;
+
+		local baseM = ::new(this.m.BaseItemScript).m;
+		foreach (field in this.getFieldsForRandomize())
 		{
-			this.m[key] = value;
+			this.m[field] = baseM[field];
 		}
 	}
 
 	q.randomizeValues <- @(__original) function()
 	{
-		this.setValuesBeforeRandomize(this.getValuesBeforeRandomize());
+		this.setValuesBeforeRandomize();
 		return __original();
 	}
 });
