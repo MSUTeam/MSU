@@ -1,5 +1,5 @@
 ::MSU.HooksMod <- ::Hooks.register(::MSU.ID, ::MSU.Version, ::MSU.Name);
-::MSU.HooksMod.require(::MSU.VanillaID + " >= 1.5.0-13");
+::MSU.HooksMod.require("vanilla" + " >= 1.5.0-13");
 ::MSU.HooksMod.conflictWith("mod_legends < 16.0.0");
 
 ::MSU.HooksMod.queue(function() {

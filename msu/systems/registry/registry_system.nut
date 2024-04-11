@@ -27,7 +27,7 @@
 
 	function registerMod( _mod )
 	{
-		if (_mod.getID() != ::MSU.VanillaID)
+		if (_mod.getID() != "vanilla")
 		{
 			if (_mod.getID() in this.Mods)
 			{
