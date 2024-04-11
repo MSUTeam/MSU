@@ -14,7 +14,10 @@
 				this.m[field] = baseM[field];
 			}
 		}
+	}
 
+	function addBaseItemToNamedItemVeryLate( _q )
+	{
 		_q.randomizeValues <- @(__original) function()
 		{
 			this.setValuesBeforeRandomize();
