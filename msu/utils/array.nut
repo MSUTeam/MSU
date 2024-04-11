@@ -104,4 +104,16 @@
 			}
 		}
 	}
+
+	function merge( _array1, _array2 )
+	{
+		_array1.resize(::Math.max(_array1.len(), _array2.len()));
+
+		foreach (i, value in _array2)
+		{
+			_array1[i] = value;
+		}
+
+		return _array1;
+	}
 }
