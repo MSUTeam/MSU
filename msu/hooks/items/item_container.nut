@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/items/item_container", function(q) {
+::MSU.MH.hook("scripts/items/item_container", function(q) {
 	q.m.ActionSkill <- null;
 	q.m.MSU_IsIgnoringItemAction <- false;
 

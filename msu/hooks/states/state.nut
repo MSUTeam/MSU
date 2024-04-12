@@ -1,4 +1,4 @@
-::MSU.HooksMod.hookTree("scripts/states/state", function(q) {
+::MSU.MH.hookTree("scripts/states/state", function(q) {
 	q.onInit = @(__original) function()
 	{
 		::MSU.Utils.States[this.ClassName] <- ::WeakTableRef(this);

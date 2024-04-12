@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/skills/perks/perk_quick_hands", function(q) {
+::MSU.MH.hook("scripts/skills/perks/perk_quick_hands", function(q) {
 	q.m.IsSpent <- false;
 
 	q.create = @(__original) function()

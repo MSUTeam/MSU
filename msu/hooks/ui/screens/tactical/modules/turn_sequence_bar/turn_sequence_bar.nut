@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ui/screens/tactical/modules/turn_sequence_bar/turn_sequence_bar", function(q) {
+::MSU.MH.hook("scripts/ui/screens/tactical/modules/turn_sequence_bar/turn_sequence_bar", function(q) {
 	q.isActiveEntity <- function( _entity )
 	{
 		local activeEntity = this.getActiveEntity();

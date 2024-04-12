@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/states/world_state", function(q) {
+::MSU.MH.hook("scripts/states/world_state", function(q) {
 	q.onInitUI = @(__original) function()
 	{
 		__original();

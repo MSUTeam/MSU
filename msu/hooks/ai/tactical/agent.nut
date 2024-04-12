@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
+::MSU.MH.hook("scripts/ai/tactical/agent", function(q) {
 	q.m.MSU_BehaviorStacks <- {};
 	q.m.MSU_BehaviorToRemove <- null;
 
@@ -30,7 +30,7 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/ai/tactical/agent", function(q) {
+	::MSU.MH.hook("scripts/ai/tactical/agent", function(q) {
 		q.execute = @(__original) function( _entity )
 		{
 			local ret = __original(_entity);

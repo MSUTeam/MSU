@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/items/item", function(q) {
+::MSU.MH.hook("scripts/items/item", function(q) {
 	q.isItemType = @() function( _t, _any = true, _only = false )
 	{
 		if (_any)

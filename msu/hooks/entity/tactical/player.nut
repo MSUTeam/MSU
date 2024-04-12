@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/tactical/player", function(q) {
+::MSU.MH.hook("scripts/entity/tactical/player", function(q) {
 	q.m.LevelUpsSpent <- 0;
 
 	q.getMovementSpeedMult <- function()

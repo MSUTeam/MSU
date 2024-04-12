@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ui/screens/tooltip/tooltip_events", function(q) {
+::MSU.MH.hook("scripts/ui/screens/tooltip/tooltip_events", function(q) {
 	q.tactical_queryTileTooltipData = @(__original) function()
 	{
 		local ret = __original();

@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ui/screens/menu/main_menu_screen", function(q) {
+::MSU.MH.hook("scripts/ui/screens/menu/main_menu_screen", function(q) {
 	q.showMainMenuModule <- function()
 	{
 		this.m.JSHandle.asyncCall("showMainMenuModule", null);

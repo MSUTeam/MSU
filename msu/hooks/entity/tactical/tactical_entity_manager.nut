@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
+::MSU.MH.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
 	q.getActorsByFunction <- function( _function )
 	{
 		local ret = [];

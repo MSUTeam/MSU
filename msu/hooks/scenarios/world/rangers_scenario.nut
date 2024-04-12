@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/scenarios/world/rangers_scenario", function(q) {
+::MSU.MH.hook("scripts/scenarios/world/rangers_scenario", function(q) {
 	q.onInit = @(__original) function()
 	{
 		__original();

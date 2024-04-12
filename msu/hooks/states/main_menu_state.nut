@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/states/main_menu_state", function(q) {
+::MSU.MH.hook("scripts/states/main_menu_state", function(q) {
 	q.m.ModSettingsShown <- false;
 	q.m.TempSettings <- null;
 

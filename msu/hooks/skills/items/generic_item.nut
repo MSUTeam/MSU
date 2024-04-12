@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/skills/items/generic_item", function(q) {
+::MSU.MH.hook("scripts/skills/items/generic_item", function(q) {
 	q.onAfterUpdate <- function( _properties )
 	{
 		if (!::MSU.isNull(this.m.Item) && !::MSU.isNull(this.m.Item.getContainer()))

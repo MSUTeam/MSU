@@ -1,4 +1,4 @@
-::MSU.HooksMod.hookTree("scripts/skills/skill", function(q) {
+::MSU.MH.hookTree("scripts/skills/skill", function(q) {
 	if (!q.contains("create"))
 		return;
 
@@ -52,7 +52,7 @@
 	}
 });
 
-::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+::MSU.MH.hook("scripts/skills/skill", function(q) {
 	q.m.AIBehaviorID <- null;
 	q.m.DamageType <- null;
 	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
@@ -483,7 +483,7 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+	::MSU.MH.hook("scripts/skills/skill", function(q) {
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
 			q[func] = @(__original) function()

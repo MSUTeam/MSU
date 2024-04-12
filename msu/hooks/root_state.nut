@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/root_state", function(q) {
+::MSU.MH.hook("scripts/root_state", function(q) {
 	q.onInit = @(__original) function()
 	{
 		__original();

@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ai/tactical/behaviors/ai_throw_bomb", function(q) {
+::MSU.MH.hook("scripts/ai/tactical/behaviors/ai_throw_bomb", function(q) {
 	q.onExecute = @(__original) function( _entity )
 	{
 		local itemsBefore = array(::Const.ItemSlot.COUNT);

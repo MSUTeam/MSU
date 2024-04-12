@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/world/party", function(q) {
+::MSU.MH.hook("scripts/entity/world/party", function(q) {
 	// The final movement speed mult that is applied to the default value of 100
 	q.m.MovementSpeedMult <- 1.0;
 	q.m.MovementSpeedMultFunctions <- {};

@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/ui/screens/menu/modules/main_menu_module", function(q) {
+::MSU.MH.hook("scripts/ui/screens/menu/modules/main_menu_module", function(q) {
 	q.m.OnModOptionsPressedListener <- null;
 
 	q.setOnModOptionsPressedListener <- function( _listener )

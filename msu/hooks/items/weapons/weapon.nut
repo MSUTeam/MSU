@@ -1,4 +1,4 @@
-::MSU.HooksMod.hookTree("scripts/items/weapons/weapon", function(q) {
+::MSU.MH.hookTree("scripts/items/weapons/weapon", function(q) {
 	q.create = @(__original) function()
 	{
 		__original();
@@ -16,7 +16,7 @@
 	}
 });
 
-::MSU.HooksMod.hook("scripts/items/weapons/weapon", function(q) {
+::MSU.MH.hook("scripts/items/weapons/weapon", function(q) {
 	q.m.WeaponType <- ::Const.Items.WeaponType.None;
 
 	q.setCategories <- function( _s, _setupWeaponType = true )

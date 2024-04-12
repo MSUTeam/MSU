@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- [];
 	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};

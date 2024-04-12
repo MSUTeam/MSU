@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/world/combat_manager", function(q) {
+::MSU.MH.hook("scripts/entity/world/combat_manager", function(q) {
 	/* Compatibility for mods that add factions. At least two areas need to get changed,
 	combat_manager and getLocalCombatProperties of world_state. The problem is that the
 	Factions array is initialised with fixed size 32, which is not large enough once

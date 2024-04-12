@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/world/settlement", function(q) {
+::MSU.MH.hook("scripts/entity/world/settlement", function(q) {
 	q.onEnter = @(__original) function()
 	{
 		local ret = __original();

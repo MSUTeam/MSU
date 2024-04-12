@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/states/world/asset_manager", function(q) {
+::MSU.MH.hook("scripts/states/world/asset_manager", function(q) {
 	q.m.LastDayMorningEventCalled <- 0;
 	q.update = @(__original) function( _worldState )
 	{

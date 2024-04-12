@@ -14,11 +14,11 @@
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{
-		::MSU.HooksMod.hook("scripts/skills/skill", function(q) {
+		::MSU.MH.hook("scripts/skills/skill", function(q) {
 			q[_name] <- _function == null ? function() {} : _function;
 		});
 
-		::MSU.HooksMod.hook("scripts/skills/skill_container", function(q) {
+		::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 			if (_function == null || _function.getinfos().parameters.len() == 1) // for parameterless functions it should be a len 1 array containing "this"
 			{
 				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly);

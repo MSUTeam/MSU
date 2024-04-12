@@ -1,4 +1,4 @@
-::MSU.HooksMod.hook("scripts/entity/world/player_party", function(q) {
+::MSU.MH.hook("scripts/entity/world/player_party", function(q) {
 	q.create = @(__original) function()
 	{
 		__original();
