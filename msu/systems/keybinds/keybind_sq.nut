@@ -3,6 +3,7 @@
 	Function = null;
 	State = null;
 	KeyState = null;
+	CallContinuously = false;
 	BypassInputDenied = false;
 
 	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
@@ -23,6 +24,12 @@
 		return this;
 	}
 
+	function setCallContinuously(_bool)
+	{
+		this.CallContinuously = _bool;
+		return this;
+	}
+
 	function getState()
 	{
 		return this.State;
@@ -35,7 +42,7 @@
 
 	function callOnKeyState( _keyState )
 	{
-		return (_keyState & this.KeyState) != 0;
+		return (this.CallContinuously && this.KeyState == ::MSU.Key.KeyState.Continuous && _keyState == ::MSU.Key.KeyState.Continuous) || ((_keyState & this.KeyState) != 0);
 	}
 
 	function getKeyState()
