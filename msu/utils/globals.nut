@@ -127,3 +127,13 @@
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
+
+::MSU.new <- function( _script, _function = null )
+{
+	if (_function == null)
+		return ::new(_script);
+
+	local ret = ::new(_script);
+	_function(ret);
+	return ret;
+}
