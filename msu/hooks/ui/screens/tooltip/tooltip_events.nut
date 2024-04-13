@@ -1,8 +1,7 @@
-::mods_hookNewObjectOnce("ui/screens/tooltip/tooltip_events", function(o) {
-	local tactical_queryTileTooltipData = o.tactical_queryTileTooltipData;
-	o.tactical_queryTileTooltipData = function()
+::MSU.MH.hook("scripts/ui/screens/tooltip/tooltip_events", function(q) {
+	q.tactical_queryTileTooltipData = @(__original) function()
 	{
-		local ret = tactical_queryTileTooltipData();
+		local ret = __original();
 		if (ret != null && ::Tactical.TurnSequenceBar.getActiveEntity() != null && ::Tactical.TurnSequenceBar.getActiveEntity().isPlayerControlled())
 		{
 			::Tactical.TurnSequenceBar.getActiveEntity().getSkills().onQueryTileTooltip(::Tactical.State.getLastTileHovered(), ret);
@@ -10,10 +9,9 @@
 		return ret;
 	}
 
-	local general_querySkillTooltipData = o.general_querySkillTooltipData;
-	o.general_querySkillTooltipData = function( _entityId, _skillId )
+	q.general_querySkillTooltipData = @(__original) function( _entityId, _skillId )
 	{
-		local ret = general_querySkillTooltipData(_entityId, _skillId);
+		local ret = __original(_entityId, _skillId);
 
 		if (ret != null)
 		{
@@ -24,10 +22,9 @@
 		return ret;
 	}
 
-	local general_queryStatusEffectTooltipData = o.general_queryStatusEffectTooltipData;
-	o.general_queryStatusEffectTooltipData = function( _entityId, _statusEffectId )
+	q.general_queryStatusEffectTooltipData = @(__original) function( _entityId, _statusEffectId )
 	{
-		local ret = general_queryStatusEffectTooltipData(_entityId, _statusEffectId);
+		local ret = __original(_entityId, _statusEffectId);
 		if (ret != null)
 		{
 			local statusEffect = ::Tactical.getEntityByID(_entityId).getSkills().getSkillByID(_statusEffectId);
@@ -37,16 +34,15 @@
 		return ret;
 	}
 
-	o.onQueryMSUTooltipData <- function( _data )
+	q.onQueryMSUTooltipData <- function( _data )
 	{
 		return ::MSU.System.Tooltips.getTooltip(_data.modId, _data.elementId).getUIData(_data);
 	}
 
-	local general_queryUIElementTooltipData = o.general_queryUIElementTooltipData;
 	// deprecated, MSU settings (and future tooltips) should now use onQueryMSUTooltipData
-	o.general_queryUIElementTooltipData = function( _entityId, _elementId, _elementOwner )
+	q.general_queryUIElementTooltipData = @(__original) function( _entityId, _elementId, _elementOwner )
 	{
-		local ret = general_queryUIElementTooltipData(_entityId, _elementId, _elementOwner);
+		local ret = __original(_entityId, _elementId, _elementOwner);
 		if (ret == null)
 		{
 			if (_elementId.find("msu-settings") == 0)

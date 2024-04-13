@@ -5,7 +5,7 @@ MainMenuModule.prototype.createMainMenuButtons = function ()
 	this.addModOptionsButton();
 };
 
-MainMenuModule.prototype.addModOptionsButton = function ()
+MainMenuModule.prototype.addModOptionsButton = function()
 {
 	var self = this;
 
@@ -18,9 +18,7 @@ MainMenuModule.prototype.addModOptionsButton = function ()
 	{
 		self.notifyBackendModOptionsButtonPressed();
 	}, '', 4);
-};
-
-Screens.MainMenuScreen.getModule("MainMenuModule").addModOptionsButton();
+}
 
 MainMenuModule.prototype.notifyBackendModOptionsButtonPressed = function()
 {

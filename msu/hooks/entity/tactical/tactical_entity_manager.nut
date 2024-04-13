@@ -1,5 +1,5 @@
-::mods_hookNewObject("entity/tactical/tactical_entity_manager", function(o) {
-	o.getActorsByFunction <- function( _function )
+::MSU.MH.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
+	q.getActorsByFunction <- function( _function )
 	{
 		local ret = [];
 		foreach (faction in this.getAllInstances())
@@ -12,7 +12,7 @@
 		return ret;
 	}
 	
-	o.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
+	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
 		{
@@ -32,7 +32,7 @@
 		});
 	}
 	
-	o.getHostileActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
+	q.getHostileActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
 		{
@@ -52,7 +52,7 @@
 		});
 	}
 	
-	o.getFactionActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
+	q.getFactionActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile == null)
 		{
@@ -76,7 +76,7 @@
 		return ret;
 	}
 	
-	o.getNonFactionAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
+	q.getNonFactionAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
 		{

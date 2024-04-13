@@ -1,27 +1,24 @@
-::mods_hookExactClass("states/tactical_state", function(o) {
-	local executeEntityTravel = o.executeEntityTravel;
-	o.executeEntityTravel = function( _activeEntity, _mouseEvent )
+::MSU.MH.hook("scripts/states/tactical_state", function(q) {
+	q.executeEntityTravel = @(__original) function( _activeEntity, _mouseEvent )
 	{
 		_activeEntity.getSkills().m.IsPreviewing = false;
-		executeEntityTravel(_activeEntity, _mouseEvent);
+		return __original(_activeEntity, _mouseEvent);
 	}
 
-	local executeEntitySkill = o.executeEntitySkill;
-	o.executeEntitySkill = function( _activeEntity, _targetTile )
+	q.executeEntitySkill = @(__original) function( _activeEntity, _targetTile )
 	{
 		_activeEntity.getSkills().m.IsPreviewing = false;
-		executeEntitySkill(_activeEntity, _targetTile);
+		return __original(_activeEntity, _targetTile);
 	}
 
-	local onInitUI = o.onInitUI;
-	o.onInitUI = function()
+	q.onInitUI = @(__original) function()
 	{
-		onInitUI();
+		__original();
 		local mainMenuModule = this.m.TacticalMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
 	}
 
-	o.main_menu_module_onModOptionsPressed <- function()
+	q.main_menu_module_onModOptionsPressed <- function()
 	{
 		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
 		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
@@ -39,42 +36,40 @@
 		});
 	}
 
-	o.msu_settings_screen_onCancelPressed <- function ()
+	q.msu_settings_screen_onCancelPressed <- function ()
 	{
 		this.m.MenuStack.pop();
 	}
 
-	o.msu_settings_screen_onSavepressed <- function( _data )
+	q.msu_settings_screen_onSavepressed <- function( _data )
 	{
 		::MSU.System.ModSettings.updateSettingsFromJS(_data);
 		this.m.MenuStack.pop();
 	}
 
-	local onKeyInput = o.onKeyInput;
-	o.onKeyInput = function( _key )
+	q.onKeyInput = @(__original) function( _key )
 	{
 		if (!::MSU.Key.isKnownKey(_key))
 		{
-			return onKeyInput(_key);
+			return __original(_key);
 		}
 		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.Tactical) || ::MSU.Mod.ModSettings.getSetting("SuppressBaseKeybinds").getValue())
 		{
 			return false;
 		}
-		return onKeyInput(_key);
+		return __original(_key);
 	}
 
-	local onMouseInput = o.onMouseInput;
-	o.onMouseInput = function( _mouse )
+	q.onMouseInput = @(__original) function( _mouse )
 	{
 		if (!::MSU.Key.isKnownMouse(_mouse))
 		{
-			return onMouseInput(_mouse);
+			return __original(_mouse);
 		}
 		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.Tactical))
 		{
 			return false;
 		}
-		return onMouseInput(_mouse);
+		return __original(_mouse);
 	}
 });

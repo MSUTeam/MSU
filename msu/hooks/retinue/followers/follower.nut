@@ -1,6 +1,5 @@
-::mods_hookBaseClass("retinue/follower", function(o) {
-	o = o[o.SuperName];
-	o.getMovementSpeedMult <- function()
+::MSU.MH.hook("scripts/retinue/follower", function(q) {
+	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
 	}

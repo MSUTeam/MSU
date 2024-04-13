@@ -1,30 +1,27 @@
-::mods_hookExactClass("entity/tactical/player", function(o) {
-	o.m.LevelUpsSpent <- 0;
+::MSU.MH.hook("scripts/entity/tactical/player", function(q) {
+	q.m.LevelUpsSpent <- 0;
 
-	o.getMovementSpeedMult <- function()
+	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
 	}
 
-	local setAttributeLevelUpValues = o.setAttributeLevelUpValues;
-	o.setAttributeLevelUpValues = function( _v )
+	q.setAttributeLevelUpValues = @(__original) function( _v )
 	{
-		setAttributeLevelUpValues(_v);
+		__original(_v);
 		this.m.LevelUpsSpent++;
 	}
 
-	local onSerialize = o.onSerialize;
-	o.onSerialize = function( _out )
+	q.onSerialize = @(__original) function( _out )
 	{
 		this.getFlags().set("LevelUpsSpent", this.m.LevelUpsSpent);
-		onSerialize(_out);
+		__original(_out);
 		this.getFlags().remove("LevelUpsSpent");
 	}
 
-	local onDeserialize = o.onDeserialize;
-	o.onDeserialize = function( _in )
+	q.onDeserialize = @(__original) function( _in )
 	{
-		onDeserialize(_in);
+		__original(_in);
 		this.m.LevelUpsSpent = this.getFlags().has("LevelUpsSpent") ? this.getFlags().get("LevelUpsSpent") : 0;
 	}
 });

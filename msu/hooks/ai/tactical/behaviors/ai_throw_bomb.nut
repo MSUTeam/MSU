@@ -1,6 +1,5 @@
-::mods_hookExactClass("ai/tactical/behaviors/ai_throw_bomb", function(o) {
-	local onExecute = o.onExecute;
-	o.onExecute = function( _entity )
+::MSU.MH.hook("scripts/ai/tactical/behaviors/ai_throw_bomb", function(q) {
+	q.onExecute = @(__original) function( _entity )
 	{
 		local itemsBefore = array(::Const.ItemSlot.COUNT);
 		for (local i = 0; i < ::Const.ItemSlot.COUNT; i++)
@@ -9,7 +8,7 @@
 		}
 
 		_entity.getItems().m.MSU_IsIgnoringItemAction = true;
-		local ret = onExecute(_entity);
+		local ret = __original(_entity);
 		_entity.getItems().m.MSU_IsIgnoringItemAction = false;
 
 		if (ret && this.m.Skill == null)

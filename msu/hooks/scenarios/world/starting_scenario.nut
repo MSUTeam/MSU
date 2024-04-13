@@ -1,16 +1,24 @@
-::mods_hookBaseClass("scenarios/world/starting_scenario", function(o) {
-	o = o[o.SuperName];
-
-	o.onNewDay <- function()
+::MSU.MH.hook("scripts/scenarios/world/starting_scenario", function(q) {
+	q.onNewDay <- function()
 	{
 	}
 
-	o.onNewMorning <- function()
+	q.onNewMorning <- function()
 	{
 	}
 
-	o.getMovementSpeedMult <- function()
+	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
 	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hookTree("scripts/scenarios/world/starting_scenario", function(q) {
+		q.onUpdateLevel = @(__original) function( _bro )
+		{
+			__original(_bro);
+			_bro.getSkills().onUpdateLevel();
+		}
+	});
 });

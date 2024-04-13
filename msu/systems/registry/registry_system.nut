@@ -27,19 +27,19 @@
 
 	function registerMod( _mod )
 	{
-		if (_mod.getID() != ::MSU.VanillaID)
+		if (_mod.getID() != "vanilla")
 		{
 			if (_mod.getID() in this.Mods)
 			{
 				::logError("Duplicate Mod ID for mod: " + _mod.getID());
 				throw ::MSU.Exception.DuplicateKey(_mod.getID());
 			}
-			if (::mods_getRegisteredMod(_mod.getID()) == null)
+			if (::Hooks.getMod(_mod.getID()) == null)
 			{
 				::logError("Register your mod using the same ID with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.KeyNotFound(_mod.getID());
 			}
-			if (::mods_getRegisteredMod(_mod.getID()).SemVer == null || ::MSU.SemVer.getVersionString(::mods_getRegisteredMod(_mod.getID()).SemVer) != _mod.getVersionString())
+			if (::Hooks.getMod(_mod.getID()).getVersionString() != _mod.getVersionString())
 			{
 				::logError("Register your mod using the same version with mod_hooks before creating a ::MSU.Class.Mod");
 				throw ::MSU.Exception.InvalidValue(_mod.getVersionString());

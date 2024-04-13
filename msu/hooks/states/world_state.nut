@@ -1,13 +1,12 @@
-::mods_hookExactClass("states/world_state", function(o) {
-	local onInitUI = o.onInitUI;
-	o.onInitUI = function()
+::MSU.MH.hook("scripts/states/world_state", function(q) {
+	q.onInitUI = @(__original) function()
 	{
-		onInitUI();
+		__original();
 		local mainMenuModule = this.m.WorldMenuScreen.getMainMenuModule();
 		mainMenuModule.setOnModOptionsPressedListener(this.main_menu_module_onModOptionsPressed.bindenv(this));
 	}
 
-	o.main_menu_module_onModOptionsPressed <- function()
+	q.main_menu_module_onModOptionsPressed <- function()
 	{
 		::MSU.SettingsScreen.setOnCancelPressedListener(this.msu_settings_screen_onCancelPressed.bindenv(this));
 		::MSU.SettingsScreen.setOnSavePressedListener(this.msu_settings_screen_onSavepressed.bindenv(this));
@@ -27,18 +26,18 @@
 		});
 	}
 
-	o.msu_settings_screen_onCancelPressed <- function()
+	q.msu_settings_screen_onCancelPressed <- function()
 	{
 		this.m.MenuStack.pop();
 	}
 
-	o.msu_settings_screen_onSavepressed <- function( _data )
+	q.msu_settings_screen_onSavepressed <- function( _data )
 	{
 		::MSU.System.ModSettings.updateSettingsFromJS(_data);
 		this.m.MenuStack.pop();
 	}
 
-	o.getLocalCombatProperties = function( _pos, _ignoreNoEnemies = false )
+	q.getLocalCombatProperties = @() function( _pos, _ignoreNoEnemies = false )
 	{
 		local raw_parties = ::World.getAllEntitiesAtPos(_pos, ::Const.World.CombatSettings.CombatPlayerDistance);
 		local parties = [];
@@ -188,10 +187,9 @@
 		return properties;
 	}
 
-	local onBeforeSerialize = o.onBeforeSerialize;
-	o.onBeforeSerialize = function( _out )
+	q.onBeforeSerialize = @(__original) function( _out )
 	{
-		onBeforeSerialize(_out);
+		__original(_out);
 		local meta = _out.getMetaData();
 		local modIDsString = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
@@ -199,35 +197,34 @@
 			meta.setString(mod.getID() + "Version", mod.getVersionString());
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 		}
-		foreach (mod in ::mods_getRegisteredMods()) modIDsString += mod.Name + ",";
+		foreach (mod in ::Hooks.getMods()) modIDsString += mod.getID() + ",";
 		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
 	}
 
-	local onBeforeDeserialize = o.onBeforeDeserialize;
-	o.onBeforeDeserialize = function( _in )
+	q.onBeforeDeserialize = @(__original) function( _in )
 	{
-		onBeforeDeserialize(_in);
+		__original(_in);
 
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
 		{
 			local modIDs = split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
-			local hooksMods = ::mods_getRegisteredMods();
+			local hooksMods = ::Hooks.getMods();
 			foreach (mod in hooksMods)
 			{
-				local IDIdx = modIDs.find(mod.Name);
+				local IDIdx = modIDs.find(mod.getID());
 				if (IDIdx != null)
 				{
 					modIDs.remove(IDIdx);
-					if (::MSU.System.Registry.hasMod(mod.Name))
+					if (::MSU.System.Registry.hasMod(mod.getID()))
 					{
-						local oldVersion = _in.getMetaData().getString(mod.Name + "Version");
+						local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
 						if (oldVersion == "")
 						{
-							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.FriendlyName, mod.Name));
+							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.getName(), mod.getID()));
 						}
 						else
 						{
-							local msuMod = ::MSU.System.Registry.getMod(mod.Name);
+							local msuMod = ::MSU.System.Registry.getMod(mod.getID());
 							switch (::MSU.SemVer.compare(msuMod, ::MSU.SemVer.getTable(oldVersion)))
 							{
 								case 1:
@@ -245,7 +242,7 @@
 				}
 				else
 				{
-					::logWarning(format("MSU Serialization: First time this save is being loaded with %s (%s)", mod.FriendlyName, mod.Name));
+					::logWarning(format("MSU Serialization: First time this save is being loaded with %s (%s)", mod.getName(), mod.getID()));
 				}
 			}
 
@@ -285,19 +282,17 @@
 		}
 	}
 
-	local onSerialize = o.onSerialize;
-	o.onSerialize = function( _out )
+	q.onSerialize = @(__original) function( _out )
 	{
 		::MSU.System.ModSettings.flagSerialize(_out);
 		::World.Flags.set("MSU.LastDayMorningEventCalled", ::World.Assets.getLastDayMorningEventCalled());
-		onSerialize(_out);
+		__original(_out);
 		::MSU.System.Serialization.clearFlags();
 	}
 
-	local onDeserialize = o.onDeserialize;
-	o.onDeserialize = function( _in )
+	q.onDeserialize = @(__original) function( _in )
 	{
-		onDeserialize(_in);
+		__original(_in);
 		if (::World.Flags.has("MSU.LastDayMorningEventCalled"))
 		{
 			::World.Assets.setLastDayMorningEventCalled(::World.Flags.get("MSU.LastDayMorningEventCalled"));
@@ -310,31 +305,29 @@
 		::MSU.System.Serialization.clearFlags();
 	}
 
-	local onKeyInput = o.onKeyInput;
-	o.onKeyInput = function( _key )
+	q.onKeyInput = @(__original) function( _key )
 	{
 		if (!::MSU.Key.isKnownKey(_key))
 		{
-			return onKeyInput(_key);
+			return __original(_key);
 		}
 		if (::MSU.System.Keybinds.onKeyInput(_key, this, ::MSU.Key.State.World) || ::MSU.Mod.ModSettings.getSetting("SuppressBaseKeybinds").getValue())
 		{
 			return false;
 		}
-		return onKeyInput(_key);
+		return __original(_key);
 	}
 
-	local onMouseInput = o.onMouseInput;
-	o.onMouseInput = function( _mouse )
+	q.onMouseInput = @(__original) function( _mouse )
 	{
 		if (!::MSU.Key.isKnownMouse(_mouse))
 		{
-			return onMouseInput(_mouse);
+			return __original(_mouse);
 		}
 		if (::MSU.System.Keybinds.onMouseInput(_mouse, this, ::MSU.Key.State.World))
 		{
 			return false;
 		}
-		return onMouseInput(_mouse);
+		return __original(_mouse);
 	}
 });

@@ -1,12 +1,11 @@
-::mods_hookExactClass("ui/screens/tactical/modules/turn_sequence_bar/turn_sequence_bar", function(o) {
-	o.isActiveEntity <- function( _entity )
+::MSU.MH.hook("scripts/ui/screens/tactical/modules/turn_sequence_bar/turn_sequence_bar", function(q) {
+	q.isActiveEntity <- function( _entity )
 	{
 		local activeEntity = this.getActiveEntity();
 		return activeEntity != null && activeEntity.getID() == _entity.getID();
 	}
 
-	local setActiveEntityCostsPreview = o.setActiveEntityCostsPreview;
-	o.setActiveEntityCostsPreview = function( _costsPreview )
+	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
 		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
 		{
@@ -28,14 +27,13 @@
 			}
 		}
 
-		setActiveEntityCostsPreview(_costsPreview);
+		__original(_costsPreview);
 	}
 
-	local resetActiveEntityCostsPreview = o.resetActiveEntityCostsPreview;
-	o.resetActiveEntityCostsPreview = function()
+	q.resetActiveEntityCostsPreview = @(__original) function()
 	{
 		local activeEntity = this.getActiveEntity();
 		if (activeEntity != null) activeEntity.getSkills().m.IsPreviewing = false;
-		resetActiveEntityCostsPreview();
+		__original();
 	}
 });

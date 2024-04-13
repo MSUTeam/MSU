@@ -1,6 +1,5 @@
-::mods_hookExactClass("ai/tactical/behaviors/ai_switchto_melee", function(o) {
-	local onExecute = o.onExecute;
-	o.onExecute = function( _entity )
+::MSU.MH.hook("scripts/ai/tactical/behaviors/ai_switchto_melee", function(q) {
+	q.onExecute = @(__original) function( _entity )
 	{
 		local itemsBefore = array(::Const.ItemSlot.COUNT);
 		// We need to cache this as it is set to false in onExecute
@@ -11,7 +10,7 @@
 		}
 
 		_entity.getItems().m.MSU_IsIgnoringItemAction = true;
-		local ret = onExecute(_entity);
+		local ret = __original(_entity);
 		_entity.getItems().m.MSU_IsIgnoringItemAction = false;
 
 		if (ret)
