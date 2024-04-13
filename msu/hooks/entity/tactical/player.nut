@@ -1,6 +1,21 @@
 ::MSU.MH.hook("scripts/entity/tactical/player", function(q) {
 	q.m.LevelUpsSpent <- 0;
 
+	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
+	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
+	q.onCombatStart = @() function()
+	{
+		this.m.MaxEnemiesThisTurn = 1;
+		this.m.CombatStats.DamageReceivedHitpoints = 0;
+		this.m.CombatStats.DamageReceivedArmor = 0;
+		this.m.CombatStats.DamageDealtHitpoints = 0;
+		this.m.CombatStats.DamageDealtArmor = 0;
+		this.m.CombatStats.Kills = 0;
+		this.m.CombatStats.XPGained = 0;
+		this.human.onCombatStart();
+		this.getAIAgent().getProperties().BehaviorMult[::Const.AI.Behavior.ID.Retreat] = 0.0;
+	}
+
 	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
