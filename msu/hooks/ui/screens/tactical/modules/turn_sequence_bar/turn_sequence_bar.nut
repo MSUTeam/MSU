@@ -7,10 +7,6 @@
 
 	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
-		this.m.JSHandle.asyncCall("MSU_setCanUpdateCostsPreview", false);
-
-		local ret = __original(_costsPreview);
-
 		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
 		{
 			local activeEntity = this.getActiveEntity();
@@ -31,10 +27,29 @@
 			}
 		}
 
-		this.m.JSHandle.asyncCall("MSU_setCanUpdateCostsPreview", true);
-		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
+		local table = {
+			__JSHandle = this.m.JSHandle;
+			function asyncCall( _funcName, ... )
+			{
+				if (_funcName == "updateCostsPreview")
+					return;
 
-		return ret;
+				vargv.insert(0, _funcName);
+				vargv.insert(0, this);
+				this.__JSHandle.asyncCall.acall(vargv);
+			}
+		}
+		table.setdelegate({
+			function _get( _key )
+			{
+				if (_key in this.__JSHandle) return this.__JSHandle[_key];
+				throw null;
+			}
+		});
+		this.m.JSHandle = table;
+		__original(_costsPreview);
+		this.m.JSHandle = table.__JSHandle;
+		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
 	}
 
 	q.resetActiveEntityCostsPreview = @(__original) function()
