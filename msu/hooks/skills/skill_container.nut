@@ -272,7 +272,7 @@
 						{
 							foreach (change in changes)
 							{
-								if (typeof change.NewChange == "boolean") continue;
+								if (typeof change.NewChange == "bool") continue;
 
 								local target = change.TargetSkill != null ? change.TargetSkill.m : propertiesClone;
 								if (target[change.Field] == change.ValueBefore) continue;
@@ -318,7 +318,7 @@
 				{
 					previewTable[change.Field].Change *= change.NewChange / (change.CurrChange == 0 ? 1 : change.CurrChange);
 				}
-				else if (typeof change.NewChange == "boolean")
+				else if (typeof change.NewChange == "bool")
 				{
 					previewTable[change.Field].Change = change.NewChange;
 				}

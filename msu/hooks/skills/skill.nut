@@ -504,7 +504,7 @@
 					{
 						this.m[field] *= change.Change;
 					}
-					else if (typeof change.Change == "boolean")
+					else if (typeof change.Change == "bool")
 					{
 						this.m[field] = change.Change;
 					}
@@ -522,7 +522,7 @@
 					{
 						properties[field] *= change.Change;
 					}
-					else if (typeof change.Change == "boolean")
+					else if (typeof change.Change == "bool")
 					{
 						properties[field] = change.Change;
 					}
