@@ -3,7 +3,7 @@
 	{
 		__original();
 		this.m.MSU_JSHandle <- {
-			__JSHandle = this.m.JSHandle;
+			__JSHandle = this.m.JSHandle,
 			function asyncCall( _funcName, ... )
 			{
 				if (_funcName == "updateCostsPreview")
