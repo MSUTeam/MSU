@@ -60,7 +60,7 @@
 	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
 
 	q.m.IsBaseValuesSaved <- false;
-	q.m.ScheduledChanges <- [];
+	q.m.ScheduledChanges <- []; // Deprecated
 
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
@@ -93,12 +93,14 @@
 		else throw ::MSU.Exception.KeyNotFound(_t);
 	}
 
+	// Deprecated
 	q.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
 		this.getContainer().m.ScheduledChangesSkills.push(this);
 	}
 
+	// Deprecated
 	q.executeScheduledChanges <- function()
 	{
 		if (this.m.ScheduledChanges.len() == 0)

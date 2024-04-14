@@ -1,5 +1,5 @@
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
-	q.m.ScheduledChangesSkills <- [];
+	q.m.ScheduledChangesSkills <- []; // Deprecated
 	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
 
@@ -17,12 +17,13 @@
 
 		__original();
 
+		// Deprecated
 		foreach (skill in this.m.ScheduledChangesSkills)
 		{
 			if (!skill.isGarbage()) skill.executeScheduledChanges();
 		}
 
-		this.m.ScheduledChangesSkills.clear();
+		this.m.ScheduledChangesSkills.clear(); // Deprecated
 	}
 
 	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
@@ -286,7 +287,7 @@
 
 		getChange("onUpdate");
 		getChange("onAfterUpdate");
-		getChange("executeScheduledChanges");
+		getChange("executeScheduledChanges"); // Deprecated
 
 		foreach (changes in ::MSU.Skills.QueuedPreviewChanges)
 		{
