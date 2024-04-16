@@ -1,3 +1,4 @@
+::MSU.Written <- 20;
 // Base for the Serialization and Deserialization Emulators
 ::MSU.Class.SerDeEmulator <- class
 {
@@ -150,6 +151,17 @@
 
 	function __writeData( _data, _type )
 	{
+		if (--::MSU.Written > 0)
+		{
+			// ::logInfo("Metadata: " + this.getMetaData() + " instance of MetaDataEmulator? " + (this.getMetaData() instanceof ::MSU.Class.MetaDataEmulator));
+			// if (!(this.getMetaData() instanceof ::MSU.Class.MetaDataEmulator))
+			// {
+			// 	::MSU.Log.printData(this.getMetaData());
+			// }
+			// ::logInfo("Version: " + this.getMetaData().getVersion());
+			local info = this.getstackinfos(3);
+			::logInfo(format("Writing %s as %s -- %s (%s) - line %i", "" + _data, ::MSU.Serialization.DataType.getKeyForValue(_type), info.func, info.src, info.line));
+		}
 		this.SerializationData.write(_data, _type);
 	}
 
@@ -161,10 +173,16 @@
 			return null;
 		}
 		local data = this.SerializationData.getDataArray()[this.Idx];
+		if (this.Idx < 20)
+		{
+			local info = this.getstackinfos(2);
+			::logInfo(format("Reading %s as %s -- %s (%s) - line %i", "" + data.getData(), ::MSU.Serialization.DataType.getKeyForValue(_type), info.func, info.src, info.line));
+		}
 		if (!data.isTypeValid(_type))
 		{
-			::logError(format("The type being read %s isn't the same as the type %s stored in the Deserialization Emulator", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType())));
+			::logError(format("The type being read %s isn't the same as the type %s (with value: %s) stored in the Deserialization Emulator", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType()), "" + data.getData()));
 			// currently still continuing in case of conversion between integers
+			::MSU.Log.printStackTrace();
 		}
 		return data.getData();
 	}

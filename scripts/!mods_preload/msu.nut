@@ -15,6 +15,62 @@
 	{
 		func();
 	}
+	::MSU.IsDebugSave <- false;
+	::MSU.DebugSave <- null;
+	::MSU.DebugSerEmu <- null;
+	::MSU.DebugDeserEmu <- null;
+	::MSU.createDebugSave <- function()
+	{
+		::MSU.DebugSave <- ::MSU.Class.SerializationData();
+		::MSU.DebugSerEmu = ::MSU.DebugSave.getSerializationEmulator();
+		::MSU.IsDebugSave = true;
+		::World.State.saveCampaign("msu_debug_save");
+		::MSU.IsDebugSave = false;
+		::MSU.Mod.PersistentData.createFile("debug_save", ::MSU.DebugSave);
+	}
+	::MSU.loadDebugSave <- function()
+	{
+		::MSU.DebugSave = ::MSU.Mod.PersistentData.readFile("debug_save");
+		::MSU.DebugDeserEmu = ::MSU.DebugSave.getDeserializationEmulator();
+		::MSU.IsDebugSave = true;
+		::World.State.loadCampaign("msu_debug_save");
+		::MSU.IsDebugSave = false;
+	}
+
+	foreach (script in ::IO.enumerateFiles("scripts"))
+	{
+		::MSU.MH.hook(script, function(q) {
+			if (q.contains("onSerialize"))
+			{
+				q.onSerialize = @(__original) function( _out )
+				{
+					__original(::MSU.IsDebugSave ? ::MSU.DebugSerEmu : _out);
+				}
+			}
+		});
+
+		if (script == "scripts/tools/tag_collection")
+		{
+			::MSU.MH.hook(script, function(q) {
+				q.onDeserialize = @(__original) function( _in, _clearCurrent = true )
+				{
+					__original(::MSU.IsDebugSave ? ::MSU.DebugDeserEmu : _in, _clearCurrent);
+				}
+			});
+		}
+		else
+		{
+			::MSU.MH.hook(script, function(q) {
+				if (q.contains("onDeserialize"))
+				{
+					q.onDeserialize = @(__original) function( _in )
+					{
+						__original(::MSU.IsDebugSave ? ::MSU.DebugDeserEmu : _in);
+					}
+				}
+			});
+		}
+	}
 	::MSU.QueueBucket.VeryLate.clear();
 }, ::Hooks.QueueBucket.VeryLate);
 
