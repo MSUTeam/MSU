@@ -5,9 +5,11 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		if (this.m.IsAttack && (this.m.DamageType == null || this.m.DamageType.len() == 0))
-		{
+		if (this.m.DamageType == null)
 			this.m.DamageType = ::MSU.Class.WeightedContainer();
+
+		if (this.m.IsAttack && this.m.DamageType.len() == 0)
+		{
 			switch (this.m.InjuriesOnBody)
 			{
 				case null:
