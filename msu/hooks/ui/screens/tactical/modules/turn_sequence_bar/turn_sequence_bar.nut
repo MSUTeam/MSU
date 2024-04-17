@@ -35,36 +35,35 @@
 
 	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
-		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
-		{
-			local activeEntity = this.getActiveEntity();
-			if (activeEntity != null)
-			{
-				local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
-				local skill;
-				local movement;
-				if (skillID == "")
-				{
-					movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
-				}
-				else skill = activeEntity.getSkills().getSkillByID(skillID);
+		if (!::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
+			return __original(_costsPreview);
 
-				activeEntity.getSkills().m.IsPreviewing = true;
-				this.m.MSU_PreviewSkill = skill;
-				this.m.MSU_PreviewMovement = movement;
-				activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
-				activeEntity.getSkills().updatePreview(skill, movement);
-			}
-		}
+		local activeEntity = this.getActiveEntity();
+		if (activeEntity == null)
+			return __original(_costsPreview);
+
+		local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
+		local skill;
+		local movement;
+		if (skillID == "")
+			movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
+		else
+			skill = activeEntity.getSkills().getSkillByID(skillID);
+
+		activeEntity.getSkills().m.IsPreviewing = true;
+		this.m.MSU_PreviewSkill = skill;
+		this.m.MSU_PreviewMovement = movement;
+		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
+		activeEntity.getSkills().updatePreview(skill, movement);
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
 		this.m.JSHandle = this.m.MSU_JSHandle;
-		__original(_costsPreview);
+		local ret = __original(_costsPreview);
 		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
 		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
-		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null)
-			activeEntity.getSkills().update();
+
+		activeEntity.getSkills().update();
+		return ret;
 	}
 
 	q.resetActiveEntityCostsPreview = @(__original) function()
