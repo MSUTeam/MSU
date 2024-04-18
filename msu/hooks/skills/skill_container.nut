@@ -225,15 +225,13 @@
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.m.PreviewProperty.clear();
+
 		foreach (skill in this.m.Skills)
 		{
 			skill.m.PreviewField.clear();
+			if (!skill.isGarbage())
+				skill.onAffordablePreview(_skill, _movementTile);
 		}
-
-		this.callSkillsFunction("onAffordablePreview", [
-			_skill,
-			_movementTile,
-		], false);
 
 		if (::MSU.Skills.QueuedPreviewChanges.len() == 0) return;
 
