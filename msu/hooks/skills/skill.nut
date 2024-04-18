@@ -337,6 +337,16 @@
 	{
 	}
 
+	q.onUpdatePreview <- function( _properties, _previewedSkill, _previewedMovement )
+	{
+		this.onUpdate(_properties);
+	}
+
+	q.onAfterUpdatePreview <- function( _properties, _previewedSkill, _previewedMovement )
+	{
+		this.onAfterUpdate(_properties);
+	}
+
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 	}
@@ -564,9 +574,11 @@
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
+				this.getContainer().updatePreview(::Tactical.TurnSequenceBar.m.MSU_PreviewSkill, ::Tactical.TurnSequenceBar.m.MSU_PreviewMovement);
 				this.m.IsApplyingPreview = true;
 				local ret = __original();
 				this.m.IsApplyingPreview = false;
+				this.getContainer().update();
 				local skillID = this.getContainer().getActor().getPreviewSkillID();
 				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
 				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);

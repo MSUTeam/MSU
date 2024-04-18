@@ -1,4 +1,11 @@
 ::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
+	q.setActionPoints = @() function( _a )
+	{
+		this.m.ActionPoints = ::Math.round(_a);
+		if (!this.getSkills().m.IsPreviewing)
+			this.setPreviewActionPoints(_a);
+	}
+
 	q.onMovementStart = @(__original) function ( _tile, _numTiles )
 	{
 		__original(_tile, _numTiles);
