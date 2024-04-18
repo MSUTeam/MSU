@@ -292,18 +292,7 @@
 		{
 			foreach (change in changes)
 			{
-				local target;
-				local previewTable;
-				if (change.TargetSkill != null)
-				{
-					target = change.TargetSkill.m;
-					previewTable = change.TargetSkill.m.PreviewField;
-				}
-				else
-				{
-					target = this.getActor().getCurrentProperties();
-					previewTable = this.m.PreviewProperty;
-				}
+				local previewTable = change.TargetSkill == null ? this.m.PreviewProperty : change.TargetSkill.m.PreviewField;
 
 				if (!(change.Field in previewTable)) previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };
 
