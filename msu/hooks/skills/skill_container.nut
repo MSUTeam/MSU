@@ -294,20 +294,15 @@
 			{
 				local previewTable = change.TargetSkill == null ? this.m.PreviewProperty : change.TargetSkill.m.PreviewField;
 
-				if (!(change.Field in previewTable)) previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };
+				if (!(change.Field in previewTable))
+					previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };
 
 				if (change.Multiplicative)
-				{
 					previewTable[change.Field].Change *= change.NewChange / (change.CurrChange == 0 ? 1 : change.CurrChange);
-				}
 				else if (typeof change.NewChange == "bool")
-				{
 					previewTable[change.Field].Change = change.NewChange;
-				}
 				else
-				{
 					previewTable[change.Field].Change += change.NewChange - change.CurrChange;
-				}
 			}
 		}
 
