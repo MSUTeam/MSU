@@ -62,8 +62,8 @@
 	q.m.IsBaseValuesSaved <- false;
 	q.m.ScheduledChanges <- []; // Deprecated
 
-	q.m.IsApplyingPreview <- false;
-	q.m.PreviewField <- {};
+	q.m.IsApplyingPreview <- false; // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
+	q.m.PreviewField <- {}; // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
@@ -347,15 +347,18 @@
 		this.onAfterUpdate(_properties);
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	q.modifyPreviewField <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, _skill, _field, _newChange, _multiplicative);
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	q.modifyPreviewProperty <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, null, _field, _newChange, _multiplicative);
@@ -498,6 +501,7 @@
 
 ::MSU.QueueBucket.VeryLate.push(function() {
 	::MSU.MH.hook("scripts/skills/skill", function(q) {
+		// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
 			q[func] = @(__original) function()
@@ -559,6 +563,7 @@
 			}
 		}
 
+		// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 		q.isAffordablePreview = @(__original) function()
 		{
 			if (!this.getContainer().m.IsPreviewing) return __original();

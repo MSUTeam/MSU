@@ -52,7 +52,7 @@
 				activeEntity.getSkills().m.IsPreviewing = true;
 				this.m.MSU_PreviewSkill = skill;
 				this.m.MSU_PreviewMovement = movement;
-				activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End);
+				activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 				activeEntity.getSkills().updatePreview(skill, movement);
 			}
 		}

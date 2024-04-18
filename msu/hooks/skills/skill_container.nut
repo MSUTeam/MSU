@@ -1,7 +1,7 @@
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- []; // Deprecated
 	q.m.IsPreviewing <- false;
-	q.m.PreviewProperty <- {};
+	q.m.PreviewProperty <- {}; // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 
 	q.update = @(__original) function()
 	{
@@ -221,6 +221,7 @@
 		]);
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.m.PreviewProperty.clear();

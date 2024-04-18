@@ -1,9 +1,9 @@
 ::MSU.Skills <- {
-	PreviewApplicableFunctions = [
+	PreviewApplicableFunctions = [ // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 		"getActionPointCost",
 		"getFatigueCost"
 	],
-	QueuedPreviewChanges = {},
+	QueuedPreviewChanges = {}, // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	SoftResetFields = [
 		"ActionPointCost",
 		"FatigueCost",
@@ -48,6 +48,7 @@
 		});
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	function addPreviewApplicableFunction( _name )
 	{
 		::MSU.requireString(_name);
@@ -65,6 +66,7 @@
 		if (idx != null) this.SoftResetFields.remove(idx);
 	}
 
+	// Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 	// Private
 	function modifyPreview( _caller, _targetSkill, _field, _newChange, _multiplicative )
 	{
