@@ -1,7 +1,4 @@
 ::MSU.MH.hook("scripts/ui/screens/tactical/modules/turn_sequence_bar/turn_sequence_bar", function(q) {
-	q.m.MSU_PreviewSkill <- null;
-	q.m.MSU_PreviewMovement <- null;
-
 	q.create = @(__original) function()
 	{
 		__original();
@@ -51,8 +48,6 @@
 			skill = activeEntity.getSkills().getSkillByID(skillID);
 
 		activeEntity.getSkills().m.IsPreviewing = true;
-		this.m.MSU_PreviewSkill = skill;
-		this.m.MSU_PreviewMovement = movement;
 		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
 		activeEntity.getSkills().updatePreview(skill, movement);
 
@@ -62,6 +57,9 @@
 		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
 		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
 
+		this.m.ActiveEntityCostsPreview.MSU_PreviewSkill <- skill;
+		this.m.ActiveEntityCostsPreview.MSU_PreviewMovement <- movement;
+
 		activeEntity.getSkills().update();
 		return ret;
 	}
@@ -69,12 +67,7 @@
 	q.resetActiveEntityCostsPreview = @(__original) function()
 	{
 		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null)
-		{
-			activeEntity.getSkills().m.IsPreviewing = false;
-			this.m.MSU_PreviewSkill = null;
-			this.m.MSU_PreviewMovement = null;
-		}
+		if (activeEntity != null) activeEntity.getSkills().m.IsPreviewing = false;
 		__original();
 	}
 });

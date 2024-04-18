@@ -579,7 +579,7 @@
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
-				this.getContainer().updatePreview(::Tactical.TurnSequenceBar.m.MSU_PreviewSkill, ::Tactical.TurnSequenceBar.m.MSU_PreviewMovement);
+				this.getContainer().updatePreview(preview.MSU_PreviewSkill, preview.MSU_PreviewMovement);
 				this.m.IsApplyingPreview = true;
 				local ret = __original();
 				this.m.IsApplyingPreview = false;
