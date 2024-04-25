@@ -260,29 +260,73 @@ local function isCampfireScreen()
 	}
 }, "Toggle Forced Attack", ::MSU.Key.KeyState.Release | ::MSU.Key.KeyState.Press);
 
-// World Continuous, doesn't work cuz we handle keybinds differently from vanilla ):
 
-// ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
-// {
-// 	if (::Settings.getTempGameplaySettings().CameraLocked)
-// 	{
-// 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
-// 	}
+local function moveCameraWorld(_x, _y)
+{
+	if (::Settings.getTempGameplaySettings().CameraLocked)
+	{
+		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
+	}
 
-// 	::World.getCamera().move(-1500.0 * ::Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
-// 	return true;
-// }, "Move Camera Up", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
+	::World.getCamera().move(_x * ::Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), _y * ::Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66));
+	return true;
+}
+//Camera Left
 
-// ::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
-// {
-// 	if (::Settings.getTempGameplaySettings().CameraLocked)
-// 	{
-// 		this.m.WorldScreen.getTopbarOptionsModule().onCameraLockButtonPressed();
-// 	}
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_left", "left/a/q", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(-1500, 0);
+}, "Move Camera Up", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
 
-// 	::World.getCamera().move(1500.0 * ::Time.getDelta() * ::Math.maxf(1.0, ::World.getCamera().Zoom * 0.66), 0);
-// 	return true;
-// }, "Move Camera Right", null, ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press);
+//Camera Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_right", "right/d", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(1500, 0);
+}, "Move Camera Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Up
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_up", "up/w/z", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(0, 1500);
+}, "Move Camera Up", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Down
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_down", "down/s", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(0, -1500);
+}, "Move Camera Down", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+// Camera Top Left
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_leftup", "left+up/left+w/left+z/a+up/a+w/a+z/q+up/q+w/q+z", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(-1500.0, 1500.0);
+}, "Move Camera Top Left", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Bottom Left
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_leftdown", "left+down/left+s/a+down/a+s/q+down/q+s", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(-1500.0, -1500.0);
+}, "Move Camera Bottom Left", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Top Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_rightup", "right+up/right+w/right+z/d+up/d+w/d+z", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(1500.0, 1500.0);
+}, "Move Camera Top Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Bottom Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_moveCamera_rightdown", "right+down/right+s/d+down/d+s", ::MSU.Key.State.World, function()
+{
+	return moveCameraWorld(1500.0, -1500.0);
+}, "Move Camera Bottom Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
 
 //-------------------------------------------TACTICAL ONLY---------------------------------------------------------------------------------
 
@@ -356,7 +400,70 @@ local function isCampfireScreen()
 	return true;
 }, "Focus on Active Character");
 
+local function moveCameraTactical(_x, _y)
+{
+	if (this.isInputLocked() || this.isInCharacterScreen() || this.m.IsDeveloperModeEnabled || this.m.MenuStack.hasBacksteps())
+	{
+		return false;
+	}
 
-// ::MSU.System.Keybinds.registerMod(::MSU.ID)
-// local jskeybind = ::MSU.Class.KeybindJS(::MSU.ID, "testkb", "ctrl+s");
-// ::MSU.System.Keybinds.add(jskeybind);
+	this.Tactical.getCamera().move(_x * this.Time.getDelta(), _y * this.Time.getDelta());
+	return true;
+}
+
+//Camera Left
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_left", "left/a/q", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(-1500, 0);
+}, "Move Camera Up", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_right", "right/d", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(1500, 0);
+}, "Move Camera Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Up
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_up", "up/w/z", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(0, 1500);
+}, "Move Camera Up", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Down
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_down", "down/s", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(0, -1500);
+}, "Move Camera Down", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+// Camera Top Left
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_leftup", "left+up/left+w/left+z/a+up/a+w/a+z/q+up/q+w/q+z", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(-1500.0, 1500.0);
+}, "Move Camera Top Left", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Bottom Left
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_leftdown", "left+down/left+s/a+down/a+s/q+down/q+s", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(-1500.0, -1500.0);
+}, "Move Camera Bottom Left", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Top Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_rightup", "right+up/right+w/right+z/d+up/d+w/d+z", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(1500.0, 1500.0);
+}, "Move Camera Top Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
+//Camera Bottom Right
+
+::MSU.Vanilla.Keybinds.addSQKeybind("tactical_moveCamera_rightdown", "right+down/right+s/d+down/d+s", ::MSU.Key.State.Tactical, function()
+{
+	return moveCameraTactical(1500.0, -1500.0);
+}, "Move Camera Bottom Right", ::MSU.Key.KeyState.Continuous | ::MSU.Key.KeyState.Press).setCallContinuously(true);
+
