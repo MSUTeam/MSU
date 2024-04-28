@@ -66,7 +66,7 @@ local function isCampfireScreen()
 	{
 		if (!this.m.MenuStack.hasBacksteps() || this.m.TacticalMenuScreen.isVisible())
 		{
-			if (this.toggleMenuScreen())
+			if (!this.m.TacticalMenuScreen.isAnimating() && this.toggleMenuScreen())
 			{
 				return true;
 			}

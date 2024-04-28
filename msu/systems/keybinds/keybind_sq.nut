@@ -3,6 +3,9 @@
 	Function = null;
 	State = null;
 	KeyState = null;
+	CallContinuously = false;
+	TriggerDelay = null;
+	NextCallTime = null;
 	BypassInputDenied = false;
 
 	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
@@ -22,6 +25,13 @@
 		this.BypassInputDenied = _bool;
 	}
 
+	function setCallContinuously(_bool, _triggerDelay = null)
+	{
+		this.CallContinuously = _bool;
+		this.TriggerDelay = _triggerDelay;
+		return this;
+	}
+
 	function getState()
 	{
 		return this.State;
@@ -32,8 +42,15 @@
 		return (this.State & _state) != 0;
 	}
 
+	function checkContinuousCall(_keyState)
+	{
+		return ((this.KeyState & ::MSU.Key.KeyState.Continuous) != 0) && ((this.NextCallTime == null) || (::Time.getRealTimeF() > this.NextCallTime));
+	}
+
 	function callOnKeyState( _keyState )
 	{
+		if (this.CallContinuously && _keyState == ::MSU.Key.KeyState.Continuous)
+			return this.checkContinuousCall(_keyState)
 		return (_keyState & this.KeyState) != 0;
 	}
 
@@ -49,7 +66,10 @@
 
 	function call( _environment )
 	{
-		return this.Function.call(_environment);
+		local ret = this.Function.call(_environment);
+		if (ret && this.CallContinuously && this.TriggerDelay != null)
+			this.NextCallTime = ::Time.getRealTimeF() + this.TriggerDelay;
+		return ret;
 	}
 
 	function tostring()
