@@ -20,7 +20,6 @@
 	function setBypassInputDenied(_bool)
 	{
 		this.BypassInputDenied = _bool;
-		return this;
 	}
 
 	function getState()
