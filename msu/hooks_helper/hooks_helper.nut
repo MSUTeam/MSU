@@ -3,13 +3,18 @@
 	{
 		::MSU.HooksMod.hook(_script, function(q) {
 			q.m.BaseItemScript <- null;
-			q.m.BaseItemFields <- [];
+
+			q.getBaseItemFields <- function()
+			{
+				return [];
+			}
+
 			q.setValuesBeforeRandomize <- function()
 			{
 				if (this.m.BaseItemScript != null)
 				{
 					local baseM = ::new(this.m.BaseItemScript).m;
-					foreach (field in this.m.BaseItemFields)
+					foreach (field in this.getBaseItemFields())
 					{
 						if (field == "ItemType")
 							this.m[field] = this.m.ItemType | baseM.ItemType;
