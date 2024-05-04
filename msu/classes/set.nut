@@ -41,8 +41,6 @@
 
 	function add( _item )
 	{
-		if (_item in this.Table)
-			throw ::MSU.Exception.DuplicateKey(_item);
 		this.Table[_item] <- false;
 	}
 
