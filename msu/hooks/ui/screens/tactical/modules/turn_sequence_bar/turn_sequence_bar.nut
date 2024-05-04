@@ -49,7 +49,9 @@
 
 		activeEntity.getSkills().m.IsPreviewing = true;
 		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - Only needed for the legacy onAffordablePreview system -- use the new onUpdatePreview and onAfterUpdatePreview system
-		activeEntity.getSkills().updatePreview(skill, movement);
+		activeEntity.m.MSU_PreviewSkill = skill;
+		activeEntity.m.MSU_PreviewMovement = movement;
+		activeEntity.getSkills().update();
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
 		this.m.JSHandle = this.m.MSU_JSHandle;
@@ -57,17 +59,20 @@
 		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
 		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
 
-		this.m.ActiveEntityCostsPreview.MSU_PreviewSkill <- skill;
-		this.m.ActiveEntityCostsPreview.MSU_PreviewMovement <- movement;
-
+		activeEntity.getSkills().m.IsPreviewing = false;
 		activeEntity.getSkills().update();
+		activeEntity.getSkills().m.IsPreviewing = true;
 		return ret;
 	}
 
 	q.resetActiveEntityCostsPreview = @(__original) function()
 	{
 		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null) activeEntity.getSkills().m.IsPreviewing = false;
+		if (activeEntity != null)
+		{
+			activeEntity.getSkills().m.IsPreviewing = false;
+			activeEntity.clearPreview();
+		}
 		__original();
 	}
 });

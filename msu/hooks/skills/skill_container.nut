@@ -309,44 +309,6 @@
 		::MSU.Skills.QueuedPreviewChanges.clear();
 	}
 
-	q.updatePreview <- function( _previewedSkill, _previewedMovement )
-	{
-		if (this.m.IsUpdating || !this.m.Actor.isAlive())
-			return;
-
-		foreach (skill in this.m.Skills)
-		{
-			if (!skill.isGarbage())
-				skill.softReset();
-		}
-
-		local properties = this.m.Actor.getBaseProperties().getClone();
-
-		this.m.IsUpdating = true;
-
-		foreach (skill in this.m.Skills)
-		{
-			if (!skill.isGarbage())
-				skill.onUpdatePreview(properties, _previewedSkill, _previewedMovement);
-		}
-
-		foreach (skill in this.m.Skills)
-		{
-			if (!skill.isGarbage())
-				skill.onAfterUpdatePreview(properties, _previewedSkill, _previewedMovement);
-		}
-
-		// Deprecated
-		foreach (skill in this.m.ScheduledChangesSkills)
-		{
-			skill.executeScheduledChanges();
-		}
-
-		this.m.IsUpdating = false;
-
-		this.m.Actor.setCurrentProperties(properties);
-	}
-
 	//Vanilla Overwrites start
 	
 	q.onAfterDamageReceived = @() function()
@@ -406,12 +368,14 @@
 	q.onTurnEnd = @() function()
 	{
 		this.m.IsPreviewing = false;
+		this.getActor().clearPreview();
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	q.onWaitTurn = @() function()
 	{
 		this.m.IsPreviewing = false;
+		this.getActor().clearPreview();
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
@@ -509,6 +473,7 @@
 	q.onCombatFinished = @() function()
 	{
 		this.m.IsPreviewing = false;
+		this.getActor().clearPreview();
 		this.callSkillsFunction("onCombatFinished");
 	}
 

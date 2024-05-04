@@ -1,4 +1,7 @@
 ::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
+	q.m.MSU_PreviewSkill <- null;
+	q.m.MSU_PreviewMovement <- null;
+
 	q.setActionPoints = @() function( _a )
 	{
 		this.m.ActionPoints = ::Math.round(_a);
@@ -120,6 +123,27 @@
 				this.m.ExcludedInjuries.push(injury);
 			}
 		}
+	}
+
+	q.isPreviewing <- function()
+	{
+		return this.getSkills().m.IsPreviewing;
+	}
+
+	q.getPreviewSkill <- function()
+	{
+		return this.m.MSU_PreviewSkill;
+	}
+
+	q.getPreviewMovement <- function()
+	{
+		return this.m.MSU_PreviewMovement;
+	}
+
+	q.clearPreview <- function()
+	{
+		this.m.MSU_PreviewSkill = null;
+		this.m.MSU_PreviewMovement = null;
 	}
 });
 
