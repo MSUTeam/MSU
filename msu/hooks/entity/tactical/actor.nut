@@ -1,4 +1,6 @@
 ::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
+	q.m.MSU_IsPreviewing <- false;
+
 	q.onMovementStart = @(__original) function ( _tile, _numTiles )
 	{
 		__original(_tile, _numTiles);

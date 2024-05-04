@@ -549,7 +549,7 @@
 
 		q.isAffordablePreview = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return __original();
+			if (!this.getContainer().getActor().m.MSU_IsPreviewing) return __original();
 			this.m.IsApplyingPreview = true;
 			local ret = __original();
 			this.m.IsApplyingPreview = false;
@@ -558,7 +558,7 @@
 
 		q.getCostString = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return __original();
+			if (!this.getContainer().getActor().m.MSU_IsPreviewing) return __original();
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{

@@ -49,7 +49,7 @@
 		}
 		else skill = activeEntity.getSkills().getSkillByID(skillID);
 
-		activeEntity.getSkills().m.IsPreviewing = true;
+		activeEntity.m.MSU_IsPreviewing = true;
 		activeEntity.getSkills().onAffordablePreview(skill, movementTile);
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
@@ -62,7 +62,7 @@
 	q.resetActiveEntityCostsPreview = @(__original) function()
 	{
 		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null) activeEntity.getSkills().m.IsPreviewing = false;
+		if (activeEntity != null) activeEntity.m.MSU_IsPreviewing = false;
 		__original();
 	}
 });

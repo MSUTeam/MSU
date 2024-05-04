@@ -1,6 +1,5 @@
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- [];
-	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
 
 	q.update = @(__original) function()
@@ -365,13 +364,13 @@
 
 	q.onTurnEnd = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().m.MSU_IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	q.onWaitTurn = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().m.MSU_IsPreviewing = false;
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
@@ -468,7 +467,7 @@
 
 	q.onCombatFinished = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().m.MSU_IsPreviewing = false;
 		this.callSkillsFunction("onCombatFinished");
 	}
 
