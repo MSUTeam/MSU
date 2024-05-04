@@ -1,13 +1,13 @@
 ::MSU.MH.hook("scripts/states/tactical_state", function(q) {
 	q.executeEntityTravel = @(__original) function( _activeEntity, _mouseEvent )
 	{
-		_activeEntity.m.MSU_IsPreviewing = false;
+		_activeEntity.resetPreview();
 		return __original(_activeEntity, _mouseEvent);
 	}
 
 	q.executeEntitySkill = @(__original) function( _activeEntity, _targetTile )
 	{
-		_activeEntity.m.MSU_IsPreviewing = false;
+		_activeEntity.resetPreview();
 		return __original(_activeEntity, _targetTile);
 	}
 

@@ -365,13 +365,13 @@
 
 	q.onTurnEnd = @() function()
 	{
-		this.getActor().m.MSU_IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	q.onWaitTurn = @() function()
 	{
-		this.getActor().m.MSU_IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
@@ -468,7 +468,7 @@
 
 	q.onCombatFinished = @() function()
 	{
-		this.getActor().m.MSU_IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunction("onCombatFinished");
 	}
 
