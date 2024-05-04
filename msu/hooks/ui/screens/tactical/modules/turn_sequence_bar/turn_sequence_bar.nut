@@ -52,6 +52,7 @@
 		activeEntity.m.MSU_PreviewSkill = skill;
 		activeEntity.m.MSU_PreviewMovement = movement;
 		activeEntity.getSkills().update(); // During this update actor.isPreviewing() is true
+		::MSU.Skills.QueuedPreviewChanges.clear();
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
 		this.m.JSHandle = this.m.MSU_JSHandle;
