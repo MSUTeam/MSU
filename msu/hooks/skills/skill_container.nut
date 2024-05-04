@@ -1,6 +1,7 @@
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- [];
 	q.m.PreviewProperty <- {};
+	q.m.MSU_IsApplyingPreview <- false;
 
 	q.update = @(__original) function()
 	{

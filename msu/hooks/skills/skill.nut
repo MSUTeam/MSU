@@ -62,7 +62,6 @@
 	q.m.IsBaseValuesSaved <- false;
 	q.m.ScheduledChanges <- [];
 
-	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
 
 	q.isType = @() function( _t, _any = true, _only = false )
@@ -490,7 +489,7 @@
 		{
 			q[func] = @(__original) function()
 			{
-				if (!this.m.IsApplyingPreview) return __original();
+				if (!this.getContainer().m.MSU_IsApplyingPreview) return __original();
 
 				local temp = {};
 				foreach (field, change in this.m.PreviewField)
@@ -550,9 +549,9 @@
 		q.isAffordablePreview = @(__original) function()
 		{
 			if (!this.getContainer().getActor().m.MSU_IsPreviewing) return __original();
-			this.m.IsApplyingPreview = true;
+			this.getContainer().m.MSU_IsApplyingPreview = true;
 			local ret = __original();
-			this.m.IsApplyingPreview = false;
+			this.getContainer().m.MSU_IsApplyingPreview = false;
 			return ret;
 		}
 
@@ -562,9 +561,9 @@
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
-				this.m.IsApplyingPreview = true;
+				this.getContainer().m.MSU_IsApplyingPreview = true;
 				local ret = __original();
-				this.m.IsApplyingPreview = false;
+				this.getContainer().m.MSU_IsApplyingPreview = false;
 				local skillID = this.getContainer().getActor().getPreviewSkillID();
 				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
 				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);
