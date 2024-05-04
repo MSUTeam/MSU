@@ -1,5 +1,10 @@
 ::MSU.MH.hook("scripts/items/item", function(q) {
-	q.isItemType = @() function( _t, _any = true, _only = false )
+	q.getNestedTooltip <- function()
+	{
+		return this.getTooltip();
+	}
+
+	q.isItemType = @(__original) function( _t, _any = true, _only = false )
 	{
 		if (_any)
 		{
