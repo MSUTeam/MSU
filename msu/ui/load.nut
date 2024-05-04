@@ -6,6 +6,8 @@
 
 ::Hooks.registerJS("ui/mods/msu/utilities.js");
 
+::Hooks.registerJS("ui/mods/msu/nested_tooltips.js");
+
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_module.js");
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_screen.js");
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/tooltip_module.js");
