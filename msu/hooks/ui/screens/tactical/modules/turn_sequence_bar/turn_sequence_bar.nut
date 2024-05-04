@@ -32,25 +32,25 @@
 
 	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
-		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
-		{
-			local activeEntity = this.getActiveEntity();
-			if (activeEntity != null)
-			{
-				local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
-				local skill;
-				local movementTile;
-				if (skillID == "")
-				{
-					local movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
-					movementTile = movement.End;
-				}
-				else skill = activeEntity.getSkills().getSkillByID(skillID);
+		if (!::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
+			return __original(_costsPreview);
 
-				activeEntity.getSkills().m.IsPreviewing = true;
-				activeEntity.getSkills().onAffordablePreview(skill, movementTile);
-			}
+		local activeEntity = this.getActiveEntity();
+		if (activeEntity == null)
+			return __original(_costsPreview);
+
+		local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
+		local skill;
+		local movementTile;
+		if (skillID == "")
+		{
+			local movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
+			movementTile = movement.End;
 		}
+		else skill = activeEntity.getSkills().getSkillByID(skillID);
+
+		activeEntity.getSkills().m.IsPreviewing = true;
+		activeEntity.getSkills().onAffordablePreview(skill, movementTile);
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
 		this.m.JSHandle = this.m.MSU_JSHandle;
