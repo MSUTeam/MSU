@@ -11,7 +11,10 @@
 					local baseM = ::new(this.m.BaseItemScript).m;
 					foreach (field in this.m.BaseItemFields)
 					{
-						this.m[field] = baseM[field];
+						if (field == "ItemType")
+							this.m[field] = this.m.ItemType | baseM.ItemType;
+						else
+							this.m[field] = baseM[field];
 					}
 				}
 			}
