@@ -61,15 +61,6 @@
 		base.constructor(_type, _data);
 	}
 
-	function isTypeValid( _type )
-	{
-		if (base.isTypeValid(_type))
-			return true;
-
-		// Allows vanilla skill.nut deserialiation of this.m.IsNew to work. Shouldn't be documented.
-		return _type == ::MSU.Serialization.DataType.U8 && this.__Type == ::MSU.Serialization.DataType.Bool;
-	}
-
 	function serialize( _out )
 	{
 		base.serialize(_out);
