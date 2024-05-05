@@ -189,7 +189,7 @@
 
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
-		::MSU.System.Serialization.MetaData = _out.getMetaData();
+		::MSU.System.Serialization.SerializationMetaData = _out.getMetaData().weakref();
 		__original(_out);
 
 		local meta = _out.getMetaData();
@@ -205,7 +205,7 @@
 
 	q.onBeforeDeserialize = @(__original) function( _in )
 	{
-		::MSU.System.Serialization.DeserializeMetaData = _in.getMetaData();
+		::MSU.System.Serialization.DeserializationMetaData = _in.getMetaData().weakref();
 		__original(_in);
 
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))

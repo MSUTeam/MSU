@@ -32,5 +32,8 @@ includeFile("serialization_mod_addon.nut");
 		_get = @(_k)@(...)""
 	});
 	worldState.onBeforeSerialize(serEm);
+	// Because during onBeforeSerialize we store a weakref to the _out.getMetaData() in this variable
+	// and that means a weakref to ::MSU.System.Serialization.MetaData in this scenario so we have to manually set it back to null
+	::MSU.System.Serialization.SerializationMetaData = null;
 	delete ::World.Assets;
 });

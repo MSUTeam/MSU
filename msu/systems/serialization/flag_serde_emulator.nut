@@ -6,9 +6,8 @@
 	Data = null;
 	FlagContainer = null;
 
-	constructor(_mod, _id, _flagContainer, _metaDataEmulator = null)
+	constructor(_mod, _id, _flagContainer, _metaDataEmulator )
 	{
-		if (_metaDataEmulator == null) _metaDataEmulator = clone ::MSU.System.Serialization.MetaData;
 		if (this.__IDRegex.match(_id))
 		{
 			::logError("the ID passed to flag serialization cannot end with a full stop followed by digits so it doesn't collide with internal MSU flags");

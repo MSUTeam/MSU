@@ -1,6 +1,11 @@
 // enulates the _out object passed to onSerialize functions
 ::MSU.Class.FlagSerializationEmulator <- class extends ::MSU.Class.FlagSerDeEmulator
 {
+	constructor( _mod, _id, _flagContainer, _metaDataEmulator = null )
+	{
+		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator != null ? _metaDataEmulator : ::MSU.System.Serialization.getSerializationMetaData())
+	}
+
 	IsIncremental = false;
 
 	function setIncremental( _bool )

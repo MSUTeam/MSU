@@ -3,7 +3,8 @@
 	Mods = null;
 	EmulatorsToClear = null;
 	MetaData = null;
-	DeserializeMetaData = null;
+	SerializationMetaData = null;
+	DeserializationMetaData = null;
 
 	constructor()
 	{
@@ -43,7 +44,7 @@
 		}
 		if (_flags == null) _flags = ::World.Flags;
 
-		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags, ::MSU.System.Serialization.DeserializeMetaData);
+		local inEmulator = ::MSU.Class.FlagDeserializationEmulator(_mod, _id, _flags);
 		if (!inEmulator.loadDataFromFlagContainer())
 			return _defaultValue;
 
@@ -68,6 +69,16 @@
 		emulator.setIncremental(true);
 		this.EmulatorsToClear.push(emulator);
 		return emulator;
+	}
+
+	function getSerializationMetaData()
+	{
+		return this.SerializationMetaData != null ? this.SerializationMetaData : clone this.MetaData;
+	}
+
+	function getDeserializationMetaData()
+	{
+		return this.DeserializationMetaData != null ? this.DeserializationMetaData : clone this.MetaData;
 	}
 
 	function clearFlags()
