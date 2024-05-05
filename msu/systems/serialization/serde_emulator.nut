@@ -163,8 +163,8 @@
 		local data = this.SerializationData.getDataArray()[this.Idx];
 		if (!data.isTypeValid(_type))
 		{
-			::logError(format("The type being read %s isn't the same as the type %s stored in the Deserialization Emulator", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType())));
-			// currently still continuing in case of conversion between integers
+			local stackinfos = ::getstackinfos(2);
+			::logError(format("The type being read %s isn't the same as the type %s (with value: %s) stored in the Deserialization Emulator (%s -> %s : %i)", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType()), data.getData() + "", stackinfos.func == "unknown" ? "" : stackinfos.func, stackinfos.src, stackinfos.line));
 		}
 		return data.getData();
 	}

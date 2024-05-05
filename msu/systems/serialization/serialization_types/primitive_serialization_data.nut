@@ -5,54 +5,53 @@
 		switch( _type )
 		{
 			case ::MSU.Serialization.DataType.U8:
-				::MSU.requireInt(_data);
-				if (_data < 0 || _data > 255)
-					throw ::MSU.Exception.InvalidValue(_data);
+				if (typeof _data != "integer" || _data < 0 || _data > 255)
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.U16:
-				::MSU.requireInt(_data);
-				if (_data < 0 || _data > 65535)
-					throw ::MSU.Exception.InvalidValue(_data);
+				if (typeof _data != "integer" || _data < 0 || _data > 65535)
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.U32:
-				::MSU.requireInt(_data);
-				if (_data < 0)
-					throw ::MSU.Exception.InvalidValue(_data);
+				if (typeof _data != "integer" || _data < 0)
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.I8:
-				::MSU.requireInt(_data);
-				if (_data < -128 || _data > 127)
-					throw ::MSU.Exception.InvalidValue(_data);
+				if (typeof _data != "integer" || _data < -128 || _data > 127)
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.I16:
-				::MSU.requireInt(_data);
-				if (_data < -32768 || _data > 32767)
-					throw ::MSU.Exception.InvalidValue(_data);
+				if (typeof _data != "integer" || _data < -32768 || _data > 32767)
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.I32:
-				::MSU.requireInt(_data);
+				if (typeof _data != "integer")
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.F32:
-				::MSU.requireOneFromTypes(["integer", "float"], _data);
+				if (typeof _data != "float" && typeof _data != "integer")
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.Bool:
-				::MSU.requireBool(_data);
+				if (typeof _data != "bool")
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.String:
-				::MSU.requireString(_data);
+				if (typeof _data != "string")
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			case ::MSU.Serialization.DataType.Null:
 				if (_data != null)
-					throw ::MSU.Exception.InvalidValue(_data);
+					this.__printInvalidDataError(_type, _data);
 				break;
 
 			default:
@@ -82,5 +81,14 @@
 	{
 		if (this.getType() != ::MSU.Serialization.DataType.Null)
 			this.__Data = _in["read" + ::MSU.Serialization.DataType.getKeyForValue(this.getType())]();
+	}
+
+	function __printInvalidDataError( _type, _data )
+	{
+		::logError(format("Storing invalid or unexpected data \'%s\' in container of type: %s", _data + "", ::MSU.Serialization.DataType.getKeyForValue(_type)));
+		// We have to print the full stack trace here because we cannot know for sure which level of stackinfos will be the actual source of the problem
+		// as it will be different if this is being instantiated by someone in their own function somewhere or if it is being instantiated
+		// by MSU functions e.g. ::MSU.Serialization.__convertValueFromBaseType
+		::MSU.Log.printStackTrace();
 	}
 }
