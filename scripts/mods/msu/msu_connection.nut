@@ -38,6 +38,11 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		this.m.JSHandle.asyncCall("clearKeys", null);
 	}
 
+	function setInputDenied( _bool )
+	{
+		::MSU.System.Keybinds.InputDenied = _bool;
+	}
+
 	function checkForModUpdates()
 	{
 		this.m.JSHandle.asyncCall("checkForModUpdates", ::MSU.System.Registry.getModsForUpdateCheck());
