@@ -13,21 +13,13 @@
 		return true;
 	}
 
-	function getNeighbors( _tile, _function = null )
+	function getNeighbors( _tile )
 	{
-		// _function( tile ) returns boolean
-		// iterates over all neighboring tiles and calls _function on each tile
-		// returns an array of tiles for which _function returned true
-
 		local ret = [];
 		for (local i = 0; i < 6; i++)
 		{
 			if (_tile.hasNextTile(i))
-			{
-				local nextTile = _tile.getNextTile();
-				if (_function == null || _function(nextTile))
-					ret.push(nextTile);
-			}
+				ret.push(_tile.getNextTile());
 		}
 		return ret;
 	}
@@ -49,8 +41,8 @@
 		}
 	}
 
-	function getRandomNeighbor( _tile, _function = null )
+	function getRandomNeighbor( _tile )
 	{
-		return ::MSU.Array.rand(this.getNeighbors(_tile, _function));
+		return ::MSU.Array.rand(this.getNeighbors(_tile));
 	}
 }
