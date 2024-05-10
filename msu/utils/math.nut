@@ -28,4 +28,17 @@
 		::MSU.requireFloat(_min, _max);
 		return _min + (::Math.rand(0, 2147483647) / 2147483647.0) * (_max - _min);
 	}
+
+	function round( _num, _multiple )
+	{
+		if (_multiple <= 0)
+		{
+			::logError("_multiple must be greater than 0");
+			throw ::MSU.Exception.InvalidValue(_multiple);
+		}
+
+		local ret = abs(_num) + ceil(_multiple * 0.5);
+		ret -= ret % _multiple;
+		return _num < 0 ? -ret : ret;
+	}
 };
