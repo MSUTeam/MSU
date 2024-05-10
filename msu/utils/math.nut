@@ -37,8 +37,9 @@
 			throw ::MSU.Exception.InvalidValue(_multiple);
 		}
 
-		local ret = abs(_num) + ceil(_multiple * 0.5);
-		ret -= ret % _multiple;
-		return _num < 0 ? -ret : ret;
+		local num = abs(_num);
+	    local rem = num % _multiple;
+	    local ret = rem < _multiple * 0.5 ? num - rem : num + _multiple - rem;
+	    return _num < 0 ? -ret : ret;
 	}
 };
