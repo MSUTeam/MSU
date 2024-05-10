@@ -37,7 +37,7 @@
 			throw ::MSU.Exception.InvalidValue(_multiple);
 		}
 
-		local num = abs(_num);
+		local num = fabs(_num);
 	    local rem = num % _multiple;
 	    local ret = rem < _multiple * 0.5 ? num - rem : num + _multiple - rem;
 	    return _num < 0 ? -ret : ret;
