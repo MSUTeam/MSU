@@ -39,4 +39,18 @@
 		local magnitude = ::pow(10, _significantFigures - d);
 		return ::Math.round(_num * magnitude) / magnitude;
 	}
+
+	function roundToMult( _num, _multiple )
+	{
+		if (_multiple <= 0)
+		{
+			::logError("_multiple must be greater than 0");
+			throw ::MSU.Exception.InvalidValue(_multiple);
+		}
+
+		local num = ::fabs(_num);
+		local rem = num % _multiple;
+		local ret = rem < _multiple * 0.5 ? num - rem : num + _multiple - rem;
+		return _num < 0 ? -ret : ret;
+	}
 };
