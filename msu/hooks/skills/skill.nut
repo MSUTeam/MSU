@@ -62,7 +62,6 @@
 	q.m.IsBaseValuesSaved <- false;
 	q.m.ScheduledChanges <- [];
 
-	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
 
 	q.isType = @() function( _t, _any = true, _only = false )
@@ -515,7 +514,7 @@
 		{
 			q[func] = @(__original) function()
 			{
-				if (!this.m.IsApplyingPreview) return __original();
+				if (!this.getContainer().m.MSU_IsApplyingPreview) return __original();
 
 				local temp = {};
 				foreach (field, change in this.m.PreviewField)
@@ -574,22 +573,26 @@
 
 		q.isAffordablePreview = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return __original();
-			this.m.IsApplyingPreview = true;
+			if (!this.getContainer().getActor().m.MSU_IsPreviewing) return __original();
+			this.getContainer().m.MSU_IsApplyingPreview = true;
 			local ret = __original();
-			this.m.IsApplyingPreview = false;
+			this.getContainer().m.MSU_IsApplyingPreview = false;
 			return ret;
 		}
 
 		q.getCostString = @(__original) function()
 		{
-			if (!this.getContainer().m.IsPreviewing) return __original();
+			if (!this.getContainer().getActor().m.MSU_IsPreviewing) return __original();
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
-				this.m.IsApplyingPreview = true;
+				this.getContainer().update(); // During this update actor.isPreviewing() is true
+				this.getContainer().m.MSU_IsApplyingPreview = true;
 				local ret = __original();
-				this.m.IsApplyingPreview = false;
+				this.getContainer().m.MSU_IsApplyingPreview = false;
+				this.getContainer().getActor().m.MSU_IsPreviewing = false;
+				this.getContainer().update(); // Do a normal update i.e. where actor.isPreviewing() is false
+				this.getContainer().getActor().m.MSU_IsPreviewing = true;
 				local skillID = this.getContainer().getActor().getPreviewSkillID();
 				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
 				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);
@@ -597,6 +600,71 @@
 			}
 
 			return __original();
+		}
+	});
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.rawHookTree("scripts/skills/skill", function(p) {
+		local obj = p;
+		while (!("onAffordablePreview" in obj))
+		{
+			obj = obj[obj.SuperName];
+		}
+
+		if (obj.ClassName == "skill")
+			return;
+
+		local parentName = p.SuperName;
+
+		local onUpdate = "onUpdate" in p ? p.onUpdate : null;
+		p.onUpdate <- function( _properties )
+		{
+			if (this.getContainer().getActor().isPreviewing() && ::MSU.Skills.QueuedPreviewChanges.len() != 0)
+			{
+				foreach (change in ::MSU.Skills.QueuedPreviewChanges[this])
+				{
+					change.ValueBefore = change.TargetSkill != null ? change.TargetSkill.m[change.Field] : _properties[change.Field];
+				}
+
+				// To ensure that the executeScheduledChanges function for this skill is called
+				if (this.getContainer().m.ScheduledChangesSkills.find(this) == null)
+					this.getContainer().m.ScheduledChangesSkills.push(this);
+			}
+
+			if (onUpdate != null) onUpdate(_properties);
+			else this[parentName].onUpdate(_properties);
+		}
+
+		local executeScheduledChanges = "executeScheduledChanges" in p ? p.executeScheduledChanges : null;
+		p.executeScheduledChanges <- function()
+		{
+			if (executeScheduledChanges != null) executeScheduledChanges();
+			else this[parentName].executeScheduledChanges();
+
+			if (this.getContainer().getActor().isPreviewing() && ::MSU.Skills.QueuedPreviewChanges.len() != 0)
+			{
+				local currentProperties = this.getContainer().getActor().getCurrentProperties();
+				foreach (change in ::MSU.Skills.QueuedPreviewChanges[this])
+				{
+					local target = change.TargetSkill != null ? change.TargetSkill.m : currentProperties;
+
+					if (change.Multiplicative) change.CurrChange *= target[change.Field] / change.ValueBefore;
+					else change.CurrChange += target[change.Field] - change.ValueBefore;
+
+					local previewTable = change.TargetSkill == null ? this.getContainer().m.PreviewProperty : change.TargetSkill.m.PreviewField;
+
+					if (!(change.Field in previewTable))
+						previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };
+
+					if (change.Multiplicative)
+						previewTable[change.Field].Change *= change.NewChange / (change.CurrChange == 0 ? 1 : change.CurrChange);
+					else if (typeof change.NewChange == "bool")
+						previewTable[change.Field].Change = change.NewChange;
+					else
+						previewTable[change.Field].Change += change.NewChange - change.CurrChange;
+				}
+			}
 		}
 	});
 });

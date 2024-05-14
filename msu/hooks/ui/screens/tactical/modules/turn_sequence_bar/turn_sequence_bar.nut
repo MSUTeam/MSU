@@ -32,37 +32,43 @@
 
 	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
-		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
-		{
-			local activeEntity = this.getActiveEntity();
-			if (activeEntity != null)
-			{
-				local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
-				local skill;
-				local movementTile;
-				if (skillID == "")
-				{
-					local movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
-					movementTile = movement.End;
-				}
-				else skill = activeEntity.getSkills().getSkillByID(skillID);
+		if (!::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
+			return __original(_costsPreview);
 
-				activeEntity.getSkills().m.IsPreviewing = true;
-				activeEntity.getSkills().onAffordablePreview(skill, movementTile);
-			}
-		}
+		local activeEntity = this.getActiveEntity();
+		if (activeEntity == null)
+			return __original(_costsPreview);
+
+		local skillID = "SkillID" in _costsPreview ? _costsPreview.SkillID : "";
+		local skill;
+		local movement;
+		if (skillID == "")
+			movement = ::Tactical.getNavigator().getCostForPath(activeEntity, ::Tactical.getNavigator().getLastSettings(), activeEntity.getActionPoints(), activeEntity.getFatigueMax() - activeEntity.getFatigue());
+		else
+			skill = activeEntity.getSkills().getSkillByID(skillID);
+
+		activeEntity.m.MSU_IsPreviewing = true;
+		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End);
+		activeEntity.m.MSU_PreviewSkill = skill;
+		activeEntity.m.MSU_PreviewMovement = movement;
+		activeEntity.getSkills().update(); // During this update actor.isPreviewing() is true
+		::MSU.Skills.QueuedPreviewChanges.clear();
 
 		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
 		this.m.JSHandle = this.m.MSU_JSHandle;
 		__original(_costsPreview);
 		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
 		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
+
+		activeEntity.m.MSU_IsPreviewing = false;
+		activeEntity.getSkills().update(); // Do a normal update i.e. where actor.isPreviewing() is false
+		activeEntity.m.MSU_IsPreviewing = true;
 	}
 
 	q.resetActiveEntityCostsPreview = @(__original) function()
 	{
 		local activeEntity = this.getActiveEntity();
-		if (activeEntity != null) activeEntity.getSkills().m.IsPreviewing = false;
+		if (activeEntity != null) activeEntity.resetPreview();
 		__original();
 	}
 });

@@ -1,4 +1,20 @@
 ::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
+	q.m.MSU_IsPreviewing <- false;
+	q.m.MSU_PreviewSkill <- null;
+	q.m.MSU_PreviewMovement <- null;
+
+	// Overwrite the vanilla function to not set the preview action points while the actor is previewing.
+	// Because of the way our affordability preview system is set up we call skill_container.update() multiple times
+	// and that function sets the AP of the character. But during the preview we don't want to reset the
+	// action points due to these update calls otherwise it sets the preview action points back
+	// to the current action points of the actor, leading to wrong info in the UI. - Midas
+	q.setActionPoints = @() function( _a )
+	{
+		this.m.ActionPoints = ::Math.round(_a);
+		if (!this.isPreviewing())
+			this.setPreviewActionPoints(_a);
+	}
+
 	q.onMovementStart = @(__original) function ( _tile, _numTiles )
 	{
 		__original(_tile, _numTiles);
@@ -25,6 +41,28 @@
 		}
 
 		return ret;
+	}
+
+	q.isPreviewing <- function()
+	{
+		return this.m.MSU_IsPreviewing;
+	}
+
+	q.getPreviewSkill <- function()
+	{
+		return this.m.MSU_PreviewSkill;
+	}
+
+	q.getPreviewMovement <- function()
+	{
+		return this.m.MSU_PreviewMovement;
+	}
+
+	q.resetPreview <- function()
+	{
+		this.m.MSU_IsPreviewing = false;
+		this.m.MSU_PreviewSkill = null;
+		this.m.MSU_PreviewMovement = null;
 	}
 
 	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
