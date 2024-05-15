@@ -86,10 +86,17 @@
 	
 	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
-		if (_tile != null && _tile.ID == 0)
+		if (_tile != null)
 		{
-			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
-			throw ::MSU.Exception.InvalidValue(_tile);
+			if (_tile.ID == 0)
+			{
+				::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+				throw ::MSU.Exception.InvalidValue(_tile);
+			}
+			if (_distance == 1)
+			{
+				return this.getActorsWithinRange(_tile, 1, _atDistance ? 1 : 0).filter(@(_, _a) _a.isAlliedWith(_faction));
+			}
 		}
 
 		return this.getActorsByFunction(function(_actor) {
@@ -106,10 +113,17 @@
 	
 	q.getHostileActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
-		if (_tile != null && _tile.ID == 0)
+		if (_tile != null)
 		{
-			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
-			throw ::MSU.Exception.InvalidValue(_tile);
+			if (_tile.ID == 0)
+			{
+				::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+				throw ::MSU.Exception.InvalidValue(_tile);
+			}
+			if (_distance == 1)
+			{
+				return this.getActorsWithinRange(_tile, 1, _atDistance ? 1 : 0).filter(@(_, _a) !_a.isAlliedWith(_faction));
+			}
 		}
 
 		return this.getActorsByFunction(function(_actor) {
@@ -130,10 +144,17 @@
 		{
 			return clone this.getInstancesOfFaction(_faction);
 		}
-		else if (_tile.ID == 0)
+		else
 		{
-			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
-			throw ::MSU.Exception.InvalidValue(_tile);
+			if (_tile.ID == 0)
+			{
+				::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+				throw ::MSU.Exception.InvalidValue(_tile);
+			}
+			if (_distance == 1)
+			{
+				return this.getActorsWithinRange(_tile, 1, _atDistance ? 1 : 0).filter(@(_, _a) _a.getFaction() == _faction);
+			}
 		}
 				
 		local actors = this.getInstancesOfFaction(_faction);
@@ -150,10 +171,17 @@
 	
 	q.getNonFactionAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
-		if (_tile != null && _tile.ID == 0)
+		if (_tile != null)
 		{
-			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
-			throw ::MSU.Exception.InvalidValue(_tile);
+			if (_tile.ID == 0)
+			{
+				::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+				throw ::MSU.Exception.InvalidValue(_tile);
+			}
+			if (_distance == 1)
+			{
+				return this.getActorsWithinRange(_tile, 1, _atDistance ? 1 : 0).filter(@(_, _a) _a.getFaction() != _faction && _a.isAlliedWith(_faction));
+			}
 		}
 
 		return this.getActorsByFunction(function(_actor) {
