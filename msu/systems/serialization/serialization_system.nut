@@ -2,6 +2,7 @@
 {
 	Mods = null;
 	EmulatorsToClear = null;
+	MidOnBeforeSerialize = false;
 	MetaData = null;
 	DeserializeMetaData = null;
 
