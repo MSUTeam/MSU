@@ -3,7 +3,6 @@
 	{
 		::MSU.HooksMod.hook(_script, function(q) {
 			q.m.BaseItemScript <- null;
-			q.m.MSU_PreventRandomize <- false;
 
 			q.getBaseItemFields <- function()
 			{
@@ -32,18 +31,13 @@
 				{
 					// Prevent the vanilla call to this.randomizeValues() within create() from randomizing anything
 					// because we want to set the values from the base item first.
-					this.m.MSU_PreventRandomize = true;
+					local randomizeValues = this.randomizeValues;
+					this.randomizeValues = @() null;
 					__original();
-					this.m.MSU_PreventRandomize = false;
+					this.randomizeValues = randomizeValues;
 
 					this.setValuesBeforeRandomize();
 					this.randomizeValues();
-				}
-
-				q.randomizeValues = @(__original) function()
-				{
-					if (!this.m.MSU_PreventRandomize)
-						return __original();
 				}
 			});
 		});
