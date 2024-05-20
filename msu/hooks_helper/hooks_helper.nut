@@ -3,6 +3,7 @@
 	{
 		::MSU.HooksMod.hook(_script, function(q) {
 			q.m.BaseItemScript <- null;
+			q.m.MSU_PreventRandomize <- false;
 
 			q.getBaseItemFields <- function()
 			{
@@ -26,11 +27,23 @@
 		});
 
 		::MSU.QueueBucket.VeryLate.push(function() {
-			::MSU.HooksMod.hook(_script, function(q) {
+			::MSU.HooksMod.hookTree(_script, function(q) {
+				q.create = @(__original) function()
+				{
+					// Prevent the vanilla call to this.randomizeValues() within create() from randomizing anything
+					// because we want to set the values from the base item first.
+					this.m.MSU_PreventRandomize = true;
+					__original();
+					this.m.MSU_PreventRandomize = false;
+
+					this.setValuesBeforeRandomize();
+					this.randomizeValues();
+				}
+
 				q.randomizeValues = @(__original) function()
 				{
-					this.setValuesBeforeRandomize();
-					return __original();
+					if (!this.m.MSU_PreventRandomize)
+						return __original();
 				}
 			});
 		});
