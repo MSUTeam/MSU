@@ -96,7 +96,7 @@
 	q.scheduleChange <- function( _field, _change, _set = false )
 	{
 		this.m.ScheduledChanges.push({Field = _field, Change = _change, Set = _set});
-		if (this.getContainer().m.ScheduledChangesSkills.find(this) != null)
+		if (this.getContainer().m.ScheduledChangesSkills.find(this) == null)
 			this.getContainer().m.ScheduledChangesSkills.push(this);
 	}
 
