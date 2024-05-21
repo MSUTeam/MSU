@@ -1,6 +1,6 @@
 ::MSU.HooksHelper.addBaseItemToNamedItem("scripts/items/weapons/named/named_weapon");
 
-::MSU.HooksMod.hook("scripts/items/weapons/named/named_weapon", function(q) {
+::MSU.MH.hook("scripts/items/weapons/named/named_weapon", function(q) {
 	q.getBaseItemFields = @() function()
 	{
 		return [

@@ -1,7 +1,7 @@
 ::MSU.HooksHelper <- {
 	function addBaseItemToNamedItem( _script )
 	{
-		::MSU.HooksMod.hook(_script, function(q) {
+		::MSU.MH.hook(_script, function(q) {
 			q.m.BaseItemScript <- null;
 
 			q.getBaseItemFields <- function()
@@ -26,7 +26,7 @@
 		});
 
 		::MSU.QueueBucket.VeryLate.push(function() {
-			::MSU.HooksMod.hookTree(_script, function(q) {
+			::MSU.MH.hookTree(_script, function(q) {
 				q.create = @(__original) function()
 				{
 					// Prevent the vanilla call to this.randomizeValues() within create() from randomizing anything
