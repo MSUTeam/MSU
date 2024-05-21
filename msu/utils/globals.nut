@@ -89,7 +89,7 @@
 ::MSU.isKindOf <- function( _object, _className )
 {
 	if (_object == null || _className == null) return false;
-	if (typeof _object == "instance" && _object instanceof ::WeakTableRef)
+	if (_object instanceof ::WeakTableRef)
 	{
 		if (_object.isNull()) return false;
 		_object = _object.get();
@@ -115,15 +115,15 @@
 
 ::MSU.isEqual <- function( _1, _2 )
 {
-	if (typeof _1 == "instance" && _1 instanceof ::WeakTableRef) _1 = _1.get();
-	if (typeof _2 == "instance" && _2 instanceof ::WeakTableRef) _2 = _2.get();
+	if (_1 instanceof ::WeakTableRef) _1 = _1.get();
+	if (_2 instanceof ::WeakTableRef) _2 = _2.get();
 
 	return _1 == _2;
 }
 
 ::MSU.isBBObject <- function( _object, _allowWeakTableRef = true )
 {
-	if (typeof _object == "instance" && _object instanceof ::WeakTableRef && _allowWeakTableRef)
+	if (_object instanceof ::WeakTableRef && _allowWeakTableRef)
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
