@@ -37,7 +37,7 @@
 {
 	foreach (value in vargv)
 	{
-		if (typeof value != "instance" || !(value instanceof _class))
+		if (!(value instanceof _class))
 		{
 			::logError(value + " must be an instance of the class: " + _class);
 			throw ::MSU.Exception.InvalidType(value);
