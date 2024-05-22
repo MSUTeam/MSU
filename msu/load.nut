@@ -12,5 +12,3 @@ includeLoad("hooks");
 includeLoad("msu_mod");
 includeLoad("vanilla_mod");
 includeLoad("test");
-
-delete ::MSU.HooksHelper;

@@ -33,6 +33,7 @@
 	}
 	::MSU.QueueBucket.FirstWorldInit.clear();
 	delete ::MSU.QueueBucket;
+	delete ::MSU.HooksHelper;
 }, ::Hooks.QueueBucket.FirstWorldInit);
 
 ::MSU.QueueBucket.FirstWorldInit.push(function() {
