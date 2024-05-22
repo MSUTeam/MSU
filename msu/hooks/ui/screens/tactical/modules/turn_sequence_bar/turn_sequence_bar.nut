@@ -32,6 +32,15 @@
 
 	q.setActiveEntityCostsPreview = @(__original) function( _costsPreview )
 	{
+		// The original function also updates the UI, but we don't want to do that yet,
+		// we want to do that after our skill container affordability event has run.
+		// If we don't switcheroo to disable it here, then we'd need to manually call `updateCostsPreview`
+		// on the JSHandle at the end again, and this can lead to slightly glitchy UI animation due to double updating.
+		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
+		this.m.JSHandle = this.m.MSU_JSHandle;
+		__original(_costsPreview);
+		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
+
 		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue())
 		{
 			local activeEntity = this.getActiveEntity();
@@ -52,10 +61,6 @@
 			}
 		}
 
-		this.m.MSU_JSHandle.__JSHandle = this.m.JSHandle;
-		this.m.JSHandle = this.m.MSU_JSHandle;
-		__original(_costsPreview);
-		this.m.JSHandle = this.m.MSU_JSHandle.__JSHandle;
 		this.m.JSHandle.asyncCall("updateCostsPreview", this.m.ActiveEntityCostsPreview);
 	}
 
