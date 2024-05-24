@@ -15,6 +15,12 @@
 			this.setPreviewActionPoints(_a);
 	}
 
+	q.setDirty = @(__original) function( _value )
+	{
+		if (this.m.MSU_PreviewSkill == null && this.m.MSU_PreviewMovement == null)
+			__original(_value);
+	}
+
 	q.onMovementStart = @(__original) function ( _tile, _numTiles )
 	{
 		__original(_tile, _numTiles);
