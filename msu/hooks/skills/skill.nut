@@ -561,6 +561,9 @@
 			local preview = ::Tactical.TurnSequenceBar.m.ActiveEntityCostsPreview;
 			if (preview != null && preview.id == this.getContainer().getActor().getID())
 			{
+				local previewFatigue = this.getContainer().getActor().getPreviewFatigue();
+				local previewAP = this.getContainer().getActor().getPreviewActionPoints();
+
 				this.getContainer().update(); // During this update actor.isPreviewing() is true
 				this.getContainer().m.MSU_IsApplyingPreview = true;
 				local ret = __original();
@@ -568,6 +571,10 @@
 				this.getContainer().getActor().m.MSU_IsPreviewing = false;
 				this.getContainer().update(); // Do a normal update i.e. where actor.isPreviewing() is false
 				this.getContainer().getActor().m.MSU_IsPreviewing = true;
+
+				this.getContainer().getActor().setPreviewFatigue(previewFatigue);
+				this.getContainer().getActor().setPreviewActionPoints(previewAP);
+
 				local skillID = this.getContainer().getActor().getPreviewSkillID();
 				local str = " after " + (skillID == "" ? "moving" : "using " + this.getContainer().getSkillByID(skillID).getName());
 				ret = ::MSU.String.replace(ret, "Fatigue[/color]", "Fatigue[/color]" + str);

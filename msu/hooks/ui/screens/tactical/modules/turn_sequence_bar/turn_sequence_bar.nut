@@ -56,6 +56,9 @@
 		else
 			skill = activeEntity.getSkills().getSkillByID(skillID);
 
+		local previewFatigue = activeEntity.getPreviewFatigue();
+		local previewAP = activeEntity.getPreviewActionPoints();
+
 		activeEntity.m.MSU_IsPreviewing = true;
 		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End);
 		activeEntity.m.MSU_PreviewSkill = skill;
@@ -68,6 +71,9 @@
 		activeEntity.m.MSU_IsPreviewing = false;
 		activeEntity.getSkills().update(); // Do a normal update i.e. where actor.isPreviewing() is false
 		activeEntity.m.MSU_IsPreviewing = true;
+
+		activeEntity.setPreviewFatigue(previewFatigue);
+		activeEntity.setPreviewActionPoints(previewAP);
 	}
 
 	q.resetActiveEntityCostsPreview = @(__original) function()
