@@ -1,7 +1,7 @@
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- [];
-	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
+	q.m.MSU_IsApplyingPreview <- false;
 
 	q.update = @(__original) function()
 	{
@@ -223,106 +223,13 @@
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.m.PreviewProperty.clear();
+
 		foreach (skill in this.m.Skills)
 		{
 			skill.m.PreviewField.clear();
+			if (!skill.isGarbage())
+				skill.onAffordablePreview(_skill, _movementTile);
 		}
-
-		this.callSkillsFunction("onAffordablePreview", [
-			_skill,
-			_movementTile,
-		], false);
-
-		if (::MSU.Skills.QueuedPreviewChanges.len() == 0) return;
-
-		local propertiesClone = this.getActor().getBaseProperties().getClone();
-
-		local getChange = function( _function )
-		{
-			local skills = _function == "executeScheduledChanges" ? this.m.ScheduledChangesSkills : this.m.Skills;
-			foreach (skill in skills)
-			{
-				if (!skill.isGarbage())
-				{
-					foreach (caller, changes in ::MSU.Skills.QueuedPreviewChanges)
-					{
-						if (caller == skill)
-						{
-							foreach (change in changes)
-							{
-								local target = change.TargetSkill != null ? change.TargetSkill.m : propertiesClone;
-								change.ValueBefore = target[change.Field];
-							}
-						}
-					}
-
-					if (_function == "executeScheduledChanges") skill[_function]();
-					else skill[_function](propertiesClone);
-
-					foreach (caller, changes in ::MSU.Skills.QueuedPreviewChanges)
-					{
-						if (caller == skill)
-						{
-							foreach (change in changes)
-							{
-								if (typeof change.NewChange == "bool") continue;
-
-								local target = change.TargetSkill != null ? change.TargetSkill.m : propertiesClone;
-								if (target[change.Field] == change.ValueBefore) continue;
-
-								if (change.Multiplicative) change.CurrChange *= target[change.Field] / change.ValueBefore;
-								else change.CurrChange += target[change.Field] - change.ValueBefore;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		foreach (skill in this.m.Skills)
-		{
-			skill.softReset();
-		}
-
-		getChange("onUpdate");
-		getChange("onAfterUpdate");
-		getChange("executeScheduledChanges");
-
-		foreach (changes in ::MSU.Skills.QueuedPreviewChanges)
-		{
-			foreach (change in changes)
-			{
-				local target;
-				local previewTable;
-				if (change.TargetSkill != null)
-				{
-					target = change.TargetSkill.m;
-					previewTable = change.TargetSkill.m.PreviewField;
-				}
-				else
-				{
-					target = this.getActor().getCurrentProperties();
-					previewTable = this.m.PreviewProperty;
-				}
-
-				if (!(change.Field in previewTable)) previewTable[change.Field] <- { Change = change.Multiplicative ? 1 : 0, Multiplicative = change.Multiplicative };
-
-				if (change.Multiplicative)
-				{
-					previewTable[change.Field].Change *= change.NewChange / (change.CurrChange == 0 ? 1 : change.CurrChange);
-				}
-				else if (typeof change.NewChange == "bool")
-				{
-					previewTable[change.Field].Change = change.NewChange;
-				}
-				else
-				{
-					previewTable[change.Field].Change += change.NewChange - change.CurrChange;
-				}
-			}
-		}
-
-		::MSU.Skills.QueuedPreviewChanges.clear();
 	}
 
 	//Vanilla Overwrites start
@@ -383,13 +290,13 @@
 
 	q.onTurnEnd = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunctionWhenAlive("onTurnEnd");
 	}
 
 	q.onWaitTurn = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunctionWhenAlive("onWaitTurn");
 	}
 
@@ -486,7 +393,7 @@
 
 	q.onCombatFinished = @() function()
 	{
-		this.m.IsPreviewing = false;
+		this.getActor().resetPreview();
 		this.callSkillsFunction("onCombatFinished");
 	}
 
