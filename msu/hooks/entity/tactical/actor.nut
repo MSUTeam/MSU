@@ -15,6 +15,13 @@
 			this.setPreviewActionPoints(_a);
 	}
 
+	q.setFatigue = @() function( _f )
+	{
+		this.m.Fatigue = ::Math.max(0, ::Math.round(_f));
+		if (!this.isPreviewing())
+			this.setPreviewFatigue(_f);
+	}
+
 	q.setDirty = @(__original) function( _value )
 	{
 		if (this.m.MSU_PreviewSkill == null && this.m.MSU_PreviewMovement == null)
