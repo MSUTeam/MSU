@@ -68,6 +68,9 @@
 				ret.deserialize(_in);
 				return ret;
 
+			case this.DataType.Null:
+				return ::MSU.Class.PrimitiveData(this.DataType.Null, null);
+
 			default:
 				::logError("Attempted to deserialize unknown type");
 				throw ::MSU.Exception.InvalidValue(_type);
