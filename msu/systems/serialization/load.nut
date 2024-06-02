@@ -16,11 +16,9 @@ includeFile("serialization_mod_addon.nut");
 
 ::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization/serialization_types"));
 
-::MSU.UI.addOnConnectCallback(function()
-{
+::MSU.QueueBucket.AfterHooks.push(function() {
 	local worldState = ::new("scripts/states/world_state");
 	local serEm = ::MSU.Class.FlagSerializationEmulator(::MSU.ID, "WorldStateOnBeforeSerialize", ::new("scripts/tools/tag_collection"), ::MSU.Class.MetaDataEmulator());
-	::MSU.System.Serialization.MetaData = serEm.getMetaData();
 	::World.Assets <- {
 		getName = @() "msuDummy",
 		getBanner = @() "msuDummy",

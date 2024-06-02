@@ -189,7 +189,6 @@
 
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
-		::MSU.System.Serialization.MetaData = _out.getMetaData();
 		__original(_out);
 
 		local meta = _out.getMetaData();
@@ -205,7 +204,6 @@
 
 	q.onBeforeDeserialize = @(__original) function( _in )
 	{
-		::MSU.System.Serialization.DeserializeMetaData = _in.getMetaData();
 		__original(_in);
 
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
@@ -339,9 +337,22 @@
 	::MSU.MH.hook("scripts/states/world_state", function(q) {
 		q.onBeforeSerialize = @(__original) function( _out )
 		{
+		::MSU.System.Serialization.SerializationMetaData = _out.getMetaData();
 			::MSU.System.Serialization.MidOnBeforeSerialize = true;
 			__original(_out);
 			::MSU.System.Serialization.MidOnBeforeSerialize = false;
+		}
+
+		q.onBeforeDeserialize = @(__original) function( _in )
+		{
+			::MSU.System.Serialization.DeSerializationMetaData = _in.getMetaData();
+			__original(_in);
+		}
+
+		q.onDeserialize = @(__original) function( _out )
+		{
+			__original(_out);
+			::MSU.System.Serialization.DeSerializationMetaData = null;
 		}
 	});
 });

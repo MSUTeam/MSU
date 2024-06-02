@@ -3,8 +3,8 @@
 	Mods = null;
 	EmulatorsToClear = null;
 	MidOnBeforeSerialize = false;
-	MetaData = null;
-	DeserializeMetaData = null;
+	SerializationMetaData = null;
+	DeserializationMetaData = null;
 
 	constructor()
 	{
