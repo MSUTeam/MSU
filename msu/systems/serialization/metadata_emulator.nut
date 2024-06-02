@@ -16,7 +16,7 @@
 	}
 
 	// this would ideally be an alternative static constructor
-	function __init(__realMeta)
+	function setRealMeta( __realMeta )
 	{
 		this.Version = null;
 		this.RealMeta = __realMeta;

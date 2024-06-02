@@ -1,11 +1,14 @@
 ::MSU.Class.SerializationData <- class extends ::MSU.Class.ArrayData
 {
+	__MetaData = null;
+
 	constructor( _data = null )
 	{
 		if (_data == null)
 			_data = [];
 		base.constructor(_data);
 		this.__Type = ::MSU.Serialization.DataType.SerializationData;
+		this.__MetaData = ::MSU.Class.MetaDataEmulator();
 	}
 
 	function getData()
@@ -30,13 +33,26 @@
 		this.__DataArray.push(::MSU.Serialization.__convertValueFromGivenType(_element, _type));
 	}
 
+	function serialize( _out )
+	{
+		base.serialize(_out);
+		this.__MetaData.serialize(_out);
+	}
+
+	function deserialize( _in )
+	{
+		base.deserialize(_in);
+		this.__MetaData.deserialize(_in);
+	}
+
 	function getSerializationEmulator()
 	{
-		return ::MSU.Class.SerializationEmulator(::MSU.Class.MetaDataEmulator(), this);
+		this.__MetaData.setRealMeta(::MSU.System.Serialization.SerializationMetaData);
+		return ::MSU.Class.SerializationEmulator(this.__MetaData, this);
 	}
 
 	function getDeserializationEmulator()
 	{
-		return ::MSU.Class.DeserializationEmulator(::MSU.Class.MetaDataEmulator(), this);
+		return ::MSU.Class.DeserializationEmulator(this.__MetaData, this);
 	}
 }
