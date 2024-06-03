@@ -41,6 +41,7 @@
 
 	function deserialize( _in )
 	{
+		this.__MetaData = ::MSU.Class.MetaDataEmulator();
 		base.deserialize(_in);
 		this.__MetaData.deserialize(_in);
 	}
