@@ -135,10 +135,10 @@
 	{
 		case "table":
 			ret = {};
+			if (_object.getdelegate() != null)
+				ret.setdelegate(::MSU.deepClone(_object.getdelegate()));
 			foreach (key, value in _object)
-			{
 				ret[key] <- ::MSU.deepClone(value);
-			}
 			return ret;
 		case "array":
 			return _object.map(@(_o) ::MSU.deepClone(_o));
