@@ -48,7 +48,7 @@
 		if (!inEmulator.loadDataFromFlagContainer())
 			return _defaultValue;
 
-		if (!::MSU.Mod.Serialization.isSavedVersionAtLeast("1.3.0", inEmulator.getMetaData()))
+		if (!::MSU.Mod.Serialization.isSavedVersionAtLeast("1.3.0-a", inEmulator.getMetaData()))
 			return _object == null ? ::MSU.Utils.deserialize(inEmulator) : ::MSU.Utils.deserializeInto(_object, inEmulator);
 
 		return _object == null ? ::MSU.Serialization.deserialize(inEmulator) : ::MSU.Serialization.deserializeInto(_object, inEmulator);
