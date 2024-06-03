@@ -5,7 +5,9 @@
 	{
 		if (_metaDataEmulator == null)
 			_metaDataEmulator = ::MSU.System.Serialization.DeserializationMetaData;
-		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator == null ? ::MSU.System.Serialization.SerializationMetaData);
+		if (_metaDataEmulator == null)
+			_metaDataEmulator = ::MSU.System.Serialization.SerializationMetaData;
+		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator);
 	}
 
 	function loadDataFromFlagContainer()
