@@ -141,11 +141,7 @@
 			}
 			return ret;
 		case "array":
-			ret = array(_object.len());
-			foreach (idx, value in _object)
-			{
-				ret[idx] = ::MSU.deepClone(value);
-			}
+			return _object.map(@(_o) ::MSU.deepClone(_o));
 		case "instance":
 			return clone _object;
 		default:
