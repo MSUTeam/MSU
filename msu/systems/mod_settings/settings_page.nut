@@ -181,6 +181,7 @@
 		{
 			ret += " " + setting;
 		}
+		return ret;
 	}
 
 	function _tostring()
