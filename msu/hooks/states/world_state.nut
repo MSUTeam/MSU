@@ -345,14 +345,14 @@
 
 		q.onBeforeDeserialize = @(__original) function( _in )
 		{
-			::MSU.System.Serialization.DeSerializationMetaData = _in.getMetaData();
+			::MSU.System.Serialization.DeserializationMetaData = _in.getMetaData();
 			__original(_in);
 		}
 
 		q.onDeserialize = @(__original) function( _out )
 		{
 			__original(_out);
-			::MSU.System.Serialization.DeSerializationMetaData = null;
+			::MSU.System.Serialization.DeserializationMetaData = null;
 		}
 	});
 });
