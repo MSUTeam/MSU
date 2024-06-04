@@ -35,6 +35,7 @@
 
 	function serialize( _out )
 	{
+		this.__MetaData.setRealMeta(::MSU.System.Serialization.SerializationMetaData);
 		base.serialize(_out);
 		this.__MetaData.serialize(_out);
 	}
