@@ -182,7 +182,9 @@
 		serEmu.MetaData = dummyMeta;
 
 		local cleanupDummyAssets = this.__setUpDummyAssetsAndReturnCleanup()
+		local serializationMetaData = ::MSU.System.Serialization.SerializationMetaData;
 		dummyWorld.onBeforeSerialize(serEmu);
+		::MSU.System.Serialization.SerializationMetaData = serializationMetaData;
 		cleanupDummyAssets();
 
 		local data = clone this.Data;
