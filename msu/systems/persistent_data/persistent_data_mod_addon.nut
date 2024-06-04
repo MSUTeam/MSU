@@ -17,34 +17,34 @@
 	}
 
 	// MSU 1.3.0
-	function prefixFileName( _fileName )
+	function __prefixFileName( _fileName )
 	{
 		return format("%s%s#%s", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID(), _fileName);
 	}
 
 	function createFile( _fileName, _data )
 	{
-		::MSU.System.PersistentData.createFile(this.prefixFileName(_fileName), ::MSU.Serialization.Class.ArrayData([_data]));
+		::MSU.System.PersistentData.createFile(this.__prefixFileName(_fileName), ::MSU.Serialization.Class.ArrayData([_data]));
 	}
 
 	function hasFile( _fileName )
 	{
-		return ::MSU.System.PersistentData.hasFile(this.prefixFileName(_fileName));
+		return ::MSU.System.PersistentData.hasFile(this.__prefixFileName(_fileName));
 	}
 
 	function getFiles()
 	{
 		local prefix = ::MSU.System.PersistentData.FilePrefix + this.Mod.getID();
-		return ::PersistenceManager.queryStorages().filter(@(_i, _v) ::MSU.String.startsWith(_v.getFileName(), prefix))
+		return ::PersistenceManager.queryStorages().filter(@(_, _v) ::MSU.String.startsWith(_v.getFileName(), prefix))
 	}
 
 	function deleteFile( _fileName )
 	{
-		::PersistenceManager.deleteStorage(this.prefixFileName(_fileName));
+		::PersistenceManager.deleteStorage(this.__prefixFileName(_fileName));
 	}
 
 	function readFile( _fileName )
 	{
-		return ::MSU.System.PersistentData.readFile(this.prefixFileName(_fileName)).getData()[0];
+		return ::MSU.System.PersistentData.readFile(this.__prefixFileName(_fileName)).getData()[0];
 	}
 }

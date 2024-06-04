@@ -3,7 +3,7 @@
 {
 	Version = null;
 	Data = null;
-	RealMeta = null;
+	RealMetaData = null;
 	Name = null;
 	ModificationDate = null;
 	CreationDate = null;
@@ -16,10 +16,10 @@
 	}
 
 	// this would ideally be an alternative static constructor
-	function setRealMeta( __realMeta )
+	function setRealMetaData( _realMetaData )
 	{
 		this.Version = null;
-		this.RealMeta = __realMeta;
+		this.RealMetaData = _realMetaData;
 	}
 
 	function setVersion( _version )
@@ -39,9 +39,9 @@
 
 	function getInt( _key )
 	{
-		if (_key in this.Data || this.RealMeta == null)
+		if (_key in this.Data || this.RealMetaData == null)
 			return this.__getValue(_key);
-		return this.RealMeta.getInt(_key);
+		return this.RealMetaData.getInt(_key);
 	}
 
 	function setInt( _key, _value)
@@ -52,9 +52,9 @@
 
 	function getFloat( _key )
 	{
-		if (_key in this.Data || this.RealMeta == null)
+		if (_key in this.Data || this.RealMetaData == null)
 			return this.__getValue(_key);
-		return this.RealMeta.getFloat(_key);
+		return this.RealMetaData.getFloat(_key);
 	}
 
 	function setFloat( _key, _value )
@@ -65,9 +65,9 @@
 
 	function getString( _key )
 	{
-		if (_key in this.Data || this.RealMeta == null)
+		if (_key in this.Data || this.RealMetaData == null)
 			return this.__getValue(_key);
-		return this.RealMeta.getString(_key);
+		return this.RealMetaData.getString(_key);
 	}
 
 	function setString( _key, _value )
@@ -83,49 +83,49 @@
 
 	function hasData( _key )
 	{
-		// not sure if RealMeta hasData should be checked here
+		// not sure if RealMetaData hasData should be checked here
 		// this could cause problems if something sets a key in metadata
-		// and doesn't set it if it already exists in RealMeta
+		// and doesn't set it if it already exists in RealMetaData
 		// because we would then not know that we need to serialize that key
 		// the problem I have right now is with types
-		// we don't know the type of the value in RealMeta
+		// we don't know the type of the value in RealMetaData
 		// so we don't know which get<XYZ> to use
-		return this.__hasDataRaw(_key) || this.RealMeta.hasData(_key);
+		return this.__hasDataRaw(_key) || this.RealMetaData.hasData(_key);
 	}
 
 	function getName()
 	{
-		if (this.RealMeta == null || this.RealMeta.getName() == null)
+		if (this.RealMetaData == null || this.RealMetaData.getName() == null)
 			return this.Name;
-		return this.RealMeta.getName();
+		return this.RealMetaData.getName();
 	}
 
 	function getVersion()
 	{
-		if (this.RealMeta == null || this.RealMeta.getVersion() == null)
+		if (this.RealMetaData == null || this.RealMetaData.getVersion() == null)
 			return this.Version;
-		return this.RealMeta.getVersion();
+		return this.RealMetaData.getVersion();
 	}
 
 	function getModificationDate()
 	{
-		if (this.RealMeta == null || this.RealMeta.getModificationDate() == null)
+		if (this.RealMetaData == null || this.RealMetaData.getModificationDate() == null)
 			return this.ModificationDate;
-		return this.RealMeta.getModificationDate();
+		return this.RealMetaData.getModificationDate();
 	}
 
 	function getCreationDate()
 	{
-		if (this.RealMeta == null || this.RealMeta.getCreationDate() == null)
+		if (this.RealMetaData == null || this.RealMetaData.getCreationDate() == null)
 			return this.CreationDate;
-		return this.RealMeta.getCreationDate();
+		return this.RealMetaData.getCreationDate();
 	}
 
 	function getFileName()
 	{
-		if (this.RealMeta == null || this.RealMeta.getFileName() == null)
+		if (this.RealMetaData == null || this.RealMetaData.getFileName() == null)
 			return this.FileName;
-		return this.RealMeta.getFileName();
+		return this.RealMetaData.getFileName();
 	}
 
 	function __setUpDummyAssetsAndReturnCleanup()
@@ -150,30 +150,30 @@
 
 	function serialize( _out )
 	{
-		if (::MSU.System.Serialization.MidOnBeforeSerialize)
+		if (::MSU.System.Serialization.IsDuringOnBeforeSerialize)
 		{
-			throw "Can't serialize metadata during onBeforeSerialize!";
+			throw "attempting to serialize metadata during world_state.onBeforeSerialize";
 		}
-		local realMeta = this.RealMeta;
+		local realMetaData = this.RealMetaData;
 		local knownValues = {};
 		local dummyMeta = {
 			function setInt(_key, _value) {
 				knownValues[_key] <- ::MSU.Serialization.DataType.I32;
-				realMeta.setInt(_key, _value);
+				realMetaData.setInt(_key, _value);
 			}
 			function setFloat(_key, _value) {
 				knownValues[_key] <- ::MSU.Serialization.DataType.F32;
-				realMeta.setFloat(_key, _value);
+				realMetaData.setFloat(_key, _value);
 			}
 			function setString(_key, _value) {
 				knownValues[_key] <- ::MSU.Serialization.DataType.String;
-				realMeta.setString(_key, _value);
+				realMetaData.setString(_key, _value);
 			}
 		};
 		dummyMeta.setdelegate({
 			function _get(_key) {
 				// I hate this bindenv but scope gets messed up otherwise
-				return realMeta[_key].bindenv(realMeta);
+				return realMetaData[_key].bindenv(realMetaData);
 			}
 		})
 		local dummyWorld = ::new("scripts/states/world_state");
@@ -229,7 +229,7 @@
 		this.ModificationDate = _original.ModificationDate;
 		this.CreationDate = _original.CreationDate;
 		this.FileName = _original.FileName;
-		this.RealMeta = _original.RealMeta;
+		this.RealMetaData = _original.RealMetaData;
 		this.Data = clone _original.Data;
 	}
 }

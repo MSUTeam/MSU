@@ -30,6 +30,5 @@ includeFile("serialization_mod_addon.nut");
 		_get = @(_k)@(...)""
 	});
 	worldState.onBeforeSerialize(serEm);
-	::MSU.System.Serialization.SerializationMetaData = serEm.getMetaData();
 	delete ::World.Assets;
 });

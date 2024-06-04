@@ -4,7 +4,7 @@
 	Mods = null;
 	ModConfigPath = "mod_config/";
 	Separator = "@"
-	FileNameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$")
+	FileNameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$");
 
 	constructor()
 	{

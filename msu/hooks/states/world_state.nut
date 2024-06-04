@@ -190,7 +190,6 @@
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
 		__original(_out);
-
 		local meta = _out.getMetaData();
 		local modIDsString = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
@@ -338,9 +337,9 @@
 		q.onBeforeSerialize = @(__original) function( _out )
 		{
 			::MSU.System.Serialization.SerializationMetaData = _out.getMetaData();
-			::MSU.System.Serialization.MidOnBeforeSerialize = true;
+			::MSU.System.Serialization.IsDuringOnBeforeSerialize = true;
 			__original(_out);
-			::MSU.System.Serialization.MidOnBeforeSerialize = false;
+			::MSU.System.Serialization.IsDuringOnBeforeSerialize = false;
 		}
 
 		q.onBeforeDeserialize = @(__original) function( _in )

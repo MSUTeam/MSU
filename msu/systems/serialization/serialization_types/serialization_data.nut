@@ -35,7 +35,7 @@
 
 	function serialize( _out )
 	{
-		this.__MetaData.setRealMeta(::MSU.System.Serialization.SerializationMetaData);
+		this.__MetaData.setRealMetaData(::MSU.System.Serialization.SerializationMetaData);
 		base.serialize(_out);
 		this.__MetaData.serialize(_out);
 	}
@@ -49,7 +49,7 @@
 
 	function getSerializationEmulator()
 	{
-		this.__MetaData.setRealMeta(::MSU.System.Serialization.SerializationMetaData);
+		this.__MetaData.setRealMetaData(::MSU.System.Serialization.SerializationMetaData);
 		return ::MSU.Class.SerializationEmulator(this.__MetaData, this);
 	}
 

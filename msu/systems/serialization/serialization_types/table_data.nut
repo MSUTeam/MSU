@@ -1,7 +1,5 @@
 ::MSU.Serialization.Class.TableData <- class extends ::MSU.Serialization.Class.ArrayData
 {
-	__DataArray = null;
-
 	constructor( _data )
 	{
 		::MSU.requireTable(_data);

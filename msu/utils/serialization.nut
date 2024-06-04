@@ -141,6 +141,7 @@
 			case this.DataType.U8: case this.DataType.U16: case this.DataType.U32:
 			case this.DataType.I8: case this.DataType.I16: case this.DataType.I32:
 			case this.DataType.F32: case this.DataType.Bool: case this.DataType.String:
+			case this.DataType.Null:
 				return ::MSU.Serialization.Class.PrimitiveData(_type, _value);
 
 			case this.DataType.Table:
