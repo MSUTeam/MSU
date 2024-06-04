@@ -3,6 +3,11 @@
 {
 	IsIncremental = false;
 
+	constructor( _mod, _id, _flagContainer, _metaDataEmulator = null )
+	{
+		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator != null ? _metaDataEmulator : ::MSU.System.Serialization.SerializationMetaData);
+	}
+
 	function setIncremental( _bool )
 	{
 		this.IsIncremental = _bool;

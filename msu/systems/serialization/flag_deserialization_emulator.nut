@@ -1,6 +1,13 @@
 // enulates the _in object passed to onDeserialize functions
 ::MSU.Class.FlagDeserializationEmulator <- class extends ::MSU.Class.FlagSerDeEmulator
 {
+	constructor( _mod, _id, _flagContainer, _metaDataEmulator = null )
+	{
+		if (_metaDataEmulator == null)
+			_metaDataEmulator = ::MSU.System.Serialization.DeserializationMetaData;
+		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator == null ? ::MSU.System.Serialization.SerializationMetaData);
+	}
+
 	function loadDataFromFlagContainer()
 	{
 		local startString = this.getEmulatorString();
