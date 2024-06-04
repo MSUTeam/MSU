@@ -1,4 +1,4 @@
-::MSU.Class.AbstractData <- class
+::MSU.Serialization.Class.AbstractData <- class
 {
 	__Type = null;
 	__Data = null;

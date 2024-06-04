@@ -128,14 +128,14 @@
 			this.resetData();
 		else
 		{
-			::MSU.requireInstanceOf(::MSU.Class.SerializationData, _serializationData);
+			::MSU.requireInstanceOf(::MSU.Serialization.Class.SerializationData, _serializationData);
 			this.SerializationData = _serializationData;
 		}
 	}
 
 	function resetData()
 	{
-		this.SerializationData = ::MSU.Class.SerializationData();
+		this.SerializationData = ::MSU.Serialization.Class.SerializationData();
 	}
 
 	function getData()

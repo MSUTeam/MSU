@@ -1,4 +1,4 @@
-::MSU.Class.SerializationData <- class extends ::MSU.Class.ArrayData
+::MSU.Serialization.Class.SerializationData <- class extends ::MSU.Serialization.Class.ArrayData
 {
 	__MetaData = null;
 

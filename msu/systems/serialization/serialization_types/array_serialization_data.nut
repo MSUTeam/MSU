@@ -1,4 +1,4 @@
-::MSU.Class.ArrayData <- class extends ::MSU.Class.AbstractData
+::MSU.Serialization.Class.ArrayData <- class extends ::MSU.Serialization.Class.AbstractData
 {
 	__DataArray = null;
 

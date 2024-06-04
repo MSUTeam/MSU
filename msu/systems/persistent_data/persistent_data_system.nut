@@ -113,7 +113,7 @@
 
 	function createFile( _fileName, _dataArray )
 	{
-		::MSU.requireInstanceOf(::MSU.Class.ArrayData, _dataArray);
+		::MSU.requireInstanceOf(::MSU.Serialization.Class.ArrayData, _dataArray);
 		this.validateFileName(_fileName);
 		local storage = ::PersistenceManager.createStorage(_fileName);
 		storage.beginWrite();
