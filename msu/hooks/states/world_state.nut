@@ -337,7 +337,7 @@
 	::MSU.MH.hook("scripts/states/world_state", function(q) {
 		q.onBeforeSerialize = @(__original) function( _out )
 		{
-		::MSU.System.Serialization.SerializationMetaData = _out.getMetaData();
+			::MSU.System.Serialization.SerializationMetaData = _out.getMetaData();
 			::MSU.System.Serialization.MidOnBeforeSerialize = true;
 			__original(_out);
 			::MSU.System.Serialization.MidOnBeforeSerialize = false;
