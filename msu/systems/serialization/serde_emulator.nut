@@ -1,45 +1,171 @@
 // Base for the Serialization and Deserialization Emulators
 ::MSU.Class.SerDeEmulator <- class
 {
-	static __IDRegex = regexp("^.*\\.\\d+$")
-	Data = null;
-	Mod = null;
-	ID = null;
 	MetaData = null;
-	FlagContainer = null;
+	SerializationData = null;
 
-	constructor(_mod, _id, _flagContainer, _metaDataEmulator = null)
-	{
-		if (_metaDataEmulator == null) _metaDataEmulator = clone ::MSU.System.Serialization.MetaData;
-		if (this.__IDRegex.match(_id))
+	// Used to populate SerializationEmulator and FlagSerializationEmulator classes after their creation to emulate multiple inheritance
+	static __ReadFields = {
+		Idx = -1,
+
+		function readString()
 		{
-			::logError("the ID passed to flag serialization cannot end with a full stop followed by digits so it doesn't collide with internal MSU flags");
-			throw ::MSU.Exception.InvalidValue(_id);
+			return this.__readData(::MSU.Serialization.DataType.String);
 		}
-		this.Data = [];
-		this.Mod = _mod;
-		this.ID = _id;
-		this.FlagContainer = _flagContainer;
+
+		function readBool()
+		{
+			return this.__readData(::MSU.Serialization.DataType.Bool);
+		}
+
+		function readI32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I32);
+		}
+
+		function readU32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U32);
+		}
+
+		function readI16()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I16);
+		}
+
+		function readU16()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U16);
+		}
+
+		function readI8()
+		{
+			return this.__readData(::MSU.Serialization.DataType.I8);
+		}
+
+		function readU8()
+		{
+			return this.__readData(::MSU.Serialization.DataType.U8);
+		}
+
+		function readF32()
+		{
+			return this.__readData(::MSU.Serialization.DataType.F32);
+		}
+	};
+
+	// Used to populate DeserializationEmulator and FlagDeserializationEmulator classes after their creation to emulate multiple inheritance
+	static __WriteFields = {
+		function writeString( _string )
+		{
+			::MSU.requireString(_string);
+			this.__writeData(_string, ::MSU.Serialization.DataType.String);
+		}
+
+		function writeBool( _bool )
+		{
+			::MSU.requireBool(_bool);
+			this.__writeData(_bool, ::MSU.Serialization.DataType.Bool);
+		}
+
+		function writeI32( _int )
+		{
+			::MSU.requireInt(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I32);
+		}
+
+		function writeU32( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U32);
+		}
+
+		function writeI16( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < -32768 || _int > 32767)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I16);
+		}
+
+		function writeU16( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0 || _int > 65535)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U16);
+		}
+
+		function writeI8( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < -128 || _int > 127)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.I8);
+		}
+
+		function writeU8( _int )
+		{
+			::MSU.requireInt(_int);
+			if (_int < 0 || _int > 255)
+				throw ::MSU.Exception.InvalidValue(_int);
+			this.__writeData(_int, ::MSU.Serialization.DataType.U8);
+		}
+
+		function writeF32( _float )
+		{
+			::MSU.requireOneFromTypes(["float", "integer"], _float);
+			this.__writeData(_float, ::MSU.Serialization.DataType.F32);
+		}
+	};
+
+	constructor( _metaDataEmulator, _serializationData = null )
+	{
 		this.MetaData = _metaDataEmulator;
-	}
-
-	function getEmulatorString()
-	{
-		return format("MSU.%s.%s", this.Mod.getID(), this.ID);
-	}
-
-	function clearFlags()
-	{
-		local startString = this.getEmulatorString();
-		this.FlagContainer.remove(startString);
-		for (local i = 0; i < this.Data.len(); ++i)
+		if (_serializationData == null)
+			this.resetData();
+		else
 		{
-			this.FlagContainer.remove(startString + "." + i);
+			::MSU.requireInstanceOf(::MSU.Serialization.Class.SerializationData, _serializationData);
+			this.SerializationData = _serializationData;
 		}
+	}
+
+	function resetData()
+	{
+		this.SerializationData = ::MSU.Serialization.Class.SerializationData();
+	}
+
+	function getData()
+	{
+		return this.SerializationData;
 	}
 
 	function getMetaData()
 	{
 		return this.MetaData;
+	}
+
+	function __writeData( _data, _type )
+	{
+		this.SerializationData.write(_data, _type);
+	}
+
+	function __readData( _type )
+	{
+		if (this.SerializationData.len() <= ++this.Idx)
+		{
+			::logError(format("Tried to read data beyond (%i) the length (%i) of the Deserialization Emulator", this.Idx, this.SerializationData.len()));
+			return null;
+		}
+		local data = this.SerializationData.getDataArray()[this.Idx];
+		if (!data.isTypeValid(_type))
+		{
+			local stackinfos = ::getstackinfos(2);
+			::logError(format("The type being read %s isn't the same as the type %s (with value: %s) stored in the Deserialization Emulator (%s -> %s : %i)", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType()), data.getData() + "", stackinfos.func == "unknown" ? "" : stackinfos.func, stackinfos.src, stackinfos.line));
+		}
+		return data.getData();
 	}
 }
