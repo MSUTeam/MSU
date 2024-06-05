@@ -3,9 +3,9 @@
 {
 	constructor( _mod, _id, _flagContainer, _metaDataEmulator = null )
 	{
-		if (_metaDataEmulator == null)
+		if (_metaDataEmulator == null) // first check if we are currently deserializing
 			_metaDataEmulator = ::MSU.System.Serialization.DeserializationMetaData;
-		if (_metaDataEmulator == null)
+		if (_metaDataEmulator == null) // if we are not, we default to the serialization meta data
 			_metaDataEmulator = ::MSU.System.Serialization.SerializationMetaData;
 		base.constructor(_mod, _id, _flagContainer, _metaDataEmulator);
 	}
