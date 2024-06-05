@@ -127,3 +127,24 @@
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
 }
+
+::MSU.deepClone <- function( _object )
+{
+	local ret;
+	switch (typeof _object)
+	{
+		case "table":
+			ret = {};
+			if (_object.getdelegate() != null)
+				ret.setdelegate(::MSU.deepClone(_object.getdelegate()));
+			foreach (key, value in _object)
+				ret[key] <- ::MSU.deepClone(value);
+			return ret;
+		case "array":
+			return _object.map(@(_o) ::MSU.deepClone(_o));
+		case "instance":
+			return clone _object;
+		default:
+			return _object;
+	}
+}
