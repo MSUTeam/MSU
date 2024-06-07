@@ -146,7 +146,10 @@
 
 	function importPersistentSettings()
 	{
-		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
+		foreach (panel in this.Panels)
+		{
+			panel.loadFromPersistentData();
+		}
 	}
 
 	function flagSerialize( _out )

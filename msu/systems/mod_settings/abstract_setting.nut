@@ -42,6 +42,11 @@
 		::MSU.System.PersistentData.writeToLog(_tag, this.getMod().getID(), [this.getID(), payload]);
 	}
 
+	function saveToPersistentData()
+	{
+		this.getPage().getPanel().saveToPersistentData();
+	}
+
 	function onBeforeChangeCallback( _newValue )
 	{
 		foreach (callback in this.BeforeChangeCallbacks)
@@ -105,6 +110,7 @@
 			if (_updatePersistence && this.Persistence)
 			{
 				this.printForParser();
+				this.saveToPersistentData();
 			}
 			if (_updateJS)
 			{
