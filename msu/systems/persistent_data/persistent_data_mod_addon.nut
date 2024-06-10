@@ -17,9 +17,14 @@
 	}
 
 	// MSU 1.3.0
+	function __getFilenamePrefix()
+	{
+		return format("%s%s#", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID());
+	}
+
 	function __prefixFileName( _fileName )
 	{
-		return format("%s%s#%s", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID(), _fileName);
+		return this.__getFilenamePrefix() +  _fileName;
 	}
 
 	function createFile( _fileName, _data )
@@ -34,8 +39,11 @@
 
 	function getFiles()
 	{
-		local prefix = ::MSU.System.PersistentData.FilePrefix + this.Mod.getID();
-		return ::PersistenceManager.queryStorages().filter(@(_, _v) ::MSU.String.startsWith(_v.getFileName(), prefix))
+		local prefix = this.__getFilenamePrefix();
+		return ::PersistenceManager.queryStorages()
+			.map(@(_s) _s.getFileName())
+			.filter(@(_, _n) ::MSU.String.startsWith(_n, prefix))
+			.map(@(_n) _n.slice(prefix.len()));
 	}
 
 	function deleteFile( _fileName )
