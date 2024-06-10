@@ -3,6 +3,7 @@
 	ID = "mod_msu",
 	Name = "Modding Standards & Utilities (MSU)",
 	Class = {},
+	VanillaID = "vanilla", // not public, but used by legends and therefore added back for backwards compatibility
 	BBClass = {
 		Empty = "scripts/mods/msu/empty_bb_class"
 	},
