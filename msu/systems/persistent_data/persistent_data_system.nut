@@ -4,7 +4,7 @@
 	Mods = null;
 	ModConfigPath = "mod_config/";
 	Separator = "@"
-	FileNameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$");
+	FilenameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$");
 
 	constructor()
 	{
@@ -111,42 +111,42 @@
 		::logInfo(result);
 	}
 
-	function createFile( _fileName, _dataArray )
+	function createFile( _filename, _dataArray )
 	{
 		::MSU.requireInstanceOf(::MSU.Serialization.Class.ArrayData, _dataArray);
-		this.validateFileName(_fileName);
-		local storage = ::PersistenceManager.createStorage(_fileName);
+		this.validateFilename(_filename);
+		local storage = ::PersistenceManager.createStorage(_filename);
 		storage.beginWrite();
 		_dataArray.serialize(storage);
 		storage.endWrite();
 	}
 
-	function validateFileName( _fileName )
+	function validateFilename( _filename )
 	{
-		if (!this.FileNameRegexp.match(_fileName))
+		if (!this.FilenameRegexp.match(_filename))
 		{
 			::logError("Battle Brothers file saves can only contain the characters 'a-zA-Z0-9_,-+# '");
-			throw ::MSU.Exception.InvalidValue(_fileName);
+			throw ::MSU.Exception.InvalidValue(_filename);
 		}
 	}
 
-	function hasFile( _fileName )
+	function hasFile( _filename )
 	{
 		local storages = ::PersistenceManager.queryStorages();
 		foreach (storage in storages)
-			if (storage.getFileName() == _fileName)
+			if (storage.getFilename() == _filename)
 				return true;
 		return false;
 	}
 
-	function readFile( _fileName )
+	function readFile( _filename )
 	{
-		if (!this.hasFile(_fileName))
+		if (!this.hasFile(_filename))
 		{
 			::logError("tried to read file that doesn't exist");
-			throw ::MSU.Exception.InvalidValue(_fileName);
+			throw ::MSU.Exception.InvalidValue(_filename);
 		}
-		local storage = ::PersistenceManager.loadStorage(_fileName);
+		local storage = ::PersistenceManager.loadStorage(_filename);
 		storage.beginRead();
 		local data = ::MSU.Serialization.__readValueFromStorage(storage.readU8(), storage);
 		storage.endRead();

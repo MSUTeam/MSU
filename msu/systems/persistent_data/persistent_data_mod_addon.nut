@@ -22,37 +22,37 @@
 		return format("%s%s#", ::MSU.System.PersistentData.FilePrefix, this.Mod.getID());
 	}
 
-	function __prefixFileName( _fileName )
+	function __prefixFilename( _filename )
 	{
-		return this.__getFilenamePrefix() +  _fileName;
+		return this.__getFilenamePrefix() +  _filename;
 	}
 
-	function createFile( _fileName, _data )
+	function createFile( _filename, _data )
 	{
-		::MSU.System.PersistentData.createFile(this.__prefixFileName(_fileName), ::MSU.Serialization.Class.ArrayData([_data]));
+		::MSU.System.PersistentData.createFile(this.__prefixFilename(_filename), ::MSU.Serialization.Class.ArrayData([_data]));
 	}
 
-	function hasFile( _fileName )
+	function hasFile( _filename )
 	{
-		return ::MSU.System.PersistentData.hasFile(this.__prefixFileName(_fileName));
+		return ::MSU.System.PersistentData.hasFile(this.__prefixFilename(_filename));
 	}
 
 	function getFiles()
 	{
 		local prefix = this.__getFilenamePrefix();
 		return ::PersistenceManager.queryStorages()
-			.map(@(_s) _s.getFileName())
+			.map(@(_s) _s.getFilename())
 			.filter(@(_, _n) ::MSU.String.startsWith(_n, prefix))
 			.map(@(_n) _n.slice(prefix.len()));
 	}
 
-	function deleteFile( _fileName )
+	function deleteFile( _filename )
 	{
-		::PersistenceManager.deleteStorage(this.__prefixFileName(_fileName));
+		::PersistenceManager.deleteStorage(this.__prefixFilename(_filename));
 	}
 
-	function readFile( _fileName )
+	function readFile( _filename )
 	{
-		return ::MSU.System.PersistentData.readFile(this.__prefixFileName(_fileName)).getData()[0];
+		return ::MSU.System.PersistentData.readFile(this.__prefixFilename(_filename)).getData()[0];
 	}
 }
