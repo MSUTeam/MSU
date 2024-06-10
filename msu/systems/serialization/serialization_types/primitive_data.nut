@@ -1,4 +1,4 @@
-::MSU.Serialization.Class.PrimitiveData <- class extends ::MSU.Serialization.Class.AbstractData
+::MSU.Class.PrimitiveData <- class extends ::MSU.Class.AbstractData
 {
 	constructor( _type, _data )
 	{

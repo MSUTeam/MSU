@@ -177,7 +177,7 @@
 			}
 		})
 		local dummyWorld = ::new("scripts/states/world_state");
-		local serDeData = ::MSU.Serialization.Class.SerializationData();
+		local serDeData = ::MSU.Class.SerializationData();
 		local serEmu = serDeData.getSerializationEmulator();
 		serEmu.MetaData = dummyMeta;
 
