@@ -151,29 +151,40 @@
 
 ::MSU.deepEquals <- function(_a, _b)
 {
-	if (_a == _b)
-		return true;
-	if (typeof _a != typeof _b)
-		return false;
-	if (typeof _a != "array" && typeof _a != "table")
-		return false;
-	if (_a.len() != _b.len())
-		return false;
-	if (typeof _a == "array")
+	if (_a instanceof ::WeakTableRef)
+		_a = _a.get();
+	if (_b instanceof ::WeakTableRef)
+		_b = _b.get();
+	switch (typeof _a)
 	{
-		foreach (i, v in _a)
-		{
-			if (!this.deepEq(v, _b[i]))
+		case "table":
+			if (_a.len() != _b.len())
 				return false;
-		}
-	}
-	else
-	{
-		foreach (k, v in _a)
-		{
-			if (!(k in _b) || !this.deepEq(k, _b[k]))
+			foreach (k, v in _a)
+			{
+				if (!this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		case "array":
+			if (_a.len() != _b.len())
 				return false;
-		}
+			foreach (i, v in _a)
+			{
+				if (!this.deepEquals(v, _b[i]))
+					return false;
+			}
+			return true;
+		case "instance":
+			if (!(_b instanceof _a.getclass()))
+				return false;
+			foreach (k, v in _a.getclass())
+			{
+				if (!(k in _b) || !this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		default:
+			return _a == _b;
 	}
-	return true;
 }
