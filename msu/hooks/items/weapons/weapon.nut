@@ -2,22 +2,14 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		if (this.getCategories() == "")
-		{
-			if (this.m.WeaponType != ::Const.Items.WeaponType.None)
-			{
-				this.setupCategories();
-			}
-		}
-		else
-		{
-			this.setupWeaponType();
-		}
+		this.setupWeaponType();
+		this.setupCategories();
 	}
 });
 
 ::MSU.MH.hook("scripts/items/weapons/weapon", function(q) {
 	q.m.WeaponType <- ::Const.Items.WeaponType.None;
+	q.m.MSU_WeaponTypeInit <- false;
 
 	q.setCategories <- function( _s, _setupWeaponType = true )
 	{
@@ -25,7 +17,7 @@
 
 		if (_setupWeaponType)
 		{
-			this.setupWeaponType();
+			this.setupWeaponType(true);
 		}
 	}
 
@@ -41,8 +33,11 @@
 		return ret;
 	}
 
-	q.setupWeaponType <- function()
+	q.setupWeaponType <- function( _force = false )
 	{
+		if (this.m.MSU_WeaponTypeInit && !_force)
+			return;
+		this.m.MSU_WeaponTypeInit = true;
 		this.m.WeaponType = ::Const.Items.WeaponType.None;
 
 		local categories = this.getCategories();
@@ -80,6 +75,7 @@
 
 	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
+		this.setupWeaponType();
 		if (_any)
 		{
 			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
@@ -92,6 +88,7 @@
 
 	q.addWeaponType <- function( _weaponType, _setupCategories = true )
 	{
+		this.setupWeaponType();
 		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
 		if (_setupCategories)
@@ -102,6 +99,7 @@
 
 	q.setWeaponType <- function( _t, _setupCategories = true )
 	{
+		this.setupWeaponType();
 		this.m.WeaponType = _t;
 
 		if (_setupCategories)
@@ -112,6 +110,7 @@
 
 	q.removeWeaponType <- function( _weaponType, _setupCategories = true )
 	{
+		this.setupWeaponType();
 		if (this.isWeaponType(_weaponType, false))
 		{
 			this.m.WeaponType -= _weaponType;
