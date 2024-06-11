@@ -2,7 +2,7 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		this.setupWeaponType(false);
+		this.setupWeaponType();
 		this.setupCategories();
 	}
 });
@@ -17,7 +17,7 @@
 
 		if (_setupWeaponType)
 		{
-			this.setupWeaponType();
+			this.setupWeaponType(true);
 		}
 	}
 
@@ -33,7 +33,7 @@
 		return ret;
 	}
 
-	q.setupWeaponType <- function( _force = true )
+	q.setupWeaponType <- function( _force = false )
 	{
 		if (this.m.MSU_WeaponTypeInit && !_force)
 			return;
@@ -75,7 +75,7 @@
 
 	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
-		this.setupWeaponType(false);
+		this.setupWeaponType();
 		if (_any)
 		{
 			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
@@ -88,7 +88,7 @@
 
 	q.addWeaponType <- function( _weaponType, _setupCategories = true )
 	{
-		this.setupWeaponType(false);
+		this.setupWeaponType();
 		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
 		if (_setupCategories)
@@ -99,7 +99,7 @@
 
 	q.setWeaponType <- function( _t, _setupCategories = true )
 	{
-		this.setupWeaponType(false);
+		this.setupWeaponType();
 		this.m.WeaponType = _t;
 
 		if (_setupCategories)
@@ -110,7 +110,7 @@
 
 	q.removeWeaponType <- function( _weaponType, _setupCategories = true )
 	{
-		this.setupWeaponType(false);
+		this.setupWeaponType();
 		if (this.isWeaponType(_weaponType, false))
 		{
 			this.m.WeaponType -= _weaponType;
