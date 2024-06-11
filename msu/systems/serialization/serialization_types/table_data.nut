@@ -1,4 +1,4 @@
-::MSU.Serialization.Class.TableData <- class extends ::MSU.Serialization.Class.ArrayData
+::MSU.Class.TableData <- class extends ::MSU.Class.ArrayData
 {
 	constructor( _data )
 	{
