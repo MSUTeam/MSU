@@ -1,5 +1,4 @@
 ::MSU.Serialization <- {
-	Class = {},
 	DataType = ::MSU.Class.Enum([
 		"None",
 		"Unknown",
