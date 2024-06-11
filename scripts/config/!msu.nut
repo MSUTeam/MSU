@@ -3,7 +3,7 @@
 	ID = "mod_msu",
 	Name = "Modding Standards & Utilities (MSU)",
 	Class = {},
-	VanillaID = "vanilla", // not public, but used by legends and therefore added back for backwards compatibility
+	VanillaID = "vanilla", // not public, but used by Legends and therefore added back for backwards compatibility
 	BBClass = {
 		Empty = "scripts/mods/msu/empty_bb_class"
 	},
@@ -42,11 +42,11 @@
 }
 ::includeFile <- function( _prefix, _file )
 {
-	::MSU.includeFile(_prefix, _file);	
+	::MSU.includeFile(_prefix, _file);
 }
 ::includeFiles <- function( _files, _includeLoad = false )
 {
-	::MSU.includeFiles(_files, _includeLoad);	
+	::MSU.includeFiles(_files, _includeLoad);
 }
 
 ::MSU.includeFiles(::IO.enumerateFiles("msu/classes"));
