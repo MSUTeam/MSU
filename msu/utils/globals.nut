@@ -148,3 +148,43 @@
 			return _object;
 	}
 }
+
+::MSU.deepEquals <- function(_a, _b)
+{
+	if (_a instanceof ::WeakTableRef)
+		_a = _a.get();
+	if (_b instanceof ::WeakTableRef)
+		_b = _b.get();
+	switch (typeof _a)
+	{
+		case "table":
+			if (_a.len() != _b.len())
+				return false;
+			foreach (k, v in _a)
+			{
+				if (!this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		case "array":
+			if (_a.len() != _b.len())
+				return false;
+			foreach (i, v in _a)
+			{
+				if (!this.deepEquals(v, _b[i]))
+					return false;
+			}
+			return true;
+		case "instance":
+			if (!(_b instanceof _a.getclass()))
+				return false;
+			foreach (k, v in _a.getclass())
+			{
+				if (!(k in _b) || !this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		default:
+			return _a == _b;
+	}
+}
