@@ -162,7 +162,7 @@
 				return false;
 			foreach (k, v in _a)
 			{
-				if (!this.deepEquals(v, _b[k]))
+				if (!(k in _b) || !this.deepEquals(v, _b[k]))
 					return false;
 			}
 			return true;
@@ -176,11 +176,11 @@
 			}
 			return true;
 		case "instance":
-			if (!(_b instanceof _a.getclass()))
+			if (!(typeof b != "instance") || _a.getclass() != _b.getclass())
 				return false;
-			foreach (k, v in _a.getclass())
+			foreach (k, v in _a)
 			{
-				if (!(k in _b) || !this.deepEquals(v, _b[k]))
+				if (!this.deepEquals(v, _b[k]))
 					return false;
 			}
 			return true;
