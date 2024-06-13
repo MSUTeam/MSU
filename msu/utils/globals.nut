@@ -176,7 +176,7 @@
 			}
 			return true;
 		case "instance":
-			if (!(typeof b != "instance") || _a.getclass() != _b.getclass())
+			if (!(typeof _b != "instance") || _a.getclass() != _b.getclass())
 				return false;
 			foreach (k, v in _a)
 			{
