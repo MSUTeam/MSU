@@ -178,7 +178,7 @@
 		case "instance":
 			if (!(typeof _b != "instance") || _a.getclass() != _b.getclass())
 				return false;
-			foreach (k, v in _a)
+			foreach (k, v in _a.getclass())
 			{
 				if (!this.deepEquals(v, _b[k]))
 					return false;
