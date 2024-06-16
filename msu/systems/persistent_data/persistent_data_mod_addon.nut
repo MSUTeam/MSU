@@ -41,7 +41,7 @@
 	{
 		local prefix = this.__getFilenamePrefix();
 		return ::PersistenceManager.queryStorages()
-			.map(@(_s) _s.getFilename())
+			.map(@(_s) _s.getFileName())
 			.filter(@(_, _n) ::MSU.String.startsWith(_n, prefix))
 			.map(@(_n) _n.slice(prefix.len()));
 	}
