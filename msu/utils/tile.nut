@@ -19,7 +19,7 @@
 		for (local i = 0; i < 6; i++)
 		{
 			if (_tile.hasNextTile(i))
-				ret.push(_tile.getNextTile());
+				ret.push(_tile.getNextTile(i));
 		}
 		return ret;
 	}
