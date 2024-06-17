@@ -134,7 +134,7 @@
 	{
 		local storages = ::PersistenceManager.queryStorages();
 		foreach (storage in storages)
-			if (storage.getFilename() == _filename)
+			if (storage.getFileName() == _filename)
 				return true;
 		return false;
 	}
