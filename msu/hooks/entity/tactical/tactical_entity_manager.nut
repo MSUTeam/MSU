@@ -35,6 +35,12 @@
 
 	q.getActorsWithinRange <- function( _tile, _max = 1, _min = 1 )
 	{
+		if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
 		if (_max < _min)
 		{
 			::logError("_max must be equal to or greater than _min");
@@ -59,6 +65,12 @@
 
 	q.getAdjacentActors <- function( _tile )
 	{
+		if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
 		local ret = [];
 		for (local i = 0; i < 6; i++)
 		{
