@@ -99,6 +99,7 @@
 				});
 			}
 		}
+		this.exportPersistentSettings();
 	}
 
 	function onSettingPressed( _data )
