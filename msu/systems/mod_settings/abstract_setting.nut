@@ -76,7 +76,7 @@
 
 	function reset()
 	{
-		this.set(this.BaseValue, true, false, true, true);
+		this.set(this.BaseValue, true, true, true, true);
 	}
 
 	function setBaseValue( _value, _reset = false)
