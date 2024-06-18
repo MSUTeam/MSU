@@ -166,34 +166,6 @@
 		this.callSettingsFunction("flagDeserialize", [_in]);
 	}
 
-	function saveToPersistentData()
-	{
-		local data = {};
-		foreach (page in this.Pages)
-		{
-			foreach (setting in page.getSettings())
-			{
-				if (setting instanceof ::MSU.Class.AbstractSetting)
-				{
-					data[setting.getID()] <- setting.getValue();
-				}
-			}
-		}
-		this.getMod().PersistentData.createFile("ModSetting", data);
-	}
-
-	function loadFromPersistentData()
-	{
-		if (!this.getMod().PersistentData.hasFile("ModSetting"))
-			return;
-
-		local settings = this.getMod().ModSettings;
-		foreach (settingID, value in this.getMod().PersistentData.readFile("ModSetting"))
-		{
-			settings.getSetting(settingID).set(value, true, false);
-		}
-	}
-
 	function getUIData( _flags = [] )
 	{
 		local ret = {

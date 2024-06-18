@@ -87,8 +87,11 @@
 			}
 		}
 		*/
+		local persistentData = {};
 		foreach (modID, panel in _data)
 		{
+			persistentData[modID] <- {};
+
 			foreach (settingID, data in panel)
 			{
 				this.updateSettingFromJS({
@@ -97,8 +100,11 @@
 					type = data.type,
 					value = data.value
 				});
+
+				persistentData[modID][settingID] <- data.value;
 			}
 		}
+		::MSU.Mod.PersistentData.createFile("ModSetting");
 	}
 
 	function onSettingPressed( _data )
@@ -148,9 +154,23 @@
 	{
 		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-r"))
 		{
-			foreach (panel in this.Panels)
+			if (!::MSU.Mod.PersistentData.hasFile("ModSetting"))
+				return;
+
+			foreach (modID, data in ::MSU.Mod.PersistentData.readFile("ModSetting"))
 			{
-				panel.loadFromPersistentData();
+				if (!(modID in this.Panels))
+					continue;
+
+				local panel = this.Panels[modID];
+
+				foreach (settingID, value in data)
+				{
+					if (panel.hasSetting(settingID))
+					{
+						panel.getSetting(settingID).set(value, true, false);
+					}
+				}
 			}
 		}
 		// Legacy support for deprecated BBParser
