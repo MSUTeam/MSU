@@ -32,6 +32,25 @@
 		return this.Persistence;
 	}
 
+	function saveToPersistentData()
+	{
+		local data;
+		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
+		{
+			data = ::MSU.Mod.PersistentData.readFile("ModSettings");
+		}
+		else
+		{
+			data = {
+				[this.getMod().getID()] = {}
+			};
+		}
+
+		data[this.getMod().getID()][this.getID()] <- this.getValue();
+
+		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+	}
+
 	// Deprecated BBParser
 	function printForParser( _tag = "ModSetting" )
 	{
@@ -41,11 +60,6 @@
 			payload = "\"" + payload + "\"";
 		}
 		::MSU.System.PersistentData.writeToLog(_tag, this.getMod().getID(), [this.getID(), payload]);
-	}
-
-	function saveToPersistentData()
-	{
-		this.getPage().getPanel().saveToPersistentData();
 	}
 
 	function onBeforeChangeCallback( _newValue )
