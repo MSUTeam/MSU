@@ -163,7 +163,7 @@
 			if (!(modID in data))
 				data[modID] <- {};
 
-			data[modID][_setting.getID] <- _setting.getValue();
+			data[modID][_setting.getID()] <- _setting.getValue();
 		}
 		else
 		{
