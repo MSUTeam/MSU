@@ -180,7 +180,7 @@
 	function exportPersistentSettings()
 	{
 		local persistentData = {};
-		foreach (modID, panel in _data)
+		foreach (modID, panel in this.Panels)
 		{
 			local panelData = {};
 			persistentData[modID] <- panelData;
