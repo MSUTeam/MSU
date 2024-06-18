@@ -189,7 +189,7 @@
 			persistentData[modID][setting.getID()] <- setting.getValue();
 		}
 
-		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
 	}
 
 	function exportPersistentSettings()
