@@ -37,17 +37,6 @@
 		::MSU.System.ModSettings.exportSettingToPersistentData(this);
 	}
 
-	// Deprecated BBParser
-	function printForParser( _tag = "ModSetting" )
-	{
-		local payload = this.getValue();
-		if (typeof payload == "string")
-		{
-			payload = "\"" + payload + "\"";
-		}
-		::MSU.System.PersistentData.writeToLog(_tag, this.getMod().getID(), [this.getID(), payload]);
-	}
-
 	function onBeforeChangeCallback( _newValue )
 	{
 		foreach (callback in this.BeforeChangeCallbacks)
