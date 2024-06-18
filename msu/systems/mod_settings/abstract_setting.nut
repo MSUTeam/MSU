@@ -32,11 +32,6 @@
 		return this.Persistence;
 	}
 
-	function saveToPersistentData()
-	{
-		::MSU.System.ModSettings.exportSettingToPersistentData(this);
-	}
-
 	function onBeforeChangeCallback( _newValue )
 	{
 		foreach (callback in this.BeforeChangeCallbacks)
@@ -99,7 +94,7 @@
 			}
 			if (_updatePersistence && this.Persistence)
 			{
-				this.saveToPersistentData();
+				::MSU.System.ModSettings.exportSettingToPersistentData(this);
 			}
 			if (_updateJS)
 			{
