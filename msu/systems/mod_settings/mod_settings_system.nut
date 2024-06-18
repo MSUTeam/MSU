@@ -192,28 +192,6 @@
 		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
 	}
 
-	function exportPersistentSettings()
-	{
-		local persistentData = {};
-		foreach (modID, panel in this.Panels)
-		{
-			local panelData = {};
-			persistentData[modID] <- panelData;
-
-			foreach (page in panel.getPages())
-			{
-				foreach (setting in page.getSettings())
-				{
-					if (setting instanceof ::MSU.Class.AbstractSetting && setting.getPersistence())
-					{
-						panelData[setting.getID()] <- setting.getValue();
-					}
-				}
-			}
-		}
-		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
-	}
-
 	function importPersistentSettings()
 	{
 		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-rc.5"))
