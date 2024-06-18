@@ -87,11 +87,8 @@
 			}
 		}
 		*/
-		local persistentData = {};
 		foreach (modID, panel in _data)
 		{
-			persistentData[modID] <- {};
-
 			foreach (settingID, data in panel)
 			{
 				this.updateSettingFromJS({
@@ -100,11 +97,8 @@
 					type = data.type,
 					value = data.value
 				});
-
-				persistentData[modID][settingID] <- data.value;
 			}
 		}
-		::MSU.Mod.PersistentData.createFile("ModSetting");
 	}
 
 	function onSettingPressed( _data )
