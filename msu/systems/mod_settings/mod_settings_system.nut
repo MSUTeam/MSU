@@ -152,7 +152,7 @@
 
 	function importPersistentSettings()
 	{
-		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-r"))
+		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-rc5"))
 		{
 			if (!::MSU.Mod.PersistentData.hasFile("ModSetting"))
 				return;
