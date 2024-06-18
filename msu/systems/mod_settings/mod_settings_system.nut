@@ -145,10 +145,34 @@
 		}
 	}
 
+	function exportSettingToPersistentData( _setting )
+	{
+		local data;
+		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
+		{
+			data = ::MSU.Mod.PersistentData.readFile("ModSettings");
+			local modID = _setting.getMod().getID();
+			if (!(modID in data))
+				data[modID] <- {};
+
+			data[modID][_setting.getID] <- _setting.getValue();
+		}
+		else
+		{
+			data = {
+				[_setting.getMod().getID()] = {
+					[_setting.getID()] = _setting.getValue()
+				}
+			};
+		}
+
+		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+	}
+
 	function exportPersistentSettings()
 	{
 		local persistentData = {};
-		foreach (modID, panel in this.Panels)
+		foreach (modID, panel in _data)
 		{
 			local panelData = {};
 			persistentData[modID] <- panelData;

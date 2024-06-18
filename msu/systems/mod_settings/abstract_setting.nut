@@ -34,21 +34,7 @@
 
 	function saveToPersistentData()
 	{
-		local data;
-		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
-		{
-			data = ::MSU.Mod.PersistentData.readFile("ModSettings");
-		}
-		else
-		{
-			data = {
-				[this.getMod().getID()] = {}
-			};
-		}
-
-		data[this.getMod().getID()][this.getID()] <- this.getValue();
-
-		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+		::MSU.System.ModSettings.exportSettingToPersistentData(this);
 	}
 
 	// Deprecated BBParser
