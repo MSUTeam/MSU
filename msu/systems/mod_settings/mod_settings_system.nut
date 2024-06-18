@@ -146,9 +146,17 @@
 
 	function importPersistentSettings()
 	{
-		foreach (panel in this.Panels)
+		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-r"))
 		{
-			panel.loadFromPersistentData();
+			foreach (panel in this.Panels)
+			{
+				panel.loadFromPersistentData();
+			}
+		}
+		// Legacy support for deprecated BBParser
+		else
+		{
+			::MSU.System.PersistentData.loadFileforEveryMod("ModSetting");
 		}
 	}
 

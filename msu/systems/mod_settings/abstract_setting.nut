@@ -32,6 +32,7 @@
 		return this.Persistence;
 	}
 
+	// Deprecated BBParser
 	function printForParser( _tag = "ModSetting" )
 	{
 		local payload = this.getValue();
@@ -109,7 +110,6 @@
 			}
 			if (_updatePersistence && this.Persistence)
 			{
-				this.printForParser();
 				this.saveToPersistentData();
 			}
 			if (_updateJS)
