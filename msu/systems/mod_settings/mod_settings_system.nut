@@ -131,7 +131,7 @@
 	function updateSettingFromJS( _data )
 	{
 		if (_data.type == "float") _data.value = _data.value.tofloat();
-		::getModSetting(_data.mod, _data.id).set(_data.value);
+		::getModSetting(_data.mod, _data.id).set(_data.value, true, false);
 	}
 
 	function updateSettingInJS( _modID, _settingID, _value )

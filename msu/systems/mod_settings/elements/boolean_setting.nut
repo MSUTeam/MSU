@@ -16,6 +16,6 @@
 
 	function toggle()
 	{
-		this.set(!this.Value);
+		this.set(!this.Value, true, false);
 	}
 }
