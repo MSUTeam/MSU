@@ -87,12 +87,9 @@
 			}
 		}
 		*/
-		local persistentData = ::MSU.Mod.PersistentData.hasFile("ModSettings") ? ::MSU.Mod.PersistentData.readFile("ModSettings") : {};
+		local persistentSettings = [];
 		foreach (modID, panel in _data)
 		{
-			if (!(modID in persistentData))
-				persistentData[modID] <- {};
-
 			foreach (settingID, data in panel)
 			{
 				this.updateSettingFromJS({
@@ -102,12 +99,13 @@
 					value = data.value
 				});
 
-				if (::getModSetting(modID, settingID).getPersistence())
-					persistentData[modID][settingID] <- data.value;
+				local setting = ::getModSetting(modID, settingID);
+				if (setting.getPersistence())
+					persistentSettings.push(setting);
 			}
 		}
 
-		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
+		this.exportSettingsToPersistentData(persistentSettings);
 	}
 
 	function onSettingPressed( _data )
@@ -155,26 +153,7 @@
 
 	function exportSettingToPersistentData( _setting )
 	{
-		local data;
-		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
-		{
-			data = ::MSU.Mod.PersistentData.readFile("ModSettings");
-			local modID = _setting.getMod().getID();
-			if (!(modID in data))
-				data[modID] <- {};
-
-			data[modID][_setting.getID()] <- _setting.getValue();
-		}
-		else
-		{
-			data = {
-				[_setting.getMod().getID()] = {
-					[_setting.getID()] = _setting.getValue()
-				}
-			};
-		}
-
-		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+		this.exportSettingsToPersistentData([_setting]);
 	}
 
 	function exportSettingsToPersistentData( _settings )
