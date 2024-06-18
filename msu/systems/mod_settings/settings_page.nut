@@ -134,10 +134,19 @@
 
 	function resetSettings()
 	{
+		local persistentSettings = [];
 		foreach (setting in this.getAllElementsAsArray(::MSU.Class.AbstractSetting))
 		{
+			local hadPersistence = setting.getPersistence();
+			if (hadPersistence)
+				persistentSettings.push(setting);
+
+			setting.setPersistence(false);
 			setting.reset();
+			setting.setPersistence(hadPersistence);
 		}
+
+		::MSU.System.ModSettings.exportSettingsToPersistentData(persistentSettings);
 	}
 
 	function get( _settingID )

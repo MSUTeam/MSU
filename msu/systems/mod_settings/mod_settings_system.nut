@@ -177,6 +177,21 @@
 		::MSU.Mod.PersistentData.createFile("ModSettings", data);
 	}
 
+	function exportSettingsToPersistentData( _settings )
+	{
+		local persistentData = ::MSU.Mod.PersistentData.hasFile("ModSettings") ? ::MSU.Mod.PersistentData.readFile("ModSettings") : {};
+		foreach (setting in _settings)
+		{
+			local modID = setting.getMod().getID();
+			if (!(modID in persistentData))
+				persistentData[modID] <- {};
+
+			persistentData[modID][setting.getID()] <- setting.getValue();
+		}
+
+		::MSU.Mod.PersistentData.createFile("ModSettings", data);
+	}
+
 	function exportPersistentSettings()
 	{
 		local persistentData = {};
