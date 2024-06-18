@@ -150,14 +150,36 @@
 		}
 	}
 
+	function exportPersistentSettings()
+	{
+		local persistentData = {};
+		foreach (modID, panel in this.Panels)
+		{
+			local panelData = {};
+			persistentData[modID] <- panelData;
+
+			foreach (page in panel.getPages())
+			{
+				foreach (setting in page.getSettings())
+				{
+					if (setting instanceof ::MSU.Class.AbstractSetting && setting.getPersistence())
+					{
+						panelData[setting.getID()] <- setting.getValue();
+					}
+				}
+			}
+		}
+		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
+	}
+
 	function importPersistentSettings()
 	{
 		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-rc5"))
 		{
-			if (!::MSU.Mod.PersistentData.hasFile("ModSetting"))
+			if (!::MSU.Mod.PersistentData.hasFile("ModSettings"))
 				return;
 
-			foreach (modID, data in ::MSU.Mod.PersistentData.readFile("ModSetting"))
+			foreach (modID, data in ::MSU.Mod.PersistentData.readFile("ModSettings"))
 			{
 				if (!(modID in this.Panels))
 					continue;
