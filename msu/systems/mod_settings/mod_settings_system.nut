@@ -90,7 +90,7 @@
 		local persistentData = ::MSU.Mod.PersistentData.hasFile("ModSettings") ? ::MSU.Mod.PersistentData.readFile("ModSettings") : {};
 		foreach (modID, panel in _data)
 		{
-			if (!(modID in persistentData)
+			if (!(modID in persistentData))
 				persistentData[modID] <- {};
 
 			foreach (settingID, data in panel)
