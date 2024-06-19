@@ -2,8 +2,7 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		this.setupWeaponType();
-		this.setupCategories();
+		this.initWeaponType();
 	}
 });
 
@@ -11,13 +10,13 @@
 	q.m.WeaponType <- ::Const.Items.WeaponType.None;
 	q.m.MSU_WeaponTypeInit <- false;
 
-	q.setCategories <- function( _s, _setupWeaponType = true )
+	q.setCategories <- function( _s, _rebuildWeaponType = true )
 	{
 		this.m.Categories = _s;
 
-		if (_setupWeaponType)
+		if (_rebuildWeaponType)
 		{
-			this.setupWeaponType(true);
+			this.buildWeaponTypeFromCategories();
 		}
 	}
 
@@ -33,11 +32,8 @@
 		return ret;
 	}
 
-	q.setupWeaponType <- function( _force = false )
+	q.buildWeaponTypeFromCategories <- function()
 	{
-		if (this.m.MSU_WeaponTypeInit && !_force)
-			return;
-		this.m.MSU_WeaponTypeInit = true;
 		this.m.WeaponType = ::Const.Items.WeaponType.None;
 
 		local categories = this.getCategories();
@@ -75,7 +71,7 @@
 
 	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
-		this.setupWeaponType();
+		this.initWeaponType();
 		if (_any)
 		{
 			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
@@ -86,43 +82,43 @@
 		}
 	}
 
-	q.addWeaponType <- function( _weaponType, _setupCategories = true )
+	q.addWeaponType <- function( _weaponType, _rebuildCategories = true )
 	{
-		this.setupWeaponType();
+		this.initWeaponType();
 		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
-		if (_setupCategories)
+		if (_rebuildCategories)
 		{
-			this.setupCategories();
+			this.buildCategoriesFromWeaponType();
 		}
 	}
 
-	q.setWeaponType <- function( _t, _setupCategories = true )
+	q.setWeaponType <- function( _t, _rebuildCategories = true )
 	{
-		this.setupWeaponType();
+		this.initWeaponType();
 		this.m.WeaponType = _t;
 
-		if (_setupCategories)
+		if (_rebuildCategories)
 		{
-			this.setupCategories();
+			this.buildCategoriesFromWeaponType();
 		}
 	}
 
-	q.removeWeaponType <- function( _weaponType, _setupCategories = true )
+	q.removeWeaponType <- function( _weaponType, _rebuildCategories = true )
 	{
-		this.setupWeaponType();
+		this.initWeaponType();
 		if (this.isWeaponType(_weaponType, false))
 		{
 			this.m.WeaponType -= _weaponType;
 
-			if (_setupCategories)
+			if (_rebuildCategories)
 			{
-				this.setupCategories();
+				this.buildCategoriesFromWeaponType();
 			}
 		}
 	}
 
-	q.setupCategories <- function()
+	q.buildCategoriesFromWeaponType <- function()
 	{
 		this.m.Categories = "";
 
@@ -143,6 +139,23 @@
 		else if (this.isItemType(::Const.Items.ItemType.TwoHanded))
 		{
 			this.m.Categories += "Two-Handed";
+		}
+	}
+
+	q.initWeaponType <- function()
+	{
+		if (this.m.MSU_WeaponTypeInit)
+			return;
+
+		this.m.MSU_WeaponTypeInit = true;
+
+		if (this.getCategories() == "")
+		{
+			this.buildCategoriesFromWeaponType();
+		}
+		else
+		{
+			this.buildWeaponTypeFromCategories();
 		}
 	}
 });
