@@ -127,6 +127,8 @@
 			return;
 		}
 		::getModSetting(_modID, _settingID).set(_value, true, false, true);
+		// update from bbparser to new persistent data system -> only done once, but once for each setting, might lag a bit
+		this.exportSettingToPersistentData(::getModSetting(_modID, _settingID));
 	}
 
 	function updateSettingFromJS( _data )
@@ -173,14 +175,11 @@
 
 	function importPersistentSettings()
 	{
-		if (::MSU.System.Serialization.SerializationMetaData.isSavedVersionAtLeast("1.3.0-rc.5"))
+		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
 		{
-			if (!::MSU.Mod.PersistentData.hasFile("ModSettings"))
-				return;
-
 			foreach (modID, data in ::MSU.Mod.PersistentData.readFile("ModSettings"))
 			{
-				if (!(modID in this.Panels))
+				if (!this.hasPanel(modID))
 					continue;
 
 				local panel = this.Panels[modID];
@@ -197,7 +196,7 @@
 		// Legacy support for deprecated BBParser
 		else
 		{
-			::MSU.System.PersistentData.loadFileforEveryMod("ModSetting");
+			::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
 		}
 	}
 
