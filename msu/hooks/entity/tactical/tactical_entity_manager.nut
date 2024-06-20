@@ -1,4 +1,26 @@
 ::MSU.MH.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
+	q.m.MSU_IsResurrecting <- false;
+
+	q.addInstance = @(__original) function( _actor )
+	{
+		__original(_actor);
+		if (_actor.getFaction() != 0)
+		{
+			::logInfo(format("addInstance %s (%i) with faction %i and %i items at tile %i and %i skills and %i skillsToAdd", _actor.getName(), _actor.getID(), _actor.getFaction(), _actor.getItems().getAllItems().len(), _actor.getTile().ID, _actor.getSkills().m.Skills.len(), _actor.getSkills().m.SkillsToAdd.len()));
+			_actor.m.MSU_IsInstanceAdded = true;
+		}
+	}
+
+	q.onResurrect = @(__original) function( _info, _force = false )
+	{
+		this.m.MSU_IsResurrecting = true;
+		local ret = __original(_info, _force);
+		if (ret != null)
+			ret.onSpawn();
+		this.m.MSU_IsResurrecting = false;
+		return ret;
+	}
+
 	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
 	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
 	q.spawn = @(__original) function( _properties )

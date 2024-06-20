@@ -255,6 +255,10 @@
 		return __original(_f);
 	}
 
+	q.onSpawnEntity <- function( _entity )
+	{
+	}
+
 	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}

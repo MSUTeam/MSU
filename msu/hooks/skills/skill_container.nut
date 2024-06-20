@@ -79,6 +79,13 @@
 		return _argsArray[_argsArray.len() - 1];
 	}
 
+	q.onSpawnEntity <- function( _entity, _isResurrection )
+	{
+		this.callSkillsFunction("onSpawnEntity", [
+			_entity,
+		]);
+	}
+
 	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 		this.callSkillsFunction("onMovementStarted", [
@@ -487,6 +494,7 @@
 	q.onCombatFinished = @() function()
 	{
 		this.m.IsPreviewing = false;
+		this.getActor().m.MSU_HasOnSpawnBeenCalled = false;
 		this.callSkillsFunction("onCombatFinished");
 	}
 

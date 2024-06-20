@@ -36,6 +36,29 @@
 		this.m.Skills.update();
 	}
 
+	q.onSkillsUpdated = @(__original) function()
+	{
+		__original();
+		if (this.isPlacedOnMap() && !this.m.MSU_IsAssigningRandomEquipment && this.m.MSU_IsInstanceAdded && !::Tactical.Entities.m.MSU_IsResurrecting)
+			this.onSpawn();
+	}
+
+	q.onSpawn <- function()
+	{
+		if (this.m.MSU_HasOnSpawnBeenCalled)
+			return;
+
+		::logInfo(format("onSpawn %s (%i) of faction %i with %i items at tile %i with %i skills and %i skillsToAdd", this.getName(), this.getID(), this.getFaction(), this.getItems().getAllItems().len(), this.getTile().ID, this.getSkills().m.Skills.len(), this.getSkills().m.SkillsToAdd.len()));
+		this.m.MSU_HasOnSpawnBeenCalled = true;
+		foreach (faction in ::Tactical.Entities.getAllInstances())
+		{
+			foreach (actor in faction)
+			{
+				actor.getSkills().onSpawnEntity(this);
+			}
+		}
+	}
+
 	q.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
@@ -138,6 +161,20 @@
 					}
 				}
 			}
+		}
+
+		q.assignRandomEquipment = @(__original) function()
+		{
+			this.m.MSU_IsAssigningRandomEquipment = true;
+			__original();
+			this.m.MSU_IsAssigningRandomEquipment = false;
+			this.onSpawn();
+		}
+
+		q.onAfterInit = @(__original) function()
+		{
+			__original();
+			this.m.MSU_HasOnSpawnBeenCalled = false;
 		}
 	});
 });
