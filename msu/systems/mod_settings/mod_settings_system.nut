@@ -87,6 +87,7 @@
 			}
 		}
 		*/
+		local persistentSettings = [];
 		foreach (modID, panel in _data)
 		{
 			foreach (settingID, data in panel)
@@ -97,8 +98,14 @@
 					type = data.type,
 					value = data.value
 				});
+
+				local setting = ::getModSetting(modID, settingID);
+				if (setting.getPersistence())
+					persistentSettings.push(setting);
 			}
 		}
+
+		this.exportSettingsToPersistentData(persistentSettings);
 	}
 
 	function onSettingPressed( _data )
@@ -120,12 +127,14 @@
 			return;
 		}
 		::getModSetting(_modID, _settingID).set(_value, true, false, true);
+		// update from bbparser to new persistent data system -> only done once, but once for each setting, might lag a bit
+		this.exportSettingToPersistentData(::getModSetting(_modID, _settingID));
 	}
 
 	function updateSettingFromJS( _data )
 	{
 		if (_data.type == "float") _data.value = _data.value.tofloat();
-		::getModSetting(_data.mod, _data.id).set(_data.value);
+		::getModSetting(_data.mod, _data.id).set(_data.value, true, false);
 	}
 
 	function updateSettingInJS( _modID, _settingID, _value )
@@ -144,9 +153,51 @@
 		}
 	}
 
+	function exportSettingToPersistentData( _setting )
+	{
+		this.exportSettingsToPersistentData([_setting]);
+	}
+
+	function exportSettingsToPersistentData( _settings )
+	{
+		local persistentData = ::MSU.Mod.PersistentData.hasFile("ModSettings") ? ::MSU.Mod.PersistentData.readFile("ModSettings") : {};
+		foreach (setting in _settings)
+		{
+			local modID = setting.getMod().getID();
+			if (!(modID in persistentData))
+				persistentData[modID] <- {};
+
+			persistentData[modID][setting.getID()] <- setting.getValue();
+		}
+
+		::MSU.Mod.PersistentData.createFile("ModSettings", persistentData);
+	}
+
 	function importPersistentSettings()
 	{
-		::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
+		if (::MSU.Mod.PersistentData.hasFile("ModSettings"))
+		{
+			foreach (modID, data in ::MSU.Mod.PersistentData.readFile("ModSettings"))
+			{
+				if (!this.hasPanel(modID))
+					continue;
+
+				local panel = this.Panels[modID];
+
+				foreach (settingID, value in data)
+				{
+					if (panel.hasSetting(settingID))
+					{
+						panel.getSetting(settingID).set(value, true, false);
+					}
+				}
+			}
+		}
+		// Legacy support for deprecated BBParser
+		else
+		{
+			::MSU.System.PersistentData.loadFileForEveryMod("ModSetting");
+		}
 	}
 
 	function flagSerialize( _out )
