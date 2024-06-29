@@ -38,6 +38,9 @@ MSU.Hooks.MainMenuScreen_show = MainMenuScreen.prototype.show;
 MainMenuScreen.prototype.show = function(_animate)
 {
 	MSU.Hooks.MainMenuScreen_show.call(this, _animate);
-	MSU.Popup.setState(MSU.Popup.mLastState);
+	if (MSU.Popup.mContainer)
+	{
+		MSU.Popup.setState(MSU.Popup.mLastState);
+	}
 }
 
