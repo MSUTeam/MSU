@@ -138,7 +138,7 @@ MSUPopup.prototype.destroySmallDIV = function ()
 MSUPopup.prototype.fadeIn = function (_container)
 {
 	var self = this;
-	if (_container.css("display") == "block")
+	if (_container.css("display") != "none")
 		return;
 	_container.css("opacity", 0);
 	_container.velocity("finish", true).velocity({opacity: 1},
@@ -160,7 +160,7 @@ MSUPopup.prototype.fadeIn = function (_container)
 MSUPopup.prototype.fadeOut = function (_container)
 {
 	var self = this;
-	if (_container.css("display") != "block")
+	if (_container.css("display") == "none")
 		return;
 	_container.velocity("finish", true).velocity({opacity: 0},
 	{
