@@ -42,6 +42,14 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 		self.hide();
 	}, "ok-button", 1);
 
+	this.mFooterContainer.createTextButton("Ok (don't remind me)", function()
+	{
+		self.notifyBackendNoUpdateReminder();
+		$(this).hide()
+		self.hide();
+	}, "ok-no-reminder-button", 1);
+	this.mFooterContainer.find(".ok-no-reminder-button:first").hide();
+
 	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
 	{
 		$(this).findButtonText().html("Quit Game");
@@ -158,7 +166,11 @@ MSUPopup.prototype.showModUpdates = function (_mods)
 		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
 		modInfoContainer.append($('<div class="version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
 	});
-	if (!this.isVisible()) this.show();
+	if (!this.isVisible())
+	{
+		this.show();
+		this.mFooterContainer.find(".ok-no-reminder-button:first").show();
+	}
 }
 
 MSUPopup.prototype.hide = function ()
@@ -219,6 +231,14 @@ MSUPopup.prototype.notifyBackendOnAnimating = function ()
 	if (this.mSQHandle !== null)
 	{
 		SQ.call(this.mSQHandle, 'onScreenAnimating');
+	}
+};
+
+MSUPopup.prototype.notifyBackendNoUpdateReminder = function ()
+{
+	if (this.mSQHandle !== null)
+	{
+		SQ.call(this.mSQHandle, 'onNoUpdateReminder');
 	}
 };
 

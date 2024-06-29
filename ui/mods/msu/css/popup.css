@@ -35,13 +35,21 @@
 .msu-popup .footer {
 	position: relative;
 	width: 100%;
+	display:flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .msu-popup .ok-button {
-	left: calc(50% - 17.5rem / 2);
 	height: 4.3rem;
 	width: 17.5rem;
-	position: relative;
+}
+.msu-popup .ok-no-reminder-button {
+	height: 4.3rem;
+	width: 17.5rem;
+}
+.msu-popup .ok-no-reminder-button > span {
+	font-size: 14px;
 }
 
 .msu-mod-info-container

@@ -4,7 +4,8 @@ this.popup <- {
 		Animating = false,
 		JSHandle = null,
 		TextCache = "",
-		ForceQuit = false
+		ForceQuit = false,
+		ModUpdateHash = "",
 	}
 
 	function isVisible()
@@ -37,7 +38,26 @@ this.popup <- {
 
 	function showModUpdates( _modInfos )
 	{
+		// check if the user clicked the 'don't remind me' button last time and it's still the same mods wanting updates
+		local modsWithNewVersionsString = "";
+		foreach (_, modUpdateInfo in _modInfos)
+		{
+			modsWithNewVersionsString += modUpdateInfo.name + modUpdateInfo.currentVersion + modUpdateInfo.availableVersion;
+		}
+		this.m.ModUpdateHash = ::toHash(modsWithNewVersionsString);
+		if (::MSU.Mod.PersistentData.hasFile("StoredModUpdates"))
+		{
+			local storedHash = ::MSU.Mod.PersistentData.readFile("StoredModUpdates");
+			if (this.m.ModUpdateHash == storedHash) {
+				return;
+			}
+		}
 		this.m.JSHandle.asyncCall("showModUpdates", _modInfos);
+	}
+
+	function onNoUpdateReminder()
+	{
+		::MSU.Mod.PersistentData.createFile("StoredModUpdates", this.m.ModUpdateHash);
 	}
 
 	function forceQuit( _bool )
