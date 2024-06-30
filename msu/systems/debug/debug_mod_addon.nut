@@ -39,4 +39,13 @@
 	{
 		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Error, _flagID);
 	}
+
+	function addMessage( _text )
+	{
+		::MSU.System.Debug.addPopupMessage({
+			modID = this.Mod.getID(),
+			modName = this.Mod.getName(),
+			text = _text
+		})
+	}
 }

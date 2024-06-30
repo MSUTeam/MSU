@@ -70,13 +70,19 @@ MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 		})
 	this.mSmallContainerButton = $('<div class="msu-popup-small-update-button"/>')
 		.appendTo(this.mSmallContainer)
-	this.mSmallContainerInfo = $('<div class="msu-popup-small-update-info"/>')
+	this.mSmallContainerInfo = $('<div class="msu-popup-small-update-info font-color-description"/>')
 		.appendTo(this.mSmallContainer);
 }
 
-MSUPopup.prototype.addMessage = function (_text)
+MSUPopup.prototype.addMessage = function (_info)
 {
-	this.addListContent($('<div class="msu-mod-info-container"><div class="description-font-normal font-color-description">' + _text + '</div></div>'));
+	var container = $('<div class="msu-mod-info-container"/>');
+	if (_info.modID)
+	{
+		container.append($('<div class="title-font-normal font-color-title">' + _info.modID + '</div>'))
+	}
+	container.append($('<div class="description-font-normal font-color-description">' + _info.text + '</div>'));
+	this.addListContent(container);
 }
 
 MSUPopup.prototype.addListContent = function (_content)

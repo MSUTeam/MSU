@@ -22,17 +22,16 @@ this.popup <- {
 		return this.m.Animating;
 	}
 
-	function addMessage(_text)
+	function addMessage(_info)
 	{
 		if (this.m.JSHandle == null)
 		{
 			this.m.FunctionBuffer.push(function(){
-				this.addMessage(_text);
+				this.addMessage(_info);
 			})
 			return;
 		}
-		this.m.JSHandle.asyncCall("addMessage", _text);
-
+		this.m.JSHandle.asyncCall("addMessage", _info);
 	}
 
 	function setState(_state)
