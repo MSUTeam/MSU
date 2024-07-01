@@ -77,9 +77,9 @@ MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 MSUPopup.prototype.addMessage = function (_info)
 {
 	var container = $('<div class="msu-mod-info-container"/>');
-	if (_info.modID)
+	if (_info.modName)
 	{
-		container.append($('<div class="title-font-normal font-color-title">' + _info.modID + '</div>'))
+		container.append($('<div class="title-font-normal font-color-title">' + _info.modName + '</div>'))
 	}
 	container.append($('<div class="description-font-normal font-color-description">' + _info.text + '</div>'));
 	this.addListContent(container);
