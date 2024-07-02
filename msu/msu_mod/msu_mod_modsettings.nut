@@ -22,7 +22,7 @@ blockSQInput.setDescription("Whether keybinds should be blocked when you are wri
 blockSQInput.addAfterChangeCallback(@ (_oldValue) ::MSU.System.Keybinds.InputDenied = false); // use it as an opportunity to reset
 
 local vanillaBBCode = generalPage.addBooleanSetting("VanillaBBCode", false, "Enable Italic/Bold Vanilla Text");
-vanillaBBCode.setDescription("Toggles vanilla bold/italic font modifications being applied, in vanilla these don't work, but are still in the code for some reason, when MSU fixes this behavior to work for mods, suddenly these will apply in vanilla as well.\nThis will make some text look [mb]Bold[/mb] and [mi]Italic[/mi].\n\nSome text may require a restart after toggling this setting.");
+vanillaBBCode.setDescription("Toggles vanilla bold/italic font modifications being applied, in vanilla these don\'t work, but are still in the code for some reason, when MSU fixes this behavior to work for mods, suddenly these will apply in vanilla as well.\nThis will make some text look [mb]Bold[/mb] and [mi]Italic[/mi].\n\nSome text may require a restart after toggling this setting.");
 
 local logPage = ::MSU.Mod.ModSettings.addPage("Logging");
 
