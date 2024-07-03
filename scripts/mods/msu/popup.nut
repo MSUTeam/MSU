@@ -106,6 +106,11 @@ this.popup <- {
 		this.m.JSHandle.asyncCall("hide", null);
 	}
 
+	function clear()
+	{
+		this.m.JSHandle.asyncCall("clear", null);
+	}
+
 	function quitGame()
 	{
 		// overwritten by mainMenuScreen hook, closes the game

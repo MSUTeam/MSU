@@ -211,6 +211,11 @@ MSUPopup.prototype.setState = function (_state)
 	}
 }
 
+MSUPopup.prototype.clear = function ()
+{
+	this.mListScrollContainer.empty();
+}
+
 MSUPopup.prototype.isVisible = function ()
 {
 	return this.mContainer.css('display') == "block";
