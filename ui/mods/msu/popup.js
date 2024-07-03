@@ -12,12 +12,12 @@ var MSUPopup = function ()
 	this.mFooterContainer = null;
 	this.mOkButton = null;
 	this.mTitle = null;
-	this.mStates = {
+	this.mState = {
 		None : 0,
 		Small : 1,
 		Full : 2
 	}
-	this.mState = this.mStates.None;
+	this.mState = this.mState.None;
 	this.mLastState = this.mState;
 }
 
@@ -49,7 +49,7 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 
 	this.mOkButton = this.mFooterContainer.createTextButton("Ok", function()
 	{
-		self.setState(self.mStates.Small);
+		self.setState(self.mState.Small);
 	}, "ok-button", 1);
 }
 
@@ -61,10 +61,10 @@ MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 		.mousedown(function(event) {
 		    switch (event.which) {
 		        case 1:
-		            self.setState(self.mStates.Full);
+		            self.setState(self.mState.Full);
 		            break;
 		        case 3:
-		            self.setState(self.mStates.None);
+		            self.setState(self.mState.None);
 		            break;
 		    }
 		})
@@ -117,7 +117,7 @@ MSUPopup.prototype.setForceQuit = function(_bool)
 		this.mOkButton.findButtonText().html("Ok");
 		this.mOkButton.on("click", function()
 		{
-			self.setState(self.mStates.Small);
+			self.setState(self.mState.Small);
 		})
 	}
 }
@@ -186,18 +186,18 @@ MSUPopup.prototype.fadeOut = function (_container)
 
 MSUPopup.prototype.setState = function (_state)
 {
-	if (!_state in this.mStates)
+	if (!_state in this.mState)
 	{
 		console.error("Invalid State " + _state + " passed to MSU popup!");
 		return;
 	}
 	this.mState = _state;
-	if (this.mState == this.mStates.None)
+	if (this.mState == this.mState.None)
 	{
 		this.fadeOut(this.mContainer);
 		this.fadeOut(this.mSmallContainer);
 	}
-	else if (this.mState == this.mStates.Small)
+	else if (this.mState == this.mState.Small)
 	{
 		this.fadeIn(this.mSmallContainer);
 		this.fadeOut(this.mContainer);

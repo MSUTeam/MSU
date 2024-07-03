@@ -1,13 +1,13 @@
 this.popup <- {
+	State = {
+		None = 0,
+		Small = 1,
+		Full = 2
+	}
 	m = {
 		Visible = false,
 		Animating = false,
 		JSHandle = null,
-		States = {
-			None = 0,
-			Small = 1,
-			Full = 2
-		}
 		ForceQuit = false,
 		FunctionBuffer = [],
 	}

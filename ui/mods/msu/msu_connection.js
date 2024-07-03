@@ -158,7 +158,7 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 	var checkText = "" + numMods + (numMods == 1 ? " mod" : " mods") + " checked<br>";
 	checkText += numUpdates + (numUpdates == 1 ? " update" : " updates");
 	MSU.Popup.setSmallContainerInfo(checkText);
-	MSU.Popup.setState(MSU.Popup.mStates.Small);
+	MSU.Popup.setState(MSU.Popup.mState.Small);
 }
 
 registerScreen("MSUConnection", new MSUConnection());

@@ -8,7 +8,7 @@ MainMenuScreen.prototype.hideMainMenuModule = function ()
 {
 	this.mMainMenuModule.hide();
 	MSU.Popup.mLastState = MSU.Popup.mState;
-	MSU.Popup.setState(MSU.Popup.mStates.None);
+	MSU.Popup.setState(MSU.Popup.mState.None);
 };
 
 MainMenuScreen.prototype.hideNewCampaignModule = function ()
@@ -31,7 +31,7 @@ MainMenuScreen.prototype.hide = function()
 {
 	MSU.Hooks.MainMenuScreen_hide.call(this);
 	MSU.Popup.mLastState = MSU.Popup.mState;
-	MSU.Popup.setState(MSU.Popup.mStates.None);
+	MSU.Popup.setState(MSU.Popup.mState.None);
 }
 
 MSU.Hooks.MainMenuScreen_show = MainMenuScreen.prototype.show;
