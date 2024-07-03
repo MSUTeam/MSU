@@ -22,7 +22,7 @@ this.popup <- {
 		return this.m.Animating;
 	}
 
-	function addMessage(_info)
+	function addMessage( _info )
 	{
 		if (this.m.JSHandle == null)
 		{
