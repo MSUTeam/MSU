@@ -120,9 +120,10 @@
 		}
 	}
 
-	function addPopupMessage(_info)
+	function addPopupMessage( _info )
 	{
 		::MSU.Popup.addMessage(_info);
 		::MSU.Popup.setInfoText(_info.modID);
+		::MSU.Popup.setState(_info.state);
 	}
 }

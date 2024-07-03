@@ -40,12 +40,13 @@
 		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Error, _flagID);
 	}
 
-	function addMessage( _text )
+	function addPopupMessage( _text, _newState = ::MSU.Popup.State.Small )
 	{
 		::MSU.System.Debug.addPopupMessage({
 			modID = this.Mod.getID(),
 			modName = this.Mod.getName(),
-			text = _text
-		})
+			text = _text,
+			state = _newState
+		});
 	}
 }
