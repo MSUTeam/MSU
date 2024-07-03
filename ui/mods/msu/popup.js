@@ -191,6 +191,8 @@ MSUPopup.prototype.setState = function (_state)
 		console.error("Invalid State " + _state + " passed to MSU popup!");
 		return;
 	}
+	if (this.mState == _state)
+		return;
 	this.mState = _state;
 	if (this.mState == this.mState.None)
 	{
