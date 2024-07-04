@@ -17,8 +17,8 @@ var MSUPopup = function ()
 		Small : 1,
 		Full : 2
 	}
-	this.mState = this.mState.None;
-	this.mLastState = this.mState;
+	this.mCurrentState = this.mState.None;
+	this.mLastState = this.mCurrentState;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -191,15 +191,15 @@ MSUPopup.prototype.setState = function (_state)
 		console.error("Invalid State " + _state + " passed to MSU popup!");
 		return;
 	}
-	if (this.mState == _state)
+	if (this.mCurrentState == _state)
 		return;
-	this.mState = _state;
-	if (this.mState == this.mState.None)
+	this.mCurrentState = _state;
+	if (this.mCurrentState == this.mState.None)
 	{
 		this.fadeOut(this.mContainer);
 		this.fadeOut(this.mSmallContainer);
 	}
-	else if (this.mState == this.mState.Small)
+	else if (this.mCurrentState == this.mState.Small)
 	{
 		this.fadeIn(this.mSmallContainer);
 		this.fadeOut(this.mContainer);
