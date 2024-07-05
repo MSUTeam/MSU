@@ -1,14 +1,11 @@
 MainMenuScreen.prototype.showMainMenuModule = function ()
 {
 	this.mMainMenuModule.show();
-	MSU.Popup.setState(MSU.Popup.mLastState);
 };
 
 MainMenuScreen.prototype.hideMainMenuModule = function ()
 {
 	this.mMainMenuModule.hide();
-	MSU.Popup.mLastState = MSU.Popup.mState;
-	MSU.Popup.setState(MSU.Popup.mState.None);
 };
 
 MainMenuScreen.prototype.hideNewCampaignModule = function ()
