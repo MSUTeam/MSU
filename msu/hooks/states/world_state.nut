@@ -187,6 +187,12 @@
 		return properties;
 	}
 
+	q.loadCampaign = @(__original) function( _campaignFileName )
+	{
+		__original(_campaignFileName);
+		::logInfo(::World.getTime().Days);
+	}
+
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
 		__original(_out);
