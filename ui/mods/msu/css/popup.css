@@ -21,6 +21,7 @@
 	margin-left: -6rem;
 	z-index: 100 !important;
 	background-color: rgba(0, 0, 0, 0.7);
+	background-size: 100% 100%;
 }
 
 .msu-popup-small-update-button
