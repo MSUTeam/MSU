@@ -16,24 +16,29 @@
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	top: 90%;
-	left: 50%;
-	margin-left: -6rem;
+	bottom: 0;
+	left: 0;
 	z-index: 100 !important;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
 	background-size: 100% 100%;
+	padding: 0.5rem;
 }
-
+.msu-popup-small.msu-popup-main-menu-screen
+{
+	bottom: 0;
+	left: 50%;
+}
 .msu-popup-small-update-button
 {
-	height: 4rem;
-	width: 4rem;
+	margin-bottom: 1rem;
+	height: 3rem;
+	width: 3rem;
 	background-image: url("coui://gfx/mods/msu/buttons/mod_update.png");
 	background-size: 100% 100%;
 }
 .msu-popup-small-update-info
 {
-	width: 12rem;
+	max-width: 12rem;
 	font-size: 1.5rem;
 	word-wrap: break-word;
 	text-align: center;

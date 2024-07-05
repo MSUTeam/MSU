@@ -56,7 +56,7 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 MSUPopup.prototype.createSmallDIV = function (_parentDiv)
 {
 	var self = this;
-	this.mSmallContainer = $('<div class="msu-popup-small"/>')
+	this.mSmallContainer = $('<div class="msu-popup-small msu-popup-main-menu-screen"/>')
 		.appendTo(_parentDiv)
 		.mousedown(function(event) {
 		    switch (event.which) {
