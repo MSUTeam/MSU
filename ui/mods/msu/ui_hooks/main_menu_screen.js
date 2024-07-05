@@ -30,8 +30,9 @@ MSU.Hooks.MainMenuScreen_hide = MainMenuScreen.prototype.hide;
 MainMenuScreen.prototype.hide = function()
 {
 	MSU.Hooks.MainMenuScreen_hide.call(this);
-	MSU.Popup.mLastState = MSU.Popup.mState;
+	MSU.Popup.mLastState = MSU.Popup.mCurrentState;
 	MSU.Popup.setState(MSU.Popup.mState.None);
+	MSU.Popup.mSmallContainer.removeClass("msu-popup-main-menu-screen");
 }
 
 MSU.Hooks.MainMenuScreen_show = MainMenuScreen.prototype.show;
