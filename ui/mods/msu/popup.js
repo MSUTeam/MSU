@@ -158,7 +158,8 @@ MSUPopup.prototype.fadeIn = function (_container)
 		},
 		complete: function ()
 		{
-			self.notifyBackendOnShown();
+			if (_container == self.mContainer)
+				self.notifyBackendOnShown();
 		}
 	});
 }
@@ -178,7 +179,8 @@ MSUPopup.prototype.fadeOut = function (_container)
 		},
 		complete: function()
 		{
-			self.notifyBackendOnHidden();
+			if (_container == self.mContainer)
+				self.notifyBackendOnHidden();
 			$(this).hide();
 		}
 	});
@@ -209,6 +211,12 @@ MSUPopup.prototype.setState = function (_state)
 		this.fadeOut(this.mSmallContainer);
 		this.fadeIn(this.mContainer);
 	}
+}
+
+MSUPopup.prototype.hide = function ()
+{
+	if (this.mCurrentState == this.mState.Full)
+		this.setState(this.mState.Small);
 }
 
 MSUPopup.prototype.clear = function ()
