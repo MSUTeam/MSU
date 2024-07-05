@@ -190,7 +190,8 @@
 	q.loadCampaign = @(__original) function( _campaignFileName )
 	{
 		__original(_campaignFileName);
-		::logInfo(::World.getTime().Days);
+		local time = ::World.getTime();
+		::logInfo(format("MSU -- Current campaign length: %i Days, %i Hours, %i Minutes. (TimeOfDay: %i, SecondsOfDay: %f)", time.Days, time.Hours, time.Minutes, time.TimeOfDay, time.SecondsOfDay));
 	}
 
 	q.onBeforeSerialize = @(__original) function( _out )
