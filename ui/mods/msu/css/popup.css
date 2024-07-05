@@ -17,7 +17,6 @@
 	align-items: center;
 	position: absolute;
 	bottom: 0;
-	left: 0;
 	z-index: 100 !important;
 	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
 	background-size: 100% 100%;
@@ -25,8 +24,9 @@
 }
 .msu-popup-small.msu-popup-main-menu-screen
 {
-	bottom: 0;
+/*	left:initial;*/
 	left: 50%;
+	transform: translateX(-50%);
 }
 .msu-popup-small-update-button
 {
@@ -35,6 +35,11 @@
 	width: 3rem;
 	background-image: url("coui://gfx/mods/msu/buttons/mod_update.png");
 	background-size: 100% 100%;
+}
+.msu-popup-main-menu-screen > .msu-popup-small-update-button
+{
+	height: 5rem;
+	width: 5rem;
 }
 .msu-popup-small-update-info
 {
