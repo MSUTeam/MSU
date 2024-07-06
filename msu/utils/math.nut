@@ -35,8 +35,8 @@
 		if (_num == 0)
 			return 0;
 
-		local d = ceil(log10(_num < 0 ? -_num : _num));
-		local magnitude = pow(10, _significantFigures - d.tointeger()); // tointeger to prevent floating point accuracy issues
+		local d = ceil(log10(abs(_num))).tointeger(); // tointeger to prevent floating point accuracy issues
+		local magnitude = pow(10, _significantFigures - d.tointeger);
 		return ::Math.round(_num * magnitude) / magnitude;
 	}
 };
