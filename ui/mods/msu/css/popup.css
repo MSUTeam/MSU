@@ -24,7 +24,6 @@
 }
 .msu-popup-small.msu-popup-main-menu-screen
 {
-/*	left:initial;*/
 	left: 50%;
 	transform: translateX(-50%);
 }
