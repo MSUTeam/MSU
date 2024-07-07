@@ -18,7 +18,6 @@ var MSUPopup = function ()
 		Full : 2
 	}
 	this.mCurrentState = this.mState.None;
-	this.mLastState = this.mCurrentState;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
