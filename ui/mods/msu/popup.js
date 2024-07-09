@@ -2,13 +2,22 @@ var MSUPopup = function ()
 {
 	this.mSQHandle = null
 	this.mContainer = null;
+	this.mSmallContainer = null;
+	this.mSmallContainerInfo = null;
 	this.mID = "MSUPopup";
 
 	this.mHeaderContainer = null;
 	this.mContentContainer = null;
 	this.mListScrollContainer = null;
 	this.mFooterContainer = null;
+	this.mOkButton = null;
 	this.mTitle = null;
+	this.mState = {
+		None : 0,
+		Small : 1,
+		Full : 2
+	}
+	this.mCurrentState = this.mState.None;
 }
 
 MSUPopup.prototype.onConnection = function (_handle)
@@ -20,13 +29,13 @@ MSUPopup.prototype.onConnection = function (_handle)
 MSUPopup.prototype.createDIV = function (_parentDiv)
 {
 	var self = this;
-	this.mContainer = $('<div class="msu-popup ui-control dialog display-none opacity-none"/>');
+	this.mContainer = $('<div class="msu-popup ui-control dialog"/>');
 	_parentDiv.append(this.mContainer);
 
 	this.mHeaderContainer = $('<div class="header"/>');
 	this.mContainer.append(this.mHeaderContainer);
 
-	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Mod Error</div>');
+	this.mTitle = $('<div class="title title-font-very-big font-bold font-bottom-shadow font-color-title">Info Popup</div>');
 	this.mHeaderContainer.append(this.mTitle);
 
 	this.mListContainer = this.mContainer.createList(1, 'content-container');
@@ -37,136 +46,131 @@ MSUPopup.prototype.createDIV = function (_parentDiv)
 	this.mFooterContainer = $('<div class="footer"/>')
 	this.mContainer.append(this.mFooterContainer);
 
-	this.mFooterContainer.createTextButton("Ok", function()
+	this.mOkButton = this.mFooterContainer.createTextButton("Ok", function()
 	{
-		self.hide();
+		self.setState(self.mState.Small);
 	}, "ok-button", 1);
+}
 
-	this.mFooterContainer.find(".ok-button:first").on("force-quit", function()
+MSUPopup.prototype.createSmallDIV = function (_parentDiv)
+{
+	var self = this;
+	this.mSmallContainer = $('<div class="msu-popup-small msu-popup-main-menu-screen"/>')
+		.appendTo(_parentDiv)
+		.mousedown(function(event) {
+		    switch (event.which) {
+		        case 1:
+		            self.setState(self.mState.Full);
+		            break;
+		        case 3:
+		            self.setState(self.mState.None);
+		            break;
+		    }
+		})
+	this.mSmallContainerButton = $('<div class="msu-popup-small-update-button"/>')
+		.appendTo(this.mSmallContainer)
+	this.mSmallContainerInfo = $('<div class="msu-popup-small-update-info font-color-description"/>')
+		.appendTo(this.mSmallContainer);
+}
+
+MSUPopup.prototype.addMessage = function (_info)
+{
+	var container = $('<div class="msu-mod-info-container"/>');
+	if (_info.modName)
 	{
-		$(this).findButtonText().html("Quit Game");
-		$(this).on("click", function()
+		container.append($('<div class="title-font-normal font-color-title">' + _info.modName + '</div>'))
+	}
+	container.append($('<div class="description-font-normal font-color-description">' + _info.text + '</div>'));
+	this.addListContent(container);
+}
+
+MSUPopup.prototype.addListContent = function (_content)
+{
+	this.mListScrollContainer.append(_content)
+}
+
+MSUPopup.prototype.setTitle = function (_content)
+{
+	this.mTitle.text(_content);
+}
+
+MSUPopup.prototype.setSmallContainerInfo = function (_content)
+{
+	this.mSmallContainerInfo.html(_content)
+}
+
+MSUPopup.prototype.setForceQuit = function(_bool)
+{
+	var self = this;
+	this.mOkButton.off("click");
+	if (_bool)
+	{
+		this.mOkButton.findButtonText().html("Quit Game");
+		this.mOkButton.on("click", function()
 		{
 			self.quitGame();
 		})
-	})
+	}
+	else
+	{
+		this.mOkButton.findButtonText().html("Ok");
+		this.mOkButton.on("click", function()
+		{
+			self.setState(self.mState.Small);
+		})
+	}
 }
 
 MSUPopup.prototype.create = function(_parentDiv)
 {
 	this.createDIV(_parentDiv);
+	this.createSmallDIV(_parentDiv);
 };
 
 MSUPopup.prototype.destroy = function ()
 {
 	this.destroyDIV();
+	this.destroySmallDIV();
 }
 
-MSUPopup.prototype.show = function ()
+MSUPopup.prototype.destroySmallDIV = function ()
+{
+	this.mSmallContainer.empty();
+	this.mSmallContainer.remove();
+	this.mSmallContainer = null;
+}
+
+MSUPopup.prototype.fadeIn = function (_container)
 {
 	var self = this;
-
-	// MSUUIScreen.show
-	var moveTo = { opacity: 1, right: '10.0rem' };
-	var offset = -this.mContainer.width();
-	if (self.mContainer.hasClass('is-center') === true)
-	{
-		moveTo = { opacity: 1, left: '0', right: '0' };
-		offset = -(this.mContainer.parent().width() + this.mContainer.width());
-		this.mContainer.css({ 'left': '0' });
-	}
-
-	this.mContainer.css({ 'right': offset });
-	this.mContainer.velocity("finish", true).velocity(moveTo,
+	if (_container.css("display") != "none")
+		return;
+	_container.css("opacity", 0);
+	_container.velocity("finish", true).velocity({opacity: 1},
 	{
 		duration: Constants.SCREEN_SLIDE_IN_OUT_DELAY,
 		easing: 'swing',
 		begin: function ()
 		{
 			self.notifyBackendOnAnimating();
-			$(this).removeClass('display-none').addClass('display-block');
+			$(this).show();
 		},
 		complete: function ()
 		{
-			self.notifyBackendOnShown();
+			if (_container == self.mContainer)
+				self.notifyBackendOnShown();
 		}
 	});
 }
 
-MSUPopup.prototype.isVisible = function ()
-{
-	return this.mContainer.hasClass('display-block');
-}
-
-MSUPopup.prototype.showRawText = function (_data)
-{
-	if (_data.forceQuit)
-	{
-		this.mTitle.text("Fatal Mod Error");
-		this.mFooterContainer.find(".ok-button:first").trigger('force-quit')
-	}
-	else
-	{
-		this.mTitle.text("Mod Error");
-	}
-	this.mListScrollContainer.append($('<div class="mod-raw-text">' + _data.text + '</div>'));
-	if (!this.isVisible())
-	{
-		this.show();
-	}
-}
-
-MSUPopup.prototype.showModUpdates = function (_mods)
-{
-	this.mTitle.text("Mod Updates Available");
-	var self = this;
-	$.each(_mods, function (_key, _modInfo)
-	{
-		var modInfoContainer = $('<div class="msu-mod-info-container"/>');
-		self.mListScrollContainer.append(modInfoContainer)
-		modInfoContainer.append($('<div class="mod-name title title-font-big font-bold font-color-title">' + _modInfo.name + '</div>'));
-
-		if ("GitHub" in _modInfo.sources)
-		{
-			var githubContainer = $('<div class="l-github-button"/>');
-			modInfoContainer.append(githubContainer);
-			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
-			{
-				openURL(_modInfo.sources.GitHub);
-			});
-		}
-		if ("NexusMods" in _modInfo.sources)
-		{
-			var nexusModsContainer = $('<div class="l-nexusmods-button"/>');
-			modInfoContainer.append(nexusModsContainer);
-			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
-			{
-				openURL(_modInfo.sources.NexusMods);
-			});
-		}
-
-		var colorFromIdx = 0;
-		if (_modInfo.updateType != "MAJOR")
-		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.') + 1;
-		}
-		if (_modInfo.updateType == "PATCH")
-		{
-			colorFromIdx = _modInfo.availableVersion.indexOf('.', colorFromIdx + 1) + 1;
-		}
-		var start = _modInfo.availableVersion.slice(0, colorFromIdx);
-		var coloredSpan = '<span style="color:red;">' + _modInfo.availableVersion.slice(colorFromIdx) + '</span>';
-		modInfoContainer.append($('<div class="version-info text-font-normal">' + _modInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
-	});
-	if (!this.isVisible()) this.show();
-}
-
-MSUPopup.prototype.hide = function ()
+MSUPopup.prototype.fadeOut = function (_container)
 {
 	var self = this;
-	this.mContainer.velocity("finish", true).velocity({ opacity: 0 },
+	if (_container.css("display") == "none")
+		return;
+	_container.velocity("finish", true).velocity({opacity: 0},
 	{
-		duration: Constants.SCREEN_FADE_IN_OUT_DELAY,
+		duration: Constants.SCREEN_SLIDE_IN_OUT_DELAY,
 		easing: 'swing',
 		begin: function()
 		{
@@ -174,11 +178,54 @@ MSUPopup.prototype.hide = function ()
 		},
 		complete: function()
 		{
-			self.notifyBackendOnHidden();
-			$(this).css({ opacity: 0 });
-			$(this).removeClass('display-block').addClass('display-none');
+			if (_container == self.mContainer)
+				self.notifyBackendOnHidden();
+			$(this).hide();
 		}
 	});
+}
+
+MSUPopup.prototype.setState = function (_state)
+{
+	if (!_state in this.mState)
+	{
+		console.error("Invalid State " + _state + " passed to MSU popup!");
+		return;
+	}
+	if (this.mCurrentState == _state)
+		return;
+	this.mCurrentState = _state;
+	if (this.mCurrentState == this.mState.None)
+	{
+		this.fadeOut(this.mContainer);
+		this.fadeOut(this.mSmallContainer);
+	}
+	else if (this.mCurrentState == this.mState.Small)
+	{
+		this.fadeIn(this.mSmallContainer);
+		this.fadeOut(this.mContainer);
+	}
+	else
+	{
+		this.fadeOut(this.mSmallContainer);
+		this.fadeIn(this.mContainer);
+	}
+}
+
+MSUPopup.prototype.hide = function ()
+{
+	if (this.mCurrentState == this.mState.Full)
+		this.setState(this.mState.Small);
+}
+
+MSUPopup.prototype.clear = function ()
+{
+	this.mListScrollContainer.empty();
+}
+
+MSUPopup.prototype.isVisible = function ()
+{
+	return this.mContainer.css('display') == "block";
 }
 
 MSUPopup.prototype.register = function (_parentDiv)

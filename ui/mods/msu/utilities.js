@@ -1,6 +1,7 @@
 var MSU = {
 	ID : "mod_msu",
 	Hooks : {},
+	Popup : Screens.MSUPopup
 };
 MSU.Utils = {};
 MSU.Utils.Timers = {};
