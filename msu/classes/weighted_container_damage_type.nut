@@ -78,7 +78,7 @@ foreach (k, v in ::MSU.Class.WeightedContainer)
 	}
 	else // function with vargv cannot have defparams
 	{
-		foreach (i, defparam in info.defparams)
+		foreach (i, defparam in info.defparams) // We don't add handling for ref-type defparams. We expect our parent classes to not have such functions.
 		{
 			if (defparam == null)
 				defparam = "null";
@@ -92,6 +92,5 @@ foreach (k, v in ::MSU.Class.WeightedContainer)
 	declarationParams = declarationParams.len() == 0 ? "" : declarationParams.reduce(@(a, b) a + ", " + b);
 	wrappedParams = wrappedParams.len() == 0 ? "" : wrappedParams.reduce(@(a, b) a + ", " + b);
 
-	local str = format("return function (%s) { this.doInit(); return base.%s(%s); }", declarationParams, k, wrappedParams);
-	::MSU.Class.DamageType[k] <- compilestring(str)();
+	::MSU.Class.DamageType[k] <- compilestring(format("return function (%s) { this.doInit(); return base.%s(%s); }", declarationParams, k, wrappedParams))();
 }
