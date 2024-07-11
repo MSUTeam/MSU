@@ -53,4 +53,30 @@
 		local ret = rem < _multiple * 0.5 ? num - rem : num + _multiple - rem;
 		return _num < 0 ? -ret : ret;
 	}
+
+	function roundToDec( _num, _decimalPlaces )
+	{
+		::MSU.requireInt(_decimalPlaces);
+		if (_decimalPlaces < 0)
+		{
+			::logError("_decimalPlaces must be >= 0");
+			throw ::MSU.Exception.InvalidValue(_decimalPlaces);
+		}
+
+		local tens = ::pow(10, _decimalPlaces);
+		return ::Math.round(tens * _num) / tens;
+	}
+
+	function truncf( _num, _decimalPlaces )
+	{
+		::MSU.requireInt(_decimalPlaces);
+		if (_decimalPlaces < 0)
+		{
+			::logError("_decimalPlaces must be >= 0");
+			throw ::MSU.Exception.InvalidValue(_decimalPlaces);
+		}
+
+		local tens = ::pow(10, _decimalPlaces);
+		return ::Math.floor(tens * _num) / tens;
+	}
 };
