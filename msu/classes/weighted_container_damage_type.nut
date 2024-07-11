@@ -68,6 +68,17 @@ foreach (k, v in ::MSU.Class.WeightedContainer)
 		continue;
 
 	local info = v.getinfos();
+
+	foreach (p in info.defparams)
+	{
+		local t = typeof p;
+		if (t == "array" || t == "table" || t == "instance" || t == "class")
+		{
+			::logError(format("WeightedContainer and its parent classes cannot have a function with reference type parameters -- function %s has a parameter with type %s", k, t));
+			throw ::MSU.Exception.InvalidValue(t);
+		}
+	}
+
 	local declarationParams = clone info.parameters; // used in compilestring for function declaration
 	local wrappedParams = clone declarationParams; // used in compilestring to call skills function
 
@@ -78,7 +89,7 @@ foreach (k, v in ::MSU.Class.WeightedContainer)
 	}
 	else // function with vargv cannot have defparams
 	{
-		foreach (i, defparam in info.defparams) // We don't add handling for ref-type defparams. We expect our parent classes to not have such functions.
+		foreach (i, defparam in info.defparams)
 		{
 			if (defparam == null)
 				defparam = "null";
