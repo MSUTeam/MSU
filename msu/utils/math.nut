@@ -29,7 +29,7 @@
 		return _min + (::Math.rand(0, 2147483647) / 2147483647.0) * (_max - _min);
 	}
 
-	function roundSig( _num, _significantFigures )
+	function roundToSig( _num, _significantFigures )
 	{
 		::MSU.requireInt(_significantFigures);
 		if (_num == 0)
