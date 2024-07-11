@@ -4,53 +4,15 @@
 
 	q.create = @(__original) function()
 	{
-		__original();
 		if (this.m.DamageType == null)
-			this.m.DamageType = ::MSU.Class.WeightedContainer();
-
-		if (this.m.IsAttack && this.m.DamageType.len() == 0)
 		{
-			switch (this.m.InjuriesOnBody)
-			{
-				case null:
-					this.m.DamageType.add(::Const.Damage.DamageType.None);
-					break;
-
-				case ::Const.Injury.BluntBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Blunt);
-					break;
-
-				case ::Const.Injury.PiercingBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
-					break;
-
-				case ::Const.Injury.CuttingBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
-					break;
-
-				case ::Const.Injury.BurningBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Burning);
-					break;
-
-				case ::Const.Injury.BluntAndPiercingBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Blunt, 55);
-					this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 45);
-					break;
-
-				case ::Const.Injury.BurningAndPiercingBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Burning, 25);
-					this.m.DamageType.add(::Const.Damage.DamageType.Piercing, 75);
-					break;
-
-				case ::Const.Injury.CuttingAndPiercingBody:
-					this.m.DamageType.add(::Const.Damage.DamageType.Cutting);
-					this.m.DamageType.add(::Const.Damage.DamageType.Piercing);
-					break;
-
-				default:
-					this.m.DamageType.add(::Const.Damage.DamageType.Unknown);
-			}
+			this.m.DamageType = ::MSU.Class.DamageType();
+			this.m.DamageType.setSkill(this);
 		}
+
+		__original();
+
+		this.m.DamageType.doInit();
 	}
 });
 
