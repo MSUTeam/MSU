@@ -26,6 +26,15 @@
 			else
 			{
 				local info = _function.getinfos();
+				foreach (p in info.defparams)
+				{
+					local t = typeof p;
+					if (t == "array" || t == "table" || t == "instance" || t == "class")
+					{
+						::logError("addEvent cannot be used to add functions with reference type defparams");
+						throw ::MSU.Exception.InvalidValue(t);
+					}
+				}
 				local declarationParams = clone info.parameters; // used in compilestring for function declaration
 				declarationParams.remove(0) // remove "this"
 				local wrappedParams = clone declarationParams; // used in compilestring to call skills function
