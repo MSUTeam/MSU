@@ -39,6 +39,9 @@
 				{
 					foreach (i, defparam in info.defparams)
 					{
+						if (defparam == null)
+							defparam = "null";
+
 						declarationParams[declarationParams.len() - info.defparams.len() + i] += " = " + defparam;
 					}
 				}
