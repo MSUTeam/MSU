@@ -41,18 +41,27 @@
 					break;
 
 				case ::Const.Injury.BluntAndPiercingBody:
-					this.add(::Const.Damage.DamageType.Blunt, 55);
-					this.add(::Const.Damage.DamageType.Piercing, 45);
+					local blunt = ::Const.Injury.BluntBody.len() + ::Const.Injury.BluntHead.len();
+					local piercing = ::Const.Injury.PiercingBody.len() + ::Const.Injury.PiercingHead.len();
+					local total = (blunt + piercing).tofloat();
+					this.add(::Const.Damage.DamageType.Blunt, ::MSU.Math.round(100 * blunt / total, 5)); // We round to the nearest multiple of 5 to make it "cleaner" for players
+					this.add(::Const.Damage.DamageType.Piercing, ::MSU.Math.round(100 * blunt / total, 5));
 					break;
 
 				case ::Const.Injury.BurningAndPiercingBody:
-					this.add(::Const.Damage.DamageType.Burning, 25);
-					this.add(::Const.Damage.DamageType.Piercing, 75);
+					local burning = ::Const.Injury.BurningBody.len() + ::Const.Injury.BurningHead.len();
+					local piercing = ::Const.Injury.PiercingBody.len() + ::Const.Injury.PiercingHead.len();
+					local total = (burning + piercing).tofloat();
+					this.add(::Const.Damage.DamageType.Burning, ::MSU.Math.round(100 * burning / total, 5));
+					this.add(::Const.Damage.DamageType.Piercing, ::MSU.Math.round(100 * piercing / total, 5));
 					break;
 
 				case ::Const.Injury.CuttingAndPiercingBody:
-					this.add(::Const.Damage.DamageType.Cutting);
-					this.add(::Const.Damage.DamageType.Piercing);
+					local cutting = ::Const.Injury.CuttingBody.len() + ::Const.Injury.CuttingHead.len();
+					local piercing = ::Const.Injury.PiercingBody.len() + ::Const.Injury.PiercingHead.len();
+					local total = (cutting + piercing).tofloat();
+					this.add(::Const.Damage.DamageType.Cutting, ::MSU.Math.round(100 * cutting / total, 5));
+					this.add(::Const.Damage.DamageType.Piercing, ::MSU.Math.round(100 * piercing / total, 5));
 					break;
 
 				default:
