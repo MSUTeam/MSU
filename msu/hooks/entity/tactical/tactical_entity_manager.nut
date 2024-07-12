@@ -4,6 +4,9 @@
 	q.spawn = @(__original) function( _properties )
 	{
 		local ret = __original(_properties);
+
+		::World.Assets.getOrigin().onCombatStarted();
+
 		foreach (i, faction in this.getAllInstances())
 		{
 			if (i != ::Const.Faction.Player)

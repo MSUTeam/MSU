@@ -7,6 +7,10 @@
 	{
 	}
 
+	q.onCombatStarted <- function()
+	{
+	}
+
 	q.getMovementSpeedMult <- function()
 	{
 		return 1.0;
