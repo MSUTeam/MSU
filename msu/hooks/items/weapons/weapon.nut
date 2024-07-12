@@ -31,6 +31,9 @@
 		}
 		if (_skill.isType(::Const.SkillType.Active))
 		{
+			// We reset the FatigueCost so any modifications to it from other skills is reverted
+			// the latter part is a copy of the vanilla code applying FatigueOnSkillUse
+			// which we then include in the skill's base fatigue cost (so that orc weapon skills get the proper fatigue cost)
 			_skill.resetField("FatigueCost");
 			local fatigueOnSkillUse = this.getContainer().getActor().getCurrentProperties().IsProficientWithHeavyWeapons && this.m.FatigueOnSkillUse > 0 ? 0 : this.m.FatigueOnSkillUse;
 			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
