@@ -45,7 +45,7 @@
 					local piercing = ::Const.Injury.PiercingBody.len() + ::Const.Injury.PiercingHead.len();
 					local total = (blunt + piercing).tofloat();
 					this.add(::Const.Damage.DamageType.Blunt, ::MSU.Math.roundToMult(100 * blunt / total, 5)); // We round to the nearest multiple of 5 to make it "cleaner" for players
-					this.add(::Const.Damage.DamageType.Piercing, ::MSU.Math.roundToMult(100 * blunt / total, 5));
+					this.add(::Const.Damage.DamageType.Piercing, ::MSU.Math.roundToMult(100 * piercing / total, 5));
 					break;
 
 				case ::Const.Injury.BurningAndPiercingBody:
