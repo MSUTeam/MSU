@@ -24,14 +24,21 @@
 		{
 			for (local i = 0; i < len; i++)
 			{
-				local typeFlag = startString + "." + i + ".type";
 				local dataFlag = startString + "." + i + ".data";
-				if (!this.FlagContainer.has(typeFlag) || !this.FlagContainer.has(dataFlag))
+				if (!this.FlagContainer.has(dataFlag))
 					return false;
 
-				this.SerializationData.write(this.FlagContainer.get(dataFlag), this.FlagContainer.get(typeFlag));
+				local typeFlag = startString + "." + i + ".type";
+				if (!this.FlagContainer.has(typeFlag))
+				{
+					this.SerializationData.push(this.FlagContainer.get(dataFlag));
+				}
+				else
+				{
+					this.SerializationData.write(this.FlagContainer.get(dataFlag), this.FlagContainer.get(typeFlag));
+					this.FlagContainer.remove(typeFlag);
+				}
 
-				this.FlagContainer.remove(typeFlag);
 				this.FlagContainer.remove(dataFlag);
 			}
 		}

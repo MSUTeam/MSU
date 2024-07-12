@@ -20,8 +20,21 @@
 		{
 			local startString = this.getEmulatorString();
 			this.FlagContainer.set(startString, this.SerializationData.len());
-			this.FlagContainer.set(startString + "." + (this.SerializationData.len() - 1) + ".type", _type);
-			this.FlagContainer.set(startString + "." + (this.SerializationData.len() - 1) + ".data", _data);
+			local prefix = startString + "." + (this.SerializationData.len() - 1);
+			this.__storeTypeInFlagContainer(prefix, _type);
+			this.FlagContainer.set(prefix + ".data", _data);
+		}
+	}
+
+	function __storeTypeInFlagContainer( _prefix, _type )
+	{
+		switch (_type)
+		{
+			case ::MSU.Serialization.DataType.U8: case ::MSU.Serialization.DataType.U16: case ::MSU.Serialization.DataType.U32:
+			case ::MSU.Serialization.DataType.I8: case ::MSU.Serialization.DataType.I16: case ::MSU.Serialization.DataType.I32:
+			case ::MSU.Serialization.DataType.F32:
+				this.FlagContainer.set(_prefix + ".type", _type);
+				break;
 		}
 	}
 
@@ -36,8 +49,9 @@
 		this.FlagContainer.set(startString, this.SerializationData.len());
 		foreach (i, element in this.SerializationData.getDataArray())
 		{
-			this.FlagContainer.set(startString + "." + i + ".type", element.getType());
-			this.FlagContainer.set(startString + "." + i + ".data", element.getData());
+			local prefix = startString + "." + i;
+			this.__storeTypeInFlagContainer(prefix, element.getType());
+			this.FlagContainer.set(prefix + ".data", element.getData());
 		}
 	}
 }
