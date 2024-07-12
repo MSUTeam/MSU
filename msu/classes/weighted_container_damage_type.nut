@@ -80,7 +80,7 @@ foreach (k, v in ::MSU.Class.WeightedContainer)
 	}
 
 	local declarationParams = clone info.parameters; // used in compilestring for function declaration
-	local wrappedParams = clone declarationParams; // used in compilestring to call skills function
+	local wrappedParams = clone declarationParams; // used in compilestring to call base function
 
 	if (declarationParams[declarationParams.len() - 1] == "...")
 	{
