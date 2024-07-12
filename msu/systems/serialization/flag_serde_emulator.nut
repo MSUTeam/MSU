@@ -31,6 +31,8 @@
 		for (local i = 0; i < this.SerializationData.len(); ++i)
 		{
 			this.FlagContainer.remove(startString + "." + i);
+			this.FlagContainer.remove(startString + "." + i + ".type");
+			this.FlagContainer.remove(startString + "." + i + ".data");
 		}
 	}
 }
