@@ -20,7 +20,8 @@
 		{
 			local startString = this.getEmulatorString();
 			this.FlagContainer.set(startString, this.SerializationData.len());
-			this.FlagContainer.set(startString + "." + (this.SerializationData.len() - 1), _data);
+			this.FlagContainer.set(startString + "." + (this.SerializationData.len() - 1) + ".type", _type);
+			this.FlagContainer.set(startString + "." + (this.SerializationData.len() - 1) + ".data", _data);
 		}
 	}
 
@@ -33,9 +34,10 @@
 		}
 		local startString = this.getEmulatorString();
 		this.FlagContainer.set(startString, this.SerializationData.len());
-		foreach (idx, element in this.SerializationData.getDataRaw())
+		foreach (i, element in this.SerializationData.getDataArray())
 		{
-			this.FlagContainer.set(startString + "." + idx, element);
+			this.FlagContainer.set(startString + "." + i + ".type", element.getType());
+			this.FlagContainer.set(startString + "." + i + ".data", element.getData());
 		}
 	}
 }
