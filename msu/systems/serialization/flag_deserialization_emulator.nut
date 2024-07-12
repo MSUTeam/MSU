@@ -29,10 +29,7 @@
 				if (!this.FlagContainer.has(typeFlag) || !this.FlagContainer.has(dataFlag))
 					return false;
 
-				local type = this.FlagContainer.get(typeFlag);
-				local data = this.FlagContainer.get(dataFlag);
-
-				this.SerializationData.write(data, type);
+				this.SerializationData.write(this.FlagContainer.get(dataFlag), this.FlagContainer.get(typeFlag));
 
 				this.FlagContainer.remove(typeFlag);
 				this.FlagContainer.remove(dataFlag);
