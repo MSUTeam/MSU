@@ -20,7 +20,7 @@
 
 		local len = this.FlagContainer.get(startString);
 		this.FlagContainer.remove(startString);
-		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.4.0", this.MetaData))
+		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.4.0-a", this.MetaData))
 		{
 			for (local i = 0; i < len; i++)
 			{
