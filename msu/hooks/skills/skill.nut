@@ -209,14 +209,6 @@
 		}
 	}
 
-	// TODO: Should probably switch to a hookTree VeryLateBucket
-	// TODO: Should call the original before setting the base value
-	q.setFatigueCost = @(__original) function( _f )
-	{
-		this.setBaseValue("FatigueCost", _f);
-		return __original(_f);
-	}
-
 	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}

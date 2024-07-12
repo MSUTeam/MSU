@@ -29,6 +29,14 @@
 			_skill.m.AdditionalAccuracy += this.m.AdditionalAccuracy;
 			_skill.setBaseValue("AdditionalAccuracy", _skill.m.AdditionalAccuracy);
 		}
+		if (_skill.isType(::Const.SkillType.Active))
+		{
+			_skill.resetField("FatigueCost");
+			local fatigueOnSkillUse = this.getContainer().getActor().getCurrentProperties().IsProficientWithHeavyWeapons && this.m.FatigueOnSkillUse > 0 ? 0 : this.m.FatigueOnSkillUse;
+			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
+			_skill.setFatigueCost(fatCost);
+			_skill.setBaseValue("FatigueCost", fatCost);
+		}
 		return ret;
 	}
 
