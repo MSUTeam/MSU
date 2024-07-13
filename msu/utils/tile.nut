@@ -52,16 +52,16 @@
 		{
 			local xDist = ::abs(originX - x);
 			if (xDist < _min)
-				xDist = ::Math.min(mapX, originX + _max);
-			else if (xDist > _max)
+				x = ::Math.min(mapX, originX + _min);
+			if (xDist > _max)
 				break;
 
 			for (y = ::Math.max(0, originY - _max); y < mapY; y++)
 			{
 				local yDist = ::abs(originY - y);
 				if (yDist < _min)
-					yDist = ::Math.min(mapY, originY + _max);
-				else if (yDist > _max)
+					y = ::Math.min(mapY, originY + _min);
+				if (yDist > _max)
 					break;
 
 				ret.push(::Tactical.getTileSquare(x, y));
