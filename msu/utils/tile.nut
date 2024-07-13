@@ -33,7 +33,12 @@
 		}
 
 		if (_max == 1)
-			return this.getNeighbors(_tile);
+		{
+			local ret = this.getNeighbors(_tile);
+			if (_min == 0)
+				ret.push(_tile);
+			return ret;
+		}
 
 		local ret = [];
 
