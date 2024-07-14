@@ -21,8 +21,9 @@ local blockSQInput = generalPage.addBooleanSetting("blockSQInput", true, "Don't 
 blockSQInput.setDescription("Whether keybinds should be blocked when you are writing text.\nBy default, writing text in something like a 'change name' popup will still allow normal game keybinds to work. For example, writing a 'c' would open the stash screen.\nMSU disables game keybinds when you're writing something, but there might be issues with some mods.\nKeep this enabled unless you're having issues with keybinds not working properly.");
 blockSQInput.addAfterChangeCallback(@ (_oldValue) ::MSU.System.Keybinds.InputDenied = false); // use it as an opportunity to reset
 
-local vanillaBBCode = generalPage.addBooleanSetting("VanillaBBCode", false, "Enable Italic/Bold Vanilla Text");
-vanillaBBCode.setDescription("Toggles vanilla bold/italic font modifications being applied, in vanilla these don't work, but are still in the code for some reason, when MSU fixes this behavior to work for mods, suddenly these will apply in vanilla as well.\nThis will make some text look [mb]Bold[/mb] and [mi]Italic[/mi].\n\nSome text may require a restart after toggling this setting.");
+local vanillaBBCode = generalPage.addBooleanSetting("VanillaBBCode", false, "Enable Bold Vanilla Text");
+vanillaBBCode.setDescription("Toggles vanilla bold font modifications being applied, in vanilla these don't work, but are still in the code for some reason, when MSU fixes this behavior to work for mods, suddenly these will apply in vanilla as well.\nThis will make some text look [mb]Bold[/mb].");
+vanillaBBCode.addCallback(@ (_value) ::MSU.UI.JSConnection.onVanillaBBCodeUpdated(_value));
 
 local logPage = ::MSU.Mod.ModSettings.addPage("Logging");
 

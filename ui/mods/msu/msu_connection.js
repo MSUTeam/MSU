@@ -162,4 +162,18 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 	MSU.Popup.setState(MSU.Popup.mState.Small);
 }
 
+// this should be reworked if/when we added JS side settings callbacks
+MSUConnection.prototype.onVanillaBBCodeUpdated = function (_bool)
+{
+	var elements = document.getElementsByTagName('link');
+	for (var i = 0; i < elements.length; i++)
+	{
+		if (elements[i].href.indexOf("ui/mods/msu/css/vanilla_font_unbold.css") != -1)
+		{
+			elements[i].disabled = _bool;
+			break;
+		}
+	}
+}
+
 registerScreen("MSUConnection", new MSUConnection());
