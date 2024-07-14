@@ -125,6 +125,7 @@ MSUPopup.prototype.create = function(_parentDiv)
 {
 	this.createDIV(_parentDiv);
 	this.createSmallDIV(_parentDiv);
+	this.mSmallContainer.hide();
 };
 
 MSUPopup.prototype.destroy = function ()

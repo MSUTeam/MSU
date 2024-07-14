@@ -154,7 +154,8 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 		}
 		MSU.Popup.addListContent(modInfoContainer)
 	});
-
+	if (numUpdates == 0)
+		return;
 	var checkText = "" + numMods + (numMods == 1 ? " mod" : " mods") + " checked<br>";
 	checkText += numUpdates + (numUpdates == 1 ? " update" : " updates");
 	MSU.Popup.setSmallContainerInfo(checkText);
