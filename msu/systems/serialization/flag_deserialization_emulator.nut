@@ -24,11 +24,11 @@
 		{
 			for (local i = 0; i < len; i++)
 			{
-				local dataFlag = startString + "." + i + ".data";
+				local dataFlag = startString + ".data." + i;
 				if (!this.FlagContainer.has(dataFlag))
 					return false;
 
-				local typeFlag = startString + "." + i + ".type";
+				local typeFlag = startString + ".type." + i;
 				this.SerializationData.write(this.FlagContainer.get(dataFlag), this.FlagContainer.get(typeFlag));
 
 				this.FlagContainer.remove(typeFlag);
