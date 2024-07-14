@@ -20,14 +20,33 @@
 
 		local len = this.FlagContainer.get(startString);
 		this.FlagContainer.remove(startString);
-		for (local i = 0; i < len; ++i)
+		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.4.0-a", this.MetaData))
 		{
-			local currentFlag = startString + "." + i;
-			if (!this.FlagContainer.has(currentFlag))
-				return false;
-			this.SerializationData.push(this.FlagContainer.get(currentFlag));
-			this.FlagContainer.remove(currentFlag);
+			for (local i = 0; i < len; i++)
+			{
+				local dataFlag = startString + ".data." + i;
+				if (!this.FlagContainer.has(dataFlag))
+					return false;
+
+				local typeFlag = startString + ".type." + i;
+				this.SerializationData.write(this.FlagContainer.get(dataFlag), this.FlagContainer.get(typeFlag));
+
+				this.FlagContainer.remove(typeFlag);
+				this.FlagContainer.remove(dataFlag);
+			}
 		}
+		else
+		{
+			for (local i = 0; i < len; ++i)
+			{
+				local currentFlag = startString + "." + i;
+				if (!this.FlagContainer.has(currentFlag))
+					return false;
+				this.SerializationData.push(this.FlagContainer.get(currentFlag));
+				this.FlagContainer.remove(currentFlag);
+			}
+		}
+
 		return true;
 	}
 }
