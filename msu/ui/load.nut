@@ -1,8 +1,7 @@
 ::Hooks.registerJS("ui/mods/msu/popup.js");
-::Hooks.registerCSS("ui/mods/msu/css/popup.css");
 
-::Hooks.registerCSS("ui/mods/msu/css/misc.css");
-::Hooks.registerCSS("ui/mods/msu/css/settings_screen.css");
+foreach (file in ::IO.enumerateFiles("ui/mods/msu/css/"))
+	::Hooks.registerCSS(file + ".css");
 
 ::Hooks.registerJS("ui/mods/msu/utilities.js");
 
