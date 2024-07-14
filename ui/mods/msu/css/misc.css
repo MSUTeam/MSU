@@ -120,6 +120,18 @@
 	font-family: 'Cinzel', monospace;
 }
 
+.msu-font-mb
+.msu-font-bold
+{
+	font-weight: bold !important;
+}
+
+.msu-font-mi
+.msu-font-italic
+{
+	font-style: italic !important;
+}
+
 /* Outline for debugging */
 .line
 {

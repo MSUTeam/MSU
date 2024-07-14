@@ -1,0 +1,5 @@
+/* unbolds all vanilla fonts except for title-fonts to maintain vanilla behavior */
+.font-bold:not([class*="title-font"])
+{
+	font-weight: normal !important;
+}

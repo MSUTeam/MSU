@@ -1,11 +1,18 @@
 this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
-	m = {},
+	m = {
+		FunctionBuffer = []
+	},
 
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUConnection", this);
 		this.querySettingsData();
 		this.checkForModUpdates();
+		foreach (fn in this.m.FunctionBuffer)
+		{
+			fn();
+		}
+		this.m.FunctionBuffer.clear();
 	}
 
 	function querySettingsData()
@@ -51,5 +58,19 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 	function compareModVersions( _modVersionData )
 	{
 		return ::MSU.System.Registry.checkIfModVersionsAreNew(_modVersionData);
+	}
+
+	function onVanillaBBCodeUpdated( _bool )
+	{
+		if (this.m.JSHandle != null)
+		{
+			this.m.JSHandle.asyncCall("onVanillaBBCodeUpdated", _bool);
+		}
+		else
+		{
+			this.m.FunctionBuffer.push(function() {
+				this.onVanillaBBCodeUpdated(_bool);
+			});
+		}
 	}
 });
