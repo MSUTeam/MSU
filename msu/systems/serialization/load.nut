@@ -5,16 +5,11 @@ function includeFile( _file )
 includeFile("metadata_emulator");
 includeFile("serde_emulator");
 includeFile("flag_serde_emulator");
-includeFile("flag_serialization_emulator");
-includeFile("flag_deserialization_emulator");
-includeFile("serialization_emulator");
-includeFile("deserialization_emulator");
+includeFile("serialization_system");
+includeFile("serialization_mod_addon");
+::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization"));
 
-includeFile("serialization_system.nut");
 ::MSU.System.Serialization <- ::MSU.Class.SerializationSystem();
-includeFile("serialization_mod_addon.nut");
-
-::MSU.includeFiles(::IO.enumerateFiles("msu/systems/serialization/serialization_types"));
 
 ::MSU.QueueBucket.AfterHooks.push(function() {
 	local worldState = ::new("scripts/states/world_state");

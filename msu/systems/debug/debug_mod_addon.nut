@@ -20,22 +20,22 @@
 		::MSU.System.Debug.setFlags(this.Mod.getID(), _flagTable);
 	}
 
-	function isEnabled( _flagID = ::MSU.System.Debug.DefaultFlag )
+	function isEnabled( _flagID = ::MSU.Class.DebugSystem.DefaultFlag )
 	{
 		return ::MSU.System.Debug.isEnabledForMod(this.Mod.getID(), _flagID);
 	}
 
-	function printLog( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	function printLog( _text, _flagID = ::MSU.Class.DebugSystem.DefaultFlag )
 	{
 		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Info, _flagID);
 	}
 
-	function printWarning( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	function printWarning( _text, _flagID = ::MSU.Class.DebugSystem.DefaultFlag )
 	{
 		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Warning, _flagID);
 	}
 
-	function printError( _text, _flagID = ::MSU.System.Debug.DefaultFlag )
+	function printError( _text, _flagID = ::MSU.Class.DebugSystem.DefaultFlag )
 	{
 		::MSU.System.Debug.print(_text, this.Mod.getID(), ::MSU.System.Debug.LogType.Error, _flagID);
 	}

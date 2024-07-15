@@ -1,6 +1,6 @@
 ::MSU.Class.ModSourceGitHub <- class extends ::MSU.Class.ModSource
 {
-	static ModSourceDomain = ::MSU.System.Registry.ModSourceDomain.GitHub;
+	static ModSourceDomain = ::MSU.Class.RegistrySystem.ModSourceDomain.GitHub;
 	static Regex = regexp("https:\\/\\/github\\.com\\/([-\\w]+)\\/([-\\w]+)");
 
 	constructor( _url )
