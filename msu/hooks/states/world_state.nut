@@ -355,6 +355,15 @@
 			__original(_in);
 		}
 
+		q.saveCampaign = @(__original) function( _campaignFileName, _campaignLabel = null )
+		{
+			__original(_campaignFileName, _campaignLabel);
+			// The c++ metadata object cannot be "stored safely" on the squirrel side except during an actual ser/de process.
+			// This means that after the ser/de process, any function call on that metadata object causes the game to crash.
+			// Therefore we initialize an emulator with the proper information and store that.
+			this.onBeforeSerialize(::MSU.Class.SerializationEmulator(::MSU.Class.MetaDataEmulator()));
+		}
+
 		q.onDeserialize = @(__original) function( _out )
 		{
 			__original(_out);
