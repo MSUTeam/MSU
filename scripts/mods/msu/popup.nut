@@ -1,10 +1,15 @@
 this.popup <- {
+	State = {
+		None = 0,
+		Small = 1,
+		Full = 2
+	}
 	m = {
 		Visible = false,
 		Animating = false,
 		JSHandle = null,
-		TextCache = "",
-		ForceQuit = false
+		ForceQuit = false,
+		FunctionBuffer = [],
 	}
 
 	function isVisible()
@@ -17,32 +22,65 @@ this.popup <- {
 		return this.m.Animating;
 	}
 
-	function showRawText( _text, _forceQuit = false )
+	function addMessage( _info )
 	{
-		if (_forceQuit) this.m.ForceQuit = true;
 		if (this.m.JSHandle == null)
 		{
-			if (this.m.TextCache != "") this.m.TextCache += "<br>";
-			this.m.TextCache += _text;
+			this.m.FunctionBuffer.push(function(){
+				this.addMessage(_info);
+			})
+			return;
 		}
-		else
-		{
-			local data = {
-				forceQuit = this.m.ForceQuit,
-				text = _text
-			}
-			this.m.JSHandle.asyncCall("showRawText", data);
-		}
+		this.m.JSHandle.asyncCall("addMessage", _info);
 	}
 
-	function showModUpdates( _modInfos )
+	function setState(_state)
 	{
-		this.m.JSHandle.asyncCall("showModUpdates", _modInfos);
+		if (this.m.JSHandle == null)
+		{
+			this.m.FunctionBuffer.push(function(){
+				this.setState(_state);
+			})
+			return;
+		}
+		this.m.JSHandle.asyncCall("setState", _state);
 	}
 
-	function forceQuit( _bool )
+	function setInfoText(_text)
+	{
+		if (this.m.JSHandle == null)
+		{
+			this.m.FunctionBuffer.push(function(){
+				this.setInfoText(_text);
+			})
+			return;
+		}
+		this.m.JSHandle.asyncCall("setSmallContainerInfo", _text);
+	}
+
+	function setTitle(_text)
+	{
+		if (this.m.JSHandle == null)
+		{
+			this.m.FunctionBuffer.push(function(){
+				this.setTitle(_text);
+			})
+			return;
+		}
+		this.m.JSHandle.asyncCall("setTitle", _text);
+	}
+
+	function setForceQuit( _bool )
 	{
 		this.m.ForceQuit = _bool;
+		if (this.m.JSHandle == null)
+		{
+			this.m.FunctionBuffer.push(function(){
+				this.setForceQuit(_bool);
+			})
+			return;
+		}
+		this.m.JSHandle.asyncCall("setForceQuit", _bool);
 	}
 
 	function isForceQuitting()
@@ -53,16 +91,24 @@ this.popup <- {
 	function connect()
 	{
 		this.m.JSHandle = ::UI.connect("MSUPopup", this);
-		if (this.m.TextCache != "")
+		if (this.m.FunctionBuffer.len() > 0)
 		{
-			this.showRawText(this.m.TextCache)
-			this.m.TextCache = "";
+			foreach (func in this.m.FunctionBuffer)
+			{
+				func.call(this);
+			}
 		}
+		delete this.m.FunctionBuffer;
 	}
 
 	function hide()
 	{
 		this.m.JSHandle.asyncCall("hide", null);
+	}
+
+	function clear()
+	{
+		this.m.JSHandle.asyncCall("clear", null);
 	}
 
 	function quitGame()

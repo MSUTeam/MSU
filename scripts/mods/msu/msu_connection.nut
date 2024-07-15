@@ -39,14 +39,19 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		this.m.JSHandle.asyncCall("clearKeys", null);
 	}
 
+	function setInputDenied( _bool )
+	{
+		::MSU.System.Keybinds.InputDenied = _bool;
+	}
+
 	function checkForModUpdates()
 	{
 		this.m.JSHandle.asyncCall("checkForModUpdates", ::MSU.System.Registry.getModsForUpdateCheck());
 	}
 
-	function receiveModVersions( _modVersions )
+	function compareModVersions( _modVersionData )
 	{
-		::MSU.System.Registry.checkIfModVersionsAreNew(_modVersions);
+		return ::MSU.System.Registry.checkIfModVersionsAreNew(_modVersionData);
 	}
 
 	function passTooltipIdentifiers(_table)

@@ -14,4 +14,8 @@
 	}
 	return false;
 }, "Close MSU Popup");
+::MSU.Mod.Keybinds.addSQKeybind("ShowPopup", "ctrl+alt+p", ::MSU.Key.State.All, function()
+{
+	::MSU.Popup.setState(::MSU.Popup.State.Small);
+}, "Show Popup");
 ::MSU.Mod.Keybinds.addJSKeybind("LockTooltip", "rightclick", "Lock Tooltip", "Instantly locks a tooltip, skipping the timer.");

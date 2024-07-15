@@ -1,4 +1,5 @@
 .msu-popup {
+	display: none;
 	height: 72.0rem !important;
 	width: 80.0rem !important;
 	position: relative;
@@ -8,12 +9,49 @@
 	z-index: 100 !important;
 }
 
+.msu-popup-small
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 0;
+	z-index: 100 !important;
+	background-image: url("coui://gfx/mods/msu/skin/generic_background_large_border.png");
+	background-size: 100% 100%;
+	padding: 0.5rem;
+}
+.msu-popup-small.msu-popup-main-menu-screen
+{
+	left: 50%;
+	transform: translateX(-50%);
+}
+.msu-popup-small-update-button
+{
+	margin-bottom: 1rem;
+	height: 3rem;
+	width: 3rem;
+	background-image: url("coui://gfx/mods/msu/buttons/mod_update.png");
+	background-size: 100% 100%;
+}
+.msu-popup-main-menu-screen > .msu-popup-small-update-button
+{
+	height: 5rem;
+	width: 5rem;
+}
+.msu-popup-small-update-info
+{
+	max-width: 12rem;
+	font-size: 1.5rem;
+	word-wrap: break-word;
+	text-align: center;
+}
+
 .msu-popup .header {
 	height: 10rem;
 	width: 100%;
 	margin: 1rem 0 1rem 0;
-	position: relative;
-	vertical-align: middle;
 }
 
 .msu-popup .header .title {
@@ -47,51 +85,42 @@
 .msu-mod-info-container
 {
 	width: 100%;
-	height: 11.8rem;
 	overflow: hidden;
 	position: relative;
 	color: #dda21f;
+	padding-top: 1.5rem;
 
 	background-image: url("coui://gfx/ui/skin/list_item_03.png");
 	background-size: 100% 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
-.msu-mod-info-container .mod-name
+.msu-mod-info-container > div
 {
-	position: absolute;
-	height: 4rem;
-	line-height: 4rem;
-	left: 1.5rem;
-	top: 1.5rem;
+	width: 90%;
+	height: auto;
+	overflow:auto;
+	word-wrap: break-word;
+	margin-bottom: 1.5rem;
 }
 
-.msu-mod-info-container .version-info
+.msu-mod-info-container .msu-mod-version-row .msu-mod-version-info
 {
-	position: absolute;
-	bottom: 1.5rem;
-	left: 1.5rem;
+	float: left;
+}
+
+.msu-mod-info-container .l-github-button,
+.msu-mod-info-container .l-nexusmods-button
+{
+	float: right;
+	width: 3.2rem;
+	height: 3.2rem;
 }
 
 .msu-mod-info-container .ui-control.button,
 .msu-mod-info-container .ui-control.button[disabled]
 {
 	background-color: rgba(0, 0, 0, 0.0);
-}
-
-.msu-mod-info-container .l-github-button
-{
-	position: absolute;
-	bottom: 1.5rem;
-	right: 1.5rem;
-	width: 3.2rem;
-	height: 3.2rem;
-}
-
-.msu-mod-info-container .l-nexusmods-button
-{
-	position: absolute;
-	bottom: 1.5rem;
-	right: 5.5rem;
-	width: 3.2rem;
-	height: 3.2rem;
 }

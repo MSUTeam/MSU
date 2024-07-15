@@ -1,8 +1,10 @@
 ::MSU.Class.PersistentDataSystem <- class extends ::MSU.Class.System
 {
+	static FilePrefix = "MSU#";
 	Mods = null;
 	ModConfigPath = "mod_config/";
 	Separator = "@"
+	FilenameRegexp = regexp("^[\\w\\d\\,\\-\\+\\# ]+$");
 
 	constructor()
 	{
@@ -107,5 +109,47 @@
 		}
 		result += this.Separator
 		::logInfo(result);
+	}
+
+	function createFile( _filename, _dataArray )
+	{
+		::MSU.requireInstanceOf(::MSU.Class.ArrayData, _dataArray);
+		this.validateFilename(_filename);
+		local storage = ::PersistenceManager.createStorage(_filename);
+		storage.beginWrite();
+		_dataArray.serialize(storage);
+		storage.endWrite();
+	}
+
+	function validateFilename( _filename )
+	{
+		if (!this.FilenameRegexp.match(_filename))
+		{
+			::logError("Battle Brothers file saves can only contain the characters 'a-zA-Z0-9_,-+# '");
+			throw ::MSU.Exception.InvalidValue(_filename);
+		}
+	}
+
+	function hasFile( _filename )
+	{
+		local storages = ::PersistenceManager.queryStorages();
+		foreach (storage in storages)
+			if (storage.getFileName() == _filename)
+				return true;
+		return false;
+	}
+
+	function readFile( _filename )
+	{
+		if (!this.hasFile(_filename))
+		{
+			::logError("tried to read file that doesn't exist");
+			throw ::MSU.Exception.InvalidValue(_filename);
+		}
+		local storage = ::PersistenceManager.loadStorage(_filename);
+		storage.beginRead();
+		local data = ::MSU.Serialization.__readValueFromStorage(storage.readU8(), storage);
+		storage.endRead();
+		return data;
 	}
 }

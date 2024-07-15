@@ -4,21 +4,21 @@
 	{
 		local keybind = ::MSU.Class.KeybindSQ(this.Mod.getID(), _id, _keyCombinations, _state, _function, _name, _keyState);
 		keybind.setDescription(_description);
-		::MSU.System.Keybinds.add(keybind);
+		return ::MSU.System.Keybinds.add(keybind);
 	}
 
 	function addJSKeybind( _id, _keyCombinations, _name = null, _description = "" )
 	{
 		local keybind = ::MSU.Class.KeybindJS(this.Mod.getID(), _id, _keyCombinations, _name);
 		keybind.setDescription(_description);
-		::MSU.System.Keybinds.add(keybind);
+		return ::MSU.System.Keybinds.add(keybind);
 	}
 
 	function addPassiveKeybind( _id, _keyCombinations, _name = null, _description = "" )
 	{
 		local keybind = ::MSU.Class.KeybindSQPassive(this.Mod.getID(), _id, _keyCombinations, _name);
 		keybind.setDescription(_description);
-		::MSU.System.Keybinds.add(keybind);
+		return ::MSU.System.Keybinds.add(keybind);
 	}
 
 	function isKeybindPressed( _id )

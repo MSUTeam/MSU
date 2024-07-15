@@ -31,7 +31,7 @@
 
 	function registerMod( _mod )
 	{
-		if (typeof _mod != "instance" || !(_mod instanceof ::MSU.Class.Mod))
+		if (!(_mod instanceof ::MSU.Class.Mod))
 		{
 			throw ::MSU.Exception.InvalidType(_mod);
 		}

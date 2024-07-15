@@ -1,6 +1,6 @@
 ::MSU.isNull <- function( _object )
 {
-	return _object == null || (typeof _object == "instance" && _object instanceof ::WeakTableRef && _object.isNull());
+	return _object == null || (_object instanceof ::WeakTableRef && _object.isNull());
 }
 
 ::MSU.getField <- function( _object, _key )
@@ -89,7 +89,7 @@
 ::MSU.isKindOf <- function( _object, _className )
 {
 	if (_object == null || _className == null) return false;
-	if (typeof _object == "instance" && _object instanceof ::WeakTableRef)
+	if (_object instanceof ::WeakTableRef)
 	{
 		if (_object.isNull()) return false;
 		_object = _object.get();
@@ -115,17 +115,78 @@
 
 ::MSU.isEqual <- function( _1, _2 )
 {
-	if (typeof _1 == "instance" && _1 instanceof ::WeakTableRef) _1 = _1.get();
-	if (typeof _2 == "instance" && _2 instanceof ::WeakTableRef) _2 = _2.get();
+	if (_1 instanceof ::WeakTableRef) _1 = _1.get();
+	if (_2 instanceof ::WeakTableRef) _2 = _2.get();
 
 	return _1 == _2;
 }
 
 ::MSU.isBBObject <- function( _object, _allowWeakTableRef = true )
 {
-	if (typeof _object == "instance" && _object instanceof ::WeakTableRef && _allowWeakTableRef)
+	if (_object instanceof ::WeakTableRef && _allowWeakTableRef)
 		_object = _object.get();
 	return typeof _object == "table" && "_release_hook_DO_NOT_delete_it_" in _object;
+}
+
+::MSU.deepClone <- function( _object )
+{
+	local ret;
+	switch (typeof _object)
+	{
+		case "table":
+			ret = {};
+			if (_object.getdelegate() != null)
+				ret.setdelegate(::MSU.deepClone(_object.getdelegate()));
+			foreach (key, value in _object)
+				ret[key] <- ::MSU.deepClone(value);
+			return ret;
+		case "array":
+			return _object.map(@(_o) ::MSU.deepClone(_o));
+		case "instance":
+			return clone _object;
+		default:
+			return _object;
+	}
+}
+
+::MSU.deepEquals <- function(_a, _b)
+{
+	if (_a instanceof ::WeakTableRef)
+		_a = _a.get();
+	if (_b instanceof ::WeakTableRef)
+		_b = _b.get();
+	switch (typeof _a)
+	{
+		case "table":
+			if (_a.len() != _b.len())
+				return false;
+			foreach (k, v in _a)
+			{
+				if (!(k in _b) || !this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		case "array":
+			if (_a.len() != _b.len())
+				return false;
+			foreach (i, v in _a)
+			{
+				if (!this.deepEquals(v, _b[i]))
+					return false;
+			}
+			return true;
+		case "instance":
+			if (!(typeof _b != "instance") || _a.getclass() != _b.getclass())
+				return false;
+			foreach (k, v in _a.getclass())
+			{
+				if (!this.deepEquals(v, _b[k]))
+					return false;
+			}
+			return true;
+		default:
+			return _a == _b;
+	}
 }
 
 ::MSU.DummyPlayer <- null;

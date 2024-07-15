@@ -13,6 +13,12 @@
 
 	function _newslot( _key, _value )
 	{
+		if (_key in this.getclass())
+		{
+			::logError(_key + " is a reserved keyword in this class");
+			throw ::MSU.Exception.InvalidValue(_key);
+		}
+
 		if (!(_key in this.Table))
 		{
 			this.Array.push(_key);

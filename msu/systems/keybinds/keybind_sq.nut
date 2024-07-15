@@ -3,8 +3,9 @@
 	Function = null;
 	State = null;
 	KeyState = null;
+	BypassInputDenied = false;
 
-	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null )
+	constructor( _modID, _id, _keyCombinations, _state, _function, _name = null, _keyState = null)
 	{
 		if (_keyState == null) _keyState = ::MSU.Key.KeyState.Release;
 		::MSU.requireFunction(_function);
@@ -14,6 +15,11 @@
 		this.Function = _function;
 		this.State = _state;
 		this.KeyState = _keyState;
+	}
+
+	function setBypassInputDenied(_bool)
+	{
+		this.BypassInputDenied = _bool;
 	}
 
 	function getState()

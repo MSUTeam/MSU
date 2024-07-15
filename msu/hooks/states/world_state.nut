@@ -187,6 +187,13 @@
 		return properties;
 	}
 
+	q.loadCampaign = @(__original) function( _campaignFileName )
+	{
+		__original(_campaignFileName);
+		local time = ::World.getTime();
+		::logInfo(format("MSU -- Current campaign length: %i Days, %i Hours, %i Minutes. (TimeOfDay: %i, SecondsOfDay: %f)", time.Days, time.Hours, time.Minutes, time.TimeOfDay, time.SecondsOfDay));
+	}
+
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
 		::World.deleteRoster("MSU_Roster");
@@ -332,4 +339,28 @@
 		}
 		return __original(_mouse);
 	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/states/world_state", function(q) {
+		q.onBeforeSerialize = @(__original) function( _out )
+		{
+			::MSU.System.Serialization.SerializationMetaData = _out.getMetaData();
+			::MSU.System.Serialization.IsDuringOnBeforeSerialize = true;
+			__original(_out);
+			::MSU.System.Serialization.IsDuringOnBeforeSerialize = false;
+		}
+
+		q.onBeforeDeserialize = @(__original) function( _in )
+		{
+			::MSU.System.Serialization.DeserializationMetaData = _in.getMetaData();
+			__original(_in);
+		}
+
+		q.onDeserialize = @(__original) function( _out )
+		{
+			__original(_out);
+			::MSU.System.Serialization.DeserializationMetaData = null;
+		}
+	});
 });

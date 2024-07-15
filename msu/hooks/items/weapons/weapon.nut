@@ -2,30 +2,21 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		if (this.getCategories() == "")
-		{
-			if (this.m.WeaponType != ::Const.Items.WeaponType.None)
-			{
-				this.setupCategories();
-			}
-		}
-		else
-		{
-			this.setupWeaponType();
-		}
+		this.initWeaponType();
 	}
 });
 
 ::MSU.MH.hook("scripts/items/weapons/weapon", function(q) {
 	q.m.WeaponType <- ::Const.Items.WeaponType.None;
+	q.m.MSU_WeaponTypeInit <- false;
 
-	q.setCategories <- function( _s, _setupWeaponType = true )
+	q.setCategories <- function( _s, _rebuildWeaponType = true )
 	{
 		this.m.Categories = _s;
 
-		if (_setupWeaponType)
+		if (_rebuildWeaponType)
 		{
-			this.setupWeaponType();
+			this.buildWeaponTypeFromCategories();
 		}
 	}
 
@@ -38,10 +29,21 @@
 			_skill.m.AdditionalAccuracy += this.m.AdditionalAccuracy;
 			_skill.setBaseValue("AdditionalAccuracy", _skill.m.AdditionalAccuracy);
 		}
+		if (_skill.isType(::Const.SkillType.Active))
+		{
+			// We reset the FatigueCost so any modifications to it from other skills is reverted
+			// the latter part is a copy of the vanilla code applying FatigueOnSkillUse
+			// which we then include in the skill's base fatigue cost (so that orc weapon skills get the proper fatigue cost)
+			_skill.resetField("FatigueCost");
+			local fatigueOnSkillUse = this.getContainer().getActor().getCurrentProperties().IsProficientWithHeavyWeapons && this.m.FatigueOnSkillUse > 0 ? 0 : this.m.FatigueOnSkillUse;
+			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
+			_skill.setFatigueCost(fatCost);
+			_skill.setBaseValue("FatigueCost", fatCost);
+		}
 		return ret;
 	}
 
-	q.setupWeaponType <- function()
+	q.buildWeaponTypeFromCategories <- function()
 	{
 		this.m.WeaponType = ::Const.Items.WeaponType.None;
 
@@ -80,6 +82,7 @@
 
 	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
+		this.initWeaponType();
 		if (_any)
 		{
 			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
@@ -90,40 +93,43 @@
 		}
 	}
 
-	q.addWeaponType <- function( _weaponType, _setupCategories = true )
+	q.addWeaponType <- function( _weaponType, _rebuildCategories = true )
 	{
+		this.initWeaponType();
 		this.m.WeaponType = this.m.WeaponType | _weaponType;
 
-		if (_setupCategories)
+		if (_rebuildCategories)
 		{
-			this.setupCategories();
+			this.buildCategoriesFromWeaponType();
 		}
 	}
 
-	q.setWeaponType <- function( _t, _setupCategories = true )
+	q.setWeaponType <- function( _t, _rebuildCategories = true )
 	{
+		this.initWeaponType();
 		this.m.WeaponType = _t;
 
-		if (_setupCategories)
+		if (_rebuildCategories)
 		{
-			this.setupCategories();
+			this.buildCategoriesFromWeaponType();
 		}
 	}
 
-	q.removeWeaponType <- function( _weaponType, _setupCategories = true )
+	q.removeWeaponType <- function( _weaponType, _rebuildCategories = true )
 	{
+		this.initWeaponType();
 		if (this.isWeaponType(_weaponType, false))
 		{
 			this.m.WeaponType -= _weaponType;
 
-			if (_setupCategories)
+			if (_rebuildCategories)
 			{
-				this.setupCategories();
+				this.buildCategoriesFromWeaponType();
 			}
 		}
 	}
 
-	q.setupCategories <- function()
+	q.buildCategoriesFromWeaponType <- function()
 	{
 		this.m.Categories = "";
 
@@ -144,6 +150,23 @@
 		else if (this.isItemType(::Const.Items.ItemType.TwoHanded))
 		{
 			this.m.Categories += "Two-Handed";
+		}
+	}
+
+	q.initWeaponType <- function()
+	{
+		if (this.m.MSU_WeaponTypeInit)
+			return;
+
+		this.m.MSU_WeaponTypeInit = true;
+
+		if (this.getCategories() == "")
+		{
+			this.buildCategoriesFromWeaponType();
+		}
+		else
+		{
+			this.buildWeaponTypeFromCategories();
 		}
 	}
 });

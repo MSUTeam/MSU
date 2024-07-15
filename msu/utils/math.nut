@@ -28,4 +28,55 @@
 		::MSU.requireFloat(_min, _max);
 		return _min + (::Math.rand(0, 2147483647) / 2147483647.0) * (_max - _min);
 	}
+
+	function roundToSig( _num, _significantFigures )
+	{
+		::MSU.requireInt(_significantFigures);
+		if (_num == 0)
+			return 0;
+
+		local d = ::ceil(::log10(::fabs(_num))).tointeger(); // tointeger to prevent floating point accuracy issues
+		local magnitude = ::pow(10, _significantFigures - d);
+		return ::Math.round(_num * magnitude) / magnitude;
+	}
+
+	function roundToMult( _num, _multiple )
+	{
+		if (_multiple <= 0)
+		{
+			::logError("_multiple must be greater than 0");
+			throw ::MSU.Exception.InvalidValue(_multiple);
+		}
+
+		local num = ::fabs(_num);
+		local rem = num % _multiple;
+		local ret = rem < _multiple * 0.5 ? num - rem : num + _multiple - rem;
+		return _num < 0 ? -ret : ret;
+	}
+
+	function roundToDec( _num, _decimalPlaces )
+	{
+		::MSU.requireInt(_decimalPlaces);
+		if (_decimalPlaces < 0)
+		{
+			::logError("_decimalPlaces must be >= 0");
+			throw ::MSU.Exception.InvalidValue(_decimalPlaces);
+		}
+
+		local tens = ::pow(10, _decimalPlaces);
+		return ::Math.round(tens * _num) / tens;
+	}
+
+	function truncf( _num, _decimalPlaces )
+	{
+		::MSU.requireInt(_decimalPlaces);
+		if (_decimalPlaces < 0)
+		{
+			::logError("_decimalPlaces must be >= 0");
+			throw ::MSU.Exception.InvalidValue(_decimalPlaces);
+		}
+
+		local tens = ::pow(10, _decimalPlaces);
+		return ::Math.floor(tens * _num) / tens;
+	}
 };
