@@ -18,7 +18,7 @@ includeFile("serialization_mod_addon.nut");
 
 ::MSU.QueueBucket.AfterHooks.push(function() {
 	local worldState = ::new("scripts/states/world_state");
-	local serEm = ::MSU.Class.FlagSerializationEmulator(::MSU.ID, "WorldStateOnBeforeSerialize", ::new("scripts/tools/tag_collection"), ::MSU.Class.MetaDataEmulator());
+	local serEm = ::MSU.Class.SerializationEmulator(::MSU.Class.MetaDataEmulator());
 	::World.Assets <- {
 		getName = @() "msuDummy",
 		getBanner = @() "msuDummy",
