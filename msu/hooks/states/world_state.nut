@@ -364,9 +364,9 @@
 			this.onBeforeSerialize(::MSU.Class.SerializationEmulator(::MSU.Class.MetaDataEmulator()));
 		}
 
-		q.onDeserialize = @(__original) function( _out )
+		q.loadCampaign = @(__original) function( _campaignFileName )
 		{
-			__original(_out);
+			__original(_campaignFileName);
 			::MSU.System.Serialization.DeserializationMetaData = null;
 		}
 	});
