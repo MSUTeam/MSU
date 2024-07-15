@@ -12,16 +12,15 @@ foreach (file in ::IO.enumerateFiles("msu/systems/mod_settings/elements/"))
 	::include(file);
 }
 
-includeFile("settings_page.nut");
-includeFile("settings_panel.nut");
+includeFile("mod_settings_system");
+includeFile("mod_settings_mod_addon");
+::MSU.includeFiles(::IO.enumerateFiles("msu/systems/mod_settings"));
 
-includeFile("mod_settings_system.nut");
 ::MSU.System.ModSettings <- ::MSU.Class.ModSettingsSystem();
 ::getModSetting <- function( _modID, _settingID )
 {
 	return ::MSU.System.ModSettings.getPanel(_modID).getSetting(_settingID);
 }
-includeFile("mod_settings_mod_addon.nut");
 
 ::MSU.SettingsScreen <- ::new("scripts/mods/msu/settings_screen");
 ::MSU.UI.registerConnection(::MSU.SettingsScreen);

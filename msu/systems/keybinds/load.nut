@@ -5,10 +5,10 @@ function includeFile( _file )
 
 includeFile("key_static");
 includeFile("abstract_keybind");
-includeFile("keybind_sq");
-includeFile("keybind_sq_passive");
-includeFile("keybind_js");
 includeFile("keybinds_system");
+includeFile("keybinds_mod_addon");
+::MSU.includeFiles(::IO.enumerateFiles("msu/systems/keybinds"));
+
 ::MSU.System.Keybinds <- ::MSU.Class.KeybindsSystem();
 ::MSU.UI.addOnConnectCallback(::MSU.System.Keybinds.frameUpdate.bindenv(::MSU.System.Keybinds));
 local clearEvents = ::Time.clearEvents;
@@ -17,5 +17,3 @@ local clearEvents = ::Time.clearEvents;
 	clearEvents();
 	::MSU.System.Keybinds.frameUpdate()
 }
-includeFile("keybinds_mod_addon");
-
