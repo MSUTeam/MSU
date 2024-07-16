@@ -231,6 +231,7 @@
 			};
 		}
 
+		::logWarning("MSU -- Benchmark with " + _iterations + " iterations");
 		foreach (i, entry in times)
 		{
 			local diff = entry.TimePerIteration - times[0].TimePerIteration;
