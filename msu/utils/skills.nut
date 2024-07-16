@@ -1,9 +1,9 @@
 ::MSU.Skills <- {
-	PreviewApplicableFunctions = [
+	PreviewApplicableFunctions = [ // Deprecated - part of the first Affordability Preview system
 		"getActionPointCost",
 		"getFatigueCost"
 	],
-	QueuedPreviewChanges = {},
+	QueuedPreviewChanges = {}, // Deprecated - part of the first Affordability Preview system
 	SoftResetFields = [
 		"ActionPointCost",
 		"FatigueCost",
@@ -48,6 +48,7 @@
 		});
 	}
 
+	// Deprecated - part of the first Affordability Preview system
 	function addPreviewApplicableFunction( _name )
 	{
 		::MSU.requireString(_name);
@@ -66,6 +67,7 @@
 	}
 
 	// Private
+	// Deprecated - part of the first Affordability Preview system
 	function modifyPreview( _caller, _targetSkill, _field, _newChange, _multiplicative )
 	{
 		if (!(_caller in this.QueuedPreviewChanges)) this.QueuedPreviewChanges[_caller] <- [];

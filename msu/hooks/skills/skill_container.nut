@@ -220,6 +220,7 @@
 		]);
 	}
 
+	// Deprecated - part of the first Affordability Preview system
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 		this.m.PreviewProperty.clear();

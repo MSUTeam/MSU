@@ -60,7 +60,7 @@
 		local previewAP = activeEntity.getPreviewActionPoints();
 
 		activeEntity.m.MSU_IsPreviewing = true;
-		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End);
+		activeEntity.getSkills().onAffordablePreview(skill, movement == null ? null : movement.End); // Deprecated - part of the first Affordability Preview system
 		activeEntity.m.MSU_PreviewSkill = skill;
 		activeEntity.m.MSU_PreviewMovement = movement;
 		activeEntity.getSkills().update(); // During this update actor.isPreviewing() is true

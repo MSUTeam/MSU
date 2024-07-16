@@ -62,7 +62,7 @@
 	q.m.IsBaseValuesSaved <- false;
 	q.m.ScheduledChanges <- [];
 
-	q.m.PreviewField <- {};
+	q.m.PreviewField <- {}; // Deprecated - part of the first Affordability Preview system
 
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
@@ -334,15 +334,18 @@
 	{
 	}
 
+	// Deprecated - part of the first Affordability Preview system
 	q.onAffordablePreview <- function( _skill, _movementTile )
 	{
 	}
 
+	// Deprecated - part of the first Affordability Preview system
 	q.modifyPreviewField <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, _skill, _field, _newChange, _multiplicative);
 	}
 
+	// Deprecated - part of the first Affordability Preview system
 	q.modifyPreviewProperty <- function( _skill, _field, _newChange, _multiplicative )
 	{
 		::MSU.Skills.modifyPreview(this, null, _field, _newChange, _multiplicative);
@@ -485,6 +488,8 @@
 
 ::MSU.QueueBucket.VeryLate.push(function() {
 	::MSU.MH.hook("scripts/skills/skill", function(q) {
+		// Deprecated - part of the first Affordability Preview system
+		// i.e. the hooks in this foreach loop are for the deprecated feature
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
 			q[func] = @(__original) function()
@@ -587,6 +592,7 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
+	// Legacy support for the first Affordablity Preview system which has been deprecated
 	::MSU.MH.rawHookTree("scripts/skills/skill", function(p) {
 		local obj = p;
 		while (!("onAffordablePreview" in obj))
