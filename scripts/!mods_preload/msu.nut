@@ -35,7 +35,7 @@
 	delete ::MSU.QueueBucket;
 }, ::Hooks.QueueBucket.FirstWorldInit);
 
-::MSU.QueueBucket.FirstWorldInit.push(function() {
+::MSU.QueueBucket.AfterHooks.push(function() {
 	foreach (script in ::IO.enumerateFiles("scripts/ai/tactical/behaviors"))
 	{
 		try
