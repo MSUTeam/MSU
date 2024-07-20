@@ -9,17 +9,16 @@
 				return [];
 			}
 
-			q.setValuesBeforeRandomize <- function()
+			q.setValuesBeforeRandomize <- function( _baseItem )
 			{
-				if (this.m.BaseItemScript != null)
+				if (_baseItem != null)
 				{
-					local baseM = ::new(this.m.BaseItemScript).m;
 					foreach (field in this.getBaseItemFields())
 					{
 						if (field == "ItemType")
-							this.m[field] = this.m.ItemType | baseM.ItemType;
+							this.m[field] = this.m.ItemType | _baseItem.m.ItemType;
 						else
-							this.m[field] = baseM[field];
+							this.m[field] = _baseItem.m[field];
 					}
 				}
 			}
@@ -36,7 +35,7 @@
 					__original();
 					this.randomizeValues = randomizeValues;
 
-					this.setValuesBeforeRandomize();
+					this.setValuesBeforeRandomize(this.m.BaseItemScript != null ? ::new(this.m.BaseItemScript) : null);
 					this.randomizeValues();
 				}
 			});
