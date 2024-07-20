@@ -15,10 +15,7 @@
 				{
 					foreach (field in this.getBaseItemFields())
 					{
-						if (field == "ItemType")
-							this.m[field] = this.m.ItemType | _baseItem.m.ItemType;
-						else
-							this.m[field] = _baseItem.m[field];
+						this.m[field] = _baseItem.m[field];
 					}
 				}
 			}
@@ -35,7 +32,11 @@
 					__original();
 					this.randomizeValues = randomizeValues;
 
+					local hasNamedItemType = this.isItemType(::Const.Items.ItemType.Named);
 					this.setValuesBeforeRandomize(this.m.BaseItemScript != null ? ::new(this.m.BaseItemScript) : null);
+					if (hasNamedItemType)
+						this.m.ItemType = this.m.ItemType | ::Const.Items.ItemType.Named; // Re-add the named item type that got overwritten from the base item
+
 					this.randomizeValues();
 				}
 			});
