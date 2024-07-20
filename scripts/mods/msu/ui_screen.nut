@@ -80,11 +80,11 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 	{
 		if (this.m.JSHandle == null)
 		{
-			throw ::MSU.Exception.NotConnected;
+			throw ::MSU.Exception.NotConnected(this.m.ID);
 		}
 		else if (this.isVisible())
 		{
-			throw ::MSU.Exception.AlreadyInState;
+			throw ::MSU.Exception.AlreadyInState(this.m.ID);
 		}
 		this.m.JSHandle.asyncCall("show", _data);
 	}
@@ -93,11 +93,11 @@ this.ui_screen <- ::inherit("scripts/mods/msu/js_connection", {
 	{
 		if (this.m.JSHandle == null)
 		{
-			throw ::MSU.Exception.NotConnected;
+			throw ::MSU.Exception.NotConnected(this.m.ID);
 		}
 		else if (!this.isVisible())
 		{
-			throw ::MSU.Exception.AlreadyInState;
+			throw ::MSU.Exception.AlreadyInState(this.m.ID);
 		}
 		this.m.JSHandle.asyncCall("hide", null);
 	}
