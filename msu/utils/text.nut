@@ -33,4 +33,73 @@
 	{
 		return this.color(::Const.UI.Color.DamageValue, _string);
 	}
+
+	function colorizeValue( _value, _kwargs = null )
+	{
+		local kwargs = {
+			AddSign = true,
+			CompareTo = 0,
+			InvertColor = false,
+			AddPercent = false
+		};
+
+		if (_kwargs != null)
+		{
+			foreach (key, value in _kwargs)
+			{
+				if (!(key in kwargs)) throw "invalid parameter " + key;
+				kwargs[key] = value;
+			}
+		}
+
+		if (_value < kwargs.CompareTo)
+		{
+			if (!kwargs.AddSign && _value < 0) _value *= -1;
+			if (kwargs.AddPercent) _value = _value + "%";
+			return kwargs.InvertColor ? this.colorGreen(_value) : this.colorRed(_value);
+		}
+
+		if (_value > kwargs.CompareTo)
+		{
+			if (kwargs.AddSign && _value > 0) _value = "+" + _value;
+			if (kwargs.AddPercent) _value = _value + "%";
+			return kwargs.InvertColor ? this.colorRed(_value) : this.colorGreen(_value);
+		}
+
+		if (_value == kwargs.CompareTo)
+		{
+			if (kwargs.AddPercent) _value = _value + "%";
+			return _value;
+		}
+	}
+
+	// Returns 0.75 as red 25% and 1.75 as green 75%
+	// Used to colorize mults which are applied to other values
+	// Use case example: when someone has a 0.75 multiplier to their defense and you want to write "25% reduced defense" in tooltip
+	function colorizeMult( _value, _kwargs = null )
+	{
+		if (_kwargs == null)
+			_kwargs = {};
+		if (!("AddSign" in _kwargs))
+			_kwargs.AddSign <- false;
+
+		_kwargs.AddPercent <- true;
+
+		return this.colorizeValue(::Math.round((_value - 1.0) * 100), _kwargs);
+	}
+
+	// Returns 0.75 as green 75% and 1.75 as green 175%, and -0.75 as red 75% and -1.75 as red 175%
+	// Used when showing a certain percentage of another value
+	// Use case example: when you want to say that you gain 25% of your hitpoints as stamina
+	function colorizePct( _value, _kwargs = null )
+	{
+		if (_kwargs == null)
+			_kwargs = {};
+		if (!("AddSign" in _kwargs))
+			_kwargs.AddSign <- false;
+
+		_kwargs.AddPercent <- true;
+
+		return this.colorizeValue(::Math.round(_value * 100), _kwargs);
+	}
 }
