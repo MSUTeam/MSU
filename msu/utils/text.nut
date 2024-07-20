@@ -39,7 +39,7 @@
 		local kwargs = {
 			AddSign = true,
 			CompareTo = 0,
-			InvertColor = false,
+			Invert = false,
 			AddPercent = false
 		};
 
@@ -56,14 +56,14 @@
 		{
 			if (!kwargs.AddSign && _value < 0) _value *= -1;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.InvertColor ? this.colorGreen(_value) : this.colorRed(_value);
+			return kwargs.Invert ? this.colorGreen(_value) : this.colorRed(_value);
 		}
 
 		if (_value > kwargs.CompareTo)
 		{
 			if (kwargs.AddSign && _value > 0) _value = "+" + _value;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.InvertColor ? this.colorRed(_value) : this.colorGreen(_value);
+			return kwargs.Invert ? this.colorRed(_value) : this.colorGreen(_value);
 		}
 
 		if (_value == kwargs.CompareTo)
@@ -75,17 +75,41 @@
 
 	// Returns 0.75 as red 25% and 1.75 as green 75%
 	// Used to colorize mults which are applied to other values
-	// Use case example: when someone has a 0.75 multiplier to their defense and you want to write "25% reduced defense" in tooltip
+	// Use case example: when someone has a 0.75 multiplier to their defense and you want to write "25% less defense" in tooltip
 	function colorizeMult( _value, _kwargs = null )
 	{
-		if (_kwargs == null)
-			_kwargs = {};
-		if (!("AddSign" in _kwargs))
-			_kwargs.AddSign <- false;
+		local kwargs = {
+			AddMoreLess = false,
+			AddSign = false
+		};
+
+		if (_kwargs != null)
+		{
+			foreach (k, v in _kwargs)
+			{
+				if (k in kwargs)
+				{
+					kwargs[k] = v;
+				}
+			}
+		}
+
+		local addMoreLess = kwargs.AddMoreLess;
+		delete kwargs.AddMoreLess;
 
 		_kwargs.AddPercent <- true;
 
-		return this.colorizeValue(::Math.round((_value - 1.0) * 100), _kwargs);
+		local ret = this.colorizeValue(::Math.round((_value - 1.0) * 100), kwargs)
+
+		if (addMoreLess)
+		{
+			if (("Invert" in kwargs) && kwargs.Invert)
+				ret += _value < 1.0 ? " more" : " less";
+			else
+				ret += _value >= 1.0 ? " more" : " less";
+		}
+
+		return ret;
 	}
 
 	// Returns 0.75 as green 75% and 1.75 as green 175%, and -0.75 as red 75% and -1.75 as red 175%
