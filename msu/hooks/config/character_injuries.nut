@@ -1,7 +1,7 @@
 ::Const.Injury.ExcludedInjuries <- {
 	function get( _injuries )
 	{
-		local ret = _injuries.Injuries;
+		local ret = clone _injuries.Injuries;
 
 		foreach (extra in _injuries.Include)
 		{
