@@ -1,26 +1,23 @@
 ::MSU.MH.hook("scripts/items/item_container", function(q) {
 	q.m.ActionSkill <- null;
-	q.m.MSU_IsIgnoringItemAction <- false;
 
 	q.isActionAffordable = @() function ( _items )
 	{
-		if (this.m.MSU_IsIgnoringItemAction) return true;
-
 		local actionCost = this.getActionCost(_items);
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
 	q.getActionCost = @() function( _items )
 	{
-		if (this.m.MSU_IsIgnoringItemAction) return 0;
+		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
+		if (_items.len() == 0)
+			return cost;
 
 		this.m.ActionSkill = null;
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
 
 		info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
-
-		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
 		foreach (entry in info)
 		{
@@ -36,8 +33,6 @@
 
 	q.payForAction = @() function ( _items )
 	{
-		if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
-
 		local actionCost = this.getActionCost(_items);
 		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
 		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill == null ? null : this.m.ActionSkill.get(), _items);
