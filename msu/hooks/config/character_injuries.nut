@@ -5,7 +5,7 @@
 
 		foreach (extra in _injuries.Include)
 		{
-			ret.extend(extra.Injuries);
+			ret.extend(this.get(extra));
 		}
 
 		return ret;
