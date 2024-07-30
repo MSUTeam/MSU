@@ -36,6 +36,12 @@
 		this.m.Skills.update();
 	}
 
+	// Vanilla only has setMaxMoraleState. We add the getter.
+	q.getMaxMoraleState <- function()
+	{
+		return this.m.MaxMoraleState;
+	}
+
 	q.getMainhandItem <- function()
 	{
 		return this.getItems().getItemAtSlot(::Const.ItemSlot.Mainhand);
