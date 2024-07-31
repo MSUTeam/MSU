@@ -55,7 +55,7 @@
 					}
 				}
 
-				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(%s, [%s], %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + ""))();
+				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(\"%s\", [%s], %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + ""))();
 			}
 		});
 	}
