@@ -39,6 +39,7 @@
 			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
 			_skill.setFatigueCost(fatCost);
 			_skill.setBaseValue("FatigueCost", fatCost);
+			this.getContainer().getActor().getSkills().update();
 		}
 		return ret;
 	}
