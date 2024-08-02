@@ -37,7 +37,7 @@
 	function colorizeValue( _value, _kwargs = null )
 	{
 		local kwargs = {
-			AddSign = true,
+			AddSign = false,
 			CompareTo = 0,
 			Invert = false,
 			AddPercent = false
@@ -80,8 +80,6 @@
 	{
 		if (_kwargs == null)
 			_kwargs = {};
-		if (!("AddSign" in _kwargs))
-			_kwargs.AddSign <- false;
 
 		_kwargs.AddPercent <- true;
 
@@ -118,8 +116,6 @@
 	{
 		if (_kwargs == null)
 			_kwargs = {};
-		if (!("AddSign" in _kwargs))
-			_kwargs.AddSign <- false;
 
 		_kwargs.AddPercent <- true;
 
