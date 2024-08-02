@@ -1,4 +1,4 @@
-<brush name="gfx/mods/msu/brushes/world.png" version="17">
+<brush name="gfx/msu_world.png" version="17">
 	<sprite id="road_N" img="roads/road_N.png" offsetY="-15" offsetX="-8" width="96" height="128"/>
 	<sprite id="road_NW_N_NE" img="roads/road_NW_N_NE.png" offsetY="18" offsetX="-2" width="422" height="242" left="-101" right="93" top="-108" bottom="14"/>
 	<sprite id="road_S" img="roads/road_S.png" offsetY="-40" offsetX="-9" width="96" height="128"/>
