@@ -78,36 +78,35 @@
 	// Use case example: when someone has a 0.75 multiplier to their defense and you want to write "25% less defense" in tooltip
 	function colorizeMult( _value, _kwargs = null )
 	{
-		local kwargs = {
-			AddMoreLess = false,
-			AddSign = false
-		};
-
-		if (_kwargs != null)
-		{
-			foreach (k, v in _kwargs)
-			{
-				if (k in kwargs)
-				{
-					kwargs[k] = v;
-				}
-			}
-		}
-
-		local addMoreLess = kwargs.AddMoreLess;
-		delete kwargs.AddMoreLess;
+		if (_kwargs == null)
+			_kwargs = {};
+		if (!("AddSign" in _kwargs))
+			_kwargs.AddSign <- false;
 
 		_kwargs.AddPercent <- true;
 
-		local ret = this.colorizeValue(::Math.round((_value - 1.0) * 100), kwargs)
+		return this.colorizeValue(::Math.round((_value - 1.0) * 100), _kwargs);
+	}
 
-		if (addMoreLess)
+	// Uses colorizeMult and adds the words "more" or "less" or other given words after it
+	function colorizeMultWithText( _value, _kwargs = null )
+	{
+		local moreText = "more";
+		local lessText = "less";
+
+		if ("Text" in _kwargs)
 		{
-			if (("Invert" in kwargs) && kwargs.Invert)
-				ret += _value < 1.0 ? " more" : " less";
-			else
-				ret += _value >= 1.0 ? " more" : " less";
+			moreText = _kwargs.Text[0];
+			lessText = _kwargs.Text[1];
+			delete _kwargs.Text;
 		}
+
+		local ret = this.colorizeMult(_value, _kwargs) + " ";
+
+		if (("Invert" in _kwargs) && _kwargs.Invert)
+			ret += _value < 1.0 ? moreText : lessText;
+		else
+			ret += _value >= 1.0 ? moreText : lessText;
 
 		return ret;
 	}
