@@ -3,3 +3,4 @@
 *.sublime-project
 brushes/
 gfx/mods/brushes/
+gfx/*.png
