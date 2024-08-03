@@ -9,6 +9,7 @@
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_module.js");
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/main_menu_screen.js");
 ::Hooks.registerJS("ui/mods/msu/ui_hooks/tooltip_module.js");
+::Hooks.registerJS("ui/mods/msu/ui_hooks/turnsequencebar_module.js");
 
 ::Hooks.registerJS("ui/mods/msu/backend_connection.js");
 ::Hooks.registerJS("ui/mods/msu/msu_connection.js");
