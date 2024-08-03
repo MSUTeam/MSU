@@ -39,7 +39,7 @@
 		local kwargs = {
 			AddSign = false,
 			CompareTo = 0,
-			Invert = false,
+			InvertColor = false,
 			AddPercent = false
 		};
 
@@ -56,14 +56,14 @@
 		{
 			if (!kwargs.AddSign && _value < 0) _value *= -1;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.Invert ? this.colorPositive(_value) : this.colorNegative(_value);
+			return kwargs.InvertColor ? this.colorPositive(_value) : this.colorNegative(_value);
 		}
 
 		if (_value > kwargs.CompareTo)
 		{
 			if (kwargs.AddSign && _value > 0) _value = "+" + _value;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.Invert ? this.colorNegative(_value) : this.colorPositive(_value);
+			return kwargs.InvertColor ? this.colorNegative(_value) : this.colorPositive(_value);
 		}
 
 		if (_value == kwargs.CompareTo)
