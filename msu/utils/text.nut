@@ -104,7 +104,7 @@
 
 	// Returns 0.75 as green 75% and 1.75 as green 175%, and -0.75 as red 75% and -1.75 as red 175%
 	// Used when showing a certain percentage of another value
-	// Use case example: when you want to say that you gain 25% of your hitpoints as stamina
+	// Use case example: when you want to say that you gain 25% of your hitpoints as stamina or when you want to display armor penetration or armor effectiveness
 	function colorizePct( _value, _kwargs = null )
 	{
 		if (_kwargs == null)
