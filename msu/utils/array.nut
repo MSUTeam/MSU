@@ -64,6 +64,7 @@
 				_array.remove(i);
 			}
 		}
+		return _array;
 	}
 
 	function shuffle( _array )
