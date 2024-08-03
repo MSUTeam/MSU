@@ -10,6 +10,9 @@
 	q.getActionCost = @() function( _items )
 	{
 		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
+		// Vanilla uses this function with an empty array in some ai behaviors e.g.
+		// ai_switchto_melee, ai_switchto_ranged, ai_throw_bomb, ai_pickup_weapon
+		// The intent there is to spend the basic item switch AP cost. So this part is meant to handle that scenario.
 		if (_items.len() == 0)
 			return cost;
 
