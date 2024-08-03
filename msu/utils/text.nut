@@ -99,14 +99,7 @@
 			delete _kwargs.Text;
 		}
 
-		local ret = this.colorizeMult(_value, _kwargs) + " ";
-
-		if (("Invert" in _kwargs) && _kwargs.Invert)
-			ret += _value < 1.0 ? moreText : lessText;
-		else
-			ret += _value >= 1.0 ? moreText : lessText;
-
-		return ret;
+		return this.colorizeMult(_value, _kwargs) + " " + (_value >= 1.0 ? moreText : lessText);
 	}
 
 	// Returns 0.75 as green 75% and 1.75 as green 175%, and -0.75 as red 75% and -1.75 as red 175%
