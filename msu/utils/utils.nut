@@ -236,11 +236,11 @@
 			local diff = entry.TimePerIteration - times[0].TimePerIteration;
 			local color = i == 0 ? "" : (diff <= 0 ? "green" : "red"); // the base function is printed without color, faster in green, slower in red
 
-			local timePerIterationText = format("<div style='display: inline-block; color:%s;'>%f (%s%f)</div>", color, entry.TimePerIteration, diff >= 0 ? "+" : "", diff);
+			local timePerIterationText = format("<span style='color:%s;'>%f (%s%f)</span>", color, entry.TimePerIteration, diff >= 0 ? "+" : "", diff);
 			diff = entry.TotalTime - times[0].TotalTime;
 			local totalTimeText = entry.TotalTime + (diff < 0 ? " (" : " (+") + diff + ")";
-			local timePctText = format("<div style='display: inline-block; color:%s'>%i%% %s</div>", color, ::Math.abs(100 * diff / times[0].TotalTime), diff < 0 ? "faster" : "slower");
-			::logInfo(format("<div style='display: inline-block;'>%s: %s ms (Total: %s ms) -- %s</div>", _functions[i][0] + "", timePerIterationText, totalTimeText, i == 0 ? "base time" : timePctText));
+			local timePctText = format("<span style='color:%s;'>%i%% %s</span>", color, ::Math.abs(100 * diff / times[0].TotalTime), diff < 0 ? "faster" : "slower");
+			::logInfo(format("<span>%s: %s ms (Total: %s ms) -- %s</span>", _functions[i][0] + "", timePerIterationText, totalTimeText, i == 0 ? "base time" : timePctText));
 		}
 	}
 
