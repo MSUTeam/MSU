@@ -211,11 +211,10 @@
 			_functions = [["", _functions]];
 
 		local times = array(_functions.len());
-		local timer = ::MSU.Class.Timer("MSU_Benchmark");
 
 		foreach (i, entry in _functions)
 		{
-			local timeStart = timer.silentGet();
+			local timer = ::MSU.Utils.Timer("MSU_Benchmark");
 			local f = entry[1];
 
 			for (local j = 0; j < _iterations; j++)
@@ -223,7 +222,7 @@
 				f();
 			}
 
-			local totalTime = timer.silentGet() - timeStart;
+			local totalTime = timer.silentStop();
 
 			times[i] = {
 				TotalTime = totalTime,
