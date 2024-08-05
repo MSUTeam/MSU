@@ -61,10 +61,8 @@
 		}
 		if (_keybind instanceof ::MSU.Class.KeybindJS)
 		{
-			if (::MSU.UI.JSConnection.isConnected())
-			{
-				::MSU.UI.JSConnection.addKeybind(_keybind);
-			}
+			::logInfo("keybinds_system add: " + _keybind.getID());
+			::MSU.UI.JSConnection.addKeybind(_keybind);
 			this.KeybindsForJS[_keybind.getMod().getID()][_keybind.getID()] <- _keybind;
 		}
 		else if (_keybind instanceof ::MSU.Class.KeybindSQ)

@@ -30,13 +30,22 @@ this.msu_connection <- ::inherit("scripts/mods/msu/js_connection", {
 		{
 			this.m.JSHandle.asyncCall("removeKeybind", _keybind.getUIData())
 		}
+		else
+		{
+			this.m.FunctionBuffer.push(@() this.removeKeybind(_keybind));
+		}
 	}
 
 	function addKeybind( _keybind )
 	{
 		if (this.m.JSHandle != null)
 		{
+			::logInfo("msu_connection addKeybind: " + _keybind.getID());
 			this.m.JSHandle.asyncCall("addKeybind", _keybind.getUIData())
+		}
+		else
+		{
+			this.m.FunctionBuffer.push(@() this.addKeybind(_keybind));
 		}
 	}
 

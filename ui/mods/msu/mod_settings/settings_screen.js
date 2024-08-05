@@ -509,6 +509,12 @@ MSU.getSetting = function (_modID, _settingID)
 
 MSU.getSettingValue = function (_modID, _settingID)
 {
+	console.error(_modID);
+	console.error(_settingID);
+	console.error(Screens.ModSettingsScreen.mModSettings);
+	console.error(Screens.ModSettingsScreen.mModSettings[_modID]);
+	console.error(Screens.ModSettingsScreen.mModSettings[_modID].settings);
+	console.error(Screens.ModSettingsScreen.mModSettings[_modID].settings[_settingID]);
 	return Screens.ModSettingsScreen.mModSettings[_modID].settings[_settingID].value;
 };
 
