@@ -28,4 +28,9 @@
 	{
 		return this.color(::Const.UI.Color.NegativeValue, _string);
 	}
+
+	function colorDamage( _string )
+	{
+		return this.color(::Const.UI.Color.DamageValue, _string);
+	}
 }
