@@ -55,6 +55,18 @@
 		if (idx != null) return _array.remove(idx);
 	}
 
+	function removeValues( _array, _values )
+	{
+		for (local i = _array.len() - 1; i >= 0; i--)
+		{
+			if (_values.find(_array[i]) != null)
+			{
+				_array.remove(i);
+			}
+		}
+		return _array;
+	}
+
 	function shuffle( _array )
 	{
 		for (local i = _array.len() - 1; i > 0; i--)
