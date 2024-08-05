@@ -33,4 +33,85 @@
 	{
 		return this.color(::Const.UI.Color.DamageValue, _string);
 	}
+
+	function colorizeValue( _value, _kwargs = null )
+	{
+		local kwargs = {
+			AddSign = false,
+			CompareTo = 0,
+			InvertColor = false,
+			AddPercent = false
+		};
+
+		if (_kwargs != null)
+		{
+			foreach (key, value in _kwargs)
+			{
+				if (!(key in kwargs)) throw "invalid parameter " + key;
+				kwargs[key] = value;
+			}
+		}
+
+		if (_value < kwargs.CompareTo)
+		{
+			if (!kwargs.AddSign && _value < 0) _value *= -1;
+			if (kwargs.AddPercent) _value = _value + "%";
+			return kwargs.InvertColor ? this.colorPositive(_value) : this.colorNegative(_value);
+		}
+
+		if (_value > kwargs.CompareTo)
+		{
+			if (kwargs.AddSign && _value > 0) _value = "+" + _value;
+			if (kwargs.AddPercent) _value = _value + "%";
+			return kwargs.InvertColor ? this.colorNegative(_value) : this.colorPositive(_value);
+		}
+
+		if (_value == kwargs.CompareTo)
+		{
+			if (kwargs.AddPercent) _value = _value + "%";
+			return _value;
+		}
+	}
+
+	// Returns 0.75 as red 25% and 1.75 as green 75%
+	// Used to colorize mults which are applied to other values
+	// Use case example: when someone has a 0.75 multiplier to their defense and you want to write "25% less defense" in tooltip
+	function colorizeMult( _value, _kwargs = null )
+	{
+		if (_kwargs == null)
+			_kwargs = {};
+
+		_kwargs.AddPercent <- true;
+
+		return this.colorizeValue(::Math.round((_value - 1.0) * 100), _kwargs);
+	}
+
+	// Uses colorizeMult and adds the words "more" or "less" or other given words after it
+	function colorizeMultWithText( _value, _kwargs = null )
+	{
+		local moreText = "more";
+		local lessText = "less";
+
+		if ("Text" in _kwargs)
+		{
+			moreText = _kwargs.Text[0];
+			lessText = _kwargs.Text[1];
+			delete _kwargs.Text;
+		}
+
+		return this.colorizeMult(_value, _kwargs) + " " + (_value >= 1.0 ? moreText : lessText);
+	}
+
+	// Returns 0.75 as green 75% and 1.75 as green 175%, and -0.75 as red 75% and -1.75 as red 175%
+	// Used when showing a certain percentage of another value
+	// Use case example: when you want to say that you gain 25% of your hitpoints as stamina or when you want to display armor penetration or armor effectiveness
+	function colorizePct( _value, _kwargs = null )
+	{
+		if (_kwargs == null)
+			_kwargs = {};
+
+		_kwargs.AddPercent <- true;
+
+		return this.colorizeValue(::Math.round(_value * 100), _kwargs);
+	}
 }
