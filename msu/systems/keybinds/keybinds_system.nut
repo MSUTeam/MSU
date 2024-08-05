@@ -6,6 +6,10 @@
 	PressedKeys = null;
 	KeysChanged = false;
 	InputDenied = false;
+	// Stores keybinds to add which were queued for addition during hooks queue
+	// Because we don't want to instantiate js_connection during queue
+	__QueuedAddKeybinds = null;
+	__IsQueueingAddKeybinds = true; // set to false AfterHooks
 
 	constructor()
 	{
@@ -14,6 +18,7 @@
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};
 		this.PressedKeys = {};
+		this.__QueuedAddKeybinds = [];
 	}
 
 	function registerMod( _mod )
@@ -32,8 +37,24 @@
 		this.KeybindsForJS[_mod.getID()] <- {};
 	}
 
+	function addQueuedKeybinds()
+	{
+		this.__IsQueueingAddKeybinds = false;
+		foreach (entry in this.__QueuedAddKeybinds)
+		{
+			this.add(entry[0], entry[1]);
+		}
+		this.__QueuedAddKeybinds = null;
+	}
+
 	function add( _keybind, _makeSetting = true )
 	{
+		if (this.__IsQueueingAddKeybinds)
+		{
+			this.__QueuedAddKeybinds.push([_keybind, _makeSetting]);
+			return _keybind;
+		}
+
 		if (!(_keybind instanceof ::MSU.Class.AbstractKeybind))
 		{
 			throw ::MSU.Exception.InvalidType(_keybind);

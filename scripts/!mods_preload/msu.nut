@@ -24,6 +24,7 @@
 		func();
 	}
 	::MSU.QueueBucket.AfterHooks.clear();
+	::MSU.System.Keybinds.addQueuedKeybinds();
 }, ::Hooks.QueueBucket.AfterHooks);
 
 ::MSU.MH.queue(function() {

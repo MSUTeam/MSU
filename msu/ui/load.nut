@@ -23,5 +23,8 @@ foreach (file in ::IO.enumerateFiles("ui/mods/msu/mod_settings/"))
 
 ::MSU.includeFile("msu/ui/", "ui.nut");
 
-::MSU.UI.JSConnection = ::new("scripts/mods/msu/msu_connection");
-::MSU.UI.registerConnection(::MSU.UI.JSConnection);
+::MSU.QueueBucket.AfterHooks.push(function() {
+	::MSU.UI.JSConnection = ::new("scripts/mods/msu/msu_connection");
+	::MSU.UI.registerConnection(::MSU.UI.JSConnection);
+});
+
