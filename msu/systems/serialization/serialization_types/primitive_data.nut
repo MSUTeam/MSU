@@ -76,7 +76,7 @@
 
 	function __printInvalidDataError( _type, _data )
 	{
-		::logError(format("Storing invalid or unexpected data \'%s\' in container of type: %s", _data + "", ::MSU.Serialization.DataType.getKeyForValue(_type)));
+		::logError(format("Storing invalid or unexpected data \'%s\' (type %s) in container of type: %s", _data + "", typeof _data, ::MSU.Serialization.DataType.getKeyForValue(_type)));
 		// We have to print the full stack trace here because we cannot know for sure which level of stackinfos will be the actual source of the problem
 		// as it will be different if this is being instantiated by someone in their own function somewhere or if it is being instantiated
 		// by MSU functions e.g. ::MSU.Serialization.__convertValueFromBaseType
