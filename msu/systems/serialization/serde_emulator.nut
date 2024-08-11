@@ -70,13 +70,13 @@
 
 		function writeI32( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.I32);
 		}
 
 		function writeU32( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			if (_int < 0)
 				throw ::MSU.Exception.InvalidValue(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.U32);
@@ -84,7 +84,7 @@
 
 		function writeI16( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			if (_int < -32768 || _int > 32767)
 				throw ::MSU.Exception.InvalidValue(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.I16);
@@ -92,7 +92,7 @@
 
 		function writeU16( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			if (_int < 0 || _int > 65535)
 				throw ::MSU.Exception.InvalidValue(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.U16);
@@ -100,7 +100,7 @@
 
 		function writeI8( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			if (_int < -128 || _int > 127)
 				throw ::MSU.Exception.InvalidValue(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.I8);
@@ -108,7 +108,7 @@
 
 		function writeU8( _int )
 		{
-			::MSU.requireInt(_int);
+			::MSU.requireOneFromTypes(["float", "integer"], _int);
 			if (_int < 0 || _int > 255)
 				throw ::MSU.Exception.InvalidValue(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.U8);
