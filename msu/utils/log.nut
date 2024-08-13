@@ -20,13 +20,14 @@
 			local fixCounter = 0;
 			local locals = ::MSU.Table.filter(line.locals, @(_key, _val) _key != "this" && _key != "_release_hook_DO_NOT_delete_it_");
 
-			if (locals.len() != 0)
+			local localsString = "";
+			foreach (key, value in locals)
 			{
-				string += "<div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">";
-				foreach (key, value in locals)
-				{
-					string += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _maxDepth, _advanced, false));
-				}
+				localsString += format("%s = %s, ", key, this.getLocalString(value, _maxLen, _maxDepth, _advanced, false));
+			}
+			if (localsString != "")
+			{
+				string += "<div class=\"function-container\"><div style=\"color:green;\" class=\"label\">Variables:</div><div class=\"valueVar\">" + localsString;
 				string = string.slice(0, string.len() - 2) + "</div></div>";
 			}
 		}
@@ -42,17 +43,23 @@
 
 	function formatData( _data, _maxDepth = 1, _advanced = false, _maxLenMin = 1, _printClasses = true )
 	{
-		if (["array", "table"].find(typeof _data) != null  && _data.len() > _maxLenMin)
+		local len = 0;
+		local obj = _data;;
+		switch (typeof _data)
 		{
-			_maxLenMin = _data.len();
+			case "instance":
+				obj = _data.getclass();
+			case "table":
+			case "class":
+				foreach (k, v in obj) ++len;
+				break;
+
+			case "array":
+				len = _data.len();
+				break;
 		}
-		else if (["class", "instance"].find(typeof _data) != null)
-		{
-			local len = 0;
-			local classed = typeof _data == "instance" ? _data.getclass() : _data;
-			foreach (key, value in classed) ++len;
-			if (len > _maxLenMin) _maxLenMin = len;
-		}
+
+		if (len > _maxLenMin) _maxLenMin = len;
 		return this.getLocalString(_data, _maxLenMin, _maxDepth, _advanced, _printClasses);
 	}
 
@@ -70,15 +77,15 @@
 			if (_value.len() != 0) ret = ret.slice(0, -2);
 			ret += "]";
 		}
-		else if (typeof _value == "table" && _value.len() <= _maxLen && _depth > 0) // full table
+		else if (typeof _value == "table" && _depth > 0) // full table
 		{
-			ret += "{";
+			local tableString = "";
 			foreach (key, value in _value)
 			{
-				ret += format("%s = %s, ", key.tostring(), this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
+				tableString += format("%s = %s, ", key.tostring(), this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
 			}
-			if (_value.len() != 0) ret = ret.slice(0, -2);
-			ret += "}";
+			if (tableString != "") tableString = tableString.slice(0, -2);
+			ret += "{" + tableString + "}"
 		}
 		else if (["instance", "class"].find(typeof _value) != null && _depth > 0 && _printClasses) // full instance or class
 		{
