@@ -47,9 +47,12 @@
 		local obj = _data;;
 		switch (typeof _data)
 		{
+			case "table":
+				len = this.__safeLen(_data);
+				break;
+
 			case "instance":
 				obj = _data.getclass();
-			case "table":
 			case "class":
 				foreach (k, v in obj) ++len;
 				break;
