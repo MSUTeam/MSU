@@ -77,15 +77,17 @@
 			if (_value.len() != 0) ret = ret.slice(0, -2);
 			ret += "]";
 		}
-		else if (typeof _value == "table" && _depth > 0) // full table
+		else if (typeof _value == "table" && _depth > 0 && this.__safeLen(_table) <= _maxLen) // full table
 		{
-			local tableString = "";
+			ret += "{";
+			local len = 0;
 			foreach (key, value in _value)
 			{
-				tableString += format("%s = %s, ", key.tostring(), this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
+				ret += format("%s = %s, ", key.tostring(), this.getLocalString(value, _maxLen, _depth - 1, _advanced, _printClasses));
+				len++;
 			}
-			if (tableString != "") tableString = tableString.slice(0, -2);
-			ret += "{" + tableString + "}"
+			if (len != 0) ret = ret.slice(0, -2);
+			ret += "}";
 		}
 		else if (["instance", "class"].find(typeof _value) != null && _depth > 0 && _printClasses) // full instance or class
 		{
@@ -115,6 +117,19 @@
 		else
 		{
 			ret += _value;
+		}
+		return ret;
+	}
+
+	function __safeLen( _table )
+	{
+		if (_table.len == {}.len)
+			return _table.len();
+
+		local ret = 0;
+		foreach (k, v in _table)
+		{
+			ret++;
 		}
 		return ret;
 	}
