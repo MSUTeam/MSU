@@ -81,14 +81,14 @@
 		local infos = ::getstackinfos(level);
 		while (infos != null)
 		{
-			if (infos.src.len() < 3 || infos.src.slice(0, 4) == "msu/")
+			local src = infos.src;
+			if (src.len() < 4 || src.slice(0, 4) != "msu/" || src.len() < 9 || src.slice(0, 9) == "msu/hooks")
 			{
-				infos = ::getstackinfos(++level);
-				continue;
+				errorSource = format(" (%s -> %s : %i)", infos.func == "unknown" ? "" : infos.func, src, infos.line);
+				break;
 			}
 
-			errorSource = format(" (%s -> %s : %i)", infos.func == "unknown" ? "" : infos.func, infos.src, infos.line);
-			break;
+			infos = ::getstackinfos(++level);
 		}
 
 		::logError(format("Storing invalid or unexpected data \'%s\' (type %s) in container of type: %s%s", _data + "", typeof _data, ::MSU.Serialization.DataType.getKeyForValue(_type), errorSource));
