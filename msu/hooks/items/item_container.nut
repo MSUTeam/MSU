@@ -1,26 +1,26 @@
 ::MSU.MH.hook("scripts/items/item_container", function(q) {
 	q.m.ActionSkill <- null;
+	q.m.MSU_IsIgnoringItemAction <- false;
 
 	q.isActionAffordable = @() function ( _items )
 	{
+		if (this.m.MSU_IsIgnoringItemAction) return true;
+
 		local actionCost = this.getActionCost(_items);
 		return this.m.Actor.getActionPoints() >= actionCost;
 	}
 
 	q.getActionCost = @() function( _items )
 	{
-		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
-		// Vanilla uses this function with an empty array in some ai behaviors e.g.
-		// ai_switchto_melee, ai_switchto_ranged, ai_throw_bomb, ai_pickup_weapon
-		// The intent there is to spend the basic item switch AP cost. So this part is meant to handle that scenario.
-		if (_items.len() == 0)
-			return cost;
+		if (this.m.MSU_IsIgnoringItemAction) return 0;
 
 		this.m.ActionSkill = null;
 
 		local info = this.getActor().getSkills().getItemActionCost(_items);
 
 		info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
+
+		local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
 
 		foreach (entry in info)
 		{
@@ -36,6 +36,8 @@
 
 	q.payForAction = @() function ( _items )
 	{
+		if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
+
 		local actionCost = this.getActionCost(_items);
 		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
 		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill == null ? null : this.m.ActionSkill.get(), _items);
