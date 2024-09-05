@@ -126,30 +126,19 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 		var coloredSpan = '<span style="color:red;">' + updateInfo.availableVersion.slice(colorFromIdx) + '</span>';
 		versionRow.append($('<div class="msu-mod-version-info text-font-normal">' + updateInfo.currentVersion + ' => ' + start + coloredSpan + ' (Update Available)</div>'));
 
-		if ("GitHub" in updateInfo.sources)
-		{
-			var githubContainer = $('<div class="l-github-button"/>')
-				.appendTo(versionRow);
-			var githubButton = githubContainer.createImageButton(Path.GFX + "mods/msu/logos/github-32.png", function ()
+		$.each(updateInfo.sources, function (_, _source) {
+			var container = $('<div class="l-source-button"/>').appendTo(versionRow);
+			var button = container.createImageButton(Path.GFX + "mods/msu/logos/" + _source.icon + "-32.png", function ()
 			{
-				openURL(updateInfo.sources.GitHub);
+				openURL(_source.URL);
 			});
-		}
-		if ("NexusMods" in updateInfo.sources)
-		{
-			var nexusModsContainer = $('<div class="l-nexusmods-button"/>')
-				.appendTo(versionRow);
-			nexusModsContainer.createImageButton(Path.GFX + "mods/msu/logos/nexusmods-32.png", function ()
-			{
-				openURL(updateInfo.sources.NexusMods);
-			});
-		}
+		})
 
 		// Add update text
-		if (_modInfo.body.length > 0)
+		if (updateInfo.changes)
 		{
 			var descriptionRow = $('<div class="msu-mod-info-description description-font-normal font-color-description"/>')
-				.html(_modInfo.body.replace(/(?:\r\n|\r|\n)/g, '<br>'))
+				.html(updateInfo.changes.replace(/(?:\r\n|\r|\n)/g, '<br>'))
 				.appendTo(modInfoContainer)
 		}
 		MSU.Popup.addListContent(modInfoContainer)

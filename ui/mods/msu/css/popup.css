@@ -111,8 +111,7 @@
 	float: left;
 }
 
-.msu-mod-info-container .l-github-button,
-.msu-mod-info-container .l-nexusmods-button
+.msu-mod-info-container .l-source-button
 {
 	float: right;
 	width: 3.2rem;
