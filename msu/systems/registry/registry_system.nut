@@ -3,6 +3,7 @@
 	static ModSources = {};
 	static ModSourceDomain = ::MSU.Class.Enum([
 		"GitHub",
+		"GitHubTags",
 		"NexusMods"
 	]);
 	Mods = null;

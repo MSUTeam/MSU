@@ -9,6 +9,7 @@ includeFile("registry_mod_addon");
 
 ::MSU.System.Registry <- ::MSU.Class.RegistrySystem();
 ::MSU.System.Registry.addNewModSource(::MSU.Class.ModSourceGitHub);
+::MSU.System.Registry.addNewModSource(::MSU.Class.ModSourceGitHubTags);
 ::MSU.System.Registry.addNewModSource(::MSU.Class.ModSourceNexusMods);
 ::MSU.getMod <- function( _modID )
 {
