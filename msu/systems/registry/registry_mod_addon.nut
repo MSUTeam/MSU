@@ -19,10 +19,11 @@
 		return _domain in this.__ModSources;
 	}
 
-	function addModSource( _domain, _url )
+	function addModSource( _domain, _url, _opts = null )
 	{
 		::MSU.requireString(_url);
-		this.__ModSources[_domain] <- ::MSU.System.Registry.ModSources[_domain](_url);
+		if (_opts != null) ::MSU.requireTable(_opts);
+		this.__ModSources[_domain] <- ::MSU.System.Registry.ModSources[_domain](_url, _opts);
 	}
 
 	function getUpdateSource()

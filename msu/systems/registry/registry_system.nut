@@ -3,6 +3,7 @@
 	static ModSources = {};
 	static ModSourceDomain = ::MSU.Class.Enum([
 		"GitHub",
+		"GitHubTags",
 		"NexusMods"
 	]);
 	Mods = null;
@@ -64,10 +65,14 @@
 
 	function checkIfModVersionsAreNew( _modVersionData )
 	{
+		local modInfos = {};
 		foreach (modID, modData in _modVersionData)
 		{
+			modInfos[modID] <- {};
 			local mod = ::MSU.System.Registry.getMod(modID);
-			local version = modData.tag_name;
+			local release = mod.Registry.getUpdateSource().extractRelease(modData);
+			if (!release) continue;
+			local version = release.Version;
 			if (!::MSU.SemVer.isSemVer(version))
 			{
 				::MSU.Popup.addMessage(format("The version '%s' from the mod %s (%s) isn't using <span style=\"color: lightblue; text-decoration: underline;\" onclick=\"openURL('https://semver.org')\">semantic versioning</span> for its online versions, despite registering to use the MSU update checker. Let the mod author know if you see this error", version,  mod.getName(), modID));
@@ -77,19 +82,21 @@
 			local type = "PATCH";
 			if (::MSU.SemVer.compareMajorVersionWithOperator(version, ">", mod)) type = "MAJOR";
 			else if (::MSU.SemVer.compareMinorVersionWithOperator(version, ">", mod)) type = "MINOR";
-			modData.UpdateInfo <- {
+			modInfos[modID].UpdateInfo <- {
 				name = mod.getName(),
 				currentVersion = mod.getVersionString(),
 				availableVersion = version,
 				updateType = type,
+				changes = release.Changes,
 				sources = {},
 			};
 			foreach (modSource in mod.Registry.__ModSources)
 			{
-				modData.UpdateInfo.sources[::MSU.System.Registry.ModSourceDomain.getKeyForValue(modSource.ModSourceDomain)] <- modSource.getURL();
+				local sourceKey = ::MSU.System.Registry.ModSourceDomain.getKeyForValue(modSource.ModSourceDomain);
+				modInfos[modID].UpdateInfo.sources[sourceKey] <- {URL = modSource.getURL(), icon = modSource.Icon};
 			}
 		}
-		return _modVersionData;
+		return modInfos;
 	}
 
 	function getMod( _modID )
