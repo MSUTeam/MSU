@@ -6,7 +6,7 @@
 	background-size: 100% 100%;
 	background-image: url("coui://gfx/ui/skin/dialog_background_03.png");
 	background-repeat: no-repeat;
-	z-index: 100 !important;
+	z-index: 9999 !important;
 }
 
 .msu-popup-small
