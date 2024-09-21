@@ -1,7 +1,7 @@
 ::MSU.Class.ModSourceGitHubTags <- class extends ::MSU.Class.ModSource
 {
 	static ModSourceDomain = ::MSU.Class.RegistrySystem.ModSourceDomain.GitHubTags;
-	static Regex = regexp(@"https://github.com/([-\w]+)/([-\w]+).*");
+	static Regex = regexp(@"https://github.com/([-\w]+)/([-\w]+)(?:/.+)?");
 	static BadURLMessage = "A link must point into a Github repository, e.g. 'https://github.com/MSUteam/MSU', or a subtree, e.g. 'https://github.com/Suor/battle-brothers-mods/tree/master/autopilot'.";
 	static Icon = "github";
 	// This is one is set via Mod.Registry.addModSource(..., {Prefix = ...}) -> base.constructor()
