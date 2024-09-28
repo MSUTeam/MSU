@@ -1,5 +1,5 @@
 ::MSU.Utils <- {
-	UIDs <- -2147483648,
+	UIDs = -2147483648,
 	DataType = {
 		Integer = 0,
 		Float = 1,
