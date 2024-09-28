@@ -31,7 +31,7 @@
 					local t = typeof p;
 					if (t == "array" || t == "table" || t == "instance" || t == "class")
 					{
-						::logError("addEvent cannot be used to add functions with reference type defparams");
+						::logError("addEvent: _function params cannot have mutable default values");
 						throw ::MSU.Exception.InvalidValue(t);
 					}
 				}
