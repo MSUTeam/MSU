@@ -1,6 +1,12 @@
 ::MSU.MH.hook("scripts/entity/tactical/entity", function(q) {
 	q.m.UID <- 0;
 
+	q.create <- @(__original) function()
+	{
+		__original();
+		this.m.UID = ::MSU.Utils.generateUID();
+	}
+
 	q.getUID <- function()
 	{
 		return this.m.UID;
@@ -19,7 +25,6 @@
 		{
 			this.m.UID = this.getFlags().get("MSU_UID");
 			this.getFlags().remove("MSU_UID");
-			::MSU.Utils.registerUID(this.m.UID);
 		}
 		else
 		{
