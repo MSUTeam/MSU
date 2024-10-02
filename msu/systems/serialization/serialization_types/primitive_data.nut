@@ -76,10 +76,24 @@
 
 	function __printInvalidDataError( _type, _data )
 	{
-		::logError(format("Storing invalid or unexpected data \'%s\' in container of type: %s", _data + "", ::MSU.Serialization.DataType.getKeyForValue(_type)));
-		// We have to print the full stack trace here because we cannot know for sure which level of stackinfos will be the actual source of the problem
-		// as it will be different if this is being instantiated by someone in their own function somewhere or if it is being instantiated
-		// by MSU functions e.g. ::MSU.Serialization.__convertValueFromBaseType
-		::MSU.Log.printStackTrace();
+		local level = 3;
+		local errorSource = "";
+		local infos = ::getstackinfos(level);
+		while (infos != null)
+		{
+			local src = infos.src;
+			if (src.len() < 4 || src.slice(0, 4) != "msu/" || src.len() < 9 || src.slice(0, 9) == "msu/hooks")
+			{
+				errorSource = format(" (%s -> %s : %i)", infos.func == "unknown" ? "" : infos.func, src, infos.line);
+				break;
+			}
+
+			infos = ::getstackinfos(++level);
+		}
+
+		::logError(format("Storing invalid or unexpected data \'%s\' (type %s) in container of type: %s%s", _data + "", typeof _data, ::MSU.Serialization.DataType.getKeyForValue(_type), errorSource));
+
+		if (errorSource == "")
+			::MSU.Log.printStackTrace();
 	}
 }
