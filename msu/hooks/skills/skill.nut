@@ -444,7 +444,7 @@
 		q.getTooltip = @(__original) function()
 		{
 			local ret = __original();
-			if (!::MSU.isNull(this.getContainer()))
+			if (!::MSU.isNull(this.getContainer()) && !::MSU.isNull(this.getContainer().getActor()))
 			{
 				this.getContainer().onQueryTooltip(this, ret);
 			}
