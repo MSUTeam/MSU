@@ -357,7 +357,9 @@
 
 		q.saveCampaign = @(__original) function( _campaignFileName, _campaignLabel = null )
 		{
+			::MSU.Serialization.IsSaving = true;
 			__original(_campaignFileName, _campaignLabel);
+			::MSU.Serialization.IsSaving = false;
 			// The c++ metadata object cannot be "stored safely" on the squirrel side except during an actual ser/de process.
 			// This means that after the ser/de process, any function call on that metadata object causes the game to crash.
 			// Therefore we initialize an emulator with the proper information and store that.
@@ -366,7 +368,9 @@
 
 		q.loadCampaign = @(__original) function( _campaignFileName )
 		{
+			::MSU.Serialization.IsLoading = true;
 			__original(_campaignFileName);
+			::MSU.Serialization.IsLoading = false;
 			::MSU.System.Serialization.DeserializationMetaData = null;
 		}
 	});
