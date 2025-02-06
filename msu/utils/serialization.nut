@@ -21,12 +21,12 @@
 
 	function isSaving()
 	{
-		return this.IsDuringSerialization;
+		return this.IsSaving;
 	}
 
 	function isLoading()
 	{
-		return this.IsDuringDeserialization;
+		return this.IsLoading;
 	}
 
 	function serialize( _object, _out )
