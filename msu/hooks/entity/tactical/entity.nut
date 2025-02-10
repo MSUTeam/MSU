@@ -1,5 +1,5 @@
 ::MSU.MH.hook("scripts/entity/tactical/entity", function(q) {
-	q.create <- @(__original) function()
+	q.create = @(__original) function()
 	{
 		__original();
 		this.getFlags().set("MSU_UID", ::MSU.Utils.generateUID());
