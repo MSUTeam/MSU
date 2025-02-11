@@ -1,8 +1,9 @@
 ::MSU.Class.ModSourceGitHubTags <- class extends ::MSU.Class.ModSource
 {
 	static ModSourceDomain = ::MSU.Class.RegistrySystem.ModSourceDomain.GitHubTags;
-	static Regex = regexp(@"https://github.com/([-\w]+)/([-\w]+)(?:/.+)?");
-	static BadURLMessage = "A link must point into a Github repository, e.g. 'https://github.com/MSUteam/MSU', or a subtree, e.g. 'https://github.com/Suor/battle-brothers-mods/tree/master/autopilot'.";
+	# due to the bad regex engine, we can't really match on both simple repos and subtrees. At least, I haven't found a regex that does both. So we just soft-require a trailing slash.
+	static Regex = regexp(@"https://github.com/([-\w]+)/([-\w]+).*");
+	static BadURLMessage = "A link must INCLUDE A TRAILING SLASH (/) and point into a Github repository, e.g. 'https://github.com/MSUteam/MSU/', or a subtree, e.g. 'https://github.com/Suor/battle-brothers-mods/tree/master/autopilot/'.";
 	static Icon = "github";
 	// This is one is set via Mod.Registry.addModSource(..., {Prefix = ...}) -> base.constructor()
 	Prefix = ""
