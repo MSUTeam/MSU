@@ -65,6 +65,14 @@
 			throw ::MSU.Exception.InvalidValue(_tile);
 		}
 
+		if (_distance == 1)
+		{
+			local ret = this.getAdjacentActors(_tile);
+			if (!_atDistance && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+			return ret.filter(@(_, _a) _a.isAlliedWith(_faction));
+		}
+
 		return this.getActorsByFunction(function(_actor) {
 			if (!_actor.isAlliedWith(_faction)) return false;
 			if (_tile != null)
@@ -83,6 +91,14 @@
 		{
 			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
 			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
+		if (_distance == 1)
+		{
+			local ret = this.getAdjacentActors(_tile);
+			if (!_atDistance && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+			return ret.filter(@(_, _a) !_a.isAlliedWith(_faction));
 		}
 
 		return this.getActorsByFunction(function(_actor) {
@@ -108,6 +124,14 @@
 			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
 			throw ::MSU.Exception.InvalidValue(_tile);
 		}
+
+		if (_distance == 1)
+		{
+			local ret = this.getAdjacentActors(_tile);
+			if (!_atDistance && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+			return ret.filter(@(_, _a) _a.getFaction() == _faction);
+		}
 				
 		local actors = this.getInstancesOfFaction(_faction);
 		local ret = [];
@@ -127,6 +151,14 @@
 		{
 			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
 			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
+		if (_distance == 1)
+		{
+			local ret = this.getAdjacentActors(_tile);
+			if (!_atDistance && _tile.IsOccupiedByActor)
+				ret.push(_tile.getEntity());
+			return ret.filter(@(_, _a) _a.isAlliedWith(_faction) && _a.getFaction() != _faction);
 		}
 
 		return this.getActorsByFunction(function(_actor) {
