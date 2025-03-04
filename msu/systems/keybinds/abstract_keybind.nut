@@ -39,6 +39,12 @@
 		return this.KeyCombinations.reduce(@(_a, _b) _a + "/" + _b);
 	}
 
+	function getKeyCombinationsCapitalized()
+	{
+		if (this.KeyCombinations.len() == 0) return "";
+		return this.KeyCombinations.reduce(@(_a, _b) ::MSU.String.capitalizeFirst(_a) + "/" + ::MSU.String.capitalizeFirst(_b));
+	}
+
 	function getRawKeyCombinations()
 	{
 		return this.KeyCombinations;
