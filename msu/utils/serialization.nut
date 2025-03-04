@@ -16,6 +16,18 @@
 		"Array",
 		"SerializationData"
 	]),
+	IsSaving = false, // Is flipped during world_state.saveCampaign
+	IsLoading = false, // Is flipped during world_state.loadCampaign
+
+	function isSaving()
+	{
+		return this.IsSaving;
+	}
+
+	function isLoading()
+	{
+		return this.IsLoading;
+	}
 
 	function serialize( _object, _out )
 	{
