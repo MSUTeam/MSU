@@ -35,6 +35,27 @@
 		}
 		return ret;
 	}
+
+	q.getAdjacentActors <- function( _tile )
+	{
+		if (_tile.ID == 0)
+		{
+			::logError("The ID of _tile is 0 which means that the actor this tile was fetched from is not placed on map.");
+			throw ::MSU.Exception.InvalidValue(_tile);
+		}
+
+		local ret = [];
+		for (local i = 0; i < 6; i++)
+		{
+			if (!_tile.hasNextTile(i))
+				continue;
+
+			local nextTile = _tile.getNextTile(i);
+			if (nextTile.IsOccupiedByActor)
+				ret.push(nextTile.getEntity());
+		}
+		return ret;
+	}
 	
 	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
