@@ -21,6 +21,11 @@
 		return ::MSU.System.Keybinds.add(keybind);
 	}
 
+	function getKeybind( _id )
+	{
+		return ::MSU.System.Keybinds.KeybindsByMod[this.Mod.getID()][_id];
+	}
+
 	function isKeybindPressed( _id )
 	{
 		return ::MSU.System.Keybinds.isKeybindPressed(this.Mod.getID(), _id);
