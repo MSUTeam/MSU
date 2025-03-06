@@ -58,7 +58,8 @@
 	static __WriteFields = {
 		function writeString( _string )
 		{
-			::MSU.requireString(_string);
+			if (_string != null)
+				::MSU.requireString(_string);
 			this.__writeData(_string, ::MSU.Serialization.DataType.String);
 		}
 
