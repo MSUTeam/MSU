@@ -12,13 +12,13 @@
 		this.__UpdateCheckURL = "https://api.github.com/repos/" + ::MSU.regexMatch(capture, this.__BaseURL, 1) + "/" + ::MSU.regexMatch(capture, this.__BaseURL, 2) + "/releases/latest";
 	}
 
-	function setTargetURL(_data)
+	function setTargetURL( _data )
 	{
 		if (this.DirectDownload && _data.assets.len() > 0) this.__TargetURL = _data.assets[0].browser_download_url;
 		else this.__TargetURL = _data.html_url;
 	}
 
-	function extractRelease(_data)
+	function extractRelease( _data )
 	{
 		this.setTargetURL(_data);
 		return {Version = _data.tag_name, Changes = _data.body};

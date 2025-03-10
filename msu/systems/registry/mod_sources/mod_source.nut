@@ -29,7 +29,6 @@
 
 	function setUpdateCheckURL()
 	{
-
 	}
 
 	function getUpdateCheckURL()
@@ -37,9 +36,8 @@
 		return this.__UpdateCheckURL;
 	}
 
-	function setTargetURL(_data)
+	function setTargetURL( _data )
 	{
-
 	}
 
 	function getTargetURL()
@@ -47,7 +45,7 @@
 		return this.__TargetURL;
 	}
 
-	function extractRelease(_data) {
+	function extractRelease( _data ) {
 		return null;
 	}
 }
