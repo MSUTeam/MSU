@@ -141,7 +141,9 @@
 
 	function __convertFloatToIntIfEqual( _int )
 	{
-		return _int.tointeger() == _int ? _int.tointeger() : _int;
+		if (typeof _int == "float" && _int.tointeger() == _int)
+			return _int.tointeger();
+		return _int;
 	}
 
 	function resetData()
