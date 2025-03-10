@@ -6,5 +6,6 @@
 	"persistence" : false,
 	"modsettings" : false,
 	"tooltip" : false,
-	"performance" : false
+	"performance" : false,
+	"serde" : false,
 })
