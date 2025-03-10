@@ -2,7 +2,7 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		this.getFlags().set("MSU_UID", ::MSU.Serialization.isLoading() ? null : ::MSU.Utils.generateUID());
+		this.getFlags().set("MSU_UID", ::MSU.Serialization.isLoading() ? null : ::MSU.Utils.__generateUID());
 	}
 
 	q.getUID <- function()
@@ -18,7 +18,7 @@
 		__original(_in);
 		if (this.getFlags().get("MSU_UID") == null)
 		{
-			this.getFlags().set("MSU_UID", ::MSU.Utils.generateUID());
+			this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
 		}
 	}
 });

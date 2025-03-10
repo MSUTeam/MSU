@@ -245,7 +245,8 @@
 		}
 	}
 
-	function generateUID()
+	// Private
+	function __generateUID()
 	{
 		return ::MSU.Utils.UID++;
 	}
