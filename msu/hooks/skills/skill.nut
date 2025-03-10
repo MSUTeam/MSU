@@ -1,7 +1,4 @@
 ::MSU.MH.hookTree("scripts/skills/skill", function(q) {
-	if (!q.contains("create"))
-		return;
-
 	q.create = @(__original) function()
 	{
 		if (this.m.DamageType == null)
@@ -26,6 +23,12 @@
 
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
+
+	// Add create function in skill.nut which doesn't exist in vanilla
+	// so hookTree on skill doesn't need a `.contains("create")` check
+	q.create <- function()
+	{
+	}
 
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
