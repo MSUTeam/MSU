@@ -70,14 +70,14 @@
 
 		function writeI32( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			this.__writeData(_int, ::MSU.Serialization.DataType.I32);
 		}
 
 		function writeU32( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			if (_int < 0)
 				throw ::MSU.Exception.InvalidValue(_int);
@@ -86,7 +86,7 @@
 
 		function writeI16( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			if (_int < -32768 || _int > 32767)
 				throw ::MSU.Exception.InvalidValue(_int);
@@ -95,7 +95,7 @@
 
 		function writeU16( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			if (_int < 0 || _int > 65535)
 				throw ::MSU.Exception.InvalidValue(_int);
@@ -104,7 +104,7 @@
 
 		function writeI8( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			if (_int < -128 || _int > 127)
 				throw ::MSU.Exception.InvalidValue(_int);
@@ -113,7 +113,7 @@
 
 		function writeU8( _int )
 		{
-			_int = convertFloatToIntIfEqual(_int);
+			_int = this.__convertFloatToIntIfEqual(_int);
 			::MSU.requireInt(_int);
 			if (_int < 0 || _int > 255)
 				throw ::MSU.Exception.InvalidValue(_int);
@@ -139,7 +139,7 @@
 		}
 	}
 
-	function convertFloatToIntIfEqual(_int)
+	function __convertFloatToIntIfEqual( _int )
 	{
 		if (typeof _int == "float" && _int.tointeger() == _int)
 			return _int.tointeger();
