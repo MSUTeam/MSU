@@ -175,11 +175,20 @@
 			return null;
 		}
 		local data = this.SerializationData.getDataArray()[this.Idx];
-		if (!data.isTypeValid(_type))
+		if (::MSU.Mod.Debug.isEnabled("serde"))
 		{
-			local stackinfos = ::getstackinfos(2);
-			::logError(format("The type being read %s isn't the same as the type %s (with value: %s) stored in the Deserialization Emulator (%s -> %s : %i)", ::MSU.Serialization.DataType.getKeyForValue(_type), ::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType()), data.getData() + "", stackinfos.func == "unknown" ? "" : stackinfos.func, stackinfos.src, stackinfos.line));
+			if (!data.isTypeValid(_type))
+			{
+				local stackinfos = ::getstackinfos(2);
+
+				local errorMsg = format("The type being read %s isn't the same as the type %s (with value: %s) stored in the Deserialization Emulator (%s -> %s : %i)",
+					::MSU.Serialization.DataType.getKeyForValue(_type),
+					::MSU.Serialization.DataType.getKeyForValue(this.SerializationData.getDataArray()[this.Idx].getType()), data.getData() + "",
+					stackinfos.func == "unknown" ? "" : stackinfos.func, stackinfos.src, stackinfos.line);
+				::MSU.Mod.Debug.printWarning(errorMsg, "serde");
+			}
 		}
+
 		return data.getData();
 	}
 }
