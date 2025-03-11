@@ -437,6 +437,12 @@
 
 		return _tooltip;
 	}
+
+	/// This event is triggered once for every skill of every character in the player roster after the onHired event of a player class is triggered
+	/// @param _bro is a reference to the player object whose onHired event was triggered
+	q.onAnyBroHired <- function( _bro )
+	{
+	}
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
