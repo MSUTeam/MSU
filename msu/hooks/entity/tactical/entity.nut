@@ -2,7 +2,10 @@
 	q.create = @(__original) function()
 	{
 		__original();
-		this.MSU_generateUID();
+		if (!::MSU.Serialization.isLoading())
+		{
+			this.MSU_generateUID();
+		}
 	}
 
 	q.getUID <- function()
@@ -13,25 +16,17 @@
 		return this.getFlags().get("MSU_UID");
 	}
 
-	// Private
-	q.MSU_generateUID <- function( _force = false )
+	q.MSU_generateUID <- function()
 	{
-		if (_force)
-		{
-			this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
-		}
-		else
-		{
-			this.getFlags().set("MSU_UID", ::MSU.Serialization.isLoading() ? null : ::MSU.Utils.__generateUID());
-		}
+		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
 	}
 
 	q.onDeserialize = @(__original) function( _in )
 	{
 		__original(_in);
-		if (this.getFlags().get("MSU_UID") == null)
+		if (!this.getFlags().has("MSU_UID"))
 		{
-			this.MSU_generateUID(true);
+			this.MSU_generateUID();
 		}
 	}
 });
