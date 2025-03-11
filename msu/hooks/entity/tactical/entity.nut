@@ -18,6 +18,9 @@
 
 	q.MSU_generateUID <- function()
 	{
+		if (this.getFlags().has("MSU_UID"))
+			throw "trying to generate UID for entity that already has one";
+
 		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
 	}
 
