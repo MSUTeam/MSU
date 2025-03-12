@@ -217,3 +217,14 @@
 	background-image: url("coui://gfx/mods/msu/buttons/msu_button_inactive.png");
 	background-size: 100% 100%;
 }
+
+/*Fix: tooltips having a jagged line in their background-image if the height increases too much*/
+div .tooltip-module
+{
+    background-size: 25.5rem 100%;
+}
+
+div .tooltip-module.is-full-width
+{
+    background-size: 31.5rem 100%;
+}
