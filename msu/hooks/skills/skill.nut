@@ -27,6 +27,13 @@
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
 
+	// VANILLAFIX: https://steamcommunity.com/app/365360/discussions/1/828204634466161980/
+	// Unlike `getFatigueCost`, vanilla does not ensure a non-negative return for this function
+	q.getActionpointCost = @(__original) function()
+	{
+		return ::Math.max(0, __original());
+	}
+
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
 		if (_any)
