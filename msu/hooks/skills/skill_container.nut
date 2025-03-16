@@ -87,14 +87,14 @@
 		this.callSkillsFunction("onMovementStarted", [
 			_tile,
 			_numTiles
-		]);
+		], true, false);
 	}
 
 	q.onMovementFinished <- function( _tile )
 	{
 		this.callSkillsFunction("onMovementFinished", [
 			_tile
-		]);
+		], true, false);
 	}
 
 	q.onMovementStep <- function( _tile, _levelDifference )
@@ -102,7 +102,7 @@
 		this.callSkillsFunction("onMovementStep", [
 			_tile,
 			_levelDifference
-		], false);
+		], false, false);
 	}
 
 	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
@@ -116,7 +116,7 @@
 			_targetTile,
 			_targetEntity,
 			_forFree
-		], this.getActor().isPlacedOnMap());
+		], this.getActor().isPlacedOnMap(), false);
 	}
 
 	q.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
@@ -126,7 +126,7 @@
 			_targetTile,
 			_targetEntity,
 			_forFree
-		]);
+		], true, false);
 	}
 	
 	q.onUpdateLevel <- function()
