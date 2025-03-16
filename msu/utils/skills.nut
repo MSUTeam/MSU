@@ -12,7 +12,7 @@
 		"MaxRange"
 	],
 
-	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
+	function addEvent( _name, _function = null, _update = true, _aliveOnly = false, _resetBusy = true )
 	{
 		::MSU.MH.hook("scripts/skills/skill", function(q) {
 			q[_name] <- _function == null ? function() {} : _function;
@@ -21,7 +21,7 @@
 		::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 			if (_function == null || _function.getinfos().parameters.len() == 1) // for parameterless functions it should be a len 1 array containing "this"
 			{
-				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly);
+				q[_name] <- @() this.callSkillsFunction(_name, null, _update, _aliveOnly, _resetBusy);
 			}
 			else
 			{
@@ -55,7 +55,7 @@
 					}
 				}
 
-				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(\"%s\", [%s], %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + ""))();
+				q[_name] <- compilestring(format("return function (%s) { return this.callSkillsFunction(\"%s\", [%s], %s, %s, %s); }", declarationParams.reduce(@(a, b) a + ", " + b), _name, wrappedParams.reduce(@(a, b) a + ", " + b), _update + "", _aliveOnly + "", _resetBusy + ""))();
 			}
 		});
 	}
