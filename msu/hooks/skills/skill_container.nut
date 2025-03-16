@@ -25,15 +25,18 @@
 		this.m.ScheduledChangesSkills.clear();
 	}
 
-	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
+	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false, _resetBusy = true )
 	{
 		if (_argsArray == null) _argsArray = [null];
 		else _argsArray.insert(0, null);
 
 		local wasUpdating = this.m.IsUpdating;
 		this.m.IsUpdating = true;
-		this.m.IsBusy = false;
-		this.m.BusyStack = 0;
+		if (_resetBusy)
+		{
+			this.m.IsBusy = false;
+			this.m.BusyStack = 0;
+		}
 
 		foreach (skill in this.m.Skills)
 		{
@@ -57,9 +60,9 @@
 		}
 	}
 
-	q.callSkillsFunctionWhenAlive <- function( _function, _argsArray = null, _update = true )
+	q.callSkillsFunctionWhenAlive <- function( _function, _argsArray = null, _update = true, _resetBusy = true )
 	{
-		this.callSkillsFunction(_function, _argsArray, _update, true);
+		this.callSkillsFunction(_function, _argsArray, _update, true, _resetBusy);
 	}
 
 	q.buildProperties <- function( _function, _argsArray )
@@ -84,14 +87,14 @@
 		this.callSkillsFunction("onMovementStarted", [
 			_tile,
 			_numTiles
-		]);
+		], true, false);
 	}
 
 	q.onMovementFinished <- function( _tile )
 	{
 		this.callSkillsFunction("onMovementFinished", [
 			_tile
-		]);
+		], true, false);
 	}
 
 	q.onMovementStep <- function( _tile, _levelDifference )
@@ -99,7 +102,7 @@
 		this.callSkillsFunction("onMovementStep", [
 			_tile,
 			_levelDifference
-		], false);
+		], false, false);
 	}
 
 	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
@@ -113,7 +116,7 @@
 			_targetTile,
 			_targetEntity,
 			_forFree
-		], this.getActor().isPlacedOnMap());
+		], this.getActor().isPlacedOnMap(), false);
 	}
 
 	q.onBeforeAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
@@ -123,7 +126,7 @@
 			_targetTile,
 			_targetEntity,
 			_forFree
-		]);
+		], true, false);
 	}
 	
 	q.onUpdateLevel <- function()
@@ -133,7 +136,8 @@
 
 	q.onNewMorning <- function()
 	{
-		this.callSkillsFunctionWhenAlive("onNewMorning");
+		// Don't reset busy similar to vanilla onNewDay event
+		this.callSkillsFunctionWhenAlive("onNewMorning", null, true, false);
 	}
 
 	q.onGetHitFactors <- function( _skill, _targetTile, _tooltip )
@@ -142,7 +146,7 @@
 			_skill,
 			_targetTile,
 			_tooltip
-		], false);
+		], false, false);
 
 		local targetEntity = _targetTile.getEntity();
 		if (targetEntity != null && targetEntity.getID() != this.getActor().getID())
@@ -157,7 +161,7 @@
 			_skill,
 			_targetTile,
 			_tooltip
-		], false);
+		], false, false);
 	}
 
 	q.onQueryTileTooltip <- function( _tile, _tooltip )
@@ -165,7 +169,7 @@
 		this.callSkillsFunction("onQueryTileTooltip", [
 			_tile,
 			_tooltip
-		], false);
+		], false, false);
 	}
 
 	q.onQueryTooltip <- function( _skill, _tooltip )
@@ -173,7 +177,7 @@
 		this.callSkillsFunction("onQueryTooltip", [
 			_skill,
 			_tooltip
-		], false);
+		], false, false);
 	}
 
 	q.onDeathWithInfo <- function( _killer, _skill, _deathTile, _corpseTile, _fatalityType )
@@ -189,6 +193,7 @@
 
 	q.onOtherActorDeath <- function( _killer, _victim, _skill, _deathTile, _corpseTile, _fatalityType )
 	{
+		// Don't resetBusy similar to vanilla onTargetHit etc.
 		this.callSkillsFunction("onOtherActorDeath", [
 			_killer,
 			_victim,
@@ -196,7 +201,7 @@
 			_deathTile,
 			_corpseTile,
 			_fatalityType
-		]);
+		], true, false);
 	}
 
 	q.onEnterSettlement <- function( _settlement )
@@ -208,16 +213,18 @@
 
 	q.onEquip <- function( _item )
 	{
+		// Is called during an item swap for example so we don't resetBusy yet
 		this.callSkillsFunction("onEquip", [
 			_item
-		]);
+		], true, false);
 	}
 
 	q.onUnequip <- function( _item )
 	{
+		// Is called during an item swap for example so we don't resetBusy yet
 		this.callSkillsFunction("onUnequip", [
 			_item
-		]);
+		], true, false);
 	}
 
 	q.onAffordablePreview <- function( _skill, _movementTile )
@@ -329,7 +336,8 @@
 	
 	q.onAfterDamageReceived = @() function()
 	{
-		this.callSkillsFunctionWhenAlive("onAfterDamageReceived");
+		// Vanilla doesn't resetBusy here, so we don't either
+		this.callSkillsFunctionWhenAlive("onAfterDamageReceived", null, true, false);
 	}
 
 	q.buildPropertiesForUse = @() function( _caller, _targetEntity )
@@ -363,7 +371,8 @@
 
 	q.onBeforeActivation = @() function()
 	{
-		this.callSkillsFunctionWhenAlive("onBeforeActivation");
+		// Vanilla doesn't resetBusy here so we don't either
+		this.callSkillsFunctionWhenAlive("onBeforeActivation", null, true, false);
 	}
 
 	q.onTurnStart = @() function()
@@ -400,16 +409,18 @@
 
 	q.onNewDay = @() function()
 	{
-		this.callSkillsFunctionWhenAlive("onNewDay");
+		// Vanilla doesn't resetBusy here so we don't either
+		this.callSkillsFunctionWhenAlive("onNewDay", null, true, false);
 	}
 
 	q.onDamageReceived = @() function( _attacker, _damageHitpoints, _damageArmor )
 	{
+		// Vanilla doesn't resetBusy here so we don't either
 		this.callSkillsFunction("onDamageReceived", [
 			_attacker,
 			_damageHitpoints,
 			_damageArmor
-		]);
+		], null, true, false);
 	}
 
 	q.onBeforeTargetHit = @() function( _caller, _targetEntity, _hitInfo )
@@ -437,46 +448,54 @@
 			}
 		}
 
+		// Vanilla doesn't resetBusy here so we don't either
 		this.callSkillsFunction("onBeforeTargetHit", [
 			_caller,
 			_targetEntity,
 			_hitInfo
-		]);
+		], null, true, false);
 	}
 
 	q.onTargetHit = @() function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
 	{
+		// Vanilla doesn't resetBusy here so we don't either
 		this.callSkillsFunction("onTargetHit", [
 			_caller,
 			_targetEntity,
 			_bodyPart,
 			_damageInflictedHitpoints,
 			_damageInflictedArmor
-		]);
+		], null, true, false);
 	}
 
 	q.onTargetMissed = @() function( _caller, _targetEntity )
 	{
+		// Vanilla doesn't resetBusy here so we don't either
 		this.callSkillsFunction("onTargetMissed", [
 			_caller,
 			_targetEntity
-		]);
+		], null, true, false);
 	}
 
 	q.onTargetKilled = @() function( _targetEntity, _skill )
 	{
+		// Vanilla doesn't resetBusy here so we don't either
 		this.callSkillsFunction("onTargetKilled", [
 			_targetEntity,
 			_skill
-		]);
+		], null, true, false);
 	}
 
 	q.onMissed = @() function( _attacker, _skill )
 	{
+		// Vanilla only resets this.m.IsBusy to false here but doesn't reset this.m.BusyStack to 0.
+		// So we set this.m.IsBusy to false manually here and then pass false for resetBusy
+		this.m.IsBusy = false;
+
 		this.callSkillsFunction("onMissed", [
 			_attacker,
 			_skill
-		]);
+		], true, false);
 	}
 
 	q.onCombatStarted = @() function()
