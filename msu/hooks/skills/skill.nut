@@ -213,10 +213,6 @@
 	{
 	}
 
-	q.onMovementFinished <- function( _tile )
-	{
-	}
-
 	q.onMovementStep <- function( _tile, _levelDifference )
 	{
 	}
