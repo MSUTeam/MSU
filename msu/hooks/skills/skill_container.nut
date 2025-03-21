@@ -87,11 +87,35 @@
 		]);
 	}
 
-	q.onMovementFinished <- function( _tile )
+	// Overwrite vanilla function to pass tile for legacy support of MSU-added skill_container.onMovementFinished.
+	// Vanilla added their own onMovementFinished event in 1.5.1.4 without a `_tile` parameter.
+	// Naturally, the MSU-added function with _tile parameter is deprecated and should no longer be used by mods.
+	q.onMovementFinished = @(__original) function()
 	{
-		this.callSkillsFunction("onMovementFinished", [
-			_tile
-		]);
+		local wasUpdating = this.m.IsUpdating;
+		this.m.IsUpdating = true;
+		this.m.IsBusy = false;
+		this.m.BusyStack = 0;
+
+		local tile = this.getActor().getTile();
+
+		foreach (s in this.m.Skills)
+		{
+			if (s.isGarbage())
+				continue;
+
+			if (s.onMovementFinished.getInfos().parameters.len() == 2)
+			{
+				s.onMovementFinished(tile);
+			}
+			else
+			{
+				s.onMovementFinished();
+			}
+		}
+
+		this.m.IsUpdating = wasUpdating;
+		this.update();
 	}
 
 	q.onMovementStep <- function( _tile, _levelDifference )
