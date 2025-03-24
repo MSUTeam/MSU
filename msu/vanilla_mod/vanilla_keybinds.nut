@@ -202,7 +202,7 @@ local function isCampfireScreen()
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_event_1", "1", ::MSU.Key.State.World, function()
 {
-	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
 	{
 		return;
 	}
@@ -213,7 +213,7 @@ local function isCampfireScreen()
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_event_2", "2", ::MSU.Key.State.World, function()
 {
-	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
 	{
 		return;
 	}
@@ -224,7 +224,7 @@ local function isCampfireScreen()
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_event_3", "3", ::MSU.Key.State.World, function()
 {
-	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
 	{
 		return;
 	}
@@ -235,7 +235,7 @@ local function isCampfireScreen()
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_event_4", "4", ::MSU.Key.State.World, function()
 {
-	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating())
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
 	{
 		return;
 	}
@@ -243,6 +243,28 @@ local function isCampfireScreen()
 	this.m.EventScreen.onButtonPressed(3);
 	return true;
 }, "Select Event Option 4", null, "Click the fourth button from the top in a world event");
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_5", "5", ::MSU.Key.State.World, function()
+{
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
+	{
+		return;
+	}
+
+	this.m.EventScreen.onButtonPressed(4);
+	return true;
+}, "Select Event Option 5", null, "Click the fifth button from the top in a world event");
+
+::MSU.Vanilla.Keybinds.addSQKeybind("world_event_6", "6", ::MSU.Key.State.World, function()
+{
+	if (!this.m.EventScreen.isVisible() || this.m.EventScreen.isAnimating() || this.m.EventScreen.isJustShown())
+	{
+		return;
+	}
+
+	this.m.EventScreen.onButtonPressed(5);
+	return true;
+}, "Select Event Option 6", null, "Click the sixth button from the top in a world event");
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_toggle_forceattack", "ctrl", ::MSU.Key.State.World, function()
 {
