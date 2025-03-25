@@ -3,11 +3,7 @@
 	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
 
-	// Overwrite vanilla function completely in order to redirect vanilla SkillCostAdjustments
-	// to MSU base values system.
-	// Changes which were previously appended before/after `__original` are now hard-coded in this overwrite.
-	// These include calling softReset() and scheduledChanges.
-	q.update = @() function()
+	q.update = @(__original) function()
 	{
 		if (this.m.IsUpdating || !this.m.Actor.isAlive())
 		{
@@ -19,56 +15,7 @@
 			if (!skill.isGarbage()) skill.softReset();
 		}
 
-		this.collectGarbage(false);
-		local hp = 1.0;
-		local updateHitpoints = this.m.Actor.getHitpointsMax() > 0;
-
-		if (updateHitpoints)
-		{
-			hp = ::Math.minf(1.0, this.m.Actor.getHitpointsPct());
-		}
-
-		this.m.IsUpdating = true;
-		local current = this.m.Actor.getBaseProperties().getClone();
-		local adjs = current.SkillCostAdjustments;
-
-		foreach (skill in this.m.Skills)
-		{
-			skill.onUpdate(current);
-			foreach (a in adjs)
-			{
-				local s = this.getSkillByID(a.ID);
-				if (s != null)
-				{
-					if ("APAdjust" in a)
-						s.m.ActionPointCost += a.APAdjust;
-					if ("FatigueAdjust" in a)
-						s.m.FatigueCost += a.FatigueAdjust;
-					if ("FatigueMultAdjust" in a)
-						s.m.FatigueMultAdjust *= a.FatigueMultAdjust;
-				}
-			}
-			adjs.clear();
-		}
-
-		foreach (skill in this.m.Skills)
-		{
-			skill.onAfterUpdate(current);
-			foreach (a in adjs)
-			{
-				local s = this.getSkillByID(a.ID);
-				if (s != null)
-				{
-					if ("APAdjust" in a)
-						s.m.ActionPointCost += a.APAdjust;
-					if ("FatigueAdjust" in a)
-						s.m.FatigueCost += a.FatigueAdjust;
-					if ("FatigueMultAdjust" in a)
-						s.m.FatigueMultAdjust *= a.FatigueMultAdjust;
-				}
-			}
-			adjs.clear();
-		}
+		__original();
 
 		foreach (skill in this.m.ScheduledChangesSkills)
 		{
@@ -76,19 +23,6 @@
 		}
 
 		this.m.ScheduledChangesSkills.clear();
-
-		this.m.Actor.setCurrentProperties(current);
-
-		if (updateHitpoints)
-		{
-			this.m.Actor.setHitpointsPct(hp);
-		}
-
-		this.m.Actor.setActionPoints(::Math.min(this.m.Actor.getActionPoints(), this.m.Actor.getActionPointsMax()));
-		this.m.Actor.setFatigue(::Math.min(this.m.Actor.getFatigue(), this.m.Actor.getFatigueMax()));
-		this.m.IsUpdating = false;
-		this.m.Actor.onSkillsUpdated();
-		this.m.Actor.updateOverlay();
 	}
 
 	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
