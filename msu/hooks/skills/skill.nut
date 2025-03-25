@@ -16,6 +16,22 @@
 	}
 });
 
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hookTree("scripts/skills/skill", function(q) {
+		q.onUpdate = @(__original) function( _properties )
+		{
+			__original(_properties);
+			this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+		}
+
+		q.onAfterUpdate = @(__original) function( _properties )
+		{
+			__original(_properties);
+			this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+		}
+	});
+});
+
 ::MSU.MH.hook("scripts/skills/skill", function(q) {
 	q.m.AIBehaviorID <- null;
 	q.m.DamageType <- null;
@@ -26,6 +42,28 @@
 
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
+
+	q.__MSU_redirectSkillCostAdjustments <- function( _adjustments )
+	{
+		if (_adjustments.len() == 0)
+			return;
+
+		foreach (a in _adjustments)
+		{
+			local s = this.getContainer().getSkillByID(a.ID);
+			if (s != null)
+			{
+				if ("APAdjust" in a)
+					s.m.ActionPointCost += a.APAdjust;
+				if ("FatigueAdjust" in a)
+					s.m.FatigueCost += a.FatigueAdjust;
+				if ("FatigueMultAdjust" in a)
+					s.m.FatigueMultAdjust *= a.FatigueMultAdjust;
+			}
+		}
+
+		_adjustments.clear();
+	}
 
 	q.isType = @() function( _t, _any = true, _only = false )
 	{
