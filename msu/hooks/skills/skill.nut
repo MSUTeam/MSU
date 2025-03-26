@@ -45,9 +45,6 @@
 
 	q.__MSU_redirectSkillCostAdjustments <- function( _adjustments )
 	{
-		if (_adjustments.len() == 0)
-			return;
-
 		foreach (a in _adjustments)
 		{
 			local s = this.getContainer().getSkillByID(a.ID);
