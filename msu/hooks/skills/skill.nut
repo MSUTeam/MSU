@@ -58,7 +58,7 @@
 				if ("FatigueAdjust" in a)
 					s.m.FatigueCost += a.FatigueAdjust;
 				if ("FatigueMultAdjust" in a)
-					s.m.FatigueMultAdjust *= a.FatigueMultAdjust;
+					s.m.FatigueCostMult *= a.FatigueMultAdjust;
 			}
 		}
 
