@@ -11,7 +11,7 @@
 	{
 		__original(_tile);
 		// legacy support for MSU-added skill_container.onMovementFinished for vanilla up to 1.5.0.15
-		if (::Const.Serialization.Version < 65)
+		if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
 		{
 			this.m.IsMoving = true;
 			this.m.Skills.onMovementFinished();
