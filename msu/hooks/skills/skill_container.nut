@@ -104,7 +104,7 @@
 			if (s.isGarbage())
 				continue;
 
-			if (s.onMovementFinished.getInfos().parameters.len() == 2)
+			if (s.onMovementFinished.getinfos().parameters.len() == 2)
 			{
 				s.onMovementFinished(tile);
 			}
