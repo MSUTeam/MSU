@@ -41,8 +41,13 @@
 
 	function getKeyCombinationsCapitalized()
 	{
-		if (this.KeyCombinations.len() == 0) return "";
-		return this.KeyCombinations.reduce(@(_a, _b) ::MSU.String.capitalizeFirst(_a) + "/" + ::MSU.String.capitalizeFirst(_b));
+		local kc = this.getKeyCombinations();
+		if (kc == "")
+			return kc;
+
+		kc = ::MSU.String.capitalizeFirst(kc);
+		kc = split(kc, "+").reduce(@(_a, _b) _a + "+" + ::MSU.String.capitalizeFirst(_b));
+		return split(kc, "/").reduce(@(_a, _b) _a + "/" + ::MSU.String.capitalizeFirst(_b));
 	}
 
 	function getRawKeyCombinations()
