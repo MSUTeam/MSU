@@ -80,7 +80,7 @@
 			if (_value.len() != 0) ret = ret.slice(0, -2);
 			ret += "]";
 		}
-		else if (typeof _value == "table" && _depth > 0 && this.__safeLen(_table) <= _maxLen) // full table
+		else if (typeof _value == "table" && _depth > 0 && this.__safeLen(_value) <= _maxLen) // full table
 		{
 			ret += "{";
 			local len = 0;
