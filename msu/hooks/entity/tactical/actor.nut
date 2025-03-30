@@ -7,12 +7,16 @@
 		this.m.IsMoving = false;
 	}
 
-	q.onMovementFinish = @(__original) function ( _tile )
+	// legacy support for MSU-added skill_container.onMovementFinished for vanilla up to 1.5.0.15
+	if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
 	{
-		__original(_tile);
-		this.m.IsMoving = true;
-		this.m.Skills.onMovementFinished(_tile);
-		this.m.IsMoving = false;
+		q.onMovementFinish = @(__original) function ( _tile )
+		{
+			__original(_tile);
+			this.m.IsMoving = true;
+			this.m.Skills.onMovementFinished();
+			this.m.IsMoving = false;
+		}
 	}
 
 	q.onMovementStep = @(__original) function( _tile, _levelDifference )
