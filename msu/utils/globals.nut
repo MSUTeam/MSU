@@ -188,3 +188,9 @@
 			return _a == _b;
 	}
 }
+
+::MSU.entityUIDMap <- {};
+::MSU.getEntityByUID <- function( _uid )
+{
+	return _uid in ::MSU.entityUIDMap ? ::MSU.entityUIDMap[_uid] : null;
+}
