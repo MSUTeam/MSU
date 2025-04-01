@@ -87,35 +87,47 @@
 		]);
 	}
 
-	// Overwrite vanilla function to pass tile for legacy support of MSU-added skill_container.onMovementFinished.
 	// Vanilla added their own onMovementFinished event in 1.5.1.4 without a `_tile` parameter.
 	// Naturally, the MSU-added function with _tile parameter is deprecated and should no longer be used by mods.
-	q.onMovementFinished = @() function()
+	if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
 	{
-		local wasUpdating = this.m.IsUpdating;
-		this.m.IsUpdating = true;
-		this.m.IsBusy = false;
-		this.m.BusyStack = 0;
-
-		local tile = this.getActor().getTile();
-
-		foreach (s in this.m.Skills)
+		q.onMovementFinished <- function( _tile )
 		{
-			if (s.isGarbage())
-				continue;
-
-			if (s.onMovementFinished.getinfos().parameters.len() == 2)
-			{
-				s.onMovementFinished(tile);
-			}
-			else
-			{
-				s.onMovementFinished();
-			}
+			this.callSkillsFunction("onMovementFinished", [
+				_tile
+			]);
 		}
+	}
+	else
+	{
+		q.onMovementFinished = @() function()
+		{
+			local wasUpdating = this.m.IsUpdating;
+			this.m.IsUpdating = true;
+			this.m.IsBusy = false;
+			this.m.BusyStack = 0;
 
-		this.m.IsUpdating = wasUpdating;
-		this.update();
+			local tile = this.getActor().getTile();
+
+			foreach (s in this.m.Skills)
+			{
+				if (s.isGarbage())
+					continue;
+
+				// legacy support for MSU-added skill_container.onMovementFinished with tile parameter for vanilla up to 1.5.0.15
+				if (s.onMovementFinished.getinfos().parameters.len() == 2)
+				{
+					s.onMovementFinished(tile);
+				}
+				else
+				{
+					s.onMovementFinished();
+				}
+			}
+
+			this.m.IsUpdating = wasUpdating;
+			this.update();
+		}
 	}
 
 	q.onMovementStep <- function( _tile, _levelDifference )

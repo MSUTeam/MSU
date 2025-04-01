@@ -18,16 +18,19 @@
 
 ::MSU.QueueBucket.VeryLate.push(function() {
 	::MSU.MH.hookTree("scripts/skills/skill", function(q) {
-		q.onUpdate = @(__original) function( _properties )
+		if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.1-4"))
 		{
-			__original(_properties);
-			this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
-		}
+			q.onUpdate = @(__original) function( _properties )
+			{
+				__original(_properties);
+				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+			}
 
-		q.onAfterUpdate = @(__original) function( _properties )
-		{
-			__original(_properties);
-			this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+			q.onAfterUpdate = @(__original) function( _properties )
+			{
+				__original(_properties);
+				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+			}
 		}
 	});
 });
@@ -43,23 +46,26 @@
 	q.m.IsApplyingPreview <- false;
 	q.m.PreviewField <- {};
 
-	q.__MSU_redirectSkillCostAdjustments <- function( _adjustments )
+	if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.1-4"))
 	{
-		foreach (a in _adjustments)
+		q.__MSU_redirectSkillCostAdjustments <- function( _adjustments )
 		{
-			local s = this.getContainer().getSkillByID(a.ID);
-			if (s != null)
+			foreach (a in _adjustments)
 			{
-				if ("APAdjust" in a)
-					s.m.ActionPointCost += a.APAdjust;
-				if ("FatigueAdjust" in a)
-					s.m.FatigueCost += a.FatigueAdjust;
-				if ("FatigueMultAdjust" in a)
-					s.m.FatigueCostMult *= a.FatigueMultAdjust;
+				local s = this.getContainer().getSkillByID(a.ID);
+				if (s != null)
+				{
+					if ("APAdjust" in a)
+						s.m.ActionPointCost += a.APAdjust;
+					if ("FatigueAdjust" in a)
+						s.m.FatigueCost += a.FatigueAdjust;
+					if ("FatigueMultAdjust" in a)
+						s.m.FatigueCostMult *= a.FatigueMultAdjust;
+				}
 			}
-		}
 
-		_adjustments.clear();
+			_adjustments.clear();
+		}
 	}
 
 	q.isType = @() function( _t, _any = true, _only = false )

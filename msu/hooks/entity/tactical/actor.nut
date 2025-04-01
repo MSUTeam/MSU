@@ -14,7 +14,7 @@
 		{
 			__original(_tile);
 			this.m.IsMoving = true;
-			this.m.Skills.onMovementFinished();
+			this.m.Skills.onMovementFinished(_tile);
 			this.m.IsMoving = false;
 		}
 	}
