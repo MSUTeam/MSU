@@ -22,6 +22,7 @@
 			throw "trying to generate UID for entity that already has one";
 
 		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
+		::MSU.__addToUIDMap(this);
 	}
 
 	q.onDeserialize = @(__original) function( _in )
@@ -30,6 +31,10 @@
 		if (!this.getFlags().has("MSU_UID"))
 		{
 			this.MSU_generateUID();
+		}
+		else
+		{
+			::MSU.__addToUIDMap(this);
 		}
 	}
 });
