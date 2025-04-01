@@ -189,8 +189,12 @@
 	}
 }
 
-::MSU.entityUIDMap <- {};
+::MSU.__entityUIDMap <- {};
+::MSU.__addToUIDMap <- function( _entity )
+{
+	::MSU.__entityUIDMap[_entity.getFlags().get("MSU_UID")] <- ::MSU.asWeakTableRef(_entity);
+}
 ::MSU.getEntityByUID <- function( _uid )
 {
-	return _uid in ::MSU.entityUIDMap ? ::MSU.entityUIDMap[_uid].get() : null;
+	return _uid in ::MSU.__entityUIDMap ? ::MSU.__entityUIDMap[_uid].get() : null;
 }

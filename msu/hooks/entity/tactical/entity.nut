@@ -22,12 +22,7 @@
 			throw "trying to generate UID for entity that already has one";
 
 		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
-		this.MSU_addToUIDMap();
-	}
-
-	q.MSU_addToUIDMap <- function()
-	{
-		::MSU.entityUIDMap[this.getFlags().get("MSU_UID")] <- ::MSU.asWeakTableRef(this);
+		::MSU.__addToUIDMap(this);
 	}
 
 	q.onDeserialize = @(__original) function( _in )
@@ -39,7 +34,7 @@
 		}
 		else
 		{
-			this.MSU_addToUIDMap();
+			::MSU.__addToUIDMap(this);
 		}
 	}
 });
