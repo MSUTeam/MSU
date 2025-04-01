@@ -192,5 +192,5 @@
 ::MSU.entityUIDMap <- {};
 ::MSU.getEntityByUID <- function( _uid )
 {
-	return _uid in ::MSU.entityUIDMap ? ::MSU.entityUIDMap[_uid] : null;
+	return _uid in ::MSU.entityUIDMap ? ::MSU.entityUIDMap[_uid].get() : null;
 }
