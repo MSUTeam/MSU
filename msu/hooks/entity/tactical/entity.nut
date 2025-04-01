@@ -27,7 +27,7 @@
 
 	q.MSU_addToUIDMap <- function()
 	{
-		::MSU.entityUIDMap[this.getFlags().get("MSU_UID")] <- this.weakref();
+		::MSU.entityUIDMap[this.getFlags().get("MSU_UID")] <- ::MSU.asWeakTableRef(this);
 	}
 
 	q.onDeserialize = @(__original) function( _in )
