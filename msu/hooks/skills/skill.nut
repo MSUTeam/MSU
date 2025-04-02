@@ -254,6 +254,13 @@
 	{
 	}
 
+	if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
+	{
+		q.onMovementFinished <- function( _tile )
+		{
+		}
+	}
+
 	q.onMovementStep <- function( _tile, _levelDifference )
 	{
 	}
