@@ -79,6 +79,32 @@
 		}
 	}
 
+	// Unlike squirrel array.sort, this preserves the order of equal members and also returns the array at the end.
+	// Uses Insertion Sort algorithm. Merge Sort is slow in squirrel even for large arrays (even len 1000 array is ~1000% slower than Insertion Sort).
+	// A hybrid of Insertion and Merge is also considerably slower than pure Insertion (~700% slower for 1000 len array).
+	function stableSort( _array, _compareFunc = null )
+	{
+		if (_array.len() <= 1)
+			return _array;
+
+		local len = _array.len();
+		for (local i = 1; i < len; i++)
+		{
+			local key = _array[i];
+			local j = i - 1;
+
+			while (j >= 0 && (_compareFunc ? _compareFunc(_array[j], key) > 0 : _array[j] > key))
+			{
+				_array[j + 1] = _array[j];
+				j--;
+			}
+
+			_array[j + 1] = key;
+		}
+
+		return _array;
+	}
+
 	function sortDescending( _array, _member = null )
 	{
 		if (_member == null)
