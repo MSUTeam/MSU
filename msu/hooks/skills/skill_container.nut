@@ -132,10 +132,44 @@
 
 	q.onMovementStep <- function( _tile, _levelDifference )
 	{
-		this.callSkillsFunction("onMovementStep", [
-			_tile,
-			_levelDifference
-		], false);
+		local wasUpdating = this.m.IsUpdating;
+		this.m.IsUpdating = true;
+
+		local result = null;
+		local skill_result = null;
+
+		foreach (s in this.m.Skills)
+		{
+			if (s.isGarbage())
+				continue;
+
+			skill_result = s.onMovementStep(_tile, _levelDifference);
+			if (result == null)
+			{
+				switch (skill_result)
+				{
+					case null:
+					case true:
+						break;
+					case false:
+						result = @(_tile, _levelDifference) null;
+						break;
+					default: // skill_result is a function in this case
+						result = skill_result;
+						break;
+				}
+			}
+		}
+
+		this.m.IsUpdating = wasUpdating;
+
+		if (result != null)
+		{
+			result(_tile, _levelDifference);
+			return false;
+		}
+
+		return true;
 	}
 
 	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
