@@ -1,3 +1,35 @@
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/skills/skill_container", function(q) {
+		q.buildPropertiesForUse = @(__original) function( _caller, _targetEntity )
+		{
+			_caller.resetField("HitChanceBonus");
+			if (::MSU.isIn("AdditionalAccuracy", _caller.m, true)) _caller.resetField("AdditionalAccuracy");
+			if (::MSU.isIn("AdditionalHitChance", _caller.m, true)) _caller.resetField("AdditionalHitChance");
+
+			local wasUpdating = this.m.IsUpdating;
+			local ret = __original(_caller, _targetEntity);
+			this.m.IsUpdating = wasUpdating;
+			return ret;
+		}
+
+		q.buildPropertiesForDefense = @(__original) function( _attacker, _skill )
+		{
+			local wasUpdating = this.m.IsUpdating;
+			local ret = __original(_attacker, _skill);
+			this.m.IsUpdating = wasUpdating;
+			return ret;
+		}
+
+		q.buildPropertiesForBeingHit = @(__original) function( _attacker, _skill, _hitinfo )
+		{
+			local wasUpdating = this.m.IsUpdating;
+			local ret = __original(_attacker, _skill, _hitinfo);
+			this.m.IsUpdating = wasUpdating;
+			return ret;
+		}
+	});
+});
+
 ::MSU.MH.hook("scripts/skills/skill_container", function(q) {
 	q.m.ScheduledChangesSkills <- [];
 	q.m.IsPreviewing <- false;
@@ -60,23 +92,6 @@
 	q.callSkillsFunctionWhenAlive <- function( _function, _argsArray = null, _update = true )
 	{
 		this.callSkillsFunction(_function, _argsArray, _update, true);
-	}
-
-	q.buildProperties <- function( _function, _argsArray )
-	{
-		_argsArray.insert(0, null);
-		_argsArray.push(this.m.Actor.getCurrentProperties().getClone());
-
-		local wasUpdating = this.m.IsUpdating;
-		this.m.IsUpdating = true;
-
-		foreach (skill in this.m.Skills)
-		{
-			_argsArray[0] = skill;
-			skill[_function].acall(_argsArray);
-		}
-		this.m.IsUpdating = wasUpdating;
-		return _argsArray[_argsArray.len() - 1];
 	}
 
 	q.onMovementStarted <- function( _tile, _numTiles )
@@ -362,93 +377,20 @@
 	}
 
 	//Vanilla Overwrites start
-	
-	q.onAfterDamageReceived = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onAfterDamageReceived");
-	}
 
-	q.buildPropertiesForUse = @() function( _caller, _targetEntity )
-	{
-		_caller.resetField("HitChanceBonus");
-		if (::MSU.isIn("AdditionalAccuracy", _caller.m, true)) _caller.resetField("AdditionalAccuracy");
-		if (::MSU.isIn("AdditionalHitChance", _caller.m, true)) _caller.resetField("AdditionalHitChance");
-
-		return this.buildProperties("onAnySkillUsed", [
-			_caller,
-			_targetEntity
-		]);
-	}
-
-	q.buildPropertiesForDefense = @() function( _attacker, _skill )
-	{
-		return this.buildProperties("onBeingAttacked", [
-			_attacker,
-			_skill
-		]);
-	}
-
-	q.buildPropertiesForBeingHit = @() function( _attacker, _skill, _hitinfo )
-	{
-		return this.buildProperties("onBeforeDamageReceived", [
-			_attacker,
-			_skill,
-			_hitinfo
-		]);
-	}
-
-	q.onBeforeActivation = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onBeforeActivation");
-	}
-
-	q.onTurnStart = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onTurnStart");
-	}
-
-	q.onResumeTurn = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onResumeTurn");
-	}
-
-	q.onRoundEnd = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onRoundEnd");
-	}
-
-	q.onTurnEnd = @() function()
+	q.onTurnEnd = @(__original) function()
 	{
 		this.m.IsPreviewing = false;
-		this.callSkillsFunctionWhenAlive("onTurnEnd");
+		__original();
 	}
 
-	q.onWaitTurn = @() function()
+	q.onWaitTurn = @(__original) function()
 	{
 		this.m.IsPreviewing = false;
-		this.callSkillsFunctionWhenAlive("onWaitTurn");
+		__original();
 	}
 
-	q.onNewRound = @() function()
-	{
-		this.callSkillsFunction("onNewRound");
-	}
-
-	q.onNewDay = @() function()
-	{
-		this.callSkillsFunctionWhenAlive("onNewDay");
-	}
-
-	q.onDamageReceived = @() function( _attacker, _damageHitpoints, _damageArmor )
-	{
-		this.callSkillsFunction("onDamageReceived", [
-			_attacker,
-			_damageHitpoints,
-			_damageArmor
-		]);
-	}
-
-	q.onBeforeTargetHit = @() function( _caller, _targetEntity, _hitInfo )
+	q.onBeforeTargetHit = @(__original) function( _caller, _targetEntity, _hitInfo )
 	{
 		if (_caller.isAttack() && _caller.getDamageType() != null)
 		{
@@ -473,67 +415,13 @@
 			}
 		}
 
-		this.callSkillsFunction("onBeforeTargetHit", [
-			_caller,
-			_targetEntity,
-			_hitInfo
-		]);
+		__original(_caller, _targetEntity, _hitInfo);
 	}
 
-	q.onTargetHit = @() function( _caller, _targetEntity, _bodyPart, _damageInflictedHitpoints, _damageInflictedArmor )
-	{
-		this.callSkillsFunction("onTargetHit", [
-			_caller,
-			_targetEntity,
-			_bodyPart,
-			_damageInflictedHitpoints,
-			_damageInflictedArmor
-		]);
-	}
-
-	q.onTargetMissed = @() function( _caller, _targetEntity )
-	{
-		this.callSkillsFunction("onTargetMissed", [
-			_caller,
-			_targetEntity
-		]);
-	}
-
-	q.onTargetKilled = @() function( _targetEntity, _skill )
-	{
-		this.callSkillsFunction("onTargetKilled", [
-			_targetEntity,
-			_skill
-		]);
-	}
-
-	q.onMissed = @() function( _attacker, _skill )
-	{
-		this.callSkillsFunction("onMissed", [
-			_attacker,
-			_skill
-		]);
-	}
-
-	q.onCombatStarted = @() function()
-	{
-		this.callSkillsFunction("onCombatStarted");
-	}
-
-	q.onCombatFinished = @() function()
+	q.onCombatFinished = @(__original) function()
 	{
 		this.m.IsPreviewing = false;
-		this.callSkillsFunction("onCombatFinished");
-	}
-
-	q.onDeath = @() function( _fatalityType )
-	{
-		this.callSkillsFunction("onDeath", [_fatalityType]);
-	}
-
-	q.onDismiss = @() function()
-	{
-		this.callSkillsFunction("onDismiss");
+		__original();
 	}
 
 	//Vanilla Ovewrites End
