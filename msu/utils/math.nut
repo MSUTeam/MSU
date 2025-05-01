@@ -1,4 +1,16 @@
 ::MSU.Math <- {
+	// Clamps an integer or float _value to be within [_min, _max] range
+	// throw InvalidValue exception when _min is greater than _max
+	function clamp(_value, _min, _max)
+	{
+		if (_min > _max)
+		{
+			::logError("_min must be less than or equal to _max");
+			throw ::MSU.Exception.InvalidValue(_min);
+		}
+		return _value < _min ? _min : (_value > _max ? _max : _value);
+	}
+
 	// returns log2 of _num, floored (as an int)
 	function log2int( _num )
 	{
