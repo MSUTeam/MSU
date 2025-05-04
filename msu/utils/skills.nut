@@ -1,3 +1,69 @@
+local scheduleEvent = ::Time.scheduleEvent;
+::Time.scheduleEvent = function( _timeUnit, _time, _func, _data )
+{
+	local caller = ::getstackinfos(2).locals["this"];
+	if (!::isKindOf(caller, "skill") || !(caller in ::MSU.Skills.ScheduleSkills))
+	{
+		scheduleEvent(_timeUnit, _time, _func, _data);
+		return;
+	}
+
+	::MSU.Skills.ScheduleSkills[caller].Count++;
+
+	local function foo( _arg1 )
+	{
+		if (_func != null)
+			_func(_arg1);
+		::MSU.Skills.ScheduleSkills[caller].onScheduleComplete();
+	}
+
+	scheduleEvent(_timeUnit, _time, foo, _data);
+}
+
+local teleport = ::TacticalNavigator.teleport;
+::TacticalNavigator.teleport <- function( _user, _targetTile, _func, _data, _bool, _float = 1.0 )
+{
+	local caller = ::getstackinfos(2).locals["this"];
+	if (!::isKindOf(caller, "skill") || !(caller in ::MSU.Skills.ScheduleSkills))
+	{
+		teleport(_user, _targetTile, _func, _data, _bool, _float);
+		return;
+	}
+
+	::MSU.Skills.ScheduleSkills[caller].Count++;
+
+	local function foo( _arg1, _arg2 )
+	{
+		if (_func != null)
+			_func(_arg1, _arg2);
+		::MSU.Skills.ScheduleSkills[caller].onScheduleComplete();
+	}
+
+	teleport(_user, _targetTile, foo, _data, _bool, _float);
+}
+
+local switchEntities = ::TacticalNavigator.teleport;
+::TacticalNavigator.switchEntities <- function( _user, _targetEntity, _func, _data, _float )
+{
+	local caller = ::getstackinfos(2).locals["this"];
+	if (!::isKindOf(caller, "skill") || !(caller in ::MSU.Skills.ScheduleSkills))
+	{
+		switchEntities(_user, _targetEntity, _func, _data, _float);
+		return;
+	}
+
+	::MSU.Skills.ScheduleSkills[caller].Count++;
+
+	local function foo( _arg1, _arg2 )
+	{
+		if (_func != null)
+			_func(_arg1, _arg2);
+		::MSU.Skills.ScheduleSkills[caller].onScheduleComplete();
+	}
+
+	switchEntities(_user, _targetEntity, foo, _data, _float);
+}
+
 ::MSU.Skills <- {
 	PreviewApplicableFunctions = [
 		"getActionPointCost",
@@ -11,6 +77,38 @@
 		"MinRange",
 		"MaxRange"
 	],
+	ScheduleSkills = {},
+
+	ScheduleSkill = class {
+		Skill = null;
+		Container = null;
+		TargetTile = null;
+		TargetEntity = null;
+		ForFree = false;
+		Count = 0;
+
+		constructor( _skill, _targetTile, _targetEntity, _forFree )
+		{
+			::logInfo("Creating ScheduleSkill for " + _skill.getID());
+			this.Skill = _skill;
+			this.Container = _skill.getContainer();
+			this.TargetTile = _targetTile;
+			this.TargetEntity = _targetEntity;
+			this.ForFree = _forFree;
+		}
+
+		function onScheduleComplete()
+		{
+			::logInfo("onScheduleComplete " + this.Skill.getID());
+			if (--this.Count == 0)
+			{
+				::logInfo("All schedules complete");
+				if (!::MSU.isNull(this.Container))
+					this.Container.onAnySkillExecutedFully(this.Skill, this.TargetTile, this.TargetEntity, this.ForFree);
+				delete ::MSU.Skills.ScheduleSkills[this.Skill];
+			}
+		}
+	}
 
 	function addEvent( _name, _function = null, _update = true, _aliveOnly = false )
 	{

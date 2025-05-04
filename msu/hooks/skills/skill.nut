@@ -358,11 +358,24 @@
 
 		container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
 
+		local scheduleSkill = ::MSU.Skills.ScheduleSkill(this, _targetTile, targetEntity, _forFree);
+		::MSU.Skills.ScheduleSkills[this] <- scheduleSkill;
+
 		local ret = __original(_targetTile, _forFree);
 
+		local isCallingFully = scheduleSkill.Count == 0;
+
 		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
+		if (isCallingFully)
+		{
+			container.onAnySkillExecutedFully(this, _targetTile, targetEntity, _forFree);
+		}
 
 		return ret;
+	}
+
+	q.onAnySkillExecutedFully <- function( _skill, _targetTile, _targetEntity, _forFree )
+	{
 	}
 
 	q.getDamageType <- function()
