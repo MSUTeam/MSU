@@ -158,6 +158,6 @@ foreach (itemType in ::Const.Items.ItemType)
 		_weaponTypeName = _weaponType;
 	}
 
-	::Const.Items.WeaponTypeCategoriesStrings[::Const.Items.WeaponType[_weaponType]] <- [_weaponType];
+	::Const.Items.WeaponTypeCategoriesStrings[::Const.Items.WeaponType[_weaponType]] <- [_weaponTypeName];
 	::Const.Items.WeaponTypeName.push(_weaponTypeName);
 }
