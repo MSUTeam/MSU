@@ -54,29 +54,41 @@
 			return;
 		}
 
-		foreach (k, w in ::Const.Items.WeaponType)
+		foreach (weaponType, strings in ::Const.Items.WeaponTypeCategoriesStrings)
 		{
-			if (categories.find(k) != null)
+			foreach (str in strings)
 			{
-				this.m.WeaponType = this.m.WeaponType | w;
+				if (categories.find(str) != null)
+				{
+					this.m.WeaponType = this.m.WeaponType | weaponType;
+					break;
+				}
 			}
 		}
 
-		if (categories.find("One-Handed") != null && !this.isItemType(::Const.Items.ItemType.OneHanded))
+		foreach (str in ::Const.Items.WeaponHandedCategoriesStrings.OneHanded)
 		{
-			this.m.ItemType = this.m.ItemType | ::Const.Items.ItemType.OneHanded;
-			if (this.isItemType(::Const.Items.ItemType.TwoHanded))
+			if (categories.find(str) != null && !this.isItemType(::Const.Items.ItemType.OneHanded))
 			{
-				this.m.ItemType -= ::Const.Items.ItemType.TwoHanded;
+				this.m.ItemType = this.m.ItemType | ::Const.Items.ItemType.OneHanded;
+				if (this.isItemType(::Const.Items.ItemType.TwoHanded))
+				{
+					this.m.ItemType -= ::Const.Items.ItemType.TwoHanded;
+				}
+				break;
 			}
 		}
 
-		if (categories.find("Two-Handed") != null && !this.isItemType(::Const.Items.ItemType.TwoHanded))
+		foreach (str in ::Const.Items.WeaponHandedCategoriesStrings.TwoHanded)
 		{
-			this.m.ItemType = this.m.ItemType | ::Const.Items.ItemType.TwoHanded;
-			if (this.isItemType(::Const.Items.ItemType.OneHanded))
+			if (categories.find(str) != null && !this.isItemType(::Const.Items.ItemType.TwoHanded))
 			{
-				this.m.ItemType -= ::Const.Items.ItemType.OneHanded;
+				this.m.ItemType = this.m.ItemType | ::Const.Items.ItemType.TwoHanded;
+				if (this.isItemType(::Const.Items.ItemType.OneHanded))
+				{
+					this.m.ItemType -= ::Const.Items.ItemType.OneHanded;
+				}
+				break;
 			}
 		}
 	}
@@ -144,13 +156,15 @@
 
 		if (this.m.Categories != "") this.m.Categories = this.m.Categories.slice(0, -1) + ", ";
 
+		// We always use the last entry that was pushed to the strings so translators just
+		// have to push it there and it works.
 		if (this.isItemType(::Const.Items.ItemType.OneHanded))
 		{
-			this.m.Categories += "One-Handed";
+			this.m.Categories += ::Const.Items.WeaponHandedCategoriesStrings.OneHanded.top();
 		}
 		else if (this.isItemType(::Const.Items.ItemType.TwoHanded))
 		{
-			this.m.Categories += "Two-Handed";
+			this.m.Categories += ::Const.Items.WeaponHandedCategoriesStrings.TwoHanded.top();
 		}
 	}
 
