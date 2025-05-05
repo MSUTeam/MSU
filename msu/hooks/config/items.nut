@@ -77,37 +77,6 @@ foreach (itemType in ::Const.Items.ItemType)
 	Musical = 32768
 };
 
-// Map WeaponTypes to relevant strings from weapon.m.Categories.
-// Is used during automatic assignment of weapontypes to weapons.
-// Translators should push strings to the relevant weaponType here.
-::Const.Items.WeaponTypeCategoriesStrings <- {
-	[::Const.Items.WeaponType.Axe] = ["Axe"],
-	[::Const.Items.WeaponType.Bow] = ["Bow"],
-	[::Const.Items.WeaponType.Cleaver] = ["Cleaver"],
-	[::Const.Items.WeaponType.Crossbow] = ["Crossbow"],
-	[::Const.Items.WeaponType.Dagger] = ["Dagger"],
-	[::Const.Items.WeaponType.Firearm] = ["Firearm"],
-	[::Const.Items.WeaponType.Flail] = ["Flail"],
-	[::Const.Items.WeaponType.Hammer] = ["Hammer"],
-	[::Const.Items.WeaponType.Mace] = ["Mace"],
-	[::Const.Items.WeaponType.Polearm] = ["Polearm"],
-	[::Const.Items.WeaponType.Sling] = ["Sling"],
-	[::Const.Items.WeaponType.Spear] = ["Spear"],
-	[::Const.Items.WeaponType.Sword] = ["Sword"],
-	[::Const.Items.WeaponType.Staff] = ["Staff"],
-	[::Const.Items.WeaponType.Throwing] = ["Throwing"],
-	[::Const.Items.WeaponType.Musical] = ["Musical"]
-};
-
-// Map OneHanded and TwoHanded to relevant strings from weapon.m.Categories
-// Is used during weapon.buildCategoriesFromWeaponType.
-// Translators should push strings to the relevant handed-ness here.
-// The last index string is always used to build the categories string.
-::Const.Items.WeaponHandedCategoriesStrings <- {
-	OneHanded = ["One-Handed"],
-	TwoHanded = ["Two-Handed"]
-};
-
 ::Const.Items.WeaponTypeName <- [
 	"No Weapon Type",
 	"Axe",
@@ -127,6 +96,27 @@ foreach (itemType in ::Const.Items.ItemType)
 	"Throwing Weapon",
 	"Musical Instrument"
 ];
+
+// Map WeaponTypes to relevant strings from weapon.m.Categories.
+// Is used during automatic assignment of weapontypes to weapons.
+// Translators should push strings to the relevant weaponType here.
+
+// Key = WeaponType
+// Value = array of strings from weapon.m.Categories that should match to this weapon type
+::Const.Items.WeaponTypeCategoriesStrings <- {};
+foreach (w in ::Const.Items.WeaponType)
+{
+	::Const.Items.WeaponTypeCategoriesStrings[w] <- [::Const.Items.getWeaponTypeName(w)];
+}
+
+// Map OneHanded and TwoHanded to relevant strings from weapon.m.Categories
+// Is used during weapon.buildCategoriesFromWeaponType.
+// Translators should push strings to the relevant handed-ness here.
+// The last index string is always used to build the categories string.
+::Const.Items.WeaponHandedCategoriesStrings <- {
+	OneHanded = ["One-Handed"],
+	TwoHanded = ["Two-Handed"]
+};
 
 ::Const.Items.getWeaponTypeName <- function( _weaponType )
 {
