@@ -97,10 +97,20 @@ foreach (itemType in ::Const.Items.ItemType)
 	"Musical Instrument"
 ];
 
+::Const.Items.getWeaponTypeName <- function( _weaponType )
+{
+	local idx = ::MSU.Math.log2int(_weaponType) + 1;
+	if (idx < ::Const.Items.WeaponTypeName.len())
+	{
+		return ::Const.Items.WeaponTypeName[idx];
+	}
+
+	throw ::MSU.Exception.KeyNotFound(_weaponType);
+}
+
 // Map WeaponTypes to relevant strings from weapon.m.Categories.
 // Is used during automatic assignment of weapontypes to weapons.
 // Translators should push strings to the relevant weaponType here.
-
 // Key = WeaponType
 // Value = array of strings from weapon.m.Categories that should match to this weapon type
 ::Const.Items.WeaponTypeCategoriesStrings <- {};
@@ -117,17 +127,6 @@ foreach (w in ::Const.Items.WeaponType)
 	OneHanded = ["One-Handed"],
 	TwoHanded = ["Two-Handed"]
 };
-
-::Const.Items.getWeaponTypeName <- function( _weaponType )
-{
-	local idx = ::MSU.Math.log2int(_weaponType) + 1;
-	if (idx < ::Const.Items.WeaponTypeName.len())
-	{
-		return ::Const.Items.WeaponTypeName[idx];
-	}
-
-	throw ::MSU.Exception.KeyNotFound(_weaponType);
-}
 
 ::Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
 {
