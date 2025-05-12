@@ -20,33 +20,37 @@
 	{
 		return 1.0;
 	}
+});
 
-	q.setAttributeLevelUpValues = @(__original) function( _v )
-	{
-		__original(_v);
-		this.m.LevelUpsSpent++;
-	}
-
-	q.onHired = @(__original) function()
-	{
-		__original();
-
-		foreach (bro in ::World.getPlayerRoster().getAll())
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/entity/tactical/player", function(q) {
+		q.setAttributeLevelUpValues = @(__original) function( _v )
 		{
-			bro.getSkills().onAnyBroHired(this);
+			__original(_v);
+			this.m.LevelUpsSpent++;
 		}
-	}
 
-	q.onSerialize = @(__original) function( _out )
-	{
-		this.getFlags().set("LevelUpsSpent", this.m.LevelUpsSpent);
-		__original(_out);
-		this.getFlags().remove("LevelUpsSpent");
-	}
+		q.onHired = @(__original) function()
+		{
+			__original();
 
-	q.onDeserialize = @(__original) function( _in )
-	{
-		__original(_in);
-		this.m.LevelUpsSpent = this.getFlags().has("LevelUpsSpent") ? this.getFlags().get("LevelUpsSpent") : 0;
-	}
+			foreach (bro in ::World.getPlayerRoster().getAll())
+			{
+				bro.getSkills().onAnyBroHired(this);
+			}
+		}
+
+		q.onSerialize = @(__original) function( _out )
+		{
+			this.getFlags().set("LevelUpsSpent", this.m.LevelUpsSpent);
+			__original(_out);
+			this.getFlags().remove("LevelUpsSpent");
+		}
+
+		q.onDeserialize = @(__original) function( _in )
+		{
+			__original(_in);
+			this.m.LevelUpsSpent = this.getFlags().has("LevelUpsSpent") ? this.getFlags().get("LevelUpsSpent") : 0;
+		}
+	});
 });

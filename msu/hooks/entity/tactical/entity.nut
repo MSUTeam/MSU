@@ -1,13 +1,4 @@
 ::MSU.MH.hook("scripts/entity/tactical/entity", function(q) {
-	q.create = @(__original) function()
-	{
-		__original();
-		if (!::MSU.Serialization.isLoading())
-		{
-			this.MSU_generateUID();
-		}
-	}
-
 	q.getUID <- function()
 	{
 		if (::MSU.Serialization.isLoading())
@@ -24,17 +15,30 @@
 		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
 		::MSU.__addToUIDMap(this);
 	}
+});
 
-	q.onDeserialize = @(__original) function( _in )
-	{
-		__original(_in);
-		if (!this.getFlags().has("MSU_UID"))
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/entity/tactical/entity", function(q) {
+		q.create = @(__original) function()
 		{
-			this.MSU_generateUID();
+			__original();
+			if (!::MSU.Serialization.isLoading())
+			{
+				this.MSU_generateUID();
+			}
 		}
-		else
+
+		q.onDeserialize = @(__original) function( _in )
 		{
-			::MSU.__addToUIDMap(this);
+			__original(_in);
+			if (!this.getFlags().has("MSU_UID"))
+			{
+				this.MSU_generateUID();
+			}
+			else
+			{
+				::MSU.__addToUIDMap(this);
+			}
 		}
-	}
+	});
 });

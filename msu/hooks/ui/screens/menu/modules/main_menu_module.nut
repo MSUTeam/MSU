@@ -11,12 +11,6 @@
 		this.m.OnModOptionsPressedListener();
 	}
 
-	q.create = @(__original) function()
-	{
-		__original();
-		::MSU.Popup.quitGame = this.onQuitButtonPressed.bindenv(this);
-	}
-
 	q.connectBackend <- function()
 	{
 		::MSU.Popup.connect();
@@ -26,3 +20,14 @@
 		}
 	}
 });
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/ui/screens/menu/modules/main_menu_module", function(q) {
+		q.create = @(__original) function()
+		{
+			__original();
+			::MSU.Popup.quitGame = this.onQuitButtonPressed.bindenv(this);
+		}
+	});
+});
+
