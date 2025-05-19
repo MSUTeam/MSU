@@ -7,6 +7,9 @@
 	KeysChanged = false;
 	InputDenied = false;
 
+	// Used to cache this.frameUpdate.bindenv(this) for performance
+	__frameUpdate = null;
+
 	constructor()
 	{
 		base.constructor(::MSU.SystemID.Keybinds);
@@ -14,6 +17,8 @@
 		this.KeybindsByMod = {};
 		this.KeybindsForJS = {};
 		this.PressedKeys = {};
+
+		this.__frameUpdate = this.frameUpdate.bindenv(this);
 	}
 
 	function registerMod( _mod )
@@ -179,7 +184,8 @@
 		return this.onInput(_key, _environment, _state, keyAsString, keyState) || this.InputDenied;
 	}
 
-	function frameUpdate( _ = null ) # needs an empty default parameter since scheduleEvent uses .call(_env)
+	// Needs a parameter because scheduleEvent calls a function always with 1 parameter
+	function frameUpdate( _ = null )
 	{
 		if (!this.KeysChanged && this.PressedKeys.len() != 0)
 		{
@@ -187,7 +193,7 @@
 			this.PressedKeys = {};
 		}
 		this.KeysChanged = false;
-		::Time.scheduleEvent(::TimeUnit.Real, 1, this.frameUpdate.bindenv(this), null);
+		::Time.scheduleEvent(::TimeUnit.Real, 1, this.__frameUpdate, null);
 	}
 
 	function onMouseInput( _mouse, _environment, _state )
