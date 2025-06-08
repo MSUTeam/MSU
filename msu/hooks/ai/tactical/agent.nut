@@ -34,7 +34,7 @@
 		q.execute = @(__original) function( _entity )
 		{
 			local ret = __original(_entity);
-			if (this.m.MSU_BehaviorToRemove != null)
+			if (ret == true && this.m.MSU_BehaviorToRemove != null)
 			{
 				this.removeBehaviorByStack(this.m.MSU_BehaviorToRemove.getID());
 				this.m.MSU_BehaviorToRemove = null;
