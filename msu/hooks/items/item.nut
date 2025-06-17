@@ -60,6 +60,33 @@
 		return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + __original() : __original();
 	}
 
+	// VanillaFix: https://steamcommunity.com/app/365360/discussions/1/604159344068529469/
+	// SkillPtrs having skills which have been removed from skill_container.
+	// In vanilla clearSkills() calls container.remove(skill) on each skill in SkillPtrs
+	// which triggers an immediate removal and skill_container.update on each iteration.
+	// This leads to the issue if someone accesses this item's skills during skill.onUpdate
+	// it will provide skills which have already been removed from the container leading
+	// to an error when you try skill.getContainer().something.
+	q.clearSkills = @() function()
+	{
+		if (this.getContainer() == null || this.getContainer().getActor() == null || this.getContainer().getActor().isNull())
+		{
+			return;
+		}
+
+		// Instead of vanilla style of .remove(skill) we just set the skill to garbage
+		// and then collect garbage after SkillPtrs have been cleared so that the
+		// skill_container.update happens after the SkillPtrs are properly empty.
+		foreach (skill in this.m.SkillPtrs)
+		{
+			skill.removeSelf();
+		}
+
+		this.m.SkillPtrs = [];
+
+		this.getContainer().getActor().getSkills().collectGarbage();
+	}
+
 	q.onAfterUpdateProperties <- function( _properties )
 	{			
 	}
