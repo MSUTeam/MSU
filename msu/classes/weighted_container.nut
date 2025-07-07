@@ -212,18 +212,20 @@
 
 	function rand( _exclude = null )
 	{
-		if (_exclude != null) ::MSU.requireArray(_exclude);
-
-		local rand = ::Math.rand(0, (this.Table.len() - _exclude == null ? 0 : _exclude.len()) - 1)
-		local i = 0;
-		foreach (item, weight in this.Table)
+		if (_exclude == null)
 		{
-			if (_exclude == null || _exclude.find(item) == null)
+			return this.Table.len() == 0 ? null : ::MSU.Table.randKey(this.Table);
+		}
+
+		local c = clone this.Table;
+		foreach (item in _exclude)
+		{
+			if (item in c)
 			{
-				if (rand == i++) return item;
+				delete c[item];
 			}
 		}
-		return null;
+		return c.len() == 0 ? null : ::MSU.Table.randKey(c);
 	}
 
 	function roll( _exclude = null )
