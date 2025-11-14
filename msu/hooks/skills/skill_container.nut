@@ -460,7 +460,7 @@
 
 			_hitInfo.DamageTypeProbability = _caller.getDamageType().getProbability(_hitInfo.DamageType);
 
-			if (::MSU.isIn(_targetEntity.m, "IsHeadless", true) && _targetEntity.m.IsHeadless)
+			if (::MSU.isIn("IsHeadless", _targetEntity.m, true) && _targetEntity.m.IsHeadless)
 			{
 				_hitInfo.BodyPart = ::Const.BodyPart.Body;
 			}
