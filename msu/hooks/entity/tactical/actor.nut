@@ -1,40 +1,13 @@
 ::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
-	q.onMovementStart = @(__original) function ( _tile, _numTiles )
-	{
-		__original(_tile, _numTiles);
-		this.m.IsMoving = true;
-		this.m.Skills.onMovementStarted(_tile, _numTiles);
-		this.m.IsMoving = false;
-	}
-
-	// legacy support for MSU-added skill_container.onMovementFinished for vanilla up to 1.5.0.15
-	if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
-	{
-		q.onMovementFinish = @(__original) function ( _tile )
-		{
-			__original(_tile);
-			this.m.IsMoving = true;
-			this.m.Skills.onMovementFinished(_tile);
-			this.m.IsMoving = false;
-		}
-	}
-
-	q.onMovementStep = @(__original) function( _tile, _levelDifference )
-	{
-		local ret = __original(_tile, _levelDifference);
-
-		if (ret)
-		{
-			this.m.Skills.onMovementStep(_tile, _levelDifference);
-		}
-
-		return ret;
-	}
-
 	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
 	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
 	q.onCombatStart <- function()
 	{
+		// player class already has its own onCombatStart defined in vanilla
+		// which does exactly what this function does
+		if (::isKindOf(this, "player"))
+			return;
+
 		this.m.Skills.onCombatStarted();
 		this.m.Items.onCombatStarted();
 		this.m.Skills.update();
@@ -127,6 +100,40 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/entity/tactical/actor", function(q) {
+		q.onMovementStart = @(__original) function ( _tile, _numTiles )
+		{
+			__original(_tile, _numTiles);
+			this.m.IsMoving = true;
+			this.m.Skills.onMovementStarted(_tile, _numTiles);
+			this.m.IsMoving = false;
+		}
+
+		// legacy support for MSU-added skill_container.onMovementFinished for vanilla up to 1.5.0.15
+		if (::Hooks.getMod("vanilla").getVersion() <= ::Hooks.SQClass.ModVersion("1.5.0-15"))
+		{
+			q.onMovementFinish = @(__original) function ( _tile )
+			{
+				__original(_tile);
+				this.m.IsMoving = true;
+				this.m.Skills.onMovementFinished(_tile);
+				this.m.IsMoving = false;
+			}
+		}
+
+		q.onMovementStep = @(__original) function( _tile, _levelDifference )
+		{
+			local ret = __original(_tile, _levelDifference);
+
+			if (ret)
+			{
+				this.m.Skills.onMovementStep(_tile, _levelDifference);
+			}
+
+			return ret;
+		}
+	});
+
 	::MSU.MH.hookTree("scripts/entity/tactical/actor", function(q) {
 		q.onDeath = @(__original) function( _killer, _skill, _tile, _fatalityType )
 		{

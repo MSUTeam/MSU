@@ -68,28 +68,32 @@
 		this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
 		return ret;
 	}
+});
 
-	q.equip = @(__original) function( _item )
-	{
-		local ret = __original(_item);
-		if (ret == true && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive()) this.m.Actor.getSkills().onEquip(_item);
-		return ret;
-	}
-
-	q.unequip = @(__original) function( _item )
-	{
-		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/items/item_container", function(q) {
+		q.equip = @(__original) function( _item )
 		{
-			foreach (item in this.m.Items[_item.getSlotType()])
-			{
-				if (item == _item)
-				{
-					this.m.Actor.getSkills().onUnequip(_item);
-					break;
-				}
-			}
+			local ret = __original(_item);
+			if (ret == true && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive()) this.m.Actor.getSkills().onEquip(_item);
+			return ret;
 		}
 
-		return __original(_item);
-	}
-});
+		q.unequip = @(__original) function( _item )
+		{
+			if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
+			{
+				foreach (item in this.m.Items[_item.getSlotType()])
+				{
+					if (item == _item)
+					{
+						this.m.Actor.getSkills().onUnequip(_item);
+						break;
+					}
+				}
+			}
+
+			return __original(_item);
+		}
+	});
+})

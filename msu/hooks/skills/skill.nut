@@ -1,40 +1,3 @@
-::MSU.MH.hookTree("scripts/skills/skill", function(q) {
-	if (!q.contains("create"))
-		return;
-
-	q.create = @(__original) function()
-	{
-		if (this.m.DamageType == null)
-		{
-			this.m.DamageType = ::MSU.Class.DamageType();
-			this.m.DamageType.setSkill(this);
-		}
-
-		__original();
-
-		this.m.DamageType.doInit();
-	}
-});
-
-::MSU.QueueBucket.VeryLate.push(function() {
-	::MSU.MH.hookTree("scripts/skills/skill", function(q) {
-		if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.1-4"))
-		{
-			q.onUpdate = @(__original) function( _properties )
-			{
-				__original(_properties);
-				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
-			}
-
-			q.onAfterUpdate = @(__original) function( _properties )
-			{
-				__original(_properties);
-				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
-			}
-		}
-	});
-});
-
 ::MSU.MH.hook("scripts/skills/skill", function(q) {
 	q.m.AIBehaviorID <- null;
 	q.m.DamageType <- null;
@@ -220,36 +183,6 @@
 		return true;
 	}
 
-	// TODO: Should probably switch to a hookTree on `onAdded` in VeryLateBucket
-	q.setContainer = @(__original) function( _c )
-	{
-		if (_c == null)
-		{
-			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))
-			{
-				local agent = this.getContainer().getActor().getAIAgent();
-				local activeBehavior = agent.m.ActiveBehavior;
-				if (activeBehavior != null && activeBehavior.getID() == this.m.AIBehaviorID) agent.m.MSU_BehaviorToRemove = activeBehavior;
-				else agent.removeBehaviorByStack(this.m.AIBehaviorID);
-			}
-
-			return __original(_c);
-		}
-
-		this.saveBaseValues();
-		__original(_c);
-
-		if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor()))
-		{
-			local agent = this.getContainer().getActor().getAIAgent();
-			if (!::MSU.isNull(agent) && agent.getID() != ::Const.AI.Agent.ID.Player)
-			{
-				agent.addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
-				agent.finalizeBehaviors();
-			}
-		}
-	}
-
 	q.onMovementStarted <- function( _tile, _numTiles )
 	{
 	}
@@ -348,23 +281,6 @@
 		::MSU.Skills.modifyPreview(this, null, _field, _newChange, _multiplicative);
 	}
 
-	q.use = @(__original) function( _targetTile, _forFree = false )
-	{
-		// Save the container as a local variable because some skills delete
-		// themselves during use (e.g. Reload Bolt) causing this.m.Container
-		// to point to null.
-		local container = this.m.Container;
-		local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
-
-		container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
-
-		local ret = __original(_targetTile, _forFree);
-
-		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
-
-		return ret;
-	}
-
 	q.getDamageType <- function()
 	{
 		return this.m.DamageType;
@@ -410,23 +326,6 @@
 
 		ret += " Damage [/color]\n\n" + __original();
 
-		return ret;
-	}
-
-	q.getHitFactors = @(__original) function( _targetTile )
-	{
-		local ret = __original(_targetTile);
-		if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue() && ::MSU.isIn("AdditionalAccuracy", this.m, true) && this.m.AdditionalAccuracy != 0)
-		{
-			local payload = {
-				icon = this.m.AdditionalAccuracy > 0 ? "ui/tooltips/positive.png" : "ui/tooltips/negative.png",
-				text = this.getName()
-			};
-
-			if (this.m.AdditionalAccuracy > 0) ret.insert(0, payload);
-			else ret.push(payload);
-		}
-		this.getContainer().onGetHitFactors(this, _targetTile, ret);
 		return ret;
 	}
 
@@ -490,7 +389,104 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hookTree("scripts/skills/skill", function(q) {
+		if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.1-4"))
+		{
+			q.onUpdate = @(__original) function( _properties )
+			{
+				__original(_properties);
+				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+			}
+
+			q.onAfterUpdate = @(__original) function( _properties )
+			{
+				__original(_properties);
+				this.__MSU_redirectSkillCostAdjustments(_properties.SkillCostAdjustments);
+			}
+		}
+
+		if (q.contains("create"))
+		{
+			q.create = @(__original) function()
+			{
+				if (this.m.DamageType == null)
+				{
+					this.m.DamageType = ::MSU.Class.DamageType();
+					this.m.DamageType.setSkill(this);
+				}
+
+				__original();
+
+				this.m.DamageType.doInit();
+			}
+		}
+	});
+
 	::MSU.MH.hook("scripts/skills/skill", function(q) {
+		// TODO: Should probably switch to a hookTree on `onAdded` in VeryLateBucket
+		q.setContainer = @(__original) function( _c )
+		{
+			if (_c == null)
+			{
+				if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer()))
+				{
+					local agent = this.getContainer().getActor().getAIAgent();
+					local activeBehavior = agent.m.ActiveBehavior;
+					if (activeBehavior != null && activeBehavior.getID() == this.m.AIBehaviorID) agent.m.MSU_BehaviorToRemove = activeBehavior;
+					else agent.removeBehaviorByStack(this.m.AIBehaviorID);
+				}
+
+				return __original(_c);
+			}
+
+			this.saveBaseValues();
+			__original(_c);
+
+			if (this.m.AIBehaviorID != null && !::MSU.isNull(this.getContainer().getActor()))
+			{
+				local agent = this.getContainer().getActor().getAIAgent();
+				if (!::MSU.isNull(agent) && agent.getID() != ::Const.AI.Agent.ID.Player)
+				{
+					agent.addBehavior(::new(::MSU.AI.getBehaviorScriptFromID(this.m.AIBehaviorID)));
+					agent.finalizeBehaviors();
+				}
+			}
+		}
+
+		q.use = @(__original) function( _targetTile, _forFree = false )
+		{
+			// Save the container as a local variable because some skills delete
+			// themselves during use (e.g. Reload Bolt) causing this.m.Container
+			// to point to null.
+			local container = this.m.Container;
+			local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
+
+			container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
+
+			local ret = __original(_targetTile, _forFree);
+
+			container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
+
+			return ret;
+		}
+
+		q.getHitFactors = @(__original) function( _targetTile )
+		{
+			local ret = __original(_targetTile);
+			if (::MSU.Mod.ModSettings.getSetting("ExpandedSkillTooltips").getValue() && ::MSU.isIn("AdditionalAccuracy", this.m, true) && this.m.AdditionalAccuracy != 0)
+			{
+				local payload = {
+					icon = this.m.AdditionalAccuracy > 0 ? "ui/tooltips/positive.png" : "ui/tooltips/negative.png",
+					text = this.getName()
+				};
+
+				if (this.m.AdditionalAccuracy > 0) ret.insert(0, payload);
+				else ret.push(payload);
+			}
+			this.getContainer().onGetHitFactors(this, _targetTile, ret);
+			return ret;
+		}
+
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
 			q[func] = @(__original) function()
