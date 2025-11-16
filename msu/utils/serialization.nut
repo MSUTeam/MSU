@@ -16,8 +16,8 @@
 		"Array",
 		"SerializationData"
 	]),
-	IsSaving = false, // Is flipped during world_state.saveCampaign
-	IsLoading = false, // Is flipped during world_state.loadCampaign
+	IsSaving = false, // Is flipped during world_state.saveCampaign and from within all BB scripts onSerialize via VeryLate hook
+	IsLoading = false, // Is flipped during world_state.loadCampaign and from within all BB scripts onDeserialize via Verylate hook
 
 	function isSaving()
 	{

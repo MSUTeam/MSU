@@ -15,6 +15,37 @@
 	{
 		func();
 	}
+	// People can use MSU SerDe Emulators to save/load BB tables outside the regular save/load process of the game.
+	// These onSerialize and onDeserialize functions of the BB tables may contain or may affect logic that is
+	// dependent on knowing whether the game is being loaded or saved. This means that said logic should not trigger
+	// while the object is being serialized/deserialized. Therefore, we need to flip the IsSaving and IsLoading
+	// to true during ser/de of all BB tables.
+	foreach (file in ::IO.enumerateFiles("scripts/"))
+	{
+		::MSU.MH.hook(file, function(q) {
+			if (q.contains("onSerialize"))
+			{
+				q.onSerialize = @(__original) function( _out )
+				{
+					local wasSaving = ::MSU.Serialization.IsSaving;
+					::MSU.Serialization.IsSaving = true;
+					__original(_out);
+					::MSU.Serialization.IsSaving = wasSaving;
+				}
+			}
+
+			if (q.contains("onDeserialize"))
+			{
+				q.onDeserialize = @(__original) function( _in )
+				{
+					local wasLoading = ::MSU.Serialization.IsLoading;
+					::MSU.Serialization.IsLoading = true;
+					__original(_in);
+					::MSU.Serialization.IsLoading = wasLoading;
+				}
+			}
+		});
+	}
 	::MSU.QueueBucket.VeryLate.clear();
 }, ::Hooks.QueueBucket.VeryLate);
 
