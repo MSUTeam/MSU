@@ -76,9 +76,35 @@
 		return ret;
 	}
 
+	// Call our skill_container.onUnequip function
 	q.unequip = @(__original) function( _item )
 	{
-		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && _item.getCurrentSlotType() != ::Const.ItemSlot.Bag && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
+		if (_item != null && _item != -1 && _item.getCurrentSlotType() != ::Const.ItemSlot.None && (_item.getCurrentSlotType() != ::Const.ItemSlot.Bag || _item.getSlotType() == ::Const.ItemSlot.Bag) && !::MSU.isNull(this.m.Actor) && this.m.Actor.isAlive())
+		{
+			foreach (item in this.m.Items[_item.getSlotType()])
+			{
+				if (item == _item)
+				{
+					this.m.Actor.getSkills().onUnequip(_item);
+					break;
+				}
+			}
+		}
+
+		// VanillaFix: https://steamcommunity.com/app/365360/discussions/1/684112192552961717/
+		// `item_container.unequip` not properly removing bagged items while `item_container.equip` puts them in the bag.
+		if (_item.getSlotType() == ::Const.ItemSlot.Bag)
+		{
+			return this.removeFromBag(_item);
+		}
+
+		return __original(_item);
+	}
+
+	// Call our skill_container.onUnequip function
+	q.removeFromBag = @(__original) function( _item )
+	{
+		if (_item.getCurrentSlotType() == this.Const.ItemSlot.Bag && _item.getSlotType() == ::Const.ItemSlot.Bag)
 		{
 			foreach (item in this.m.Items[_item.getSlotType()])
 			{
@@ -91,5 +117,17 @@
 		}
 
 		return __original(_item);
+	}
+
+	// Call our skill_container.onUnequip function
+	q.removeFromBagSlot = @(__original) function( _slot )
+	{
+		local item = this.m.Items[::Const.ItemSlot.Bag][_slot];
+		if (item != null && item.getSlotType() == ::Const.ItemSlot.Bag)
+		{
+			this.m.Actor.getSkills().onUnequip(item);
+		}
+
+		return __original(_slot);
 	}
 });
