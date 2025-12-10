@@ -135,27 +135,34 @@
 		local wasUpdating = this.m.IsUpdating;
 		this.m.IsUpdating = true;
 
-		local result = null;
-		local skill_result = null;
+		local callback = null;
 
+		local skill, skill_callback; // cache vars for foreach loop
 		foreach (s in this.m.Skills)
 		{
 			if (s.isGarbage())
 				continue;
 
-			skill_result = s.onMovementStep(_tile, _levelDifference);
-			if (result == null)
+			skill_callback = s.onMovementStep(_tile, _levelDifference);
+			if (callback == null)
 			{
-				switch (skill_result)
+				switch (skill_callback)
 				{
+					// null is for legacy support, because older versions didn't have a return
+					// for `onMovementStep` and weren't meant to be able to interrupt movement.
 					case null:
 					case true:
 						break;
-					case false:
-						result = @(_tile, _levelDifference) null;
-						break;
-					default: // skill_result is a function in this case
-						result = skill_result;
+
+					// skill_callback is either `false` or a function in this case.
+					// In this case the skill wants to interrupt the movement.
+					// We will only take skill_callback from the first skill that gives it,
+					// so SkillOrder is important.
+					// The skill_callback can be useful to do functionality after the interruption
+					// e.g. refunding AP or triggering an effect etc.
+					default:
+						callback = skill_callback;
+						skill = s;
 						break;
 				}
 			}
@@ -163,13 +170,18 @@
 
 		this.m.IsUpdating = wasUpdating;
 
-		if (result != null)
-		{
-			result(_tile, _levelDifference);
-			return false;
-		}
+		// callback being null means no skill returned `false` or a function
+		// therefore no skill is interrupting this movement. So we return `true`.
+		if (callback == null)
+			return true;
 
-		return true;
+		// If any skill returned `false` or a function it means it wants to
+		// stop the movement. So, we call the skill's provided callback (if any)
+		// and then return `false`.
+		if (callback != false)
+			callback.call(skill, _tile, _levelDifference);
+
+		return false;
 	}
 
 	q.onAnySkillExecuted <- function( _skill, _targetTile, _targetEntity, _forFree )
