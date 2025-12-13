@@ -110,7 +110,8 @@
 	{
 		if (this.Table[_item] < 0) delete this.Forced[_item];
 		else this.Total -= this.Table[_item];
-		delete this.Table[_item];
+
+		return delete this.Table[_item];
 	}
 
 	function contains( _item )
