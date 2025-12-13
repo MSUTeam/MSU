@@ -83,6 +83,14 @@
 	// The return has the same type as that of _value
 	function clamp( _value, _min, _max )
 	{
+		// Swap _min and _max if the user gave the values in wrong order.
+		if (_min > _max)
+		{
+			local max = _max;
+			_max = _min;
+			_min = max;
+		}
+
 		local ret = _value < _min ? _min : (_value > _max ? _max : _value);
 		return typeof _value == "integer" ? ret.tointeger() : ret.tofloat();
 	}
