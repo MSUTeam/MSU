@@ -2,6 +2,13 @@
 	q.addSkill = @(__original) function( _skill )
 	{
 		__original(_skill);
+
+		// If the skill wasn't actually added to the container for some reason
+		// (e.g. adding non-stacking skill that already exists in the container)
+		// then we bail out.
+		if (::MSU.isNull(_skill.getContainer()))
+			return;
+
 		if (_skill.isType(::Const.SkillType.Active))
 		{
 			// We reset the FatigueCost so any modifications to it from other skills is reverted
