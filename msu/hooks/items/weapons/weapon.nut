@@ -22,7 +22,14 @@
 
 	q.addSkill = @(__original) function( _skill )
 	{
-		local ret = __original(_skill);
+		__original(_skill);
+
+		// If the skill wasn't actually added to the container for some reason
+		// (e.g. adding non-stacking skill that already exists in the container)
+		// then we bail out.
+		if (::MSU.isNull(_skill.getContainer()))
+			return;
+
 		if (::MSU.isIn("AdditionalAccuracy", _skill.m, true))
 		{
 			_skill.resetField("AdditionalAccuracy");
@@ -41,7 +48,6 @@
 			_skill.setBaseValue("FatigueCost", fatCost);
 			this.getContainer().getActor().getSkills().update();
 		}
-		return ret;
 	}
 
 	q.buildWeaponTypeFromCategories <- function()
