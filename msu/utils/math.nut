@@ -83,7 +83,7 @@
 	// The return has the same type as that of _value
 	function clamp( _value, _min, _max )
 	{
-		local ret = _value < _min ? _min : (_value > _max ? _max);
+		local ret = _value < _min ? _min : (_value > _max ? _max : _value);
 		return typeof _value == "integer" ? ret.tointeger() : ret.tofloat();
 	}
 };
