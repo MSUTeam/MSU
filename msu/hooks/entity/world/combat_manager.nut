@@ -6,9 +6,9 @@
 	fix combat_manager, so you don't need to overwrite multiple functions instead. */
 	q.joinCombat = @(__original) function( _combat, _party )
 	{
-		if (_combat.Factions.len() <= 100)
+		while (_combat.Factions.len() < 256)
 		{
-			_combat.Factions.resize(256, []);
+			_combat.Factions.push([]);
 		}
 		return __original(_combat, _party);
 	}
