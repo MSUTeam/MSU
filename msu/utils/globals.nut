@@ -11,7 +11,7 @@
 		{
 			if (_object.isNull())
 			{
-				::printError("The table inside the WeakTableRef instance is null");
+				::logError("The table inside the WeakTableRef instance is null");
 				throw ::MSU.Exception.KeyNotFound(_object);
 			}
 			_object = _object.get();
@@ -39,7 +39,7 @@
 		{
 			if (_object.isNull())
 			{
-				::printError("The table inside the WeakTableRef instance is null");
+				::logError("The table inside the WeakTableRef instance is null");
 				throw ::MSU.Exception.KeyNotFound(_object);
 			}
 			_object = _object.get();
