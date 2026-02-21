@@ -19,14 +19,14 @@
 		return this.color(this.Color.Red, _string);
 	}
 
-	function colorPositive( _string )
+	function colorPositive( _string, _useEventColors = false )
 	{
-		return this.color(::Const.UI.Color.PositiveValue, _string);
+		return this.color(_useEventColors ? ::Const.UI.Color.PositiveEventValue : ::Const.UI.Color.PositiveValue, _string);
 	}
 
-	function colorNegative( _string )
+	function colorNegative( _string, _useEventColors = false )
 	{
-		return this.color(::Const.UI.Color.NegativeValue, _string);
+		return this.color(_useEventColors ? ::Const.UI.Color.NegativeEventValue : ::Const.UI.Color.NegativeValue, _string);
 	}
 
 	function colorDamage( _string )
@@ -40,6 +40,7 @@
 			AddSign = false,
 			CompareTo = 0,
 			InvertColor = false,
+			UseEventColors = false,
 			AddPercent = false
 		};
 
@@ -56,14 +57,14 @@
 		{
 			if (!kwargs.AddSign && _value < 0) _value *= -1;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.InvertColor ? this.colorPositive(_value) : this.colorNegative(_value);
+			return kwargs.InvertColor ? this.colorPositive(_value, kwargs.UseEventColors) : this.colorNegative(_value, kwargs.UseEventColors);
 		}
 
 		if (_value > kwargs.CompareTo)
 		{
 			if (kwargs.AddSign && _value > 0) _value = "+" + _value;
 			if (kwargs.AddPercent) _value = _value + "%";
-			return kwargs.InvertColor ? this.colorNegative(_value) : this.colorPositive(_value);
+			return kwargs.InvertColor ? this.colorNegative(_value, kwargs.UseEventColors) : this.colorPositive(_value, kwargs.UseEventColors);
 		}
 
 		if (_value == kwargs.CompareTo)
