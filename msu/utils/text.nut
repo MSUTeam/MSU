@@ -69,7 +69,7 @@
 		if (_value == kwargs.CompareTo)
 		{
 			if (kwargs.AddPercent) _value = _value + "%";
-			return _value;
+			return _value + ""; // + "" to convert it to a string, apparently this is safer than using .tostring() which can crash in some edge cases
 		}
 	}
 
