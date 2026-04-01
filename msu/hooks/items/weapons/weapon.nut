@@ -91,7 +91,11 @@
 	{
 		this.initWeaponType();
 
-		if (_t == 0 || this.m.WeaponType == 0)
+		if (_t == 0)
+		{
+			return this.m.WeaponType == 0;
+		}
+		else if (this.m.WeaponType == 0)
 		{
 			return _t == 0;
 		}
