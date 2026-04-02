@@ -1,6 +1,15 @@
 ::MSU.MH.hook("scripts/items/item", function(q) {
 	q.isItemType = @() function( _t, _any = true, _only = false )
 	{
+		if (_t == 0)
+		{
+			return this.m.ItemType == 0;
+		}
+		else if (this.m.ItemType == 0)
+		{
+			return _t == 0;
+		}
+
 		if (_any)
 		{
 			return _only ? this.m.ItemType - (this.m.ItemType & _t) == 0 : (this.m.ItemType & _t) != 0;

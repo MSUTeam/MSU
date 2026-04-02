@@ -90,6 +90,16 @@
 	q.isWeaponType <- function( _t, _any = true, _only = false )
 	{
 		this.initWeaponType();
+
+		if (_t == 0)
+		{
+			return this.m.WeaponType == 0;
+		}
+		else if (this.m.WeaponType == 0)
+		{
+			return _t == 0;
+		}
+
 		if (_any)
 		{
 			return _only ? this.m.WeaponType - (this.m.WeaponType & _t) == 0 : (this.m.WeaponType & _t) != 0;
@@ -140,11 +150,14 @@
 	{
 		this.m.Categories = "";
 
-		foreach (w in ::Const.Items.WeaponType)
+		if (this.m.WeaponType != ::Const.Items.WeaponType.None)
 		{
-			if (this.isWeaponType(w))
+			foreach (w in ::Const.Items.WeaponType)
 			{
-				this.m.Categories += ::Const.Items.getWeaponTypeName(w) + "/";
+				if (this.isWeaponType(w))
+				{
+					this.m.Categories += ::Const.Items.getWeaponTypeName(w) + "/";
+				}
 			}
 		}
 

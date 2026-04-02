@@ -99,7 +99,7 @@ foreach (itemType in ::Const.Items.ItemType)
 
 ::Const.Items.getWeaponTypeName <- function( _weaponType )
 {
-	local idx = ::MSU.Math.log2int(_weaponType) + 1;
+	local idx = _weaponType == 0 ? 0 : ::MSU.Math.log2int(_weaponType) + 1;
 	if (idx < ::Const.Items.WeaponTypeName.len())
 	{
 		return ::Const.Items.WeaponTypeName[idx];
