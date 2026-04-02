@@ -1,4 +1,5 @@
 .bbbuilder/
+.vscode/
 *.sublime-workspace
 *.sublime-project
 brushes/
