@@ -52,4 +52,19 @@
 			this.__Data[i] = value.getData();
 		}
 	}
+
+	function toStream()
+	{
+		local data = "";
+		foreach (d in this.__DataArray)
+		{
+			data += d.toStream() + ", ";
+		}
+		if (data != "")
+		{
+			data = data.slice(0, -2);
+		}
+
+		return format("%s = [%]", ::MSU.Serialization.DataType.getKeyForValue(this.getType()), data);
+	}
 }

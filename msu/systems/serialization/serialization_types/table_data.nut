@@ -27,4 +27,15 @@
 		}
 		this.__Data = table;
 	}
+
+	function toStream()
+	{
+		local data = "";
+		for (local i = 0; i < this.__Data.len(); i+=2)
+		{
+			data += this.__Data[i] + ": " + this.__Data[i+1] + ", ";
+		}
+
+		return format("%s = {%s}", ::MSU.Serialization.DataType.getKeyForValue(this.__Type), data);
+	}
 }

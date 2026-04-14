@@ -232,4 +232,11 @@
 		this.RealMetaData = _original.RealMetaData;
 		this.Data = clone _original.Data;
 	}
+
+	function toStream()
+	{
+		local data = ::MSU.Class.SerializationData();
+		this.serialize(data.getSerializationEmulator());
+		return data.toStream(false);
+	}
 }

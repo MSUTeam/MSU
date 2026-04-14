@@ -57,4 +57,21 @@
 	{
 		return ::MSU.Class.DeserializationEmulator(this.__MetaData, this);
 	}
+
+	function toStream( _includeMetaData = true )
+	{
+		local data = "";
+		foreach (d in this.__DataArray)
+		{
+			data += d.toStream() + ", ";
+		}
+		if (data != "")
+		{
+			data = data.slice(0, -2);
+		}
+
+		local metaDataString = !_includeMetaData ? "" : format("MetaData: <%s>, ", this.__MetaData.toStream());
+
+		return format("%s = {%sData: <%s>}", ::MSU.Serialization.DataType.getKeyForValue(this.__Type), metaDataString, data);
+	}
 }

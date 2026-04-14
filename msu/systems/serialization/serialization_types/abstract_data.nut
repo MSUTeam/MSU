@@ -33,4 +33,9 @@
 	function deserialize( _in )
 	{
 	}
+
+	function toStream()
+	{
+		return format("%s = %s", ::MSU.Serialization.DataType.getKeyForValue(this.getType()), this.getData() + "");
+	}
 }
