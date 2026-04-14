@@ -13,6 +13,13 @@
 	{
 		this.Data = {};
 		this.Version = ::Const.Serialization.Version;
+		// Have to initialize these to empty strings otherwise MSU SerDe
+		// complains about null being written as string on the very first
+		// serialization using MSU SerDe during a new campaign.
+		this.Name = "";
+		this.ModificationDate = "";
+		this.CreationDate = "";
+		this.FileName = "";
 	}
 
 	// this would ideally be an alternative static constructor
