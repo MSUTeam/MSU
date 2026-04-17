@@ -91,9 +91,16 @@
 	// Use Case: You create a fork of a mod and want different compatibility data.
 	// How to use: After clearing the compatibility data, you should define your own for that mod using
 	// getMod(_id) and then using the Modern Hooks .require and .conflictWith functions on that mod.
-	function clearCompatibilityData( _id )
+	function clearCompatibilityData( _sourceModID, _targetModID )
 	{
-		this.Mods[_id].CompatibilityData.clear();
+		local sourceMod = this.getMod(_sourceModID);
+		for (local i = sourceMod.CompatibilityData.len() - 1; i >= 0; i--)
+		{
+			if (sourceMod.CompatibilityData[i].getModID() == _targetModID)
+			{
+				sourceMod.CompatibilityData.remove(i);
+			}
+		}
 	}
 
 	function validateMods()
