@@ -1,4 +1,29 @@
 ::MSU.Mod.Tooltips.setTooltips({
+	LoadCampaign = ::MSU.Class.CustomTooltip(function( _data ) {
+		local ret = [
+			{ contentType = "settlement-status-effect"},
+			{
+				id = 1,
+				type = "title",
+				text = "Mod Incompatibility"
+			},
+			{
+				id = 2,
+				type = "description",
+				text = "Detected by MSU"
+			}
+		];
+		foreach (e in _data.errors)
+		{
+			ret.push({
+				id = 2,
+				type = "text",
+				icon = "ui/icons/warning.png",
+				text = e
+			});
+		}
+		return ret;
+	}),
 	ModSettings = {
 		Main = {
 			Cancel = ::MSU.Class.BasicTooltip("Cancel", "Don't save changes."),

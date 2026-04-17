@@ -6,6 +6,10 @@
 		return savedVersion != "" && ::MSU.SemVer.compareVersionWithOperator(savedVersion, ">=", _version);
 	}
 
+	function onValidateSavedMods( _modsInfo )
+	{
+	}
+
 	function flagSerialize( _id, _object, _flags = null )
 	{
 		::MSU.System.Serialization.flagSerialize(this.Mod, _id, _object, _flags);

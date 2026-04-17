@@ -20,6 +20,14 @@
 		_mod.Serialization = ::MSU.Class.SerializationModAddon(_mod);
 	}
 
+	function onValidateSavedMods( _modsInfo )
+	{
+		foreach (mod in this.Mods)
+		{
+			mod.Serialization.onValidateSavedMods(_modsInfo);
+		}
+	}
+
 	function flagSerialize( _mod, _id, _object, _flags = null )
 	{
 		if (::MSU.isBBObject(_object))

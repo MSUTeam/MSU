@@ -10,5 +10,20 @@
 		::PersistenceManager.queryStorages = queryStorages;
 		return ret;
 	}
+
+	q.convertCampaignStorageToUIData = @(__original) { function convertCampaignStorageToUIData( _meta )
+	{
+		local ret = __original(_meta);
+		// ret.MSU_ModIncompatibility <- [];
+
+		local modsInfo = ::MSU.Class.SavedModsInfo(_meta);
+		ret.MSU_ModIncompatibility <- modsInfo.validateMods();
+		if (ret.MSU_ModIncompatibility.len() != 0)
+		{
+			ret.isIncompatibleVersion = true;
+		}
+
+		return ret;
+	}}.convertCampaignStorageToUIData ;
 });
 
