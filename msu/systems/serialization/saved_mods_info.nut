@@ -66,7 +66,7 @@
 	// Converts a mod to the following string:
 	// id,name,version,requirements,incompatibilities
 	// where "commas" represent this.CompatModSeparator.
-	function __getModInfoString( _mod )
+	function __getInfoStringFromMod( _mod )
 	{
 		local reqStr = "";
 		local conflictStr = "";
@@ -263,7 +263,7 @@
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 
 			modIds += mod.getID() + this.ModIDsSeparator;
-			_metadata.setString(this.MetaDataSavedInfoPrefix + mod.getID(), this.__getModInfoString(mod));
+			_metadata.setString(this.MetaDataSavedInfoPrefix + mod.getID(), this.__getInfoStringFromMod(mod));
 		}
 		if (modIds != "")
 		{
