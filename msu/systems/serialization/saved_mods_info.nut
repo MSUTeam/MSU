@@ -9,6 +9,9 @@
 	// Used to pass the required _metadata arg in Hooks Mod constructor
 	static EmptyTable = {};
 
+	// Table
+	// Key: ModID
+	// Value: Instance of ::Hooks.SQClass.Mod
 	Mods = null;
 
 	// Pass metadata to load saved mods info from that metadata.
@@ -45,6 +48,12 @@
 		}
 	}
 
+	// Converts a saved string to a new string which can
+	// be passed to a HooksMod.require or .conflictWith function.
+	// _str must be formatted as follows:
+	// id,name,operator,version
+	// where "commas" represent this.CompatInfoSeparator.
+	// Return example: "mod_msu >= 1.8.0"
 	function __getCompatString( _str )
 	{
 		local info = split(_str, this.CompatInfoSeparator);
@@ -53,6 +62,9 @@
 		return format("%s%s%s", info[0], operator == "x" ? "" : " " + operator + " ", version == "x" ? "" : " " + version + " ");
 	}
 
+	// Converts a mod to the following string:
+	// id,name,version,requirements,incompatibilities
+	// where "commas" represent this.CompatModSeparator.
 	function __getModInfoString( _mod )
 	{
 		local reqStr = "";
@@ -82,6 +94,10 @@
 						conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len()));
 	}
 
+	// Creates and returns a Hooks.SQClass.Mod instance from the info string.
+	// _str must be formatted as follows:
+	// id,name,version,requirements,incompatibilities
+	// where "commas" represent this.CompatModSeparator.
 	function __getModFromInfoString( _str )
 	{
 		local info = split(_str, this.ModInfoSeparator);
@@ -144,6 +160,8 @@
 		::MSU.System.Serialization.onValidateSavedMods(this);
 
 		local compatErrors = [];
+
+		// Check compatibility of saved mods with installed mods.
 		foreach (mod in this.getMods())
 		{
 			foreach (compatibilityData in mod.getCompatibilityData())
@@ -160,6 +178,7 @@
 			}
 		}
 
+		// Check compatibility of installed mods with saved mods.
 		foreach (mod in ::Hooks.getMods())
 		{
 			foreach (compatibilityData in mod.getCompatibilityData())
