@@ -97,7 +97,7 @@
 						_mod.getName(), this.ModInfoSeparator,
 						_mod.getVersionString(), this.ModInfoSeparator,
 						reqStr == "" ? "x" : reqStr.slice(0, -this.CompatModSeparator.len()), this.ModInfoSeparator,
-						conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len()));
+						conflictStr == "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len()));
 	}
 
 	// Creates and returns a Hooks.SQClass.Mod instance from the info string.
