@@ -34,4 +34,32 @@
 	{
 		return _end.len() <= _string.len() && _string.slice(-_end.len()) == _end;
 	}
+
+	function split( _string, _delimiter, _skipEmpty = true )
+	{
+		if (_string == "")
+			return [];
+
+		if (_delimiter.len() == 1 && _skipEmpty)
+			return ::split(_string, _delimiter);
+
+		local ret = [];
+		local idx;
+		while ((idx = _string.find(_delimiter)) != null)
+		{
+			local val = _string.slice(0, idx);
+			if (!_skipEmpty || val != "")
+			{
+				ret.push(val);
+			}
+			_string = _string.slice(idx + _delimiter.len());
+		}
+
+		if (!_skipEmpty || _string != "")
+		{
+			ret.push(_string);
+		}
+
+		return ret;
+	}
 }
