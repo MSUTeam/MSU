@@ -28,24 +28,7 @@
 
 		foreach (id in split(ids, this.ModIDsSeparator))
 		{
-			local info = split(_metadata.getString(this.MetaDataSavedInfoPrefix + id), this.ModInfoSeparator);
-			local mod = ::Hooks.SQClass.Mod(info[0], info[2], info[1], this.EmptyTable);
-			if (info[3] != "x")
-			{
-				foreach (req in split(info[3], this.CompatModSeparator))
-				{
-					mod.require(this.__getCompatString(req));
-				}
-			}
-			if (info[4] != "x")
-			{
-				foreach (conflict in split(info[4], this.CompatModSeparator))
-				{
-					mod.conflictWith(this.__getCompatString(conflict));
-				}
-			}
-
-			this.Mods[mod.getID()] <- mod;
+			this.Mods[mod.getID()] <- this.__getModFromInfoString(_metadata.getString(this.MetaDataSavedInfoPrefix + id));
 		}
 	}
 
@@ -68,6 +51,58 @@
 		local operator = info[2];
 		local version = info[3];
 		return format("%s%s%s", info[0], operator == "x" ? "" : " " + operator + " ", version == "x" ? "" : " " + version + " ");
+	}
+
+	function __getModInfoString( _mod )
+	{
+		local reqStr = "";
+		local conflictStr = "";
+		foreach (data in ::Hooks.getMod(_mod.getID()).getCompatibilityData())
+		{
+			local str = format("%s%s%s%s%s%s%s",
+							data.getModID(), this.CompatInfoSeparator,
+							data.getModName(), this.CompatInfoSeparator,
+							data.Operator == null ? "x" : data.Operator + "", this.CompatInfoSeparator,
+							data.Version == null ? "x" : data.Version + "");
+			switch (data.CompatibilityType)
+			{
+				case ::Hooks.CompatibilityType.Requirement:
+					reqStr += str + this.CompatModSeparator;
+					break;
+				case ::Hooks.CompatibilityType.Incompatibility:
+					conflictStr += str + this.CompatModSeparator;
+					break;
+			}
+		}
+		return format("%s%s%s%s%s%s%s%s%s",
+						_mod.getID(), this.ModInfoSeparator,
+						_mod.getName(), this.ModInfoSeparator,
+						_mod.getVersionString(), this.ModInfoSeparator,
+						reqStr == "" ? "x" : reqStr.slice(0, -this.CompatModSeparator.len()), this.ModInfoSeparator,
+						conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len()));
+	}
+
+	function __getModFromInfoString( _str )
+	{
+		local info = split(_str, this.ModInfoSeparator);
+
+		local ret = ::Hooks.SQClass.Mod(info[0], info[2], info[1], this.EmptyTable);
+		if (info[3] != "x")
+		{
+			foreach (req in split(info[3], this.CompatModSeparator))
+			{
+				ret.require(this.__getCompatString(req));
+			}
+		}
+		if (info[4] != "x")
+		{
+			foreach (conflict in split(info[4], this.CompatModSeparator))
+			{
+				ret.conflictWith(this.__getCompatString(conflict));
+			}
+		}
+
+		return ret;
 	}
 
 	function getMods()
@@ -203,32 +238,7 @@
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 
 			modIds += mod.getID() + this.ModIDsSeparator;
-
-			local reqStr = "";
-			local conflictStr = "";
-			foreach (data in ::Hooks.getMod(mod.getID()).getCompatibilityData())
-			{
-				local str = format("%s%s%s%s%s%s%s",
-								data.getModID(), this.CompatInfoSeparator,
-								data.getModName(), this.CompatInfoSeparator,
-								data.Operator == null ? "x" : data.Operator + "", this.CompatInfoSeparator,
-								data.Version == null ? "x" : data.Version + "");
-				switch (data.CompatibilityType)
-				{
-					case ::Hooks.CompatibilityType.Requirement:
-						reqStr += str + this.CompatModSeparator;
-						break;
-					case ::Hooks.CompatibilityType.Incompatibility:
-						conflictStr += str + this.CompatModSeparator;
-						break;
-				}
-			}
-			_metadata.setString(this.MetaDataSavedInfoPrefix + mod.getID(), format("%s%s%s%s%s%s%s%s%s",
-																				mod.getID(), this.ModInfoSeparator,
-																				mod.getName(), this.ModInfoSeparator,
-																				mod.getVersionString(), this.ModInfoSeparator,
-																				reqStr == "" ? "x" : reqStr.slice(0, -this.CompatModSeparator.len()), this.ModInfoSeparator,
-																				conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len())));
+			_metadata.setString(this.MetaDataSavedInfoPrefix + mod.getID(), this.__getModInfoString(mod));
 		}
 		if (modIds != "")
 		{
