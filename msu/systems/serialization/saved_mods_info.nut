@@ -199,7 +199,7 @@
 	function saveToMetaData( _metadata )
 	{
 		local modIds = "";
-		foreach (mod in ::MSU.System.Serialization.Mods)
+		foreach (mod in ::Hooks.getMods())
 		{
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
 
