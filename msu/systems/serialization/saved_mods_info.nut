@@ -58,7 +58,6 @@
 		local ids = split(_metadata.getString("MSU.SavedModIDs"), ",");
 		foreach (id in ids)
 		{
-			::logInfo("Loading old mod: " + id + " Version: " + _metadata.getString(id + "Version"));
 			this.Mods[id] <- ::Hooks.SQClass.Mod(id, _metadata.getString(id + "Version") == "" ? "1.0.0" : _metadata.getString(id + "Version"), "", this.EmptyTable);
 		}
 	}
@@ -228,7 +227,7 @@
 																				mod.getID(), this.ModInfoSeparator,
 																				mod.getName(), this.ModInfoSeparator,
 																				mod.getVersionString(), this.ModInfoSeparator,
-																				reqStr == "" ? "x" : reqStr.slice(0, -1), this.ModInfoSeparator,
+																				reqStr == "" ? "x" : reqStr.slice(0, -this.CompatModSeparator.len()), this.ModInfoSeparator,
 																				conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len())));
 		}
 		if (modIds != "")
