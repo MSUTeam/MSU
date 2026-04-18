@@ -72,9 +72,14 @@
 		local conflictStr = "";
 		foreach (data in ::Hooks.getMod(_mod.getID()).getCompatibilityData())
 		{
+			local name = data.getModName();
+			if (name == data.getModID() && ::Hooks.hasMod(data.getModID()))
+			{
+				name = ::Hooks.getMod(data.getModID()).getName();
+			}
 			local str = format("%s%s%s%s%s%s%s",
 							data.getModID(), this.CompatInfoSeparator,
-							data.getModName(), this.CompatInfoSeparator,
+							name, this.CompatInfoSeparator,
 							data.Operator == null ? "x" : data.Operator + "", this.CompatInfoSeparator,
 							data.Version == null ? "x" : data.Version + "");
 			switch (data.CompatibilityType)
