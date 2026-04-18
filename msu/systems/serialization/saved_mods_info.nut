@@ -59,7 +59,8 @@
 		local info = split(_str, this.CompatInfoSeparator);
 		local operator = info[2];
 		local version = info[3];
-		return format("%s%s%s", info[0], operator == "x" ? "" : " " + operator + " ", version == "x" ? "" : " " + version + " ");
+		local name = info[1];
+		return format("%s%s%s%s", info[0], operator == "x" ? "" : " " + operator + " ", version == "x" ? "" : " " + version + " ", name == "x" ? "" : " (" + name + ")");
 	}
 
 	// Converts a mod to the following string:
