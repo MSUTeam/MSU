@@ -220,7 +220,7 @@
 						local oldVersion;
 						if (modsInfo != null)
 						{
-							oldVersion = modsInfo.hasMod(mod.getID()) ? modInfo.getMod(mod.getID()).getVersionString() : "";
+							oldVersion = modsInfo.hasMod(mod.getID()) ? modsInfo.getMod(mod.getID()).getVersionString() : "";
 						}
 						else
 						{
