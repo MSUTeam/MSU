@@ -31,7 +31,7 @@
 
 		foreach (id in split(ids, this.ModIDsSeparator))
 		{
-			this.Mods[mod.getID()] <- this.__getModFromInfoString(_metadata.getString(this.MetaDataSavedInfoPrefix + id));
+			this.Mods[id] <- this.__getModFromInfoString(_metadata.getString(this.MetaDataSavedInfoPrefix + id));
 		}
 	}
 
