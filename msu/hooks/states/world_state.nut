@@ -204,11 +204,11 @@
 	{
 		__original(_in);
 
-		local modsInfo = _in.getMetaData().hasData(::MSU.Class.SavedModsInfo.MetaDataStringID) ? ::MSU.Class.SavedModsInfo(_in.getMetaData()) : null;
+		local modsInfo = _in.getMetaData().hasData(::MSU.Class.SavedModsInfo.MetaDataSavedIDsKey) ? ::MSU.Class.SavedModsInfo(_in.getMetaData()) : null;
 
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
 		{
-			local modIDs = modsInfo != null ? ::MSU.Table.keys(modInfos.getMods()) : split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
+			local modIDs = modsInfo != null ? split(_in.getMetaData().getString(::MSU.Class.SavedModsInfo.MetaDataSavedIDsKey, ::MSU.Class.SavedModsInfo.ModIDsSeparator)) : split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
 			foreach (mod in ::Hooks.getMods())
 			{
 				local IDIdx = modIDs.find(mod.getID());

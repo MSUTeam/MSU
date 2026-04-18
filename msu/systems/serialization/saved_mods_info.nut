@@ -1,10 +1,11 @@
 ::MSU.Class.SavedModsInfo <- class
 {
-	static ModSeparator = "%%%%";
+	static ModIDsSeparator = ",";
 	static ModInfoSeparator = "&&";
 	static CompatInfoSeparator = "^^";
 	static CompatModSeparator = ",";
-	static MetaDataStringID = "MSU.SavedModsInfo";
+	static MetaDataSavedIDsKey = "MSU.SavedModsInfoIDs";
+	static MetaDataSavedInfoPrefix = "MSU.SavedModInfo";
 	// Used to pass the required _metadata arg in Hooks Mod constructor
 	static EmptyTable = {};
 
@@ -18,16 +19,16 @@
 		if (_metadata == null)
 			return;
 
-		local info = _metadata.hasData(this.MetaDataStringID) ? _metadata.getString(this.MetaDataStringID) : "";
-		if (info == "")
+		local ids = _metadata.hasData(this.MetaDataSavedIDsKey) ? _metadata.getString(this.MetaDataSavedIDsKey) : "";
+		if (ids == "")
 		{
 			this.__loadOldData(_metadata);
 			return;
 		}
 
-		foreach (mod in split(info, this.ModSeparator))
+		foreach (id in split(ids, this.ModIDsSeparator))
 		{
-			local info = split(mod, this.ModInfoSeparator);
+			local info = split(_metadata.getString(this.MetaDataSavedInfoPrefix + id), this.ModInfoSeparator);
 			local mod = ::Hooks.SQClass.Mod(info[0], info[2], info[1], this.EmptyTable);
 			if (info[3] != "x")
 			{
@@ -197,10 +198,13 @@
 
 	function saveToMetaData( _metadata )
 	{
-		local info = "";
+		local modIds = "";
 		foreach (mod in ::MSU.System.Serialization.Mods)
 		{
 			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
+
+			modIds += mod.getID() + this.ModIDsSeparator;
+
 			local reqStr = "";
 			local conflictStr = "";
 			foreach (data in ::Hooks.getMod(mod.getID()).getCompatibilityData())
@@ -220,18 +224,17 @@
 						break;
 				}
 			}
-			info += format("%s%s%s%s%s%s%s%s%s%s",
-							mod.getID(), this.ModInfoSeparator,
-							mod.getName(), this.ModInfoSeparator,
-							mod.getVersionString(), this.ModInfoSeparator,
-							reqStr == "" ? "x" : reqStr.slice(0, -1), this.ModInfoSeparator,
-							conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len()),
-							this.ModSeparator);
+			_metadata.setString(this.MetaDataSavedInfoPrefix + mod.getID(), format("%s%s%s%s%s%s%s%s%s",
+																				mod.getID(), this.ModInfoSeparator,
+																				mod.getName(), this.ModInfoSeparator,
+																				mod.getVersionString(), this.ModInfoSeparator,
+																				reqStr == "" ? "x" : reqStr.slice(0, -1), this.ModInfoSeparator,
+																				conflictStr = "" ? "x" : conflictStr.slice(0, -this.CompatModSeparator.len())));
 		}
-		if (info != "")
+		if (modIds != "")
 		{
-			info.slice(0, -this.ModSeparator.len());
+			modIds.slice(0, -this.ModIDsSeparator.len());
 		}
-		_metadata.setString(this.MetaDataStringID, info);
+		_metadata.setString(this.MetaDataSavedIDsKey, modIds);
 	}
 }
