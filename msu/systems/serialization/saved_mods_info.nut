@@ -77,6 +77,8 @@
 			{
 				name = ::Hooks.getMod(data.getModID()).getName();
 			}
+			name = ::String.replace(name, "(", "");
+			name = ::String.replace(name, ")", "");
 			local str = format("%s%s%s%s%s%s%s",
 							data.getModID(), this.CompatInfoSeparator,
 							name, this.CompatInfoSeparator,
