@@ -187,10 +187,16 @@
 		}
 
 		// Check compatibility of installed mods with saved mods.
+		// For this we only look at CompatibilityType.Incompatibility
+		// because for "required" mods you won't even be able to load
+		// into main menu if you are missing required mods.
 		foreach (mod in ::Hooks.getMods())
 		{
 			foreach (compatibilityData in mod.getCompatibilityData())
 			{
+				if (compatibilityData.CompatibilityType != ::Hooks.CompatibilityType.Incompatibility)
+					continue;
+
 				local result = compatibilityData.validate(this.getMods());
 				if (result == ::Hooks.CompatibilityCheckResult.Success)
 					continue;
