@@ -29,7 +29,7 @@
 			return;
 		}
 
-		foreach (id in split(ids, this.ModIDsSeparator))
+		foreach (id in ::MSU.String.split(ids, this.ModIDsSeparator))
 		{
 			this.Mods[id] <- this.__getModFromInfoString(_metadata.getString(this.MetaDataSavedInfoPrefix + id));
 		}
@@ -41,7 +41,7 @@
 		if (!_metadata.hasData("MSU.SavedModIDs"))
 			return;
 
-		local ids = split(_metadata.getString("MSU.SavedModIDs"), ",");
+		local ids = ::MSU.String.split(_metadata.getString("MSU.SavedModIDs"), ",");
 		foreach (id in ids)
 		{
 			this.Mods[id] <- ::Hooks.SQClass.Mod(id, _metadata.getString(id + "Version") == "" ? "1.0.0" : _metadata.getString(id + "Version"), "", this.EmptyTable);
@@ -56,7 +56,7 @@
 	// Return example: "mod_msu >= 1.8.0"
 	function __getCompatString( _str )
 	{
-		local info = split(_str, this.CompatInfoSeparator);
+		local info = ::MSU.String.split(_str, this.CompatInfoSeparator);
 		local operator = info[2];
 		local version = info[3];
 		local name = info[1];
@@ -106,19 +106,19 @@
 	// where "commas" represent this.CompatModSeparator.
 	function __getModFromInfoString( _str )
 	{
-		local info = split(_str, this.ModInfoSeparator);
+		local info = ::MSU.String.split(_str, this.ModInfoSeparator);
 
 		local ret = ::Hooks.SQClass.Mod(info[0], info[2], info[1], this.EmptyTable);
 		if (info[3] != "x")
 		{
-			foreach (req in split(info[3], this.CompatModSeparator))
+			foreach (req in ::MSU.String.split(info[3], this.CompatModSeparator))
 			{
 				ret.require(this.__getCompatString(req));
 			}
 		}
 		if (info[4] != "x")
 		{
-			foreach (conflict in split(info[4], this.CompatModSeparator))
+			foreach (conflict in ::MSU.String.split(info[4], this.CompatModSeparator))
 			{
 				ret.conflictWith(this.__getCompatString(conflict));
 			}
