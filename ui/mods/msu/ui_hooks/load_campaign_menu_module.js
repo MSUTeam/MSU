@@ -6,6 +6,7 @@ LoadCampaignMenuModule.prototype.addCampaignEntryToList = function (_data)
 	{
 		var entry = this.mListScrollContainer.find('.ui-control.campaign:last');
 		console.error("binding tooltip to " + entry);
-		entry.bindTooltip({ contentType: "msu-generic", modId: MSU.ID, elementId: "LoadCampaign", errors: _data.MSU_ModIncompatibility})
+		entry.bindTooltip({ contentType: "msu-generic", modId: MSU.ID, elementId: "LoadCampaign", errors: _data.MSU_ModIncompatibility })
+		entry.assignListCampaignDayName("- Incompatible Version / DLC Missing / Mod Conflict -");
 	}
 };
