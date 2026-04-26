@@ -194,7 +194,9 @@
 		{
 			foreach (compatibilityData in mod.getCompatibilityData())
 			{
-				if (compatibilityData.CompatibilityType != ::Hooks.CompatibilityType.Incompatibility)
+				// We allow "requiring" your own mod in save games. This is a method for
+				// modders to declare mods that are unsafe to add to existing runs.
+				if (compatibilityData.CompatibilityType != ::Hooks.CompatibilityType.Incompatibility && compatibilityData.getModID() != mod.getID())
 					continue;
 
 				local result = compatibilityData.validate(this.getMods());
