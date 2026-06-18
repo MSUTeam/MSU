@@ -164,6 +164,18 @@ local function isCampfireScreen()
 	}
 }, "Fast World Speed (2x)");
 
+if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.2-2"))
+{
+	::MSU.Vanilla.Keybinds.addSQKeybind("world_speedVeryFast", "3", ::MSU.Key.State.World, function()
+	{
+		if (!this.m.MenuStack.hasBacksteps())
+		{
+			this.setVeryFastTime();
+			return true;
+		}
+	}, "Very Fast World Speed (3x)");
+}
+
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_trackingButton", "f", ::MSU.Key.State.World, function()
 {
 	if (!this.m.MenuStack.hasBacksteps())
