@@ -1,7 +1,7 @@
 ::MSU.MH.hook("scripts/items/item_container", function(q) {
 	q.m.ActionSkill <- null;
 
-	q.getActionCost = @(__original) function( _items )
+	q.getActionCost = @() function( _items )
 	{
 		local isShield = false;
 		local isTwoHanded = false;
