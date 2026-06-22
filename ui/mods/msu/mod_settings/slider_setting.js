@@ -1,28 +1,34 @@
 var SliderSetting = function (_mod, _page, _setting, _parentDiv)
 {
-	_setting.value = _setting.values.indexOf(_setting.value);
 	RangeSetting.call(this, _mod, _page, _setting, _parentDiv);
-	_setting.value = _setting.values[_setting.value];
-
-	// Only need to set it once
-	this.slider.attr({min: this.data.min, max: this.data.max, step: this.data.step});
-
-	this.layout.off("change");
-	this.layout.on("change", this.onChange.bind(this));
-	this.updateValue();
 };
-SliderSetting.prototype.__proto__ = RangeSetting.prototype;
 
-SliderSetting.prototype.updateValue = function ()
+// Inheritance in JS
+SliderSetting.prototype = Object.create(RangeSetting.prototype);
+Object.defineProperty(SliderSetting.prototype, 'constructor', {
+	value: SliderSetting,
+	enumerable: false,
+	writable: true
+});
+
+// min/max/step are integer indices supplied by the nut side; value is an arbitrary
+// array element, so the float-precision fixes from RangeSetting must not touch it.
+SliderSetting.prototype.normalizeData = function ()
 {
-	var index = this.data.values.indexOf(this.data.value);
-	this.slider.val(index);
-	this.label.text('' + this.data.labels[index]);
+};
+
+SliderSetting.prototype.getSliderValue = function ()
+{
+	return this.data.values.indexOf(this.data.value);
+};
+
+SliderSetting.prototype.getLabelText = function ()
+{
+	return '' + this.data.labels[this.data.values.indexOf(this.data.value)];
 };
 
 SliderSetting.prototype.onChange = function ()
 {
-	var index = parseInt(this.slider.val());
-	this.data.value = this.data.values[index];
-	this.label.text('' + this.data.labels[index]);
+	this.data.value = this.data.values[parseInt(this.slider.val())];
+	this.label.text(this.getLabelText());
 };

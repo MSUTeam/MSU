@@ -1,11 +1,8 @@
 var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 {
-	if (_setting.value % 1 != 0) _setting.value = parseFloat(_setting.value.toPrecision(6)); // fix for JS/Squirrel float conversion weirdness
-	if (_setting.min % 1 != 0) _setting.min = parseFloat(_setting.min.toPrecision(6));
-	if (_setting.max % 1 != 0) _setting.max = parseFloat(_setting.max.toPrecision(6));
-	if (_setting.step % 1 != 0) _setting.step = parseFloat(_setting.step.toPrecision(6));
-
 	this.data = _setting;
+	this.normalizeData();
+
 	var self = this;
 	this.layout = $('<div class="setting-container range-container"/>');
 	_parentDiv.append(this.layout);
@@ -25,13 +22,12 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.slider = $('<input class="scale-slider" type="range"/>');
 	this.control.append(this.slider);
 
-	this.label = $('<div class="scale-label text-font-normal font-color-subtitle">' + _setting.value + '</div>');
+	this.label = $('<div class="scale-label text-font-normal font-color-subtitle"></div>');
 	this.control.append(this.label);
 
 	this.layout.on("change", function ()
 	{
-		_setting.value = parseFloat(self.slider.val());
-		self.label.text('' + _setting.value);
+		self.onChange();
 	});
 
 	if (_setting.locked)
@@ -45,16 +41,44 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.updateValue();
 };
 
-RangeSetting.prototype.updateValue = function()
+// Fixes for JS/Squirrel float conversion weirdness on the numeric slider range.
+RangeSetting.prototype.normalizeData = function ()
+{
+	var data = this.data;
+	if (data.value % 1 != 0) data.value = parseFloat(data.value.toPrecision(6));
+	if (data.min % 1 != 0) data.min = parseFloat(data.min.toPrecision(6));
+	if (data.max % 1 != 0) data.max = parseFloat(data.max.toPrecision(6));
+	if (data.step % 1 != 0) data.step = parseFloat(data.step.toPrecision(6));
+};
+
+// Position of the slider thumb. For a plain range this is just the value itself.
+RangeSetting.prototype.getSliderValue = function ()
+{
+	return this.data.value;
+};
+
+// Text shown next to the slider.
+RangeSetting.prototype.getLabelText = function ()
+{
+	return '' + this.data.value;
+};
+
+RangeSetting.prototype.onChange = function ()
+{
+	this.data.value = parseFloat(this.slider.val());
+	this.label.text(this.getLabelText());
+};
+
+RangeSetting.prototype.updateValue = function ()
 {
 	this.slider.attr({
 		min : this.data.min,
 		max : this.data.max,
 		step : this.data.step
 	});
-	this.slider.val(this.data.value);
-	this.label.text('' + this.data.value);
-}
+	this.slider.val(this.getSliderValue());
+	this.label.text(this.getLabelText());
+};
 
 RangeSetting.prototype.unbindTooltip = function ()
 {
