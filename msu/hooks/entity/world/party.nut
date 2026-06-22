@@ -39,7 +39,7 @@
 
 	q.getFinalMovementSpeedMult <- function()
 	{
-		local mult = this.getTerrainTypeSpeedMult();
+		local mult = 1.0;
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
@@ -96,11 +96,6 @@
 		{
 			return ::Const.World.TerrainTypeSpeedMult[myTile.Type];
 		}
-	}
-
-	q.getTerrainTypeSpeedMult <- function()
-	{
-		return this.m.IsPlayer ? ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
 	}
 
 	q.getNightTimeMovementSpeedMult <- function()
