@@ -28,6 +28,13 @@
 
 		// create a range setting
 		testPage.addRangeSetting("TestRange", 100, 10, 300, 10);
+		// sliders
+		// Numbers only
+		testPage.addSliderSetting("TestSliderNumber", 1,[1, 2, 3, 5, 10, 20], null, "Number slider");
+		// labels as values
+		testPage.addSliderSetting("TestSliderLabel", "off", ["off" "slight" "classic" "high"], null, "Label slider");
+		// Combined
+		testPage.addSliderSetting("TestSliderCombined", 0,  [0, 0.1, 0.1667, 0.25], ["off" "slight" "classic" "high"],"Combined Slider");
 
 		// create an enum setting and lock it from changes
 		local testEnum = testPage.addEnumSetting("TestEnum" , "goodbye", ["hi", "hello", "goodbye"]);

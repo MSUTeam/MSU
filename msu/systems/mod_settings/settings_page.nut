@@ -59,6 +59,11 @@
 		return this.addElement(::MSU.Class.RangeSetting(_id, _value, _min, _max, _step, _name, _description));
 	}
 
+	function addSliderSetting( _id, _value, _values, _labels = null, _name = null, _description = null )
+	{
+		return this.addElement(::MSU.Class.SliderSetting(_id, _value, _values, _labels, _name, _description));
+	}
+
 	function addStringSetting( _id, _value, _name = null, _description = null )
 	{
 		return this.addElement(::MSU.Class.StringSetting(_id, _value, _name, _description));
