@@ -39,7 +39,7 @@
 
 	q.getFinalMovementSpeedMult <- function()
 	{
-		local mult = 1.0;
+		local mult = this.getTerrainTypeSpeedMult();
 		foreach (key, func in this.m.MovementSpeedMultFunctions)
 		{
 			local funcResult = func();
