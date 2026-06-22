@@ -4,6 +4,11 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 	this.normalizeData();
 
 	var self = this;
+
+	// Calculate decimal places in step for formatting
+	var stepString = _setting.step.toString();
+	var decimalPlaces = stepString.indexOf('.') !== -1 ? stepString.split('.')[1].length : 0;
+
 	this.layout = $('<div class="setting-container range-container"/>');
 	_parentDiv.append(this.layout);
 
@@ -35,9 +40,11 @@ var RangeSetting = function (_mod, _page, _setting, _parentDiv)
 		this.slider.attr('disabled', true);
 	}
 
-	// Tooltip
 	this.control.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
 	this.title.bindTooltip({ contentType: 'msu-generic', modId: MSU.ID, elementId: "ModSettings.Element.Tooltip", elementModId: _mod.id, settingsElementId: _setting.id });
+
+	// Store precision on the object so updateValue can access it
+	this.precision = decimalPlaces;
 	this.updateValue();
 };
 

@@ -9,7 +9,7 @@
 		// cache for efficiency during while loop
 		local combatFactions = _combat.Factions;
 		local f = _party.getFaction();
-		while (combatFactions.len() < f)
+		while (combatFactions.len() <= f)
 		{
 			combatFactions.push([]);
 		}
