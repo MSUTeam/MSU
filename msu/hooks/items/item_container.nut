@@ -1,52 +1,109 @@
 ::MSU.MH.hook("scripts/items/item_container", function(q) {
 	q.m.ActionSkill <- null;
 
-	q.getActionCost = @() function( _items )
+	// Part of adapting Quick Hands in vanilla < 1.5.2.2 to work with MSU onPayForItemAction
+	if (::Hooks.getMod("vanilla").getVersion() < ::Hooks.SQClass.ModVersion("1.5.2-2"))
 	{
-		local isShield = false;
-		local isTwoHanded = false;
+		q.m.MSU_IsIgnoringItemAction <- false;
 
-		foreach (i in _items)
+		q.isActionAffordable = @() function ( _items )
 		{
-			if (i != null)
-			{
-				if (i.isItemType(::Const.Items.ItemType.Shield))
-				{
-					isShield = true;
-					break;
-				}
-				else if (i.getBlockedSlotType() != null)
-				{
-					isTwoHanded = true;
-				}
-			}
+			if (this.m.MSU_IsIgnoringItemAction) return true;
+
+			local actionCost = this.getActionCost(_items);
+			return this.m.Actor.getActionPoints() >= actionCost;
 		}
 
-		local cost = isShield ? this.m.ActionCostShield : (isTwoHanded ? this.m.ActionCost2H : this.m.ActionCost);
-
-		this.m.ActionSkill = null;
-
-		local info = this.getActor().getSkills().getItemActionCost(_items);
-		info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
-
-		foreach (entry in info)
+		q.getActionCost = @() function( _items )
 		{
-			if (entry.Cost < cost)
+			if (this.m.MSU_IsIgnoringItemAction) return 0;
+
+			this.m.ActionSkill = null;
+
+			local info = this.getActor().getSkills().getItemActionCost(_items);
+
+			info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
+
+			local cost = ::Const.Tactical.Settings.SwitchItemAPCost;
+
+			foreach (entry in info)
 			{
-				cost = entry.Cost;
-				this.m.ActionSkill = ::MSU.asWeakTableRef(entry.Skill);
+				if (entry.Cost < cost)
+				{
+					cost = entry.Cost;
+					this.m.ActionSkill = ::MSU.asWeakTableRef(entry.Skill);
+				}
 			}
+
+			return cost;
 		}
 
-		return cost;
+		q.payForAction = @() function ( _items )
+		{
+			if (this.m.MSU_IsIgnoringItemAction || _items.len() == 0) return;
+
+			local actionCost = this.getActionCost(_items);
+			this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
+			this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill == null ? null : this.m.ActionSkill.get(), _items);
+			this.m.ActionSkill = null;
+		}
+
+		q.onNewRound = @(__original) function()
+		{
+			local ret = __original();
+			this.m.ActionCost = ::Const.Tactical.Settings.SwitchItemAPCost;
+			return ret;
+		}
 	}
-
-	q.payForAction = @() function ( _items )
+	else
 	{
-		local actionCost = this.getActionCost(_items);
-		this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
-		this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill == null ? null : this.m.ActionSkill.get(), _items);
-		this.m.ActionSkill = null;
+		q.getActionCost = @() function( _items )
+		{
+			local isShield = false;
+			local isTwoHanded = false;
+
+			foreach (i in _items)
+			{
+				if (i != null)
+				{
+					if (i.isItemType(::Const.Items.ItemType.Shield))
+					{
+						isShield = true;
+						break;
+					}
+					else if (i.getBlockedSlotType() != null)
+					{
+						isTwoHanded = true;
+					}
+				}
+			}
+
+			local cost = isShield ? this.m.ActionCostShield : (isTwoHanded ? this.m.ActionCost2H : this.m.ActionCost);
+
+			this.m.ActionSkill = null;
+
+			local info = this.getActor().getSkills().getItemActionCost(_items);
+			info.sort(@(info1, info2) info1.Skill.getItemActionOrder() <=> info2.Skill.getItemActionOrder());
+
+			foreach (entry in info)
+			{
+				if (entry.Cost < cost)
+				{
+					cost = entry.Cost;
+					this.m.ActionSkill = ::MSU.asWeakTableRef(entry.Skill);
+				}
+			}
+
+			return cost;
+		}
+
+		q.payForAction = @() function ( _items )
+		{
+			local actionCost = this.getActionCost(_items);
+			this.m.Actor.setActionPoints(::Math.max(0, this.m.Actor.getActionPoints() - actionCost));
+			this.m.Actor.getSkills().onPayForItemAction(this.m.ActionSkill == null ? null : this.m.ActionSkill.get(), _items);
+			this.m.ActionSkill = null;
+		}
 	}
 
 	q.getStaminaModifier <- function( _slots = null )

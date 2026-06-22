@@ -1,35 +1,94 @@
-::MSU.MH.hook("scripts/skills/perks/perk_quick_hands", function(q) {
-	q.create = @(__original) function()
-	{
-		__original();
-		this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
-	}
-
-	q.getItemActionCost = @() function( _items )
-	{
-		foreach (item in _items)
-		{
-			if (item != null && item.isItemType(::Const.Items.ItemType.Shield))
-			{
-				return null;
-			}
-		}
-		return this.m.IsSpent ? null : 0;
-	}
-});
-
-::MSU.QueueBucket.VeryLate.push(function() {
+if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.2-2"))
+{
 	::MSU.MH.hook("scripts/skills/perks/perk_quick_hands", function(q) {
-		q.onPayForItemAction = @(__original) function( _skill, _items )
+		q.create = @(__original) function()
 		{
-			__original(_skill, _items);
+			__original();
+			this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
+		}
 
-			// Compatibility with vanilla 1.5.2.2. We wrap all onPayForItemAction
-			// calls to also call the vanilla-added `onSpend` function.
-			if (_skill == this)
+		q.getItemActionCost = @() function( _items )
+		{
+			foreach (item in _items)
 			{
-				this.onSpend(_items);
+				if (item != null && item.isItemType(::Const.Items.ItemType.Shield))
+				{
+					return null;
+				}
 			}
+			return this.m.IsSpent ? null : 0;
 		}
 	});
-});
+
+	::MSU.QueueBucket.VeryLate.push(function() {
+		::MSU.MH.hook("scripts/skills/perks/perk_quick_hands", function(q) {
+			q.onPayForItemAction = @(__original) function( _skill, _items )
+			{
+				__original(_skill, _items);
+
+				// Compatibility with vanilla 1.5.2.2. We wrap all onPayForItemAction
+				// calls to also call the vanilla-added `onSpend` function.
+				if (_skill == this)
+				{
+					this.onSpend(_items);
+				}
+			}
+		});
+	});
+}
+// Legacy support vanilla < 1.5.2.2
+else
+{
+	::MSU.MH.hook("scripts/skills/perks/perk_quick_hands", function(q) {
+		q.m.IsSpent <- false;
+
+		q.create = @(__original) function()
+		{
+			__original();
+			this.m.ItemActionOrder = ::Const.ItemActionOrder.Any;
+		}
+
+		q.onUpdate = @() function( _properties )
+		{
+		}
+
+		q.onCombatStarted = @() function()
+		{
+		}
+
+		q.onCombatFinished = @() function()
+		{
+			this.skill.onCombatFinished();
+		}
+
+		q.isHidden <- function()
+		{
+			return this.m.IsSpent;
+		}
+
+		q.getItemActionCost <- function( _items )
+		{
+			foreach (item in _items)
+			{
+				if (item != null && item.isItemType(::Const.Items.ItemType.Shield))
+				{
+					return null;
+				}
+			}
+			return this.m.IsSpent ? null : 0;
+		}
+
+		q.onPayForItemAction <- function( _skill, _items )
+		{
+			if (_skill == this)
+			{
+				this.m.IsSpent = true;
+			}
+		}
+
+		q.onTurnStart <- function()
+		{
+			this.m.IsSpent = false;
+		}
+	});
+}
