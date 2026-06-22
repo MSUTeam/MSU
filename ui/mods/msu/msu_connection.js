@@ -99,23 +99,91 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 {
 	var transformMarkdownToHTML = function(_text)
 	{
-		// Change line ending to <br>, replace # markdown with <h> tags, replace markdown links with clickable spans
+		// Span-level formatting, applied to the text content of every line.
+		// Order matters: links first (so URLs aren't mangled), then bold before
+		// italic (so ** isn't eaten by the single-* rule), then the rest.
+		var applyInline = function(_str)
+		{
+			return _str
+				// [text](url) -> clickable element that opens in the browser
+				.replace(/\[([^\[\]]+?)\]\(([^\)]+?)\)/g, '<span class="msu-popup-link" onclick="event.stopPropagation();openURL(\'$2\')">$1</span>')
+				// **bold** / __bold__  -- use .+? so nested *italic* survives to the next pass
+				.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+				.replace(/__(.+?)__/g, '<strong>$1</strong>')
+				// *italic* / _italic_
+				.replace(/\*([^*]+?)\*/g, '<em>$1</em>')
+				.replace(/_([^_]+?)_/g, '<em>$1</em>')
+				// ~~strikethrough~~
+				.replace(/~~([^~]+?)~~/g, '<del>$1</del>')
+				// `inline code`
+				.replace(/`([^`]+?)`/g, '<code>$1</code>');
+		};
+
 		var asLines = _text.split(/\r?\n/);
 		var ret = "";
-		for (var i = 0; i < asLines.length; i++) {
-			var line = asLines[i].trim();
-			var hashCount = 0;
-			for (var j = 0; j < line.length; j++) {
-				if (line[j] == "#") hashCount++
-				else break
+		var listType = null; // "ul", "ol", or null -- tracks an open list block
+
+		var closeList = function()
+		{
+			if (listType !== null) {
+				ret += "</" + listType + ">";
+				listType = null;
 			}
-			if (hashCount > 0) line = "<h" + hashCount + ">" + line.slice(hashCount) + "</h" + hashCount + ">";
-			else line += "<br>";
-			line = line.replace(/\[([^\[\]]+?)\]\(([^\)]+?)\)/g, '<span class="msu-popup-link" onclick="openURL(\'$2\')">$1</span>'); // replace link with onClick element to open in browser
-			ret += line;
+		};
+
+		for (var i = 0; i < asLines.length; i++)
+		{
+			var line = asLines[i].trim();
+
+			// Horizontal rule: ---, ***, or ___ (3+ of the same, whole line)
+			if (/^(-{3,}|\*{3,}|_{3,})$/.test(line)) {
+				closeList();
+				ret += "<hr>";
+				continue;
+			}
+
+			// Headings: count leading #, cap at h6
+			var hashCount = 0;
+			while (hashCount < line.length && line[hashCount] == "#") hashCount++;
+			if (hashCount > 0) {
+				closeList();
+				var level = Math.min(hashCount, 6);
+				ret += "<h" + level + ">" + applyInline(line.slice(hashCount).replace(/^\s+/, "")) + "</h" + level + ">";
+				continue;
+			}
+
+			// Unordered list item: "- ", "* ", "+ "
+			var ulMatch = /^[-*+]\s+(.*)$/.exec(line);
+			if (ulMatch) {
+				if (listType !== "ul") { closeList(); ret += "<ul>"; listType = "ul"; }
+				ret += "<li>" + applyInline(ulMatch[1]) + "</li>";
+				continue;
+			}
+
+			// Ordered list item: "1. ", "2. ", ... (requires a space, so "1.5x" is safe)
+			var olMatch = /^\d+\.\s+(.*)$/.exec(line);
+			if (olMatch) {
+				if (listType !== "ol") { closeList(); ret += "<ol>"; listType = "ol"; }
+				ret += "<li>" + applyInline(olMatch[1]) + "</li>";
+				continue;
+			}
+
+			// Blockquote: "> "
+			var bqMatch = /^>\s?(.*)$/.exec(line);
+			if (bqMatch) {
+				closeList();
+				ret += "<blockquote>" + applyInline(bqMatch[1]) + "</blockquote>";
+				continue;
+			}
+
+			// Plain or blank line: close any open list, emit text with a <br> break
+			closeList();
+			ret += applyInline(line) + "<br>";
 		}
+		closeList(); // close a list that runs to the end of the text
+
 		return ret;
-	}
+	};
 
 	var self = this;
 	var numUpdates = 0;
@@ -150,6 +218,7 @@ MSUConnection.prototype.showModUpdates = function (_modVersionData)
 
 		$.each(updateInfo.sources, function (_, _source) {
 			var container = $('<div class="l-source-button"/>').appendTo(versionRow);
+			container.click(function (e) { e.stopPropagation(); });
 			var button = container.createImageButton(Path.GFX + "mods/msu/logos/" + _source.icon + "-32.png", function ()
 			{
 				openURL(_source.URL);
