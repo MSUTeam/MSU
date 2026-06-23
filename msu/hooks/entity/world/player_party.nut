@@ -8,12 +8,19 @@
 		this.m.MovementSpeedMultFunctions.StashMovementSpeedMult <- this.getStashMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.OriginMovementSpeedMult <- this.getOriginMovementSpeedMult;
 		this.m.MovementSpeedMultFunctions.RetinueMovementSpeedMult <- this.getRetinueMovementSpeedMult;
+		this.m.MovementSpeedMultFunctions.AssetsTerrainTypeSpeedMult <- this.getAssetsTerrainTypeSpeedMult;
 	}
 
 	//refers to the base 105 movement speed of the player
 	q.getPlayerPartyMovementSpeedMult <- function()
 	{
 		return 1.05;
+	}
+
+	// Refers to player assets, so makes sense to live here and not in party.nut
+	q.getAssetsTerrainTypeSpeedMult <- function()
+	{
+		return ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type);
 	}
 
 	q.getRosterMovementSpeedMult <- function()

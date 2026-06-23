@@ -98,11 +98,6 @@
 		}
 	}
 
-	q.getTerrainTypeSpeedMult <- function()
-	{
-		return this.m.IsPlayer ? ::World.Assets.getTerrainTypeSpeedMult(this.getTile().Type) : 1.0;
-	}
-
 	q.getNightTimeMovementSpeedMult <- function()
 	{
 		if (!this.m.IsSlowerAtNight || ::World.isDaytime())
