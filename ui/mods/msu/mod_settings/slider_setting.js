@@ -1,6 +1,13 @@
 var SliderSetting = function (_mod, _page, _setting, _parentDiv)
 {
 	RangeSetting.call(this, _mod, _page, _setting, _parentDiv);
+
+	if (_setting.labelInTitle)
+	{
+		this.label.detach();
+		this.label.css({ position: 'static', top: '', left: '', 'margin-left': 'auto' });
+		this.titleContainer.append(this.label);
+	}
 };
 
 // Inheritance in JS

@@ -2,6 +2,7 @@
 {
 	Values = null;
 	Labels = null;
+	LabelInTitle = false;
 	static Type = "Slider";
 
 	constructor( _id, _value, _values, _labels = null, _name = null, _description = null )
@@ -22,11 +23,17 @@
 		this.Labels = _labels;
 	}
 
+	function setLabelInTitle( _value )
+	{
+		this.LabelInTitle = _value;
+	}
+
 	function getUIData( _flags = [] )
 	{
 		local ret = base.getUIData(_flags);
 		ret.values <- this.Values;
 		ret.labels <- this.Labels;
+		ret.labelInTitle <- this.LabelInTitle;
 		return ret;
 	}
 
