@@ -45,6 +45,10 @@
 	{
 		local len = 0;
 		local obj = _data;;
+		if (obj instanceof ::WeakTableRef)
+		{
+			obj = obj.get();
+		}
 		switch (typeof _data)
 		{
 			case "table":
