@@ -173,7 +173,7 @@ if (::Hooks.getMod("vanilla").getVersion() >= ::Hooks.SQClass.ModVersion("1.5.2-
 			this.setVeryFastTime();
 			return true;
 		}
-	}, "Very Fast World Speed (3x)");
+	}, "Very Fast World Speed (4x)");
 }
 
 ::MSU.Vanilla.Keybinds.addSQKeybind("world_trackingButton", "f", ::MSU.Key.State.World, function()
