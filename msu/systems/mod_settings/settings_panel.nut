@@ -147,7 +147,7 @@
 		{
 			foreach (setting in page.getSettings())
 			{
-				if (setting instanceof ::MSU.Class.AbstractSetting)
+				if (setting instanceof ::MSU.Class.AbstractSetting && (_function != "flagSerialize" || setting.isFlagSerialized()))
 				{
 					_argsArray[0] = setting;
 					setting[_function].acall(_argsArray);

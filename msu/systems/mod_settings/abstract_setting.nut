@@ -32,6 +32,31 @@
 		return this.Persistence;
 	}
 
+	function isFlagSerialized()
+	{
+		// If a setting is relevant for a New Campaign, then it likely
+		// needs to be saved in that campaign's flags.
+		local flags = ::MSU.SettingsFlags.NewCampaign.required;
+		if ("excluded" in ::MSU.SettingsFlags.NewCampaign)
+		{
+			flags = flags.filter(@(_, _f) ::MSU.SettingsFlags.NewCampaign.excluded.find(_f) != null);
+		}
+
+		// If a setting is excluded on the main menu, then it is likely
+		// a setting that is relevant inside a campaign.
+		flags.extend(::MSU.SettingsFlags.Main.excluded);
+
+		foreach (flag in flags)
+		{
+			if (flag in this.Data)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	function onBeforeChangeCallback( _newValue )
 	{
 		foreach (callback in this.BeforeChangeCallbacks)
