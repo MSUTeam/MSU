@@ -108,6 +108,56 @@ foreach (itemType in ::Const.Items.ItemType)
 	throw ::MSU.Exception.KeyNotFound(_weaponType);
 }
 
+// Map WeaponTypes to relevant strings from weapon.m.Categories.
+// Is used during automatic assignment of weapontypes to weapons.
+// Translators should push strings to the relevant weaponType here.
+// Key = WeaponType
+// Value = array of strings from weapon.m.Categories that should match to this weapon type
+
+// Translators Note: DO NOT OVERWRITE THIS TABLE, instead push your strings to each array e.g.
+// ::Const.Items.WeaponTypesCategoriesStrings.Axe.push("TranslatedAxe");
+::Const.Items.WeaponTypeCategoriesStrings <- {
+	[::Const.Items.WeaponType.None] = ["None", "No Weapon Type"]
+	[::Const.Items.WeaponType.Axe] = ["Axe"],
+	[::Const.Items.WeaponType.Bow] = ["Bow"],
+	[::Const.Items.WeaponType.Cleaver] = ["Cleaver"],
+	[::Const.Items.WeaponType.Crossbow] = ["Crossbow"],
+	[::Const.Items.WeaponType.Dagger] = ["Dagger"],
+	[::Const.Items.WeaponType.Firearm] = ["Firearm"],
+	[::Const.Items.WeaponType.Flail] = ["Flail"],
+	[::Const.Items.WeaponType.Hammer] = ["Hammer"],
+	[::Const.Items.WeaponType.Mace] = ["Mace"],
+	[::Const.Items.WeaponType.Polearm] = ["Polearm"],
+	[::Const.Items.WeaponType.Sling] = ["Sling"],
+	[::Const.Items.WeaponType.Spear] = ["Spear"],
+	[::Const.Items.WeaponType.Sword] = ["Sword"],
+	[::Const.Items.WeaponType.Staff] = ["Staff"],
+	[::Const.Items.WeaponType.Throwing] = ["Throwing", "Throwing Weapon"],
+	[::Const.Items.WeaponType.Musical] = ["Musical", "Musical Instrument"]
+};
+local arr = ::Const.Items.WeaponTypeCategoriesStrings;
+foreach (k, w in ::Const.Items.WeaponType)
+{
+	if (arr.find(k) == null)
+		arr.push(k);
+
+	local name = ::Const.Items.getWeaponTypeName(w);
+	if (arr.find(name) == null)
+		arr.push(name)
+}
+
+// Map OneHanded and TwoHanded to relevant strings from weapon.m.Categories
+// Is used during weapon.buildCategoriesFromWeaponType.
+// Translators should push strings to the relevant handed-ness here.
+// The last index string is always used to build the categories string.
+
+// Translators Note: DO NOT OVERWRITE THIS TABLE, instead push your strings to each array e.g.
+// ::Const.Items.WeaponHandedCategoriesStrings.OneHanded.push("One-HandedTranslation");
+::Const.Items.WeaponHandedCategoriesStrings <- {
+	OneHanded = ["One-Handed"],
+	TwoHanded = ["Two-Handed"]
+};
+
 ::Const.Items.addNewWeaponType <- function( _weaponType, _weaponTypeName = "" )
 {
 	if (_weaponType in ::Const.Items.WeaponType) throw ::MSU.Exception.DuplicateKey(_weaponType);
@@ -127,5 +177,6 @@ foreach (itemType in ::Const.Items.ItemType)
 		_weaponTypeName = _weaponType;
 	}
 
+	::Const.Items.WeaponTypeCategoriesStrings[::Const.Items.WeaponType[_weaponType]] <- [_weaponTypeName];
 	::Const.Items.WeaponTypeName.push(_weaponTypeName);
 }
