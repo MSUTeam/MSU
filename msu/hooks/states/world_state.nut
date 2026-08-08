@@ -197,26 +197,19 @@
 	q.onBeforeSerialize = @(__original) function( _out )
 	{
 		__original(_out);
-		local meta = _out.getMetaData();
-		local modIDsString = "";
-		foreach (mod in ::MSU.System.Serialization.Mods)
-		{
-			meta.setString(mod.getID() + "Version", mod.getVersionString());
-			::MSU.Mod.Debug.printLog(format("MSU Serialization: Saving %s (%s), Version: %s", mod.getName(), mod.getID(), mod.getVersionString()));
-		}
-		foreach (mod in ::Hooks.getMods()) modIDsString += mod.getID() + ",";
-		meta.setString("MSU.SavedModIDs", modIDsString.slice(0, -1));
+		::MSU.Class.SavedModsInfo().saveToMetaData(_out.getMetaData());
 	}
 
 	q.onBeforeDeserialize = @(__original) function( _in )
 	{
 		__original(_in);
 
+		local modsInfo = _in.getMetaData().hasData(::MSU.Class.SavedModsInfo.MetaDataSavedIDsKey) ? ::MSU.Class.SavedModsInfo(_in.getMetaData()) : null;
+
 		if (::MSU.Mod.Serialization.isSavedVersionAtLeast("1.1.0", _in.getMetaData()))
 		{
-			local modIDs = split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
-			local hooksMods = ::Hooks.getMods();
-			foreach (mod in hooksMods)
+			local modIDs = modsInfo != null ? split(_in.getMetaData().getString(::MSU.Class.SavedModsInfo.MetaDataSavedIDsKey), ::MSU.Class.SavedModsInfo.ModIDsSeparator) : split(_in.getMetaData().getString("MSU.SavedModIDs"), ",");
+			foreach (mod in ::Hooks.getMods())
 			{
 				local IDIdx = modIDs.find(mod.getID());
 				if (IDIdx != null)
@@ -224,7 +217,16 @@
 					modIDs.remove(IDIdx);
 					if (::MSU.System.Registry.hasMod(mod.getID()))
 					{
-						local oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
+						local oldVersion;
+						if (modsInfo != null)
+						{
+							oldVersion = modsInfo.hasMod(mod.getID()) ? modsInfo.getMod(mod.getID()).getVersionString() : "";
+						}
+						else
+						{
+							oldVersion = _in.getMetaData().getString(mod.getID() + "Version");
+						}
+
 						if (oldVersion == "")
 						{
 							::logInfo(format("MSU Serialization: First time this save has been loaded with an MSU version of %s (%s)", mod.getName(), mod.getID()));

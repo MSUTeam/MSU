@@ -2,8 +2,18 @@
 {
 	function isSavedVersionAtLeast( _version, _metaData )
 	{
-		local savedVersion = _metaData.getString(this.Mod.getID() + "Version");
+		local savedVersion = "";
+		local info = ::MSU.Class.SavedModsInfo(_metaData);
+		if (info.hasMod(this.Mod.getID()))
+		{
+			savedVersion = info.getMod(this.Mod.getID()).getVersionString();
+		}
+
 		return savedVersion != "" && ::MSU.SemVer.compareVersionWithOperator(savedVersion, ">=", _version);
+	}
+
+	function onValidateSavedMods( _modsInfo )
+	{
 	}
 
 	function flagSerialize( _id, _object, _flags = null )
