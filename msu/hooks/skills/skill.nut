@@ -36,6 +36,8 @@
 });
 
 ::MSU.MH.hook("scripts/skills/skill", function(q) {
+	q.m.MSU_IsUsingSkill <- false;
+	q.m.MSU_IsUsingSkillForFree <- false;
 	q.m.AIBehaviorID <- null;
 	q.m.DamageType <- null;
 	q.m.ItemActionOrder <- ::Const.ItemActionOrder.Any;
@@ -350,18 +352,10 @@
 
 	q.use = @(__original) function( _targetTile, _forFree = false )
 	{
-		// Save the container as a local variable because some skills delete
-		// themselves during use (e.g. Reload Bolt) causing this.m.Container
-		// to point to null.
-		local container = this.m.Container;
-		local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
-
-		container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
-
+		this.m.MSU_IsUsingSkill = true;
+		this.m.MSU_IsUsingSkillForFree = _forFree;
 		local ret = __original(_targetTile, _forFree);
-
-		container.onAnySkillExecuted(this, _targetTile, targetEntity, _forFree);
-
+		this.m.MSU_IsUsingSkill = false;
 		return ret;
 	}
 
@@ -490,6 +484,30 @@
 });
 
 ::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hookTree("scripts/skills/skill", function(q) {
+		q.onUse = @(__original) function( _user, _targetTile )
+		{
+			// Save the container as a local variable because some skills delete
+			// themselves during use (e.g. Reload Bolt) causing this.m.Container
+			// to point to null.
+			local container = this.getContainer();
+			local targetEntity = _targetTile.IsOccupiedByActor ? _targetTile.getEntity() : null;
+			if (this.m.MSU_IsUsingSkill)
+			{
+				container.onBeforeAnySkillExecuted(this, _targetTile, targetEntity, this.m.MSU_IsUsingSkillForFree);
+			}
+
+			local ret = __original(_user, _targetTile);
+
+			if (this.m.MSU_IsUsingSkill)
+			{
+				container.onAnySkillExecuted(this, _targetTile, targetEntity, this.m.MSU_IsUsingSkillForFree);
+			}
+
+			return ret;
+		}
+	});
+
 	::MSU.MH.hook("scripts/skills/skill", function(q) {
 		foreach (func in ::MSU.Skills.PreviewApplicableFunctions)
 		{
