@@ -171,9 +171,12 @@
 
 	function __setFromSerializationTable( _table )
 	{
+		// A lock put on by mod code describes the current mod set, not the save, so outlive it
+		local locked = this.isLocked(), lockReason = this.getLockReason();
 		this.unlock();
 		this.set(_table.Value, true, false, true, true);
-		if (_table.Locked) this.lock(_table.LockReason);
+		if (locked) this.lock(lockReason);
+		else if (_table.Locked) this.lock(_table.LockReason);
 	}
 
 	function getSerDeFlag()
