@@ -62,7 +62,7 @@
 
 		foreach (k, w in ::Const.Items.WeaponType)
 		{
-			if (categories.find(k) != null)
+			if (categories.find(::Const.Items.getWeaponTypeName(w)) != null)
 			{
 				this.m.WeaponType = this.m.WeaponType | w;
 			}
