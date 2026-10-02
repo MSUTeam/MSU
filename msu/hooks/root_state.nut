@@ -1,8 +1,10 @@
-::MSU.MH.hook("scripts/root_state", function(q) {
-	q.onInit = @(__original) function()
-	{
-		__original();
-		::MSU.System.Keybinds.importPersistentSettings();
-		::MSU.System.ModSettings.importPersistentSettings();
-	}
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/root_state", function(q) {
+		q.onInit = @(__original) function()
+		{
+			__original();
+			::MSU.System.Keybinds.importPersistentSettings();
+			::MSU.System.ModSettings.importPersistentSettings();
+		}
+	});
 });

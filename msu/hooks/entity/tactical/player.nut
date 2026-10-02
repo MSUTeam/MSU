@@ -20,7 +20,9 @@
 	{
 		return 1.0;
 	}
+});
 
+::MSU.QueueBucket.VeryLate.push(function() {
 	q.setAttributeLevelUpValues = @(__original) function( _v )
 	{
 		__original(_v);

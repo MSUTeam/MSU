@@ -1,28 +1,4 @@
 ::MSU.MH.hook("scripts/entity/tactical/tactical_entity_manager", function(q) {
-	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
-	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
-	q.spawn = @(__original) function( _properties )
-	{
-		local ret = __original(_properties);
-
-		::World.Assets.getOrigin().onCombatStarted();
-
-		foreach (i, faction in this.getAllInstances())
-		{
-			if (i != ::Const.Faction.Player)
-			{
-				foreach (actor in faction)
-				{
-					actor.onCombatStart();
-				}
-			}
-		}
-
-		::Math.seedRandom(::Time.getRealTime());
-
-		return ret;
-	}
-	
 	q.getActorsByFunction <- function( _function )
 	{
 		local ret = [];
@@ -56,7 +32,7 @@
 		}
 		return ret;
 	}
-	
+
 	q.getAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
@@ -84,7 +60,7 @@
 			return true;
 		});
 	}
-	
+
 	q.getHostileActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
@@ -112,7 +88,7 @@
 			return true;
 		});
 	}
-	
+
 	q.getFactionActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile == null)
@@ -132,7 +108,7 @@
 				ret.push(_tile.getEntity());
 			return ret.filter(@(_, _a) _a.getFaction() == _faction);
 		}
-				
+
 		local actors = this.getInstancesOfFaction(_faction);
 		local ret = [];
 		foreach (actor in actors)
@@ -140,11 +116,11 @@
 			if (!actor.isPlacedOnMap()) continue;
 			local distance = _tile.getDistanceTo(actor.getTile());
 			if (distance > _distance || (_atDistance && distance != _distance)) continue;
-			ret.push(actor);			
+			ret.push(actor);
 		}
 		return ret;
 	}
-	
+
 	q.getNonFactionAlliedActors <- function( _faction, _tile = null, _distance = null, _atDistance = false )
 	{
 		if (_tile != null && _tile.ID == 0)
@@ -171,5 +147,31 @@
 			}
 			return true;
 		});
+	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	// VANILLAFIX: http://battlebrothersgame.com/forums/topic/oncombatstarted-is-not-called-for-ai-characters/
+	// This fix is spread out over 4 files: tactical_entity_manager, actor, player, standard_bearer
+	q.spawn = @(__original) function( _properties )
+	{
+		local ret = __original(_properties);
+
+		::World.Assets.getOrigin().onCombatStarted();
+
+		foreach (i, faction in this.getAllInstances())
+		{
+			if (i != ::Const.Faction.Player)
+			{
+				foreach (actor in faction)
+				{
+					actor.onCombatStart();
+				}
+			}
+		}
+
+		::Math.seedRandom(::Time.getRealTime());
+
+		return ret;
 	}
 });

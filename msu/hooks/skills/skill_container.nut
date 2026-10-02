@@ -3,28 +3,6 @@
 	q.m.IsPreviewing <- false;
 	q.m.PreviewProperty <- {};
 
-	q.update = @(__original) function()
-	{
-		if (this.m.IsUpdating || !this.m.Actor.isAlive())
-		{
-			return;
-		}
-
-		foreach (skill in this.m.Skills)
-		{
-			if (!skill.isGarbage()) skill.softReset();
-		}
-
-		__original();
-
-		foreach (skill in this.m.ScheduledChangesSkills)
-		{
-			if (!skill.isGarbage()) skill.executeScheduledChanges();
-		}
-
-		this.m.ScheduledChangesSkills.clear();
-	}
-
 	q.callSkillsFunction <- function( _function, _argsArray = null, _update = true, _aliveOnly = false )
 	{
 		if (_argsArray == null) _argsArray = [null];
@@ -50,7 +28,7 @@
 		}
 
 		this.m.IsUpdating = wasUpdating;
-		
+
 		if (_update)
 		{
 			this.update();
@@ -161,7 +139,7 @@
 			_forFree
 		]);
 	}
-	
+
 	q.onUpdateLevel <- function()
 	{
 		this.callSkillsFunction("onUpdateLevel");
@@ -362,7 +340,7 @@
 	}
 
 	//Vanilla Overwrites start
-	
+
 	q.onAfterDamageReceived = @() function()
 	{
 		this.callSkillsFunctionWhenAlive("onAfterDamageReceived");
@@ -450,29 +428,6 @@
 
 	q.onBeforeTargetHit = @() function( _caller, _targetEntity, _hitInfo )
 	{
-		if (_caller.isAttack() && _caller.getDamageType() != null)
-		{
-			_hitInfo.DamageType = _caller.getDamageType().roll();
-
-			// Can also pull the Damage Weight of that Damage Type in this skill and do cool things with
-			// that e.g. make some perks which only work if the used skill has 60% or more Blunt damage
-			// and here we can pull the Damage Weight of the Damage Type that was rolled and use it!
-
-			_hitInfo.DamageTypeProbability = _caller.getDamageType().getProbability(_hitInfo.DamageType);
-
-			if (::MSU.isIn("IsHeadless", _targetEntity.m, true) && _targetEntity.m.IsHeadless)
-			{
-				_hitInfo.BodyPart = ::Const.BodyPart.Body;
-			}
-
-			local injuries = ::Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
-
-			if (injuries.len() > 0)
-			{
-				_hitInfo.Injuries = injuries;
-			}
-		}
-
 		this.callSkillsFunction("onBeforeTargetHit", [
 			_caller,
 			_targetEntity,
@@ -537,7 +492,7 @@
 	}
 
 	//Vanilla Ovewrites End
-	
+
 	q.getItemActionCost <- function( _items )
 	{
 		local info = [];
@@ -583,4 +538,58 @@
 			_bro
 		]);
 	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/skills/skill_container", function(q) {
+		q.update = @(__original) function()
+		{
+			if (this.m.IsUpdating || !this.m.Actor.isAlive())
+			{
+				return;
+			}
+
+			foreach (skill in this.m.Skills)
+			{
+				if (!skill.isGarbage()) skill.softReset();
+			}
+
+			__original();
+
+			foreach (skill in this.m.ScheduledChangesSkills)
+			{
+				if (!skill.isGarbage()) skill.executeScheduledChanges();
+			}
+
+			this.m.ScheduledChangesSkills.clear();
+		}
+
+		q.onBeforeTargetHit = @(__original) { function onBeforeTargetHit( _caller, _targetEntity, _hitInfo )
+		{
+			if (_caller.isAttack() && _caller.getDamageType() != null)
+			{
+				_hitInfo.DamageType = _caller.getDamageType().roll();
+
+				// Can also pull the Damage Weight of that Damage Type in this skill and do cool things with
+				// that e.g. make some perks which only work if the used skill has 60% or more Blunt damage
+				// and here we can pull the Damage Weight of the Damage Type that was rolled and use it!
+
+				_hitInfo.DamageTypeProbability = _caller.getDamageType().getProbability(_hitInfo.DamageType);
+
+				if (::MSU.isIn("IsHeadless", _targetEntity.m, true) && _targetEntity.m.IsHeadless)
+				{
+					_hitInfo.BodyPart = ::Const.BodyPart.Body;
+				}
+
+				local injuries = ::Const.Damage.getApplicableInjuries(_hitInfo.DamageType, _hitInfo.BodyPart, _targetEntity);
+
+				if (injuries.len() > 0)
+				{
+					_hitInfo.Injuries = injuries;
+				}
+			}
+
+			__original(_caller, _targetEntity, _hitInfo);
+		}}.onBeforeTargetHit;
+	});
 });

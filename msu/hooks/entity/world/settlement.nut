@@ -1,16 +1,18 @@
-::MSU.MH.hook("scripts/entity/world/settlement", function(q) {
-	q.onEnter = @(__original) function()
-	{
-		local ret = __original();
-
-		if (ret)
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/entity/world/settlement", function(q) {
+		q.onEnter = @(__original) function()
 		{
-			foreach (bro in ::World.getPlayerRoster().getAll())
-			{
-				bro.getSkills().onEnterSettlement(this);
-			}
-		}
+			local ret = __original();
 
-		return ret;
-	}
+			if (ret)
+			{
+				foreach (bro in ::World.getPlayerRoster().getAll())
+				{
+					bro.getSkills().onEnterSettlement(this);
+				}
+			}
+
+			return ret;
+		}
+	});
 });

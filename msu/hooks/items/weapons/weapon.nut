@@ -1,11 +1,3 @@
-::MSU.MH.hookTree("scripts/items/weapons/weapon", function(q) {
-	q.create = @(__original) function()
-	{
-		__original();
-		this.initWeaponType();
-	}
-});
-
 ::MSU.MH.hook("scripts/items/weapons/weapon", function(q) {
 	q.m.WeaponType <- ::Const.Items.WeaponType.None;
 	q.m.MSU_WeaponTypeInit <- false;
@@ -17,36 +9,6 @@
 		if (_rebuildWeaponType)
 		{
 			this.buildWeaponTypeFromCategories();
-		}
-	}
-
-	q.addSkill = @(__original) function( _skill )
-	{
-		__original(_skill);
-
-		// If the skill wasn't actually added to the container for some reason
-		// (e.g. adding non-stacking skill that already exists in the container)
-		// then we bail out.
-		if (::MSU.isNull(_skill.getContainer()))
-			return;
-
-		if (::MSU.isIn("AdditionalAccuracy", _skill.m, true))
-		{
-			_skill.resetField("AdditionalAccuracy");
-			_skill.m.AdditionalAccuracy += this.m.AdditionalAccuracy;
-			_skill.setBaseValue("AdditionalAccuracy", _skill.m.AdditionalAccuracy);
-		}
-		if (_skill.isType(::Const.SkillType.Active))
-		{
-			// We reset the FatigueCost so any modifications to it from other skills is reverted
-			// the latter part is a copy of the vanilla code applying FatigueOnSkillUse
-			// which we then include in the skill's base fatigue cost (so that orc weapon skills get the proper fatigue cost)
-			_skill.resetField("FatigueCost");
-			local fatigueOnSkillUse = this.getContainer().getActor().getCurrentProperties().IsProficientWithHeavyWeapons && this.m.FatigueOnSkillUse > 0 ? 0 : this.m.FatigueOnSkillUse;
-			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
-			_skill.setFatigueCost(fatCost);
-			_skill.setBaseValue("FatigueCost", fatCost);
-			this.getContainer().getActor().getSkills().update();
 		}
 	}
 
@@ -187,6 +149,46 @@
 		else
 		{
 			this.buildWeaponTypeFromCategories();
+		}
+	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	 ::MSU.MH.hookTree("scripts/items/weapons/weapon", function(q) {
+		q.create = @(__original) function()
+		{
+			__original();
+			this.initWeaponType();
+		}
+	});
+
+	q.addSkill = @(__original) function( _skill )
+	{
+		__original(_skill);
+
+		// If the skill wasn't actually added to the container for some reason
+		// (e.g. adding non-stacking skill that already exists in the container)
+		// then we bail out.
+		if (::MSU.isNull(_skill.getContainer()))
+			return;
+
+		if (::MSU.isIn("AdditionalAccuracy", _skill.m, true))
+		{
+			_skill.resetField("AdditionalAccuracy");
+			_skill.m.AdditionalAccuracy += this.m.AdditionalAccuracy;
+			_skill.setBaseValue("AdditionalAccuracy", _skill.m.AdditionalAccuracy);
+		}
+		if (_skill.isType(::Const.SkillType.Active))
+		{
+			// We reset the FatigueCost so any modifications to it from other skills is reverted
+			// the latter part is a copy of the vanilla code applying FatigueOnSkillUse
+			// which we then include in the skill's base fatigue cost (so that orc weapon skills get the proper fatigue cost)
+			_skill.resetField("FatigueCost");
+			local fatigueOnSkillUse = this.getContainer().getActor().getCurrentProperties().IsProficientWithHeavyWeapons && this.m.FatigueOnSkillUse > 0 ? 0 : this.m.FatigueOnSkillUse;
+			local fatCost = ::Math.max(0, _skill.getFatigueCostRaw() + fatigueOnSkillUse);
+			_skill.setFatigueCost(fatCost);
+			_skill.setBaseValue("FatigueCost", fatCost);
+			this.getContainer().getActor().getSkills().update();
 		}
 	}
 });

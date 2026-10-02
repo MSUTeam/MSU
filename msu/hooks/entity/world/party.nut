@@ -3,18 +3,6 @@
 	q.m.MovementSpeedMult <- 1.0;
 	q.m.MovementSpeedMultFunctions <- {};
 
-	q.create = @(__original) function()
-	{
-		__original();
-		this.m.MovementSpeedMultFunctions.BaseMovementSpeedMult <- this.getBaseMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.RoadMovementSpeedMult <- this.getRoadMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.SlowdownPerUnitMovementSpeedMult <- this.getSlowdownPerUnitMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.GlobalMovementSpeedMult <- this.getGlobalMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.NightTimeMovementSpeedMult <- this.getNightTimeMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.RiverMovementSpeedMult <- this.getRiverMovementSpeedMult;
-		this.m.MovementSpeedMultFunctions.NotPlayerMovementSpeedMult <- this.getNotPlayerMovementSpeedMult;
-	}
-
 	// Used in vanilla to fetch BaseMovementSpeed in the ai_flee function ; we now return the new computed value
 	q.getBaseMovementSpeed = @() function()
 	{

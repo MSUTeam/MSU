@@ -3,19 +3,25 @@
 ::MSU.MH.conflictWith("mod_legends < 16.0.0");
 
 ::MSU.MH.queue(function() {
-	::include("msu/load.nut");
-});
-
-::MSU.MH.queue(function() {
 	::include("msu/hooks/entity/tactical/humans/standard_bearer"); // Remove perk_inspiring_presence from standard_bearer as part of our fix of onCombatStart
 }, ::Hooks.QueueBucket.First);
+
+::MSU.MH.queue(function() {
+	::include("msu/load.nut");
+}, ::Hooks.QueueBucket.VeryEarly);
+
+::MSU.MH.queue(function() {
+	foreach (func in ::MSU.QueueBucket.Normal)
+	{
+		func();
+	}
+});
 
 ::MSU.MH.queue(function() {
 	foreach (func in ::MSU.QueueBucket.VeryLate)
 	{
 		func();
 	}
-	::MSU.QueueBucket.VeryLate.clear();
 }, ::Hooks.QueueBucket.VeryLate);
 
 ::MSU.MH.queue(function() {
@@ -23,7 +29,6 @@
 	{
 		func();
 	}
-	::MSU.QueueBucket.AfterHooks.clear();
 }, ::Hooks.QueueBucket.AfterHooks);
 
 ::MSU.MH.queue(function() {
@@ -31,7 +36,6 @@
 	{
 		func();
 	}
-	::MSU.QueueBucket.FirstWorldInit.clear();
 	delete ::MSU.QueueBucket;
 }, ::Hooks.QueueBucket.FirstWorldInit);
 

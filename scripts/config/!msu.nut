@@ -8,6 +8,7 @@
 		Empty = "scripts/mods/msu/empty_bb_class"
 	},
 	QueueBucket = {
+		Normal = [],
 		VeryLate = [],
 		AfterHooks = [],
 		FirstWorldInit = []

@@ -46,29 +46,6 @@
 		return 1.0;
 	}
 
-	q.getDescription = @(__original) function()
-	{
-		if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemTooltips").getValue())
-		{
-			return __original();
-		}
-
-		local names = "";
-		foreach (itemType in ::Const.Items.ItemType)
-		{
-			if (this.isItemType(itemType))
-			{
-				local name = ::Const.Items.getItemTypeName(itemType);
-				if (name != "")
-				{
-					names += name + ", "
-				}
-			}
-		}
-
-		return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + __original() : __original();
-	}
-
 	// VanillaFix: https://steamcommunity.com/app/365360/discussions/1/604159344068529469/
 	// SkillPtrs having skills which have been removed from skill_container.
 	// In vanilla clearSkills() calls container.remove(skill) on each skill in SkillPtrs
@@ -97,10 +74,37 @@
 	}
 
 	q.onAfterUpdateProperties <- function( _properties )
-	{			
+	{
 	}
 
 	q.onAnySkillUsed <- function( _skill, _targetEntity, _properties )
 	{
 	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	::MSU.MH.hook("scripts/items/item", function(q) {
+		q.getDescription = @(__original) function()
+		{
+			if (!::MSU.Mod.ModSettings.getSetting("ExpandedItemTooltips").getValue())
+			{
+				return __original();
+			}
+
+			local names = "";
+			foreach (itemType in ::Const.Items.ItemType)
+			{
+				if (this.isItemType(itemType))
+				{
+					local name = ::Const.Items.getItemTypeName(itemType);
+					if (name != "")
+					{
+						names += name + ", "
+					}
+				}
+			}
+
+			return names != "" ? "[color=" + ::Const.UI.Color.NegativeValue + "]" + names.slice(0, -2) + "[/color]\n\n" + __original() : __original();
+		}
+	});
 });

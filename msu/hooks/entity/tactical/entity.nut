@@ -1,13 +1,4 @@
 ::MSU.MH.hook("scripts/entity/tactical/entity", function(q) {
-	q.create = @(__original) function()
-	{
-		__original();
-		if (!::MSU.Serialization.isLoading())
-		{
-			this.MSU_generateUID();
-		}
-	}
-
 	q.getUID <- function()
 	{
 		if (::MSU.Serialization.isLoading())
@@ -23,6 +14,17 @@
 
 		this.getFlags().set("MSU_UID", ::MSU.Utils.__generateUID());
 		::MSU.__addToUIDMap(this);
+	}
+});
+
+::MSU.QueueBucket.VeryLate.push(function() {
+	q.create = @(__original) function()
+	{
+		__original();
+		if (!::MSU.Serialization.isLoading())
+		{
+			this.MSU_generateUID();
+		}
 	}
 
 	q.onDeserialize = @(__original) function( _in )
