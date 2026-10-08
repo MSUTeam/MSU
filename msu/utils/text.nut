@@ -108,7 +108,16 @@
 	function colorizePct( _value, _kwargs = null )
 	{
 		if (_kwargs == null)
+		{
 			_kwargs = {};
+		}
+		else
+		{
+			if ("CompareTo" in _kwargs)
+			{
+				_kwargs.CompareTo *= 100;
+			}
+		}
 
 		_kwargs.AddPercent <- true;
 
